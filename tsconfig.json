@@ -2,17 +2,42 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": [
+      "mapbox-gl",
+      "geojson"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "arlas-web-core": [
+        "../node_modules/@gisaia-team/arlas-web-core"
+      ],
+      "arlas-web-components": [
+        "../node_modules/@gisaia-team/arlas-web-components"
+      ],
+      "arlas-web-contributors": [
+        "../node_modules/@gisaia-team/arlas-web-contributors"
+      ],
+      "arlas-web-core/models/projections": [
+        "../node_modules/@gisaia-team/arlas-web-core/models/projections"
+      ],
+      "arlas-web-components/histogram/histogram.utils": [
+        "../node_modules/@gisaia-team/arlas-web-components/histogram/histogram.utils"
+      ],
+      "arlas-web-core/models/collaborativesearch": [
+        "../node_modules/@gisaia-team/arlas-web-core/models/collaborativesearch"
+      ]
+    },
     "lib": [
-      "es2017",
+      "es2016",
       "dom"
     ]
   }

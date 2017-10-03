@@ -1,0 +1,151 @@
+{
+    "catalog": {
+        "web": {
+            "app": {
+                "components": {
+                    "histogram$timeline": {
+                        "aggregationmodel": {
+                            "type": "datehistogram",
+                            "field": "imageExtension.centerViewingDateTime",
+                            "interval": {
+                                "value": "1",
+                                "unit": "Week"
+                            }
+                        },
+                        "name": "Timeline"
+                    },
+                    "map$mapbox": {
+                        "search_size": 100,
+                        "name": "Map",
+                        "geometry": "geographicBoundingPolygon.geometry",
+                        "actions": {
+                            "flyto": true,
+                            "hightlight": true
+                        },
+                        "aggregationmodel": {
+                            "type": "geohash",
+                            "field": "imageExtension.centerPoint.geometry.coordinates",
+                            "interval": {
+                                "value": "2"
+                            },
+                            "withGeoCentroid": true
+                        },
+                        "basemapUrl": "http://osm-liberty.lukasmartinelli.ch/style.json",
+                        "fontClusterlabel": "Roboto Regular",
+                        "zoomLevelFullData": 1,
+                        "zoomLevelForTestCount": 6,
+                        "nbMaxFeatureForCluster": 1000,
+                        "margeExtendPctForLoad": 250,
+                        "margeExtendPctForPan": 25,
+                        "paintRuleGeoBox": {
+                            "fill-color": "#FC9F28",
+                            "fill-opacity": 0.2
+                        },
+                        "paintRuleCLusterFeatureFill": {
+                            "fill-color": "#56A7EE",
+                            "fill-opacity": 0.5
+                        },
+                        "paintRuleClusterFeatureLine": {
+                            "line-color": "#56A7EE",
+                            "line-opacity": 1,
+                             "line-width": 3
+                        },
+                        "paintRuleClusterCircle": {
+                            "circle-stroke-width": 2,
+                            "circle-stroke-color": "#D3D3D3",
+                            "circle-color": {
+                                "property": "point_count_normalize",
+                                "type": "interval",
+                                "stops": [
+                                    [
+                                        0,
+                                        "#f7fcf0"
+                                    ],
+                                    [
+                                        20,
+                                        "#e0f3db"
+                                    ],
+                                    [
+                                        30,
+                                        "#ccebc5"
+                                    ],
+                                    [
+                                        40,
+                                        "#a8ddb5"
+                                    ],
+                                    [
+                                        50,
+                                        "#7bccc4"
+                                    ],
+                                    [
+                                        60,
+                                        "#4eb3d3"
+                                    ],
+                                    [
+                                        70,
+                                        "#2b8cbe"
+                                    ],
+                                    [
+                                        90,
+                                        "#3690c0"
+                                    ]
+                                ]
+                            },
+                            "circle-radius": {
+                                "property": "point_count_normalize",
+                                "type": "interval",
+                                "stops": [
+                                    [
+                                        0,
+                                        22
+                                    ],
+                                    [
+                                        20,
+                                        24
+                                    ],
+                                    [
+                                        30,
+                                        26
+                                    ],
+                                    [
+                                        40,
+                                        28
+                                    ],
+                                    [
+                                        50,
+                                        30
+                                    ],
+                                    [
+                                        60,
+                                        32
+                                    ],
+                                    [
+                                        70,
+                                        34
+                                    ],
+                                    [
+                                        90,
+                                        36
+                                    ]
+                                ]
+                            },
+                            "circle-opacity": 1
+                        }
+                    },
+                    "countall$countall": {
+                        "search_size": 100,
+                        "name": "CountAll"
+                    }
+                }
+            }
+        }
+    },
+    "server": {
+        "server$default": {
+            "url": "http://192.168.1.105:9999/arlas"
+        },
+        "collection$default": {
+            "collection": "level0_enriched"
+        }
+    }
+}
