@@ -2,6 +2,9 @@
     "catalog": {
         "web": {
             "app": {
+                "fieldsConfiguration": {
+                  "idFieldName": "citationIdentifier"
+                },
                 "components": {
                     "histogram$timeline": {
                         "aggregationmodel": {
@@ -38,8 +41,8 @@
                         "margeExtendPctForLoad": 250,
                         "margeExtendPctForPan": 25,
                         "paintRuleGeoBox": {
-                            "fill-color": "#FC9F28",
-                            "fill-opacity": 0.2
+                            "line-color": "#FC9F28",
+                            "line-opacity": 0.2
                         },
                         "paintRuleCLusterFeatureFill": {
                             "fill-color": "#56A7EE",
