@@ -1,0 +1,16 @@
+before_script:
+  - rm -rf node_modules/
+  - npm install
+  - mv node_modules/@gisaia-team/arlas-web-core node_modules 2>/dev/null
+lint:
+  script:
+  - npm run lint
+
+build:
+  script:
+  - npm run build
+  artifacts:
+    paths:
+    - dist
+    name: "arlas-wui-dist"
+

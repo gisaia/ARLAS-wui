@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { MapContributor } from 'arlas-web-contributors';
-import { MapglComponent } from 'arlas-web-components';
+import { MapglComponent, FieldsConfiguration } from 'arlas-web-components';
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
 import { Subject } from 'rxjs/Rx';
@@ -16,7 +16,7 @@ import { Subject } from 'rxjs/Rx';
 export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public initCenter = [0, 0];
-
+  public fieldsConfiguration: FieldsConfiguration;
 
   @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
 
@@ -26,7 +26,10 @@ export class AppComponent implements OnInit {
   ) { }
   public ngOnInit() {
 
+    this.fieldsConfiguration = {idFieldName: 'citationIdentifier'};
+
     this.mapglcontributor = new MapContributor('mapbox',
+      this.fieldsConfiguration.idFieldName,
       this.mapglComponent.onRemoveBbox,
       this.mapglComponent.drawType,
       this.collaborativeService,
