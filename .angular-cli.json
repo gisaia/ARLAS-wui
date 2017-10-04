@@ -21,9 +21,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "arlas",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/mapbox-gl/dist//mapbox-gl.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/mapbox-gl/dist/mapbox-gl.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
