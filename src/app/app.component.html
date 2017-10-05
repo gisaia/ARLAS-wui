@@ -18,6 +18,34 @@
       [xAxisPosition]="position.top" [descriptionPosition]="position.top" (valuesChangedEvent)="timelinecontributor?.valueChanged($event)"
       [data]="timelinecontributor?.chartData" [intervalSelection]="timelinecontributor?.intervalSelection"></arlas-histogram>
   </div>
+
+  <div class="arlas-analytics">
+    <div class="arlas-analytics__one-analytic" style="height: 120px">
+      <label class="arlas-analytics__cloud">Cloud coverage : </label>
+      <arlas-histogram class="test" #cloudCoverage [xTicks]="4" [xLabels]="4" [yTicks]="0" [chartType]="chartType.bars" [dataType]="dataType.numeric"
+              [showXTicks]=true [showYTicks]=false [showYLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="70"
+              [dateUnit]="dateUnit.millisecond" [data]="cloudcoveragecontributor?.chartData"
+              [intervalSelection]="cloudcoveragecontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+    </div>
+    <div class="arlas-analytics__one-analytic" style="height: 70px">
+      <label class="arlas-analytics__cloud">Incidence : </label>
+      <arlas-histogram #quality [xTicks]="7" [xLabels]="7" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
+                    [chartTitle]="'Incidence'" [showXTicks]=false [showYTicks]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5"
+                    [dateUnit]="dateUnit.millisecond" (valuesChangedEvent)="qualitycontributor?.valueChanged($event)" [data]="qualitycontributor?.chartData"
+                    [paletteColors]="'#C36784'" [intervalSelection]="qualitycontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+    </div>
+    <div class="arlas-analytics__one-analytic" style="height: 70px">
+      <label class="arlas-analytics__cloud">Azimuth : </label>
+
+      <arlas-histogram #azimut [xTicks]="7" [xLabels]="6" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
+                    [chartTitle]="'Azimut'" [showXTicks]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5" [dateUnit]="dateUnit.millisecond"
+                    (valuesChangedEvent)="azimutcontributor?.valueChanged($event)" [data]="azimutcontributor?.chartData" [paletteColors]="'#07889B'"
+              [intervalSelection]="azimutcontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+    </div>
+
+  </div>
+
+
 </div>
 
 

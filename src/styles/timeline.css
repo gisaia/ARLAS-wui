@@ -42,11 +42,10 @@
 .custom-arlas-timeline .histogram__ticks{
   stroke: #544b4e;
   stroke-width: 1.5px;
-
 }
 
 .custom-arlas-timeline .histogram__axis{
-  stroke: #544b4e;
+  stroke: #8f9191;
   stroke-width: 1.5px;
 }
 

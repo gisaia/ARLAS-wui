@@ -18,6 +18,9 @@ import { Subject } from 'rxjs/Rx';
 export class AppComponent implements OnInit, AfterViewInit {
   public mapglcontributor: MapContributor;
   public timelinecontributor: HistogramContributor;
+  public cloudcoveragecontributor: HistogramContributor;
+  public qualitycontributor: HistogramContributor;
+  public azimutcontributor: HistogramContributor;
 
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
@@ -53,5 +56,21 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.dateUnit.millisecond,
       this.collaborativeService,
       this.configService);
+
+    this.cloudcoveragecontributor = new HistogramContributor('cloud',
+      this.dateUnit.millisecond,
+      this.collaborativeService,
+      this.configService
+    );
+    this.qualitycontributor = new HistogramContributor('quality',
+      this.dateUnit.millisecond,
+      this.collaborativeService,
+      this.configService, true
+    );
+    this.azimutcontributor = new HistogramContributor('azimut',
+      this.dateUnit.millisecond,
+      this.collaborativeService,
+      this.configService, true
+    );
   }
 }
