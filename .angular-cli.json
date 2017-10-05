@@ -19,7 +19,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "arlas",
+      "prefix": "arlasc",
       "styles": [
         "styles.css",
         "../node_modules/mapbox-gl/dist//mapbox-gl.css"

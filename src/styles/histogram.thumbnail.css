@@ -49,13 +49,16 @@
 }
 
 .custom-arlas-histogram__thumbnail .tick text {
-  fill: black;
+  fill: white;
 }
 
 
 
 .custom-arlas-histogram__thumbnail .histogram__ticks{
-  stroke: black;
+  stroke: white;
   stroke-width: 0.8px;
 }
-
+.custom-arlas-histogram__thumbnail .histogram__axis{
+  stroke: white;
+  stroke-width: 0.8px;
+}

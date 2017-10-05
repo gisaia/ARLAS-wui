@@ -117,13 +117,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "arlas",
+      "arlasc",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "arlas",
+      "arlasc",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

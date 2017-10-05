@@ -42,11 +42,41 @@
                             "type": "histogram",
                             "field": "imageExtension.illuminationAzimuthAngle",
                             "interval": {
-                                "value": "3"
+                                "value": "6"
                             }
                         },
                         "name": "Azimut"
                     },
+                    "histogram$cloudFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.cloudCoverPercentage",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Cloud %"
+                  },
+                  "histogram$qualityFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.incidenceAngle",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Incidence %"
+                  },
+                  "histogram$azimutFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.illuminationAzimuthAngle",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Azimut"
+                  },
                     "map$mapbox": {
                         "search_size": 100,
                         "name": "Map",
