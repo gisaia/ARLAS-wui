@@ -9,7 +9,8 @@
         [paintRuleCLusterFeatureFill]="mapglcontributor?.getConfigValue('paintRuleCLusterFeatureFill')"
         [paintRuleGeoBox]="mapglcontributor?.getConfigValue('paintRuleGeoBox')"
         [fontClusterlabel]="mapglcontributor?.getConfigValue('fontClusterlabel')"
-        (onMove)="mapglcontributor?.onMove($event)">
+        (onMove)="mapglcontributor?.onMove($event)"
+        [redrawTile]="mapglcontributor?.redrawTile">
       </arlas-mapgl>
     </div>
 
@@ -24,7 +25,7 @@
         <div class="arlas-analytics-mode" *ngIf="isAnalyticsHovered" [style.width.px]="analyticsModeWidth">
             <md-icon class="arlas-analytics-mode__icon">play_arrow</md-icon>
         </div>
-        <div *ngIf="!isFilterMode; else consultation" class="arlas-analytics" (click)="showAnalyticsAsFilters($event)" >
+        <div *ngIf="!isFilterMode" class="arlas-analytics" (click)="showAnalyticsAsFilters($event)" >
           <div class="arlas-analytics__one-analytic" style="height: 90px">
             <label class="arlas-analytics__cloud">Cloud coverage : </label>
             <arlas-histogram #cloudCoverage [xTicks]="4" [xLabels]="4" [yTicks]="0" [chartType]="chartType.bars" [dataType]="dataType.numeric"

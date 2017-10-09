@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges }
 import { Http } from '@angular/http';
 
 import { MapContributor, HistogramContributor } from 'arlas-web-contributors';
-import { MapglComponent, HistogramComponent } from 'arlas-web-components';
+import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position } from 'arlas-web-components';
 
 
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
+  public fieldsConfiguration: FieldsConfiguration;
 
   public isAnalyticsHovered = false;
   public isFilterMode = false;
@@ -43,7 +44,9 @@ export class AppComponent implements OnInit {
   constructor(private http: Http,
     private configService: ArlasWuiConfigService,
     public collaborativeService: ArlasWuiCollaborativesearchService
-  ) { }
+  ) { 
+    this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
+  }
 
   public ngOnInit() {
 

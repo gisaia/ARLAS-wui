@@ -205,7 +205,7 @@
     },
     "server": {
         "server$default": {
-            "url": "http://192.168.1.105:9999/arlas"
+            "url": "http://localhost:9999/arlas"
         },
         "collection$default": {
             "collection": "level0_enriched"
