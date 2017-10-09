@@ -1,5 +1,6 @@
 .app-container {
   width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -13,8 +14,7 @@
   bottom: 5px;
   width: 100%;
   z-index:30000;
-  background-color: rgba(255,255,255,.5);
-  fill-opacity: 0.5;
+  background-color: rgba(255,255,255,0);
 }
 
 .arlas-analytics-mode, .arlas-analytics-mode--filter {
@@ -61,15 +61,15 @@
   margin: auto;
 }
 
-.arlas-analytics {
+.arlas-analytics__thumbnails {
   position: absolute;
   left: 0;
   top: 70px;
-  width: 170px;
-  height: 21%;
+  width: 190px;
+  max-height: calc(100vh - 210px);
+  overflow-x: auto;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  padding-top: 10px;
   margin-left: -45px;
   z-index: 1;
 }
@@ -79,14 +79,22 @@
   left: 0;
   top: 70px;
   width: 500px;
-  height: 40%;
+  max-height: calc(100vh - 210px);
+  overflow-x: auto;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  padding-top: 10px;
   z-index: 1;
 }
 
-.arlas-analytics__cloud {
+.arlas-analytics__back_to_thumbnails {
+  position: absolute;
+  left: 455px;
+  top: 0px;
+  background-color: #41B3A3;
+  z-index: 2;
+}
+
+.arlas-analytics__title {
   margin-left: 55px;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.8em;
@@ -96,5 +104,27 @@
 
 .arlas-analytics__one-analytic {
   border-bottom: 1px #41B3A3 dashed;
-  width: 100%
+  width: 100%;
+  padding-bottom: 3px;
+  height: 100%;
 }
+
+::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
+  box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #B1AEAE;
+}
+
+

@@ -11,7 +11,7 @@ import { Subject } from 'rxjs/Rx';
 
 
 @Component({
-  selector: 'arlasc-root',
+  selector: 'arlas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
 
   public isAnalyticsHovered = false;
   public isFilterMode = false;
-  public analyticsWidth = 170;
-  public analyticsModeWidth = 133;
+  public analyticsWidth = 190;
+  public analyticsModeWidth = 200;
 
 
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   constructor(private http: Http,
     private configService: ArlasWuiConfigService,
     public collaborativeService: ArlasWuiCollaborativesearchService
-  ) { 
+  ) {
     this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
   }
 

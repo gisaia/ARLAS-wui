@@ -8,10 +8,10 @@
 }
 
 .custom-arlas-timeline .histogram__chart .context .brush .selection{
-  fill: #7CDBD5;
-  fill-opacity: O.4;
+  fill: #C3E0DE;
+  fill-opacity: O.2;
   stroke: #41B3A3;
-  stroke-width:2px;
+  stroke-width:1px;
 }
 
 
@@ -21,7 +21,7 @@
 }
 
 .custom-arlas-timeline .histogram__chart--area{
-    fill: #56A7EE;
+    fill: #C36784;
     fill-opacity: 1;
     stroke: #043B53;
     stroke-width: 1px;

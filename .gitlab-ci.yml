@@ -1,7 +1,5 @@
 before_script:
-  - rm -rf node_modules/
-  - npm install
-  - mv node_modules/@gisaia-team/arlas-web-core node_modules 2>/dev/null
+  - ./scripts/prebuild.sh
 lint:
   script:
   - npm run lint

@@ -6,7 +6,7 @@ import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from '../..
 
 
 @Component({
-  selector: 'arlasc-errormodal',
+  selector: 'arlas-errormodal',
   templateUrl: './errormodal.component.html',
   styleUrls: ['./errormodal.component.css']
 })
@@ -41,7 +41,7 @@ export class ErrorModalComponent implements OnInit {
 }
 
 @Component({
-  selector: 'arlasc-errormodal-msg',
+  selector: 'arlas-errormodal-msg',
   templateUrl: './errormodalmsg.component.html',
 })
 export class ErrorModalMsgComponent {

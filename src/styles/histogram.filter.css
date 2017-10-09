@@ -12,18 +12,18 @@
 }
 
 .custom-arlas-histogram__filter .histogram__description__endvalue--background{
-  background: white;
+  background: rgba(0,0,0,0);
   color: #C36784;
 
 }
 .custom-arlas-histogram__filter .histogram__description__startvalue--background{
-  background: white;
+  background: rgba(0,0,0,0);
   color: #C36784;
 }
 
 .custom-arlas-histogram__filter .histogram__chart .context .brush .selection{
   fill: #C3E0DE;
-  fill-opacity: 0;
+  fill-opacity: 0.2;
   stroke: #41B3A3;
   stroke-width:1px;
 }
