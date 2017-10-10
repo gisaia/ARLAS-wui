@@ -6,3 +6,46 @@
 @import 'styles/arlas-wui-theme.css';
 @import 'styles/map.css';
 @import 'styles/timeline.css';
+@import 'styles/histogram.thumbnail.css';
+@import 'styles/histogram.filter.css';
+
+/* Material Icons */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url('./assets/fonts/material-icons.woff2') format('woff2');
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+app {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+html {
+height: 100%;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+

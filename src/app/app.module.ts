@@ -7,7 +7,9 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {
   MdButtonModule,
   MdChipsModule,
-  MdDialogModule
+  MdDialogModule,
+  MdIconModule,
+  MdSidenavModule
 
 } from '@angular/material';
 
@@ -36,6 +38,8 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     MdButtonModule,
     MdChipsModule,
     MdDialogModule,
+    MdIconModule,
+    MdSidenavModule,
     MapglModule,
     HistogramModule
   ],

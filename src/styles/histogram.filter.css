@@ -1,0 +1,75 @@
+.custom-arlas-histogram__filter{
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.custom-arlas-histogram__filter{
+  height: 0
+}
+
+.custom-arlas-histogram__filter .histogram__description__title{
+  color: #41B3A3;
+}
+
+.custom-arlas-histogram__filter .histogram__description__endvalue--background{
+  background: rgba(0,0,0,0);
+  color: #C36784;
+
+}
+.custom-arlas-histogram__filter .histogram__description__startvalue--background{
+  background: rgba(0,0,0,0);
+  color: #C36784;
+}
+
+.custom-arlas-histogram__filter .histogram__chart .context .brush .selection{
+  fill: #C3E0DE;
+  fill-opacity: 0.2;
+  stroke: #41B3A3;
+  stroke-width:1px;
+}
+
+.custom-arlas-histogram__filter .histogram__chart--bar__fullyselected {
+  fill: #C36784;
+  fill-opacity: 1;
+  stroke: none;
+  stroke-width: 0.5px;
+  stroke-opacity: 1;
+}
+
+.custom-arlas-histogram__filter .histogram__chart--bar__partlyselected {
+  fill: #E2A9BB;
+  fill-opacity: 1;
+  stroke: none;
+  stroke-width: 0.5px;
+  stroke-opacity: 1;
+}
+
+.custom-arlas-histogram__filter .histogram__chart--bar {
+  fill: #8f9191;
+  fill-opacity: 1;
+  stroke: none;
+  stroke-width: 0.5px;
+  stroke-opacity: 1;
+}
+
+.custom-arlas-histogram__filter .histogram__tooltip {
+  background: #41B3A3;
+  font-weight: bold;
+}
+
+
+.custom-arlas-histogram__filter .tick text {
+  fill: #8f9191;
+  font-size: 0.9em;
+}
+
+
+
+.custom-arlas-histogram__filter .histogram__ticks{
+  stroke: #8f9191;
+  stroke-width: 0.8px;
+}
+.custom-arlas-histogram__filter .histogram__axis{
+  stroke: #8f9191;
+  stroke-width: 0.8px;
+}

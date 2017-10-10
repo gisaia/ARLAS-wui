@@ -17,6 +17,66 @@
                         },
                         "name": "Timeline"
                     },
+                    "histogram$cloud": {
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.cloudCoverPercentage",
+                            "interval": {
+                                "value": "15"
+                            }
+                        },
+                        "name": "Cloud %"
+                    },
+                    "histogram$quality": {
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.incidenceAngle",
+                            "interval": {
+                                "value": "3"
+                            }
+                        },
+                        "name": "Incidence %"
+                    },
+                    "histogram$azimut": {
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.illuminationAzimuthAngle",
+                            "interval": {
+                                "value": "6"
+                            }
+                        },
+                        "name": "Azimut"
+                    },
+                    "histogram$cloudFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.cloudCoverPercentage",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Cloud %"
+                  },
+                  "histogram$qualityFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.incidenceAngle",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Incidence %"
+                  },
+                  "histogram$azimutFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "imageExtension.illuminationAzimuthAngle",
+                          "interval": {
+                              "value": "3"
+                          }
+                      },
+                      "name": "Azimut"
+                  },
                     "map$mapbox": {
                         "search_size": 100,
                         "name": "Map",
@@ -145,7 +205,7 @@
     },
     "server": {
         "server$default": {
-            "url": "http://192.168.1.105:9999/arlas"
+            "url": "http://localhost:9999/arlas"
         },
         "collection$default": {
             "collection": "level0_enriched"

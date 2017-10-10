@@ -222,65 +222,14 @@
     fs-extra "^4.0.1"
     viz.js "^1.8.0"
 
-"@gisaia-team/arlas-web-components@0.2.0-dev7":
-  version "0.2.0-dev7"
-  resolved "https://registry.yarnpkg.com/@gisaia-team/arlas-web-components/-/arlas-web-components-0.2.0-dev7.tgz#bda71ea99ebb99c8448bfa55f9ad405ffc2c18da"
-  dependencies:
-    "@angular/animations" "^4.0.0"
-    "@angular/cdk" "2.0.0-beta.8"
-    "@angular/common" "^4.0.0"
-    "@angular/compiler" "^4.0.0"
-    "@angular/core" "^4.0.0"
-    "@angular/forms" "^4.0.0"
-    "@angular/http" "^4.0.0"
-    "@angular/material" "2.0.0-beta.8"
-    "@angular/platform-browser" "^4.0.0"
-    "@angular/platform-browser-dynamic" "^4.0.0"
-    "@angular/router" "^4.0.0"
-    "@compodoc/gulp-compodoc" "^0.0.7"
-    "@types/d3" "^4.10.0"
-    "@types/leaflet" "^1.0.67"
-    "@types/mapbox-gl" "^0.39.5"
-    "@types/supercluster" "^2.3.0"
-    "@types/tinycolor2" "^1.4.0"
-    bootstrap "^4.0.0-beta"
-    core-js "^2.4.1"
-    d3 "^4.9.1"
-    font-awesome "^4.7.0"
-    leaflet "^1.2.0"
-    leaflet-editable "^1.1.0"
-    leaflet.path.drag "^0.0.6"
-    mapbox-gl "^0.39.1"
-    ngeohash "^0.6.0"
-    ngx-loading "^1.0.7"
-    node "^0.0.0"
-    rxjs "^5.4.2"
-    supercluster "^3.0.0"
-    tinycolor2 "^1.4.1"
-    zone.js "^0.8.14"
-
-"@gisaia-team/arlas-web-contributors@0.2.0-dev2":
+"@gisaia-team/arlas-web-core@0.2.0-dev2":
   version "0.2.0-dev2"
-  resolved "https://registry.yarnpkg.com/@gisaia-team/arlas-web-contributors/-/arlas-web-contributors-0.2.0-dev2.tgz#bbebbc32c104c716e33ac086a3cfd032a0b78fea"
-  dependencies:
-    "@gisaia-team/arlas-web-core" "0.2.0-dev1"
-    "@types/file-saver" "^0.0.1"
-    "@types/tinycolor2" "^1.4.0"
-    "@types/turf" "^3.5.32"
-    file-saver "^1.3.3"
-    ngeohash "^0.6.0"
-    rxjs "^5.4.2"
-    tinycolor2 "^1.4.1"
-    turf "^3.0.14"
-
-"@gisaia-team/arlas-web-core@0.2.0-dev1":
-  version "0.2.0-dev1"
-  resolved "https://registry.yarnpkg.com/@gisaia-team/arlas-web-core/-/arlas-web-core-0.2.0-dev1.tgz#704184fef0b4c0f8e0310cfdf36ddcbace50a70c"
+  resolved "https://registry.yarnpkg.com/@gisaia-team/arlas-web-core/-/arlas-web-core-0.2.0-dev2.tgz#10f75d3e52b616bdb3196a155801b80af7cee4a0"
   dependencies:
     "@angular/core" "^4.0.0"
     "@angular/http" "^4.0.0"
     "@angular/platform-browser" "^4.0.0"
-    arlas-api "1.0.14"
+    arlas-api "1.0.15"
     arlas-kv-api "~1.0.14"
     rxjs "^5.4.2"
     zone.js "^0.8.14"
@@ -746,17 +695,76 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arlas-api@1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-1.0.14.tgz#71387d14d8439879179a79a9b35d6be69896a986"
-
-arlas-api@~1.0.15:
+arlas-api@1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-1.0.15.tgz#9ca8b43142c916352e24ae08c79ec48c9c19eacf"
 
 arlas-kv-api@~1.0.14, arlas-kv-api@~1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-kv-api/-/arlas-kv-api-1.0.15.tgz#5222c694bc8c5e875f2815e5a20652d9d1b2a5d3"
+
+arlas-web-components@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.0.0.tgz#2133091ec5f3b1e8309068d629fee634a10aae8c"
+  dependencies:
+    "@angular/animations" "^4.0.0"
+    "@angular/cdk" "2.0.0-beta.8"
+    "@angular/common" "^4.0.0"
+    "@angular/compiler" "^4.0.0"
+    "@angular/core" "^4.0.0"
+    "@angular/forms" "^4.0.0"
+    "@angular/http" "^4.0.0"
+    "@angular/material" "2.0.0-beta.8"
+    "@angular/platform-browser" "^4.0.0"
+    "@angular/platform-browser-dynamic" "^4.0.0"
+    "@angular/router" "^4.0.0"
+    "@compodoc/gulp-compodoc" "^0.0.7"
+    "@types/d3" "^4.10.0"
+    "@types/leaflet" "^1.0.67"
+    "@types/mapbox-gl" "^0.39.5"
+    "@types/supercluster" "^2.3.0"
+    "@types/tinycolor2" "^1.4.0"
+    bootstrap "^4.0.0-beta"
+    core-js "^2.4.1"
+    d3 "^4.9.1"
+    font-awesome "^4.7.0"
+    leaflet "^1.2.0"
+    leaflet-editable "^1.1.0"
+    leaflet.path.drag "^0.0.6"
+    mapbox-gl "^0.39.1"
+    ngeohash "^0.6.0"
+    ngx-loading "^1.0.7"
+    node "^0.0.0"
+    rxjs "^5.4.2"
+    supercluster "^3.0.0"
+    tinycolor2 "^1.4.1"
+    zone.js "^0.8.14"
+
+arlas-web-contributors@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-0.2.0.tgz#9d0e7c29559a55788c1ece77f270253a1e5fa466"
+  dependencies:
+    "@gisaia-team/arlas-web-core" "0.2.0-dev2"
+    "@types/file-saver" "^0.0.1"
+    "@types/tinycolor2" "^1.4.0"
+    "@types/turf" "^3.5.32"
+    file-saver "^1.3.3"
+    ngeohash "^0.6.0"
+    rxjs "^5.4.2"
+    tinycolor2 "^1.4.1"
+    turf "^3.0.14"
+
+arlas-web-core@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-0.2.0.tgz#34a482328dc1702e8f86facb09b9efffd675ccd1"
+  dependencies:
+    "@angular/core" "^4.0.0"
+    "@angular/http" "^4.0.0"
+    "@angular/platform-browser" "^4.0.0"
+    arlas-api "1.0.15"
+    arlas-kv-api "~1.0.14"
+    rxjs "^5.4.2"
+    zone.js "^0.8.14"
 
 arr-diff@^2.0.0:
   version "2.0.0"
