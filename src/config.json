@@ -15,7 +15,9 @@
                                 "unit": "Week"
                             }
                         },
-                        "name": "Timeline"
+                        "name": "Timeline",
+                        "icon": "watch_later"
+
                     },
                     "histogram$cloud": {
                         "aggregationmodel": {
@@ -36,6 +38,7 @@
                             }
                         },
                         "name": "Incidence %"
+
                     },
                     "histogram$azimut": {
                         "aggregationmodel": {
@@ -55,7 +58,8 @@
                               "value": "3"
                           }
                       },
-                      "name": "Cloud %"
+                      "name": "Cloud %",
+                      "icon": "cloud_queue"
                   },
                   "histogram$qualityFilter": {
                       "aggregationmodel": {
@@ -65,7 +69,9 @@
                               "value": "3"
                           }
                       },
-                      "name": "Incidence %"
+                      "name": "Incidence %",
+                      "icon": "call_missed_outgoing"
+
                   },
                   "histogram$azimutFilter": {
                       "aggregationmodel": {
@@ -75,11 +81,14 @@
                               "value": "3"
                           }
                       },
-                      "name": "Azimut"
+                      "name": "Azimut",
+                      "icon": "settings_backup_restore"
+
                   },
                     "map$mapbox": {
                         "search_size": 100,
                         "name": "Map",
+                        "icon": "check_box_outline_blank",
                         "geometry": "geographicBoundingPolygon.geometry",
                         "actions": {
                             "flyto": true,

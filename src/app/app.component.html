@@ -17,6 +17,9 @@
     <div class="arlas-search">
       <arlas-search (valuesChangedEvent)="chipsSearchContributor?.addWord($event)"></arlas-search>
     </div>
+    <div class="arlas-filters-chips">
+      <arlas-filters-chips></arlas-filters-chips>
+    </div>
 
     <div class="arlas-timeline">
       <arlas-histogram #timeline [xTicks]="7" [yTicks]="2" [xLabels]="7" [yTicks]="2" [chartType]="chartType.area" [dataType]="dataType.time"

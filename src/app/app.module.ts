@@ -13,6 +13,7 @@ import {
   MdIconModule,
   MdSidenavModule,
   MdTooltipModule
+
 } from '@angular/material';
 
 import { ArlasWuiStartupService, ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
@@ -22,6 +23,7 @@ import { ExploreApi } from 'arlas-api';
 import { AppComponent } from './app.component';
 import { ErrorModalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import { SearchComponent } from './components/search/search.component';
+import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
 
 
 export function startupServiceFactory(startupService: ArlasWuiStartupService): Function {
@@ -33,7 +35,8 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     AppComponent,
     ErrorModalComponent,
     ErrorModalMsgComponent,
-    SearchComponent
+    SearchComponent,
+    FiltersChipsComponent
   ],
   imports: [
     BrowserModule,
