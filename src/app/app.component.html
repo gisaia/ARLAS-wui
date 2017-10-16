@@ -14,6 +14,10 @@
       </arlas-mapgl>
     </div>
 
+    <div class="arlas-search">
+      <arlas-search (valuesChangedEvent)="chipsSearchContributor?.addWord($event)"></arlas-search>
+    </div>
+
     <div class="arlas-timeline">
       <arlas-histogram #timeline [xTicks]="7" [yTicks]="2" [xLabels]="7" [yTicks]="2" [chartType]="chartType.area" [dataType]="dataType.time"
         [chartTitle]="'Number of products over time'" [customizedCssClass]="'custom-arlas-timeline'" [chartHeight]="100" [dateUnit]="dateUnit.millisecond"

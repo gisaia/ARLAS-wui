@@ -9,6 +9,18 @@
   height: 100%;
 }
 
+.arlas-search{
+  position: absolute;
+  left: 5px;
+  top: 20px;
+  background-color: white;
+  padding:5px;
+  width: 200px;
+  z-index: 1000;
+  height: 40px;
+  border-radius: 3px;
+}
+
 .arlas-timeline{
   position: absolute;
   bottom: 5px;

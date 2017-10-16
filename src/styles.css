@@ -5,6 +5,7 @@
 
 @import 'styles/arlas-wui-theme.css';
 @import 'styles/map.css';
+@import 'styles/search.css';
 @import 'styles/timeline.css';
 @import 'styles/histogram.thumbnail.css';
 @import 'styles/histogram.filter.css';

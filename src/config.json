@@ -198,6 +198,11 @@
                     "countall$countall": {
                         "search_size": 100,
                         "name": "CountAll"
+                    },
+                    "chipssearch$chipssearch": {
+                      "search_size": 100,
+                      "name": "Search",
+                      "icon": "search"
                     }
                 }
             }
