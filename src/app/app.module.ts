@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { HistogramModule, MapglModule } from 'arlas-web-components';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -9,8 +11,8 @@ import {
   MdChipsModule,
   MdDialogModule,
   MdIconModule,
-  MdSidenavModule
-
+  MdSidenavModule,
+  MdTooltipModule
 } from '@angular/material';
 
 import { ArlasWuiStartupService, ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
@@ -19,6 +21,7 @@ import { ExploreApi } from 'arlas-api';
 
 import { AppComponent } from './app.component';
 import { ErrorModalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 export function startupServiceFactory(startupService: ArlasWuiStartupService): Function {
@@ -29,7 +32,8 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
   declarations: [
     AppComponent,
     ErrorModalComponent,
-    ErrorModalMsgComponent
+    ErrorModalMsgComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,9 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     MdDialogModule,
     MdIconModule,
     MdSidenavModule,
+    MdTooltipModule,
+    FormsModule,
+    ReactiveFormsModule,
     MapglModule,
     HistogramModule
   ],

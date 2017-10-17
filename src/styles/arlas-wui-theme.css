@@ -1,15 +1,5 @@
-.mat-input-ripple{
-    background-color: #41B3A3;
-}
-
-.mat-focused .mat-input-placeholder{
-  color:#41B3A3;
-}
-
-.mat-chip:not(.mat-basic-chip)
-
 .primary{
-  color:#41B3A3;
+  color:#0B0F80;
 }
 
 .shadow{

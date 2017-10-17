@@ -4,12 +4,25 @@
   font-weight: bold;
 }
 
-.custom-arlas-histogram__thumbnail{
-  height: 0
+.histogram .custom-arlas-histogram__thumbnail{
+  width: 100%;
+  height: 0;
+  margin-right: 3px;
 }
 
 .custom-arlas-histogram__thumbnail .histogram__description {
-  display: none;
+  display: block;
+  font-weight: normal;
+  color: #215c54;
+  font-size: 0.8em;
+}
+
+.custom-arlas-histogram__thumbnail .histogram__description__startvalue--background {
+  background: white;
+}
+
+.custom-arlas-histogram__thumbnail .histogram__description__endvalue--background {
+  background: white;
 }
 
 .custom-arlas-histogram__thumbnail .histogram__chart .context .brush .selection{
@@ -45,14 +58,11 @@
 
 .custom-arlas-histogram__thumbnail .histogram__tooltip {
   background: #41B3A3;
-  font-weight: bold;
 }
 
 .custom-arlas-histogram__thumbnail .tick text {
   fill: white;
 }
-
-
 
 .custom-arlas-histogram__thumbnail .histogram__ticks{
   stroke: white;

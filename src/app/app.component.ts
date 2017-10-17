@@ -1,12 +1,13 @@
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { MapContributor, HistogramContributor } from 'arlas-web-contributors';
+import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position } from 'arlas-web-components';
 
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
+import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 
 
@@ -17,6 +18,7 @@ import { Subject } from 'rxjs/Rx';
 })
 export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
+  public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
   public cloudcoveragecontributor: HistogramContributor;
   public qualitycontributor: HistogramContributor;
@@ -40,6 +42,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
   @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
+  @ViewChild(SearchComponent) private searchComponent: SearchComponent;
 
   constructor(private http: Http,
     private configService: ArlasWuiConfigService,
@@ -54,6 +57,12 @@ export class AppComponent implements OnInit {
       this.configService.getValue('catalog.web.app.fieldsConfiguration.idFieldName'),
       this.mapglComponent.onRemoveBbox,
       this.mapglComponent.drawType,
+      this.collaborativeService,
+      this.configService
+    );
+
+    this.chipsSearchContributor = new ChipsSearchContributor('chipssearch',
+      this.searchComponent.sizeOnBackspaceBus,
       this.collaborativeService,
       this.configService
     );

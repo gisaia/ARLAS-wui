@@ -9,6 +9,16 @@
   height: 100%;
 }
 
+.arlas-search{
+  position: absolute;
+  left: 5px;
+  top: 20px;
+  background-color: white;
+  width: 200px;
+  z-index: 1000;
+  border-radius: 3px;
+}
+
 .arlas-timeline{
   position: absolute;
   bottom: 5px;
@@ -63,24 +73,25 @@
 
 .arlas-analytics__thumbnails {
   position: absolute;
-  left: 0;
+  left: 5px;
   top: 70px;
-  width: 190px;
+  width: 120px;
   max-height: calc(100vh - 210px);
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  margin-left: -45px;
   z-index: 1;
 }
 
 .arlas-analytics__filters {
   position: absolute;
-  left: 0;
+  left: 5px;
   top: 70px;
   width: 500px;
   max-height: calc(100vh - 210px);
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   z-index: 1;
@@ -94,16 +105,21 @@
   z-index: 2;
 }
 
+.arlas-analytics__chart-container {
+  margin-right: 3px;
+}
+
 .arlas-analytics__title {
-  margin-left: 55px;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.8em;
-  font-weight: bold;
-  color: #41B3A3;
+  color: #fff;
+  background-color: #0D52D1;
+  border-bottom: 1px solid #244CEE;
+  width: 100%;
+  padding: 3px;
 }
 
 .arlas-analytics__one-analytic {
-  border-bottom: 1px #41B3A3 dashed;
   width: 100%;
   padding-bottom: 3px;
   height: 100%;
