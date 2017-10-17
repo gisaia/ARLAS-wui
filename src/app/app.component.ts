@@ -7,6 +7,9 @@ import { DateUnit, DataType, ChartType, Position } from 'arlas-web-components';
 
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
+import { Histogram } from './models/histogram';
+import { ContributorService } from './services/contributors.service';
+
 import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 
@@ -20,12 +23,8 @@ export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
-  public cloudcoveragecontributor: HistogramContributor;
-  public qualitycontributor: HistogramContributor;
-  public azimutcontributor: HistogramContributor;
-  public cloudcoverageFiltercontributor: HistogramContributor;
-  public qualityFiltercontributor: HistogramContributor;
-  public azimutFiltercontributor: HistogramContributor;
+
+  public histograms: Array<Histogram>;
 
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
@@ -46,7 +45,8 @@ export class AppComponent implements OnInit {
 
   constructor(private http: Http,
     private configService: ArlasWuiConfigService,
-    public collaborativeService: ArlasWuiCollaborativesearchService
+    public collaborativeService: ArlasWuiCollaborativesearchService,
+    private contributorService: ContributorService
   ) {
     this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
   }
@@ -72,37 +72,7 @@ export class AppComponent implements OnInit {
       this.collaborativeService,
       this.configService);
 
-    this.cloudcoveragecontributor = new HistogramContributor('cloud',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService
-    );
-    this.qualitycontributor = new HistogramContributor('quality',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService, true
-    );
-    this.azimutcontributor = new HistogramContributor('azimut',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService, true
-    );
-
-    this.cloudcoverageFiltercontributor = new HistogramContributor('cloudFilter',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService
-    );
-    this.qualityFiltercontributor = new HistogramContributor('qualityFilter',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService, true
-    );
-    this.azimutFiltercontributor = new HistogramContributor('azimutFilter',
-      this.dateUnit.millisecond,
-      this.collaborativeService,
-      this.configService, true
-    );
+    this.histograms = this.contributorService.getHistograms();
   }
 
   public showToggle() {
@@ -119,11 +89,5 @@ export class AppComponent implements OnInit {
 
   public showAnalyticsAsThumbnails(event) {
     this.isFilterMode = false;
-  }
-
-  public test(event) {
-    this.qualityFiltercontributor.valueChanged(event);
-    this.qualitycontributor.chartData = this.qualityFiltercontributor.chartData;
-    this.qualitycontributor.intervalSelection = this.qualityFiltercontributor.intervalSelection;
   }
 }
