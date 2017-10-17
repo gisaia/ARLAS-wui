@@ -26,27 +26,33 @@
     </div>
 
     <div class="arlas-analytics--container" (mouseenter)="showToggle()" (mouseleave)="hideToggle()" >
-        <div *ngIf="!isFilterMode" class="arlas-analytics__thumbnails" (click)="showAnalyticsAsFilters($event)" [style.width.px]="analyticsModeWidth">
+        <div *ngIf="!isFilterMode" class="arlas-analytics__thumbnails" (click)="showAnalyticsAsFilters($event)" >
           <div class="arlas-analytics__one-analytic">
             <label class="arlas-analytics__title">Cloud coverage : </label>
-            <arlas-histogram #cloudCoverage [xTicks]="4" [xLabels]="4" [yTicks]="0" [chartType]="chartType.bars" [dataType]="dataType.numeric"
-                    [showXTicks]=true [showYTicks]=false [showYLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="70"
-                    [dateUnit]="dateUnit.millisecond" [data]="cloudcoveragecontributor?.chartData"
-                    [intervalSelection]="cloudcoveragecontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+            <div class="arlas-analytics__chart-container">
+              <arlas-histogram #cloudCoverage [xTicks]="4" [xLabels]="4" [yTicks]="0" [chartType]="chartType.bars" [dataType]="dataType.numeric"
+              [showXTicks]=true [showYTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="70"
+              [dateUnit]="dateUnit.millisecond" [data]="cloudcoveragecontributor?.chartData"
+              [intervalSelection]="cloudcoveragecontributor?.intervalSelection" [descriptionPosition]="position.bottom"></arlas-histogram>
+            </div>
           </div>
           <div class="arlas-analytics__one-analytic">
             <label class="arlas-analytics__title">Incidence : </label>
-            <arlas-histogram #quality [xTicks]="7" [xLabels]="7" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
-                          [chartTitle]="'Incidence'" [showXTicks]=false [showYTicks]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5"
+            <div class="arlas-analytics__chart-container">
+              <arlas-histogram #quality [xTicks]="7" [xLabels]="7" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
+                          [chartTitle]="'Incidence'" [showXTicks]=false [showYTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5"
                           [dateUnit]="dateUnit.millisecond" (valuesChangedEvent)="qualitycontributor?.valueChanged($event)" [data]="qualitycontributor?.chartData"
-                          [paletteColors]="'#C36784'" [intervalSelection]="qualitycontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+                          [paletteColors]="'#C36784'" [intervalSelection]="qualitycontributor?.intervalSelection" [descriptionPosition]="position.bottom"></arlas-histogram>
+            </div>
           </div>
           <div class="arlas-analytics__one-analytic">
             <label class="arlas-analytics__title">Azimuth : </label>
-            <arlas-histogram #azimut [xTicks]="7" [xLabels]="6" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
-                          [chartTitle]="'Azimut'" [showXTicks]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5" [dateUnit]="dateUnit.millisecond"
+            <div class="arlas-analytics__chart-container">
+              <arlas-histogram #azimut [xTicks]="7" [xLabels]="6" [yTicks]="2" [yTicks]="2" [chartType]="chartType.oneDimension" [dataType]="dataType.numeric"
+                          [chartTitle]="'Azimut'" [showXTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'" [chartHeight]="5" [dateUnit]="dateUnit.millisecond"
                           (valuesChangedEvent)="azimutcontributor?.valueChanged($event)" [data]="azimutcontributor?.chartData" [paletteColors]="'#07889B'"
-                    [intervalSelection]="azimutcontributor?.intervalSelection" [descriptionPosition]="position.top"></arlas-histogram>
+                          [intervalSelection]="azimutcontributor?.intervalSelection" [descriptionPosition]="position.bottom"></arlas-histogram>
+            </div>
           </div>
         </div>
         <div *ngIf="isFilterMode" class="arlas-analytics__filters" >

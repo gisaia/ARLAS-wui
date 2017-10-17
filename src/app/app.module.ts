@@ -12,9 +12,7 @@ import {
   MdDialogModule,
   MdIconModule,
   MdSidenavModule,
-  MdTooltipModule,
-  MdInputModule
-
+  MdTooltipModule
 } from '@angular/material';
 
 import { ArlasWuiStartupService, ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
@@ -47,7 +45,6 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     MdIconModule,
     MdSidenavModule,
     MdTooltipModule,
-    MdInputModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
