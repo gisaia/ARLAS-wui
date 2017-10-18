@@ -3,7 +3,7 @@
         "web": {
             "app": {
                 "fieldsConfiguration": {
-                  "idFieldName": "citationIdentifier"
+                    "idFieldName": "citationIdentifier"
                 },
                 "components": {
                     "histogram$timeline": {
@@ -17,7 +17,6 @@
                         },
                         "name": "Timeline",
                         "icon": "watch_later"
-
                     },
                     "histogram$cloud": {
                         "aggregationmodel": {
@@ -58,47 +57,47 @@
                         "height": 5
                     },
                     "histogram$cloudFilter": {
-                      "aggregationmodel": {
-                          "type": "histogram",
-                          "field": "imageExtension.cloudCoverPercentage",
-                          "interval": {
-                              "value": "3"
-                          }
-                      },
-                      "name": "Cloud %",
-                      "dateunit": "millisecond",
-                      "charttype": "bars",
-                      "title": "Cloud coverage :",
-                      "height": 120
-                  },
-                  "histogram$qualityFilter": {
-                      "aggregationmodel": {
-                          "type": "histogram",
-                          "field": "imageExtension.incidenceAngle",
-                          "interval": {
-                              "value": "3"
-                          }
-                      },
-                      "name": "Incidence %",
-                      "dateunit": "millisecond",
-                      "charttype": "onedimension",
-                      "title": "Incidence :",
-                      "height": 5
-                  },
-                  "histogram$azimutFilter": {
-                      "aggregationmodel": {
-                          "type": "histogram",
-                          "field": "imageExtension.illuminationAzimuthAngle",
-                          "interval": {
-                              "value": "3"
-                          }
-                      },
-                      "name": "Azimut",
-                      "dateunit": "millisecond",
-                      "charttype": "onedimension",
-                      "title": "Azimut :",
-                      "height": 5
-                  },
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.cloudCoverPercentage",
+                            "interval": {
+                                "value": "3"
+                            }
+                        },
+                        "name": "Cloud %",
+                        "dateunit": "millisecond",
+                        "charttype": "bars",
+                        "title": "Cloud coverage :",
+                        "height": 120
+                    },
+                    "histogram$qualityFilter": {
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.incidenceAngle",
+                            "interval": {
+                                "value": "3"
+                            }
+                        },
+                        "name": "Incidence %",
+                        "dateunit": "millisecond",
+                        "charttype": "onedimension",
+                        "title": "Incidence :",
+                        "height": 5
+                    },
+                    "histogram$azimutFilter": {
+                        "aggregationmodel": {
+                            "type": "histogram",
+                            "field": "imageExtension.illuminationAzimuthAngle",
+                            "interval": {
+                                "value": "3"
+                            }
+                        },
+                        "name": "Azimut",
+                        "dateunit": "millisecond",
+                        "charttype": "onedimension",
+                        "title": "Azimut :",
+                        "height": 5
+                    },
                     "map$mapbox": {
                         "search_size": 100,
                         "name": "Map",
@@ -123,6 +122,17 @@
                         "nbMaxFeatureForCluster": 1000,
                         "margeExtendPctForLoad": 250,
                         "margeExtendPctForPan": 25,
+                        "zoomToNbMaxFeatureForCluster": {
+                            "4": 2000,
+                            "5": 2000,
+                            "6": 1000,
+                            "7": 600,
+                            "8": 500,
+                            "9": 200,
+                            "10": 200,
+                            "11": 200,
+                            "12": 50
+                        },
                         "paintRuleGeoBox": {
                             "line-color": "#FC9F28",
                             "line-opacity": 0.2
@@ -134,7 +144,7 @@
                         "paintRuleClusterFeatureLine": {
                             "line-color": "#56A7EE",
                             "line-opacity": 1,
-                             "line-width": 3
+                            "line-width": 3
                         },
                         "paintRuleClusterCircle": {
                             "circle-stroke-width": 2,
@@ -223,9 +233,9 @@
                         "name": "CountAll"
                     },
                     "chipssearch$chipssearch": {
-                      "search_size": 100,
-                      "name": "Search",
-                      "icon": "search"
+                        "search_size": 100,
+                        "name": "Search",
+                        "icon": "search"
                     }
                 }
             }

@@ -1,3 +1,5 @@
+import { Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
 
@@ -12,6 +14,7 @@ import { ContributorService } from './services/contributors.service';
 
 import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -46,8 +49,17 @@ export class AppComponent implements OnInit {
   constructor(private http: Http,
     private configService: ArlasWuiConfigService,
     public collaborativeService: ArlasWuiCollaborativesearchService,
-    private contributorService: ContributorService
+    private contributorService: ContributorService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
+      queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
+      if (collaborationEvent.id !== 'url') {
+        this.router.navigate(['.'], { queryParams: queryParams });
+      }
+    });
     this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
   }
 
@@ -73,6 +85,18 @@ export class AppComponent implements OnInit {
       this.configService);
 
     this.histograms = this.contributorService.getHistograms();
+    this.activatedRoute.queryParams
+      .pairwise()
+      .take(1)
+      .timeoutWith(500, Observable.of('initWithoutFilter'))
+      .subscribe((params) => {
+        if (params.toString() === 'initWithoutFilter') {
+          this.collaborativeService.setCollaborations({});
+        } else {
+          const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+          this.collaborativeService.setCollaborations(dataModel);
+        }
+      });
   }
 
   public showToggle() {
