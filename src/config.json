@@ -27,7 +27,9 @@
                                 "value": "15"
                             }
                         },
-                        "name": "Cloud %"
+                        "name": "Cloud %",
+                        "charttype": "bars",
+                        "title": "Cloud coverage :"
                     },
                     "histogram$quality": {
                         "aggregationmodel": {
@@ -37,8 +39,10 @@
                                 "value": "3"
                             }
                         },
-                        "name": "Incidence %"
-
+                        "name": "Incidence %",
+                        "charttype": "onedimension",
+                        "title": "Incidence :",
+                        "height": 5
                     },
                     "histogram$azimut": {
                         "aggregationmodel": {
@@ -48,7 +52,10 @@
                                 "value": "6"
                             }
                         },
-                        "name": "Azimut"
+                        "name": "Azimut",
+                        "charttype": "onedimension",
+                        "title": "Azimut :",
+                        "height": 5
                     },
                     "histogram$cloudFilter": {
                       "aggregationmodel": {
@@ -59,7 +66,10 @@
                           }
                       },
                       "name": "Cloud %",
-                      "icon": "cloud_queue"
+                      "dateunit": "millisecond",
+                      "charttype": "bars",
+                      "title": "Cloud coverage :",
+                      "height": 120
                   },
                   "histogram$qualityFilter": {
                       "aggregationmodel": {
@@ -70,8 +80,10 @@
                           }
                       },
                       "name": "Incidence %",
-                      "icon": "call_missed_outgoing"
-
+                      "dateunit": "millisecond",
+                      "charttype": "onedimension",
+                      "title": "Incidence :",
+                      "height": 5
                   },
                   "histogram$azimutFilter": {
                       "aggregationmodel": {
@@ -82,8 +94,10 @@
                           }
                       },
                       "name": "Azimut",
-                      "icon": "settings_backup_restore"
-
+                      "dateunit": "millisecond",
+                      "charttype": "onedimension",
+                      "title": "Azimut :",
+                      "height": 5
                   },
                     "map$mapbox": {
                         "search_size": 100,

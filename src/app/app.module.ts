@@ -17,6 +17,8 @@ import {
 } from '@angular/material';
 
 import { ArlasWuiStartupService, ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
+import { ContributorService } from './services/contributors.service';
+
 import { ConfigService } from 'arlas-web-core';
 import { ExploreApi } from 'arlas-api';
 
@@ -56,6 +58,7 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
   providers: [
     ArlasWuiConfigService,
     ArlasWuiCollaborativesearchService,
+    ContributorService,
     ExploreApi,
     ConfigService,
     ArlasWuiStartupService,
