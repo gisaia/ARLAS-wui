@@ -25,7 +25,9 @@
                                 "value": "15"
                             }
                         },
-                        "name": "Cloud %"
+                        "name": "Cloud %",
+                        "charttype": "bars",
+                        "title": "Cloud coverage :"
                     },
                     "histogram$quality": {
                         "aggregationmodel": {
@@ -35,7 +37,10 @@
                                 "value": "3"
                             }
                         },
-                        "name": "Incidence %"
+                        "name": "Incidence %",
+                        "charttype": "onedimension",
+                        "title": "Incidence :",
+                        "height": 5
                     },
                     "histogram$azimut": {
                         "aggregationmodel": {
@@ -45,7 +50,10 @@
                                 "value": "6"
                             }
                         },
-                        "name": "Azimut"
+                        "name": "Azimut",
+                        "charttype": "onedimension",
+                        "title": "Azimut :",
+                        "height": 5
                     },
                     "histogram$cloudFilter": {
                       "aggregationmodel": {
@@ -55,7 +63,11 @@
                               "value": "3"
                           }
                       },
-                      "name": "Cloud %"
+                      "name": "Cloud %",
+                      "dateunit": "millisecond",
+                      "charttype": "bars",
+                      "title": "Cloud coverage :",
+                      "height": 120
                   },
                   "histogram$qualityFilter": {
                       "aggregationmodel": {
@@ -65,7 +77,11 @@
                               "value": "3"
                           }
                       },
-                      "name": "Incidence %"
+                      "name": "Incidence %",
+                      "dateunit": "millisecond",
+                      "charttype": "onedimension",
+                      "title": "Incidence :",
+                      "height": 5
                   },
                   "histogram$azimutFilter": {
                       "aggregationmodel": {
@@ -75,7 +91,11 @@
                               "value": "3"
                           }
                       },
-                      "name": "Azimut"
+                      "name": "Azimut",
+                      "dateunit": "millisecond",
+                      "charttype": "onedimension",
+                      "title": "Azimut :",
+                      "height": 5
                   },
                     "map$mapbox": {
                         "search_size": 100,
