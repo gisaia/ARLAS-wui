@@ -12,11 +12,20 @@
 .arlas-search{
   position: absolute;
   left: 5px;
-  top: 20px;
+  top: 40px;
   background-color: white;
   width: 200px;
   z-index: 1000;
   border-radius: 3px;
+}
+
+.arlas-filters-chips {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: auto;
+  overflow-y: hidden;
+  padding: 5px;
 }
 
 .arlas-timeline{
@@ -31,7 +40,7 @@
   position: absolute;
   display: table-cell;
   left: 0;
-  top: 70px;
+  top: 90px;
   width: 133px;
   height: 21%;
   background-color: #41B3A3;
@@ -74,7 +83,7 @@
 .arlas-analytics__thumbnails {
   position: absolute;
   left: 5px;
-  top: 70px;
+  top: 90px;
   width: 120px;
   max-height: calc(100vh - 210px);
   overflow-x: hidden;
@@ -87,7 +96,7 @@
 .arlas-analytics__filters {
   position: absolute;
   left: 5px;
-  top: 70px;
+  top: 90px;
   width: 500px;
   max-height: calc(100vh - 210px);
   overflow-x: hidden;

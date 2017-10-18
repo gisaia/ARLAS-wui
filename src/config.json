@@ -15,7 +15,9 @@
                                 "unit": "Week"
                             }
                         },
-                        "name": "Timeline"
+                        "name": "Timeline",
+                        "icon": "watch_later"
+
                     },
                     "histogram$cloud": {
                         "aggregationmodel": {
@@ -100,6 +102,7 @@
                     "map$mapbox": {
                         "search_size": 100,
                         "name": "Map",
+                        "icon": "check_box_outline_blank",
                         "geometry": "geographicBoundingPolygon.geometry",
                         "actions": {
                             "flyto": true,
