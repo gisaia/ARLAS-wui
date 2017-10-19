@@ -27,6 +27,22 @@
     stroke-width: 1px;
     stroke-opacity: 1;
 }
+.custom-arlas-timeline .histogram__description__title {
+  display: none;
+}
+.custom-arlas-timeline .histogram__no-chart__key {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #043B53;
+}
+
+.custom-arlas-timeline .histogram__no-chart__value {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #043B53;
+}
 
 .custom-arlas-timeline .histogram__description__endvalue,
 .custom-arlas-timeline .histogram__description__startvalue {
