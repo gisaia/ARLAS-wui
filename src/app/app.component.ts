@@ -65,6 +65,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
 
+    console.log(this.chartType.area);
+
+
     this.mapglcontributor = new MapContributor('mapbox',
       this.configService.getValue('catalog.web.app.fieldsConfiguration.idFieldName'),
       this.mapglComponent.onRemoveBbox,
@@ -80,7 +83,7 @@ export class AppComponent implements OnInit {
     );
 
     this.timelinecontributor = new HistogramContributor('timeline',
-      this.dateUnit.millisecond,
+      this.dateUnit.second,
       this.collaborativeService,
       this.configService);
 
