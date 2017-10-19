@@ -33,7 +33,7 @@
   bottom: 5px;
   width: 100%;
   z-index:30000;
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255,255,255,0.2);
 }
 
 .arlas-analytics-mode, .arlas-analytics-mode--filter {
@@ -122,8 +122,8 @@
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.8em;
   color: #fff;
-  background-color: #0D52D1;
-  border-bottom: 1px solid #244CEE;
+  background-color: #17878B;
+  border-bottom: 1px solid #17878B;
   width: 100%;
   padding: 3px;
 }

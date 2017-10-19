@@ -65,9 +65,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
 
-    console.log(this.chartType.area);
-
-
     this.mapglcontributor = new MapContributor('mapbox',
       this.configService.getValue('catalog.web.app.fieldsConfiguration.idFieldName'),
       this.mapglComponent.onRemoveBbox,
