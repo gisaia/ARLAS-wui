@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent {
-  public sizeOnBackspaceBus: Subject<number> = new Subject<number>();
+  public sizeOnBackspaceBus: Subject<boolean> = new Subject<boolean>();
   @Output() public valuesChangedEvent: Subject<any> = new Subject<any>();
 
   public searchWord(form: any) {
@@ -17,7 +17,8 @@ export class SearchComponent {
 
   public onBackspace(event: KeyboardEvent, searchValue: string) {
     if (event.keyCode === 8) {
-      this.sizeOnBackspaceBus.next(searchValue.length);
+      /// TODO implement remove last chip on backspace
+      // this.sizeOnBackspaceBus.next(true);
     }
   }
 }

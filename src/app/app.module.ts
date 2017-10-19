@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
@@ -26,6 +27,7 @@ import { AppComponent } from './app.component';
 import { ErrorModalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import { SearchComponent } from './components/search/search.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
+import { routing } from './app.routes';
 
 
 export function startupServiceFactory(startupService: ArlasWuiStartupService): Function {
@@ -53,7 +55,9 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
-    HistogramModule
+    HistogramModule,
+    RouterModule,
+    routing
   ],
   providers: [
     ArlasWuiConfigService,

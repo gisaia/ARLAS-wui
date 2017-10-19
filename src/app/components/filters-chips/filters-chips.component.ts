@@ -87,7 +87,7 @@ export class FiltersChipsComponent {
           label = labelSplited[1];
         }
 
-        const filter = this.collaborativeService.getFilter(result.identifier);
+        const filter = this.collaborativeService.getCollaboration(result.identifier).filter;
         if (filter != null) {
           this.contributors.set(result.identifier,
             [label, this.collaborativeService.isEnable(result.identifier),
@@ -102,7 +102,7 @@ export class FiltersChipsComponent {
       () => {
         this.contributorsId = new Array<string>();
         this.contributors.forEach((k, v) => {
-          if (this.collaborativeService.getFilter(v) !== null) {
+          if (this.collaborativeService.getCollaboration(v) !== null) {
             this.contributorsId.push(v);
           }
         });
