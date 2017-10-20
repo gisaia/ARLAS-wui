@@ -68,26 +68,10 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-
-    this.mapglcontributor = new MapContributor('mapbox',
-      this.configService.getValue('catalog.web.app.fieldsConfiguration.idFieldName'),
-      this.mapglComponent.onRemoveBbox,
-      this.mapglComponent.redrawTile,
-      this.mapDrawType,
-      this.collaborativeService,
-      this.configService
-    );
-    this.chipsSearchContributor = new ChipsSearchContributor('chipssearch',
-      this.searchComponent.sizeOnBackspaceBus,
-      this.collaborativeService,
-      this.configService
-    );
-
-    this.timelinecontributor = new HistogramContributor('timeline',
-      this.dateUnit.second,
-      DataType.time,
-      this.collaborativeService,
-      this.configService);
+    this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
+      this.mapDrawType);
+    this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.sizeOnBackspaceBus);
+    this.timelinecontributor = this.contributorService.getTimelineContributor();
 
     this.histograms = this.contributorService.getHistograms();
     this.activatedRoute.queryParams
