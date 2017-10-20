@@ -4,7 +4,7 @@ import { HistogramContributor, MapContributor, ChipsSearchContributor } from 'ar
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
 import { Contributor } from 'arlas-web-core';
 
-import { DateUnit, ChartType } from 'arlas-web-components';
+import { DateUnit, ChartType, DataType } from 'arlas-web-components';
 import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
 
@@ -66,6 +66,7 @@ export class ContributorService {
   public getTimelineContributor(): HistogramContributor {
     const timelineContributor = new HistogramContributor(this.TIMELINE_CONTRIBUTOR_ID,
       this.getDateUnit(this.TIMELINE_COMPONENT),
+      DataType.time,
       this.collaborativeService,
       this.configService
     );

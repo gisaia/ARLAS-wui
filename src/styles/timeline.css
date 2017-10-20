@@ -21,14 +21,13 @@
 }
 
 .custom-arlas-timeline .histogram__chart--area{
-    fill: #C36784;
+    fill: #0F6077;
     fill-opacity: 1;
     stroke: #043B53;
     stroke-width: 1px;
     stroke-opacity: 1;
 }
 .custom-arlas-timeline .histogram__description__title {
-  display: none;
 }
 .custom-arlas-timeline .histogram__no-chart__key {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
@@ -46,7 +45,7 @@
 
 .custom-arlas-timeline .histogram__description__endvalue,
 .custom-arlas-timeline .histogram__description__startvalue {
-  color: #C36784;
+  color: #0F6077;
   font-weight: bold;
 
 }
