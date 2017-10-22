@@ -41,7 +41,7 @@ cd -
 
 # now we copy
 # now we copy
-cp -r ../ARLAS-web-core/dist/* ../ARLAS-web-contributors/node_modules/@gisaia-team/arlas-web-core
+cp -r ../ARLAS-web-core/dist/* ../ARLAS-web-contributors/node_modules/arlas-web-core
 rm -rf ../ARLAS-wui/node_modules/arlas-web-core
 mkdir ../ARLAS-wui/node_modules/arlas-web-core
 cp -r ../ARLAS-web-core/dist/* ../ARLAS-wui/node_modules/arlas-web-core

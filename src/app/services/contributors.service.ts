@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
-import { DateUnit, ChartType } from 'arlas-web-components';
+import { DateUnit, ChartType, DataType } from 'arlas-web-components';
 import { Histogram } from '../models/histogram';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class ContributorService {
   private BARS = 'bars';
 
   public constructor(private configService: ArlasWuiConfigService,
-      public collaborativeService: ArlasWuiCollaborativesearchService
+    public collaborativeService: ArlasWuiCollaborativesearchService
   ) { }
 
   /**
@@ -28,7 +28,7 @@ export class ContributorService {
    * - the contributor
    * - the inputs for arlas-histogram component
    */
-  public getHistograms (): Array<Histogram> {
+  public getHistograms(): Array<Histogram> {
     const histograms: Array<Histogram> = new Array<Histogram>();
 
     Object.keys(this.configService.getValue(this.COMPONENTS_PATH)).forEach(contributor => {
@@ -72,6 +72,7 @@ export class ContributorService {
       return DateUnit.millisecond;
     }
   }
+
 
   private getChartType(contributor: string): ChartType {
     const chartTypeConf = this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.charttype');
