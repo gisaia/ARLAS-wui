@@ -131,6 +131,7 @@
                         },
                         "maxPrecision" :7,
                         "zoomToPrecisionCluster": {
+                            "0": 2,
                             "1": 2,
                             "2": 2,
                             "3": 3,

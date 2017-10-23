@@ -85,6 +85,7 @@ export class AppComponent implements OnInit {
 
     this.timelinecontributor = new HistogramContributor('timeline',
       this.dateUnit.second,
+      DataType.time,
       this.collaborativeService,
       this.configService);
 
