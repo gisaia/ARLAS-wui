@@ -12,7 +12,7 @@
                             "field": "timestamp",
                             "interval": {
                                 "value": "1",
-                                "unit": "Week"
+                                "unit": "second"
                             }
                         },
                         "name": "Timeline",
@@ -53,7 +53,6 @@
                         "name": "Geo-Altitutde",
                         "charttype": "bars",
                         "title": "Geo-altitude"
-
                     },
                     "histogram$velocityFilter": {
                         "aggregationmodel": {
@@ -96,6 +95,7 @@
                     },
                     "map$mapbox": {
                         "search_size": 100,
+                        "initZoom":2,
                         "name": "Map",
                         "icon": "check_box_outline_blank",
                         "geometry": "geometry",
@@ -107,122 +107,76 @@
                             "type": "geohash",
                             "field": "centroid",
                             "interval": {
-                                "value": "1"
+                                "value": "2"
                             },
                             "withGeoCentroid": true
                         },
-                        "basemapUrl": "http://osm-liberty.lukasmartinelli.ch/style.json",
+                        "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
                         "fontClusterlabel": "Roboto Regular",
-                        "zoomLevelFullData": 1,
+                        "zoomLevelFullData": 2,
                         "zoomLevelForTestCount": 6,
-                        "nbMaxFeatureForCluster": 1000,
+                        "nbMaxFeatureForCluster": 3000,
                         "margeExtendPctForLoad": 250,
                         "margeExtendPctForPan": 25,
                         "zoomToNbMaxFeatureForCluster": {
-                            "4": 2000,
-                            "5": 2000,
+                            "4": 1000,
+                            "5": 1000,
                             "6": 1000,
-                            "7": 600,
-                            "8": 500,
-                            "9": 200,
-                            "10": 200,
-                            "11": 200,
-                            "12": 50
+                            "7": 1000,
+                            "8": 3000,
+                            "9": 3000,
+                            "10": 3000,
+                            "11": 3000,
+                            "12": 3000
+                        },
+                        "maxPrecision" :7,
+                        "zoomToPrecisionCluster": {
+                            "1": 2,
+                            "2": 2,
+                            "3": 3,
+                            "4": 3,
+                            "5": 4,
+                            "6": 4,
+                            "7": 5,
+                            "8": 5,
+                            "9": 6,
+                            "10":6
                         },
                         "paintRuleGeoBox": {
                             "line-color": "#FC9F28",
                             "line-opacity": 0.2
                         },
-                        "paintRuleCLusterFeatureFill": {
+                        "paintRuleFeatureFill": {
                             "fill-color": "#56A7EE",
-                            "fill-opacity": 0.5
+                            "fill-opacity": 0.2
                         },
-                        "paintRuleClusterFeatureLine": {
+                        "paintRuleFeatureLine": {
                             "line-color": "#56A7EE",
                             "line-opacity": 1,
-                            "line-width": 3
+                            "line-width": 1
                         },
-                        "paintRuleClusterCircle": {
-                            "circle-stroke-width": 2,
-                            "circle-stroke-color": "#D3D3D3",
-                            "circle-color": {
+                        "paintRuleClusterLineRectangle": {
+                            "line-color": "#313695",
+                            "line-opacity": 0.5
+                        },
+                        "paintRuleClusterFillRectangle": {
+                            "fill-color": {
                                 "property": "point_count_normalize",
-                                "type": "interval",
+                                "type": "exponential",
                                 "stops": [
                                     [
                                         0,
-                                        "#f7fcf0"
+                                        "#4575b4"
                                     ],
                                     [
-                                        20,
-                                        "#e0f3db"
-                                    ],
-                                    [
-                                        30,
-                                        "#ccebc5"
-                                    ],
-                                    [
-                                        40,
-                                        "#a8ddb5"
-                                    ],
-                                    [
-                                        50,
-                                        "#7bccc4"
-                                    ],
-                                    [
-                                        60,
-                                        "#4eb3d3"
-                                    ],
-                                    [
-                                        70,
-                                        "#2b8cbe"
-                                    ],
-                                    [
-                                        90,
-                                        "#3690c0"
+                                        100,
+                                        "#d73027"
                                     ]
                                 ]
                             },
-                            "circle-radius": {
-                                "property": "point_count_normalize",
-                                "type": "interval",
-                                "stops": [
-                                    [
-                                        0,
-                                        22
-                                    ],
-                                    [
-                                        20,
-                                        24
-                                    ],
-                                    [
-                                        30,
-                                        26
-                                    ],
-                                    [
-                                        40,
-                                        28
-                                    ],
-                                    [
-                                        50,
-                                        30
-                                    ],
-                                    [
-                                        60,
-                                        32
-                                    ],
-                                    [
-                                        70,
-                                        34
-                                    ],
-                                    [
-                                        90,
-                                        36
-                                    ]
-                                ]
-                            },
-                            "circle-opacity": 1
-                        }
+                            "fill-opacity": 0.5
+                        },
+                        "paintRuleFeatureCirclePoint": {}
                     },
                     "countall$countall": {
                         "search_size": 100,

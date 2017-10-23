@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 
 import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
-import { DateUnit, DataType, ChartType, Position } from 'arlas-web-components';
+import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
 
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
@@ -23,24 +23,25 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
 
   public histograms: Array<Histogram>;
-
+  public mapDrawType = drawType.RECTANGLE;
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
   public fieldsConfiguration: FieldsConfiguration;
-
   public isAnalyticsHovered = false;
   public isFilterMode = false;
   public analyticsWidth = 190;
   public analyticsModeWidth = 200;
-
+  public zoomToPrecisionCluster: Object;
+  public maxPrecision: number;
 
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
   @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
@@ -53,6 +54,9 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
+    this.zoomToPrecisionCluster = this.configService.getValue('catalog.web.app.components.map$mapbox.zoomToPrecisionCluster');
+    this.maxPrecision = this.configService.getValue('catalog.web.app.components.map$mapbox.maxPrecision');
+    this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
       queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
@@ -60,7 +64,7 @@ export class AppComponent implements OnInit {
         this.router.navigate(['.'], { queryParams: queryParams });
       }
     });
-    this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
+
   }
 
   public ngOnInit() {
@@ -68,11 +72,11 @@ export class AppComponent implements OnInit {
     this.mapglcontributor = new MapContributor('mapbox',
       this.configService.getValue('catalog.web.app.fieldsConfiguration.idFieldName'),
       this.mapglComponent.onRemoveBbox,
-      this.mapglComponent.drawType,
+      this.mapglComponent.redrawTile,
+      this.mapDrawType,
       this.collaborativeService,
       this.configService
     );
-
     this.chipsSearchContributor = new ChipsSearchContributor('chipssearch',
       this.searchComponent.sizeOnBackspaceBus,
       this.collaborativeService,
