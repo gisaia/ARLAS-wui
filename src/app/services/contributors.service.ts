@@ -49,6 +49,7 @@ export class ContributorService {
         }
         histogram.histogramContributor = new HistogramContributor(contributorId,
           histogram.dateUnit,
+          DataType.numeric,
           this.collaborativeService,
           this.configService,
           histogram.isOneDimension
