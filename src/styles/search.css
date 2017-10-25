@@ -1,1 +1,74 @@
 
+tag {
+  border-radius: 2px !important;
+  letter-spacing: 0 !important;
+  height: 25px !important;
+  line-height: 23px !important;
+
+}
+
+tag-ripple {
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+tag-ripple tag-ripple:focus {
+  color: #fff !important;
+  background-color: #14B0CC !important;
+}
+
+tag-ripple:active {
+  color: #fff !important;
+  background-color: #14B0CC !important;
+}
+
+tag:not(.readonly):not(.tag--editing):focus {
+  color: #fff !important;
+  background-color: #14B0CC !important;
+
+}
+
+tag:not(.readonly):not(.tag--editing):active {
+  color: #fff !important;
+  background-color: #14B0CC !important;
+
+}
+
+tag:focus {
+  color: #fff !important;
+  background-color: #fff !important;
+
+}
+
+
+delete-icon {
+  display: none !important;
+  width: 20px;
+  height: 16px;
+  transition: all 0.15s;
+  display: inline-block;
+  text-align: right;
+}
+
+tag-input {
+  font-size: 0.8em !important;
+}
+
+.ng2-tag-input {
+  height: 32px !important;
+  padding: 0 !important;
+}
+
+.ng2-tag-input__text-input {
+  height: 29px !important;
+
+}
+
+.ng2-tag-input.ng2-tag-input--focused {
+  border-bottom: 2px solid white !important;
+}
+
+.ng2-tags-container {
+  padding-top: 1px;
+  padding-left: 2px;
+}

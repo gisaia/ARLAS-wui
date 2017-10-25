@@ -12,7 +12,9 @@
   </div>
 
   <div class="arlas-search">
-    <arlas-search (valuesChangedEvent)="chipsSearchContributor?.addWord($event)"></arlas-search>
+    <arlas-search (wordAddedEvent)="chipsSearchContributor?.addWord($event)"
+                  (wordRemovedEvent)="chipsSearchContributor?.removeWord($event)">
+    </arlas-search>
   </div>
   <div class="arlas-filters-chips">
     <arlas-filters-chips></arlas-filters-chips>
@@ -41,7 +43,7 @@
     </div>
     <div *ngIf="isFilterMode" class="arlas-analytics__filters">
       <button class="arlas-analytics__back_to_thumbnails" md-mini-fab color="primary" (click)="showAnalyticsAsThumbnails($event)">
-          <md-icon>skip_previous</md-icon>
+          <md-icon class="arlas-analytics__back_to_thumbnails__icon">skip_previous</md-icon>
         </button>
       <div *ngFor="let histogram of histograms">
         <div *ngIf="histogram.isFilter" class="arlas-analytics__one-analytic">

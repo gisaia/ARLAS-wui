@@ -17,21 +17,21 @@ export class ContributorService {
   public arlasContributors = new Map<string, Contributor>();
   public contributorsIcons = new Map<string, string>();
 
-  private COMPONENTS_PATH = 'catalog.web.app.components';
-  private ID_PATH = 'catalog.web.app.fieldsConfiguration.idFieldName';
-  private DEFAULT_CHART_HEIGHT = 70;
-  private HISTOGRAM = 'histogram';
-  private MAPCONTRIBUTOR_ID = 'mapbox';
-  private MAP_COMPONENT = 'map$mapbox';
-  private CHIPSSEARCH_ID = 'chipsseach';
-  private CHIPSSEARCH_COMPONENT = 'chipssearch$chipssearch';
-  private TIMELINE_CONTRIBUTOR_ID = 'timeline';
-  private TIMELINE_COMPONENT = 'histogram$timeline';
-  private FILTER_HISTOGRAMS = 'Filter';
-  private SECOND = 'second';
-  private ONE_DIMENSION = 'onedimension';
-  private AREA = 'area';
-  private BARS = 'bars';
+  public COMPONENTS_PATH = 'catalog.web.app.components';
+  public ID_PATH = 'catalog.web.app.fieldsConfiguration.idFieldName';
+  public DEFAULT_CHART_HEIGHT = 70;
+  public HISTOGRAM = 'histogram';
+  public MAPCONTRIBUTOR_ID = 'mapbox';
+  public MAP_COMPONENT = 'map$mapbox';
+  public CHIPSSEARCH_ID = 'chipssearch';
+  public CHIPSSEARCH_COMPONENT = 'chipssearch$chipssearch';
+  public TIMELINE_CONTRIBUTOR_ID = 'timeline';
+  public TIMELINE_COMPONENT = 'histogram$timeline';
+  public FILTER_HISTOGRAMS = 'Filter';
+  public SECOND = 'second';
+  public ONE_DIMENSION = 'onedimension';
+  public AREA = 'area';
+  public BARS = 'bars';
 
   public constructor(private configService: ArlasWuiConfigService,
     public collaborativeService: ArlasWuiCollaborativesearchService

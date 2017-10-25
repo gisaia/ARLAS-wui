@@ -29,6 +29,7 @@
     "@gisaia-team/arlas-web-core": "0.3.0-dev2",
     "arlas-kv-api": "~1.0.15",
     "core-js": "^2.4.1",
+    "ngx-chips": "^1.5.3",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
