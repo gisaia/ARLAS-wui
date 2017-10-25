@@ -30,7 +30,12 @@
     <div *ngIf="!isFilterMode" class="arlas-analytics__thumbnails" (click)="showAnalyticsAsFilters($event)">
       <div *ngFor="let histogram of histograms">
         <div *ngIf="!histogram.isFilter" class="arlas-analytics__one-analytic">
-          <label class="arlas-analytics__title">{{histogram.title}} </label>
+          <label class="arlas-analytics__title">
+            <md-icon class="arlas-analytics__icon">
+              {{histogram.icon}}
+            </md-icon>
+            <span class="arlas-analytics__title--text">{{histogram.title}}</span>
+          </label>
           <div class="arlas-analytics__chart-container">
             <arlas-histogram [chartType]="histogram.chartType" [dataType]="dataType.numeric" [xLabels]="6" [yTicks]="2" [yTicks]="2"
               [isHistogramSelectable]=false [showXTicks]=false [showYTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'"
@@ -47,7 +52,12 @@
         </button>
       <div *ngFor="let histogram of histograms">
         <div *ngIf="histogram.isFilter" class="arlas-analytics__one-analytic">
-          <label class="arlas-analytics__title">{{histogram.title}} </label>
+          <label class="arlas-analytics__title">
+            <md-icon class="arlas-analytics__icon">
+              {{histogram.icon}}
+            </md-icon>
+            <span class="arlas-analytics__display">{{histogram.histogramContributor.getFilterDisplayName()}}</span>
+          </label>
           <arlas-histogram #cloudCoverageFilter [xTicks]="4" [xLabels]="4" [yTicks]="1" [yLabels]="4" [chartType]="histogram.chartType"
             [dataType]="dataType.numeric" [showXTicks]=true [showYTicks]=true [customizedCssClass]="'custom-arlas-histogram__filter'"
             [chartHeight]="histogram.chartHeight" [dateUnit]="dateUnit.millisecond" [data]="histogram.histogramContributor?.chartData"

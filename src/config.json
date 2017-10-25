@@ -29,7 +29,9 @@
                         },
                         "name": "Velocity",
                         "charttype": "bars",
-                        "title": "Velocity"
+                        "title": "Velocity",
+                        "icon": "slow_motion_video"
+
                     },
                     "histogram$heading": {
                         "aggregationmodel": {
@@ -41,7 +43,9 @@
                         },
                         "name": "Heading",
                         "title": "Heading",
-                        "charttype": "area"
+                        "charttype": "area",
+                        "icon": "airplanemode_active"
+
                     },
                     "histogram$geoaltitude": {
                         "aggregationmodel": {
@@ -53,7 +57,9 @@
                         },
                         "name": "Geo-Altitutde",
                         "charttype": "bars",
-                        "title": "Geo-altitude"
+                        "title": "Geo-altitude",
+                        "icon": "flight_takeoff"
+
                     },
                     "histogram$velocityFilter": {
                         "aggregationmodel": {
@@ -199,7 +205,7 @@
     },
     "server": {
         "server$default": {
-            "url": "http://localhost:9999/arlas"
+            "url": "http://192.168.1.105:9999/arlas"
         },
         "collection$default": {
             "collection": "opensky"

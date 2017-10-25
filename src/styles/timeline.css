@@ -9,8 +9,8 @@
 
 .custom-arlas-timeline .histogram__chart .context .brush .selection{
   fill: #C3E0DE;
-  fill-opacity: O.2;
-  stroke: #41B3A3;
+  fill-opacity: 0.2;
+  stroke: #14B0CC;
   stroke-width:1px;
 }
 
@@ -21,10 +21,10 @@
 }
 
 .custom-arlas-timeline .histogram__chart--area{
-    fill: #0F6077;
+    fill: #14B0CC;
     fill-opacity: 1;
-    stroke: #043B53;
-    stroke-width: 1px;
+    stroke: #fff;
+    stroke-width: 2px;
     stroke-opacity: 1;
 }
 .custom-arlas-timeline .histogram__description__title {
@@ -73,4 +73,9 @@
 
 .custom-arlas-timeline .tick text{
     font-size: small;
+}
+
+.custom-arlas-timeline .histogram__brush--handles {
+  stroke: #2DCDE9;
+  fill: #2DCDE9;
 }

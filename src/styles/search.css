@@ -1,6 +1,8 @@
 
 tag {
   border-radius: 2px !important;
+  background-color: #fff !important;
+
   letter-spacing: 0 !important;
   height: 25px !important;
   line-height: 23px !important;
@@ -51,16 +53,25 @@ delete-icon {
 }
 
 tag-input {
-  font-size: 0.8em !important;
+  font-size: 1em !important;
+}
+
+tag-input-form {
+  width: 25px;
 }
 
 .ng2-tag-input {
   height: 32px !important;
   padding: 0 !important;
+  margin: 0 !important;
+  border-bottom: 2px solid white !important;
+
 }
 
 .ng2-tag-input__text-input {
-  height: 29px !important;
+  height: 32px !important;
+  width: 100px !important;
+  border-radius: 1px;
 
 }
 
@@ -69,6 +80,5 @@ tag-input {
 }
 
 .ng2-tags-container {
-  padding-top: 1px;
   padding-left: 2px;
 }

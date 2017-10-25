@@ -21,6 +21,7 @@ export class ContributorService {
   public ID_PATH = 'catalog.web.app.fieldsConfiguration.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
   public HISTOGRAM = 'histogram';
+  public HISTOGRAM_PACKAGE = 'histogram$';
   public MAPCONTRIBUTOR_ID = 'mapbox';
   public MAP_COMPONENT = 'map$mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
@@ -114,6 +115,7 @@ export class ContributorService {
         if (contributorId.endsWith(this.FILTER_HISTOGRAMS)) {
           histogram.isFilter = true;
         }
+        histogram.icon = this.getContributorIcon(this.HISTOGRAM_PACKAGE + contributorId);
         histograms.push(histogram);
       }
     });
