@@ -20,6 +20,7 @@ export class FiltersChipsComponent {
   public collaborations: Set<string> = new Set<string>();
   public contributors: Map<string, Contributor> = new Map<string, Contributor>();
   public contibutorsIcons: Map<string, string>;
+  public countAll;
 
   constructor (private collaborativesearchService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService
    , private contributorService: ContributorService ) {
@@ -27,6 +28,7 @@ export class FiltersChipsComponent {
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
+
   }
 
   public removeCollaboration(contributorId: string): void {
@@ -80,6 +82,7 @@ export class FiltersChipsComponent {
 
   private subscribeToFutureCollaborations() {
     this.collaborativesearchService.collaborationBus.subscribe(collaborationBus => {
+      this.collaborativesearchService.countAll.subscribe(count => this.countAll = count);
       if (!collaborationBus.all) {
         const collaboration = this.collaborativesearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
