@@ -7,9 +7,8 @@
   height: 0
 }
 
-.custom-arlas-histogram__filter .histogram__description__title{
-  color: #41B3A3;
-}
+.custom-arlas-histogram__filter .histogram__description{
+display: none;}
 
 .custom-arlas-histogram__filter .histogram__description__endvalue--background{
   background: rgba(0,0,0,0);
@@ -22,9 +21,9 @@
 }
 
 .custom-arlas-histogram__filter .histogram__chart--area{
-  fill: #0F6077;
+  fill: #14B0CC;
   fill-opacity: 1;
-  stroke: #0F6077;
+  stroke: #14B0CC;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
@@ -32,12 +31,12 @@
 .custom-arlas-histogram__filter .histogram__chart .context .brush .selection{
   fill: #C3E0DE;
   fill-opacity: 0.2;
-  stroke: #1A1A1A;
+  stroke: #14B0CC;
   stroke-width:1px;
 }
 
 .custom-arlas-histogram__filter .histogram__chart--bar__fullyselected {
-  fill: #0F6077;
+  fill: #14B0CC;
   fill-opacity: 1;
   stroke: none;
   stroke-width: 0.5px;
@@ -45,7 +44,7 @@
 }
 
 .custom-arlas-histogram__filter .histogram__chart--bar__partlyselected {
-  fill: #17878B;
+  fill: #2DCDE9;
   fill-opacity: 1;
   stroke: none;
   stroke-width: 0.5px;
@@ -66,8 +65,8 @@
 }
 
 .custom-arlas-histogram__filter .histogram__brush--handles {
-  stroke: #1A1A1A;
-  fill: #1A1A1A;
+  stroke: #2DCDE9;
+  fill: #2DCDE9;
 }
 
 

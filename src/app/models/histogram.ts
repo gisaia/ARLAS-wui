@@ -10,4 +10,5 @@ export class Histogram {
   public isFilter = false;
   public chartHeight: number;
   public paletteColor = 'white';
+  public icon: string;
 }

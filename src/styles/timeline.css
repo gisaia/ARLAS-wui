@@ -9,8 +9,8 @@
 
 .custom-arlas-timeline .histogram__chart .context .brush .selection{
   fill: #C3E0DE;
-  fill-opacity: O.2;
-  stroke: #41B3A3;
+  fill-opacity: 0.2;
+  stroke: #14B0CC;
   stroke-width:1px;
 }
 
@@ -21,14 +21,13 @@
 }
 
 .custom-arlas-timeline .histogram__chart--area{
-    fill: #C36784;
+    fill: #14B0CC;
     fill-opacity: 1;
-    stroke: #043B53;
-    stroke-width: 1px;
+    stroke: #fff;
+    stroke-width: 2px;
     stroke-opacity: 1;
 }
 .custom-arlas-timeline .histogram__description__title {
-  display: none;
 }
 .custom-arlas-timeline .histogram__no-chart__key {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
@@ -46,7 +45,7 @@
 
 .custom-arlas-timeline .histogram__description__endvalue,
 .custom-arlas-timeline .histogram__description__startvalue {
-  color: #C36784;
+  color: #0F6077;
   font-weight: bold;
 
 }
@@ -74,4 +73,9 @@
 
 .custom-arlas-timeline .tick text{
     font-size: small;
+}
+
+.custom-arlas-timeline .histogram__brush--handles {
+  stroke: #2DCDE9;
+  fill: #2DCDE9;
 }

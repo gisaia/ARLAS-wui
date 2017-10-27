@@ -1,12 +1,14 @@
 <div class="filters-chips--container">
     <md-chip-list class="filters-chips">
-        <ng-container *ngFor="let id of contributorsId">
-          <md-chip class="filter-chip"  (click)="changeChipState(id)" mdTooltip="{{this.getLabel(id)}}" >
-            <md-icon class="filter-chip__icon" [style.color]="getChipColor(id)">{{this.getIcon(id)}}</md-icon>
-            <span *ngIf="id==='chipssearch'" class="filter-chip__label" [style.color]="getChipColor(id)">{{this.getLabel(id)}}</span>
-            <md-icon  [style.color]="getChipColor(id)" (click)="removeContributor(id)" class="filter-chip__icon_close mat-icon material-icons">clear</md-icon>
+        <ng-container *ngFor="let contributorId of  collaborations">
+          <md-chip class="filter-chip" [style.color]="getChipColor(contributorId)" (click)="changeCollaborationState(contributorId)" mdTooltip="{{this.getContributorLabel(contributorId)}}" >
+            <md-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</md-icon>
+            <md-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</md-icon>
           </md-chip>
           <md-icon class="filter-delimiter">keyboard_arrow_right</md-icon>
         </ng-container>
+        <md-chip class="filter-chip filter-count" >
+          {{countAll}}
+        </md-chip>
       </md-chip-list>
 </div>

@@ -12,11 +12,12 @@
                             "field": "timestamp",
                             "interval": {
                                 "value": "1",
-                                "unit": "second"
+                                "unit": "minute"
                             }
                         },
                         "name": "Timeline",
-                        "icon": "watch_later"
+                        "icon": "watch_later",
+                        "dateunit":"second"
                     },
                     "histogram$velocity": {
                         "aggregationmodel": {
@@ -28,7 +29,9 @@
                         },
                         "name": "Velocity",
                         "charttype": "bars",
-                        "title": "Velocity"
+                        "title": "Velocity",
+                        "icon": "slow_motion_video"
+
                     },
                     "histogram$heading": {
                         "aggregationmodel": {
@@ -40,7 +43,9 @@
                         },
                         "name": "Heading",
                         "title": "Heading",
-                        "charttype": "area"
+                        "charttype": "area",
+                        "icon": "airplanemode_active"
+
                     },
                     "histogram$geoaltitude": {
                         "aggregationmodel": {
@@ -52,7 +57,9 @@
                         },
                         "name": "Geo-Altitutde",
                         "charttype": "bars",
-                        "title": "Geo-altitude"
+                        "title": "Geo-altitude",
+                        "icon": "flight_takeoff"
+
                     },
                     "histogram$velocityFilter": {
                         "aggregationmodel": {
@@ -65,7 +72,8 @@
                         "name": "Velocity",
                         "charttype": "bars",
                         "title": "Velocity",
-                        "height": 120
+                        "height": 120,
+                        "icon": "slow_motion_video"
                     },
                     "histogram$headingFilter": {
                         "aggregationmodel": {
@@ -78,7 +86,8 @@
                         "name": "Heading",
                         "charttype": "area",
                         "title": "Heading",
-                        "height": 120
+                        "height": 120,
+                        "icon": "airplanemode_active"
                     },
                     "histogram$geoaltitudeFilter": {
                         "aggregationmodel": {
@@ -91,12 +100,14 @@
                         "name": "Geo-altitude",
                         "charttype": "bars",
                         "title": "Geo-altitude",
-                        "height": 120
+                        "height": 120,
+                        "icon": "flight_takeoff"
                     },
                     "map$mapbox": {
                         "search_size": 100,
                         "initZoom":2,
                         "name": "Map",
+                        "drawType": 1,
                         "icon": "check_box_outline_blank",
                         "geometry": "geometry",
                         "actions": {

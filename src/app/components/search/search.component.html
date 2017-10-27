@@ -1,4 +1,6 @@
-<form #form="ngForm" (ngSubmit)="searchWord(form)">
-  <input #search type="text" class="form-control input-lg" placeholder="Search" (keyup)="onBackspace($event,search.value)" name="search" ngModel />
-  <button type="submit" style="display:none">Search</button>
-</form>
+<tag-input [(ngModel)]="searchedWords" placeholder=""
+     secondaryPlaceholder="Search"
+     class="arlas-serach--input"
+     (onAdd)="onWordAdded($event)"
+     (onRemove)="onWordRemoved($event)">
+</tag-input>

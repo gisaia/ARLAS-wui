@@ -1,26 +1,80 @@
 import { Injectable } from '@angular/core';
 
-import { HistogramContributor } from 'arlas-web-contributors';
+import { HistogramContributor, MapContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
+import { Contributor } from 'arlas-web-core';
+
 import { DateUnit, ChartType, DataType } from 'arlas-web-components';
+import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
+
+import { Subject } from 'rxjs/Subject';
+
 
 @Injectable()
 export class ContributorService {
 
-  private COMPONENTS_PATH = 'catalog.web.app.components';
-  private DEFAULT_CHART_HEIGHT = 70;
-  private HISTOGRAM = 'histogram';
-  private TIMELINE_CONTRIBUTOR_ID = 'timeline';
-  private FILTER_HISTOGRAMS = 'Filter';
-  private SECOND = 'second';
-  private ONE_DIMENSION = 'onedimension';
-  private AREA = 'area';
-  private BARS = 'bars';
+  public arlasContributors = new Map<string, Contributor>();
+  public contributorsIcons = new Map<string, string>();
+
+  public COMPONENTS_PATH = 'catalog.web.app.components';
+  public ID_PATH = 'catalog.web.app.fieldsConfiguration.idFieldName';
+  public DEFAULT_CHART_HEIGHT = 70;
+  public HISTOGRAM = 'histogram';
+  public HISTOGRAM_PACKAGE = 'histogram$';
+  public MAPCONTRIBUTOR_ID = 'mapbox';
+  public MAP_COMPONENT = 'map$mapbox';
+  public CHIPSSEARCH_ID = 'chipssearch';
+  public CHIPSSEARCH_COMPONENT = 'chipssearch$chipssearch';
+  public TIMELINE_CONTRIBUTOR_ID = 'timeline';
+  public TIMELINE_COMPONENT = 'histogram$timeline';
+  public FILTER_HISTOGRAMS = 'Filter';
+  public SECOND = 'second';
+  public ONE_DIMENSION = 'onedimension';
+  public AREA = 'area';
+  public BARS = 'bars';
 
   public constructor(private configService: ArlasWuiConfigService,
     public collaborativeService: ArlasWuiCollaborativesearchService
   ) { }
+
+  /* returns the map contributor */
+  public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>, drawTypes: drawType): MapContributor {
+    const mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
+      this.configService.getValue(this.ID_PATH),
+      onRemoveBbox,
+      redrawTile,
+      drawTypes,
+      this.collaborativeService,
+      this.configService
+    );
+    this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
+    this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, this.getContributorIcon(this.MAP_COMPONENT));
+    return mapglcontributor;
+  }
+
+  public getChipSearchContributor(sizeOnBackspaceBus: Subject<boolean>): ChipsSearchContributor {
+    const chipsSearchContributor = new ChipsSearchContributor(this.CHIPSSEARCH_ID,
+      sizeOnBackspaceBus,
+      this.collaborativeService,
+      this.configService
+    );
+    this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
+    this.contributorsIcons.set(this.CHIPSSEARCH_ID, this.getContributorIcon(this.CHIPSSEARCH_COMPONENT));
+    return chipsSearchContributor;
+  }
+
+  public getTimelineContributor(): HistogramContributor {
+    const timelineContributor = new HistogramContributor(this.TIMELINE_CONTRIBUTOR_ID,
+      this.getDateUnit(this.TIMELINE_COMPONENT),
+      DataType.time,
+      this.collaborativeService,
+      this.configService
+    );
+    this.arlasContributors.set(this.TIMELINE_CONTRIBUTOR_ID, timelineContributor);
+    this.contributorsIcons.set(this.TIMELINE_CONTRIBUTOR_ID, this.getContributorIcon(this.TIMELINE_COMPONENT));
+    return timelineContributor;
+  }
 
   /**
    * returns all the analytics histograms (thumbnails and filters)
@@ -55,14 +109,34 @@ export class ContributorService {
           histogram.isOneDimension
         );
 
+        this.arlasContributors.set(contributorId, histogram.histogramContributor);
+        this.contributorsIcons.set(contributorId, this.getContributorIcon(contributor));
+
         if (contributorId.endsWith(this.FILTER_HISTOGRAMS)) {
           histogram.isFilter = true;
         }
+        histogram.icon = this.getContributorIcon(this.HISTOGRAM_PACKAGE + contributorId);
         histograms.push(histogram);
       }
     });
 
     return histograms;
+  }
+
+  public getArlasContributors(): Map<string, Contributor> {
+    return this.arlasContributors;
+  }
+
+  public getContributor(contributorId: string):  Contributor {
+    return this.arlasContributors.get(contributorId);
+  }
+
+  public getAllContributorsIcons(): Map<string, string> {
+    return this.contributorsIcons;
+  }
+
+  private getContributorIcon(contributorMD: string) {
+    return this.configService.getValue(this.COMPONENTS_PATH + '.' + contributorMD + '.icon');
   }
 
   private getDateUnit(contributor: string): DateUnit.second | DateUnit.millisecond {

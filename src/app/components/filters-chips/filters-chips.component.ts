@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ConfigService, projType } from 'arlas-web-core';
 import { AppComponent } from '../../app.component';
 import { ArlasWuiCollaborativesearchService, ArlasWuiConfigService } from '../../services/arlaswui.startup.service';
+import { ContributorService } from '../../services/contributors.service';
 import { Hits } from 'arlas-api';
+import { Contributor } from 'arlas-web-core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
@@ -15,103 +17,87 @@ import 'rxjs/add/operator/mergeAll';
 })
 export class FiltersChipsComponent {
 
-  public contributors: Map<string, [string, boolean, number]> = new Map<string, [string, boolean, number]>();
-  public contributorsId: Array<string> = new Array<string>();
-  public checked = true;
-  public color = 'primary';
-  public mode = 'determinate';
-  public iconLabel;
+  public collaborations: Set<string> = new Set<string>();
+  public contributors: Map<string, Contributor> = new Map<string, Contributor>();
+  public contibutorsIcons: Map<string, string>;
+  public countAll;
 
-  constructor(private collaborativeService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService) {
-    this.displayList();
-    this.collaborativeService.collaborationBus.subscribe(
-      collaboration => {
-        if (this) {
-          this.displayList();
-        }
+  constructor (private collaborativesearchService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService
+   , private contributorService: ContributorService ) {
+
+    this.contributors = this.collaborativesearchService.registry;
+    this.subscribeToFutureCollaborations();
+    this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
+
+  }
+
+  public removeCollaboration(contributorId: string): void {
+    this.collaborativesearchService.removeFilter(contributorId);
+  }
+
+  public changeCollaborationState(contributorId): void {
+    const collaborationState = this.collaborativesearchService.isEnable(contributorId);
+    if (collaborationState) {
+      this.collaborativesearchService.disable(contributorId);
+    } else {
+      this.collaborativesearchService.enable(contributorId);
+    }
+  }
+
+  public getCollaborationIcon(contributorId): string {
+    return this.contibutorsIcons.get(contributorId);
+  }
+
+  public getContributorLabel(contributorId: string): string {
+    let label = this.collaborativesearchService.registry.get(contributorId).getFilterDisplayName();
+    if (label !== undefined) {
+      const labelSplited = label.split('<=');
+      if (labelSplited.length === 3) {
+        label = labelSplited[1];
       }
-    );
-  }
-
-  public isEnabled(id: string) {
-    return this.contributors.get(id)[1];
-  }
-
-  public getLabel(id: string) {
-    return this.contributors.get(id)[0];
-  }
-
-  public removeContributor(item: any) {
-    this.contributors.delete(item);
-    this.contributorsId = Array.from(this.contributors.keys());
-    this.collaborativeService.removeFilter(item);
-
-  }
-
-  public changeChipState(id) {
-    if (this.isEnabled(id)) {
-      this.collaborativeService.disable(id);
+      return label;
     } else {
-      this.collaborativeService.enable(id);
+      return '';
+    }
+
+  }
+
+  public getChipColor(contributorId: string): string  {
+    const collaborationState = this.collaborativesearchService.isEnable(contributorId);
+    if (collaborationState) {
+      return 'white';
+    } else {
+      return '#CED3D3';
     }
   }
 
-  public getChipColor(id: string): string  {
-    if (this.isEnabled(id)) {
-      return '#2326CC';
-    } else {
-      return '#7C7979';
-    }
-  }
-
-  public getIcon(id: string): string {
-    return this.collaborativeService.registry.get(id).getConfigValue('icon');
-  }
-
-  public displayList() {
-    const tabOfCount: Array<Observable<{ identifier: string, hits: Hits }>> = [];
-    this.collaborativeService.getAllContributors().forEach(i => {
-      const countData: Observable<Hits> = this.collaborativeService.resolveButNotHits([projType.count, {}], i);
-      tabOfCount.push(countData.map(c => {
-        return { identifier: i, hits: c };
-      }));
+  private retrieveCurrentCollaborations() {
+    Array.from(this.contributors.keys()).forEach(contributorId => {
+      const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+      if (collaboration != null) {
+        this.collaborations.add(contributorId);
+      }
     });
-    if (tabOfCount.length === 0) {
-      this.contributors.clear();
-    }
-    Observable.from(tabOfCount).mergeAll().subscribe(
-      result => {
-        let label = this.collaborativeService.registry.get(result.identifier).getFilterDisplayName();
-        const labelSplited = label.split('<=');
-        if (labelSplited.length === 3) {
-          label = labelSplited[1];
-        }
-
-        const filter = this.collaborativeService.getCollaboration(result.identifier).filter;
-        if (filter != null) {
-          this.contributors.set(result.identifier,
-            [label, this.collaborativeService.isEnable(result.identifier),
-              result.hits.totalnb]);
-        } else {
-          this.contributors.delete(result.identifier);
-        }
-      },
-      error => {
-        this.collaborativeService.collaborationErrorBus.next(error);
-      },
-      () => {
-        this.contributorsId = new Array<string>();
-        this.contributors.forEach((k, v) => {
-          if (this.collaborativeService.getCollaboration(v) !== null) {
-            this.contributorsId.push(v);
-          }
-        });
-      }
-    );
   }
 
-  private getHitNumberWithOut(id: string): number {
-    return this.contributors.get(id)[2];
+  private subscribeToFutureCollaborations() {
+    this.collaborativesearchService.collaborationBus.subscribe(collaborationBus => {
+      this.collaborativesearchService.countAll.subscribe(count => this.countAll = count);
+      if (!collaborationBus.all) {
+        const collaboration = this.collaborativesearchService.getCollaboration(collaborationBus.id);
+        if (collaboration != null) {
+          if ( collaborationBus.operation === 0) {
+            this.collaborations.add(collaborationBus.id);
+          } else if ( collaborationBus.operation === 1) {
+            this.collaborations.delete(collaborationBus.id);
+          }
+        } else {
+          this.collaborations.delete(collaborationBus.id);
+        }
+      } else {
+        this.retrieveCurrentCollaborations();
+      }
+    });
   }
 
 }

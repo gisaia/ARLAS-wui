@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TagInputModule } from 'ngx-chips';
 
 import { HistogramModule, MapglModule } from 'arlas-web-components';
 
@@ -44,6 +45,7 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
   ],
   imports: [
     BrowserModule,
+    TagInputModule,
     BrowserAnimationsModule,
     HttpModule,
     MdButtonModule,
