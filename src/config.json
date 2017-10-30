@@ -1,214 +1,259 @@
 {
-    "catalog": {
-        "web": {
-            "app": {
-                "fieldsConfiguration": {
-                    "idFieldName": "id"
-                },
-                "components": {
-                    "histogram$timeline": {
-                        "aggregationmodel": {
-                            "type": "datehistogram",
-                            "field": "timestamp",
-                            "interval": {
-                                "value": "1",
-                                "unit": "minute"
-                            }
-                        },
-                        "name": "Timeline",
-                        "icon": "watch_later",
-                        "dateunit":"second"
-                    },
-                    "histogram$velocity": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "velocity",
-                            "interval": {
-                                "value": "30"
-                            }
-                        },
-                        "name": "Velocity",
-                        "charttype": "bars",
-                        "title": "Velocity",
-                        "icon": "slow_motion_video"
+  "catalog": {
+      "web": {
+          "app": {
+              "fieldsConfiguration": {
+                  "idFieldName": "id"
+              },
+              "components": {
+                  "histogram$timeline": {
+                      "aggregationmodel": {
+                          "type": "datehistogram",
+                          "field": "timestamp",
+                          "interval": {
+                              "value": "1",
+                              "unit": "minute"
+                          }
+                      },
+                      "name": "Timeline",
+                      "icon": "watch_later",
+                      "dateunit":"second"
+                  },
+                  "histogram$velocity": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "velocity",
+                          "interval": {
+                              "value": "30"
+                          }
+                      },
+                      "name": "Velocity",
+                      "charttype": "bars",
+                      "title": "Velocity",
+                      "icon": "slow_motion_video"
 
-                    },
-                    "histogram$heading": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "heading",
-                            "interval": {
-                                "value": "10"
-                            }
-                        },
-                        "name": "Heading",
-                        "title": "Heading",
-                        "charttype": "area",
-                        "icon": "airplanemode_active"
+                  },
+                  "histogram$heading": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "heading",
+                          "interval": {
+                              "value": "10"
+                          }
+                      },
+                      "name": "Heading",
+                      "title": "Heading",
+                      "charttype": "area",
+                      "icon": "airplanemode_active"
 
-                    },
-                    "histogram$geoaltitude": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "geoaltitude",
-                            "interval": {
-                                "value": "600"
-                            }
-                        },
-                        "name": "Geo-Altitutde",
-                        "charttype": "bars",
-                        "title": "Geo-altitude",
-                        "icon": "flight_takeoff"
+                  },
+                  "histogram$geoaltitude": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "geoaltitude",
+                          "interval": {
+                              "value": "600"
+                          }
+                      },
+                      "name": "Geo-Altitutde",
+                      "charttype": "bars",
+                      "title": "Geo-altitude",
+                      "icon": "flight_takeoff"
 
-                    },
-                    "histogram$velocityFilter": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "velocity",
-                            "interval": {
-                                "value": "10"
-                            }
-                        },
-                        "name": "Velocity",
-                        "charttype": "bars",
-                        "title": "Velocity",
-                        "height": 120,
-                        "icon": "slow_motion_video"
-                    },
-                    "histogram$headingFilter": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "heading",
-                            "interval": {
-                                "value": "15"
-                            }
-                        },
-                        "name": "Heading",
-                        "charttype": "area",
-                        "title": "Heading",
-                        "height": 120,
-                        "icon": "airplanemode_active"
-                    },
-                    "histogram$geoaltitudeFilter": {
-                        "aggregationmodel": {
-                            "type": "histogram",
-                            "field": "geoaltitude",
-                            "interval": {
-                                "value": "300"
-                            }
-                        },
-                        "name": "Geo-altitude",
-                        "charttype": "bars",
-                        "title": "Geo-altitude",
-                        "height": 120,
-                        "icon": "flight_takeoff"
-                    },
-                    "map$mapbox": {
-                        "search_size": 100,
-                        "initZoom":2,
-                        "name": "Map",
-                        "drawType": 1,
-                        "icon": "check_box_outline_blank",
-                        "geometry": "geometry",
-                        "actions": {
-                            "flyto": true,
-                            "hightlight": true
-                        },
-                        "aggregationmodel": {
-                            "type": "geohash",
-                            "field": "centroid",
-                            "interval": {
-                                "value": "2"
-                            },
-                            "withGeoCentroid": true
-                        },
-                        "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-                        "fontClusterlabel": "Roboto Regular",
-                        "zoomLevelFullData": 2,
-                        "zoomLevelForTestCount": 6,
-                        "nbMaxFeatureForCluster": 3000,
-                        "margeExtendPctForLoad": 250,
-                        "margeExtendPctForPan": 25,
-                        "zoomToNbMaxFeatureForCluster": {
-                            "4": 1000,
-                            "5": 1000,
-                            "6": 1000,
-                            "7": 1000,
-                            "8": 3000,
-                            "9": 3000,
-                            "10": 3000,
-                            "11": 3000,
-                            "12": 3000
-                        },
-                        "maxPrecision" :7,
-                        "zoomToPrecisionCluster": {
-                            "0": 2,
-                            "1": 2,
-                            "2": 2,
-                            "3": 3,
-                            "4": 3,
-                            "5": 4,
-                            "6": 4,
-                            "7": 5,
-                            "8": 5,
-                            "9": 6,
-                            "10":6
-                        },
-                        "paintRuleGeoBox": {
-                            "line-color": "#FC9F28",
-                            "line-opacity": 0.2
-                        },
-                        "paintRuleFeatureFill": {
-                            "fill-color": "#56A7EE",
-                            "fill-opacity": 0.2
-                        },
-                        "paintRuleFeatureLine": {
-                            "line-color": "#56A7EE",
-                            "line-opacity": 1,
-                            "line-width": 1
-                        },
-                        "paintRuleClusterLineRectangle": {
-                            "line-color": "#313695",
-                            "line-opacity": 0.5
-                        },
-                        "paintRuleClusterFillRectangle": {
-                            "fill-color": {
-                                "property": "point_count_normalize",
-                                "type": "exponential",
-                                "stops": [
-                                    [
-                                        0,
-                                        "#4575b4"
-                                    ],
-                                    [
-                                        100,
-                                        "#d73027"
-                                    ]
+                  },
+                  "histogram$velocityFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "velocity",
+                          "interval": {
+                              "value": "10"
+                          }
+                      },
+                      "name": "Velocity",
+                      "charttype": "bars",
+                      "title": "Velocity",
+                      "height": 120,
+                      "icon": "slow_motion_video"
+                  },
+                  "histogram$headingFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "heading",
+                          "interval": {
+                              "value": "15"
+                          }
+                      },
+                      "name": "Heading",
+                      "charttype": "area",
+                      "title": "Heading",
+                      "height": 120,
+                      "icon": "airplanemode_active"
+                  },
+                  "histogram$geoaltitudeFilter": {
+                      "aggregationmodel": {
+                          "type": "histogram",
+                          "field": "geoaltitude",
+                          "interval": {
+                              "value": "300"
+                          }
+                      },
+                      "name": "Geo-altitude",
+                      "charttype": "bars",
+                      "title": "Geo-altitude",
+                      "height": 120,
+                      "icon": "flight_takeoff"
+                  },
+                  "map$mapbox": {
+                      "search_size": 100,
+                      "initZoom":2,
+                      "name": "Map",
+                      "drawType": 1,
+                      "icon": "check_box_outline_blank",
+                      "geometry": "geometry",
+                      "actions": {
+                          "flyto": true,
+                          "hightlight": true
+                      },
+                      "aggregationmodel": {
+                          "type": "geohash",
+                          "field": "centroid",
+                          "interval": {
+                              "value": "2"
+                          },
+                          "withGeoCentroid": true
+                      },
+                      "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+                      "fontClusterlabel": "Roboto Regular",
+                      "zoomLevelFullData": 2,
+                      "zoomLevelForTestCount": 6,
+                      "nbMaxFeatureForCluster": 3000,
+                      "margeExtendPctForLoad": 250,
+                      "margeExtendPctForPan": 25,
+                      "zoomToNbMaxFeatureForCluster": {
+                          "4": 1000,
+                          "5": 1000,
+                          "6": 1000,
+                          "7": 1000,
+                          "8": 3000,
+                          "9": 3000,
+                          "10": 3000,
+                          "11": 3000,
+                          "12": 3000
+                      },
+                      "maxPrecision" :7,
+                      "zoomToPrecisionCluster": {
+                          "0": 3,
+                          "1": 3,
+                          "2": 3,
+                          "3": 4,
+                          "4": 4,
+                          "5": 5,
+                          "6": 5,
+                          "7": 5,
+                          "8": 6,
+                          "9": 6,
+                          "10":6
+                      },
+                      "paintRuleGeoBox": {
+                          "line-color": "#FC9F28",
+                          "line-opacity": 0.2
+                      },
+                      "paintRuleFeatureFill": {
+                          "fill-color": "#56A7EE",
+                          "fill-opacity": 0.2
+                      },
+                      "paintRuleFeatureLine": {
+                          "line-color": "#56A7EE",
+                          "line-opacity": 0,
+                          "line-width": 0
+                      },
+                      "paintRuleClusterLineRectangle": {
+                        "line-color": {
+                          "property": "point_count_normalize",
+                          "type": "exponential",
+                          "stops": [
+                              [
+                                  0,
+                                  "#508104"
+                              ],
+                              [
+                                  20,
+                                  "#9e8e01"
+                              ],
+                              [
+                                  40,
+                                  "#f3b800"
+                              ],
+                              [
+                                  60,
+                                  "#db8200"
+                              ],
+                              [
+                                  80,
+                                  "#b64201"
+                              ],
+                              [
+                                  100,
+                                  "#db8200"
+                              ]
+                          ]
+                      },
+                      "line-opacity": 0.7
+                      },
+                      "paintRuleClusterFillRectangle": {
+                          "fill-color": {
+                            "property": "point_count_normalize",
+                            "type": "exponential",
+                            "stops": [
+                                [
+                                    0,
+                                    "#508104"
+                                ],
+                                [
+                                    20,
+                                    "#9e8e01"
+                                ],
+                                [
+                                    40,
+                                    "#f3b800"
+                                ],
+                                [
+                                    60,
+                                    "#db8200"
+                                ],
+                                [
+                                    80,
+                                    "#b64201"
+                                ],
+                                [
+                                    100,
+                                    "#db8200"
                                 ]
-                            },
-                            "fill-opacity": 0.5
-                        },
-                        "paintRuleFeatureCirclePoint": {}
-                    },
-                    "countall$countall": {
-                        "search_size": 100,
-                        "name": "CountAll"
-                    },
-                    "chipssearch$chipssearch": {
-                        "search_size": 100,
-                        "name": "Search",
-                        "icon": "search"
-                    }
-                }
-            }
-        }
-    },
-    "server": {
-        "server$default": {
-            "url": "http://localhost:9999/arlas"
-        },
-        "collection$default": {
-            "collection": "opensky"
-        }
-    }
+                            ]
+                          },
+                          "fill-opacity": 0.7
+                      },
+                      "paintRuleFeatureCirclePoint": {}
+                  },
+                  "countall$countall": {
+                      "search_size": 100,
+                      "name": "CountAll"
+                  },
+                  "chipssearch$chipssearch": {
+                      "search_size": 100,
+                      "name": "Search",
+                      "icon": "search"
+                  }
+              }
+          }
+      }
+  },
+  "server": {
+      "server$default": {
+          "url": "http://localhost:9999/arlas"
+      },
+      "collection$default": {
+          "collection": "opensky"
+      }
+  }
 }
