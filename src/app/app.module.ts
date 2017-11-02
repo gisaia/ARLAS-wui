@@ -14,7 +14,8 @@ import {
   MdDialogModule,
   MdIconModule,
   MdSidenavModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdProgressBarModule
 
 } from '@angular/material';
 
@@ -54,6 +55,7 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     MdIconModule,
     MdSidenavModule,
     MdTooltipModule,
+    MdProgressBarModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,

@@ -4,6 +4,12 @@
   overflow: hidden;
 }
 
+.arlas-progression {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
 .arlas-map{
   width: 100%;
   height: 100%;
