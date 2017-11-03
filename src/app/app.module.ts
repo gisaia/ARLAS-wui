@@ -9,13 +9,13 @@ import { HistogramModule, MapglModule } from 'arlas-web-components';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {
-  MdButtonModule,
-  MdChipsModule,
-  MdDialogModule,
-  MdIconModule,
-  MdSidenavModule,
-  MdTooltipModule,
-  MdProgressBarModule
+  MatButtonModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatIconModule,
+  MatSidenavModule,
+  MatTooltipModule,
+  MatProgressBarModule
 
 } from '@angular/material';
 
@@ -49,13 +49,13 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     TagInputModule,
     BrowserAnimationsModule,
     HttpModule,
-    MdButtonModule,
-    MdChipsModule,
-    MdDialogModule,
-    MdIconModule,
-    MdSidenavModule,
-    MdTooltipModule,
-    MdProgressBarModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatTooltipModule,
+    MatProgressBarModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,

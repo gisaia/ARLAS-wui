@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from '../../services/arlaswui.startup.service';
 
@@ -12,9 +12,9 @@ import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from '../..
 })
 export class ErrorModalComponent implements OnInit {
 
-  public dialogRef: MdDialogRef<any>;
+  public dialogRef: MatDialogRef<any>;
 
-  constructor(public dialog: MdDialog, private configService: ArlasWuiConfigService,
+  constructor(public dialog: MatDialog, private configService: ArlasWuiConfigService,
     private collaborativeService: ArlasWuiCollaborativesearchService) { }
 
   public ngOnInit() {
@@ -46,5 +46,5 @@ export class ErrorModalComponent implements OnInit {
 })
 export class ErrorModalMsgComponent {
   public messages: Array<string>;
-  constructor(public dialogRef: MdDialogRef<ErrorModalMsgComponent>) { }
+  constructor(public dialogRef: MatDialogRef<ErrorModalMsgComponent>) { }
 }

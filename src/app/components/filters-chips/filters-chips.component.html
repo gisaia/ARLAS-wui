@@ -1,14 +1,14 @@
 <div class="filters-chips--container">
-    <md-chip-list class="filters-chips">
+    <mat-chip-list class="filters-chips">
         <ng-container *ngFor="let contributorId of  collaborations">
-          <md-chip class="filter-chip" [style.color]="getChipColor(contributorId)" (click)="changeCollaborationState(contributorId)" mdTooltip="{{this.getContributorLabel(contributorId)}}" >
-            <md-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</md-icon>
-            <md-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</md-icon>
-          </md-chip>
-          <md-icon class="filter-delimiter">keyboard_arrow_right</md-icon>
+          <mat-basic-chip class="filter-chip" [style.color]="getChipColor(contributorId)" (click)="changeCollaborationState(contributorId)" matTooltip="{{this.getContributorLabel(contributorId)}}" >
+            <mat-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</mat-icon>
+            <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</mat-icon>
+          </mat-basic-chip>
+          <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
         </ng-container>
-        <md-chip class="filter-chip filter-count" >
+        <mat-basic-chip class="filter-chip filter-count" >
           {{countAll}}
-        </md-chip>
-      </md-chip-list>
+        </mat-basic-chip>
+      </mat-chip-list>
 </div>
