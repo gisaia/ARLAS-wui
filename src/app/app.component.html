@@ -47,9 +47,7 @@
       </div>
     </div>
     <div *ngIf="isFilterMode" class="arlas-analytics__filters">
-      <button class="arlas-analytics__back_to_thumbnails" mat-mini-fab color="primary" (click)="showAnalyticsAsThumbnails($event)">
-          <mat-icon class="arlas-analytics__back_to_thumbnails__icon">skip_previous</mat-icon>
-        </button>
+      <mat-icon class="arlas-analytics__back_to_thumbnails__icon" color="red" (click)="showAnalyticsAsThumbnails($event)">clear</mat-icon>
       <div *ngFor="let histogram of histograms">
         <div *ngIf="histogram.isFilter" class="arlas-analytics__one-analytic">
           <label class="arlas-analytics__title">
