@@ -8,7 +8,8 @@
 }
 
 .custom-arlas-histogram__filter .histogram__description{
-display: none;}
+  display: none;
+}
 
 .custom-arlas-histogram__filter .histogram__description__endvalue--background{
   background: rgba(0,0,0,0);

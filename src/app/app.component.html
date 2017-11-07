@@ -31,9 +31,9 @@
       <div *ngFor="let histogram of histograms">
         <div *ngIf="!histogram.isFilter" class="arlas-analytics__one-analytic">
           <label class="arlas-analytics__title">
-            <md-icon class="arlas-analytics__icon">
+            <mat-icon class="arlas-analytics__icon">
               {{histogram.icon}}
-            </md-icon>
+            </mat-icon>
             <span class="arlas-analytics__title--text">{{histogram.title}}</span>
           </label>
           <div class="arlas-analytics__chart-container">
@@ -47,15 +47,13 @@
       </div>
     </div>
     <div *ngIf="isFilterMode" class="arlas-analytics__filters">
-      <button class="arlas-analytics__back_to_thumbnails" md-mini-fab color="primary" (click)="showAnalyticsAsThumbnails($event)">
-          <md-icon class="arlas-analytics__back_to_thumbnails__icon">skip_previous</md-icon>
-        </button>
+      <mat-icon class="arlas-analytics__back_to_thumbnails__icon" color="red" (click)="showAnalyticsAsThumbnails($event)">clear</mat-icon>
       <div *ngFor="let histogram of histograms">
         <div *ngIf="histogram.isFilter" class="arlas-analytics__one-analytic">
           <label class="arlas-analytics__title">
-            <md-icon class="arlas-analytics__icon">
+            <mat-icon class="arlas-analytics__icon">
               {{histogram.icon}}
-            </md-icon>
+            </mat-icon>
             <span class="arlas-analytics__display">{{histogram.histogramContributor.getFilterDisplayName()}}</span>
           </label>
           <arlas-histogram #cloudCoverageFilter [xTicks]="4" [xLabels]="4" [yTicks]="1" [yLabels]="4" [chartType]="histogram.chartType"
@@ -67,5 +65,5 @@
       </div>
     </div>
   </div>
-  <md-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></md-progress-bar>
+  <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></mat-progress-bar>
 </div>

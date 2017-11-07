@@ -115,21 +115,14 @@
   z-index: 1;
 }
 
-.arlas-analytics__back_to_thumbnails {
-  position: absolute;
-  left: 455px;
-  top: 0px;
-  background-color: #555;
-  z-index: 2;
-  height: 24px;
-  width: 24px;
-}
-
 .arlas-analytics__back_to_thumbnails__icon{
-  font-size: 19px;
-  padding: 0 !important;
-  padding-bottom: 1px !important;
-
+  color: white;
+  /*background-color: blue;*/
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .arlas-analytics__chart-container {
@@ -142,7 +135,6 @@
   color: #fff;
   background-color: #FF3C39;
   border: 1px solid #FF3C39;
-  font-weight: bold;
   width: 100%;
   padding: 3px;
   text-align: center;
