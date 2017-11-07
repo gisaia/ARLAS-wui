@@ -25,7 +25,6 @@
   height: 32px;
   z-index: 1000;
   border-radius: 1px;
-
 }
 
 .arlas-filters-chips {
@@ -117,12 +116,17 @@
 
 .arlas-analytics__back_to_thumbnails__icon{
   color: white;
-  /*background-color: blue;*/
   position: absolute;
-  right: 3px;
-  top: 3px;
-  font-size: 20px;
+  right: 5px;
+  top: 5px;
+  font-size: 18px;
   cursor: pointer;
+  height: 18px;
+  width: 18px;
+}
+
+.arlas-analytics__back_to_thumbnails__icon:hover{
+  background-color: #FFCDD2;
 }
 
 .arlas-analytics__chart-container {
@@ -141,7 +145,6 @@
 }
 
 .arlas-analytics__title--text{
-  margin-top: -2px;
   float: left;
 }
 
@@ -151,9 +154,9 @@
 }
 
 .arlas-analytics__icon{
-  width: 15px;
-  height: 15px;
-  font-size: 15px;
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
   float: left;
   margin-right: 3px;
 }
