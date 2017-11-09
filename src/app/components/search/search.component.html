@@ -2,5 +2,10 @@
      secondaryPlaceholder="Search"
      class="arlas-serach--input"
      (onAdd)="onWordAdded($event)"
-     (onRemove)="onWordRemoved($event)">
+     (onRemove)="onWordRemoved($event)"
+     (onTextChange)="filterSearch($event)"
+     >
+     <tag-input-dropdown [autocompleteItems]="this.listItems">
+      </tag-input-dropdown>
 </tag-input>
+

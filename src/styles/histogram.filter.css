@@ -1,9 +1,4 @@
 .custom-arlas-histogram__filter{
-  font-size: 0.8em;
-  font-weight: bold;
-}
-
-.custom-arlas-histogram__filter{
   height: 0
 }
 
@@ -11,78 +6,60 @@
   display: none;
 }
 
-.custom-arlas-histogram__filter .histogram__description__endvalue--background{
-  background: rgba(0,0,0,0);
-  color: #C36784;
-
-}
-.custom-arlas-histogram__filter .histogram__description__startvalue--background{
-  background: rgba(0,0,0,0);
-  color: #C36784;
-}
-
 .custom-arlas-histogram__filter .histogram__chart--area{
-  fill: #14B0CC;
-  fill-opacity: 1;
-  stroke: #14B0CC;
+  fill: #FFC107;
+  fill-opacity: 0;
+  stroke: #FFC107;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
 .custom-arlas-histogram__filter .histogram__chart .context .brush .selection{
-  fill: #C3E0DE;
+  fill: #BDBDBD;
   fill-opacity: 0.2;
-  stroke: #14B0CC;
-  stroke-width:1px;
+  stroke:none;
 }
 
 .custom-arlas-histogram__filter .histogram__chart--bar__fullyselected {
-  fill: #14B0CC;
+  fill: #FFC107;
   fill-opacity: 1;
   stroke: none;
-  stroke-width: 0.5px;
-  stroke-opacity: 1;
 }
 
 .custom-arlas-histogram__filter .histogram__chart--bar__partlyselected {
-  fill: #2DCDE9;
+  fill: #FFA000;
   fill-opacity: 1;
   stroke: none;
-  stroke-width: 0.5px;
-  stroke-opacity: 1;
 }
 
 .custom-arlas-histogram__filter .histogram__chart--bar {
-  fill: #8f9191;
+  fill: #757575;
   fill-opacity: 1;
   stroke: none;
-  stroke-width: 0.5px;
-  stroke-opacity: 1;
 }
 
 .custom-arlas-histogram__filter .histogram__tooltip {
-  background: #41B3A3;
-  font-weight: bold;
+  background-color: #0288D1;
 }
 
 .custom-arlas-histogram__filter .histogram__brush--handles {
-  stroke: #2DCDE9;
-  fill: #2DCDE9;
+  stroke: #757575;
+  fill: #757575;
 }
 
 
 .custom-arlas-histogram__filter .tick text {
-  fill: #8f9191;
+  fill: #BDBDBD;
   font-size: 0.9em;
 }
 
 
 
 .custom-arlas-histogram__filter .histogram__ticks{
-  stroke: #8f9191;
+  stroke: #BDBDBD;
   stroke-width: 0.8px;
 }
 .custom-arlas-histogram__filter .histogram__axis{
-  stroke: #8f9191;
+  stroke: #BDBDBD;
   stroke-width: 0.8px;
 }

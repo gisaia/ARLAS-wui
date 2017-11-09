@@ -65,9 +65,9 @@ export class FiltersChipsComponent {
   public getChipColor(contributorId: string): string  {
     const collaborationState = this.collaborativesearchService.isEnable(contributorId);
     if (collaborationState) {
-      return 'white';
+      return '#FF4081';
     } else {
-      return '#CED3D3';
+      return '#BDBDBD';
     }
   }
 
