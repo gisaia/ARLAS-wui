@@ -1,10 +1,10 @@
 .filters-chips--container {
-  background-color: #1758E4;
+  background-color: white;
   display: inline-block;
   border-radius: 3px;
 }
 .filter-chip {
-  background-color: #1758E4;
+  background-color: white;
   cursor: pointer;
   border-radius: 3px !important;
   padding-top: 7px!important;
@@ -28,7 +28,7 @@
 }
 
 .filter-delimiter {
-  color:#CED3D3;
+  color:#BDBDBD;
   margin-top: 4px;
 }
 
@@ -44,12 +44,12 @@
 }
 
 .filter-count {
-  color: #fff;
+  color: #FF4081;
   margin-left: 5px;
   margin-right: 5px;
 }
 .filter-chip__label{
-  color: #0B0F80;
+  color: #FF4081;
   vertical-align:middle;
   margin-right: 5px;
   margin-left: 8px;

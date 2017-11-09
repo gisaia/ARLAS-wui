@@ -38,10 +38,10 @@
 
 .arlas-timeline{
   position: absolute;
-  bottom: 5px;
+  bottom: 0;
   width: 100%;
   z-index:30000;
-  background-color: rgba(255,255,255,0.2);
+  background-color: white;
 }
 
 .arlas-analytics-mode, .arlas-analytics-mode--filter {
@@ -51,7 +51,7 @@
   top: 90px;
   width: 133px;
   height: 21%;
-  background-color: #14B0CC;
+  background-color: #03A9F4;
   padding-top: 10px;
   z-index: 0;
   cursor: pointer
@@ -126,7 +126,7 @@
 }
 
 .arlas-analytics__back_to_thumbnails__icon:hover{
-  background-color: #FFCDD2;
+  background-color: #B3E5FC;
 }
 
 .arlas-analytics__chart-container {
@@ -137,8 +137,8 @@
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.8em;
   color: #fff;
-  background-color: #FF3C39;
-  border: 1px solid #FF3C39;
+  background-color: #03A9F4;
+  border: 1px solid #03A9F4;
   width: 100%;
   padding: 3px;
   text-align: center;

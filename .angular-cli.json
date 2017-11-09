@@ -22,7 +22,8 @@
       "prefix": "arlas",
       "styles": [
         "styles.css",
-        "../node_modules/mapbox-gl/dist//mapbox-gl.css"
+        "styles/arlas-wui-theme.scss",
+        "../node_modules/mapbox-gl/dist/mapbox-gl.css"
       ],
       "scripts": [
         "../node_modules/mapbox-gl/dist/mapbox-gl.js"

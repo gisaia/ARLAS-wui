@@ -1,71 +1,74 @@
 .custom-arlas-timeline{
-  background-color: transparent;
+  background-color: white;
+}
+
+.custom-arlas-timeline .histogram__description{
+  background-color: #03A9F4;
+  width: 100% !important;
+  padding: 0 10px 0 60px !important;
+  margin: 0 !important;
 }
 
 .custom-arlas-timeline .histogram__description__title{
-  color: #215c54;
-  font-weight: bold;
+  color: white;
+  background-color: #03A9F4;
 }
 
 .custom-arlas-timeline .histogram__chart .context .brush .selection{
-  fill: #C3E0DE;
+  fill: #BDBDBD;
   fill-opacity: 0.2;
-  stroke: #14B0CC;
-  stroke-width:1px;
+  stroke:none;
 }
-
 
 .custom-arlas-timeline .histogram__description__startvalue--background,
 .custom-arlas-timeline .histogram__description__endvalue--background{
-  background-color: transparent;
+  background-color: #03A9F4;
 }
 
 .custom-arlas-timeline .histogram__chart--area{
-    fill: #14B0CC;
-    fill-opacity: 1;
-    stroke: #fff;
-    stroke-width: 2px;
-    stroke-opacity: 1;
+  fill: #FFC107;
+  fill-opacity: 0;
+  stroke: #FFC107;
+  stroke-width: 1px;
+  stroke-opacity: 1;
 }
-.custom-arlas-timeline .histogram__description__title {
-}
+
 .custom-arlas-timeline .histogram__no-chart__key {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
-  color: #043B53;
+  color: #757575;
 }
 
 .custom-arlas-timeline .histogram__no-chart__value {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
-  color: #043B53;
+  color: #757575;
 }
 
 .custom-arlas-timeline .histogram__description__endvalue,
 .custom-arlas-timeline .histogram__description__startvalue {
-  color: #0F6077;
-  font-weight: bold;
-
+  color: white;
+  background-color: #03A9F4;
 }
 
 .custom-arlas-timeline .axis path{
-  stroke: #544b4e;
+  stroke: #757575;
 }
 
 .custom-arlas-timeline .histogram__ticks{
-  stroke: #544b4e;
-  stroke-width: 1.5px;
+  stroke: #757575;
+  stroke-width: 1px;
 }
 
 .custom-arlas-timeline .histogram__axis{
-  stroke: #8f9191;
-  stroke-width: 1.5px;
+  stroke: #757575;
+  stroke-width: 1px;
 }
 
 .custom-arlas-timeline .tick text{
-  fill: #215c54;
+  fill: #757575;
   /*text-shadow: 0 0 0.4em #215c54, 0 0  0.4em #215c54;*/
   font-size: 1em;
 }
@@ -76,6 +79,6 @@
 }
 
 .custom-arlas-timeline .histogram__brush--handles {
-  stroke: #2DCDE9;
-  fill: #2DCDE9;
+  stroke: #757575;
+  fill: #757575;
 }

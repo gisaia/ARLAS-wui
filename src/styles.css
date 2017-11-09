@@ -1,9 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 
-@import 'styles/arlas-wui-theme.css';
 @import 'styles/map.css';
 @import 'styles/search.css';
 @import 'styles/timeline.css';
