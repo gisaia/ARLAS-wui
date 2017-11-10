@@ -82,7 +82,7 @@ export class FiltersChipsComponent {
 
   private subscribeToFutureCollaborations() {
     this.collaborativesearchService.collaborationBus.subscribe(collaborationBus => {
-      this.collaborativesearchService.countAll.subscribe(count => this.countAll = count);
+      this.collaborativesearchService.countAll.subscribe(count => this.countAll = this.formatWithSpace(count));
       if (!collaborationBus.all) {
         const collaboration = this.collaborativesearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
@@ -98,6 +98,10 @@ export class FiltersChipsComponent {
         this.retrieveCurrentCollaborations();
       }
     });
+  }
+
+  public formatWithSpace(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
 }
