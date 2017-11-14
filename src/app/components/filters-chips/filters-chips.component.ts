@@ -22,8 +22,8 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  constructor (private collaborativesearchService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService
-   , private contributorService: ContributorService ) {
+  constructor(private collaborativesearchService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService
+    , private contributorService: ContributorService) {
 
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
@@ -44,6 +44,10 @@ export class FiltersChipsComponent {
     }
   }
 
+  public removeAllFilters(): void {
+    this.collaborativesearchService.removeAll();
+  }
+
   public getCollaborationIcon(contributorId): string {
     return this.contibutorsIcons.get(contributorId);
   }
@@ -62,12 +66,26 @@ export class FiltersChipsComponent {
 
   }
 
-  public getChipColor(contributorId: string): string  {
-    const collaborationState = this.collaborativesearchService.isEnable(contributorId);
-    if (collaborationState) {
-      return '#FF4081';
-    } else {
-      return '#BDBDBD';
+  public getChipColor(contributorId: string): string {
+    const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+    if (collaboration != null) {
+      const collaborationState = this.collaborativesearchService.isEnable(contributorId);
+      if (collaborationState) {
+        return '#FFF';
+      } else {
+        return '#BDBDBD';
+      }
+    }
+  }
+
+  public getChipBackgroundColor(contributorId: string): string {
+    const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+    if (collaboration != null) {
+      if (this.collaborativesearchService.isEnable(contributorId)) {
+        return '#FF4081';
+      } else {
+        return '#FFF';
+      }
     }
   }
 
@@ -76,6 +94,8 @@ export class FiltersChipsComponent {
       const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
       if (collaboration != null) {
         this.collaborations.add(contributorId);
+      } else {
+        this.collaborations.delete(contributorId);
       }
     });
   }
@@ -86,9 +106,9 @@ export class FiltersChipsComponent {
       if (!collaborationBus.all) {
         const collaboration = this.collaborativesearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
-          if ( collaborationBus.operation === 0) {
+          if (collaborationBus.operation === 0) {
             this.collaborations.add(collaborationBus.id);
-          } else if ( collaborationBus.operation === 1) {
+          } else if (collaborationBus.operation === 1) {
             this.collaborations.delete(collaborationBus.id);
           }
         } else {
