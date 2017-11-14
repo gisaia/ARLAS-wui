@@ -1,22 +1,17 @@
 .filters-chips--container {
-  background-color: white;
+  background-color: #FF4081;
   display: inline-block;
   border-radius: 3px;
 }
+
 .filter-chip {
-  background-color: white;
   cursor: pointer;
-  border-radius: 3px !important;
   padding-top: 7px!important;
-  padding-right: 0px!important;
-  padding-left: 0px!important;
   font-size: 0.9em;
-  font-family: "Roboto", "Helvetica Neue", sans-serif !important;
   font-style: normal;
   font-weight: 400;
   height: 30px;
 }
-
 
 .filter-chip__icon_close{
   font-size: 12px;
@@ -28,8 +23,13 @@
 }
 
 .filter-delimiter {
-  color:#BDBDBD;
+  color:white;
   margin-top: 4px;
+}
+
+.home-chip{
+  color: white;
+  padding: 0 5px 0 15px;
 }
 
 
@@ -44,12 +44,13 @@
 }
 
 .filter-count {
-  color: #FF4081;
+  color: white;
   margin-left: 5px;
   margin-right: 5px;
+  cursor: default;
 }
 .filter-chip__label{
-  color: #FF4081;
+  color: white;
   vertical-align:middle;
   margin-right: 5px;
   margin-left: 8px;

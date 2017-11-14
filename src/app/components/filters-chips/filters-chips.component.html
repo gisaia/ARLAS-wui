@@ -1,14 +1,18 @@
 <div class="filters-chips--container">
     <mat-chip-list class="filters-chips">
-        <ng-container *ngFor="let contributorId of  collaborations">
-          <mat-basic-chip class="filter-chip" [style.color]="getChipColor(contributorId)" (click)="changeCollaborationState(contributorId)" matTooltip="{{this.getContributorLabel(contributorId)}}" >
-            <mat-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</mat-icon>
-            <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</mat-icon>
-          </mat-basic-chip>
-          <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
-        </ng-container>
-        <mat-basic-chip class="filter-chip filter-count" >
-          {{countAll}}
+      <mat-basic-chip class="filter-chip home-chip" (click)="removeAllFilters($event)">
+      ARLAS
+      </mat-basic-chip>
+      <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
+      <ng-container *ngFor="let contributorId of  collaborations">
+        <mat-basic-chip class="filter-chip" [style.color]="getChipColor(contributorId)" [style.background-color]="getChipBackgroundColor(contributorId)" (click)="changeCollaborationState(contributorId)" matTooltip="{{this.getContributorLabel(contributorId)}}" >
+          <mat-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</mat-icon>
+          <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</mat-icon>
         </mat-basic-chip>
-      </mat-chip-list>
+        <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
+      </ng-container>
+      <mat-basic-chip class="filter-chip filter-count" >
+        {{countAll}}
+      </mat-basic-chip>
+    </mat-chip-list>
 </div>
