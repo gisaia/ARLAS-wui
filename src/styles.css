@@ -49,3 +49,9 @@ height: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
+
+.mat-option{
+  /*line-height: 35px !important;
+  height: 35px !important;*/
+}
+
