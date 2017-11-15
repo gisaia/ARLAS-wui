@@ -15,6 +15,8 @@ import { ContributorService } from './services/contributors.service';
 import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { Collaboration } from 'arlas-web-core/models/collaboration';
+import { Filter } from 'arlas-api';
 
 
 @Component({
@@ -38,8 +40,6 @@ export class AppComponent implements OnInit {
   public fieldsConfiguration: FieldsConfiguration;
   public isAnalyticsHovered = false;
   public isFilterMode = false;
-  public analyticsWidth = 190;
-  public analyticsModeWidth = 200;
   public zoomToPrecisionCluster: Object;
   public maxPrecision: number;
 
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
     this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
       this.mapDrawType);
-    this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.sizeOnBackspaceBus);
+    this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
     this.timelinecontributor = this.contributorService.getTimelineContributor();
 
     this.histograms = this.contributorService.getHistograms();
@@ -102,5 +102,20 @@ export class AppComponent implements OnInit {
 
   public showAnalyticsAsThumbnails(event) {
     this.isFilterMode = false;
+  }
+
+  public filterSearch(value: string) {
+    if (value.trim() !== '') {
+      const filter: Filter = {
+        q: value.trim()
+      };
+
+      const collaboration: Collaboration = {
+        filter: filter,
+        enabled: true
+      };
+
+      this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
+    }
   }
 }

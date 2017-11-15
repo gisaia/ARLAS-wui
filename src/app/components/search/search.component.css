@@ -1,4 +1,21 @@
-
 arlas-search--input {
   width: 300px;
+}
+
+.search-option{
+  line-height: 30px;
+  height: 30px;
+  font-size: 0.8em;
+}
+
+.search-option.mat-active{
+  background-color: #F8BBD0;
+  font-size: 1em;
+}
+
+.search-option:hover{
+  background-color: #F8BBD0;
+  height: 30px;
+  line-height: 30px;
+  font-size: 1em;
 }

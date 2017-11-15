@@ -9,6 +9,7 @@ import { HistogramModule, MapglModule } from 'arlas-web-components';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatChipsModule,
   MatDialogModule,
@@ -16,7 +17,6 @@ import {
   MatSidenavModule,
   MatTooltipModule,
   MatProgressBarModule
-
 } from '@angular/material';
 
 import { ArlasWuiStartupService, ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
@@ -49,6 +49,7 @@ export function startupServiceFactory(startupService: ArlasWuiStartupService): F
     TagInputModule,
     BrowserAnimationsModule,
     HttpModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
     MatDialogModule,

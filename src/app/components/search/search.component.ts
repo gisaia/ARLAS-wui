@@ -2,11 +2,13 @@ import { Component, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AggregationResponse, Aggregation, Filter } from 'arlas-api';
-import { ArlasWuiCollaborativesearchService } from '../../services/arlaswui.startup.service';
+import { ArlasWuiCollaborativesearchService, ArlasWuiConfigService } from '../../services/arlaswui.startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { projType } from 'arlas-web-core';
 import { Response } from '@angular/http';
-
+import { FormControl } from '@angular/forms';
+import { CollaborativesearchService } from 'arlas-web-core/services/collaborativesearch.service';
+import { ConfigService } from 'arlas-web-core/services/config.service';
 
 @Component({
   selector: 'arlas-search',
@@ -14,63 +16,77 @@ import { Response } from '@angular/http';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent {
-  public sizeOnBackspaceBus: Subject<boolean> = new Subject<boolean>();
-  public searchedWords = new Array<{ display: string, value: string }>();
+  public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
+  public searchCtrl: FormControl;
+  public filteredSearch: Observable<any[]>;
+  private autocomplete_field: string;
+  private autocomplete_size: string;
+  private keyEvent: Subject<number> = new Subject<number>();
+  private searchContributorId: string;
+  @Input() public searches: Observable<AggregationResponse>;
+  @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
 
-  @Output() public wordAddedEvent: Subject<string> = new Subject<string>();
-  @Output() public wordRemovedEvent: Subject<string> = new Subject<string>();
+  constructor(private collaborativeService: ArlasWuiCollaborativesearchService,
+    private contributorService: ContributorService,
+    private configService: ArlasWuiConfigService) {
+    this.autocomplete_field = configService.getValue('catalog.web.app.components.autocomplete_field');
+    this.autocomplete_size = configService.getValue('catalog.web.app.components.autocomplete_size');
+    this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
+    this.searchCtrl = new FormControl();
+    this.keyEvent.pairwise().subscribe(l => {
+      if (l[1] === 0) {
+        this.collaborativeService.removeFilter(this.searchContributorId);
+      }
+    });
+    const autocomplete = this.searchCtrl.valueChanges.debounceTime(250)
+      .startWith('')
+      .filter(search => search !== null)
+      .filter(search => search.length > 1)
+      .flatMap(search => this.filterSearch(search))
+      .map(f => f.elements);
 
-  public listItems = new Array<any>();
+    const noautocomplete = this.searchCtrl.valueChanges.debounceTime(250)
+      .startWith('')
+      .filter(search => search !== null)
+      .filter(search => search.length < 2)
+      .map(f => []);
 
-  constructor(private collaborativeSearchService: ArlasWuiCollaborativesearchService,
-    private contributorService: ContributorService) {
-    this.subscribeToSearchedWordsInBookMarks();
+    const nullautocomplete = this.searchCtrl.valueChanges.debounceTime(250)
+      .startWith('')
+      .filter(search => search == null)
+      .map(f => []);
+
+    this.filteredSearch = noautocomplete.merge(autocomplete).merge(nullautocomplete);
   }
 
-  public onWordAdded(word: { display: string, value: string }) {
-    this.wordAddedEvent.next(word.value);
-  }
-
-  public onWordRemoved(word: { display: string, value: string }) {
-    this.wordRemovedEvent.next(word.value);
-  }
-
-
-  private subscribeToSearchedWordsInBookMarks() {
-    this.collaborativeSearchService.contribFilterBus
-      .filter(contributor => contributor.identifier === this.contributorService.CHIPSSEARCH_ID).first().subscribe(contributor => {
-        const storedSearchWords = contributor.getFilterDisplayName();
-        if (storedSearchWords !== undefined) {
-          const searchedWordsSplited = storedSearchWords.split(' ');
-          searchedWordsSplited.forEach(word => {
-            if (word !== '') {
-              this.searchedWords.push({ display: word, value: word });
-            }
-          });
-        }
-      });
-  }
-
-  public filterSearch(search: string): void {
+  public filterSearch(search: string): Observable<AggregationResponse> {
     const aggregation: Aggregation = {
       type: Aggregation.TypeEnum.Term,
-      field: 'callsign',
-      include: search.toUpperCase() + '.*',
-      size: '10'
+      field: this.autocomplete_field,
+      include: search + '.*',
+      size: this.autocomplete_size
     };
     const filter: Filter = {
-      q: 'callsign' + ':' + search.toUpperCase() + '*'
+      q: search + '*'
     };
-    this.collaborativeSearchService.resolveButNotAggregation([projType.aggregate, [aggregation]], null, filter).subscribe(
-      results => {
-        this.listItems = new Array<any>();
-        if (results.elements != null) {
-          results.elements.forEach(elem => {
-            this.listItems.push(elem.key);
-          });
-        }
-      }
+    this.searches = this.collaborativeService.resolveButNotAggregation(
+      [projType.aggregate, [aggregation]],
+      this.searchContributorId,
+      filter
     );
+    return this.searches;
   }
 
+  public onKeyUp(event: KeyboardEvent) {
+    if (this.searchCtrl.value !== null) {
+      this.keyEvent.next(this.searchCtrl.value.length);
+    }
+    if (event.keyCode === 13) {
+      this.valuesChangedEvent.next(this.searchCtrl.value);
+    }
+  }
+
+  public clickItemSearch() {
+    this.valuesChangedEvent.next(this.searchCtrl.value);
+  }
 }

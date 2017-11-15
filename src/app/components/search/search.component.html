@@ -1,11 +1,12 @@
-<tag-input [(ngModel)]="searchedWords" placeholder=""
-     secondaryPlaceholder="Search"
-     class="arlas-serach--input"
-     (onAdd)="onWordAdded($event)"
-     (onRemove)="onWordRemoved($event)"
-     (onTextChange)="filterSearch($event)"
-     >
-     <tag-input-dropdown [autocompleteItems]="this.listItems">
-      </tag-input-dropdown>
-</tag-input>
 
+<form >
+  <mat-input-container class="full-width">
+    <input [formControl]="searchCtrl" class="full-width-input" matInput placeholder="Search" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
+      name="search" ngModel>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clickItemSearch()">
+      <mat-option *ngFor="let search of filteredSearch | async" [value]="search.key_as_string" class="search-option">
+        <span>{{ search.key_as_string }}</span> | <small>{{search.count}}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-input-container>
+</form>
