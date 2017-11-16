@@ -6,6 +6,8 @@
                   "idFieldName": "id"
               },
               "components": {
+                  "autocomplete_field": "callsign",
+                  "autocomplete_size": "20",
                   "histogram$timeline": {
                       "aggregationmodel": {
                           "type": "datehistogram",
@@ -250,7 +252,7 @@
   },
   "server": {
       "server$default": {
-          "url": "http://localhost:9999/arlas"
+          "url": "http://fadas.local:9999/arlas"
       },
       "collection$default": {
           "collection": "opensky"
