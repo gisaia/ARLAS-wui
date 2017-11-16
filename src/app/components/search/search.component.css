@@ -3,9 +3,7 @@ arlas-search--input {
 }
 
 .search-option{
-  line-height: 30px;
-  height: 30px;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .search-option.mat-active{
@@ -15,7 +13,5 @@ arlas-search--input {
 
 .search-option:hover{
   background-color: #F8BBD0;
-  height: 30px;
-  line-height: 30px;
   font-size: 1em;
 }

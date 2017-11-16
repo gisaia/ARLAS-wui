@@ -29,9 +29,12 @@
 
 .home-chip{
   color: white;
-  padding: 0 5px 0 15px;
+  padding: 3px 5px 0 15px !important;
 }
 
+.home-chip--icon{
+  padding-bottom: 4px;
+}
 
 .filter-chip__icon{
   font-size: 20px;

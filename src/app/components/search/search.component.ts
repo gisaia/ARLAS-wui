@@ -9,6 +9,7 @@ import { Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import { CollaborativesearchService } from 'arlas-web-core/services/collaborativesearch.service';
 import { ConfigService } from 'arlas-web-core/services/config.service';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
 
 @Component({
   selector: 'arlas-search',
@@ -34,10 +35,21 @@ export class SearchComponent {
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
     this.searchCtrl = new FormControl();
     this.keyEvent.pairwise().subscribe(l => {
-      if (l[1] === 0) {
+      if (l[1] === 0 && l[0] === 1) {
         this.collaborativeService.removeFilter(this.searchContributorId);
       }
     });
+
+    this.collaborativeService.contribFilterBus
+      .filter(contributor => contributor.identifier === 'chipssearch')
+      .filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0).first().subscribe(
+        contributor => {
+          let initSearchValue = '';
+          (<ChipsSearchContributor>contributor).chipMapData.forEach( (v, k) => initSearchValue += k + ' ');
+          this.searchCtrl.setValue( initSearchValue);
+        }
+      );
+
     const autocomplete = this.searchCtrl.valueChanges.debounceTime(250)
       .startWith('')
       .filter(search => search !== null)
