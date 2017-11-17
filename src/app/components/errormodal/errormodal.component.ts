@@ -35,7 +35,7 @@ export class ErrorModalComponent implements OnInit {
   }
 
   public openDialog() {
-    this.dialogRef = this.dialog.open(ErrorModalMsgComponent);
+    // this.dialogRef = this.dialog.open(ErrorModalMsgComponent);
   }
 
 }
