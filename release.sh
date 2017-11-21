@@ -57,7 +57,9 @@ else
 fi
 
 echo "==> Set version and push tag"
-npm --no-git-tag-version version ${VERSION} -m "change app version to ${VERSION}"
+npm --no-git-tag-version version ${VERSION}
+git add package.json
+git commit -m "change app version to ${VERSION}"
 git push origin develop
 
 echo "==> Merge develop into master"
@@ -83,6 +85,7 @@ docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:latest
 
 echo "==> Go back to develop branch"
+git checkout package-lock.json
 git checkout develop
 git pull origin develop
 
