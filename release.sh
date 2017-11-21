@@ -56,13 +56,17 @@ else
   echo "==> Skip tests"
 fi
 
+echo "==> Set version and push tag"
+npm --no-git-tag-version version ${VERSION} -m "change app version to ${VERSION}"
+git push origin develop
+
 echo "==> Merge develop into master"
 git checkout master
 git pull origin master
 git merge origin/develop
 
-echo "  -- Set version and tag"
-npm version ${VERSION} -m "change app version to ${VERSION}"
+echo "  -- Push tag"
+git tag v${VERSION}
 git push origin v${VERSION}
 
 echo "  -- Commit version to master"
