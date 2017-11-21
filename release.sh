@@ -72,11 +72,11 @@ echo "==> Build (the artifact will be stored in the 'dist' directory)"
 npm install
 ng build -prod
 
-# echo "==> Docker"
-# docker build --tag arlas-wui:${VERSION} --tag arlas-wui:latest --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
+echo "==> Docker"
+docker build --tag arlas-wui:${VERSION} --tag arlas-wui:latest --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
 
-# docker push gisaia/arlas-wui:${VERSION}
-# docker push gisaia/arlas-wui:latest
+docker push gisaia/arlas-wui:${VERSION}
+docker push gisaia/arlas-wui:latest
 
 echo "==> Go back to develop branch"
 git checkout develop
