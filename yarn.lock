@@ -689,17 +689,17 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arlas-api@1.0.17:
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-1.0.17.tgz#ab000f39b981eceb56a1263edc2e91aaf982b797"
+arlas-api@1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-1.0.20.tgz#e8d75a9c307fe34e98b8a963aa42e9ec35f38ec6"
 
 arlas-kv-api@~1.0.14, arlas-kv-api@~1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-kv-api/-/arlas-kv-api-1.0.15.tgz#5222c694bc8c5e875f2815e5a20652d9d1b2a5d3"
 
-arlas-web-components@2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.2.5.tgz#323206581e3fa1e9a1a64b0ec3039c9b9d04e9c5"
+arlas-web-components@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.3.1.tgz#13e701403c4a320d2b66fe0dbf5803609ac623de"
   dependencies:
     "@angular/animations" "^4.0.0"
     "@angular/cdk" "2.0.0-beta.12"
@@ -734,28 +734,28 @@ arlas-web-components@2.2.5:
     tinycolor2 "^1.4.1"
     zone.js "^0.8.14"
 
-arlas-web-contributors@0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-0.3.3.tgz#0dce38069de8048f9dcaa280295f01783a57dce1"
+arlas-web-contributors@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-0.4.0.tgz#929be021e732c135396c4f357015bda97668cdc6"
   dependencies:
     "@types/file-saver" "^0.0.1"
     "@types/tinycolor2" "^1.4.0"
     "@types/turf" "^3.5.32"
-    arlas-web-core "0.3.0"
+    arlas-web-core "0.4.0"
     file-saver "^1.3.3"
     ngeohash "^0.6.0"
     rxjs "^5.4.2"
     tinycolor2 "^1.4.1"
     turf "^3.0.14"
 
-arlas-web-core@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-0.3.0.tgz#62ea7f398262c3822bceb2168285da85a5750d46"
+arlas-web-core@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-0.4.0.tgz#646a7bc9001106a188cdb2594b6b83a5f654ec17"
   dependencies:
     "@angular/core" "^4.0.0"
     "@angular/http" "^4.0.0"
     "@angular/platform-browser" "^4.0.0"
-    arlas-api "1.0.17"
+    arlas-api "1.0.20"
     arlas-kv-api "~1.0.14"
     rxjs "^5.4.2"
     zone.js "^0.8.14"

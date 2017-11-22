@@ -17,8 +17,8 @@ export class ContributorService {
   public arlasContributors = new Map<string, Contributor>();
   public contributorsIcons = new Map<string, string>();
 
-  public COMPONENTS_PATH = 'catalog.web.app.components';
-  public ID_PATH = 'catalog.web.app.fieldsConfiguration.idFieldName';
+  public CONTRIBUTORS_PATH = 'arlas.web.contributors';
+  public ID_PATH = 'arlas-wui.web.app.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
   public HISTOGRAM = 'histogram';
   public HISTOGRAM_PACKAGE = 'histogram$';
@@ -41,10 +41,8 @@ export class ContributorService {
   /* returns the map contributor */
   public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>, drawTypes: drawType): MapContributor {
     const mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
-      this.configService.getValue(this.ID_PATH),
       onRemoveBbox,
       redrawTile,
-      drawTypes,
       this.collaborativeService,
       this.configService
     );
@@ -85,7 +83,7 @@ export class ContributorService {
   public getHistograms(): Array<Histogram> {
     const histograms: Array<Histogram> = new Array<Histogram>();
 
-    Object.keys(this.configService.getValue(this.COMPONENTS_PATH)).forEach(contributor => {
+    Object.keys(this.configService.getValue(this.CONTRIBUTORS_PATH)).forEach(contributor => {
       const histogram = new Histogram();
       const contributorMD = contributor.split('$');
       const contributorType = contributorMD[0];
@@ -136,11 +134,11 @@ export class ContributorService {
   }
 
   private getContributorIcon(contributorMD: string) {
-    return this.configService.getValue(this.COMPONENTS_PATH + '.' + contributorMD + '.icon');
+    return this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributorMD + '.icon');
   }
 
   private getDateUnit(contributor: string): DateUnit.second | DateUnit.millisecond {
-    const dateUnitConf = this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.dateunit');
+    const dateUnitConf = this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.dateunit');
     if (dateUnitConf === this.SECOND) {
       return DateUnit.second;
     } else {
@@ -150,7 +148,7 @@ export class ContributorService {
 
 
   private getChartType(contributor: string): ChartType {
-    const chartTypeConf = this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.charttype');
+    const chartTypeConf = this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.charttype');
     if (chartTypeConf === this.BARS) {
       return ChartType.bars;
     } else if (chartTypeConf === this.ONE_DIMENSION) {
@@ -161,11 +159,11 @@ export class ContributorService {
   }
 
   private getTitle(contributor: string): string {
-    return this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.title');
+    return this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.title');
   }
 
   private getChartHeight(contributor: string): number {
-    const height = +this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.height');
+    const height = +this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.height');
     if (height.toString() === 'NaN') {
       return this.DEFAULT_CHART_HEIGHT;
     } else {
@@ -174,7 +172,7 @@ export class ContributorService {
   }
 
   private getPaletteColor(contributor: string): string {
-    const paletteColor = this.configService.getValue(this.COMPONENTS_PATH + '.' + contributor + '.palettecolor');
+    const paletteColor = this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.palettecolor');
     if (paletteColor === undefined) {
       return 'white';
     } else {

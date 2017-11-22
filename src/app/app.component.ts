@@ -42,7 +42,8 @@ export class AppComponent implements OnInit {
   public isFilterMode = false;
   public zoomToPrecisionCluster: Object;
   public maxPrecision: number;
-
+  // component config
+  public mapComponentConfig: any;
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
   @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
   @ViewChild(SearchComponent) private searchComponent: SearchComponent;
@@ -54,9 +55,7 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.zoomToPrecisionCluster = this.configService.getValue('catalog.web.app.components.map$mapbox.zoomToPrecisionCluster');
-    this.maxPrecision = this.configService.getValue('catalog.web.app.components.map$mapbox.maxPrecision');
-    this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
+    this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
       queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
