@@ -1,3 +1,4 @@
+import { isBoolean } from 'util';
 import { Injectable } from '@angular/core';
 
 import { HistogramContributor, MapContributor, ChipsSearchContributor } from 'arlas-web-contributors';
@@ -94,7 +95,7 @@ export class ContributorService {
         histogram.chartType = this.getChartType(contributor);
         histogram.title = this.getTitle(contributor);
         histogram.chartHeight = this.getChartHeight(contributor);
-
+        histogram.multiselectable = this.getMultiSelectable(contributor);
         if (histogram.chartType === ChartType.oneDimension) {
           histogram.isOneDimension = true;
           histogram.paletteColor = this.getPaletteColor(contributor);
@@ -125,7 +126,7 @@ export class ContributorService {
     return this.arlasContributors;
   }
 
-  public getContributor(contributorId: string):  Contributor {
+  public getContributor(contributorId: string): Contributor {
     return this.arlasContributors.get(contributorId);
   }
 
@@ -160,6 +161,15 @@ export class ContributorService {
 
   private getTitle(contributor: string): string {
     return this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.title');
+  }
+
+  private getMultiSelectable(contributor: string): boolean {
+    const isMultiSelectable = this.configService.getValue(this.CONTRIBUTORS_PATH + '.' + contributor + '.multiselectable');
+    if (isMultiSelectable === 'true') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private getChartHeight(contributor: string): number {

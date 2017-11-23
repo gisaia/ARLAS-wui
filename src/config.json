@@ -13,7 +13,8 @@
                     },
                     "name": "Timeline",
                     "icon": "watch_later",
-                    "dateunit": "second"
+                    "dateunit": "second",
+                    "multiselectable":"false"
                 },
                 "histogram$velocity": {
                     "aggregationmodel": {
@@ -26,7 +27,8 @@
                     "name": "Velocity",
                     "charttype": "bars",
                     "title": "Velocity",
-                    "icon": "slow_motion_video"
+                    "icon": "slow_motion_video",
+                    "multiselectable":"false"
                 },
                 "histogram$heading": {
                     "aggregationmodel": {
@@ -39,7 +41,8 @@
                     "name": "Heading",
                     "title": "Heading",
                     "charttype": "area",
-                    "icon": "airplanemode_active"
+                    "icon": "airplanemode_active",
+                    "multiselectable":"false"
                 },
                 "histogram$geoaltitude": {
                     "aggregationmodel": {
@@ -52,7 +55,8 @@
                     "name": "Geo-Altitutde",
                     "charttype": "bars",
                     "title": "Geo-altitude",
-                    "icon": "flight_takeoff"
+                    "icon": "flight_takeoff",
+                    "multiselectable":"false"
                 },
                 "histogram$velocityFilter": {
                     "aggregationmodel": {
@@ -66,7 +70,8 @@
                     "charttype": "bars",
                     "title": "Velocity",
                     "height": 120,
-                    "icon": "slow_motion_video"
+                    "icon": "slow_motion_video",
+                    "multiselectable":"true"
                 },
                 "histogram$headingFilter": {
                     "aggregationmodel": {
@@ -80,7 +85,8 @@
                     "charttype": "area",
                     "title": "Heading",
                     "height": 120,
-                    "icon": "airplanemode_active"
+                    "icon": "airplanemode_active",
+                    "multiselectable":"false"
                 },
                 "histogram$geoaltitudeFilter": {
                     "aggregationmodel": {
@@ -94,7 +100,8 @@
                     "charttype": "bars",
                     "title": "Geo-altitude",
                     "height": 120,
-                    "icon": "flight_takeoff"
+                    "icon": "flight_takeoff",
+                    "multiselectable":"true"
                 },
                 "map$mapbox": {
                     "idFieldName": "id",

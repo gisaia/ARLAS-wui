@@ -53,8 +53,8 @@
               [isHistogramSelectable]=false [showXTicks]=false [showYTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'"
               [chartHeight]="histogram.chartHeight" [dateUnit]="histogram.dateUnit" [data]="histogram.histogramContributor?.chartData"
               [paletteColors]="histogram.paletteColor" [intervalSelection]="histogram.histogramContributor?.intervalSelection"
-              [multiselectable]="false"
-              [intervalListSelection]="histogram.histogramContributor?.intervalListSelection" 
+              [multiselectable]="histogram.multiselectable"              
+                [intervalListSelection]="histogram.histogramContributor?.intervalListSelection" 
               [descriptionPosition]="position.bottom"></arlas-histogram>
           </div>
         </div>
@@ -74,7 +74,7 @@
             [dataType]="dataType.numeric" [showXTicks]=true [showYTicks]=true [customizedCssClass]="'custom-arlas-histogram__filter'"
             [chartHeight]="histogram.chartHeight" [dateUnit]="dateUnit.millisecond" [data]="histogram.histogramContributor?.chartData"
             (valuesListChangedEvent)="histogram.histogramContributor?.valueChanged($event)" [intervalSelection]="histogram.histogramContributor?.intervalSelection"
-              [multiselectable]="false"
+              [multiselectable]="histogram.multiselectable"
               [intervalListSelection]="histogram.histogramContributor?.intervalListSelection" 
             [descriptionPosition]="position.bottom" [paletteColors]="histogram.paletteColor"></arlas-histogram>
         </div>
