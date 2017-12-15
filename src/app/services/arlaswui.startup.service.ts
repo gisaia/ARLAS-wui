@@ -40,11 +40,11 @@ export class ArlasWuiStartupService {
                 this.collaborativesearchService.setConfigService(this.configService);
                 const configuration: Configuration = new Configuration();
                 const arlasWuiService: ExploreApi = new ExploreApi(this.http,
-                    this.configService.getValue('server.server$default.url'),
+                    this.configService.getValue('arlas.server.server$default.url'),
                     configuration
                 );
                 this.collaborativesearchService.setExploreApi(arlasWuiService);
-                this.collaborativesearchService.collection = this.configService.getValue('server.collection$default.collection');
+                this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection$default.collection');
                 this.collaborativesearchService.setCountAll();
             })
             .catch((err: any) => {

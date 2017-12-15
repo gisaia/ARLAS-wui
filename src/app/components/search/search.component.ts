@@ -30,12 +30,12 @@ export class SearchComponent {
   constructor(private collaborativeService: ArlasWuiCollaborativesearchService,
     private contributorService: ContributorService,
     private configService: ArlasWuiConfigService) {
-    this.autocomplete_field = configService.getValue('catalog.web.app.components.autocomplete_field');
-    this.autocomplete_size = configService.getValue('catalog.web.app.components.autocomplete_size');
+    this.autocomplete_field = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
+    this.autocomplete_size = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
     this.searchCtrl = new FormControl();
     this.keyEvent.pairwise().subscribe(l => {
-      if (l[1] === 0 && l[0] === 1) {
+      if (l[1] === 0 && l[0] !== 0) {
         this.collaborativeService.removeFilter(this.searchContributorId);
       }
     });
@@ -79,7 +79,7 @@ export class SearchComponent {
       size: this.autocomplete_size
     };
     const filter: Filter = {
-      q: search + '*'
+      q: [[search + '*']]
     };
     this.searches = this.collaborativeService.resolveButNotAggregation(
       [projType.aggregate, [aggregation]],

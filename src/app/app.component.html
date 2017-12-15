@@ -1,14 +1,26 @@
 <div class="app-container">
 
   <div class="arlas-map">
-    <arlas-mapgl [geojsondata]="mapglcontributor?.geojsondata" (onRemoveBbox)="mapglcontributor?.onRemoveBbox($event)" [style]="mapglcontributor?.getConfigValue('basemapUrl')"
-      [margePanForLoad]=40 [margePanForTest]=2 (onChangeBbox)="mapglcontributor?.onChangeBbox($event)" [initCenter]="initCenter"
-      [initZoom]="2" [paintRuleClusterLineRectangle]="mapglcontributor?.getConfigValue('paintRuleClusterLineRectangle')" [paintRuleClusterFillRectangle]="mapglcontributor?.getConfigValue('paintRuleClusterFillRectangle')"
-      [paintRuleFeatureLine]="mapglcontributor?.getConfigValue('paintRuleFeatureLine')" [paintRuleFeatureFill]="mapglcontributor?.getConfigValue('paintRuleFeatureFill')"
-      [zoomToPrecisionCluster]="zoomToPrecisionCluster" [maxPrecision]="maxPrecision" [paintRuleGeoBox]="mapglcontributor?.getConfigValue('paintRuleGeoBox')"
-      [fontClusterlabel]="mapglcontributor?.getConfigValue('fontClusterlabel')" (onMove)="mapglcontributor?.onMove($event)"
-      [drawType]="mapDrawType">
+    <arlas-mapgl [geojsondata]="mapglcontributor?.geojsondata" (onRemoveBbox)="mapglcontributor?.onRemoveBbox($event)"
+    [style]="mapComponentConfig.basemapUrl"
+      [margePanForLoad]="mapComponentConfig.margeExtendPctForLoad" [margePanForTest]="mapComponentConfig.margeExtendPctForTest"
+      (onChangeBbox)="mapglcontributor?.onChangeBbox($event)"
+      [initCenter]="initCenter"
+      [initZoom]="2"
+      [paintRuleClusterLineRectangle]="mapComponentConfig.paintRuleClusterLineRectangle"
+      [paintRuleClusterFillRectangle]="mapComponentConfig.paintRuleClusterFillRectangle"
+        [paintRuleFeatureLine]="mapComponentConfig.paintRuleFeatureLine"
+        [paintRuleFeatureFill]="mapComponentConfig.paintRuleFeatureFill"
+      [zoomToPrecisionCluster]="mapglcontributor?.zoomToPrecisionCluster"
+      [idFeatureField]="mapComponentConfig.idFieldName"
+      [maxPrecision]="mapglcontributor?.maxPrecision.split(',')[1]"
+     [paintRuleGeoBox]="mapComponentConfig.paintRuleGeoBox"
+      [fontClusterlabel]="mapComponentConfig.fontClusterlabel"
+      (onMove)="mapglcontributor?.onMove($event)"
+      [drawType]="mapDrawType"
+      [geoboxdata]="mapglcontributor?.geojsonbbox">
     </arlas-mapgl>
+
   </div>
 
   <div class="arlas-search">
@@ -22,7 +34,8 @@
   <div class="arlas-timeline">
     <arlas-histogram #timeline [xTicks]="7" [yTicks]="2" [xLabels]="7" [yTicks]="2" [chartType]="chartType.area" [dataType]="dataType.time"
       [chartTitle]="'Number of airplanes positions over time'" [customizedCssClass]="'custom-arlas-timeline'" [chartHeight]="100" [dateUnit]="dateUnit.millisecond"
-      [xAxisPosition]="position.top" [descriptionPosition]="position.top" (valuesChangedEvent)="timelinecontributor?.valueChanged($event)"
+      [xAxisPosition]="position.top" [descriptionPosition]="position.top" (valuesListChangedEvent)="timelinecontributor?.valueChanged($event)"
+      [intervalListSelection]="timelinecontributor?.intervalListSelection" [multiselectable]="false"
       [data]="timelinecontributor?.chartData" [intervalSelection]="timelinecontributor?.intervalSelection"></arlas-histogram>
   </div>
   <div class="arlas-analytics--container" (mouseenter)="showToggle()" (mouseleave)="hideToggle()">
@@ -40,13 +53,29 @@
               [isHistogramSelectable]=false [showXTicks]=false [showYTicks]=false [showYLabels]=false [showXLabels]=false [customizedCssClass]="'custom-arlas-histogram__thumbnail'"
               [chartHeight]="histogram.chartHeight" [dateUnit]="histogram.dateUnit" [data]="histogram.histogramContributor?.chartData"
               [paletteColors]="histogram.paletteColor" [intervalSelection]="histogram.histogramContributor?.intervalSelection"
+              [multiselectable]="histogram.multiselectable"
+                [intervalListSelection]="histogram.histogramContributor?.intervalListSelection"
               [descriptionPosition]="position.bottom"></arlas-histogram>
           </div>
         </div>
       </div>
+      <div>
+        <label class="arlas-analytics__title">
+          <mat-icon class="arlas-analytics__icon">{{swimLaneFilterContributor.getConfigValue('icon')}}</mat-icon>
+          <span class="arlas-analytics__title--text">{{swimLaneFilterContributor.getConfigValue('title')}}</span>
+        </label>
+        <div class="arlas-analytics__chart-container">
+          <arlas-histogram [chartType]="chartType.swimlane" [showYTicks]=false [showXLabels]=false [showXTicks]=false [showYLabels]=false [multiselectable]=false [intervalListSelection]="swimLaneFilterContributor?.intervalListSelection"
+          [intervalSelection]="swimLaneFilterContributor?.intervalSelection" [swimLaneLabelsWidth]=25 [xTicks]=2 [barWeight]=0.7 [isHistogramSelectable]=false
+          [data]="swimLaneFilterContributor?.swimData" [paletteColors]="[0,170]" [customizedCssClass]="'arlas-swimlane__thumbnail'" [dataType]="dataType.time"
+          [dateUnit]="dateUnit.millisecond" [chartHeight]="100" (valuesListChangedEvent)="swimLaneFilterContributor?.valueChanged($event)"
+          [swimlaneMode]="swimlaneMode.fixedHeight" [swimlaneHeight]="18" [chartHeight]="180" [valuesDateFormat]="'%d/%m/%Y %H:%M:%S'">
+        </arlas-histogram>
+        </div>
+      </div>
     </div>
     <div *ngIf="isFilterMode" class="arlas-analytics__filters">
-      <mat-icon class="arlas-analytics__back_to_thumbnails__icon" color="red" (click)="showAnalyticsAsThumbnails($event)">clear</mat-icon>
+      <mat-icon class="arlas-analytics__back_to_thumbnails__icon" color="red" (click)="showAnalyticsAsThumbnails($event)">navigate_before</mat-icon>
       <div *ngFor="let histogram of histograms">
         <div *ngIf="histogram.isFilter" class="arlas-analytics__one-analytic">
           <label class="arlas-analytics__title">
@@ -55,12 +84,29 @@
             </mat-icon>
             <span class="arlas-analytics__display">{{histogram.histogramContributor.getFilterDisplayName()}}</span>
           </label>
-          <arlas-histogram #cloudCoverageFilter [xTicks]="4" [xLabels]="4" [yTicks]="1" [yLabels]="4" [chartType]="histogram.chartType"
+          <arlas-histogram  [xTicks]="4" [xLabels]="4" [yTicks]="1" [yLabels]="4" [chartType]="histogram.chartType"
             [dataType]="dataType.numeric" [showXTicks]=true [showYTicks]=true [customizedCssClass]="'custom-arlas-histogram__filter'"
             [chartHeight]="histogram.chartHeight" [dateUnit]="dateUnit.millisecond" [data]="histogram.histogramContributor?.chartData"
-            (valuesChangedEvent)="histogram.histogramContributor?.valueChanged($event)" [intervalSelection]="histogram.histogramContributor?.intervalSelection"
+            (valuesListChangedEvent)="histogram.histogramContributor?.valueChanged($event)" [intervalSelection]="histogram.histogramContributor?.intervalSelection"
+              [multiselectable]="histogram.multiselectable"
+              [intervalListSelection]="histogram.histogramContributor?.intervalListSelection"
             [descriptionPosition]="position.bottom" [paletteColors]="histogram.paletteColor"></arlas-histogram>
         </div>
+      </div>
+      <div>
+        <label class="arlas-analytics__title">
+          <mat-icon class="arlas-analytics__icon">
+            {{swimLaneContributor.getConfigValue('icon')}}
+          </mat-icon>
+          <span class="arlas-analytics__display">{{swimLaneContributor.getConfigValue('title')}}</span>
+        </label>
+        <arlas-histogram [customizedCssClass]="'custom-arlas-histogram__filter arlas-swimlane-filter'" [chartType]="chartType.swimlane" [showXTicks]=true [showYLabels]=false [multiselectable]=false
+          [intervalListSelection]="swimLaneContributor?.intervalListSelection"
+          [intervalSelection]="swimLaneContributor?.intervalSelection" [swimLaneLabelsWidth]=150 [xTicks]=12 [barWeight]=0.7
+          [data]="swimLaneContributor?.swimData" [paletteColors]="[0,170]" [dataType]="dataType.time"
+          [dateUnit]="dateUnit.millisecond" [chartHeight]="100" (valuesListChangedEvent)="swimLaneContributor?.valueChanged($event)"
+          [swimlaneMode]="swimlaneMode.fixedHeight" [swimlaneHeight]="18" [chartHeight]="180" [valuesDateFormat]="'%d/%m/%Y %H:%M:%S'">
+        </arlas-histogram>
       </div>
     </div>
   </div>

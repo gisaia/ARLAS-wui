@@ -11,4 +11,5 @@ export class Histogram {
   public chartHeight: number;
   public paletteColor = 'white';
   public icon: string;
+  public multiselectable = false;
 }

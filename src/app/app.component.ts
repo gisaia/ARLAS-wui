@@ -3,10 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
+import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
-
+import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
 import { Histogram } from './models/histogram';
@@ -29,6 +29,8 @@ export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
+  public swimLaneContributor: SwimLaneContributor;
+  public swimLaneFilterContributor: SwimLaneContributor;
 
   public histograms: Array<Histogram>;
   public mapDrawType = drawType.RECTANGLE;
@@ -42,7 +44,10 @@ export class AppComponent implements OnInit {
   public isFilterMode = false;
   public zoomToPrecisionCluster: Object;
   public maxPrecision: number;
+  public swimlaneMode = SwimlaneMode;
 
+  // component config
+  public mapComponentConfig: any;
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
   @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
   @ViewChild(SearchComponent) private searchComponent: SearchComponent;
@@ -54,9 +59,7 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.zoomToPrecisionCluster = this.configService.getValue('catalog.web.app.components.map$mapbox.zoomToPrecisionCluster');
-    this.maxPrecision = this.configService.getValue('catalog.web.app.components.map$mapbox.maxPrecision');
-    this.fieldsConfiguration = this.configService.getValue('catalog.web.app.fieldsConfiguration');
+    this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
       queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
@@ -69,9 +72,12 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
-      this.mapDrawType);
+      this.mapDrawType
+    );
     this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
     this.timelinecontributor = this.contributorService.getTimelineContributor();
+    this.swimLaneContributor = this.contributorService.getSwimlaneContributor();
+    this.swimLaneFilterContributor = this.contributorService.getSwimlaneContributor('Filter');
 
     this.histograms = this.contributorService.getHistograms();
     this.activatedRoute.queryParams
@@ -107,7 +113,7 @@ export class AppComponent implements OnInit {
   public filterSearch(value: string) {
     if (value.trim() !== '') {
       const filter: Filter = {
-        q: value.trim()
+        q: [[value.trim()]]
       };
 
       const collaboration: Collaboration = {
@@ -118,4 +124,5 @@ export class AppComponent implements OnInit {
       this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
     }
   }
+
 }
