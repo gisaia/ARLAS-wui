@@ -113,7 +113,7 @@ export class AppComponent implements OnInit {
   public filterSearch(value: string) {
     if (value.trim() !== '') {
       const filter: Filter = {
-        q: value.trim()
+        q: [[value.trim()]]
       };
 
       const collaboration: Collaboration = {

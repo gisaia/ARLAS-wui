@@ -79,7 +79,7 @@ export class SearchComponent {
       size: this.autocomplete_size
     };
     const filter: Filter = {
-      q: search + '*'
+      q: [[search + '*']]
     };
     this.searches = this.collaborativeService.resolveButNotAggregation(
       [projType.aggregate, [aggregation]],
