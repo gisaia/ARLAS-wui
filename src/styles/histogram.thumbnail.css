@@ -80,3 +80,19 @@
   stroke: white;
   stroke-width: 0.8px;
 }
+
+.arlas-swimlane__thumbnail .histogram__description {
+  display: none;
+}
+
+.arlas-swimlane__thumbnail .histogram__axis{
+  stroke: white;
+  stroke-width: 0.8px;
+}
+
+.arlas-swimlane__thumbnail .histogram__chart .context .brush .selection{
+  fill: white;
+  fill-opacity: 0;
+  stroke: white;
+  stroke-width:0px;
+}

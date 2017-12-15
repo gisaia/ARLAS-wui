@@ -1,7 +1,7 @@
 import { isBoolean } from 'util';
 import { Injectable } from '@angular/core';
 
-import { HistogramContributor, MapContributor, ChipsSearchContributor } from 'arlas-web-contributors';
+import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
 import { Contributor } from 'arlas-web-core';
 
@@ -10,7 +10,6 @@ import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
 
 import { Subject } from 'rxjs/Subject';
-
 
 @Injectable()
 export class ContributorService {
@@ -29,6 +28,8 @@ export class ContributorService {
   public CHIPSSEARCH_COMPONENT = 'chipssearch$chipssearch';
   public TIMELINE_CONTRIBUTOR_ID = 'timeline';
   public TIMELINE_COMPONENT = 'histogram$timeline';
+  public SWIMLANE_CONTRIBUTOR_ID = 'airline';
+  public SWIMLANE_COMPONENT = 'swimlane$airline';
   public FILTER_HISTOGRAMS = 'Filter';
   public SECOND = 'second';
   public ONE_DIMENSION = 'onedimension';
@@ -73,6 +74,26 @@ export class ContributorService {
     this.arlasContributors.set(this.TIMELINE_CONTRIBUTOR_ID, timelineContributor);
     this.contributorsIcons.set(this.TIMELINE_CONTRIBUTOR_ID, this.getContributorIcon(this.TIMELINE_COMPONENT));
     return timelineContributor;
+  }
+
+  public getSwimlaneContributor(filterSuffix: string = ''): SwimLaneContributor {
+    const swimLaneContributor = new SwimLaneContributor(this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix,
+      this.getDateUnit(this.SWIMLANE_COMPONENT + filterSuffix),
+      DataType.time,
+      this.collaborativeService,
+      this.configService
+    );
+    swimLaneContributor.aggregations = this.configService.getValue(
+      this.CONTRIBUTORS_PATH + '.' + this.SWIMLANE_COMPONENT + filterSuffix + '.aggregationmodel'
+    );
+
+    swimLaneContributor.field = 'time';
+    this.arlasContributors.set(this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix, swimLaneContributor);
+    this.contributorsIcons.set(
+      this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix,
+      this.getContributorIcon(this.SWIMLANE_COMPONENT + filterSuffix)
+    );
+    return swimLaneContributor;
   }
 
   /**
