@@ -75,7 +75,7 @@ echo "  -- Commit version to master"
 git push origin master
 
 echo "==> Build (the artifact will be stored in the 'dist' directory)"
-npm install
+yarn install
 ng build -prod
 
 echo "==> Docker"
