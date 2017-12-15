@@ -35,7 +35,7 @@ export class SearchComponent {
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
     this.searchCtrl = new FormControl();
     this.keyEvent.pairwise().subscribe(l => {
-      if (l[1] === 0 && l[0] === 1) {
+      if (l[1] === 0 && l[0] !== 0) {
         this.collaborativeService.removeFilter(this.searchContributorId);
       }
     });

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
+import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
 
@@ -16,7 +16,8 @@ import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Collaboration } from 'arlas-web-core/models/collaboration';
-import { Filter } from 'arlas-api';
+import { Filter, Aggregation, Interval } from 'arlas-api';
+import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
+  public swimLaneContributor: SwimLaneContributor;
+  public swimLaneFilterContributor: SwimLaneContributor;
 
   public histograms: Array<Histogram>;
   public mapDrawType = drawType.RECTANGLE;
@@ -42,6 +45,8 @@ export class AppComponent implements OnInit {
   public isFilterMode = false;
   public zoomToPrecisionCluster: Object;
   public maxPrecision: number;
+  public swimlaneMode = SwimlaneMode;
+
   // component config
   public mapComponentConfig: any;
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
@@ -68,9 +73,12 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
-      this.mapDrawType);
+      this.mapDrawType
+    );
     this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
     this.timelinecontributor = this.contributorService.getTimelineContributor();
+    this.swimLaneContributor = this.contributorService.getSwimlaneContributor();
+    this.swimLaneFilterContributor = this.contributorService.getSwimlaneContributor('Filter');
 
     this.histograms = this.contributorService.getHistograms();
     this.activatedRoute.queryParams
@@ -117,4 +125,5 @@ export class AppComponent implements OnInit {
       this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
     }
   }
+
 }
