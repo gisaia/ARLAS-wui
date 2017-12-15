@@ -100,7 +100,7 @@
           </mat-icon>
           <span class="arlas-analytics__display">{{swimLaneContributor.getConfigValue('title')}}</span>
         </label>
-        <arlas-histogram [customizedCssClass]="'custom-arlas-histogram__filter'" [chartType]="chartType.swimlane" [showXTicks]=true [showYLabels]=false [multiselectable]=false
+        <arlas-histogram [customizedCssClass]="'custom-arlas-histogram__filter arlas-swimlane-filter'" [chartType]="chartType.swimlane" [showXTicks]=true [showYLabels]=false [multiselectable]=false
           [intervalListSelection]="swimLaneContributor?.intervalListSelection"
           [intervalSelection]="swimLaneContributor?.intervalSelection" [swimLaneLabelsWidth]=150 [xTicks]=12 [barWeight]=0.7
           [data]="swimLaneContributor?.swimData" [paletteColors]="[0,170]" [dataType]="dataType.time"

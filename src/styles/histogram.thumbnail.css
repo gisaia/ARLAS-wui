@@ -96,3 +96,8 @@
   stroke: white;
   stroke-width:0px;
 }
+
+.arlas-swimlane__thumbnail .histogram__chart--bar {
+  fill-opacity: 0.3;
+  stroke-opacity: 0.1;
+}
