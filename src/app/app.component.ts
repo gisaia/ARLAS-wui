@@ -6,7 +6,7 @@ import { Http } from '@angular/http';
 import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
-
+import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
 import { Histogram } from './models/histogram';
@@ -16,8 +16,7 @@ import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Collaboration } from 'arlas-web-core/models/collaboration';
-import { Filter, Aggregation, Interval } from 'arlas-api';
-import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
+import { Filter } from 'arlas-api';
 
 
 @Component({

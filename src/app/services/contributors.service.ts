@@ -1,7 +1,7 @@
 import { isBoolean } from 'util';
 import { Injectable } from '@angular/core';
 
-import { HistogramContributor, MapContributor, ChipsSearchContributor } from 'arlas-web-contributors';
+import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
 import { Contributor } from 'arlas-web-core';
 
@@ -10,8 +10,6 @@ import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
 
 import { Subject } from 'rxjs/Subject';
-import { SwimLaneContributor } from 'arlas-web-contributors/contributors/SwimLaneContributor';
-
 
 @Injectable()
 export class ContributorService {
