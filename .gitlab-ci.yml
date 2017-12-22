@@ -4,6 +4,10 @@ lint:
   script:
   - npm run lint
 
+test :
+  script :
+  - npm run test
+
 build:
   script:
   - npm run build

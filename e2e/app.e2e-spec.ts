@@ -7,8 +7,8 @@ describe('arlas-wui App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display ARLAS title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to arlas!');
+    expect(page.getTitle()).toContain('ARLAS');
   });
 });

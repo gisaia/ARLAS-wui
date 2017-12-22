@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorModalComponent } from './errormodal.component';
+import { MatDialogModule } from '@angular/material';
+import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from 'app/services/arlaswui.startup.service';
+
 
 describe('ErrorModalComponent', () => {
   let component: ErrorModalComponent;
@@ -8,9 +11,11 @@ describe('ErrorModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ErrorModalComponent ]
+      imports: [MatDialogModule],
+      declarations: [ErrorModalComponent],
+      providers: [ArlasWuiConfigService, ArlasWuiCollaborativesearchService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
