@@ -5,7 +5,7 @@ export class AppPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('arlas-root h1')).getText();
+  getTitle() {
+    return element(by.css('.home-chip')).getText();
   }
 }
