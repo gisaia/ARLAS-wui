@@ -223,7 +223,7 @@
           ],
           "search_size": 100
         },
-        "chipssearch$chipssearch": {
+        "chipsearch$chipssearch": {
           "identifier":"chipssearch",
           "search_size": 100,
           "name": "Search",

@@ -66,7 +66,6 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    console.log(this.configService.getConfig()['error']);
     if (this.arlasStartUpService.shouldRunApp) {
       this.timelinecontributor = this.arlasStartUpService.contributorRegistry.get('timeline');
       this.velocitycontributor = this.arlasStartUpService.contributorRegistry.get('velocity');
@@ -90,25 +89,24 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
-      this.mapDrawType
-    );
-    this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
-
-
-
-    this.activatedRoute.queryParams
-      .pairwise()
-      .take(1)
-      .timeoutWith(500, Observable.of('initWithoutFilter'))
-      .subscribe((params) => {
-        if (params.toString() === 'initWithoutFilter') {
-          this.collaborativeService.setCollaborations({});
-        } else {
-          const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
-          this.collaborativeService.setCollaborations(dataModel);
-        }
-      });
+    if (this.arlasStartUpService.shouldRunApp) {
+      this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
+        this.mapDrawType
+      );
+      this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
+      this.activatedRoute.queryParams
+        .pairwise()
+        .take(1)
+        .timeoutWith(500, Observable.of('initWithoutFilter'))
+        .subscribe((params) => {
+          if (params.toString() === 'initWithoutFilter') {
+            this.collaborativeService.setCollaborations({});
+          } else {
+            const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+            this.collaborativeService.setCollaborations(dataModel);
+          }
+        });
+    }
   }
 
   public showToggle() {
