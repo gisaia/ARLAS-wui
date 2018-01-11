@@ -7,15 +7,15 @@ import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneC
 import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
 import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
-import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
 import { Histogram } from './models/histogram';
 import { ContributorService } from './services/contributors.service';
 
 import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { Collaboration } from 'arlas-web-core/models/collaboration';
+import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
 
 
@@ -29,6 +29,12 @@ export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
+  public velocitycontributor: HistogramContributor;
+  public headingcontributor: HistogramContributor;
+  public geoaltitudecontributor: HistogramContributor;
+  public velocityFiltercontributor: HistogramContributor;
+  public headingFiltercontributor: HistogramContributor;
+  public geoaltitudeFiltercontributor: HistogramContributor;
   public swimLaneContributor: SwimLaneContributor;
   public swimLaneFilterContributor: SwimLaneContributor;
 
@@ -53,12 +59,26 @@ export class AppComponent implements OnInit {
   @ViewChild(SearchComponent) private searchComponent: SearchComponent;
 
   constructor(private http: Http,
-    private configService: ArlasWuiConfigService,
-    public collaborativeService: ArlasWuiCollaborativesearchService,
+    private configService: ArlasConfigService,
+    public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
+    private arlasStartUpService: ArlasStartupService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
+    console.log(this.configService.getConfig()['error']);
+    if (this.arlasStartUpService.shouldRunApp) {
+      this.timelinecontributor = this.arlasStartUpService.contributorRegistry.get('timeline');
+      this.velocitycontributor = this.arlasStartUpService.contributorRegistry.get('velocity');
+      this.headingcontributor = this.arlasStartUpService.contributorRegistry.get('heading');
+      this.geoaltitudecontributor = this.arlasStartUpService.contributorRegistry.get('geoaltitude');
+      this.velocityFiltercontributor = this.arlasStartUpService.contributorRegistry.get('velocityFilter');
+      this.headingFiltercontributor = this.arlasStartUpService.contributorRegistry.get('headingFilter');
+      this.geoaltitudeFiltercontributor = this.arlasStartUpService.contributorRegistry.get('geoaltitudeFilter');
+
+      this.swimLaneContributor = this.arlasStartUpService.contributorRegistry.get('airline');
+      this.swimLaneFilterContributor = this.arlasStartUpService.contributorRegistry.get('airlineFilter');
+    }
     this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
@@ -67,7 +87,6 @@ export class AppComponent implements OnInit {
         this.router.navigate(['.'], { queryParams: queryParams });
       }
     });
-
   }
 
   public ngOnInit() {
@@ -75,11 +94,9 @@ export class AppComponent implements OnInit {
       this.mapDrawType
     );
     this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
-    this.timelinecontributor = this.contributorService.getTimelineContributor();
-    this.swimLaneContributor = this.contributorService.getSwimlaneContributor();
-    this.swimLaneFilterContributor = this.contributorService.getSwimlaneContributor('Filter');
 
-    this.histograms = this.contributorService.getHistograms();
+
+
     this.activatedRoute.queryParams
       .pairwise()
       .take(1)

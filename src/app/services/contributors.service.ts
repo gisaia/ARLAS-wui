@@ -2,7 +2,6 @@ import { isBoolean } from 'util';
 import { Injectable } from '@angular/core';
 
 import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
-import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './arlaswui.startup.service';
 import { Contributor } from 'arlas-web-core';
 
 import { DateUnit, ChartType, DataType } from 'arlas-web-components';
@@ -10,6 +9,7 @@ import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
 
 import { Subject } from 'rxjs/Subject';
+import { ArlasConfigService, ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 
 @Injectable()
 export class ContributorService {
@@ -36,8 +36,8 @@ export class ContributorService {
   public AREA = 'area';
   public BARS = 'bars';
 
-  public constructor(private configService: ArlasWuiConfigService,
-    public collaborativeService: ArlasWuiCollaborativesearchService
+  public constructor(private configService: ArlasConfigService,
+    public collaborativeService: ArlasCollaborativesearchService
   ) { }
 
   /* returns the map contributor */
@@ -62,85 +62,6 @@ export class ContributorService {
     this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
     this.contributorsIcons.set(this.CHIPSSEARCH_ID, this.getContributorIcon(this.CHIPSSEARCH_COMPONENT));
     return chipsSearchContributor;
-  }
-
-  public getTimelineContributor(): HistogramContributor {
-    const timelineContributor = new HistogramContributor(this.TIMELINE_CONTRIBUTOR_ID,
-      this.getDateUnit(this.TIMELINE_COMPONENT),
-      DataType.time,
-      this.collaborativeService,
-      this.configService
-    );
-    this.arlasContributors.set(this.TIMELINE_CONTRIBUTOR_ID, timelineContributor);
-    this.contributorsIcons.set(this.TIMELINE_CONTRIBUTOR_ID, this.getContributorIcon(this.TIMELINE_COMPONENT));
-    return timelineContributor;
-  }
-
-  public getSwimlaneContributor(filterSuffix: string = ''): SwimLaneContributor {
-    const swimLaneContributor = new SwimLaneContributor(this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix,
-      this.getDateUnit(this.SWIMLANE_COMPONENT + filterSuffix),
-      DataType.time,
-      this.collaborativeService,
-      this.configService
-    );
-    swimLaneContributor.aggregations = this.configService.getValue(
-      this.CONTRIBUTORS_PATH + '.' + this.SWIMLANE_COMPONENT + filterSuffix + '.aggregationmodel'
-    );
-
-    swimLaneContributor.field = 'time';
-    this.arlasContributors.set(this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix, swimLaneContributor);
-    this.contributorsIcons.set(
-      this.SWIMLANE_CONTRIBUTOR_ID + filterSuffix,
-      this.getContributorIcon(this.SWIMLANE_COMPONENT + filterSuffix)
-    );
-    return swimLaneContributor;
-  }
-
-  /**
-   * returns all the analytics histograms (thumbnails and filters)
-   * Histogram object contains as properties:
-   * - the contributor
-   * - the inputs for arlas-histogram component
-   */
-  public getHistograms(): Array<Histogram> {
-    const histograms: Array<Histogram> = new Array<Histogram>();
-
-    Object.keys(this.configService.getValue(this.CONTRIBUTORS_PATH)).forEach(contributor => {
-      const histogram = new Histogram();
-      const contributorMD = contributor.split('$');
-      const contributorType = contributorMD[0];
-      const contributorId = contributorMD[1];
-
-      if (contributorType === this.HISTOGRAM && contributorId !== this.TIMELINE_CONTRIBUTOR_ID) {
-        histogram.dateUnit = this.getDateUnit(contributor);
-        histogram.chartType = this.getChartType(contributor);
-        histogram.title = this.getTitle(contributor);
-        histogram.chartHeight = this.getChartHeight(contributor);
-        histogram.multiselectable = this.getMultiSelectable(contributor);
-        if (histogram.chartType === ChartType.oneDimension) {
-          histogram.isOneDimension = true;
-          histogram.paletteColor = this.getPaletteColor(contributor);
-        }
-        histogram.histogramContributor = new HistogramContributor(contributorId,
-          histogram.dateUnit,
-          DataType.numeric,
-          this.collaborativeService,
-          this.configService,
-          histogram.isOneDimension
-        );
-
-        this.arlasContributors.set(contributorId, histogram.histogramContributor);
-        this.contributorsIcons.set(contributorId, this.getContributorIcon(contributor));
-
-        if (contributorId.endsWith(this.FILTER_HISTOGRAMS)) {
-          histogram.isFilter = true;
-        }
-        histogram.icon = this.getContributorIcon(this.HISTOGRAM_PACKAGE + contributorId);
-        histograms.push(histogram);
-      }
-    });
-
-    return histograms;
   }
 
   public getArlasContributors(): Map<string, Contributor> {

@@ -1,3 +1,4 @@
+<arlas-tool-root></arlas-tool-root>
 <div class="app-container">
 
   <div class="arlas-map">
@@ -13,7 +14,7 @@
         [paintRuleFeatureFill]="mapComponentConfig.paintRuleFeatureFill"
       [zoomToPrecisionCluster]="mapglcontributor?.zoomToPrecisionCluster"
       [idFeatureField]="mapComponentConfig.idFieldName"
-      [maxPrecision]="mapglcontributor?.maxPrecision.split(',')[1]"
+      [maxPrecision]="mapglcontributor?.maxPrecision"
      [paintRuleGeoBox]="mapComponentConfig.paintRuleGeoBox"
       [fontClusterlabel]="mapComponentConfig.fontClusterlabel"
       (onMove)="mapglcontributor?.onMove($event)"
@@ -61,8 +62,8 @@
       </div>
       <div>
         <label class="arlas-analytics__title">
-          <mat-icon class="arlas-analytics__icon">{{swimLaneFilterContributor.getConfigValue('icon')}}</mat-icon>
-          <span class="arlas-analytics__title--text">{{swimLaneFilterContributor.getConfigValue('title')}}</span>
+          <mat-icon class="arlas-analytics__icon">{{swimLaneFilterContributor?.getConfigValue('icon')}}</mat-icon>
+          <span class="arlas-analytics__title--text">{{swimLaneFilterContributor?.getConfigValue('title')}}</span>
         </label>
         <div class="arlas-analytics__chart-container">
           <arlas-histogram [chartType]="chartType.swimlane" [showYTicks]=false [showXLabels]=false [showXTicks]=false [showYLabels]=false [multiselectable]=false [intervalListSelection]="swimLaneFilterContributor?.intervalListSelection"
@@ -95,10 +96,8 @@
       </div>
       <div>
         <label class="arlas-analytics__title">
-          <mat-icon class="arlas-analytics__icon">
-            {{swimLaneContributor.getConfigValue('icon')}}
-          </mat-icon>
-          <span class="arlas-analytics__display">{{swimLaneContributor.getConfigValue('title')}}</span>
+          <mat-icon class="arlas-analytics__icon">{{swimLaneContributor?.getConfigValue('icon')}}</mat-icon>
+          <span class="arlas-analytics__display">{{swimLaneContributor?.getConfigValue('title')}}</span>
         </label>
         <arlas-histogram [customizedCssClass]="'custom-arlas-histogram__filter arlas-swimlane-filter'" [chartType]="chartType.swimlane" [showXTicks]=true [showYLabels]=false [multiselectable]=false
           [intervalListSelection]="swimLaneContributor?.intervalListSelection"

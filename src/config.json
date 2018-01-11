@@ -3,138 +3,176 @@
     "web": {
       "contributors": {
         "histogram$timeline": {
-          "aggregationmodel": {
+          "identifier": "timeline",
+          "aggregationmodels": [{
             "type": "datehistogram",
             "field": "time",
             "interval": {
               "value": "1",
               "unit": "minute"
             }
-          },
+          }],
           "name": "Timeline",
           "icon": "watch_later",
-          "dateunit": "second"
+          "dateunit": "second",
+          "datatype": "time",
+          "isOneDimension": false
         },
         "histogram$velocity": {
-          "aggregationmodel": {
+          "identifier": "velocity",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "velocity",
             "interval": {
               "value": "100"
             }
-          },
+          }],
           "name": "Velocity",
           "charttype": "bars",
           "title": "Velocity",
-          "icon": "slow_motion_video"
+          "icon": "slow_motion_video",
+          "isOneDimension": false
         },
         "histogram$heading": {
-          "aggregationmodel": {
+          "identifier": "heading",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "heading",
             "interval": {
               "value": "45"
             }
-          },
+          }],
           "name": "Heading",
           "title": "Heading",
           "charttype": "area",
-          "icon": "airplanemode_active"
+          "icon": "airplanemode_active",
+          "isOneDimension": false
         },
         "histogram$geoaltitude": {
-          "aggregationmodel": {
+          "identifier": "geoaltitude",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "geoaltitude",
             "interval": {
               "value": "1000"
             }
-          },
+          }],
           "name": "Geo-Altitutde",
           "charttype": "bars",
           "title": "Geo-altitude",
-          "icon": "flight_takeoff"
+          "icon": "flight_takeoff",
+          "isOneDimension": false
         },
         "histogram$velocityFilter": {
-          "aggregationmodel": {
+          "identifier": "velocityFilter",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "velocity",
             "interval": {
               "value": "20"
             }
-          },
+          }],
           "name": "Velocity",
           "charttype": "bars",
           "title": "Velocity",
           "height": 120,
-          "icon": "slow_motion_video"
+          "icon": "slow_motion_video",
+          "isOneDimension": false
         },
         "histogram$headingFilter": {
-          "aggregationmodel": {
+          "identifier": "headingFilter",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "heading",
             "interval": {
               "value": "10"
             }
-          },
+          }],
           "name": "Heading",
           "charttype": "area",
           "title": "Heading",
           "height": 120,
-          "icon": "airplanemode_active"
+          "icon": "airplanemode_active",
+          "isOneDimension": false
         },
         "histogram$geoaltitudeFilter": {
-          "aggregationmodel": {
+          "identifier": "geoaltitudeFilter",
+          "aggregationmodels": [{
             "type": "histogram",
             "field": "geoaltitude",
             "interval": {
               "value": "200"
             }
-          },
+          }],
           "name": "Altitude",
           "charttype": "bars",
           "title": "Altitude",
           "height": 120,
-          "icon": "flight_takeoff"
+          "icon": "flight_takeoff",
+          "isOneDimension": false
         },
         "swimlane$airline": {
-          "aggregationmodel": [{
-            "type": "term",
-            "field": "airline",
-            "size": 5
-          },{
-            "type": "datehistogram",
-            "field": "time",
-            "interval": {
-              "value": "1",
-              "unit": "minute"
+          "identifier": "airline",
+          "swimlanes" : [
+            {
+                "id": 1,
+                "name": "Airlines",
+                "field": "time",
+                "aggregationmodels": [
+                  {
+                    "type": "term",
+                    "field": "airline",
+                    "size": 5
+                  },{
+                    "type": "datehistogram",
+                    "field": "time",
+                    "interval": {
+                      "value": "1",
+                      "unit": "minute"
+                    }
+                  }
+                ]
             }
-          }],
+          ],
           "name": "Airlines",
           "charttype": "swimlane",
           "title": "Airlines",
           "icon": "business",
-          "dateunit": "second"
+          "dateunit": "second",
+          "isOneDimension": false
         },
         "swimlane$airlineFilter": {
-          "aggregationmodel": [{
-            "type": "term",
-            "field": "airline_short_code",
-            "size": 3
-          },{
-            "type": "datehistogram",
-            "field": "time",
-            "interval": {
-              "value": "10",
-              "unit": "minute"
+          "identifier": "airlineFilter",
+          "swimlanes" : [
+            {
+                "id": 1,
+                "name": "Airlines",
+                "field": "time",
+                "aggregationmodels": [
+                  {
+                    "type": "term",
+                    "field": "airline_short_code",
+                    "size": 3
+                  },{
+                    "type": "datehistogram",
+                    "field": "time",
+                    "interval": {
+                      "value": "10",
+                      "unit": "minute"
+                    }
+                  }
+                ]
             }
-          }],
+          ],
           "name": "Airlines",
           "charttype": "swimlane",
           "title": "Airlines",
           "icon": "business",
-          "dateunit": "second"
+          "dateunit": "second",
+          "isOneDimension": false
         },
         "map$mapbox": {
+          "identifier": "mapbox",
           "idFieldName": "id",
           "drawtype": "RECTANGLE",
           "name": "Map",
@@ -145,45 +183,48 @@
             "flyto": true,
             "hightlight": true
           },
-          "aggregationmodel": {
-            "type": "geohash",
-            "field": "location",
-            "interval": {
-              "value": "2"
-            },
-            "withGeoCentroid": true
-          },
+          "aggregationmodels": [
+            {
+              "type": "geohash",
+              "field": "location",
+              "interval": {
+                "value": "2"
+              },
+              "withGeoCentroid": true
+            }
+          ],
           "zoomLevelFullData": 2,
           "zoomLevelForTestCount": 6,
           "nbMaxDefautFeatureForCluster": 1000,
-          "zoomToNbMaxFeatureForCluster": {
-            "4": 1000,
-            "5": 1000,
-            "6": 1000,
-            "7": 1000,
-            "8": 3000,
-            "9": 3000,
-            "10": 3000,
-            "11": 3000,
-            "12": 3000
-          },
-          "maxPrecision": "7,4",
-          "zoomToPrecisionCluster": {
-            "0": "3,1",
-            "1": "3,1",
-            "2": "3,1",
-            "3": "4,1",
-            "4": "4,1",
-            "5": "5,2",
-            "6": "5,2",
-            "7": "5,2",
-            "8": "6,3",
-            "9": "6,3",
-            "10": "6,3"
-          },
+          "zoomToNbMaxFeatureForCluster": [
+            [4, 1000],
+            [5, 1000],
+            [6, 1000],
+            [7, 1000],
+            [8, 3000],
+            [9, 3000],
+            [10, 3000],
+            [11, 3000],
+            [12, 3000]
+          ],
+          "maxPrecision": [7,4],
+          "zoomToPrecisionCluster": [
+            [0,3,1],
+            [1,3,1],
+            [2,3,1],
+            [3,4,1],
+            [4,4,1],
+            [5,5,2],
+            [6,5,2],
+            [7,5,2],
+            [8,6,3],
+            [9,6,3],
+            [10,6,3]
+          ],
           "search_size": 100
         },
         "chipssearch$chipssearch": {
+          "identifier":"chipssearch",
           "search_size": 100,
           "name": "Search",
           "icon": "search"
