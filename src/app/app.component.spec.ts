@@ -11,13 +11,13 @@ import { RouterModule } from '@angular/router';
 import { routing } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
-import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasToolKitModule } from 'arlas-wui-toolkit';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule,
+        MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule,ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing
       ],
       declarations: [
