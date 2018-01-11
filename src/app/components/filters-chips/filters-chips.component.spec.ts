@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersChipsComponent } from './filters-chips.component';
-import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from '../../services/arlaswui.startup.service';
 import { MatBasicChip, MatChipsModule, MatIconModule, MatTooltipModule } from '@angular/material';
 import { ContributorService } from '../../services/contributors.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
 
 describe('FiltersChipsComponent', () => {
   let component: FiltersChipsComponent;
@@ -13,7 +13,7 @@ describe('FiltersChipsComponent', () => {
     TestBed.configureTestingModule({
       imports: [MatChipsModule, MatIconModule, MatTooltipModule],
       declarations: [FiltersChipsComponent],
-      providers: [ArlasWuiConfigService, ArlasWuiCollaborativesearchService, ContributorService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService]
     })
       .compileComponents();
   }));
