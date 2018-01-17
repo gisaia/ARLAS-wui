@@ -73,6 +73,10 @@ export class ContributorService {
   }
 
   public getAllContributorsIcons(): Map<string, string> {
+    //this.contributorsIcons.clear();
+    //this.configService.getValue(this.CONTRIBUTORS_PATH).forEach(element => {
+      //this.contributorsIcons.set();
+    //});
     return this.contributorsIcons;
   }
 

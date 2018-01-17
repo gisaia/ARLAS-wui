@@ -6,12 +6,24 @@
   display: none;
 }
 
-.custom-arlas-histogram__filter .histogram__chart--area{
+.custom-arlas-histogram__filter .histogram__chart--current-selected--area{
   fill: #FFC107;
-  fill-opacity: 0;
+  fill-opacity: 1;
   stroke: #FFC107;
   stroke-width: 1px;
   stroke-opacity: 1;
+}
+
+.custom-arlas-histogram__filter .histogram__chart--fixed-selected--area{
+  fill: #FFC107;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.custom-arlas-histogram__filter .histogram__chart--unselected--area{
+  fill: #BDBDBD;
+  fill-opacity: 1;
+  stroke: none;
 }
 
 .custom-arlas-histogram__filter .histogram__chart .context .brush .selection{
@@ -32,8 +44,14 @@
   stroke: none;
 }
 
+.custom-arlas-histogram__filter .histogram__chart--bar__currentselection{
+  fill: #FFC107;
+  fill-opacity: 1;
+  stroke: none;
+}
+
 .custom-arlas-histogram__filter .histogram__chart--bar {
-  fill: #757575;
+  fill: #BDBDBD;
   fill-opacity: 1;
   stroke: none;
 }

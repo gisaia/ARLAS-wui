@@ -25,12 +25,24 @@
   background-color: #03A9F4;
 }
 
-.custom-arlas-timeline .histogram__chart--area{
+.custom-arlas-timeline .histogram__chart--current-selected--area{
   fill: #FFC107;
-  fill-opacity: 0;
+  fill-opacity: 1;
   stroke: #FFC107;
   stroke-width: 1px;
   stroke-opacity: 1;
+}
+
+.custom-arlas-timeline .histogram__chart--fixed-selected--area{
+  fill: #FFC107;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.custom-arlas-timeline .histogram__chart--unselected--area{
+  fill: #BDBDBD;
+  fill-opacity: 1;
+  stroke: none;
 }
 
 .custom-arlas-timeline .histogram__no-chart__key {

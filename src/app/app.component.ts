@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
   public swimLaneContributor: SwimLaneContributor;
   public swimLaneFilterContributor: SwimLaneContributor;
 
-  public histograms: Array<Histogram>;
+  public histograms: Array<Histogram> = [];
+  public analytics: Array<any>;
   public mapDrawType = drawType.RECTANGLE;
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
@@ -79,6 +80,14 @@ export class AppComponent implements OnInit {
       this.swimLaneFilterContributor = this.arlasStartUpService.contributorRegistry.get('airlineFilter');
     }
     this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
+    this.analytics = this.configService.getValue('arlas.web.analytics');
+
+    this.arlasStartUpService.contributorRegistry.forEach( (v, k) => {
+      if( v !== undefined && v.identifier !== 'timeline' ){
+        this.histograms.push(v);
+      }
+    });
+
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
       queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];

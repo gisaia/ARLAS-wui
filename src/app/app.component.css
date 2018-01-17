@@ -38,6 +38,13 @@
   background-color: white;
 }
 
+.arlas-analytics--container{
+  position: absolute;
+  left: 5px;
+  top: 95px;
+  width: 420px;
+}
+
 .arlas-analytics-mode, .arlas-analytics-mode--filter {
   position: absolute;
   display: table-cell;
