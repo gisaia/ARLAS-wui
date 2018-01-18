@@ -1,5 +1,15 @@
-arlas-search--input {
-  width: 300px;
+
+.full-width-input{
+  border: 0;
+  width:100%;
+}
+
+.full-width-input:focus{
+  outline: none;
+}
+
+.full-width{
+  width:100%;
 }
 
 .search-option{
@@ -14,4 +24,21 @@ arlas-search--input {
 .search-option:hover{
   background-color: #F8BBD0;
   font-size: 1em;
+}
+
+.arlas-search-container{
+  width:100%;
+  display:flex;
+  align-items:center;
+}
+
+.arlas-search-container .mat-icon{
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+.full-width .mat-input-placeholder {
+  color: red;
 }

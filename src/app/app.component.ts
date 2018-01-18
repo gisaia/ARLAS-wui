@@ -4,20 +4,18 @@ import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges }
 import { Http } from '@angular/http';
 
 import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
-import { FieldsConfiguration, HistogramComponent, MapglComponent } from 'arlas-web-components';
+import { HistogramComponent, MapglComponent } from 'arlas-web-components';
 import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
-import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
-import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from './services/arlaswui.startup.service';
-import { Histogram } from './models/histogram';
+
 import { ContributorService } from './services/contributors.service';
 
 import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { Collaboration } from 'arlas-web-core/models/collaboration';
+import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
-
 
 @Component({
   selector: 'arlas-root',
@@ -29,37 +27,43 @@ export class AppComponent implements OnInit {
   public mapglcontributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelinecontributor: HistogramContributor;
+  public velocitycontributor: HistogramContributor;
+  public headingcontributor: HistogramContributor;
+  public geoaltitudecontributor: HistogramContributor;
   public swimLaneContributor: SwimLaneContributor;
-  public swimLaneFilterContributor: SwimLaneContributor;
 
-  public histograms: Array<Histogram>;
+  public analytics: Array<any>;
   public mapDrawType = drawType.RECTANGLE;
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
-  public fieldsConfiguration: FieldsConfiguration;
-  public isAnalyticsHovered = false;
-  public isFilterMode = false;
-  public zoomToPrecisionCluster: Object;
-  public maxPrecision: number;
-  public swimlaneMode = SwimlaneMode;
 
   // component config
   public mapComponentConfig: any;
   @ViewChild('timeline') private histogramComponent: HistogramComponent;
-  @ViewChild(MapglComponent) private mapglComponent: MapglComponent;
-  @ViewChild(SearchComponent) private searchComponent: SearchComponent;
+  @ViewChild('map') private mapglComponent: MapglComponent;
+  @ViewChild('search') private searchComponent: SearchComponent;
 
   constructor(private http: Http,
-    private configService: ArlasWuiConfigService,
-    public collaborativeService: ArlasWuiCollaborativesearchService,
+    private configService: ArlasConfigService,
+    public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
+    private arlasStartUpService: ArlasStartupService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
+    if (this.arlasStartUpService.shouldRunApp) {
+      this.timelinecontributor = this.arlasStartUpService.contributorRegistry.get('timeline');
+      this.velocitycontributor = this.arlasStartUpService.contributorRegistry.get('velocity');
+      this.headingcontributor = this.arlasStartUpService.contributorRegistry.get('heading');
+      this.geoaltitudecontributor = this.arlasStartUpService.contributorRegistry.get('geoaltitude');
+      this.swimLaneContributor = this.arlasStartUpService.contributorRegistry.get('airline');
+    }
     this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
+    this.analytics = this.configService.getValue('arlas.web.analytics');
+
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
       queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
@@ -67,47 +71,27 @@ export class AppComponent implements OnInit {
         this.router.navigate(['.'], { queryParams: queryParams });
       }
     });
-
   }
 
   public ngOnInit() {
-    this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
-      this.mapDrawType
-    );
-    this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
-    this.timelinecontributor = this.contributorService.getTimelineContributor();
-    this.swimLaneContributor = this.contributorService.getSwimlaneContributor();
-    this.swimLaneFilterContributor = this.contributorService.getSwimlaneContributor('Filter');
-
-    this.histograms = this.contributorService.getHistograms();
-    this.activatedRoute.queryParams
-      .pairwise()
-      .take(1)
-      .timeoutWith(500, Observable.of('initWithoutFilter'))
-      .subscribe((params) => {
-        if (params.toString() === 'initWithoutFilter') {
-          this.collaborativeService.setCollaborations({});
-        } else {
-          const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
-          this.collaborativeService.setCollaborations(dataModel);
-        }
-      });
-  }
-
-  public showToggle() {
-    this.isAnalyticsHovered = true;
-  }
-
-  public hideToggle() {
-    this.isAnalyticsHovered = false;
-  }
-
-  public showAnalyticsAsFilters(event) {
-    this.isFilterMode = true;
-  }
-
-  public showAnalyticsAsThumbnails(event) {
-    this.isFilterMode = false;
+    if (this.arlasStartUpService.shouldRunApp) {
+      this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
+        this.mapDrawType
+      );
+      this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
+      this.activatedRoute.queryParams
+        .pairwise()
+        .take(1)
+        .timeoutWith(500, Observable.of('initWithoutFilter'))
+        .subscribe((params) => {
+          if (params.toString() === 'initWithoutFilter') {
+            this.collaborativeService.setCollaborations({});
+          } else {
+            const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+            this.collaborativeService.setCollaborations(dataModel);
+          }
+        });
+    }
   }
 
   public filterSearch(value: string) {

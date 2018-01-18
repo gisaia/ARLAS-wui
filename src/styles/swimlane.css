@@ -1,0 +1,19 @@
+
+.airlines-swimlane .histogram__description--display{
+  color: black;
+  padding-top: 5px;
+}
+
+.airlines-swimlane .histogram__description__title{
+  color: black;
+}
+
+.airlines-swimlane .histogram__description__startvalue,
+.airlines-swimlane .histogram__description__endvalue{
+  background-color: white !important;
+}
+
+.airlines-swimlane .histogram__description__startvalue--background,
+.airlines-swimlane .histogram__description__endvalue--background{
+  background-color: white !important;
+}

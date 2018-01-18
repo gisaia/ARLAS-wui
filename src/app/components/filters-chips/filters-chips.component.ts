@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ConfigService, projType } from 'arlas-web-core';
 import { AppComponent } from '../../app.component';
-import { ArlasWuiCollaborativesearchService, ArlasWuiConfigService } from '../../services/arlaswui.startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { Hits } from 'arlas-api';
 import { Contributor } from 'arlas-web-core';
@@ -9,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -22,7 +22,7 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  constructor(private collaborativesearchService: ArlasWuiCollaborativesearchService, private configService: ArlasWuiConfigService
+  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService
     , private contributorService: ContributorService) {
 
     this.contributors = this.collaborativesearchService.registry;

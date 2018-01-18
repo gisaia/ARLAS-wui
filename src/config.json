@@ -3,138 +3,113 @@
     "web": {
       "contributors": {
         "histogram$timeline": {
-          "aggregationmodel": {
-            "type": "datehistogram",
-            "field": "time",
-            "interval": {
-              "value": "1",
-              "unit": "minute"
+          "identifier": "timeline",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "time",
+              "interval": {
+                "value": 1,
+                "unit": "minute"
+              }
             }
-          },
+          ],
           "name": "Timeline",
           "icon": "watch_later",
-          "dateunit": "second"
+          "dateunit": "second",
+          "datatype": "time",
+          "isOneDimension": false
         },
         "histogram$velocity": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "velocity",
-            "interval": {
-              "value": "100"
+          "identifier": "velocity",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "velocity",
+              "interval": {
+                "value": 100
+              }
             }
-          },
+          ],
           "name": "Velocity",
           "charttype": "bars",
           "title": "Velocity",
-          "icon": "slow_motion_video"
+          "icon": "slow_motion_video",
+          "datatype": "numeric",
+          "dateunit": "second",
+          "isOneDimension": false
         },
         "histogram$heading": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "heading",
-            "interval": {
-              "value": "45"
+          "identifier": "heading",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "heading",
+              "interval": {
+                "value": 45
+              }
             }
-          },
+          ],
           "name": "Heading",
           "title": "Heading",
           "charttype": "area",
-          "icon": "airplanemode_active"
+          "icon": "airplanemode_active",
+          "datatype": "numeric",
+          "dateunit": "second",
+          "isOneDimension": false
         },
         "histogram$geoaltitude": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "geoaltitude",
-            "interval": {
-              "value": "1000"
+          "identifier": "geoaltitude",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "geoaltitude",
+              "interval": {
+                "value": 1000
+              }
             }
-          },
+          ],
           "name": "Geo-Altitutde",
           "charttype": "bars",
           "title": "Geo-altitude",
-          "icon": "flight_takeoff"
-        },
-        "histogram$velocityFilter": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "velocity",
-            "interval": {
-              "value": "20"
-            }
-          },
-          "name": "Velocity",
-          "charttype": "bars",
-          "title": "Velocity",
-          "height": 120,
-          "icon": "slow_motion_video"
-        },
-        "histogram$headingFilter": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "heading",
-            "interval": {
-              "value": "10"
-            }
-          },
-          "name": "Heading",
-          "charttype": "area",
-          "title": "Heading",
-          "height": 120,
-          "icon": "airplanemode_active"
-        },
-        "histogram$geoaltitudeFilter": {
-          "aggregationmodel": {
-            "type": "histogram",
-            "field": "geoaltitude",
-            "interval": {
-              "value": "200"
-            }
-          },
-          "name": "Altitude",
-          "charttype": "bars",
-          "title": "Altitude",
-          "height": 120,
-          "icon": "flight_takeoff"
+          "icon": "flight_takeoff",
+          "datatype": "numeric",
+          "dateunit": "second",
+          "isOneDimension": false
         },
         "swimlane$airline": {
-          "aggregationmodel": [{
-            "type": "term",
-            "field": "airline",
-            "size": 5
-          },{
-            "type": "datehistogram",
-            "field": "time",
-            "interval": {
-              "value": "1",
-              "unit": "minute"
+          "identifier": "airline",
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "Airlines",
+              "field": "time",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "airline",
+                  "size": 5
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "time",
+                  "interval": {
+                    "value": 1,
+                    "unit": "minute"
+                  }
+                }
+              ]
             }
-          }],
+          ],
           "name": "Airlines",
           "charttype": "swimlane",
-          "title": "Airlines",
           "icon": "business",
-          "dateunit": "second"
-        },
-        "swimlane$airlineFilter": {
-          "aggregationmodel": [{
-            "type": "term",
-            "field": "airline_short_code",
-            "size": 3
-          },{
-            "type": "datehistogram",
-            "field": "time",
-            "interval": {
-              "value": "10",
-              "unit": "minute"
-            }
-          }],
-          "name": "Airlines",
-          "charttype": "swimlane",
-          "title": "Airlines",
-          "icon": "business",
-          "dateunit": "second"
+          "dateunit": "second",
+          "datatype": "time",
+          "isOneDimension": false
         },
         "map$mapbox": {
+          "identifier": "mapbox",
           "idFieldName": "id",
           "drawtype": "RECTANGLE",
           "name": "Map",
@@ -145,54 +120,286 @@
             "flyto": true,
             "hightlight": true
           },
-          "aggregationmodel": {
-            "type": "geohash",
-            "field": "location",
-            "interval": {
-              "value": "2"
-            },
-            "withGeoCentroid": true
-          },
+          "aggregationmodels": [
+            {
+              "type": "geohash",
+              "field": "location",
+              "interval": {
+                "value": 3
+              },
+              "withGeoCentroid": true
+            }
+          ],
           "zoomLevelFullData": 2,
           "zoomLevelForTestCount": 6,
           "nbMaxDefautFeatureForCluster": 1000,
-          "zoomToNbMaxFeatureForCluster": {
-            "4": 1000,
-            "5": 1000,
-            "6": 1000,
-            "7": 1000,
-            "8": 3000,
-            "9": 3000,
-            "10": 3000,
-            "11": 3000,
-            "12": 3000
-          },
-          "maxPrecision": "7,4",
-          "zoomToPrecisionCluster": {
-            "0": "3,1",
-            "1": "3,1",
-            "2": "3,1",
-            "3": "4,1",
-            "4": "4,1",
-            "5": "5,2",
-            "6": "5,2",
-            "7": "5,2",
-            "8": "6,3",
-            "9": "6,3",
-            "10": "6,3"
-          },
+          "zoomToNbMaxFeatureForCluster": [
+            [
+              4,
+              1000
+            ],
+            [
+              5,
+              1000
+            ],
+            [
+              6,
+              1000
+            ],
+            [
+              7,
+              1000
+            ],
+            [
+              8,
+              3000
+            ],
+            [
+              9,
+              3000
+            ],
+            [
+              10,
+              3000
+            ],
+            [
+              11,
+              3000
+            ],
+            [
+              12,
+              3000
+            ]
+          ],
+          "maxPrecision": [
+            7,
+            4
+          ],
+          "zoomToPrecisionCluster": [
+            [
+              0,
+              3,
+              1
+            ],
+            [
+              1,
+              3,
+              1
+            ],
+            [
+              2,
+              3,
+              1
+            ],
+            [
+              3,
+              4,
+              1
+            ],
+            [
+              4,
+              4,
+              1
+            ],
+            [
+              5,
+              5,
+              2
+            ],
+            [
+              6,
+              5,
+              2
+            ],
+            [
+              7,
+              5,
+              2
+            ],
+            [
+              8,
+              6,
+              3
+            ],
+            [
+              9,
+              6,
+              3
+            ],
+            [
+              10,
+              6,
+              3
+            ]
+          ],
           "search_size": 100
         },
-        "chipssearch$chipssearch": {
+        "chipsearch$chipssearch": {
+          "identifier": "chipssearch",
           "search_size": 100,
           "name": "Search",
           "icon": "search"
         }
-      }
+      },
+      "analytics": [
+        {
+          "groupId": "1",
+          "title": "Velocity",
+          "icon": "slow_motion_video",
+          "components": [
+            {
+              "contributorId": "velocity",
+              "input": {
+                "dataType": "numeric",
+                "dateUnit": "second",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "bars",
+                "chartTitle": "Velocity",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": false,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "2",
+          "title": "Heading",
+          "icon": "airplanemode_active",
+          "components": [
+            {
+              "contributorId": "heading",
+              "input": {
+                "dataType": "numeric",
+                "dateUnit": "second",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "area",
+                "chartTitle": "Heading",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "3",
+          "title":"Geo-Altitude",
+          "icon": "flight_takeoff",
+          "components": [
+            {
+              "contributorId": "geoaltitude",
+              "input": {
+                "dataType": "numeric",
+                "dateUnit": "second",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "bars",
+                "chartTitle": "Geo-Altitutde",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "4",
+          "title":"Airlines",
+          "icon": "business",
+          "components": [
+            {
+              "contributorId": "airline",
+              "input": {
+                "dataType": "time",
+                "dateUnit": "millisecond",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "swimlane",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "airlines-swimlane",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": false,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "swimLaneLabelsWidth": 100,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "fixedHeight",
+                "paletteColors": [
+                  0,
+                  170
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     "server": {
       "server$default": {
-        "url": "http://fadas.local:9998/arlas"
+        "url": "http://demo.arlas.io:9999/arlas"
       },
       "collection$default": {
         "collection": "opensky2"
