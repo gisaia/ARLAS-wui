@@ -16,8 +16,8 @@ describe('SearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-          ReactiveFormsModule, MatAutocompleteModule, 
-          MatInputModule, FormsModule, BrowserAnimationsModule, 
+          ReactiveFormsModule, MatAutocompleteModule,
+          MatInputModule, FormsModule, BrowserAnimationsModule,
           MatIconModule, HttpModule
         ],
       declarations: [SearchComponent],
