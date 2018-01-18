@@ -1,12 +1,15 @@
-
 <form>
-  <mat-input-container class="full-width">
-    <input [formControl]="searchCtrl" class="full-width-input" matInput placeholder="Search" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
-      name="search" ngModel>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clickItemSearch()">
-      <mat-option *ngFor="let search of filteredSearch | async" [value]="search.key_as_string" class="search-option">
-        <span>{{ search.key_as_string }}</span> | <small>{{search.count}}</small>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-input-container>
+  <div class="arlas-search-container">
+    <mat-icon>search</mat-icon>
+    <mat-input-container class="full-width">
+      <input [formControl]="searchCtrl" class="full-width-input" matInput placeholder="Search" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
+        name="search" ngModel>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clickItemSearch()">
+        <mat-option *ngFor="let search of filteredSearch | async" [value]="search.key_as_string" class="search-option">
+          <span>{{ search.key_as_string }}</span> |
+          <small>{{search.count}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-input-container>
+  </div>
 </form>

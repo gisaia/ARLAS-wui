@@ -1,35 +1,35 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { ArlasWuiCollaborativesearchService, ArlasWuiConfigService } from './services/arlaswui.startup.service';
 import { ContributorService } from './services/contributors.service';
-import { MapglComponent, HistogramComponent } from 'arlas-web-components';
+import { MapglComponent, HistogramModule } from 'arlas-web-components';
 import { SearchComponent } from 'app/components/search/search.component';
 import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
-import { ErrorModalComponent } from './components/errormodal/errormodal.component';
-import { MatIcon, MatIconModule, MatAutocompleteModule, MatInputModule, MatChipsModule, MatTooltipModule } from '@angular/material';
+import { MatIconModule, MatAutocompleteModule, MatInputModule, MatChipsModule, MatTooltipModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { routing } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasToolKitModule, ArlasStartupService } from 'arlas-wui-toolkit';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule,
-        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing
+        MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
+        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule
       ],
       declarations: [
         AppComponent,
-        MapglComponent, HistogramComponent, SearchComponent, FiltersChipsComponent, ErrorModalComponent
+        MapglComponent, SearchComponent, FiltersChipsComponent
       ],
       providers: [
-        ArlasWuiCollaborativesearchService,
-        ArlasWuiConfigService,
+        ArlasCollaborativesearchService,
+        ArlasConfigService,
         ContributorService,
-        {provide: APP_BASE_HREF, useValue : '/' }
+        ArlasStartupService,
+        { provide: APP_BASE_HREF, useValue: '/' }
       ]
     }).compileComponents();
   }));

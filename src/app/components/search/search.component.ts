@@ -2,19 +2,18 @@ import { Component, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AggregationResponse, Aggregation, Filter } from 'arlas-api';
-import { ArlasWuiCollaborativesearchService, ArlasWuiConfigService } from '../../services/arlaswui.startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { projType } from 'arlas-web-core';
 import { Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
-import { CollaborativesearchService } from 'arlas-web-core/services/collaborativesearch.service';
-import { ConfigService } from 'arlas-web-core/services/config.service';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
+import { MatIcon } from '@angular/material';
 
 @Component({
   selector: 'arlas-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
@@ -27,9 +26,9 @@ export class SearchComponent {
   @Input() public searches: Observable<AggregationResponse>;
   @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
 
-  constructor(private collaborativeService: ArlasWuiCollaborativesearchService,
+  constructor(private collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    private configService: ArlasWuiConfigService) {
+    private configService: ArlasConfigService) {
     this.autocomplete_field = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
     this.autocomplete_size = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;

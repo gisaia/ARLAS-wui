@@ -2,10 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchComponent } from './search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ArlasWuiConfigService, ArlasWuiCollaborativesearchService } from '../../services/arlaswui.startup.service';
 import { ContributorService } from '../../services/contributors.service';
-import { MatAutocomplete, MatAutocompleteModule, MatInput, MatInputModule } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteModule, MatInput, MatInputModule, MatIconModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
+import { ArlasStartupService } from 'arlas-wui-toolkit/services/startup.services';
+import { HttpModule } from '@angular/http';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -13,9 +15,13 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, MatAutocompleteModule, MatInputModule, FormsModule, BrowserAnimationsModule],
+      imports: [
+          ReactiveFormsModule, MatAutocompleteModule,
+          MatInputModule, FormsModule, BrowserAnimationsModule,
+          MatIconModule, HttpModule
+        ],
       declarations: [SearchComponent],
-      providers: [ArlasWuiConfigService, ArlasWuiCollaborativesearchService, ContributorService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
     })
       .compileComponents();
   }));
