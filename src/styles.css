@@ -6,8 +6,8 @@
 @import 'styles/map.css';
 @import 'styles/search.css';
 @import 'styles/timeline.css';
-@import 'styles/histogram.thumbnail.css';
-@import 'styles/histogram.filter.css';
+@import 'styles/histogram.analytics.css';
+@import 'styles/swimlane.css';
 
 /* Material Icons */
 @font-face {
@@ -49,19 +49,12 @@ height: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
-
-.mat-option{
-  /*line-height: 35px !important;
-  height: 35px !important;*/
+.mat-expansion-panel-body{
+  margin: 0 0 5px !important;
+  padding-right: 6px;
 }
 
 .analytics-board-card{
-  margin:2px;
-  padding: 10px !important;
-}
-
-.analytics-board-card .mat-card-title{
-  font-size: 15px;
-  margin-bottom: 5px;
+  box-shadow: none !important;
 }
 

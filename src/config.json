@@ -77,66 +77,6 @@
           "dateunit": "second",
           "isOneDimension": false
         },
-        "histogram$velocityFilter": {
-          "identifier": "velocityFilter",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "velocity",
-              "interval": {
-                "value": 20
-              }
-            }
-          ],
-          "name": "Velocity",
-          "charttype": "bars",
-          "title": "Velocity",
-          "height": 120,
-          "icon": "slow_motion_video",
-          "datatype": "numeric",
-          "dateunit": "second",
-          "isOneDimension": false
-        },
-        "histogram$headingFilter": {
-          "identifier": "headingFilter",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "heading",
-              "interval": {
-                "value": 10
-              }
-            }
-          ],
-          "name": "Heading",
-          "charttype": "area",
-          "title": "Heading",
-          "height": 120,
-          "icon": "airplanemode_active",
-          "datatype": "numeric",
-          "dateunit": "second",
-          "isOneDimension": false
-        },
-        "histogram$geoaltitudeFilter": {
-          "identifier": "geoaltitudeFilter",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "geoaltitude",
-              "interval": {
-                "value": 200
-              }
-            }
-          ],
-          "name": "Altitude",
-          "charttype": "bars",
-          "title": "Altitude",
-          "height": 120,
-          "icon": "flight_takeoff",
-          "datatype": "numeric",
-          "dateunit": "second",
-          "isOneDimension": false
-        },
         "swimlane$airline": {
           "identifier": "airline",
           "swimlanes": [
@@ -163,40 +103,9 @@
           ],
           "name": "Airlines",
           "charttype": "swimlane",
-          "title": "Airlines",
           "icon": "business",
           "dateunit": "second",
-          "isOneDimension": false
-        },
-        "swimlane$airlineFilter": {
-          "identifier": "airlineFilter",
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Airlines",
-              "field": "time",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "airline_short_code",
-                  "size": 3
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "time",
-                  "interval": {
-                    "value": 10,
-                    "unit": "minute"
-                  }
-                }
-              ]
-            }
-          ],
-          "name": "Airlines",
-          "charttype": "swimlane",
-          "title": "Airlines",
-          "icon": "business",
-          "dateunit": "second",
+          "datatype": "time",
           "isOneDimension": false
         },
         "map$mapbox": {
@@ -335,9 +244,10 @@
       "analytics": [
         {
           "groupId": "1",
+          "title": "Velocity",
+          "icon": "slow_motion_video",
           "components": [
             {
-              "title": "Velocity",
               "contributorId": "velocity",
               "input": {
                 "dataType": "numeric",
@@ -349,9 +259,9 @@
                 "brushHandlesHeightWeight": 0.5,
                 "chartType": "bars",
                 "chartTitle": "Velocity",
-                "chartWidth": 400,
+                "chartWidth": null,
                 "chartHeight": 100,
-                "customizedCssClass": "custom-arlas-histogram__filter",
+                "customizedCssClass": "arlas-histogram-analytics",
                 "xAxisPosition": "bottom",
                 "descriptionPosition": "bottom",
                 "xTicks": 4,
@@ -371,9 +281,10 @@
         },
         {
           "groupId": "2",
+          "title": "Heading",
+          "icon": "airplanemode_active",
           "components": [
             {
-              "title":"Heading",
               "contributorId": "heading",
               "input": {
                 "dataType": "numeric",
@@ -385,9 +296,9 @@
                 "brushHandlesHeightWeight": 0.5,
                 "chartType": "area",
                 "chartTitle": "Heading",
-                "chartWidth": 400,
+                "chartWidth": null,
                 "chartHeight": 100,
-                "customizedCssClass": "custom-arlas-histogram__filter",
+                "customizedCssClass": "arlas-histogram-analytics",
                 "xAxisPosition": "bottom",
                 "descriptionPosition": "bottom",
                 "xTicks": 4,
@@ -407,9 +318,10 @@
         },
         {
           "groupId": "3",
+          "title":"Geo-Altitude",
+          "icon": "flight_takeoff",
           "components": [
             {
-              "title":"Geo-Altitude",
               "contributorId": "geoaltitude",
               "input": {
                 "dataType": "numeric",
@@ -421,9 +333,9 @@
                 "brushHandlesHeightWeight": 0.5,
                 "chartType": "bars",
                 "chartTitle": "Geo-Altitutde",
-                "chartWidth": 400,
+                "chartWidth": null,
                 "chartHeight": 100,
-                "customizedCssClass": "custom-arlas-histogram__filter",
+                "customizedCssClass": "arlas-histogram-analytics",
                 "xAxisPosition": "bottom",
                 "descriptionPosition": "bottom",
                 "xTicks": 4,
@@ -443,6 +355,8 @@
         },
         {
           "groupId": "4",
+          "title":"Airlines",
+          "icon": "business",
           "components": [
             {
               "contributorId": "airline",
@@ -450,15 +364,14 @@
                 "dataType": "time",
                 "dateUnit": "millisecond",
                 "isHistogramSelectable": true,
-                "multiselectable": false,
+                "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.5,
                 "chartType": "swimlane",
-                "chartTitle": "Airlines",
-                "chartWidth": 400,
+                "chartWidth": null,
                 "chartHeight": 100,
-                "customizedCssClass": "",
+                "customizedCssClass": "airlines-swimlane",
                 "xAxisPosition": "bottom",
                 "descriptionPosition": "bottom",
                 "xTicks": 4,
@@ -486,7 +399,7 @@
     },
     "server": {
       "server$default": {
-        "url": "http://fadas.local:9999/arlas"
+        "url": "http://demo.arlas.io:9999/arlas"
       },
       "collection$default": {
         "collection": "opensky2"

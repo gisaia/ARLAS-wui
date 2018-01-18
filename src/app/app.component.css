@@ -16,9 +16,13 @@
 }
 
 .arlas-search{
+  padding: 3px;
   position: absolute;
-  left: 5px;
+  left: 7px;
   top: 48px;
+  width: 462px;
+  background-color: white;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .arlas-filters-chips {
@@ -33,16 +37,21 @@
 .arlas-timeline{
   position: absolute;
   bottom: 0;
-  width: 100%;
+  left:7px;
+  right:7px;
   z-index:30000;
   background-color: white;
+  padding: 0 5px;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .arlas-analytics--container{
   position: absolute;
   left: 5px;
-  top: 95px;
-  width: 420px;
+  top: 85px;
+  width: 466px;
+  height: calc(100vh - 215px);
+  overflow: auto;
 }
 
 .arlas-analytics-mode, .arlas-analytics-mode--filter {
@@ -185,5 +194,4 @@
 {
 	background-color: #B1AEAE;
 }
-
 

@@ -8,11 +8,12 @@ import { Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
+import { MatIcon } from '@angular/material';
 
 @Component({
   selector: 'arlas-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
