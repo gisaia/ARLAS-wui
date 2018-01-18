@@ -15,7 +15,11 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, MatAutocompleteModule, MatInputModule, FormsModule, BrowserAnimationsModule, MatIconModule, HttpModule],
+      imports: [
+          ReactiveFormsModule, MatAutocompleteModule, 
+          MatInputModule, FormsModule, BrowserAnimationsModule, 
+          MatIconModule, HttpModule
+        ],
       declarations: [SearchComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
     })
