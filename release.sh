@@ -67,13 +67,12 @@ git checkout master
 git pull origin master
 git merge origin/develop -m "Merge develop into master"
 git add .
-commit_message_master = "prod automatic release ${VERSION}"
-git commit -m "$commit_message_master" --allow-empty
+git commit -m "prod automatic release ${VERSION}" --allow-empty
 echo "  -- Push to master"
 git push origin master
 
 echo "  -- Create and push tag"
-git tag -a v${VERSION} -m "$commit_message_master"
+git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
 git push origin v${VERSION}
 
 echo "==> Build (the artifact will be stored in the 'dist' directory)"
