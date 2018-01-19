@@ -56,7 +56,7 @@ else
   echo "==> Skip tests"
 fi
 
-echo "==> Set version and push tag"
+echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
 git add package.json
 git commit -m "change app version to ${VERSION}"
@@ -65,14 +65,16 @@ git push origin develop
 echo "==> Merge develop into master"
 git checkout master
 git pull origin master
-git merge origin/develop
-
-echo "  -- Push tag"
-git tag v${VERSION}
-git push origin v${VERSION}
-
-echo "  -- Commit version to master"
+git merge origin/develop -m "Merge develop into master"
+git add .
+commit_message_master = "prod automatic release ${VERSION}"
+git commit -m "$commit_message_master" --allow-empty
+echo "  -- Push to master"
 git push origin master
+
+echo "  -- Create and push tag"
+git tag -a v${VERSION} -m "$commit_message_master"
+git push origin v${VERSION}
 
 echo "==> Build (the artifact will be stored in the 'dist' directory)"
 yarn install
