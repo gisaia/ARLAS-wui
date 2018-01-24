@@ -7,8 +7,8 @@ import { projType } from 'arlas-web-core';
 import { Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
 import { MatIcon } from '@angular/material';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
 
 @Component({
   selector: 'arlas-search',
