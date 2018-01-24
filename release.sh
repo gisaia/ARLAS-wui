@@ -86,7 +86,6 @@ docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:latest
 
 echo "==> Go back to develop branch"
-git checkout package-lock.json
 git checkout develop
 git pull origin develop
 
