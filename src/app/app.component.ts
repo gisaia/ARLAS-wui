@@ -10,7 +10,11 @@ import { DateUnit, DataType, ChartType, Position, drawType, MapglComponent } fro
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from 'arlas-wui-toolkit/services/startup/startup.service';
+import {
+  ArlasConfigService,
+  ArlasCollaborativesearchService,
+  ArlasStartupService
+} from 'arlas-wui-toolkit/services/startup/startup.service';
 import { SearchComponent } from './components/search/search.component';
 
 @Component({
