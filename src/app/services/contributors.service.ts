@@ -9,7 +9,7 @@ import { drawType } from '../utils/utils';
 import { Histogram } from '../models/histogram';
 
 import { Subject } from 'rxjs/Subject';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from 'arlas-wui-toolkit/services/startup/startup.service';
 
 @Injectable()
 export class ContributorService {
