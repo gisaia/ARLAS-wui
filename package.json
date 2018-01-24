@@ -1,12 +1,12 @@
 {
   "name": "arlas-wui",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "author": "gisaia",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build -prod -aot",
+    "build": "ng build -prod -aot --base-href=''",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -24,7 +24,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.2.4",
-    "arlas-wui-toolkit": "2.4.3",
+    "arlas-wui-toolkit": "2.6.1",
     "bootstrap": "4.0.0-beta.2",
     "core-js": "^2.4.1",
     "ngx-chips": "^1.5.3",

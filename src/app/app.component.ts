@@ -2,20 +2,20 @@ import { Params } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
-
-import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
-import { HistogramComponent, MapglComponent } from 'arlas-web-components';
-import { DateUnit, DataType, ChartType, Position, drawType } from 'arlas-web-components';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
-
-
-import { ContributorService } from './services/contributors.service';
-
-import { SearchComponent } from './components/search/search.component';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+
+import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
+import { DateUnit, DataType, ChartType, Position, drawType, MapglComponent } from 'arlas-web-components';
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
+import { ContributorService } from './services/contributors.service';
+import {
+  ArlasConfigService,
+  ArlasCollaborativesearchService,
+  ArlasStartupService
+} from 'arlas-wui-toolkit/services/startup/startup.service';
+import { SearchComponent } from './components/search/search.component';
 
 @Component({
   selector: 'arlas-root',
@@ -24,13 +24,9 @@ import { Filter } from 'arlas-api';
 })
 export class AppComponent implements OnInit {
 
-  public mapglcontributor: MapContributor;
+  public mapglContributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
-  public timelinecontributor: HistogramContributor;
-  public velocitycontributor: HistogramContributor;
-  public headingcontributor: HistogramContributor;
-  public geoaltitudecontributor: HistogramContributor;
-  public swimLaneContributor: SwimLaneContributor;
+  public timelineContributor: HistogramContributor;
 
   public analytics: Array<any>;
   public mapDrawType = drawType.RECTANGLE;
@@ -42,7 +38,6 @@ export class AppComponent implements OnInit {
 
   // component config
   public mapComponentConfig: any;
-  @ViewChild('timeline') private histogramComponent: HistogramComponent;
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
 
@@ -55,14 +50,10 @@ export class AppComponent implements OnInit {
     private router: Router,
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.timelinecontributor = this.arlasStartUpService.contributorRegistry.get('timeline');
-      this.velocitycontributor = this.arlasStartUpService.contributorRegistry.get('velocity');
-      this.headingcontributor = this.arlasStartUpService.contributorRegistry.get('heading');
-      this.geoaltitudecontributor = this.arlasStartUpService.contributorRegistry.get('geoaltitude');
-      this.swimLaneContributor = this.arlasStartUpService.contributorRegistry.get('airline');
+      this.timelineContributor = this.arlasStartUpService.contributorRegistry.get('timeline');
+      this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
+      this.analytics = this.configService.getValue('arlas.web.analytics');
     }
-    this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
-    this.analytics = this.configService.getValue('arlas.web.analytics');
 
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
@@ -75,7 +66,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.mapglcontributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
+      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
         this.mapDrawType
       );
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);

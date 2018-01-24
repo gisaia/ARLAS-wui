@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
-import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit/services/startup/startup.service';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -22,8 +22,8 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService
-    , private contributorService: ContributorService) {
+  constructor(private collaborativesearchService: ArlasCollaborativesearchService,
+    private contributorService: ContributorService) {
 
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();

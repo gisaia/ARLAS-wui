@@ -49,12 +49,10 @@ height: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
-.mat-expansion-panel-body{
-  margin: 0 0 5px !important;
-  padding-right: 6px;
-}
-
 .analytics-board-card{
   box-shadow: none !important;
 }
-
+.analytics-board-panel .mat-expansion-panel-body{
+  margin: 0 1px 10px;
+  padding-right: 10px;
+}
