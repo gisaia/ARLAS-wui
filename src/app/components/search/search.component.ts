@@ -1,4 +1,4 @@
-import { Component, Output, Input } from '@angular/core';
+import { Component, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AggregationResponse, Aggregation, Filter } from 'arlas-api';
@@ -26,9 +26,12 @@ export class SearchComponent {
   @Input() public searches: Observable<AggregationResponse>;
   @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService,
+  constructor( private collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    private configService: ArlasConfigService) {
+    private configService: ArlasConfigService,
+    private cdr: ChangeDetectorRef
+  ) {
+
     this.autocomplete_field = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
     this.autocomplete_size = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
@@ -36,6 +39,7 @@ export class SearchComponent {
     this.keyEvent.pairwise().subscribe(l => {
       if (l[1] === 0 && l[0] !== 0) {
         this.collaborativeService.removeFilter(this.searchContributorId);
+        this.cdr.detectChanges();
       }
     });
 
