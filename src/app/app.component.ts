@@ -54,14 +54,6 @@ export class AppComponent implements OnInit {
       this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
       this.analytics = this.configService.getValue('arlas.web.analytics');
     }
-
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
-      queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
-      if (collaborationEvent.id !== 'url') {
-        this.router.navigate(['.'], { queryParams: queryParams });
-      }
-    });
   }
 
   public ngOnInit() {
@@ -70,18 +62,6 @@ export class AppComponent implements OnInit {
         this.mapDrawType
       );
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
-      this.activatedRoute.queryParams
-        .pairwise()
-        .take(1)
-        .timeoutWith(500, Observable.of('initWithoutFilter'))
-        .subscribe((params) => {
-          if (params.toString() === 'initWithoutFilter') {
-            this.collaborativeService.setCollaborations({});
-          } else {
-            const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
-            this.collaborativeService.setCollaborations(dataModel);
-          }
-        });
     }
   }
 
