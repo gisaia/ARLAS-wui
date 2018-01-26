@@ -20,7 +20,6 @@ import {
 } from '@angular/material';
 
 import { ContributorService } from './services/contributors.service';
-
 import { ConfigService } from 'arlas-web-core';
 import { ExploreApi } from 'arlas-api';
 
@@ -29,10 +28,6 @@ import { SearchComponent } from './components/search/search.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
 import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-
-
-
-
 
 @NgModule({
   declarations: [

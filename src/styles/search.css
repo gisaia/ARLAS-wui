@@ -1,8 +1,0 @@
-delete-icon {
-  display: none !important;
-  width: 20px;
-  height: 16px;
-  transition: all 0.15s;
-  display: inline-block;
-  text-align: right;
-}

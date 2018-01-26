@@ -14,14 +14,9 @@
   color: black;
 }
 
-.custom-arlas-timeline .histogram__description__startvalue,
-.custom-arlas-timeline .histogram__description__endvalue{
-  background-color: white !important;
-}
-
 .custom-arlas-timeline .histogram__description__startvalue--background,
 .custom-arlas-timeline .histogram__description__endvalue--background{
-  background-color: white !important;
+  background-color: white;
 }
 
 .custom-arlas-timeline .histogram__chart--current-selected--area{
@@ -58,10 +53,6 @@
   color: #757575;
 }
 
-.custom-arlas-timeline .axis path{
-  stroke: #757575;
-}
-
 .custom-arlas-timeline .histogram__ticks{
   stroke: #757575;
   stroke-width: 1px;
@@ -75,11 +66,7 @@
 .custom-arlas-timeline .tick text{
   fill: #757575;
   font-size: 1em;
-}
-
-
-.custom-arlas-timeline .tick text{
-    font-size: small;
+  font-size: small;
 }
 
 .custom-arlas-timeline .histogram__brush--handles {

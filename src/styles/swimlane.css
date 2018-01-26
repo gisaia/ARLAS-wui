@@ -8,12 +8,7 @@
   color: black;
 }
 
-.airlines-swimlane .histogram__description__startvalue,
-.airlines-swimlane .histogram__description__endvalue{
-  background-color: white !important;
-}
-
 .airlines-swimlane .histogram__description__startvalue--background,
 .airlines-swimlane .histogram__description__endvalue--background{
-  background-color: white !important;
+  background-color: white;
 }

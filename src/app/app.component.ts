@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import { MapContributor, HistogramContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
+import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 import { DateUnit, DataType, ChartType, Position, drawType, MapglComponent } from 'arlas-web-components';
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';

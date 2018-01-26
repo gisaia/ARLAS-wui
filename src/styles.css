@@ -3,8 +3,6 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 
-@import 'styles/map.css';
-@import 'styles/search.css';
 @import 'styles/timeline.css';
 @import 'styles/histogram.analytics.css';
 @import 'styles/swimlane.css';
