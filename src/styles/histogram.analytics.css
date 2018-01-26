@@ -1,7 +1,3 @@
-.arlas-histogram-analytics{
-  height: 0
-}
-
 .arlas-histogram-analytics .histogram__description{
   display: none;
 }
@@ -65,13 +61,10 @@
   fill: #757575;
 }
 
-
 .arlas-histogram-analytics .tick text {
   fill: #BDBDBD;
   font-size: 0.9em;
 }
-
-
 
 .arlas-histogram-analytics .histogram__ticks{
   stroke: #BDBDBD;

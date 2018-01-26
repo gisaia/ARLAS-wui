@@ -28,7 +28,6 @@ export class FiltersChipsComponent {
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
-
   }
 
   public removeCollaboration(contributorId: string): void {
