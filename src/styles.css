@@ -50,6 +50,12 @@ height: 100%;
 .analytics-board-card{
   box-shadow: none !important;
 }
+
+.analytics-board-panel .mat-expansion-panel-header{
+  font-size: 18px;
+  font-weight: 300;
+}
+
 .analytics-board-panel .mat-expansion-panel-body{
   margin: 0 1px 10px;
   padding-right: 10px;

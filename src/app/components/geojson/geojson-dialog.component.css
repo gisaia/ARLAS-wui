@@ -1,0 +1,29 @@
+.geojson-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+  padding:10px;
+}
+
+.geojson-radio-button {
+  margin: 5px;
+}
+
+.geojson-url{
+  width: 100%;
+  flex:3;
+}
+
+.geojson-copy-url{
+  flex:1;
+  font-weight: 200;
+}
+
+.btn-success{
+  background-color: #4CAF50;
+}
+
+.btn-success mat-icon{
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}

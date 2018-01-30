@@ -35,6 +35,10 @@
     <arlas-analytics-board [groups]="this.analytics"></arlas-analytics-board>
   </div>
 
+  <div class="arlas-geojson">
+      <arlas-geojson></arlas-geojson>
+  </div>
+
   <div class="arlas-timeline">
     <arlas-histogram #timeline [xTicks]="7" [yTicks]="2" [xLabels]="7" [yTicks]="2" [chartType]="chartType.area" [dataType]="dataType.time"
       [chartTitle]="'Number of airplanes positions over time'" [customizedCssClass]="'custom-arlas-timeline'" [chartHeight]="100" [dateUnit]="dateUnit.millisecond"
