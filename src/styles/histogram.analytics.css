@@ -17,7 +17,7 @@
 }
 
 .arlas-histogram-analytics .histogram__chart--unselected--area{
-  fill: #BDBDBD;
+  fill: #607D8B;
   fill-opacity: 1;
   stroke: none;
 }
@@ -47,18 +47,18 @@
 }
 
 .arlas-histogram-analytics .histogram__chart--bar {
-  fill: #BDBDBD;
+  fill: #607D8B;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics .histogram__tooltip {
-  background-color: #0288D1;
+  background-color: #78909C;
 }
 
 .arlas-histogram-analytics .histogram__brush--handles {
-  stroke: #757575;
-  fill: #757575;
+  stroke: #B0BEC5;
+  fill: #B0BEC5;
 }
 
 .arlas-histogram-analytics .tick text {

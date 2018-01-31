@@ -11,9 +11,10 @@
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   src: local('Material Icons'), local('MaterialIcons-Regular'), url('./assets/fonts/material-icons.woff2') format('woff2');
 }
+
 
 body {
   width: 100%;
@@ -59,4 +60,5 @@ html {
 .analytics-board-panel .mat-expansion-panel-body{
   margin: 0 1px 0px;
   padding-right: 10px;
+  font-weight: 300;
 }

@@ -25,21 +25,21 @@
 }
 
 .custom-arlas-timeline .histogram__chart--current-selected--area{
-  fill: #FFC107;
+  fill: #2196F3;
   fill-opacity: 1;
-  stroke: #FFC107;
+  stroke: #2196F3;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
 .custom-arlas-timeline .histogram__chart--fixed-selected--area{
-  fill: #FFC107;
+  fill: #42A5F5;
   fill-opacity: 1;
   stroke: none;
 }
 
 .custom-arlas-timeline .histogram__chart--unselected--area{
-  fill: #BDBDBD;
+  fill: #607D8B;
   fill-opacity: 1;
   stroke: none;
 }
@@ -75,10 +75,10 @@
 }
 
 .custom-arlas-timeline .histogram__brush--handles {
-  stroke: #757575;
-  fill: #757575;
+  stroke: #B0BEC5;
+  fill: #B0BEC5;
 }
 
 .custom-arlas-timeline .histogram__tooltip {
-  background-color: #0288D1;
+  background-color: #78909C;
 }

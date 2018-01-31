@@ -19,5 +19,10 @@
 }
 
 .airlines-swimlane .histogram__tooltip{
-  background-color: #0288D1;
+  background-color: #78909C;
+}
+
+.airlines-swimlane .histogram__brush--handles{
+  stroke: #B0BEC5;
+  fill: #B0BEC5;
 }

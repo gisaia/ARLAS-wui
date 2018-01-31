@@ -36,18 +36,18 @@ export class GeojsonDialogComponent implements OnInit, AfterViewInit {
 
   displayedUrl: string;
   precisions = [
-    [1, "5,009.4km x 4,992.6km"],
-    [2, "1,252.3km x 624.1km"],
-    [3, "156.5km x 156km"],
-    [4, "39.1km x 19.5km"],
-    [5, "4.9km x 4.9km"],
-    [6, "1.2km x 609.4m"],
-    [7, "152.9m x 152.4m"],
-    [8, "38.2m x 19m"],
-    [9, "4.8m x 4.8m"],
-    [10, "1.2m x 59.5cm"],
-    [11, "14.9cm x 14.9cm"],
-    [12, "3.7cm x 1.9cm"]
+    [1, '5,009.4km x 4,992.6km'],
+    [2, '1,252.3km x 624.1km'],
+    [3, '156.5km x 156km'],
+    [4, '39.1km x 19.5km'],
+    [5, '4.9km x 4.9km'],
+    [6, '1.2km x 609.4m'],
+    [7, '152.9m x 152.4m'],
+    [8, '38.2m x 19m'],
+    [9, '4.8m x 4.8m'],
+    [10, '1.2m x 59.5cm'],
+    [11, '14.9cm x 14.9cm'],
+    [12, '3.7cm x 1.9cm']
   ];
   aggType: projType.geoaggregate | projType.geosearch;
   aggTypeText = '_geoaggregate';
@@ -86,8 +86,8 @@ export class GeojsonDialogComponent implements OnInit, AfterViewInit {
   }
 
   public changeStep(event) {
-    if (event.selectedIndex === 1){
-      if( this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
+    if (event.selectedIndex === 1) {
+      if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         this.paramFormGroup.get('precision').disable();
         this.aggTypeText = '_geosearch';
         this.aggType = projType.geosearch;

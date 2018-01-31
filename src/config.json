@@ -390,6 +390,7 @@
                 "swimLaneLabelsWidth": 100,
                 "swimlaneHeight": 20,
                 "swimlaneMode": "fixedHeight",
+                "swimlaneBorderRadius":3,
                 "paletteColors": [
                   0,
                   170
