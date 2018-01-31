@@ -8,7 +8,16 @@
   color: black;
 }
 
+.airlines-swimlane .histogram__description{
+  font-size: 1em;
+  font-weight: 300;
+}
+
 .airlines-swimlane .histogram__description__startvalue--background,
 .airlines-swimlane .histogram__description__endvalue--background{
   background-color: white;
+}
+
+.airlines-swimlane .histogram__tooltip{
+  background-color: #0288D1;
 }

@@ -4,31 +4,31 @@
       <ng-template matStepLabel>Mode</ng-template>
       <mat-radio-group class="geojson-radio-group" formControlName="geojsonType">
         <mat-radio-button [value]="'cluster'" class="geojson-radio-button">Cluster</mat-radio-button>
-        <mat-radio-button [value]="'feature'" [disabled]="true" class="geojson-radio-button">Feature</mat-radio-button>
+        <mat-radio-button [value]="'feature'" [disabled]="!allowFeature" class="geojson-radio-button" matTooltip="Require count &lt; {{this.maxForFeature}}">Feature</mat-radio-button>
       </mat-radio-group>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext class="geojson-stepper-button">Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="paramFormGroup">
+    <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>Parameters</ng-template>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'cluster'">
         <mat-form-field>
           <mat-select placeholder="Desired precision" formControlName="precision" matInput required>
-            <mat-option *ngFor="let val of precisions" [value]="val">
-              {{ val }}
+            <mat-option *ngFor="let val of precisions" [value]="val[0]">
+              {{ val[0] }} - <span class="geojson-precision-description">({{val[1]}})</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'">
-        FEATURE
+        All fields will be exported
       </div>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious class="geojson-stepper-button">Back</button>
+        <button mat-button matStepperNext class="geojson-stepper-button">Next</button>
       </div>
     </form>
   </mat-step>

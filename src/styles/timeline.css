@@ -5,6 +5,11 @@
   stroke:none;
 }
 
+.custom-arlas-timeline .histogram__description{
+  font-size: 1em;
+  font-weight: 300;
+}
+
 .custom-arlas-timeline .histogram__description--display{
   color: black;
   padding-top: 5px;
@@ -72,4 +77,8 @@
 .custom-arlas-timeline .histogram__brush--handles {
   stroke: #757575;
   fill: #757575;
+}
+
+.custom-arlas-timeline .histogram__tooltip {
+  background-color: #0288D1;
 }

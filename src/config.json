@@ -507,6 +507,9 @@
             "icon": "search",
             "autocomplete_field": "relevant_terms",
             "autocomplete_size": "20"
+          },
+          "geojson":{
+            "max_for_feature": 1000
           }
         }
       }

@@ -18,6 +18,15 @@
   font-weight: 200;
 }
 
+.geojson-precision-description{
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.geojson-stepper-button:focus{
+  outline: none;
+}
+
 .btn-success{
   background-color: #4CAF50;
 }
