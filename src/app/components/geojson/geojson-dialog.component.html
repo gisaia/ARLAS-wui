@@ -4,7 +4,7 @@
       <ng-template matStepLabel>Mode</ng-template>
       <mat-radio-group class="geojson-radio-group" formControlName="geojsonType">
         <mat-radio-button [value]="'cluster'" class="geojson-radio-button">Cluster</mat-radio-button>
-        <mat-radio-button [value]="'feature'" [disabled]="!allowFeature" class="geojson-radio-button" matTooltip="Require count &lt; {{this.maxForFeature}}">Feature</mat-radio-button>
+        <mat-radio-button [value]="'feature'" [disabled]="!allowFeature" class="geojson-radio-button" matTooltip="Available with a maximum of {{this.maxForFeature}} features">Feature</mat-radio-button>
       </mat-radio-group>
       <div>
         <button mat-button matStepperNext class="geojson-stepper-button">Next</button>
