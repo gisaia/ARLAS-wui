@@ -16,7 +16,6 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { SearchComponent } from './components/search/search.component';
-import { projType } from 'arlas-web-core/models/projections';
 
 @Component({
   selector: 'arlas-root',
