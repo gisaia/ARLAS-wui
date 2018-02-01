@@ -94,7 +94,7 @@
                   "type": "datehistogram",
                   "field": "time",
                   "interval": {
-                    "value": 1,
+                    "value": 5,
                     "unit": "minute"
                   }
                 }
@@ -257,7 +257,7 @@
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
+                "brushHandlesHeightWeight": 0.8,
                 "chartType": "bars",
                 "chartTitle": "Velocity",
                 "chartWidth": null,
@@ -295,7 +295,7 @@
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
+                "brushHandlesHeightWeight": 0.8,
                 "chartType": "area",
                 "chartTitle": "Heading",
                 "chartWidth": null,
@@ -333,7 +333,7 @@
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
+                "brushHandlesHeightWeight": 0.8,
                 "chartType": "bars",
                 "chartTitle": "Geo-Altitutde",
                 "chartWidth": null,
@@ -371,7 +371,7 @@
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
+                "brushHandlesHeightWeight": 0.8,
                 "chartWidth": null,
                 "chartHeight": 100,
                 "customizedCssClass": "airlines-swimlane",

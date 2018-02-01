@@ -26,3 +26,9 @@
   stroke: #B0BEC5;
   fill: #B0BEC5;
 }
+
+.airlines-swimlane .histogram__chart .context .brush .selection{
+  fill: #BDBDBD;
+  fill-opacity: 0;
+  stroke:none;
+}
