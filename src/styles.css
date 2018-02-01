@@ -11,9 +11,10 @@
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   src: local('Material Icons'), local('MaterialIcons-Regular'), url('./assets/fonts/material-icons.woff2') format('woff2');
 }
+
 
 body {
   width: 100%;
@@ -28,7 +29,7 @@ app {
 }
 
 html {
-height: 100%;
+  height: 100%;
 }
 
 .material-icons {
@@ -50,7 +51,14 @@ height: 100%;
 .analytics-board-card{
   box-shadow: none !important;
 }
+
+.analytics-board-panel .mat-expansion-panel-header{
+  font-size: 18px;
+  font-weight: 300;
+}
+
 .analytics-board-panel .mat-expansion-panel-body{
-  margin: 0 1px 10px;
+  margin: 0 1px 0px;
   padding-right: 10px;
+  font-weight: 300;
 }

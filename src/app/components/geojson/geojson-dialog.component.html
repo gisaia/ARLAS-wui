@@ -1,0 +1,47 @@
+<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)">
+  <mat-step [stepControl]="geojsonTypeGroup">
+    <form [formGroup]="geojsonTypeGroup">
+      <ng-template matStepLabel>Mode</ng-template>
+      <mat-radio-group class="geojson-radio-group" formControlName="geojsonType">
+        <mat-radio-button [value]="'cluster'" class="geojson-radio-button">Cluster</mat-radio-button>
+        <mat-radio-button [value]="'feature'" [disabled]="!allowFeature" class="geojson-radio-button" matTooltip="Available with a maximum of {{this.maxForFeature}} features">Feature</mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <button mat-button matStepperNext class="geojson-stepper-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paramFormGroup">
+    <form [formGroup]="paramFormGroup">
+      <ng-template matStepLabel>Parameters</ng-template>
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'cluster'">
+        <mat-form-field>
+          <mat-select placeholder="Desired precision" formControlName="precision" matInput required>
+            <mat-option *ngFor="let val of precisions" [value]="val[0]">
+              {{ val[0] }} - <span class="geojson-precision-description">({{val[1]}})</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'">
+        All fields will be exported
+      </div>
+      <div>
+        <button mat-button matStepperPrevious class="geojson-stepper-button">Back</button>
+        <button mat-button matStepperNext class="geojson-stepper-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Get url</ng-template>
+    <div style="display:flex;flex-direction:row">
+        <input matInput value="{{displayedUrl}}" class="geojson-url" #url>
+        <button mat-raised-button color="accent" class="geojson-copy-url" [class.btn-success]="isCopied" (cbOnSuccess)="isCopied = true"
+            ngxClipboard [ngxClipboard]="url">
+          <mat-icon [hidden]="!isCopied">check</mat-icon>
+          Copy URL
+        </button>
+    </div>
+
+  </mat-step>
+</mat-horizontal-stepper>
