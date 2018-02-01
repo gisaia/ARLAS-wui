@@ -1,88 +1,84 @@
 
-.custom-arlas-timeline .histogram__chart .context .brush .selection{
+.arlas-timeline .histogram__chart .context .brush .selection{
   fill: #BDBDBD;
   fill-opacity: 0.2;
   stroke:none;
 }
 
-.custom-arlas-timeline .histogram__description--display{
+.arlas-timeline .histogram__description{
+  font-size: 1em;
+  font-weight: 300;
+}
+
+.arlas-timeline .histogram__description--display{
   color: black;
   padding-top: 5px;
 }
 
-.custom-arlas-timeline .histogram__description__title{
+.arlas-timeline .histogram__description__title{
   color: black;
 }
 
-.custom-arlas-timeline .histogram__description__startvalue,
-.custom-arlas-timeline .histogram__description__endvalue{
-  background-color: white !important;
+.arlas-timeline .histogram__description__startvalue--background,
+.arlas-timeline .histogram__description__endvalue--background{
+  background-color: white;
 }
 
-.custom-arlas-timeline .histogram__description__startvalue--background,
-.custom-arlas-timeline .histogram__description__endvalue--background{
-  background-color: white !important;
-}
-
-.custom-arlas-timeline .histogram__chart--current-selected--area{
-  fill: #FFC107;
+.arlas-timeline .histogram__chart--current-selected--area{
+  fill: #2196F3;
   fill-opacity: 1;
-  stroke: #FFC107;
+  stroke: #2196F3;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
-.custom-arlas-timeline .histogram__chart--fixed-selected--area{
-  fill: #FFC107;
+.arlas-timeline .histogram__chart--fixed-selected--area{
+  fill: #42A5F5;
   fill-opacity: 1;
   stroke: none;
 }
 
-.custom-arlas-timeline .histogram__chart--unselected--area{
-  fill: #BDBDBD;
+.arlas-timeline .histogram__chart--unselected--area{
+  fill: #607D8B;
   fill-opacity: 1;
   stroke: none;
 }
 
-.custom-arlas-timeline .histogram__no-chart__key {
+.arlas-timeline .histogram__no-chart__key {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
   color: #757575;
 }
 
-.custom-arlas-timeline .histogram__no-chart__value {
+.arlas-timeline .histogram__no-chart__value {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
   color: #757575;
 }
 
-.custom-arlas-timeline .axis path{
-  stroke: #757575;
-}
-
-.custom-arlas-timeline .histogram__ticks{
+.arlas-timeline .histogram__ticks{
   stroke: #757575;
   stroke-width: 1px;
 }
 
-.custom-arlas-timeline .histogram__axis{
+.arlas-timeline .histogram__axis{
   stroke: #757575;
   stroke-width: 1px;
 }
 
-.custom-arlas-timeline .tick text{
+.arlas-timeline .tick text{
   fill: #757575;
   font-size: 1em;
+  font-size: small;
 }
 
-
-.custom-arlas-timeline .tick text{
-    font-size: small;
+.arlas-timeline .histogram__brush--handles {
+  stroke: #B0BEC5;
+  fill: #B0BEC5;
 }
 
-.custom-arlas-timeline .histogram__brush--handles {
-  stroke: #757575;
-  fill: #757575;
+.arlas-timeline .histogram__tooltip {
+  background-color: #78909C;
 }

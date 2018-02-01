@@ -17,6 +17,7 @@ import {
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { GeojsonComponent } from 'app/components/geojson/geojson.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -27,7 +28,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapglComponent, SearchComponent, FiltersChipsComponent
+        MapglComponent, SearchComponent, FiltersChipsComponent, GeojsonComponent
       ],
       providers: [
         ArlasCollaborativesearchService,
@@ -43,9 +44,4 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  /*it('should render title "ARLAS"', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const compiled = fixture.debugElement.query(By.css('.home-chip')).nativeElement;
-    expect(compiled.textContent).toContain('ARLAS');
-  }));*/
 });

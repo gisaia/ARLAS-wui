@@ -8,12 +8,27 @@
   color: black;
 }
 
-.airlines-swimlane .histogram__description__startvalue,
-.airlines-swimlane .histogram__description__endvalue{
-  background-color: white !important;
+.airlines-swimlane .histogram__description{
+  font-size: 1em;
+  font-weight: 300;
 }
 
 .airlines-swimlane .histogram__description__startvalue--background,
 .airlines-swimlane .histogram__description__endvalue--background{
-  background-color: white !important;
+  background-color: white;
+}
+
+.airlines-swimlane .histogram__tooltip{
+  background-color: #78909C;
+}
+
+.airlines-swimlane .histogram__brush--handles{
+  stroke: #B0BEC5;
+  fill: #B0BEC5;
+}
+
+.airlines-swimlane .histogram__chart .context .brush .selection{
+  fill: #BDBDBD;
+  fill-opacity: 0;
+  stroke:none;
 }

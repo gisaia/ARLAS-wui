@@ -39,7 +39,7 @@
   bottom: 0;
   left:7px;
   right:7px;
-  z-index:30000;
+  z-index:1000;
   background-color: white;
   padding: 0 5px;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
@@ -50,131 +50,14 @@
   left: 5px;
   top: 85px;
   width: 466px;
-  height: calc(100vh - 215px);
+  max-height: calc(100vh - 215px);
   overflow: auto;
 }
 
-.arlas-analytics-mode, .arlas-analytics-mode--filter {
+.arlas-geojson{
   position: absolute;
-  display: table-cell;
-  left: 0;
-  top: 90px;
-  width: 133px;
-  height: 21%;
-  background-color: #03A9F4;
-  padding-top: 10px;
-  z-index: 0;
-  cursor: pointer
-}
-
-.arlas-analytics-mode--filter {
-  width: 510px;
-  height: 40.05%;
-}
-
-.arlas-analytics-mode__icon {
-  position: absolute;
-  top: 45%;
-  left: 90%;
-  font-size: 18px;
-  vertical-align: middle;
-  float: right;
-  color: white;
-  height: 18px;
-  width: 18px;
-  margin: auto;
-}
-
-.arlas-analytics-mode--filter__icon {
-  position: absolute;
-  top: 45%;
-  left: 95%;
-  font-size: 18px;
-  vertical-align: middle;
-  float: right;
-  color: white;
-  height: 18px;
-  width: 18px;
-  margin: auto;
-}
-
-.arlas-analytics__thumbnails {
-  position: absolute;
-  left: 5px;
-  top: 90px;
-  width: 120px;
-  max-height: calc(100vh - 210px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  z-index: 1;
-}
-
-.arlas-analytics__filters {
-  position: absolute;
-  left: 5px;
-  top: 90px;
-  width: 500px;
-  max-height: calc(100vh - 210px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  z-index: 1;
-}
-
-.arlas-analytics__back_to_thumbnails__icon{
-  color: white;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  height: 18px;
-  width: 18px;
-}
-
-.arlas-analytics__back_to_thumbnails__icon:hover{
-  background-color: #B3E5FC;
-}
-
-.arlas-analytics__chart-container {
-  margin-right: 3px;
-}
-
-.arlas-analytics__title {
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-size: 0.8em;
-  color: #fff;
-  background-color: #03A9F4;
-  border: 1px solid #03A9F4;
-  width: 100%;
-  padding: 3px;
-  text-align: center;
-}
-
-.arlas-analytics__title--text{
-  float: left;
-}
-
-.arlas-analytics__display{
-  margin: auto;
-  margin-top: -2px;
-}
-
-.arlas-analytics__icon{
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
-  float: left;
-  margin-right: 3px;
-}
-
-.arlas-analytics__one-analytic {
-  width: 100%;
-  padding-bottom: 3px;
-  height: 100%;
+  right: 7px;
+  bottom: 135px;
 }
 
 ::-webkit-scrollbar
@@ -194,4 +77,3 @@
 {
 	background-color: #B1AEAE;
 }
-

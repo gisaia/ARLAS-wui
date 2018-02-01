@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ConfigService, projType } from 'arlas-web-core';
 import { AppComponent } from '../../app.component';
 import { ContributorService } from '../../services/contributors.service';
@@ -23,16 +23,16 @@ export class FiltersChipsComponent {
   public countAll;
 
   constructor(private collaborativesearchService: ArlasCollaborativesearchService,
-    private contributorService: ContributorService) {
+    private contributorService: ContributorService, private cdr: ChangeDetectorRef) {
 
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
-
   }
 
   public removeCollaboration(contributorId: string): void {
     this.collaborativesearchService.removeFilter(contributorId);
+    this.cdr.detectChanges();
   }
 
   public changeCollaborationState(contributorId): void {
@@ -46,6 +46,7 @@ export class FiltersChipsComponent {
 
   public removeAllFilters(): void {
     this.collaborativesearchService.removeAll();
+
   }
 
   public getCollaborationIcon(contributorId): string {
