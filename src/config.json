@@ -239,6 +239,73 @@
           "search_size": 100,
           "name": "Search",
           "icon": "search"
+        },
+        "resultlist$table": {
+            "identifier": "table",
+            "icon":"list",
+            "fieldsConfiguration": {
+                "idFieldName": "id"
+            },
+            "columns": [
+                {
+                    "columnName": "id",
+                    "fieldName": "id",
+                    "dataType": "",
+                    "process": ""
+                },
+                {
+                    "columnName": "Callsign",
+                    "fieldName": "callsign",
+                    "dataType": "",
+                    "process": ""
+                },
+                {
+                    "columnName": "Velocity",
+                    "fieldName": "velocity",
+                    "dataType": "",
+                    "process": ""
+                },
+                {
+                    "columnName": "Heading",
+                    "fieldName": "heading",
+                    "dataType": "",
+                    "process": ""
+                },
+                {
+                    "columnName": "Geo Altitude",
+                    "fieldName": "geoaltitude",
+                    "dataType": "",
+                    "process": ""
+                }
+            ],
+            "process": {
+                "urlImageTemplate": {
+                    "process": ""
+                },
+                "urlThumbnailTemplate": {
+                    "process": ""
+                }
+            },
+            "details": [
+                {
+                    "name": "Technical Informations",
+                    "order": 1,
+                    "fields": [
+                        {
+                            "path": "airline",
+                            "label": "Airline",
+                            "process": ""
+                        },
+                        {
+                            "path": "airline_country",
+                            "label": "Airline country",
+                            "process": ""
+                        }
+                    ]
+                }
+            ],
+            "search_size": 20,
+            "name": "Detail list"
         }
       },
       "analytics": [
@@ -395,6 +462,33 @@
                   0,
                   170
                 ]
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "5",
+          "title":"Result List",
+          "icon":"list",
+          "components": [
+            {
+              "contributorId": "table",
+              "componentType": "resultlist",
+              "input": {
+                "tableWidth":null,
+                "globalActionsList":[],
+                "searchSize":20,
+                "nLastLines":3,
+                "detailedGridHeight":25,
+                "nbGridColumns":3,
+                "defautMode":"list",
+                "displayFilters":false,
+                "isBodyHidden":false,
+                "isGeoSortActived":false,
+                "selectedItemsEvent":null,
+                "consultedItemEvent":null,
+                "actionOnItemEvent":null,
+                "globalActionEvent":null
               }
             }
           ]

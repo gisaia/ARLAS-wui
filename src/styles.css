@@ -62,3 +62,7 @@ html {
   padding-right: 10px;
   font-weight: 300;
 }
+
+table.resultlist > tbody{
+  height: 400px !important;
+}
