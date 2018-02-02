@@ -3,21 +3,21 @@
 }
 
 .arlas-histogram-analytics .histogram__chart--current-selected--area{
-  fill: #FFC107;
+  fill: #80CBC4;
   fill-opacity: 1;
-  stroke: #FFC107;
+  stroke: #80CBC4;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
 .arlas-histogram-analytics .histogram__chart--fixed-selected--area{
-  fill: #FFC107;
+  fill: #80CBC4;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics .histogram__chart--unselected--area{
-  fill: #607D8B;
+  fill: #EEEEEE;
   fill-opacity: 1;
   stroke: none;
 }
@@ -28,26 +28,20 @@
   stroke:none;
 }
 
-.arlas-histogram-analytics .histogram__chart--bar__fullyselected {
-  fill: #FFC107;
-  fill-opacity: 1;
-  stroke: none;
-}
-
 .arlas-histogram-analytics .histogram__chart--bar__partlyselected {
-  fill: #FFA000;
+  fill: #9de0ad;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics .histogram__chart--bar__currentselection{
-  fill: #FFC107;
+  fill: #80CBC4;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics .histogram__chart--bar {
-  fill: #607D8B;
+  fill: #EEEEEE;
   fill-opacity: 1;
   stroke: none;
 }
@@ -57,8 +51,9 @@
 }
 
 .arlas-histogram-analytics .histogram__brush--handles {
-  stroke: #B0BEC5;
-  fill: #B0BEC5;
+  stroke: #78909C;
+  stroke-width: 1px;
+  fill: white;
 }
 
 .arlas-histogram-analytics .tick text {

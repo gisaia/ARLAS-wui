@@ -23,8 +23,9 @@
 }
 
 .airlines-swimlane .histogram__brush--handles{
-  stroke: #B0BEC5;
-  fill: #B0BEC5;
+  stroke: #78909C;
+  stroke-width: 1px;
+  fill: white;
 }
 
 .airlines-swimlane .histogram__chart .context .brush .selection{

@@ -459,7 +459,7 @@
                 "swimlaneMode": "fixedHeight",
                 "swimlaneBorderRadius":3,
                 "paletteColors": [
-                  0,
+                  330,
                   170
                 ]
               }
