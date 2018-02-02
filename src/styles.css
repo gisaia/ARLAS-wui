@@ -63,6 +63,10 @@ html {
   font-weight: 300;
 }
 
+.resultlist__header--columns__geosort--icon{
+  display:none !important;
+}
+
 table.resultlist > tbody{
   height: 400px !important;
 }

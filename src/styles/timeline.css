@@ -33,13 +33,13 @@
 }
 
 .arlas-timeline .histogram__chart--fixed-selected--area{
-  fill: #42A5F5;
+  fill: #2196F3;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-timeline .histogram__chart--unselected--area{
-  fill: #607D8B;
+  fill: #EEEEEE;
   fill-opacity: 1;
   stroke: none;
 }
@@ -75,8 +75,8 @@
 }
 
 .arlas-timeline .histogram__brush--handles {
-  stroke: #B0BEC5;
-  fill: #B0BEC5;
+  stroke: #78909C;
+  fill: white;
 }
 
 .arlas-timeline .histogram__tooltip {
