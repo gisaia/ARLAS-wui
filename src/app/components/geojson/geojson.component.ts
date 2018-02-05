@@ -10,6 +10,8 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-t
 import { Filter, Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Http } from '@angular/http';
+import { ArlasSearchField } from 'app/components/geojson/model/field';
 
 @Component({
   selector: 'arlas-geojson',
@@ -32,7 +34,7 @@ export class GeojsonComponent {
   templateUrl: './geojson-dialog.component.html',
   styleUrls: ['./geojson-dialog.component.css']
 })
-export class GeojsonDialogComponent implements OnInit, AfterViewInit {
+export class GeojsonDialogComponent implements OnInit {
 
   displayedUrl: string;
   precisions = [
@@ -49,16 +51,31 @@ export class GeojsonDialogComponent implements OnInit, AfterViewInit {
     [11, '14.9cm x 14.9cm'],
     [12, '3.7cm x 1.9cm']
   ];
+
   aggType: projType.geoaggregate | projType.geosearch;
   aggTypeText = '_geoaggregate';
   searchSize = '';
+  includeFields = '';
+  sort = '';
+
   isCopied = false;
-  allowFeature = false;
+  maxForCluster: number;
+  fields: Array<any>;
+
   geojsonTypeGroup: FormGroup;
   paramFormGroup: FormGroup;
-  maxForFeature: number;
+
+  selectedFields = new Array<ArlasSearchField>();
+  selectedOrderField: ArlasSearchField;
+  sortDirection: string;
+
+  allFields = new Array<ArlasSearchField>();
+  excludedType = new Set<string>();
+  excludedTypeString = '';
+
   constructor(
     private _formBuilder: FormBuilder,
+    private http: Http,
     public dialogRef: MatDialogRef<GeojsonDialogComponent>,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService
@@ -69,32 +86,47 @@ export class GeojsonDialogComponent implements OnInit, AfterViewInit {
       geojsonType: ['', Validators.required]
     });
     this.paramFormGroup = this._formBuilder.group({
-      precision: ['', Validators.required]
+      precision: ['', Validators.required],
+      availableFields: ['', Validators.required],
+      orderField: [''],
+      orderDirection: ['']
     });
-    this.maxForFeature = this.configService.getValue('arlas-wui.web.app.components.geojson.max_for_feature');
-  }
-
-  public ngAfterViewInit(): void {
-    this.collaborativeService.countAll.first().subscribe(
-      count => {
-        if (count <= this.maxForFeature) {
-          this.allowFeature = true;
-          this.searchSize = '&size=' + count;
-        }
-      }
-    );
+    this.maxForCluster = this.configService.getValue('arlas-wui.web.app.components.geojson.max_for_cluster');
+    this.configService.getValue('arlas-wui.web.app.components.geojson.excludedType').forEach(element => {
+      this.excludedType.add(element);
+      this.excludedTypeString += element + ',';
+    });
   }
 
   public changeStep(event) {
+    const server = this.configService.getValue('arlas.server');
+
     if (event.selectedIndex === 1) {
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         this.paramFormGroup.get('precision').disable();
+        this.paramFormGroup.get('availableFields').enable();
         this.aggTypeText = '_geosearch';
         this.aggType = projType.geosearch;
+        this.searchSize = '&size=10000';
+        this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
+          response => {
+            const json = response.json();
+            this.fields = json.properties;
+            Object.keys(json.properties).forEach(fieldName =>
+              this.allFields.push({ label: fieldName, type: this.fields[fieldName].type })
+            );
+          }).subscribe(
+          response => { },
+          error => {
+            this.collaborativeService.collaborationErrorBus.next(error);
+          }
+          );
       } else {
         this.paramFormGroup.get('precision').enable();
+        this.paramFormGroup.get('availableFields').disable();
         this.aggTypeText = '_geoaggregate';
         this.aggType = projType.geoaggregate;
+        this.searchSize = '&size=' + this.maxForCluster;
       }
     }
     if (event.selectedIndex === 2) {
@@ -111,10 +143,22 @@ export class GeojsonDialogComponent implements OnInit, AfterViewInit {
           value: this.paramFormGroup.get('precision').value
         }
       };
+      if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
+        if (this.selectedFields.length > 0) {
+          this.includeFields = "&include="
+          this.selectedFields.forEach(field =>
+            this.includeFields += field.label + ','
+          );
+        }
 
-      const server = this.configService.getValue('arlas.server');
+        if (this.selectedOrderField) {
+          this.sort = '&sort=' + (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
+        }
+      }
+
       this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [agg]], filters) + this.searchSize;
+        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [agg]], filters) + this.searchSize + this.includeFields + this.sort;
     }
   }
+
 }
