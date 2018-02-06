@@ -33,6 +33,7 @@ import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { GeojsonComponent, GeojsonDialogComponent } from './components/geojson/geojson.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { ExcludeFieldPipe } from './components/geojson/exclude-field.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     SearchComponent,
     FiltersChipsComponent,
     GeojsonComponent,
-    GeojsonDialogComponent
+    GeojsonDialogComponent,
+    ExcludeFieldPipe
   ],
   imports: [
     BrowserModule,
