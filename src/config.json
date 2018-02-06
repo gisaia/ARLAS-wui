@@ -604,6 +604,7 @@
             "autocomplete_size": "20"
           },
           "geojson":{
+            "max_for_feature": 10000,
             "max_for_cluster": 100000,
             "excludedType": [
               "TEXT",

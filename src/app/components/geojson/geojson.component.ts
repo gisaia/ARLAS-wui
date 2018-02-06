@@ -60,6 +60,7 @@ export class GeojsonDialogComponent implements OnInit {
 
   isCopied = false;
   maxForCluster: number;
+  maxForFeature: number;
   fields: Array<any>;
 
   geojsonTypeGroup: FormGroup;
@@ -92,10 +93,12 @@ export class GeojsonDialogComponent implements OnInit {
       orderDirection: ['']
     });
     this.maxForCluster = this.configService.getValue('arlas-wui.web.app.components.geojson.max_for_cluster');
+    this.maxForFeature = this.configService.getValue('arlas-wui.web.app.components.geojson.max_for_feature');
     this.configService.getValue('arlas-wui.web.app.components.geojson.excludedType').forEach(element => {
       this.excludedType.add(element);
-      this.excludedTypeString += element + ',';
+      this.excludedTypeString += element + ', ';
     });
+    this.excludedTypeString = this.excludedTypeString.substr(0, this.excludedTypeString.length - 2);
   }
 
   public changeStep(event) {
@@ -107,7 +110,7 @@ export class GeojsonDialogComponent implements OnInit {
         this.paramFormGroup.get('availableFields').enable();
         this.aggTypeText = '_geosearch';
         this.aggType = projType.geosearch;
-        this.searchSize = '&size=10000';
+        this.searchSize = '&size=' + this.maxForFeature;
         this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
           response => {
             const json = response.json();
