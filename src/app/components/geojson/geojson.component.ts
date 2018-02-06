@@ -145,7 +145,7 @@ export class GeojsonDialogComponent implements OnInit {
       };
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         if (this.selectedFields.length > 0) {
-          this.includeFields = "&include="
+          this.includeFields = '&include=';
           this.selectedFields.forEach(field =>
             this.includeFields += field.label + ','
           );
@@ -157,7 +157,8 @@ export class GeojsonDialogComponent implements OnInit {
       }
 
       this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [agg]], filters) + this.searchSize + this.includeFields + this.sort;
+        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [agg]], filters)
+        + this.searchSize + this.includeFields + this.sort;
     }
   }
 
