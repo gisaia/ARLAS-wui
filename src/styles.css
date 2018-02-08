@@ -70,3 +70,14 @@ html {
 table.resultlist > tbody{
   height: 400px !important;
 }
+
+.boxdraw {
+  background: transparent;
+  border: 2px solid black;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
