@@ -529,7 +529,8 @@
             "margeExtendPctForTest": 2,
             "paintRuleGeoBox": {
               "line-color": "#5c36a9",
-              "line-opacity": 1
+              "line-opacity": 1,
+              "line-width": 2
             },
             "paintRuleFeatureFill": {
               "fill-color": "#56A7EE",
