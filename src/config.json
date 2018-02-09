@@ -94,7 +94,7 @@
                   "type": "datehistogram",
                   "field": "time",
                   "interval": {
-                    "value": 5,
+                    "value": 10,
                     "unit": "minute"
                   }
                 }
@@ -193,43 +193,43 @@
             ],
             [
               3,
-              4,
+              3,
               1
             ],
             [
               4,
-              4,
+              3,
               1
             ],
             [
               5,
-              5,
+              4,
               2
             ],
             [
               6,
-              5,
+              4,
               2
             ],
             [
               7,
-              5,
+              4,
               2
             ],
             [
               8,
-              6,
+              5,
               3
             ],
             [
               9,
-              6,
+              5,
               3
             ],
             [
               10,
               6,
-              3
+              4
             ]
           ],
           "search_size": 100
@@ -493,7 +493,19 @@
             }
           ]
         }
-      ]
+      ],
+      "components": {
+        "share": {
+          "geojson":{
+            "max_for_feature": 10000,
+            "max_for_cluster": 100000,
+            "sort_excluded_type": [
+              "TEXT",
+              "GEO_POINT"
+            ]
+          }
+        }
+      }
     },
     "server": {
       "url": "http://demo.arlas.io:9999/arlas",
@@ -516,8 +528,9 @@
             "margeExtendPctForLoad": 40,
             "margeExtendPctForTest": 2,
             "paintRuleGeoBox": {
-              "line-color": "#FC9F28",
-              "line-opacity": 0.2
+              "line-color": "#5c36a9",
+              "line-opacity": 1,
+              "line-width": 2
             },
             "paintRuleFeatureFill": {
               "fill-color": "#56A7EE",
@@ -535,27 +548,27 @@
                 "stops": [
                   [
                     0,
-                    "#508104"
+                    "#36a996"
                   ],
                   [
                     20,
-                    "#9e8e01"
+                    "#3683a9"
                   ],
                   [
                     40,
-                    "#f3b800"
+                    "#3649a9"
                   ],
                   [
                     60,
-                    "#db8200"
+                    "#5c36a9"
                   ],
                   [
                     80,
-                    "#b64201"
+                    "#9636a9"
                   ],
                   [
                     100,
-                    "#db8200"
+                    "#a93683"
                   ]
                 ]
               },
@@ -568,27 +581,27 @@
                 "stops": [
                   [
                     0,
-                    "#508104"
+                    "#36a996"
                   ],
                   [
                     20,
-                    "#9e8e01"
+                    "#3683a9"
                   ],
                   [
                     40,
-                    "#f3b800"
+                    "#3649a9"
                   ],
                   [
                     60,
-                    "#db8200"
+                    "#5c36a9"
                   ],
                   [
                     80,
-                    "#b64201"
+                    "#9636a9"
                   ],
                   [
                     100,
-                    "#db8200"
+                    "#a93683"
                   ]
                 ]
               },
@@ -602,14 +615,6 @@
             "icon": "search",
             "autocomplete_field": "relevant_terms",
             "autocomplete_size": "20"
-          },
-          "geojson":{
-            "max_for_feature": 10000,
-            "max_for_cluster": 100000,
-            "excludedType": [
-              "TEXT",
-              "GEO_POINT"
-            ]
           }
         }
       }

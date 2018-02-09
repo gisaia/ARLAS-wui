@@ -12,14 +12,9 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatChipsModule,
-  MatDialogModule,
   MatIconModule,
-  MatSidenavModule,
-  MatSelectModule,
   MatTooltipModule,
-  MatProgressBarModule,
-  MatStepperModule,
-  MatRadioModule
+  MatProgressBarModule
 } from '@angular/material';
 
 import { ContributorService } from './services/contributors.service';
@@ -31,18 +26,12 @@ import { SearchComponent } from './components/search/search.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
 import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-import { GeojsonComponent, GeojsonDialogComponent } from './components/geojson/geojson.component';
-import { ClipboardModule } from 'ngx-clipboard';
-import { ExcludeFieldPipe } from './components/geojson/exclude-field.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    FiltersChipsComponent,
-    GeojsonComponent,
-    GeojsonDialogComponent,
-    ExcludeFieldPipe
+    FiltersChipsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,12 +41,7 @@ import { ExcludeFieldPipe } from './components/geojson/exclude-field.pipe';
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
-    MatDialogModule,
     MatIconModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatStepperModule,
     MatTooltipModule,
     MatProgressBarModule,
     FormsModule,
@@ -66,14 +50,12 @@ import { ExcludeFieldPipe } from './components/geojson/exclude-field.pipe';
     HistogramModule,
     RouterModule,
     routing,
-    ArlasToolKitModule,
-    ClipboardModule
+    ArlasToolKitModule
   ],
   providers: [
     ContributorService,
     ExploreApi
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [GeojsonDialogComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

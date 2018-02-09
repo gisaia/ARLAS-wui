@@ -17,7 +17,6 @@ import {
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { GeojsonComponent } from 'app/components/geojson/geojson.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,7 +27,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapglComponent, SearchComponent, FiltersChipsComponent, GeojsonComponent
+        MapglComponent, SearchComponent, FiltersChipsComponent
       ],
       providers: [
         ArlasCollaborativesearchService,
