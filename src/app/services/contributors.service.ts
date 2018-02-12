@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 
-import { DateUnit, ChartType, DataType, drawType } from 'arlas-web-components';
+import { DateUnit, ChartType, DataType } from 'arlas-web-components';
 
 import { Subject } from 'rxjs/Subject';
 import {
@@ -33,7 +33,7 @@ export class ContributorService {
   ) { }
 
   /* returns the map contributor */
-  public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>, drawTypes: drawType): MapContributor {
+  public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>): MapContributor {
     const mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
       onRemoveBbox,
       redrawTile,

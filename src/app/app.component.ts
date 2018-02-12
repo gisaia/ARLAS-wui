@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
-import { DateUnit, DataType, ChartType, Position, drawType, MapglComponent } from 'arlas-web-components';
+import { DateUnit, DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
   public timelineContributor: HistogramContributor;
 
   public analytics: Array<any>;
-  public mapDrawType = drawType.RECTANGLE;
   public initCenter = [0, 0];
   public dateUnit = DateUnit;
   public dataType = DataType;
@@ -51,16 +50,14 @@ export class AppComponent implements OnInit {
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.timelineContributor = this.arlasStartUpService.contributorRegistry.get('timeline');
-      this.mapComponentConfig = this.configService.getValue('arlas-wui.web.app.components.mapbox');
+      this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       this.analytics = this.configService.getValue('arlas.web.analytics');
     }
   }
 
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile,
-        this.mapDrawType
-      );
+      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
     }
   }
