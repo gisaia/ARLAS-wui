@@ -5101,7 +5101,7 @@ ngeohash@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ngeohash/-/ngeohash-0.6.0.tgz#329713e9e73d1f1a46d92aab0b94adb94533f687"
 
-ngx-chips@^1.5.3:
+ngx-chips@1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/ngx-chips/-/ngx-chips-1.6.3.tgz#9f89c5f3c09523ff4a0b2e81e827c93d42a81cdb"
   dependencies:
