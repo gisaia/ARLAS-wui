@@ -241,71 +241,71 @@
           "icon": "search"
         },
         "resultlist$table": {
-            "identifier": "table",
-            "icon":"list",
-            "fieldsConfiguration": {
-                "idFieldName": "id"
+          "identifier": "table",
+          "icon": "list",
+          "fieldsConfiguration": {
+            "idFieldName": "id"
+          },
+          "columns": [
+            {
+              "columnName": "id",
+              "fieldName": "id",
+              "dataType": "",
+              "process": ""
             },
-            "columns": [
-                {
-                    "columnName": "id",
-                    "fieldName": "id",
-                    "dataType": "",
-                    "process": ""
-                },
-                {
-                    "columnName": "Callsign",
-                    "fieldName": "callsign",
-                    "dataType": "",
-                    "process": ""
-                },
-                {
-                    "columnName": "Velocity",
-                    "fieldName": "velocity",
-                    "dataType": "",
-                    "process": ""
-                },
-                {
-                    "columnName": "Heading",
-                    "fieldName": "heading",
-                    "dataType": "",
-                    "process": ""
-                },
-                {
-                    "columnName": "Geo Altitude",
-                    "fieldName": "geoaltitude",
-                    "dataType": "",
-                    "process": ""
-                }
-            ],
-            "process": {
-                "urlImageTemplate": {
-                    "process": ""
-                },
-                "urlThumbnailTemplate": {
-                    "process": ""
-                }
+            {
+              "columnName": "Callsign",
+              "fieldName": "callsign",
+              "dataType": "",
+              "process": ""
             },
-            "details": [
+            {
+              "columnName": "Velocity",
+              "fieldName": "velocity",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Heading",
+              "fieldName": "heading",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Geo Altitude",
+              "fieldName": "geoaltitude",
+              "dataType": "",
+              "process": ""
+            }
+          ],
+          "process": {
+            "urlImageTemplate": {
+              "process": ""
+            },
+            "urlThumbnailTemplate": {
+              "process": ""
+            }
+          },
+          "details": [
+            {
+              "name": "Technical Informations",
+              "order": 1,
+              "fields": [
                 {
-                    "name": "Technical Informations",
-                    "order": 1,
-                    "fields": [
-                        {
-                            "path": "airline",
-                            "label": "Airline",
-                            "process": ""
-                        },
-                        {
-                            "path": "airline_country",
-                            "label": "Airline country",
-                            "process": ""
-                        }
-                    ]
+                  "path": "airline",
+                  "label": "Airline",
+                  "process": ""
+                },
+                {
+                  "path": "airline_country",
+                  "label": "Airline country",
+                  "process": ""
                 }
-            ],
-            "search_size": 20,
-            "name": "Detail list"
+              ]
+            }
+          ],
+          "search_size": 20,
+          "name": "Detail list"
         }
       },
       "analytics": [
@@ -387,7 +387,7 @@
         },
         {
           "groupId": "3",
-          "title":"Geo-Altitude",
+          "title": "Geo-Altitude",
           "icon": "flight_takeoff",
           "components": [
             {
@@ -425,7 +425,7 @@
         },
         {
           "groupId": "4",
-          "title":"Airlines",
+          "title": "Airlines",
           "icon": "business",
           "components": [
             {
@@ -457,7 +457,7 @@
                 "swimLaneLabelsWidth": 100,
                 "swimlaneHeight": 20,
                 "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius":3,
+                "swimlaneBorderRadius": 3,
                 "paletteColors": [
                   330,
                   170
@@ -468,27 +468,27 @@
         },
         {
           "groupId": "5",
-          "title":"Result List",
-          "icon":"list",
+          "title": "Result List",
+          "icon": "list",
           "components": [
             {
               "contributorId": "table",
               "componentType": "resultlist",
               "input": {
-                "tableWidth":null,
-                "globalActionsList":[],
-                "searchSize":20,
-                "nLastLines":3,
-                "detailedGridHeight":25,
-                "nbGridColumns":3,
-                "defautMode":"list",
-                "displayFilters":false,
-                "isBodyHidden":false,
-                "isGeoSortActived":false,
-                "selectedItemsEvent":null,
-                "consultedItemEvent":null,
-                "actionOnItemEvent":null,
-                "globalActionEvent":null
+                "tableWidth": null,
+                "globalActionsList": [],
+                "searchSize": 20,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "displayFilters": false,
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null
               }
             }
           ]
@@ -496,13 +496,60 @@
       ],
       "components": {
         "share": {
-          "geojson":{
+          "geojson": {
             "max_for_feature": 10000,
             "max_for_cluster": 100000,
             "sort_excluded_type": [
               "TEXT",
               "GEO_POINT"
             ]
+          }
+        },
+        "mapgl": {
+          "input": {
+            "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+            "margePanForLoad": 40,
+            "margePanForTest": 2,
+            "mapLayers": {
+              "layers": [],
+              "styleGroups": [
+                {
+                  "id": "cluster",
+                  "name": "Cluster",
+                  "base": ["geobox", "features-point"],
+                  "styles": [
+                    {
+                      "id": "heat",
+                      "name": "Heats",
+                      "layerIds": [
+                        "cluster-heat"
+                      ],
+                      "isDefault": false
+                    },
+                    {
+                      "id": "fill",
+                      "name": "Rectangle",
+                      "layerIds": [
+                        "cluster-rect-fill"
+                      ],
+                      "isDefault": true
+                    }
+                  ]
+                }
+              ],
+              "events": {
+                "zoomOnClick": [
+                  "cluster-rect-fill"
+                ],
+                "emitOnClick": [
+                  "cluster-rect-fill"
+                ],
+                "onHover": [
+                  "cluster-rect-fill"
+                ]
+              }
+            },
+            "idFeatureField": "id"
           }
         }
       }
@@ -521,94 +568,6 @@
       "app": {
         "idFieldName": "id",
         "components": {
-          "mapbox": {
-            "drawtype": "RECTANGLE",
-            "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-            "fontClusterlabel": "Roboto Regular",
-            "margeExtendPctForLoad": 40,
-            "margeExtendPctForTest": 2,
-            "paintRuleGeoBox": {
-              "line-color": "#5c36a9",
-              "line-opacity": 1,
-              "line-width": 2
-            },
-            "paintRuleFeatureFill": {
-              "fill-color": "#56A7EE",
-              "fill-opacity": 0
-            },
-            "paintRuleFeatureLine": {
-              "line-color": "#56A7EE",
-              "line-opacity": 0,
-              "line-width": 0
-            },
-            "paintRuleClusterLineRectangle": {
-              "line-color": {
-                "property": "point_count_normalize",
-                "type": "exponential",
-                "stops": [
-                  [
-                    0,
-                    "#36a996"
-                  ],
-                  [
-                    20,
-                    "#3683a9"
-                  ],
-                  [
-                    40,
-                    "#3649a9"
-                  ],
-                  [
-                    60,
-                    "#5c36a9"
-                  ],
-                  [
-                    80,
-                    "#9636a9"
-                  ],
-                  [
-                    100,
-                    "#a93683"
-                  ]
-                ]
-              },
-              "line-opacity": 0
-            },
-            "paintRuleClusterFillRectangle": {
-              "fill-color": {
-                "property": "point_count_normalize",
-                "type": "exponential",
-                "stops": [
-                  [
-                    0,
-                    "#36a996"
-                  ],
-                  [
-                    20,
-                    "#3683a9"
-                  ],
-                  [
-                    40,
-                    "#3649a9"
-                  ],
-                  [
-                    60,
-                    "#5c36a9"
-                  ],
-                  [
-                    80,
-                    "#9636a9"
-                  ],
-                  [
-                    100,
-                    "#a93683"
-                  ]
-                ]
-              },
-              "fill-opacity": 0.7
-            },
-            "paintRuleFeatureCirclePoint": {}
-          },
           "chipssearch": {
             "search_size": 100,
             "name": "Search",
@@ -619,5 +578,12 @@
         }
       }
     }
-  }
+  },
+  "extraConfigs": [
+    {
+      "configPath": "config.map.json",
+      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
+      "replacer": "layers"
+    }
+  ]
 }
