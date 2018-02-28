@@ -4,7 +4,7 @@ import { ContributorService } from './services/contributors.service';
 import { MapglComponent, HistogramModule } from 'arlas-web-components';
 import { SearchComponent } from 'app/components/search/search.component';
 import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
-import { MatIconModule, MatAutocompleteModule, MatInputModule, MatChipsModule, MatTooltipModule } from '@angular/material';
+import { MatIconModule, MatAutocompleteModule, MatInputModule, MatChipsModule, MatTooltipModule, MatSelectModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -17,18 +17,18 @@ import {
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { GeojsonComponent } from 'app/components/geojson/geojson.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
-        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule
+        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule,
+        MatSelectModule
       ],
       declarations: [
         AppComponent,
-        MapglComponent, SearchComponent, FiltersChipsComponent, GeojsonComponent
+        MapglComponent, SearchComponent, FiltersChipsComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

@@ -12,14 +12,9 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatChipsModule,
-  MatDialogModule,
   MatIconModule,
-  MatSidenavModule,
-  MatSelectModule,
   MatTooltipModule,
-  MatProgressBarModule,
-  MatStepperModule,
-  MatRadioModule
+  MatProgressBarModule
 } from '@angular/material';
 
 import { ContributorService } from './services/contributors.service';
@@ -31,16 +26,12 @@ import { SearchComponent } from './components/search/search.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
 import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-import { GeojsonComponent, GeojsonDialogComponent } from './components/geojson/geojson.component';
-import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    FiltersChipsComponent,
-    GeojsonComponent,
-    GeojsonDialogComponent
+    FiltersChipsComponent
   ],
   imports: [
     BrowserModule,
@@ -50,12 +41,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
-    MatDialogModule,
     MatIconModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatStepperModule,
     MatTooltipModule,
     MatProgressBarModule,
     FormsModule,
@@ -64,14 +50,12 @@ import { ClipboardModule } from 'ngx-clipboard';
     HistogramModule,
     RouterModule,
     routing,
-    ArlasToolKitModule,
-    ClipboardModule
+    ArlasToolKitModule
   ],
   providers: [
     ContributorService,
     ExploreApi
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [GeojsonDialogComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,126 @@
+{
+  "layers": [
+    {
+      "id": "cluster-rect-fill",
+      "type": "fill",
+      "source": "data_source",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": {
+          "property": "point_count_normalize",
+          "type": "exponential",
+          "stops": [
+            [
+              0,
+              "#36a996"
+            ],
+            [
+              20,
+              "#3683a9"
+            ],
+            [
+              40,
+              "#3649a9"
+            ],
+            [
+              60,
+              "#5c36a9"
+            ],
+            [
+              80,
+              "#9636a9"
+            ],
+            [
+              100,
+              "#a93683"
+            ]
+          ]
+        },
+        "fill-opacity": 0.7
+      },
+      "filter": [
+        "==",
+        "$type",
+        "Polygon"
+      ]
+    },
+    {
+      "id": "cluster-heat",
+      "type": "heatmap",
+      "source": "data_source",
+      "paint": {
+        "heatmap-weight": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "point_count_normalize"
+          ],
+          0,
+          0,
+          100,
+          1
+        ],
+        "heatmap-intensity": 3,
+        "heatmap-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "heatmap-density"
+          ],
+          0,
+          "rgba(33,102,172,0)",
+          0.2,
+          "rgb(103,169,207)",
+          0.4,
+          "rgb(209,229,240)",
+          0.6,
+          "rgb(253,219,199)",
+          0.8,
+          "rgb(239,138,98)",
+          1,
+          "rgb(178,24,43)"
+        ],
+        "heatmap-radius": 50,
+        "heatmap-opacity": 0.4
+      }
+    },
+    {
+      "id": "features-point",
+      "type": "circle",
+      "source": "data_source",
+      "filter": [
+        "all",
+        [
+          "!has",
+          "point_count"
+        ],
+        [
+          "==",
+          "$type",
+          "Point"
+        ]
+      ],
+      "paint": {}
+    },
+    {
+      "id": "geobox",
+      "type": "line",
+      "source": "geobox",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#5c36a9",
+        "line-opacity": 1,
+        "line-width": 2
+      }
+    }
+  ]
+}

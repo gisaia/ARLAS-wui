@@ -3,23 +3,18 @@
 
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
-    [style]="mapComponentConfig?.basemapUrl"
-      [margePanForLoad]="mapComponentConfig?.margeExtendPctForLoad" [margePanForTest]="mapComponentConfig?.margeExtendPctForTest"
+      [style]="mapComponentConfig?.style"
+      [margePanForLoad]="mapComponentConfig?.margePanForLoad" [margePanForTest]="mapComponentConfig?.margePanForTest"
       (onChangeBbox)="mapglContributor?.onChangeBbox($event)"
       [initCenter]="initCenter"
       [initZoom]="2"
-      [paintRuleClusterLineRectangle]="mapComponentConfig?.paintRuleClusterLineRectangle"
-      [paintRuleClusterFillRectangle]="mapComponentConfig?.paintRuleClusterFillRectangle"
-        [paintRuleFeatureLine]="mapComponentConfig?.paintRuleFeatureLine"
-        [paintRuleFeatureFill]="mapComponentConfig?.paintRuleFeatureFill"
       [zoomToPrecisionCluster]="mapglContributor?.zoomToPrecisionCluster"
       [idFeatureField]="mapComponentConfig?.idFieldName"
       [maxPrecision]="mapglContributor?.maxPrecision"
-     [paintRuleGeoBox]="mapComponentConfig?.paintRuleGeoBox"
-      [fontClusterlabel]="mapComponentConfig?.fontClusterlabel"
       (onMove)="mapglContributor?.onMove($event)"
-      [drawType]="mapDrawType"
-      [geoboxdata]="mapglContributor?.geojsonbbox">
+      [geoboxdata]="mapglContributor?.geojsonbbox"
+      [mapLayers]="mapComponentConfig?.mapLayers"
+      [displayLayerSwitcher]=true>
     </arlas-mapgl>
 
   </div>
@@ -36,7 +31,7 @@
   </div>
 
   <div class="arlas-geojson">
-      <arlas-geojson></arlas-geojson>
+    <arlas-share [icon]="'share'"></arlas-share>
   </div>
 
   <div class="arlas-timeline">
