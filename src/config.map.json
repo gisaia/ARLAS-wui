@@ -92,6 +92,24 @@
       }
     },
     {
+      "id": "features-point",
+      "type": "circle",
+      "source": "data_source",
+      "filter": [
+        "all",
+        [
+          "!has",
+          "point_count"
+        ],
+        [
+          "==",
+          "$type",
+          "Point"
+        ]
+      ],
+      "paint": {}
+    },
+    {
       "id": "geobox",
       "type": "line",
       "source": "geobox",
