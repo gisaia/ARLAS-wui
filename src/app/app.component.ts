@@ -16,6 +16,8 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { SearchComponent } from './components/search/search.component';
+import { AboutComponent } from './components/about/about.component';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
 
 @Component({
   selector: 'arlas-root',
@@ -40,6 +42,8 @@ export class AppComponent implements OnInit {
   public mapComponentConfig: any;
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
+  @ViewChild('about') private aboutcomponent: AboutComponent;
+  @ViewChild('share') private shareComponent: ShareComponent;
 
   constructor(private http: Http,
     private configService: ArlasConfigService,
@@ -82,4 +86,11 @@ export class AppComponent implements OnInit {
     this.analyticsOpen = !this.analyticsOpen;
   }
 
+  public displayAbout() {
+    this.aboutcomponent.openDialog();
+  }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
+  }
 }
