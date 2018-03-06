@@ -22,11 +22,14 @@
   <div class="arlas-search">
     <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
   </div>
+  <span class="arlas-analytics-toggle" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
+    <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
+  </span>
   <div class="arlas-filters-chips">
     <arlas-filters-chips></arlas-filters-chips>
   </div>
 
-  <div class="arlas-analytics--container">
+  <div class="arlas-analytics--container" *ngIf="analyticsOpen">
     <arlas-analytics-board [groups]="this.analytics"></arlas-analytics-board>
   </div>
 
