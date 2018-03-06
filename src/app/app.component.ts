@@ -35,6 +35,8 @@ export class AppComponent implements OnInit {
   public chartType = ChartType;
   public position = Position;
 
+  public analyticsOpen = true;
+
   // component config
   public mapComponentConfig: any;
   @ViewChild('map') private mapglComponent: MapglComponent;
@@ -75,6 +77,10 @@ export class AppComponent implements OnInit {
 
       this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
     }
+  }
+
+  public toggleAnalytics(event: string) {
+    this.analyticsOpen = !this.analyticsOpen;
   }
 
 }
