@@ -70,8 +70,27 @@
 
 .arlas-geojson{
   position: absolute;
-  right: 7px;
+  right: 9px;
+  bottom: 140px;
+}
+
+.arlas-about{
+  position: absolute;
   bottom: 135px;
+  right: 60px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.arlas-about:hover{
+  text-decoration: underline;
+}
+
+.arlas-tool-menu{
+  position:absolute;
+  bottom:140px;
+  right:7px;
+  /* color: #FF4081; */
 }
 
 ::-webkit-scrollbar
