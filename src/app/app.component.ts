@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
-import { DateUnit, DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
+import { DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
@@ -16,6 +16,8 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { SearchComponent } from './components/search/search.component';
+import { AboutComponent } from './components/about/about.component';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
 
 @Component({
   selector: 'arlas-root',
@@ -30,15 +32,18 @@ export class AppComponent implements OnInit {
 
   public analytics: Array<any>;
   public initCenter = [0, 0];
-  public dateUnit = DateUnit;
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
+
+  public analyticsOpen = true;
 
   // component config
   public mapComponentConfig: any;
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
+  @ViewChild('about') private aboutcomponent: AboutComponent;
+  @ViewChild('share') private shareComponent: ShareComponent;
 
   constructor(private http: Http,
     private configService: ArlasConfigService,
@@ -77,4 +82,15 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public toggleAnalytics(event: string) {
+    this.analyticsOpen = !this.analyticsOpen;
+  }
+
+  public displayAbout() {
+    this.aboutcomponent.openDialog();
+  }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
+  }
 }

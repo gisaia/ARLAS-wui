@@ -14,21 +14,25 @@ import {
   MatChipsModule,
   MatIconModule,
   MatTooltipModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatMenuModule
 } from '@angular/material';
 
 import { ContributorService } from './services/contributors.service';
 import { ConfigService } from 'arlas-web-core';
-import { ExploreApi } from 'arlas-api';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/search/search.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
 import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+import { MarkdownModule } from 'angular2-markdown';
+import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
+    AboutComponent,
+    AboutDialogComponent,
     AppComponent,
     SearchComponent,
     FiltersChipsComponent
@@ -42,8 +46,10 @@ import { ArlasToolKitModule } from 'arlas-wui-toolkit';
     MatButtonModule,
     MatChipsModule,
     MatIconModule,
+    MatMenuModule,
     MatTooltipModule,
     MatProgressBarModule,
+    MarkdownModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
@@ -53,9 +59,9 @@ import { ArlasToolKitModule } from 'arlas-wui-toolkit';
     ArlasToolKitModule
   ],
   providers: [
-    ContributorService,
-    ExploreApi
+    ContributorService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ AboutDialogComponent]
 })
 export class AppModule { }

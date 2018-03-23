@@ -2,6 +2,7 @@
 
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/prismjs/themes/prism.css';
 
 @import 'styles/timeline.css';
 @import 'styles/histogram.analytics.css';
@@ -80,4 +81,8 @@ table.resultlist > tbody{
   left: 0;
   width: 0;
   height: 0;
+}
+
+.mat-dialog-container{
+  max-height: 85vh !important;
 }
