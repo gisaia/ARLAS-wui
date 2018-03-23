@@ -19,7 +19,6 @@ import {
 
 import { ContributorService } from './services/contributors.service';
 import { ConfigService } from 'arlas-web-core';
-import { ExploreApi } from 'arlas-api';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/search/search.component';
@@ -53,8 +52,7 @@ import { ArlasToolKitModule } from 'arlas-wui-toolkit';
     ArlasToolKitModule
   ],
   providers: [
-    ContributorService,
-    ExploreApi
+    ContributorService
   ],
   bootstrap: [AppComponent]
 })
