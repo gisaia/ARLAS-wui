@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
-import { DateUnit, DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
+import { DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
 import { Collaboration } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
 
   public analytics: Array<any>;
   public initCenter = [0, 0];
-  public dateUnit = DateUnit;
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;

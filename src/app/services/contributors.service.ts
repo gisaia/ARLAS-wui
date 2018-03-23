@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 
-import { DateUnit, ChartType, DataType } from 'arlas-web-components';
+import { ChartType, DataType } from 'arlas-web-components';
 
 import { Subject } from 'rxjs/Subject';
 import {
