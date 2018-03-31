@@ -49,10 +49,12 @@
   </div>
 
   <div class="arlas-timeline">
-    <arlas-histogram #timeline [xTicks]="7" [yTicks]="2" [xLabels]="7" [yTicks]="2" [chartType]="chartType.area" [dataType]="dataType.time"
-      [chartTitle]="'Number of airplanes positions over time'" [customizedCssClass]="'arlas-timeline'" [chartHeight]="100"
+    <arlas-histogram #timeline
+      [xTicks]="timelineComponentConfig.xTicks" [yTicks]="timelineComponentConfig.yTicks" [id]="timelineComponentConfig.id"
+      [xLabels]="timelineComponentConfig.xLabels" [yLabels]="timelineComponentConfig.yLabels" [chartType]="chartType.area" [dataType]="dataType.time"
+      [chartTitle]="timelineComponentConfig.chartTitle" [customizedCssClass]="timelineComponentConfig.customizedCssClass" [chartHeight]="timelineComponentConfig.chartHeight"
       [xAxisPosition]="position.top" [descriptionPosition]="position.top" (valuesListChangedEvent)="timelineContributor?.valueChanged($event)"
-      [intervalListSelection]="timelineContributor?.intervalListSelection" [multiselectable]="true" [brushHandlesHeightWeight]="0.8"
+      [intervalListSelection]="timelineContributor?.intervalListSelection" [multiselectable]="timelineComponentConfig.multiselectable" [brushHandlesHeightWeight]="timelineComponentConfig.brushHandlesHeightWeight"
       [data]="timelineContributor?.chartData" [intervalSelection]="timelineContributor?.intervalSelection"></arlas-histogram>
   </div>
   <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></mat-progress-bar>

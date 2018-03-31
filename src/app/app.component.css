@@ -51,6 +51,7 @@
 .arlas-timeline{
   position: absolute;
   bottom: 0;
+  overflow: hidden;
   left:7px;
   right:7px;
   z-index:1000;

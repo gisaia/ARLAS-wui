@@ -86,3 +86,7 @@ table.resultlist > tbody{
 .mat-dialog-container{
   max-height: 85vh !important;
 }
+
+.share-option-check .mat-pseudo-checkbox {
+  display: none !important;
+}
