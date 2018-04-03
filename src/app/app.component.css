@@ -51,6 +51,7 @@
 .arlas-timeline{
   position: absolute;
   bottom: 0;
+  overflow: hidden;
   left:7px;
   right:7px;
   z-index:1000;
@@ -87,10 +88,11 @@
 }
 
 .arlas-tool-menu{
-  position:absolute;
-  bottom:140px;
-  right:7px;
-  /* color: #FF4081; */
+  padding: 8px 0px 6px 4px !important;
+  border-radius: 3px;
+  margin-right: 3px;
+  background-color: #FF4081;
+  color: white;
 }
 
 ::-webkit-scrollbar

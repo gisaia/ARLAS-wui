@@ -16,7 +16,6 @@
           ],
           "name": "Timeline",
           "icon": "watch_later",
-          "dateunit": "second",
           "datatype": "time",
           "isOneDimension": false
         },
@@ -36,7 +35,6 @@
           "title": "Velocity",
           "icon": "slow_motion_video",
           "datatype": "numeric",
-          "dateunit": "second",
           "isOneDimension": false
         },
         "histogram$heading": {
@@ -55,7 +53,6 @@
           "charttype": "area",
           "icon": "airplanemode_active",
           "datatype": "numeric",
-          "dateunit": "second",
           "isOneDimension": false
         },
         "histogram$geoaltitude": {
@@ -74,7 +71,6 @@
           "title": "Geo-altitude",
           "icon": "flight_takeoff",
           "datatype": "numeric",
-          "dateunit": "second",
           "isOneDimension": false
         },
         "swimlane$airline": {
@@ -104,7 +100,6 @@
           "name": "Airlines",
           "charttype": "swimlane",
           "icon": "business",
-          "dateunit": "second",
           "datatype": "time",
           "isOneDimension": false
         },
@@ -318,8 +313,8 @@
               "contributorId": "velocity",
               "componentType": "histogram",
               "input": {
+                "id": "histogram-velocity",
                 "dataType": "numeric",
-                "dateUnit": "second",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -356,8 +351,8 @@
               "contributorId": "heading",
               "componentType": "histogram",
               "input": {
+                "id": "histogram-heading",
                 "dataType": "numeric",
-                "dateUnit": "second",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -394,8 +389,8 @@
               "contributorId": "geoaltitude",
               "componentType": "histogram",
               "input": {
+                "id": "histogram-altitude",
                 "dataType": "numeric",
-                "dateUnit": "second",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -432,8 +427,8 @@
               "contributorId": "airline",
               "componentType": "swimlane",
               "input": {
+                "id": "swimlane-airline",
                 "dataType": "time",
-                "dateUnit": "millisecond",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -516,7 +511,10 @@
                 {
                   "id": "cluster",
                   "name": "Cluster",
-                  "base": ["geobox", "features-point"],
+                  "base": [
+                    "geobox",
+                    "features-point"
+                  ],
                   "styles": [
                     {
                       "id": "heat",
@@ -550,6 +548,20 @@
               }
             },
             "idFeatureField": "id"
+          }
+        },
+        "timeline": {
+          "input": {
+            "id": "histogram-timeline",
+            "xTicks": 7,
+            "yTicks": 2,
+            "xLabels": 7,
+            "yLabels": 2,
+            "chartTitle": "Number of airplanes positions over time",
+            "customizedCssClass": "arlas-timeline",
+            "chartHeight": 100,
+            "multiselectable": true,
+            "brushHandlesHeightWeight": 0.8
           }
         }
       }

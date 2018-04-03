@@ -7,6 +7,12 @@ before_script:
 
 jobs:
   include:
-    - script: npm run lint
-    - script: npm run test
-    - script: npm run build
+    - env:
+        - job=lint
+      script: npm run lint
+    - env:
+        - job=test
+      script: npm run test
+    - env:
+        - job=build
+      script: npm run build
