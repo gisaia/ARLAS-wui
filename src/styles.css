@@ -90,3 +90,7 @@ table.resultlist > tbody{
 .share-option-check .mat-pseudo-checkbox {
   display: none !important;
 }
+
+.histogram{
+  overflow: hidden;
+}
