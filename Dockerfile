@@ -23,8 +23,7 @@ RUN $(npm bin)/ng build --prod  --aot --base-href=''
 ### STAGE 2: Setup ###
 
 FROM nginx:1.13.3-alpine
-
-RUN apk add --update netcat-openbsd curl && rm -rf /var/cache/apk/*
+RUN apk add --update jq netcat-openbsd curl && rm -rf /var/cache/apk/*
 
 ## Copy our default nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/
