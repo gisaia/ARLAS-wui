@@ -44,7 +44,7 @@ export class ContributorService {
   public MAPCONTRIBUTOR_ID = 'mapbox';
   public MAP_COMPONENT = 'map$mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
-  public CHIPSSEARCH_COMPONENT = 'chipsearch$chipssearch';
+  public CHIPSSEARCH_COMPONENT = 'chipssearch$chipssearch';
 
   public constructor(private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,

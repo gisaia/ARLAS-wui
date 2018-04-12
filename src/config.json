@@ -229,9 +229,10 @@
           ],
           "search_size": 100
         },
-        "chipsearch$chipssearch": {
+        "chipssearch$chipssearch": {
           "identifier": "chipssearch",
           "search_size": 100,
+          "search_field": "params.job",
           "name": "Search",
           "icon": "search"
         },
