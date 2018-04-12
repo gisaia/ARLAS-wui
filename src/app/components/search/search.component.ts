@@ -67,7 +67,13 @@ export class SearchComponent {
       .filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0).first().subscribe(
         contributor => {
           let initSearchValue = '';
-          (<ChipsSearchContributor>contributor).chipMapData.forEach( (v, k) => initSearchValue += k + ' ');
+          (<ChipsSearchContributor>contributor).chipMapData.forEach( (v, k) => {
+            let searchtxt = k;
+            if (k.split(':').length > 0) {
+              searchtxt = k.split(':')[1];
+            }
+            initSearchValue += searchtxt + ' ';
+          });
           this.searchCtrl.setValue( initSearchValue);
         }
       );
@@ -101,7 +107,7 @@ export class SearchComponent {
       size: this.autocomplete_size
     };
     const filter: Filter = {
-      q: [[search + '*']]
+      q: [[ this.autocomplete_field + ':' + search + '*']]
     };
     this.searches = this.collaborativeService.resolveButNotAggregation(
       [projType.aggregate, [aggregation]],
