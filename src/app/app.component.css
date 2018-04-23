@@ -114,6 +114,10 @@
   color: white;
 }
 
+.arlas-donuts-analytics{
+  height: 160px;
+}
+
 ::-webkit-scrollbar
 {
 	width: 6px;

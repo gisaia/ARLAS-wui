@@ -1,6 +1,7 @@
 <arlas-tool-root></arlas-tool-root>
 <arlas-about #about [pathToMd]="'about.md'"></arlas-about>
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+<arlas-tag #tag [hidden]="true"></arlas-tag>
 <div class="app-container">
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
@@ -31,13 +32,17 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="displayAbout()">
-          <mat-icon>info_outline</mat-icon>
-          <span>About ARLAS WUI</span>
+        <button mat-menu-item (click)="displayTag()">
+          <mat-icon>local_offer</mat-icon>
+          <span>Tag</span>
         </button>
         <button mat-menu-item (click)="displayShare()">
           <mat-icon>share</mat-icon>
           <span>Share</span>
+        </button>
+        <button mat-menu-item (click)="displayAbout()">
+          <mat-icon>info_outline</mat-icon>
+          <span>About ARLAS WUI</span>
         </button>
       </mat-menu>
     </mat-basic-chip>
