@@ -16,27 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Params } from '@angular/router';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
-import { Subject } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-
-import { MapContributor, HistogramContributor, ChipsSearchContributor } from 'arlas-web-contributors';
-import { DataType, ChartType, Position, MapglComponent } from 'arlas-web-components';
-import { Collaboration } from 'arlas-web-core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
-import { ContributorService } from './services/contributors.service';
+import { ChartType, DataType, MapglComponent, Position } from 'arlas-web-components';
+import { ChipsSearchContributor, HistogramContributor, MapContributor } from 'arlas-web-contributors';
+import { Collaboration } from 'arlas-web-core';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
+import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import {
-  ArlasConfigService,
   ArlasCollaborativesearchService,
+  ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { SearchComponent } from './components/search/search.component';
 import { AboutComponent } from './components/about/about.component';
-import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
+import { SearchComponent } from './components/search/search.component';
+import { ContributorService } from './services/contributors.service';
+
 
 @Component({
   selector: 'arlas-root',
@@ -65,6 +62,7 @@ export class AppComponent implements OnInit {
   @ViewChild('search') private searchComponent: SearchComponent;
   @ViewChild('about') private aboutcomponent: AboutComponent;
   @ViewChild('share') private shareComponent: ShareComponent;
+  @ViewChild('tag') private tagComponent: TagComponent;
 
   constructor(private http: Http,
     private configService: ArlasConfigService,
@@ -114,5 +112,9 @@ export class AppComponent implements OnInit {
 
   public displayShare() {
     this.shareComponent.openDialog();
+  }
+
+  public displayTag() {
+    this.tagComponent.openDialog();
   }
 }
