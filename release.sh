@@ -85,7 +85,7 @@ yarn cache clean
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build --no-cache--tag arlas-wui:${VERSION} --tag arlas-wui:latest --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
+docker build --no-cache --tag arlas-wui:${VERSION} --tag arlas-wui:latest --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
 
 docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:latest
