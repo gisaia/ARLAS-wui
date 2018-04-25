@@ -24,4 +24,15 @@ else
   fetchMapConfiguration;
 fi
 
+fetchAboutContent(){
+  echo "Download the about.md file from \"${ARLAS_WUI_ABOUT_URL}\" ..."
+  curl ${ARLAS_WUI_ABOUT_URL} -o "/usr/share/nginx/html/about.md" && echo "'About' file downloaded with success." || (echo "Failed to download the 'About' file."; exit 1)
+}
+
+if [ -z "${ARLAS_WUI_ABOUT_URL}" ]; then
+  echo "The default 'about' file is used"
+else
+  fetchAboutContent;
+fi
+
 nginx -g "daemon off;"

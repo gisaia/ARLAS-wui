@@ -32,11 +32,11 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="displayTag()">
+        <button *ngIf="tagComponenentConfig" mat-menu-item (click)="displayTag()">
           <mat-icon>local_offer</mat-icon>
           <span>Tag</span>
         </button>
-        <button mat-menu-item (click)="displayShare()">
+        <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
           <mat-icon>share</mat-icon>
           <span>Share</span>
         </button>

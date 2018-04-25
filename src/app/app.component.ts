@@ -57,6 +57,8 @@ export class AppComponent implements OnInit {
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
+  public tagComponenentConfig: any;
+  public shareComponentConfig: any;
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -76,6 +78,8 @@ export class AppComponent implements OnInit {
       this.timelineContributor = this.arlasStartUpService.contributorRegistry.get('timeline');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline.input');
+      this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
+      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.analytics = this.configService.getValue('arlas.web.analytics');
     }
   }
