@@ -7,6 +7,7 @@
 @import 'styles/timeline.css';
 @import 'styles/histogram.analytics.css';
 @import 'styles/swimlane.css';
+@import 'styles/donut.css';
 
 /* Material Icons */
 @font-face {
