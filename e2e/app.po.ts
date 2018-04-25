@@ -1,11 +1,11 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-  navigateTo() {
+  public navigateTo() {
     return browser.get('/');
   }
 
-  getTitle() {
+  public getTitle() {
     return element(by.css('.home-chip')).getText();
   }
 }
