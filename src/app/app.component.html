@@ -23,6 +23,9 @@
   <div class="arlas-search">
     <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
   </div>
+  <span class="arlas-analytics-refresh" (click)="refreshComponents()" matTooltip="Refresh components">
+    <mat-icon>refresh</mat-icon>
+  </span>
   <span class="arlas-analytics-toggle" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
     <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
   </span>

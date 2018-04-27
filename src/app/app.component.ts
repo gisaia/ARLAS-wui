@@ -121,4 +121,9 @@ export class AppComponent implements OnInit {
   public displayTag() {
     this.tagComponent.openDialog();
   }
+
+  public refreshComponents() {
+    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
+    this.collaborativeService.setCollaborations(dataModel);
+  }
 }
