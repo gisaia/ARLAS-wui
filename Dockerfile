@@ -25,6 +25,12 @@ RUN $(npm bin)/ng build --prod  --aot --base-href=''
 ### STAGE 2: Setup ###
 
 FROM nginx:1.13.3-alpine
+ARG version="latest"
+
+LABEL io.arlas.wui.version=${version}
+LABEL vendor="Gisaïa"
+LABEL description="This container build and serve the ARLAS-wui app"
+
 RUN apk add --update jq netcat-openbsd curl && rm -rf /var/cache/apk/*
 
 ## Copy our default nginx config

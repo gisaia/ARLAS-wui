@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -16,31 +17,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { ContributorService } from './services/contributors.service';
-import { MapglComponent, HistogramModule } from 'arlas-web-components';
-import { SearchComponent } from 'app/components/search/search.component';
-import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
-import {
-  MatIconModule, MatAutocompleteModule, MatInputModule,
-  MatChipsModule, MatTooltipModule, MatSelectModule, MatMenuModule
-} from '@angular/material';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {
+  MatAutocompleteModule, MatChipsModule, MatIconModule,
+  MatInputModule, MatMenuModule, MatSelectModule,
+  MatTooltipModule, MatProgressBarModule
+} from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { routing } from './app.routes';
-import { APP_BASE_HREF } from '@angular/common';
-import { By } from '@angular/platform-browser';
-import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+
 import { MarkdownModule } from 'angular2-markdown';
+import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
+import { SearchComponent } from 'app/components/search/search.component';
+import { HistogramModule, MapglComponent } from 'arlas-web-components';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
+
+import { AppComponent } from './app.component';
+import { routing } from './app.routes';
+import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+import { ContributorService } from './services/contributors.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -48,7 +49,7 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, MarkdownModule, MatMenuModule
+        MatSelectModule, MarkdownModule, MatMenuModule, MatProgressBarModule
       ],
       declarations: [
         AppComponent,
