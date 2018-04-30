@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   public timelineContributor: HistogramContributor;
 
   public analytics: Array<any>;
+  public refreshButton: any;
   public initCenter = [0, 0];
   public dataType = DataType;
   public chartType = ChartType;
@@ -81,6 +82,7 @@ export class AppComponent implements OnInit {
       this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.analytics = this.configService.getValue('arlas.web.analytics');
+      this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
   }
 
