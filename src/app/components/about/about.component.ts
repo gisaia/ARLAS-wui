@@ -27,8 +27,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 })
 export class AboutComponent {
 
-  @Input() pathToMd: string;
-  @Input() displayLink = false;
+  @Input() public pathToMd: string;
+  @Input() public displayLink = false;
   public dialogRef: MatDialogRef<AboutDialogComponent>;
 
   constructor(public dialog: MatDialog) { }

@@ -1,602 +1,322 @@
 {
   "arlas": {
-    "web": {
-      "contributors": {
-        "histogram$timeline": {
-          "identifier": "timeline",
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "time",
-              "interval": {
-                "value": 1,
-                "unit": "minute"
-              }
-            }
-          ],
-          "name": "Timeline",
-          "icon": "watch_later",
-          "datatype": "time",
-          "isOneDimension": false
-        },
-        "histogram$velocity": {
-          "identifier": "velocity",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "velocity",
-              "interval": {
-                "value": 100
-              }
-            }
-          ],
-          "name": "Velocity",
-          "charttype": "bars",
-          "title": "Velocity",
-          "icon": "slow_motion_video",
-          "datatype": "numeric",
-          "isOneDimension": false
-        },
-        "histogram$heading": {
-          "identifier": "heading",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "heading",
-              "interval": {
-                "value": 45
-              }
-            }
-          ],
-          "name": "Heading",
-          "title": "Heading",
-          "charttype": "area",
-          "icon": "airplanemode_active",
-          "datatype": "numeric",
-          "isOneDimension": false
-        },
-        "histogram$geoaltitude": {
-          "identifier": "geoaltitude",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "geoaltitude",
-              "interval": {
-                "value": 1000
-              }
-            }
-          ],
-          "name": "Geo-Altitutde",
-          "charttype": "bars",
-          "title": "Geo-altitude",
-          "icon": "flight_takeoff",
-          "datatype": "numeric",
-          "isOneDimension": false
-        },
-        "swimlane$airline": {
-          "identifier": "airline",
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Airlines",
-              "field": "time",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "airline",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "time",
-                  "interval": {
-                    "value": 10,
-                    "unit": "minute"
-                  }
-                }
-              ]
-            }
-          ],
-          "name": "Airlines",
-          "charttype": "swimlane",
-          "icon": "business",
-          "datatype": "time",
-          "isOneDimension": false
-        },
-        "map$mapbox": {
-          "identifier": "mapbox",
-          "idFieldName": "id",
-          "drawtype": "RECTANGLE",
-          "name": "Map",
-          "initZoom": 2,
-          "icon": "check_box_outline_blank",
-          "geometry": "geometry",
-          "actions": {
-            "flyto": true,
-            "hightlight": true
-          },
-          "aggregationmodels": [
-            {
-              "type": "geohash",
-              "field": "location",
-              "interval": {
-                "value": 3
-              },
-              "withGeoCentroid": true
-            }
-          ],
-          "zoomLevelFullData": 2,
-          "zoomLevelForTestCount": 6,
-          "nbMaxDefautFeatureForCluster": 1000,
-          "zoomToNbMaxFeatureForCluster": [
-            [
-              4,
-              1000
-            ],
-            [
-              5,
-              1000
-            ],
-            [
-              6,
-              1000
-            ],
-            [
-              7,
-              1000
-            ],
-            [
-              8,
-              3000
-            ],
-            [
-              9,
-              3000
-            ],
-            [
-              10,
-              3000
-            ],
-            [
-              11,
-              3000
-            ],
-            [
-              12,
-              3000
-            ]
-          ],
-          "maxPrecision": [
-            7,
-            4
-          ],
-          "zoomToPrecisionCluster": [
-            [
-              0,
-              3,
-              1
-            ],
-            [
-              1,
-              3,
-              1
-            ],
-            [
-              2,
-              3,
-              1
-            ],
-            [
-              3,
-              3,
-              1
-            ],
-            [
-              4,
-              3,
-              1
-            ],
-            [
-              5,
-              4,
-              2
-            ],
-            [
-              6,
-              4,
-              2
-            ],
-            [
-              7,
-              4,
-              2
-            ],
-            [
-              8,
-              5,
-              3
-            ],
-            [
-              9,
-              5,
-              3
-            ],
-            [
-              10,
-              6,
-              4
-            ]
-          ],
-          "search_size": 100
-        },
-        "chipssearch$chipssearch": {
-          "identifier": "chipssearch",
-          "search_size": 100,
-          "search_field": "params.job",
-          "name": "Search",
-          "icon": "search"
-        },
-        "resultlist$table": {
-          "identifier": "table",
-          "icon": "list",
-          "fieldsConfiguration": {
-            "idFieldName": "id"
-          },
-          "columns": [
-            {
-              "columnName": "id",
-              "fieldName": "id",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Callsign",
-              "fieldName": "callsign",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Velocity",
-              "fieldName": "velocity",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Heading",
-              "fieldName": "heading",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Geo Altitude",
-              "fieldName": "geoaltitude",
-              "dataType": "",
-              "process": ""
-            }
-          ],
-          "process": {
-            "urlImageTemplate": {
-              "process": ""
-            },
-            "urlThumbnailTemplate": {
-              "process": ""
-            }
-          },
-          "details": [
-            {
-              "name": "Technical Informations",
-              "order": 1,
-              "fields": [
-                {
-                  "path": "airline",
-                  "label": "Airline",
-                  "process": ""
-                },
-                {
-                  "path": "airline_country",
-                  "label": "Airline country",
-                  "process": ""
-                }
-              ]
-            }
-          ],
-          "search_size": 20,
-          "name": "Detail list"
-        }
-      },
-      "analytics": [
-        {
-          "groupId": "1",
-          "title": "Velocity",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "contributorId": "velocity",
-              "componentType": "histogram",
-              "input": {
-                "id": "histogram-velocity",
-                "dataType": "numeric",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartType": "bars",
-                "chartTitle": "Velocity",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": false,
-                "barWeight": 0.8
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "2",
-          "title": "Heading",
-          "icon": "airplanemode_active",
-          "components": [
-            {
-              "contributorId": "heading",
-              "componentType": "histogram",
-              "input": {
-                "id": "histogram-heading",
-                "dataType": "numeric",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartType": "area",
-                "chartTitle": "Heading",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": true,
-                "barWeight": 0.8
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "3",
-          "title": "Geo-Altitude",
-          "icon": "flight_takeoff",
-          "components": [
-            {
-              "contributorId": "geoaltitude",
-              "componentType": "histogram",
-              "input": {
-                "id": "histogram-altitude",
-                "dataType": "numeric",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartType": "bars",
-                "chartTitle": "Geo-Altitutde",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": true,
-                "barWeight": 0.8
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "4",
-          "title": "Airlines",
-          "icon": "business",
-          "components": [
-            {
-              "contributorId": "airline",
-              "componentType": "swimlane",
-              "input": {
-                "id": "swimlane-airline",
-                "dataType": "time",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "airlines-swimlane",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": false,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "5",
-          "title": "Result List",
-          "icon": "list",
-          "components": [
-            {
-              "contributorId": "table",
-              "componentType": "resultlist",
-              "input": {
-                "tableWidth": null,
-                "globalActionsList": [],
-                "searchSize": 20,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null
-              }
-            }
-          ]
-        }
-      ],
-      "components": {
-        "share": {
-          "geojson": {
-            "max_for_feature": 10000,
-            "max_for_cluster": 100000,
-            "sort_excluded_type": [
-              "TEXT",
-              "GEO_POINT"
-            ]
-          }
-        },
-        "mapgl": {
-          "input": {
-            "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-            "margePanForLoad": 40,
-            "margePanForTest": 2,
-            "mapLayers": {
-              "layers": [],
-              "styleGroups": [
-                {
-                  "id": "cluster",
-                  "name": "Cluster",
-                  "base": [
-                    "geobox",
-                    "features-point"
+      "web": {
+          "contributors": {
+              "histogram$timeline": {
+                  "identifier": "timeline",
+                  "aggregationmodels": [
+                      {
+                          "type": "datehistogram",
+                          "field": "position.timestamp",
+                          "interval": {
+                              "value": 1,
+                              "unit": "hour"
+                          }
+                      }
                   ],
-                  "styles": [
-                    {
-                      "id": "heat",
-                      "name": "Heats",
-                      "layerIds": [
-                        "cluster-heat"
+                  "name": "Timeline",
+                  "icon": "watch_later",
+                  "dateunit": "second",
+                  "datatype": "time",
+                  "isOneDimension": false
+              },
+              "map$mapbox": {
+                  "identifier": "mapbox",
+                  "idFieldName": "id",
+                  "drawtype": "RECTANGLE",
+                  "name": "Map",
+                  "initZoom": 4,
+                  "includeFeaturesFields": [
+                      "course.heading",
+                      "course.sog"
+                  ],
+                  "icon": "check_box_outline_blank",
+                  "geometry": "geometry",
+                  "actions": {
+                      "flyto": true,
+                      "hightlight": true
+                  },
+                  "aggregationmodels": [
+                      {
+                          "type": "geohash",
+                          "field": "position.location",
+                          "interval": {
+                              "value": 3
+                          },
+                          "withGeoCentroid": true
+                      }
+                  ],
+                  "zoomLevelFullData": 6,
+                  "zoomLevelForTestCount": 6,
+                  "nbMaxDefautFeatureForCluster": 10000,
+                  "zoomToNbMaxFeatureForCluster": [
+                      [
+                          4,
+                          10000
                       ],
-                      "isDefault": false
-                    },
-                    {
-                      "id": "fill",
-                      "name": "Rectangle",
-                      "layerIds": [
-                        "cluster-rect-fill"
+                      [
+                          5,
+                          10000
                       ],
-                      "isDefault": true
-                    }
-                  ]
-                }
-              ],
-              "events": {
-                "zoomOnClick": [
-                  "cluster-rect-fill"
-                ],
-                "emitOnClick": [
-                  "cluster-rect-fill"
-                ],
-                "onHover": [
-                  "cluster-rect-fill"
-                ]
+                      [
+                          6,
+                          10000
+                      ],
+                      [
+                          7,
+                          10000
+                      ],
+                      [
+                          8,
+                          10000
+                      ],
+                      [
+                          9,
+                          10000
+                      ],
+                      [
+                          10,
+                          10000
+                      ],
+                      [
+                          11,
+                          10000
+                      ],
+                      [
+                          12,
+                          10000
+                      ]
+                  ],
+                  "maxPrecision": [
+                      7,
+                      4
+                  ],
+                  "zoomToPrecisionCluster": [
+                      [
+                          0,
+                          3,
+                          1
+                      ],
+                      [
+                          1,
+                          3,
+                          1
+                      ],
+                      [
+                          2,
+                          3,
+                          1
+                      ],
+                      [
+                          3,
+                          3,
+                          1
+                      ],
+                      [
+                          4,
+                          3,
+                          1
+                      ],
+                      [
+                          5,
+                          4,
+                          2
+                      ],
+                      [
+                          6,
+                          4,
+                          2
+                      ],
+                      [
+                          7,
+                          4,
+                          2
+                      ],
+                      [
+                          8,
+                          5,
+                          3
+                      ],
+                      [
+                          9,
+                          6,
+                          4
+                      ],
+                      [
+                          10,
+                          7,
+                          4
+                      ],
+                      [
+                          11,
+                          7,
+                          5
+                      ],
+                      [
+                          12,
+                          7,
+                          5
+                      ],
+                      [
+                          13,
+                          7,
+                          5
+                      ],
+                      [
+                          14,
+                          8,
+                          5
+                      ],
+                      [
+                          15,
+                          8,
+                          5
+                      ],
+                      [
+                          16,
+                          8,
+                          5
+                      ],
+                      [
+                          17,
+                          8,
+                          5
+                      ],
+                      [
+                          18,
+                          8,
+                          5
+                      ],
+                      [
+                          19,
+                          8,
+                          5
+                      ],
+                      [
+                          20,
+                          8,
+                          5
+                      ]
+                  ],
+                  "search_size": 10000
+              },
+              "chipssearch$chipssearch": {
+                  "identifier": "chipssearch",
+                  "search_size": 100,
+                  "search_field": "internal.fulltext",
+                  "name": "Search",
+                  "icon": "search"
               }
-            },
-            "idFeatureField": "id"
+          },
+          "components": {
+              "share": {
+                  "geojson": {
+                      "max_for_feature": 10000,
+                      "max_for_cluster": 100000,
+                      "sort_excluded_type": [
+                          "TEXT",
+                          "GEO_POINT"
+                      ]
+                  }
+              },
+              "mapgl": {
+                  "input": {
+                      "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+                      "margePanForLoad": 40,
+                      "margePanForTest": 2,
+                      "mapLayers": {
+                          "layers": [],
+                          "styleGroups": [
+                              {
+                                  "id": "cluster",
+                                  "name": "Cluster",
+                                  "base": [
+                                      "geobox",
+                                      "feature-line",
+                                      "features-point"
+                                  ],
+                                  "styles": [
+                                      {
+                                          "id": "heat",
+                                          "name": "Heats",
+                                          "layerIds": [
+                                              "cluster-heat"
+                                          ],
+                                          "isDefault": false
+                                      },
+                                      {
+                                          "id": "fill",
+                                          "name": "Rectangle",
+                                          "layerIds": [
+                                              "cluster-rect-fill"
+                                          ],
+                                          "isDefault": true
+                                      }
+                                  ]
+                              }
+                          ],
+                          "events": {
+                              "zoomOnClick": [
+                                  "cluster-rect-fill"
+                              ],
+                              "emitOnClick": [
+                                  "cluster-rect-fill"
+                              ],
+                              "onHover": [
+                                  "cluster-rect-fill"
+                              ]
+                          }
+                      },
+                      "idFeatureField": "id"
+                  }
+              },
+              "timeline": {
+                  "input": {
+                      "id": "histogram-timeline",
+                      "xTicks": 7,
+                      "yTicks": 2,
+                      "xLabels": 7,
+                      "yLabels": 2,
+                      "chartTitle": "Number of AIS positions over time",
+                      "customizedCssClass": "arlas-timeline",
+                      "chartHeight": 100,
+                      "multiselectable": true,
+                      "brushHandlesHeightWeight": 0.8
+                  }
+              }
           }
-        },
-        "timeline": {
-          "input": {
-            "id": "histogram-timeline",
-            "xTicks": 7,
-            "yTicks": 2,
-            "xLabels": 7,
-            "yLabels": 2,
-            "chartTitle": "Number of airplanes positions over time",
-            "customizedCssClass": "arlas-timeline",
-            "chartHeight": 100,
-            "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8
-          }
-        }
-      }
-    },
-    "server": {
-      "url": "http://demo.arlas.io:9999/arlas",
-      "collection": {
-        "name": "opensky2",
-        "id": "id"
       },
-      "max_age_cache": 120
-    }
+      "server": {
+          "url": "http://demo.arlas.io:9999/arlas",
+          "collection": {
+              "name": "ais-danmark",
+              "id": "id"
+          },
+          "max_age_cache": 120
+      }
   },
   "arlas-wui": {
-    "web": {
-      "app": {
-        "idFieldName": "id",
-        "components": {
-          "chipssearch": {
-            "search_size": 100,
-            "name": "Search",
-            "icon": "search",
-            "autocomplete_field": "relevant_terms",
-            "autocomplete_size": "20"
+      "web": {
+          "app": {
+              "idFieldName": "id",
+              "refresh": false,
+              "components": {
+                  "chipssearch": {
+                      "search_size": 100,
+                      "name": "Search",
+                      "icon": "search",
+                      "autocomplete_field": "vessel.mmsi",
+                      "autocomplete_size": "20"
+                  }
+              }
           }
-        }
       }
-    }
   },
   "extraConfigs": [
-    {
-      "configPath": "config.map.json",
-      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
-      "replacer": "layers"
-    }
+      {
+          "configPath": "config.map.json",
+          "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
+          "replacer": "layers"
+      }
   ]
 }
