@@ -20,15 +20,17 @@
     </arlas-mapgl>
   </div>
 
-  <div class="arlas-search">
-    <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
+  <div class="arlas-top-analytics">
+    <div class="arlas-search">
+      <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
+    </div>
+    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="Refresh components">
+      <mat-icon>refresh</mat-icon>
+    </span>
+    <span class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
+      <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
+    </span>
   </div>
-  <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="Refresh components">
-    <mat-icon>refresh</mat-icon>
-  </span>
-  <span class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
-    <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
-  </span>
   <div class="arlas-filters-chips">
     <mat-basic-chip class="arlas-tool-menu">
       <button mat-icon-button [matMenuTriggerFor]="menu" >
