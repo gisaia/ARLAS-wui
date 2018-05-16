@@ -72,12 +72,8 @@ html {
 
 .analytics-board-panel .mat-expansion-panel-body{
   margin: 0 1px 0px;
-  padding-right: 10px;
+  padding: 0 10px 0 0 !important;
   font-weight: 300;
-}
-
-.resultlist__header--columns__geosort--icon{
-  display:none !important;
 }
 
 table.resultlist > tbody{

@@ -17,17 +17,21 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FiltersChipsComponent } from './filters-chips.component';
-import { MatBasicChip, MatChipsModule, MatIconModule, MatTooltipModule } from '@angular/material';
-import { ContributorService } from '../../services/contributors.service';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
+import { MatChipsModule, MatDialogModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
+import { MarkdownModule } from 'angular2-markdown';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
+import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import {
-  ArlasConfigService,
   ArlasCollaborativesearchService,
+  ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { ContributorService } from '../../services/contributors.service';
+import { AboutComponent, AboutDialogComponent } from '../about/about.component';
+import { FiltersChipsComponent } from './filters-chips.component';
+
 
 describe('FiltersChipsComponent', () => {
   let component: FiltersChipsComponent;
@@ -35,8 +39,8 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatChipsModule, MatIconModule, MatTooltipModule, HttpModule],
-      declarations: [FiltersChipsComponent],
+      imports: [MatChipsModule, MatIconModule, MatTooltipModule, HttpModule, MatMenuModule, MatDialogModule, MarkdownModule],
+      declarations: [FiltersChipsComponent, AboutComponent, AboutDialogComponent, ShareComponent, TagComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
     })
       .compileComponents();

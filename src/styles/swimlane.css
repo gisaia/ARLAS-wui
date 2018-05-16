@@ -18,36 +18,36 @@
  * under the License.
  */
 
-.airlines-swimlane .histogram__description--display{
+.ais-swimlane .histogram__description--display{
   color: black;
   padding-top: 5px;
 }
 
-.airlines-swimlane .histogram__description__title{
+.ais-swimlane .histogram__description__title{
   color: black;
 }
 
-.airlines-swimlane .histogram__description{
+.ais-swimlane .histogram__description{
   font-size: 1em;
   font-weight: 300;
 }
 
-.airlines-swimlane .histogram__description__startvalue--background,
-.airlines-swimlane .histogram__description__endvalue--background{
+.ais-swimlane .histogram__description__startvalue--background,
+.ais-swimlane .histogram__description__endvalue--background{
   background-color: white;
 }
 
-.airlines-swimlane .histogram__tooltip{
+.ais-swimlane .histogram__tooltip{
   background-color: #78909C;
 }
 
-.airlines-swimlane .histogram__brush--handles{
+.ais-swimlane .histogram__brush--handles{
   stroke: #78909C;
   stroke-width: 1px;
   fill: white;
 }
 
-.airlines-swimlane .histogram__chart .context .brush .selection{
+.ais-swimlane .histogram__chart .context .brush .selection{
   fill: #BDBDBD;
   fill-opacity: 0;
   stroke:none;

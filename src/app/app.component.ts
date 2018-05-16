@@ -21,16 +21,19 @@ import { Http } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import { ChartType, DataType, MapglComponent, Position } from 'arlas-web-components';
-import { ChipsSearchContributor, HistogramContributor, MapContributor } from 'arlas-web-contributors';
+import {
+  ChipsSearchContributor,
+  ElementIdentifier,
+  HistogramContributor,
+  MapContributor,
+  ResultListContributor
+} from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
-import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
-import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { AboutComponent } from './components/about/about.component';
 import { SearchComponent } from './components/search/search.component';
 import { ContributorService } from './services/contributors.service';
 
@@ -45,6 +48,7 @@ export class AppComponent implements OnInit {
   public mapglContributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
+  public resultlistContributor: ResultListContributor;
 
   public analytics: Array<any>;
   public refreshButton: any;
@@ -58,14 +62,15 @@ export class AppComponent implements OnInit {
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
-  public tagComponenentConfig: any;
-  public shareComponentConfig: any;
+
+  public featureToHightLight: {
+    isleaving: boolean,
+    elementidentifier: ElementIdentifier
+  };
+  public featuresToSelect: Array<ElementIdentifier> = [];
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
-  @ViewChild('about') private aboutcomponent: AboutComponent;
-  @ViewChild('share') private shareComponent: ShareComponent;
-  @ViewChild('tag') private tagComponent: TagComponent;
 
   constructor(private http: Http,
     private configService: ArlasConfigService,
@@ -77,10 +82,9 @@ export class AppComponent implements OnInit {
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.timelineContributor = this.arlasStartUpService.contributorRegistry.get('timeline');
+      this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline.input');
-      this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
-      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.analytics = this.configService.getValue('arlas.web.analytics');
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
@@ -112,20 +116,38 @@ export class AppComponent implements OnInit {
     this.analyticsOpen = !this.analyticsOpen;
   }
 
-  public displayAbout() {
-    this.aboutcomponent.openDialog();
-  }
-
-  public displayShare() {
-    this.shareComponent.openDialog();
-  }
-
-  public displayTag() {
-    this.tagComponent.openDialog();
-  }
-
   public refreshComponents() {
     const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
     this.collaborativeService.setCollaborations(dataModel);
+  }
+
+  public getBoardEvents(event: { origin: string, event: string, data: any }) {
+    switch (event.origin) {
+      case 'table':
+        switch (event.event) {
+          case 'consultedItemEvent':
+            this.featureToHightLight = this.mapglContributor.getFeatureToHightLight(event.data);
+            break;
+          case 'selectedItemsEvent':
+            if (event.data.length > 0) {
+              this.featuresToSelect = event.data.map(id => ({
+                idFieldName: this.mapComponentConfig.idFeatureField,
+                idValue: id
+              }));
+            } else {
+              this.featuresToSelect = [];
+            }
+            break;
+          case 'actionOnItemEvent':
+            break;
+          case 'globalActionEvent':
+            break;
+          case 'geoSortEvent':
+            this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
+          break;
+        }
+
+        break;
+    }
   }
 }

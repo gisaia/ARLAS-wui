@@ -1,7 +1,4 @@
 <arlas-tool-root></arlas-tool-root>
-<arlas-about #about [pathToMd]="'about.md'"></arlas-about>
-<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
-<arlas-tag #tag [hidden]="true"></arlas-tag>
 <div class="app-container">
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
@@ -16,7 +13,9 @@
       (onMove)="mapglContributor?.onMove($event)"
       [geoboxdata]="mapglContributor?.geojsonbbox"
       [mapLayers]="mapComponentConfig?.mapLayers"
-      [displayLayerSwitcher]=true>
+      [displayLayerSwitcher]=true
+      [featureToHightLight]="featureToHightLight"
+      [featuresToSelect]="featuresToSelect">
     </arlas-mapgl>
   </div>
 
@@ -32,30 +31,11 @@
     </span>
   </div>
   <div class="arlas-filters-chips">
-    <mat-basic-chip class="arlas-tool-menu">
-      <button mat-icon-button [matMenuTriggerFor]="menu" >
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button *ngIf="tagComponenentConfig" mat-menu-item (click)="displayTag()">
-          <mat-icon>local_offer</mat-icon>
-          <span>Tag</span>
-        </button>
-        <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
-          <mat-icon>share</mat-icon>
-          <span>Share</span>
-        </button>
-        <button mat-menu-item (click)="displayAbout()">
-          <mat-icon>info_outline</mat-icon>
-          <span>About ARLAS WUI</span>
-        </button>
-      </mat-menu>
-    </mat-basic-chip>
     <arlas-filters-chips></arlas-filters-chips>
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
-    <arlas-analytics-board [groups]="this.analytics"></arlas-analytics-board>
+    <arlas-analytics-board [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
   </div>
 
   <div class="arlas-timeline">
