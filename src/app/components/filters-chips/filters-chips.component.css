@@ -47,12 +47,28 @@
 
 .home-chip{
   color: white;
-  padding: 3px 5px 0 15px !important;
+  padding: 3px 5px 0 10px !important;
   font-weight: 200;
 }
 
 .home-chip--icon{
   padding-bottom: 4px;
+}
+
+.menu-chip{
+  color: white;
+  padding: 0 5px 0 5px !important;
+  font-weight: 200;
+}
+
+.menu-chip-button{
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+}
+
+.menu-chip-button:focus{
+  outline: none;
 }
 
 .filter-chip__icon{

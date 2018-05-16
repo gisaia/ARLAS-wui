@@ -103,32 +103,6 @@
   overflow: auto;
 }
 
-.arlas-geojson{
-  position: absolute;
-  right: 9px;
-  bottom: 140px;
-}
-
-.arlas-about{
-  position: absolute;
-  bottom: 135px;
-  right: 60px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.arlas-about:hover{
-  text-decoration: underline;
-}
-
-.arlas-tool-menu{
-  padding: 8px 0px 6px 4px !important;
-  border-radius: 3px;
-  margin-right: 3px;
-  background-color: #FF4081;
-  color: white;
-}
-
 ::-webkit-scrollbar
 {
 	width: 6px;

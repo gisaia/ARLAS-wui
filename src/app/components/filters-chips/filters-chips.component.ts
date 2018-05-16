@@ -16,18 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { ConfigService, projType } from 'arlas-web-core';
-import { AppComponent } from '../../app.component';
-import { ContributorService } from '../../services/contributors.service';
-import { Hits } from 'arlas-api';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Contributor } from 'arlas-web-core';
-import { Observable } from 'rxjs/Observable';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
+import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { ContributorService } from '../../services/contributors.service';
+import { AboutComponent } from '../about/about.component';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -41,12 +39,25 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService,
-    private contributorService: ContributorService, private cdr: ChangeDetectorRef) {
+  public tagComponenentConfig: any;
+  public shareComponentConfig: any;
+
+  @ViewChild('about') private aboutcomponent: AboutComponent;
+  @ViewChild('share') private shareComponent: ShareComponent;
+  @ViewChild('tag') private tagComponent: TagComponent;
+
+  constructor(
+    private collaborativesearchService: ArlasCollaborativesearchService,
+    private contributorService: ContributorService,
+    private configService: ArlasConfigService,
+    private cdr: ChangeDetectorRef
+  ) {
 
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
+    this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
+    this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
   }
 
   public removeCollaboration(contributorId: string): void {
@@ -65,7 +76,6 @@ export class FiltersChipsComponent {
 
   public removeAllFilters(): void {
     this.collaborativesearchService.removeAll();
-
   }
 
   public getCollaborationIcon(contributorId): string {
@@ -107,6 +117,18 @@ export class FiltersChipsComponent {
         return '#FFF';
       }
     }
+  }
+
+  public displayAbout() {
+    this.aboutcomponent.openDialog();
+  }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
+  }
+
+  public displayTag() {
+    this.tagComponent.openDialog();
   }
 
   private retrieveCurrentCollaborations() {
