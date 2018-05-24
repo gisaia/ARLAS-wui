@@ -1,5 +1,18 @@
 # Change Log
 
+## [v6.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v6.0.0) (2018-05-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.1.0...v6.0.0)
+
+**New stuff:**
+
+- Add changelog generation in release process [\#58](https://github.com/gisaia/ARLAS-wui/issues/58)
+- Use analytics board event to highlight features on map [\#56](https://github.com/gisaia/ARLAS-wui/pull/56) ([sebbousquet](https://github.com/sebbousquet))
+
+**Miscellaneous:**
+
+- Add docker build in CI [\#19](https://github.com/gisaia/ARLAS-wui/issues/19)
+
 ## [v5.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v5.1.0) (2018-04-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.0.3...v5.1.0)
