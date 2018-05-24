@@ -66,7 +66,7 @@ npm --no-git-tag-version version ${VERSION}
 git add package.json
 
 echo "==> Build (the artifact will be stored in the 'dist' directory)"
-yarn install
+npm install
 ng lint
 ng build --prod
 
