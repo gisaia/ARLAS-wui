@@ -56,28 +56,41 @@ else
   echo "==> Skip tests"
 fi
 
-echo "==> Set version"
-npm --no-git-tag-version version ${VERSION}
-git add package.json
-git commit -m "change app version to ${VERSION}"
-git push origin develop
-
 echo "==> Merge develop into master"
 git checkout master
 git pull origin master
 git merge origin/develop -m "Merge develop into master"
-git add .
-git commit -m "prod automatic release ${VERSION}" --allow-empty
-echo "  -- Push to master"
-git push origin master
+
+echo "==> Set version"
+npm --no-git-tag-version version ${VERSION}
+git add package.json
+
+echo "==> Build (the artifact will be stored in the 'dist' directory)"
+yarn install
+ng lint
+ng build --prod
 
 echo "  -- Create and push tag"
 git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
 git push origin v${VERSION}
 
-echo "==> Build (the artifact will be stored in the 'dist' directory)"
-yarn install
-ng build -prod
+echo "==> Generate CHANGELOG"
+docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
+  -u gisaia -p ARLAS-WUI --token 479b4f9b9390acca5c931dd34e3b7efb21cbf6d0 --no-pr-wo-labels --no-issues-wo-labels --no-unreleased \
+  --issue-line-labels conf,documentation \
+  --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
+  --bug-labels type:bug --enhancement-labels type:enhancement --breaking-labels type:breaking \
+  --enhancement-label "**New stuff:**" --issues-label "**Miscellaneous:**" --since-tag v4.0.0
+
+echo "  -- Remove tag to add generated CHANGELOG"
+git tag -d v${VERSION}
+git push origin :v${VERSION}
+
+echo "  -- Commit release version"
+git commit -a -m "prod automatic release ${VERSION}"
+git tag v${VERSION}
+git push origin v${VERSION}
+git push origin master
 
 echo "==> Clean local environment"
 npm cache clean --force
@@ -90,13 +103,14 @@ docker build --no-cache --build-arg version=${VERSION} --tag arlas-wui:${VERSION
 docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:latest
 
-echo "==> Go back to develop branch"
+echo "==> Go back to develop branch and rebase"
 git checkout develop
 git pull origin develop
+git rebase origin/master
 
 npm --no-git-tag-version version "${DEV}-dev"
-git add package.json
-git commit -m "development version ${DEV}-dev"
+
+git commit -a -m "development version ${DEV}-dev"
 git push origin develop
 
 echo "==> Well done :)"

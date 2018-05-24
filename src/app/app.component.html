@@ -1,7 +1,4 @@
 <arlas-tool-root></arlas-tool-root>
-<arlas-about #about [pathToMd]="'about.md'"></arlas-about>
-<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
-<arlas-tag #tag [hidden]="true"></arlas-tag>
 <div class="app-container">
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
@@ -16,53 +13,38 @@
       (onMove)="mapglContributor?.onMove($event)"
       [geoboxdata]="mapglContributor?.geojsonbbox"
       [mapLayers]="mapComponentConfig?.mapLayers"
-      [displayLayerSwitcher]=true>
+      [displayLayerSwitcher]=true
+      [featureToHightLight]="featureToHightLight"
+      [featuresToSelect]="featuresToSelect">
     </arlas-mapgl>
   </div>
 
-  <div class="arlas-search">
-    <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
+  <div class="arlas-top-analytics">
+    <div class="arlas-search">
+      <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
+    </div>
+    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="Refresh components">
+      <mat-icon>refresh</mat-icon>
+    </span>
+    <span class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
+      <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
+    </span>
   </div>
-  <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="Refresh components">
-    <mat-icon>refresh</mat-icon>
-  </span>
-  <span class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
-    <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
-  </span>
   <div class="arlas-filters-chips">
-    <mat-basic-chip class="arlas-tool-menu">
-      <button mat-icon-button [matMenuTriggerFor]="menu" >
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button *ngIf="tagComponenentConfig" mat-menu-item (click)="displayTag()">
-          <mat-icon>local_offer</mat-icon>
-          <span>Tag</span>
-        </button>
-        <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
-          <mat-icon>share</mat-icon>
-          <span>Share</span>
-        </button>
-        <button mat-menu-item (click)="displayAbout()">
-          <mat-icon>info_outline</mat-icon>
-          <span>About ARLAS WUI</span>
-        </button>
-      </mat-menu>
-    </mat-basic-chip>
     <arlas-filters-chips></arlas-filters-chips>
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
-    <arlas-analytics-board [groups]="this.analytics"></arlas-analytics-board>
+    <arlas-analytics-board [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
   </div>
 
   <div class="arlas-timeline">
     <arlas-histogram #timeline
-      [xTicks]="timelineComponentConfig.xTicks" [yTicks]="timelineComponentConfig.yTicks" [id]="timelineComponentConfig.id"
-      [xLabels]="timelineComponentConfig.xLabels" [yLabels]="timelineComponentConfig.yLabels" [chartType]="chartType.area" [dataType]="dataType.time"
-      [chartTitle]="timelineComponentConfig.chartTitle" [customizedCssClass]="timelineComponentConfig.customizedCssClass" [chartHeight]="timelineComponentConfig.chartHeight"
+      [xTicks]="timelineComponentConfig?.xTicks" [yTicks]="timelineComponentConfig?.yTicks" [id]="timelineComponentConfig?.id"
+      [xLabels]="timelineComponentConfig?.xLabels" [yLabels]="timelineComponentConfig?.yLabels" [chartType]="chartType.area" [dataType]="dataType.time"
+      [chartTitle]="timelineComponentConfig?.chartTitle" [customizedCssClass]="timelineComponentConfig?.customizedCssClass" [chartHeight]="timelineComponentConfig?.chartHeight"
       [xAxisPosition]="position.top" [descriptionPosition]="position.top" (valuesListChangedEvent)="timelineContributor?.valueChanged($event)"
-      [intervalListSelection]="timelineContributor?.intervalListSelection" [multiselectable]="timelineComponentConfig.multiselectable" [brushHandlesHeightWeight]="timelineComponentConfig.brushHandlesHeightWeight"
+      [intervalListSelection]="timelineContributor?.intervalListSelection" [multiselectable]="timelineComponentConfig?.multiselectable" [brushHandlesHeightWeight]="timelineComponentConfig?.brushHandlesHeightWeight"
       [data]="timelineContributor?.chartData" [intervalSelection]="timelineContributor?.intervalSelection"></arlas-histogram>
   </div>
   <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></mat-progress-bar>
