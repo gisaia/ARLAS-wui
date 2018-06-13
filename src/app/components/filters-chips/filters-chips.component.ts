@@ -26,6 +26,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
+import { DatasetComponent } from '../dataset/dataset.component';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -45,6 +46,7 @@ export class FiltersChipsComponent {
   @ViewChild('about') private aboutcomponent: AboutComponent;
   @ViewChild('share') private shareComponent: ShareComponent;
   @ViewChild('tag') private tagComponent: TagComponent;
+  @ViewChild('dataset') private datasetComponent: DatasetComponent;
 
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
@@ -129,6 +131,10 @@ export class FiltersChipsComponent {
 
   public displayTag() {
     this.tagComponent.openDialog();
+  }
+
+  public displayBookmark() {
+    this.datasetComponent.openDialog();
   }
 
   private retrieveCurrentCollaborations() {

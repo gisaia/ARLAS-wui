@@ -34,7 +34,8 @@ import {
   MatIconModule,
   MatTooltipModule,
   MatProgressBarModule,
-  MatMenuModule
+  MatMenuModule,
+  MatTableModule
 } from '@angular/material';
 
 import { ContributorService } from './services/contributors.service';
@@ -47,6 +48,7 @@ import { routing } from './app.routes';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'angular2-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+import { DatasetComponent, DatasetDialogComponent } from './components/dataset/dataset.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     AboutDialogComponent,
     AppComponent,
     SearchComponent,
-    FiltersChipsComponent
+    FiltersChipsComponent,
+    DatasetComponent,
+    DatasetDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +76,7 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
+    MatTableModule,
     HistogramModule,
     RouterModule,
     routing,
@@ -81,6 +86,6 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     ContributorService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ AboutDialogComponent]
+  entryComponents: [ AboutDialogComponent, DatasetDialogComponent]
 })
 export class AppModule { }

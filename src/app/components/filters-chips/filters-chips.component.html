@@ -1,5 +1,6 @@
 
 <arlas-about #about [pathToMd]="'about.md'"></arlas-about>
+<arlas-dataset #dataset [hidden]="true"></arlas-dataset>
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
 <arlas-tag #tag [hidden]="true"></arlas-tag>
 <div class="filters-chips--container">
@@ -12,6 +13,10 @@
           <button *ngIf="tagComponenentConfig" mat-menu-item (click)="displayTag()">
             <mat-icon>local_offer</mat-icon>
             <span>Tag</span>
+          </button>
+          <button mat-menu-item (click)="displayBookmark()">
+            <mat-icon> view_modules</mat-icon>
+            <span>Datasets</span>
           </button>
           <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
             <mat-icon>share</mat-icon>
