@@ -62,22 +62,6 @@ export class SearchComponent {
       }
     });
 
-    this.collaborativeService.contribFilterBus
-      .filter(contributor => contributor.identifier === 'chipssearch')
-      .filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0).first().subscribe(
-        contributor => {
-          let initSearchValue = '';
-          (<ChipsSearchContributor>contributor).chipMapData.forEach( (v, k) => {
-            let searchtxt = k;
-            if (k.split(':').length > 0) {
-              searchtxt = k.split(':')[1];
-            }
-            initSearchValue += searchtxt + ' ';
-          });
-          this.searchCtrl.setValue( initSearchValue);
-        }
-      );
-
     const autocomplete = this.searchCtrl.valueChanges.debounceTime(250)
       .startWith('')
       .filter(search => search !== null)
