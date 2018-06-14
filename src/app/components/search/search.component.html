@@ -4,7 +4,7 @@
     <input matInput [formControl]="searchCtrl" class="full-width-input" placeholder="Search" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
       name="search" ngModel>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clickItemSearch()">
-      <mat-option *ngFor="let search of filteredSearch | async" [value]="search.key_as_string" class="search-option">
+      <mat-option *ngFor="let search of filteredSearch | async" [value]=" '&quot;' + search.key_as_string + '&quot;'" class="search-option">
         <span>{{ search.key_as_string }}</span> |
         <small>{{search.count}}</small>
       </mat-option>
