@@ -1,0 +1,13 @@
+.powerbar__powerbar--progression--neutral-state {
+  background-color: #80CBC4 !important;
+}
+
+.powerbar__powerbar--progression--selected-bar {
+  background-color: #255b55 !important;
+
+}
+
+.powerbars__powerbar--selected-bar {
+  background-color: rgb(152, 152, 152);
+  opacity: 0.8;
+}
