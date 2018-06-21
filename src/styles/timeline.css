@@ -26,6 +26,23 @@
 .arlas-timeline .histogram__description{
   font-size: 1em;
   font-weight: 300;
+  display: none;
+}
+
+.arlas-detailed-timeline .histogram__description{
+  display: none;
+}
+
+.arlas-detailed-timeline .histogram__chart--current-selected--area{
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: #2196F3;
+  stroke-width: 2px;
+  stroke-opacity: 5;
+}
+
+.arlas-timeline-toolkit .arlas-timeline--timeshortcuts{
+  bottom: 126px !important;
 }
 
 .arlas-timeline .histogram__description--display{
@@ -86,6 +103,7 @@
   stroke-width: 1px;
 }
 
+.arlas-detailed-timeline .tick text,
 .arlas-timeline .tick text{
   fill: #757575;
   font-size: 1em;

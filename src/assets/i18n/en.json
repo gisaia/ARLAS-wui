@@ -1,1 +1,22 @@
-{}
+{
+  "Today": "Today",
+  "This week": "This week",
+  "This month": "This month",
+  "This year": "This year",
+  "Today so far": "Today so far",
+  "This week so far": "This week so far",
+  "This month so far": "This month so far",
+  "This year so far": "This year so far",
+  "Last 15 minutes": "Last 15 minutes",
+  "Last 30 minutes": "Last 30 minutes",
+  "Last hour": "Last hour",
+  "Last 4 hours": "Last 4 hours",
+  "Last 12 hours": "Last 12 hours",
+  "Last 24 hours": "Last 24 hours",
+  "Last 7 days": "Last 7 days",
+  "Last 30 days": "Last 30 days",
+  "Last 60 days": "Last 60 days",
+  "Last 90 days": "Last 90 days",
+  "Last 6 months": "Last 6 months",
+  "Last 1 year" : "Last 1 year"
+}

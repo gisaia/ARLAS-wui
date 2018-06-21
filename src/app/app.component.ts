@@ -62,12 +62,14 @@ export class AppComponent implements OnInit {
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
+  public detailedTimelineComponentConfig: any;
 
   public featureToHightLight: {
     isleaving: boolean,
     elementidentifier: ElementIdentifier
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
+
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -81,10 +83,10 @@ export class AppComponent implements OnInit {
     private router: Router,
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.timelineContributor = this.arlasStartUpService.contributorRegistry.get('timeline');
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline.input');
+      this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
+      this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
