@@ -76,7 +76,6 @@
 .arlas-filters-chips {
   position: absolute;
   top: 0;
-  width: 100%;
   overflow: auto;
   overflow-y: hidden;
   padding: 5px;

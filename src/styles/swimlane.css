@@ -30,6 +30,7 @@
 .ais-swimlane .histogram__description{
   font-size: 1em;
   font-weight: 300;
+  display: none;
 }
 
 .ais-swimlane .histogram__description__startvalue--background,
