@@ -1,5 +1,18 @@
 # Change Log
 
+## [v7.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.0) (2018-06-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v6.0.1...v7.0.0)
+
+**New stuff:**
+
+- Add timeshortcuts and detailed timeline [\#66](https://github.com/gisaia/ARLAS-wui/issues/66)
+- Feature/timeline [\#67](https://github.com/gisaia/ARLAS-wui/pull/67) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+**Fixed bugs:**
+
+- Items of autocomplete must be added to the search surrounded by double quote [\#64](https://github.com/gisaia/ARLAS-wui/issues/64)
+
 ## [v6.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v6.0.1) (2018-05-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v6.0.0...v6.0.1)
