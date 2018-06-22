@@ -1,1 +1,22 @@
-{}
+{
+  "Today": "Aujourd'hui",
+  "This week": "Cette semaine",
+  "This month": "Ce mois",
+  "This year": "Cette année",
+  "Today so far": "Depuis le début de la journée",
+  "This week so far": "Depuis le début de la semaine",
+  "This month so far": "Depuis le début du mois",
+  "This year so far": "Depuis le début de l'année",
+  "Last 15 minutes": "15 dernières minutes",
+  "Last 30 minutes": "30 dernières minutes",
+  "Last hour": "Dernière heure",
+  "Last 4 hours": "4 dernières heures",
+  "Last 12 hours": "12 dernières heures",
+  "Last 24 hours": "24 dernières heures",
+  "Last 7 days": "7 derniers jours",
+  "Last 30 days": "30 derniers jours",
+  "Last 60 days": "60 derniers jours",
+  "Last 90 days": "90 derniers jours",
+  "Last 6 months": "6 derniers mois",
+  "Last 1 year" : "Année dernière"
+}

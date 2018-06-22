@@ -5,6 +5,7 @@
 @import '../node_modules/prismjs/themes/prism.css';
 
 @import 'styles/timeline.css';
+@import 'styles/powerbars.css';
 @import 'styles/histogram.analytics.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
