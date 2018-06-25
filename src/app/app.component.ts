@@ -36,6 +36,7 @@ import {
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { SearchComponent } from './components/search/search.component';
 import { ContributorService } from './services/contributors.service';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 
 @Component({
@@ -43,7 +44,7 @@ import { ContributorService } from './services/contributors.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   public mapglContributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
@@ -52,11 +53,9 @@ export class AppComponent implements OnInit {
 
   public analytics: Array<any>;
   public refreshButton: any;
-  public initCenter = [0, 0];
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
-
   public analyticsOpen = true;
 
   // component config
@@ -97,6 +96,10 @@ export class AppComponent implements OnInit {
       this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.mapglComponent.switchLayer.subscribe(data => this.mapglContributor.switchLayerCluster(data));
   }
 
   public filterSearch(value: string) {
