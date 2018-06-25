@@ -243,7 +243,8 @@
                                           "layerIds": [
                                               "cluster-heat"
                                           ],
-                                          "isDefault": false
+                                          "isDefault": false,
+                                          "drawType": "CIRCLE"
                                       },
                                       {
                                           "id": "fill",
@@ -251,7 +252,8 @@
                                           "layerIds": [
                                               "cluster-rect-fill"
                                           ],
-                                          "isDefault": true
+                                          "isDefault": true,
+                                          "drawType": "RECTANGLE"
                                       }
                                   ]
                               }
@@ -272,19 +274,35 @@
                   }
               },
               "timeline": {
-                  "input": {
-                      "id": "histogram-timeline",
-                      "xTicks": 7,
-                      "yTicks": 2,
-                      "xLabels": 7,
-                      "yLabels": 2,
-                      "chartTitle": "Number of AIS positions over time",
-                      "customizedCssClass": "arlas-timeline",
-                      "chartHeight": 100,
-                      "multiselectable": true,
-                      "brushHandlesHeightWeight": 0.8
-                  }
-              }
+                "contributorId": "timeline",
+                "componentType": "histogram",
+                "input": {
+                  "id": "histogram-timeline",
+                  "xTicks": 5,
+                  "yTicks": 2,
+                  "xLabels": 5,
+                  "yLabels": 2,
+                  "chartTitle": "Number of AIS positions over time",
+                  "customizedCssClass": "arlas-timeline",
+                  "chartHeight": 128,
+                  "multiselectable": true,
+                  "brushHandlesHeightWeight": 0.8,
+                  "dataType": "time",
+                  "isHistogramSelectable": true,
+                  "chartType": "area",
+                  "chartWidth": null,
+                  "xAxisPosition": "bottom",
+                  "descriptionPosition": "top",
+                  "showXTicks": true,
+                  "showYTicks": true,
+                  "showXLabels": true,
+                  "showYLabels": true,
+                  "showHorizontalLines": false,
+                  "isSmoothedCurve": true,
+                  "barWeight": 0.8,
+                  "topOffsetRemoveInterval": 20
+                }
+            }
           }
       },
       "server": {
