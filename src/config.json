@@ -225,6 +225,11 @@
                       "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
                       "margePanForLoad": 40,
                       "margePanForTest": 2,
+                      "initZoom": 2,
+                      "initCenter": [
+                        9.667969,
+                        55.627996
+                      ],
                       "mapLayers": {
                           "layers": [],
                           "styleGroups": [
