@@ -1,5 +1,18 @@
 # Change Log
 
+## [v7.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.1) (2018-06-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.0...v7.0.1)
+
+**New stuff:**
+
+- Feature/improve layer switcher [\#71](https://github.com/gisaia/ARLAS-wui/pull/71) ([mbarbet](https://github.com/mbarbet))
+
+**Fixed bugs:**
+
+- Remove scroll bar display on load [\#72](https://github.com/gisaia/ARLAS-wui/pull/72) ([sebbousquet](https://github.com/sebbousquet))
+- Fix configuration for map and timeline [\#70](https://github.com/gisaia/ARLAS-wui/pull/70) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
 ## [v7.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.0) (2018-06-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v6.0.1...v7.0.0)
