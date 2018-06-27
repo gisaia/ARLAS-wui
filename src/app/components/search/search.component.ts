@@ -45,7 +45,7 @@ export class SearchComponent {
   @Input() public searches: Observable<AggregationResponse>;
   @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
 
-  constructor( private collaborativeService: ArlasCollaborativesearchService,
+  constructor(private collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     private configService: ArlasConfigService,
     private cdr: ChangeDetectorRef
@@ -61,6 +61,23 @@ export class SearchComponent {
         this.cdr.detectChanges();
       }
     });
+
+    this.collaborativeService.contribFilterBus
+      .filter(contributor => contributor.identifier === 'chipssearch')
+      .filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0).first().subscribe(
+        contributor => {
+          let initSearchValue = '';
+          (<ChipsSearchContributor>contributor).chipMapData.forEach((v, k) => {
+            let searchtxt = k;
+            if (k.split(':').length > 0) {
+              searchtxt = k.split(':')[1];
+            }
+            const pattern = /\"/gi;
+            initSearchValue += searchtxt.replace(pattern, '') + ' ';
+          });
+          this.searchCtrl.setValue(initSearchValue);
+        }
+      );
 
     const autocomplete = this.searchCtrl.valueChanges.debounceTime(250)
       .startWith('')
@@ -87,11 +104,11 @@ export class SearchComponent {
     const aggregation: Aggregation = {
       type: Aggregation.TypeEnum.Term,
       field: this.autocomplete_field,
-      include: search + '.*',
+      include: encodeURI(search) + '.*',
       size: this.autocomplete_size
     };
     const filter: Filter = {
-      q: [[ this.autocomplete_field + ':' + search + '*']]
+      q: [[this.autocomplete_field + ':' + search + '*']]
     };
     this.searches = this.collaborativeService.resolveButNotAggregation(
       [projType.aggregate, [aggregation]],
@@ -106,11 +123,11 @@ export class SearchComponent {
       this.keyEvent.next(this.searchCtrl.value.length);
     }
     if (event.keyCode === 13) {
-      this.valuesChangedEvent.next(this.searchCtrl.value);
+      this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
     }
   }
 
   public clickItemSearch() {
-    this.valuesChangedEvent.next(this.searchCtrl.value);
+    this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
   }
 }
