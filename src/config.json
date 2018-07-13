@@ -1,346 +1,377 @@
 {
   "arlas": {
-      "web": {
-          "contributors": {
-              "histogram$timeline": {
-                  "identifier": "timeline",
-                  "aggregationmodels": [
-                      {
-                          "type": "datehistogram",
-                          "field": "position.timestamp",
-                          "interval": {
-                              "value": 1,
-                              "unit": "hour"
-                          }
-                      }
-                  ],
-                  "name": "Timeline",
-                  "icon": "watch_later",
-                  "dateunit": "second",
-                  "datatype": "time",
-                  "isOneDimension": false
-              },
-              "map$mapbox": {
-                  "identifier": "mapbox",
-                  "idFieldName": "id",
-                  "drawtype": "RECTANGLE",
-                  "name": "Map",
-                  "initZoom": 4,
-                  "includeFeaturesFields": [
-                      "course.heading",
-                      "course.sog"
-                  ],
-                  "icon": "check_box_outline_blank",
-                  "geometry": "geometry",
-                  "actions": {
-                      "flyto": true,
-                      "hightlight": true
-                  },
-                  "aggregationmodels": [
-                      {
-                          "type": "geohash",
-                          "field": "position.location",
-                          "interval": {
-                              "value": 3
-                          },
-                          "withGeoCentroid": true
-                      }
-                  ],
-                  "zoomLevelFullData": 6,
-                  "zoomLevelForTestCount": 6,
-                  "nbMaxDefautFeatureForCluster": 10000,
-                  "zoomToNbMaxFeatureForCluster": [
-                      [
-                          4,
-                          10000
-                      ],
-                      [
-                          5,
-                          10000
-                      ],
-                      [
-                          6,
-                          10000
-                      ],
-                      [
-                          7,
-                          10000
-                      ],
-                      [
-                          8,
-                          10000
-                      ],
-                      [
-                          9,
-                          10000
-                      ],
-                      [
-                          10,
-                          10000
-                      ],
-                      [
-                          11,
-                          10000
-                      ],
-                      [
-                          12,
-                          10000
-                      ]
-                  ],
-                  "maxPrecision": [
-                      7,
-                      4
-                  ],
-                  "zoomToPrecisionCluster": [
-                      [
-                          0,
-                          3,
-                          1
-                      ],
-                      [
-                          1,
-                          3,
-                          1
-                      ],
-                      [
-                          2,
-                          3,
-                          1
-                      ],
-                      [
-                          3,
-                          3,
-                          1
-                      ],
-                      [
-                          4,
-                          3,
-                          1
-                      ],
-                      [
-                          5,
-                          4,
-                          2
-                      ],
-                      [
-                          6,
-                          4,
-                          2
-                      ],
-                      [
-                          7,
-                          4,
-                          2
-                      ],
-                      [
-                          8,
-                          5,
-                          3
-                      ],
-                      [
-                          9,
-                          6,
-                          4
-                      ],
-                      [
-                          10,
-                          7,
-                          4
-                      ],
-                      [
-                          11,
-                          7,
-                          5
-                      ],
-                      [
-                          12,
-                          7,
-                          5
-                      ],
-                      [
-                          13,
-                          7,
-                          5
-                      ],
-                      [
-                          14,
-                          8,
-                          5
-                      ],
-                      [
-                          15,
-                          8,
-                          5
-                      ],
-                      [
-                          16,
-                          8,
-                          5
-                      ],
-                      [
-                          17,
-                          8,
-                          5
-                      ],
-                      [
-                          18,
-                          8,
-                          5
-                      ],
-                      [
-                          19,
-                          8,
-                          5
-                      ],
-                      [
-                          20,
-                          8,
-                          5
-                      ]
-                  ],
-                  "search_size": 10000
-              },
-              "chipssearch$chipssearch": {
-                  "identifier": "chipssearch",
-                  "search_size": 100,
-                  "search_field": "internal.fulltext",
-                  "name": "Search",
-                  "icon": "search"
+    "web": {
+      "contributors": {
+        "histogram$timeline": {
+          "identifier": "timeline",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "position.timestamp",
+              "interval": {
+                "value": 1,
+                "unit": "hour"
               }
-          },
-          "components": {
-              "share": {
-                  "geojson": {
-                      "max_for_feature": 10000,
-                      "max_for_cluster": 100000,
-                      "agg_field": "position.location",
-                      "sort_excluded_type": [
-                          "TEXT",
-                          "GEO_POINT"
-                      ]
-                  }
-              },
-              "mapgl": {
-                  "input": {
-                      "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-                      "margePanForLoad": 40,
-                      "margePanForTest": 2,
-                      "initZoom": 2,
-                      "initCenter": [
-                        9.667969,
-                        55.627996
-                      ],
-                      "mapLayers": {
-                          "layers": [],
-                          "styleGroups": [
-                              {
-                                  "id": "cluster",
-                                  "name": "Cluster",
-                                  "base": [
-                                      "geobox",
-                                      "feature-line",
-                                      "features-point"
-                                  ],
-                                  "styles": [
-                                      {
-                                          "id": "heat",
-                                          "name": "Heats",
-                                          "layerIds": [
-                                              "cluster-heat"
-                                          ],
-                                          "isDefault": false,
-                                          "drawType": "CIRCLE"
-                                      },
-                                      {
-                                          "id": "fill",
-                                          "name": "Rectangle",
-                                          "layerIds": [
-                                              "cluster-rect-fill"
-                                          ],
-                                          "isDefault": true,
-                                          "drawType": "RECTANGLE"
-                                      }
-                                  ]
-                              }
-                          ],
-                          "events": {
-                              "zoomOnClick": [
-                                  "cluster-rect-fill"
-                              ],
-                              "emitOnClick": [
-                                  "cluster-rect-fill"
-                              ],
-                              "onHover": [
-                                  "cluster-rect-fill"
-                              ]
-                          }
-                      },
-                      "idFeatureField": "id"
-                  }
-              },
-              "timeline": {
-                "contributorId": "timeline",
-                "componentType": "histogram",
-                "input": {
-                  "id": "histogram-timeline",
-                  "xTicks": 5,
-                  "yTicks": 2,
-                  "xLabels": 5,
-                  "yLabels": 2,
-                  "chartTitle": "Number of AIS positions over time",
-                  "customizedCssClass": "arlas-timeline",
-                  "chartHeight": 128,
-                  "multiselectable": true,
-                  "brushHandlesHeightWeight": 0.8,
-                  "dataType": "time",
-                  "isHistogramSelectable": true,
-                  "chartType": "area",
-                  "chartWidth": null,
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "top",
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8,
-                  "topOffsetRemoveInterval": 20
-                }
             }
-          }
-      },
-      "server": {
-          "url": "http://demo.arlas.io:9999/arlas",
-          "collection": {
-              "name": "ais-danmark",
-              "id": "id"
+          ],
+          "name": "Timeline",
+          "icon": "watch_later",
+          "dateunit": "second",
+          "datatype": "time",
+          "isOneDimension": false
+        },
+        "map$mapbox": {
+          "identifier": "mapbox",
+          "idFieldName": "id",
+          "drawtype": "RECTANGLE",
+          "name": "Map",
+          "initZoom": 4,
+          "includeFeaturesFields": [
+            "course.heading",
+            "course.sog",
+            "vessel.ship_type"
+          ],
+          "icon": "check_box_outline_blank",
+          "geometry": "geometry",
+          "actions": {
+            "flyto": true,
+            "hightlight": true
           },
-          "max_age_cache": 120
+          "aggregationmodels": [
+            {
+              "type": "geohash",
+              "field": "position.location",
+              "interval": {
+                "value": 3
+              },
+              "withGeoCentroid": true
+            }
+          ],
+          "zoomLevelFullData": 6,
+          "zoomLevelForTestCount": 6,
+          "nbMaxDefautFeatureForCluster": 10000,
+          "zoomToNbMaxFeatureForCluster": [
+            [
+              4,
+              10000
+            ],
+            [
+              5,
+              10000
+            ],
+            [
+              6,
+              10000
+            ],
+            [
+              7,
+              10000
+            ],
+            [
+              8,
+              10000
+            ],
+            [
+              9,
+              10000
+            ],
+            [
+              10,
+              10000
+            ],
+            [
+              11,
+              10000
+            ],
+            [
+              12,
+              10000
+            ]
+          ],
+          "maxPrecision": [
+            7,
+            4
+          ],
+          "zoomToPrecisionCluster": [
+            [
+              0,
+              3,
+              1
+            ],
+            [
+              1,
+              3,
+              1
+            ],
+            [
+              2,
+              3,
+              1
+            ],
+            [
+              3,
+              3,
+              1
+            ],
+            [
+              4,
+              4,
+              2
+            ],
+            [
+              5,
+              4,
+              2
+            ],
+            [
+              6,
+              4,
+              2
+            ],
+            [
+              7,
+              5,
+              3
+            ],
+            [
+              8,
+              5,
+              3
+            ],
+            [
+              9,
+              6,
+              4
+            ],
+            [
+              10,
+              6,
+              4
+            ],
+            [
+              11,
+              7,
+              5
+            ],
+            [
+              12,
+              7,
+              5
+            ],
+            [
+              13,
+              7,
+              5
+            ],
+            [
+              14,
+              8,
+              5
+            ],
+            [
+              15,
+              8,
+              5
+            ],
+            [
+              16,
+              8,
+              5
+            ],
+            [
+              17,
+              8,
+              5
+            ],
+            [
+              18,
+              8,
+              5
+            ],
+            [
+              19,
+              8,
+              5
+            ],
+            [
+              20,
+              8,
+              5
+            ]
+          ],
+          "search_size": 10000
+        },
+        "chipssearch$chipssearch": {
+          "identifier": "chipssearch",
+          "search_size": 100,
+          "search_field": "internal.fulltext",
+          "name": "Search",
+          "icon": "search"
+        }
+      },
+      "components": {
+        "share": {
+          "geojson": {
+            "max_for_feature": 10000,
+            "max_for_cluster": 100000,
+            "agg_field": "position.location",
+            "sort_excluded_type": [
+              "TEXT",
+              "GEO_POINT"
+            ]
+          }
+        },
+        "mapgl": {
+          "input": {
+            "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+            "displayScale": true,
+            "maxWidthScale": 100,
+            "unitScale": "metric",
+            "margePanForLoad": 40,
+            "margePanForTest": 2,
+            "minZoom": 0,
+            "maxZoom": 28,
+            "initZoom": 2,
+            "initCenter": [
+              9.667969,
+              55.627996
+            ],
+            "mapLayers": {
+              "layers": [],
+              "styleGroups": [
+                {
+                  "id": "cluster",
+                  "name": "Cluster",
+                  "base": [
+                    "geobox"
+                  ],
+                  "styles": [
+                    {
+                      "id": "heat",
+                      "name": "Heats",
+                      "layerIds": [
+                        "cluster-heat"
+                      ],
+                      "drawType": "CIRCLE"
+                    },
+                    {
+                      "id": "fill",
+                      "name": "Rectangle",
+                      "layerIds": [
+                        "cluster-rect-fill"
+                      ],
+                      "drawType": "RECTANGLE"
+                    }
+                  ]
+                },
+                {
+                  "id": "features",
+                  "name": "Paths",
+                  "base": [
+                    "geobox",
+                    "features-line-select",
+                    "features-fill-hover"
+                  ],
+                  "styles": [
+                    {
+                      "id": "shiptype",
+                      "name": "Ship type",
+                      "layerIds": [
+                        "feature-line-ship-type",
+                        "features-point-ship-type"
+                      ],
+                      "isDefault": true
+                    },
+                    {
+                      "id": "speed",
+                      "name": "Speed",
+                      "layerIds": [
+                        "features-point",
+                        "feature-line"
+                      ],
+                      "isDefault": false
+                    }
+                  ]
+                }
+              ],
+              "events": {
+                "zoomOnClick": [
+                  "cluster-rect-fill"
+                ],
+                "emitOnClick": [
+                  "cluster-rect-fill"
+                ],
+                "onHover": [
+                  "cluster-rect-fill"
+                ]
+              }
+            },
+            "idFeatureField": "id"
+          }
+        },
+        "timeline": {
+          "contributorId": "timeline",
+          "componentType": "histogram",
+          "input": {
+            "id": "histogram-timeline",
+            "xTicks": 5,
+            "yTicks": 2,
+            "xLabels": 5,
+            "yLabels": 2,
+            "chartTitle": "Number of AIS positions over time",
+            "customizedCssClass": "arlas-timeline",
+            "chartHeight": 128,
+            "multiselectable": true,
+            "brushHandlesHeightWeight": 0.8,
+            "dataType": "time",
+            "isHistogramSelectable": true,
+            "chartType": "area",
+            "chartWidth": null,
+            "xAxisPosition": "bottom",
+            "descriptionPosition": "top",
+            "showXTicks": true,
+            "showYTicks": true,
+            "showXLabels": true,
+            "showYLabels": true,
+            "showHorizontalLines": false,
+            "isSmoothedCurve": true,
+            "barWeight": 0.8,
+            "topOffsetRemoveInterval": 20
+          }
+        }
       }
+    },
+    "server": {
+      "url": "http://localhost:9999/arlas",
+      "collection": {
+        "name": "ais-danmark",
+        "id": "id"
+      },
+      "max_age_cache": 120
+    }
   },
   "arlas-wui": {
-      "web": {
-          "app": {
-              "idFieldName": "id",
-              "refresh": false,
-              "components": {
-                  "chipssearch": {
-                      "search_size": 100,
-                      "name": "Search",
-                      "icon": "search",
-                      "autocomplete_field": "vessel.mmsi",
-                      "autocomplete_size": "20"
-                  }
-              }
+    "web": {
+      "app": {
+        "idFieldName": "id",
+        "refresh": false,
+        "components": {
+          "chipssearch": {
+            "search_size": 100,
+            "name": "Search",
+            "icon": "search",
+            "autocomplete_field": "vessel.mmsi",
+            "autocomplete_size": "20"
           }
+        }
       }
+    }
   },
   "extraConfigs": [
-      {
-          "configPath": "config.map.json",
-          "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
-          "replacer": "layers"
-      }
+    {
+      "configPath": "config.map.json",
+      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
+      "replacer": "layers"
+    }
   ]
 }

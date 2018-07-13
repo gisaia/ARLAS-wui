@@ -23,7 +23,7 @@ import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule, MatChipsModule, MatIconModule,
   MatInputModule, MatMenuModule, MatSelectModule,
-  MatTooltipModule, MatProgressBarModule
+  MatTooltipModule, MatProgressBarModule, MatRadioModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
@@ -49,7 +49,7 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, MarkdownModule, MatMenuModule, MatProgressBarModule
+        MatSelectModule, MarkdownModule, MatMenuModule, MatProgressBarModule, MatRadioModule
       ],
       declarations: [
         AppComponent,
