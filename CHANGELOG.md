@@ -1,5 +1,13 @@
 # Change Log
 
+## [v7.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.1.0) (2018-07-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.1...v7.1.0)
+
+**Fixed bugs:**
+
+- Display search value on init [\#74](https://github.com/gisaia/ARLAS-wui/pull/74) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v7.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.1) (2018-06-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.0...v7.0.1)
