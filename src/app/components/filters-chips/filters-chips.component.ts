@@ -26,7 +26,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
-import { DatasetComponent } from '../dataset/dataset.component';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -40,13 +39,12 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  public tagComponenentConfig: any;
+  public tagComponentConfig: any;
   public shareComponentConfig: any;
 
   @ViewChild('about') private aboutcomponent: AboutComponent;
   @ViewChild('share') private shareComponent: ShareComponent;
   @ViewChild('tag') private tagComponent: TagComponent;
-  @ViewChild('dataset') private datasetComponent: DatasetComponent;
 
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
@@ -58,7 +56,7 @@ export class FiltersChipsComponent {
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
-    this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
+    this.tagComponentConfig = this.configService.getValue('arlas.web.components.tag');
     this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
   }
 
@@ -131,10 +129,6 @@ export class FiltersChipsComponent {
 
   public displayTag() {
     this.tagComponent.openDialog();
-  }
-
-  public displayBookmark() {
-    this.datasetComponent.openDialog();
   }
 
   private retrieveCurrentCollaborations() {

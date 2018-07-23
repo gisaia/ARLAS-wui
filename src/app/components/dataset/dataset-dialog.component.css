@@ -1,0 +1,39 @@
+.bookmark-table-items .mat-column-checked{
+  flex:0 0 50px;
+}
+
+.mat-column-checked{
+  overflow: visible;
+}
+
+.bookmark-icons-action{
+  cursor: pointer;
+}
+
+.bookmark-icons-action-view:hover{
+  color: #2196f3;
+}
+
+.bookmark-icons-action-delete:hover{
+  color: #FF0000;
+}
+
+/deep/ .mat-checkbox-layout{
+  margin-bottom: 0;
+}
+
+.mat-header-cell {
+  display:flex;
+  justify-content:center;
+}
+
+.mat-cell{
+  display:flex;
+  justify-content:center;
+}
+
+.mat-column-name{
+  display:flex;
+  justify-content:flex-start;
+  align-items: center;
+}

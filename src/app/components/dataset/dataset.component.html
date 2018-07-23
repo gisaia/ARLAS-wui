@@ -1,3 +1,13 @@
-<button mat-mini-fab (click)="openDialog()" color="accent" class="dataset-button">
-  <mat-icon aria-label="Access dataset">{{icon}}</mat-icon>
-</button>
+<div class="bookmark-shortcut">
+  <mat-chip-list>
+    <mat-basic-chip *ngFor="let bookmark of topBookmarks;let index = index" class="bookmark-chip" (click)="viewBookmark(bookmark.url)">
+      #{{index+1}} - {{ bookmark.name}}
+    </mat-basic-chip>
+    <mat-basic-chip class="bookmark-chip" matTooltip="Add a dataset" (click)="openDialogAdd()">
+      <mat-icon aria-label="Add a dataset">add</mat-icon>
+    </mat-basic-chip>
+    <mat-basic-chip class="bookmark-chip" matTooltip="Manage datasets" (click)="openDialog()">
+      <mat-icon aria-label="Access dataset">{{icon}}</mat-icon>
+    </mat-basic-chip>
+  </mat-chip-list>
+</div>
