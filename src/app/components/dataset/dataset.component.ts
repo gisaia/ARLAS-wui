@@ -24,7 +24,6 @@ export class DatasetComponent {
         return (a.views < b.views ? -1 : 1) * (-1);
       });
       this.topBookmarks = sortedBookmark.slice(0, 3);
-      console.log(this.topBookmarks);
     });
 
   }
@@ -100,10 +99,14 @@ export class DatasetDialogComponent {
 
   public combine() {
     this.bookmarkService.createCombineBookmark('', new Set(this.itemsCheck));
+    this.itemsCheck = new Array<string>();
+    this.disableCombine = true;
   }
 
   public viewCombine() {
     this.bookmarkService.viewCombineBookmark(new Set(this.itemsCheck));
+    this.itemsCheck = new Array<string>();
+    this.disableCombine = true;
   }
 }
 
