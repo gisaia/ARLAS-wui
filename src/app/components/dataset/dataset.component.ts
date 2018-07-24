@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ArlasBookmarkService } from 'arlas-wui-toolkit/services/bookmark/bookmark.service';
 import { BookmarkDataSource } from 'arlas-wui-toolkit/services/bookmark/bookmarkDataSource';
@@ -9,23 +9,27 @@ import { BookMark } from '../../../../node_modules/arlas-wui-toolkit/services/bo
   templateUrl: './dataset.component.html',
   styleUrls: ['./dataset.component.css']
 })
-export class DatasetComponent {
-
-  @Input() public icon = 'view_modules';
+export class DatasetComponent implements OnInit {
+  @Input() public icon: string;
+  @Input() public nbTopBookmarks: number;
   public datasets: BookmarkDataSource;
   public topBookmarks: Array<BookMark>;
 
   constructor(
     public dialog: MatDialog,
     private bookmarkService: ArlasBookmarkService
-  ) {
+  ) { }
+
+  public ngOnInit(): void {
+    this.icon = this.icon ? this.icon : 'view_modules';
+    this.nbTopBookmarks = this.nbTopBookmarks ? this.nbTopBookmarks : 3;
+
     this.bookmarkService.dataBase.dataChange.subscribe(bookmarks => {
       const sortedBookmark = bookmarks.sort((a, b) => {
         return (a.views < b.views ? -1 : 1) * (-1);
       });
-      this.topBookmarks = sortedBookmark.slice(0, 3);
+      this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
     });
-
   }
 
   public openDialog() {
@@ -61,6 +65,7 @@ export class DatasetDialogComponent {
 
 
   constructor(
+    public dialog: MatDialog,
     private bookmarkService: ArlasBookmarkService,
     public dialogRef: MatDialogRef<DatasetDialogComponent>
   ) {
@@ -98,9 +103,12 @@ export class DatasetDialogComponent {
   }
 
   public combine() {
-    this.bookmarkService.createCombineBookmark('', new Set(this.itemsCheck));
-    this.itemsCheck = new Array<string>();
-    this.disableCombine = true;
+    const dialogRef = this.dialog.open(DatasetAddDialogComponent, { data: { name: null } });
+    dialogRef.afterClosed().subscribe(bookmarkName => {
+      if (bookmarkName) {
+        this.bookmarkService.createCombineBookmark(bookmarkName, new Set(this.itemsCheck));
+      }
+    });
   }
 
   public viewCombine() {

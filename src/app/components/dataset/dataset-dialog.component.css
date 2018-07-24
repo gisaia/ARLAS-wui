@@ -1,3 +1,7 @@
+.bookmark-table-items{
+  overflow: hidden;
+}
+
 .bookmark-table-items .mat-column-checked{
   flex:0 0 50px;
 }

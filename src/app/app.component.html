@@ -1,6 +1,6 @@
 <arlas-tool-root></arlas-tool-root>
 <div class="app-container">
-  <arlas-dataset [icon]="'view_modules'"></arlas-dataset>
+  <arlas-dataset></arlas-dataset>
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
       [style]="mapComponentConfig?.style"
