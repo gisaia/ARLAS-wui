@@ -1,8 +1,16 @@
 # Change Log
 
+## [v7.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.2.0) (2018-07-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.1.0...v7.2.0)
+
 ## [v7.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.1.0) (2018-07-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.1...v7.1.0)
+
+**New stuff:**
+
+- Update to v7.1.0 [\#75](https://github.com/gisaia/ARLAS-wui/pull/75) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 **Fixed bugs:**
 
