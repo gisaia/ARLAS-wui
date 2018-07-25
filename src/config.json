@@ -9,14 +9,34 @@
               "type": "datehistogram",
               "field": "position.timestamp",
               "interval": {
-                "value": 1,
-                "unit": "hour"
+                "value": 30,
+                "unit": "minute"
               }
             }
           ],
+          "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
-          "dateunit": "second",
+          "datatype": "time",
+          "isOneDimension": false
+        },
+        "detailedhistogram$detailedTimeline": {
+          "identifier": "detailedTimeline",
+          "annexedContributorId": "timeline",
+          "selectionExtentPercentage": 0.02,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "position.timestamp",
+              "interval": {
+                "value": 30,
+                "unit": "minute"
+              }
+            }
+          ],
+          "numberOfBuckets": 100,
+          "name": "Timeline",
+          "icon": "watch_later",
           "datatype": "time",
           "isOneDimension": false
         },
@@ -209,169 +229,199 @@
           "icon": "search"
         }
       },
-      "components": {
-        "share": {
-          "geojson": {
-            "max_for_feature": 10000,
-            "max_for_cluster": 100000,
-            "agg_field": "position.location",
-            "sort_excluded_type": [
+    "components": {
+      "share": {
+        "geojson": {
+          "max_for_feature": 10000,
+          "max_for_cluster": 100000,
+          "agg_field": "position.location",
+          "sort_excluded_type": [
               "TEXT",
               "GEO_POINT"
-            ]
-          }
-        },
-        "mapgl": {
-          "input": {
-            "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-            "displayScale": true,
-            "maxWidthScale": 100,
-            "unitScale": "metric",
-            "margePanForLoad": 40,
-            "margePanForTest": 2,
-            "minZoom": 0,
-            "maxZoom": 28,
-            "initZoom": 2,
-            "initCenter": [
-              9.667969,
-              55.627996
-            ],
-            "mapLayers": {
-              "layers": [],
-              "styleGroups": [
-                {
-                  "id": "cluster",
-                  "name": "Cluster",
-                  "base": [
-                    "geobox"
-                  ],
-                  "styles": [
-                    {
-                      "id": "heat",
-                      "name": "Heats",
-                      "layerIds": [
-                        "cluster-heat"
-                      ],
-                      "drawType": "CIRCLE"
-                    },
-                    {
-                      "id": "fill",
-                      "name": "Rectangle",
-                      "layerIds": [
-                        "cluster-rect-fill"
-                      ],
-                      "drawType": "RECTANGLE"
-                    }
-                  ]
-                },
-                {
-                  "id": "features",
-                  "name": "Paths",
-                  "base": [
-                    "geobox",
-                    "features-line-select",
-                    "features-fill-hover"
-                  ],
-                  "styles": [
-                    {
-                      "id": "shiptype",
-                      "name": "Ship type",
-                      "layerIds": [
-                        "feature-line-ship-type",
-                        "features-point-ship-type"
-                      ],
-                      "isDefault": true
-                    },
-                    {
-                      "id": "speed",
-                      "name": "Speed",
-                      "layerIds": [
-                        "features-point",
-                        "feature-line"
-                      ],
-                      "isDefault": false
-                    }
-                  ]
-                }
-              ],
-              "events": {
-                "zoomOnClick": [
-                  "cluster-rect-fill"
+          ]
+        }
+      },
+      "mapgl": {
+        "input": {
+          "style": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+          "margePanForLoad": 40,
+          "margePanForTest": 2,
+          "initZoom": 2,
+          "initCenter": [
+            9.667969,
+            55.627996
+          ],
+          "displayScale": true,
+          "mapLayers": {
+            "layers": [],
+            "styleGroups": [
+              {
+                "id": "features",
+                "name": "Paths",
+                "base": [
+                  "geobox",
+                  "features-line-select",
+                  "features-fill-hover"
                 ],
-                "emitOnClick": [
-                  "cluster-rect-fill"
+                "styles": [
+                  {
+                    "id": "speed",
+                    "name": "Speed",
+                    "layerIds": [
+                      "features-point-speed",
+                      "feature-line-speed"
+                    ],
+                    "isDefault": false
+                  },
+                  {
+                    "id": "shiptype",
+                    "name": "Ship type",
+                    "layerIds": [
+                      "feature-line-ship-type",
+                      "features-point-ship-type"
+                    ],
+                    "isDefault": false
+                  }
+
+                ]
+              },
+              {
+                "id": "cluster",
+                "name": "Cluster",
+                "base": [
+                  "geobox"
                 ],
-                "onHover": [
-                  "cluster-rect-fill"
+                "styles": [
+                  {
+                    "id": "heat",
+                    "name": "Heats",
+                    "layerIds": [
+                      "cluster-heat"
+                    ],
+                    "drawType": "CIRCLE"
+                  },
+                  {
+                    "id": "fill",
+                    "name": "Rectangle",
+                    "layerIds": [
+                      "cluster-rect-fill"
+                    ],
+                    "drawType": "RECTANGLE"
+                  }
                 ]
               }
-            },
-            "idFeatureField": "id"
-          }
-        },
-        "timeline": {
-          "contributorId": "timeline",
-          "componentType": "histogram",
-          "input": {
-            "id": "histogram-timeline",
-            "xTicks": 5,
-            "yTicks": 2,
-            "xLabels": 5,
-            "yLabels": 2,
-            "chartTitle": "Number of AIS positions over time",
-            "customizedCssClass": "arlas-timeline",
-            "chartHeight": 128,
-            "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8,
-            "dataType": "time",
-            "isHistogramSelectable": true,
-            "chartType": "area",
-            "chartWidth": null,
-            "xAxisPosition": "bottom",
-            "descriptionPosition": "top",
-            "showXTicks": true,
-            "showYTicks": true,
-            "showXLabels": true,
-            "showYLabels": true,
-            "showHorizontalLines": false,
-            "isSmoothedCurve": true,
-            "barWeight": 0.8,
-            "topOffsetRemoveInterval": 20
-          }
+
+            ],
+            "events": {
+              "zoomOnClick": [
+                "cluster-rect-fill"
+              ],
+              "emitOnClick": [
+                "cluster-rect-fill"
+              ],
+              "onHover": [
+                "cluster-rect-fill"
+              ]
+            }
+          },
+          "idFeatureField": "id"
         }
-      }
-    },
-    "server": {
-      "url": "http://localhost:9999/arlas",
-      "collection": {
-        "name": "ais-danmark",
-        "id": "id"
       },
-      "max_age_cache": 120
-    }
-  },
-  "arlas-wui": {
-    "web": {
-      "app": {
-        "idFieldName": "id",
-        "refresh": false,
-        "components": {
-          "chipssearch": {
-            "search_size": 100,
-            "name": "Search",
-            "icon": "search",
-            "autocomplete_field": "vessel.mmsi",
-            "autocomplete_size": "20"
-          }
+      "timeline": {
+        "contributorId": "timeline",
+        "componentType": "histogram",
+        "input": {
+          "id": "histogram-timeline",
+          "xTicks": 9,
+          "yTicks": 2,
+          "xLabels": 9,
+          "yLabels": 2,
+          "chartTitle": "Number of AIS positions over time",
+          "customizedCssClass": "arlas-timeline",
+          "chartHeight": 128,
+          "multiselectable": true,
+          "brushHandlesHeightWeight": 0.8,
+          "dataType": "time",
+          "isHistogramSelectable": true,
+          "chartType": "area",
+          "chartWidth": null,
+          "xAxisPosition": "bottom",
+          "descriptionPosition": "top",
+          "showXTicks": true,
+          "showYTicks": true,
+          "showXLabels": true,
+          "showYLabels": true,
+          "showHorizontalLines": false,
+          "isSmoothedCurve": true,
+          "barWeight": 0.8,
+          "topOffsetRemoveInterval": 10,
+          "yAxisStartsFromZero": true
+        }
+      },
+      "detailedTimeline": {
+        "contributorId": "detailedTimeline",
+        "componentType": "histogram",
+        "input": {
+          "id": "histogram-detailed-timeline",
+          "xTicks": 5,
+          "yTicks": 2,
+          "xLabels": 5,
+          "yLabels": 2,
+          "chartTitle": "Detailed of AIS positions over time",
+          "customizedCssClass": "arlas-detailed-timeline",
+          "chartHeight": 60,
+          "multiselectable": true,
+          "brushHandlesHeightWeight": 0.8,
+          "dataType": "time",
+          "isHistogramSelectable": true,
+          "ticksDateFormat": "%b %d %Y  %H:%M",
+          "chartType": "area",
+          "chartWidth": null,
+          "xAxisPosition": "top",
+          "yAxisStartsFromZero": true,
+          "descriptionPosition": "bottom",
+          "showXTicks": true,
+          "showYTicks": true,
+          "showXLabels": true,
+          "showYLabels": true,
+          "showHorizontalLines": false,
+          "isSmoothedCurve": true,
+          "barWeight": 0.8
         }
       }
     }
   },
-  "extraConfigs": [
-    {
-      "configPath": "config.map.json",
-      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
-      "replacer": "layers"
+  "server": {
+    "url": "http://localhost:9999/arlas",
+    "collection": {
+      "name": "ais-danmark",
+      "id": "id"
+    },
+    "max_age_cache": 120
+  }
+},
+"arlas-wui": {
+  "web": {
+    "app": {
+      "idFieldName": "id",
+      "refresh": false,
+      "components": {
+        "chipssearch": {
+          "search_size": 100,
+          "name": "Search a MMSI",
+          "icon": "search",
+          "autocomplete_field": "vessel.ship_type",
+          "autocomplete_size": "20"
+        }
+      }
     }
-  ]
+  }
+},
+"extraConfigs": [
+  {
+    "configPath": "config.map.json",
+    "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
+    "replacer": "layers"
+  }
+]
 }

@@ -68,6 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     elementidentifier: ElementIdentifier
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
+  private isAutoGeosortActive;
 
 
   @ViewChild('map') private mapglComponent: MapglComponent;
@@ -100,6 +101,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.mapglComponent.switchLayer.subscribe(data => this.mapglContributor.switchLayerCluster(data));
+    this.mapglComponent.map.on('moveend', () => {
+      if (this.isAutoGeosortActive === undefined) {
+        this.analytics.filter(g => g.groupId === 'resultlist')
+          .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
+      }
+      if (this.isAutoGeosortActive) {
+        this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
+      }
+    });
   }
 
   public filterSearch(value: string) {
@@ -149,7 +159,10 @@ export class AppComponent implements OnInit, AfterViewInit {
             break;
           case 'geoSortEvent':
             this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
-          break;
+            break;
+          case 'geoAutoSortEvent':
+            this.isAutoGeosortActive = event.data;
+            break;
         }
 
         break;

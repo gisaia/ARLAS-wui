@@ -143,7 +143,7 @@
       ]
     },
     {
-      "id": "features-point",
+      "id": "features-point-speed",
       "type": "circle",
       "source": "data_source",
       "filter": [
@@ -209,7 +209,9 @@
           ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
           ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
           ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
-          ["Military", "#a625e0"], ["Cargo", "#62e950"], ["Passenger", "#a5c176"]
+          ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+          ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+          ["Sailing", "#edc77b"]
         ]
       },
       "circle-opacity": 1
@@ -227,7 +229,9 @@
         ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
         ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
         ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
-        ["Military", "#a625e0"], ["Cargo", "#62e950"], ["Passenger", "#a5c176"]
+        ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+        ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+        ["Sailing", "#edc77b"]
       ]
     },
     "line-opacity": 1,
@@ -248,7 +252,7 @@
   }
 },
 {
-  "id": "feature-line",
+  "id": "feature-line-speed",
   "source": "data_source",
   "paint": {
     "line-color": [
@@ -306,10 +310,22 @@
     ]
   ],
   "paint": {
-    "line-color": "#80CBC4",
-    "line-opacity": 1,
-    "line-width": 6
-  }
+    "line-color": {
+      "property": "vessel_ship_type",
+      "type": "categorical",
+      "stops": [["Tanker", "#ff8ee8"], ["Fishing", "#86d8f7"],
+      ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
+      ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
+      ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
+      ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
+      ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+      ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+      ["Sailing", "#edc77b"]
+    ]
+  },
+  "line-opacity": 1,
+  "line-width": 10
+}
 },
 {
   "id": "features-fill-hover",
@@ -327,10 +343,22 @@
     ]
   ],
   "paint": {
-    "line-color": "#80CBC4",
-    "line-opacity": 1,
-    "line-width": 6
-  }
+    "line-color": {
+      "property": "vessel_ship_type",
+      "type": "categorical",
+      "stops": [["Tanker", "#ff8ee8"], ["Fishing", "#86d8f7"],
+      ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
+      ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
+      ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
+      ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
+      ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+      ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+      ["Sailing", "#edc77b"]
+    ]
+  },
+  "line-opacity": 1,
+  "line-width": 10
+}
 },
 {
   "id": "geobox",

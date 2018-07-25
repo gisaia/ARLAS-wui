@@ -41,6 +41,12 @@
   stroke-opacity: 5;
 }
 
+.arlas-detailed-timeline .histogram__chart--unselected--area{
+  fill: #EEEEEE;
+  fill-opacity: 1;
+  stroke: none;
+}
+
 .arlas-timeline-toolkit .arlas-timeline--timeshortcuts{
   bottom: 126px !important;
 }
