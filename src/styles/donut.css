@@ -1,3 +1,7 @@
 .arlas-donuts-analytics{
   height: 160px !important;
 }
+
+.analytics-board-card .donut-container .donut{
+  display: none;
+}

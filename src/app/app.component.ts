@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild, group } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';

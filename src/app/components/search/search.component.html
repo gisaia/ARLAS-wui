@@ -1,7 +1,7 @@
 <form>
   <div class="arlas-search-container">
     <mat-icon>search</mat-icon>
-    <input matInput [formControl]="searchCtrl" class="full-width-input" placeholder="Search" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
+    <input matInput [formControl]="searchCtrl" class="full-width-input" placeholder="Search a MMSI, a Ship type, .... Ex: 257061000" (keyup)="onKeyUp($event)" [matAutocomplete]="auto"
       name="search" ngModel>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clickItemSearch()">
       <mat-option *ngFor="let search of filteredSearch | async" [value]="search.key_as_string" class="search-option">

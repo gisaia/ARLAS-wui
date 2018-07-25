@@ -9,6 +9,8 @@
 @import 'styles/histogram.analytics.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
+@import 'styles/resultlist.css';
+@import 'styles/map.css';
 
 /* Material Icons */
 @font-face {

@@ -89,6 +89,11 @@
   stroke-width: 0.8px;
 }
 
+.arlas-histogram-analytics .histogram__only-axis .domain{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+
 .arlas-swimlane-filter .histogram__chart--bar {
   fill-opacity: 0.3;
   stroke-opacity: 0.1;
