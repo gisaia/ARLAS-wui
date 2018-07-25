@@ -18,18 +18,18 @@
  */
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SearchComponent } from './search.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ContributorService } from '../../services/contributors.service';
-import { MatAutocomplete, MatAutocompleteModule, MatInput, MatInputModule, MatIconModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MatAutocompleteModule, MatIconModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  ArlasConfigService,
   ArlasCollaborativesearchService,
+  ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { ContributorService } from '../../services/contributors.service';
+import { SearchComponent } from './search.component';
+
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
