@@ -45,8 +45,8 @@ export class DatasetComponent implements OnInit {
     });
   }
 
-  public viewBookmark(url) {
-    this.bookmarkService.viewBookMark(url);
+  public viewBookmark(id) {
+    this.bookmarkService.viewBookMark(id);
   }
 
 }
