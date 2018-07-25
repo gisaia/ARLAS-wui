@@ -730,9 +730,9 @@ arlas-api@7.0.3:
     portable-fetch "3.0.0"
     url "0.11.0"
 
-arlas-d3@4.0.*:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/arlas-d3/-/arlas-d3-4.0.6.tgz#c5b064558ddb94fdb31885cf51dd70b9dd58690a"
+arlas-d3@4.2.*:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/arlas-d3/-/arlas-d3-4.2.2.tgz#e45be97e48a855e97f6d5855b6dd70a1898eca68"
   dependencies:
     "@types/d3" "^4.10.0"
     "@types/tinycolor2" "^1.4.0"
@@ -741,9 +741,9 @@ arlas-d3@4.0.*:
     rxjs "^5.4.2"
     tinycolor2 "^1.4.1"
 
-arlas-web-components@7.1.*:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-7.1.1.tgz#edf153a0b0ba014384c34a1bbff89d792f10434f"
+arlas-web-components@7.2.*:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-7.2.0.tgz#6876d66e1a7a805803ec5aeb0e966439058e2113"
   dependencies:
     "@angular/animations" "^5.2.0"
     "@angular/cdk" "^5.2.0"
@@ -762,7 +762,7 @@ arlas-web-components@7.1.*:
     "@types/mapbox-gl" "^0.39.5"
     "@types/supercluster" "^2.3.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-d3 "4.0.*"
+    arlas-d3 "4.2.*"
     bootstrap "^4.0.0-beta"
     core-js "^2.4.1"
     font-awesome "^4.7.0"
@@ -778,16 +778,16 @@ arlas-web-components@7.1.*:
     tinycolor2 "^1.4.1"
     zone.js "^0.8.19"
 
-arlas-web-contributors@7.1.*:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-7.1.0.tgz#e07a858c7ae05028b7e3da86ce30099e038891ef"
+arlas-web-contributors@7.2.*:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-7.2.1.tgz#ce5507554d665577759732213ceb6118f600c791"
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/helpers" "^6.1.4"
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-web-core "7.1.*"
+    arlas-web-core "7.2.*"
     file-saver "1.3.3"
     jsonpath "^1.0.0"
     moment "^2.22.1"
@@ -795,16 +795,16 @@ arlas-web-contributors@7.1.*:
     rxjs "^5.5.6"
     tinycolor2 "^1.4.1"
 
-arlas-web-core@7.1.*:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-7.1.2.tgz#fd4bc918f63901f884f111996eab09f0b6b4fd1d"
+arlas-web-core@7.2.*:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-7.2.0.tgz#ed2b5d30266ffd91125eb11e5c0003a0108147ba"
   dependencies:
     arlas-api "7.0.3"
     rxjs "^5.5.6"
 
-arlas-wui-toolkit@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-7.1.0.tgz#50d10982ae46bd436506f8ef565a989eb2ce0054"
+arlas-wui-toolkit@7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-7.2.1.tgz#d864e5430a0cec02b99ea46cf4c3af092cf32f5c"
   dependencies:
     "@angular/animations" "^5.2.0"
     "@angular/cdk" "^5.2.0"
@@ -820,8 +820,8 @@ arlas-wui-toolkit@7.1.0:
     "@ngx-translate/core" "^8.0.0"
     "@ngx-translate/http-loader" "^2.0.1"
     ajv "^5.5.2"
-    arlas-web-components "7.1.*"
-    arlas-web-contributors "7.1.*"
+    arlas-web-components "7.2.*"
+    arlas-web-contributors "7.2.*"
     cli-color "^1.2.0"
     core-js "^2.4.1"
     rxjs "^5.5.6"
@@ -1210,8 +1210,8 @@ bootstrap@4.0.0-beta.2:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-beta.2.tgz#4d67d2aa2219f062cd90bc1247e6747b9e8fd051"
 
 bootstrap@^4.0.0-beta:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.2.tgz#aee2a93472e61c471fc79fb475531dcbc87de326"
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1710,8 +1710,8 @@ colors@1.1.2:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
 
 colors@^1.1.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.0.tgz#5f20c9fef6945cb1134260aab33bfbdc8295e04e"
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.1.tgz#4accdb89cf2cabc7f982771925e9468784f32f3d"
 
 combine-lists@^1.0.0:
   version "1.0.1"
@@ -1757,22 +1757,22 @@ component-inherit@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
 
-compressible@~2.0.13:
+compressible@~2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.14.tgz#326c5f507fbb055f54116782b969a81b67a29da7"
   dependencies:
     mime-db ">= 1.34.0 < 2"
 
 compression@^1.5.2:
-  version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/compression/-/compression-1.7.3.tgz#27e0e176aaf260f7f2c2813c3e440adb9f1993db"
   dependencies:
-    accepts "~1.3.4"
+    accepts "~1.3.5"
     bytes "3.0.0"
-    compressible "~2.0.13"
+    compressible "~2.0.14"
     debug "2.6.9"
     on-headers "~1.0.1"
-    safe-buffer "5.1.1"
+    safe-buffer "5.1.2"
     vary "~1.1.2"
 
 concat-map@0.0.1:
@@ -2741,8 +2741,8 @@ escodegen@0.0.21:
     source-map ">= 0.1.2"
 
 escodegen@1.x.x, escodegen@^1.6.1, escodegen@^1.8.1:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/escodegen/-/escodegen-1.10.0.tgz#f647395de22519fbd0d928ffcf1d17e0dec2603e"
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/escodegen/-/escodegen-1.11.0.tgz#b27a9389481d5bfd5bec76f7bb1eb3f8f4556589"
   dependencies:
     esprima "^3.1.3"
     estraverse "^4.2.0"
@@ -2951,8 +2951,8 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     is-extendable "^1.0.1"
 
 extend@3, extend@^3.0.0, extend@~3.0.0, extend@~3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
 
 extglob@^0.3.1:
   version "0.3.2"
@@ -4335,8 +4335,8 @@ jison@0.4.13:
     nomnom "1.5.2"
 
 js-base64@^2.1.8:
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.6.tgz#1d49f618bef43630cd191f4e122447acfdb947d8"
+  version "2.4.8"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.8.tgz#57a9b130888f956834aa40c5b165ba59c758f033"
 
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
@@ -4479,8 +4479,8 @@ karma-source-map-support@^1.2.0:
     source-map-support "^0.5.5"
 
 karma@~2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.4.tgz#b399785f57e9bab1d3c4384db33fef4dec8ae349"
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.5.tgz#3710c7a2e71b1c439313f283846d88e04e4f918c"
   dependencies:
     bluebird "^3.3.0"
     body-parser "^1.16.1"
@@ -4567,8 +4567,8 @@ leaflet.path.drag@^0.0.6:
   resolved "https://registry.yarnpkg.com/leaflet.path.drag/-/leaflet.path.drag-0.0.6.tgz#6d9c3af0b9d7b032544ae16bfde688f0160514a0"
 
 leaflet@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.1.tgz#86f336d2fb0e2d0ff446677049a5dc34cf0ea60e"
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.3.tgz#5c8f2fd50e4a41ead93ab850dcd9e058811da9b9"
 
 less-loader@^4.0.5:
   version "4.1.0"
@@ -4974,19 +4974,15 @@ miller-rabin@^4.0.0:
     bn.js "^4.0.0"
     brorand "^1.0.1"
 
-"mime-db@>= 1.34.0 < 2":
-  version "1.34.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.34.0.tgz#452d0ecff5c30346a6dc1e64b1eaee0d3719ff9a"
-
-mime-db@~1.33.0:
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.33.0.tgz#a3492050a5cb9b63450541e39d9788d2272783db"
+"mime-db@>= 1.34.0 < 2", mime-db@~1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.35.0.tgz#0569d657466491283709663ad379a99b90d9ab47"
 
 mime-types@^2.1.11, mime-types@^2.1.12, mime-types@~2.1.17, mime-types@~2.1.18, mime-types@~2.1.7:
-  version "2.1.18"
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.18.tgz#6f323f60a83d11146f831ff11fd66e2fe5503bb8"
+  version "2.1.19"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.19.tgz#71e464537a7ef81c15f2db9d97e913fc0ff606f0"
   dependencies:
-    mime-db "~1.33.0"
+    mime-db "~1.35.0"
 
 mime@1.4.1:
   version "1.4.1"
@@ -5389,8 +5385,8 @@ npm-bundled@^1.0.1:
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.3.tgz#7e71703d973af3370a9591bafe3a63aca0be2308"
 
 npm-packlist@^1.1.6:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.1.10.tgz#1039db9e985727e464df066f4cf0ab6ef85c398a"
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.1.11.tgz#84e8c683cbe7867d34b1d357d893ce29e28a02de"
   dependencies:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
@@ -5941,9 +5937,9 @@ promisify-call@^2.0.2:
   dependencies:
     with-callback "^1.0.2"
 
-protocol-buffers-schema@^2.0.2:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-2.2.0.tgz#d29c6cd73fb655978fb6989691180db844119f61"
+protocol-buffers-schema@^3.3.1:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-3.3.2.tgz#00434f608b4e8df54c59e070efeefc37fb4bb859"
 
 protractor@~5.1.2:
   version "5.1.2"
@@ -6456,10 +6452,10 @@ resolve-from@^3.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
 
 resolve-protobuf-schema@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/resolve-protobuf-schema/-/resolve-protobuf-schema-2.0.0.tgz#e67b062a67f02d11bd6886e70efda788407e0fb4"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz#9ca9a9e69cf192bbdaf1006ec1973948aa4a3758"
   dependencies:
-    protocol-buffers-schema "^2.0.2"
+    protocol-buffers-schema "^3.3.1"
 
 resolve-url@^0.2.1:
   version "0.2.1"
@@ -6514,7 +6510,7 @@ safe-buffer@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
-safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@5.1.2, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
 
@@ -7542,8 +7538,8 @@ tsscmp@~1.0.0:
   resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.5.tgz#7dc4a33af71581ab4337da91d85ca5427ebd9a97"
 
 tsutils@^2.12.1:
-  version "2.27.2"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.27.2.tgz#60ba88a23d6f785ec4b89c6e8179cac9b431f1c7"
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.29.0.tgz#32b488501467acbedd4b85498673a0812aca0b99"
   dependencies:
     tslib "^1.8.1"
 
@@ -7598,8 +7594,8 @@ uglify-es@^3.3.4:
     source-map "~0.6.1"
 
 uglify-js@3.4.x:
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.4.tgz#92e79532a3aeffd4b6c65755bdba8d5bad98d607"
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.5.tgz#650889c0766cf0f6fd5346cea09cd212f544be69"
   dependencies:
     commander "~2.16.0"
     source-map "~0.6.1"
