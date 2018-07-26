@@ -1,0 +1,17 @@
+.bookmark-shortcut{
+  position:absolute;
+  top:0;
+  right:80px;
+  z-index:1;
+}
+
+.bookmark-chip{
+  background-color: white;
+  padding:4px 5px 0px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.bookmark-chip:hover{
+  background-color: #f5f5f5;
+}

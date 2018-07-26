@@ -42,6 +42,7 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ContributorService } from './services/contributors.service';
+import { DatasetComponent } from './components/dataset/dataset.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -53,7 +54,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapglComponent, SearchComponent, FiltersChipsComponent, AboutComponent, AboutDialogComponent
+        MapglComponent, SearchComponent, FiltersChipsComponent, AboutComponent, AboutDialogComponent, DatasetComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

@@ -39,7 +39,7 @@ export class FiltersChipsComponent {
   public contibutorsIcons: Map<string, string>;
   public countAll;
 
-  public tagComponenentConfig: any;
+  public tagComponentConfig: any;
   public shareComponentConfig: any;
 
   @ViewChild('about') private aboutcomponent: AboutComponent;
@@ -56,7 +56,7 @@ export class FiltersChipsComponent {
     this.contributors = this.collaborativesearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
-    this.tagComponenentConfig = this.configService.getValue('arlas.web.components.tag');
+    this.tagComponentConfig = this.configService.getValue('arlas.web.components.tag');
     this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
   }
 

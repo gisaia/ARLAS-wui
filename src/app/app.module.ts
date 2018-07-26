@@ -17,36 +17,37 @@
  * under the License.
  */
 
-import { RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule, Http } from '@angular/http';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TagInputModule } from 'ngx-chips';
-
-import { HistogramModule, MapglModule } from 'arlas-web-components';
-
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatCheckboxModule,
   MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
   MatIconModule,
-  MatTooltipModule,
+  MatInputModule,
+  MatMenuModule,
   MatProgressBarModule,
-  MatMenuModule
+  MatTableModule,
+  MatTooltipModule
 } from '@angular/material';
-
-import { ContributorService } from './services/contributors.service';
-import { ConfigService } from 'arlas-web-core';
-
-import { AppComponent } from './app.component';
-import { SearchComponent } from './components/search/search.component';
-import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
-import { routing } from './app.routes';
-import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { MarkdownModule } from 'angular2-markdown';
+import { HistogramModule, MapglModule } from 'arlas-web-components';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+import { TagInputModule } from 'ngx-chips';
+import { AppComponent } from './app.component';
+import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+import { DatasetAddDialogComponent, DatasetComponent, DatasetDialogComponent } from './components/dataset/dataset.component';
+import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
+import { SearchComponent } from './components/search/search.component';
+import { ContributorService } from './services/contributors.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,10 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     AboutDialogComponent,
     AppComponent,
     SearchComponent,
-    FiltersChipsComponent
+    FiltersChipsComponent,
+    DatasetComponent,
+    DatasetDialogComponent,
+    DatasetAddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,11 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
+    MatCheckboxModule,
+    MatDialogModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatMenuModule,
     MatTooltipModule,
     MatProgressBarModule,
@@ -72,6 +80,7 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
+    MatTableModule,
     HistogramModule,
     RouterModule,
     routing,
@@ -81,6 +90,6 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
     ContributorService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ AboutDialogComponent]
+  entryComponents: [AboutDialogComponent, DatasetDialogComponent, DatasetAddDialogComponent]
 })
 export class AppModule { }
