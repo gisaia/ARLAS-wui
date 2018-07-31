@@ -124,7 +124,9 @@ export class SearchComponent {
       this.keyEvent.next(this.searchCtrl.value.length);
     }
     if (event.keyCode === 13) {
-      this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
+      if (this.searchCtrl.value && this.searchCtrl.value.trim() !== '' ) {
+        this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
+      }
     }
   }
 
