@@ -69,6 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
   private isAutoGeosortActive;
+  private geosortConfig;
 
 
   @ViewChild('map') private mapglComponent: MapglComponent;
@@ -89,6 +90,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
+      this.geosortConfig = this.configService.getValue('arlas-wui.web.app.components.geosort');
+      if (this.analytics) {
+        this.isAutoGeosortActive = this.analytics.filter(g => g.groupId === 'resultlist')
+          .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
+      }
     }
   }
 
@@ -101,14 +107,30 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.mapglComponent.switchLayer.subscribe(data => this.mapglContributor.switchLayerCluster(data));
-    this.mapglComponent.map.on('moveend', () => {
-      if (this.isAutoGeosortActive === undefined) {
-        this.analytics.filter(g => g.groupId === 'resultlist')
-          .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
+    let startDragCenter;
+    let dragMove = false;
+    this.mapglComponent.map.on('dragstart', (e) => {
+      dragMove = true;
+      startDragCenter = this.mapglComponent.map.getCenter();
+    });
+    this.mapglComponent.map.on('moveend', (e) => {
+      if (dragMove === true) {
+        const endDragCenter = this.mapglComponent.map.getCenter();
+        const startDragCenterPosition = this.mapglComponent.map.project(startDragCenter);
+        const endDragCenterPosition = this.mapglComponent.map.project(endDragCenter);
+        const deltaX = Math.abs(startDragCenterPosition.x - endDragCenterPosition.x);
+        const deltaY = Math.abs(startDragCenterPosition.y - endDragCenterPosition.y);
+        const mapWidth = e.target._canvas.clientWidth;
+        const mapHeight = e.target._canvas.clientHeight;
+        const dragRatio = (this.geosortConfig) ? this.geosortConfig.dragRatio : 0.05;
+        const minGeosortZoom = (this.geosortConfig) ? this.geosortConfig.minGeosortZoom : 8;
+        if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
+          if ((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) {
+            this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng);
+          }
+        }
       }
-      if (this.isAutoGeosortActive) {
-        this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
-      }
+      dragMove = false;
     });
   }
 

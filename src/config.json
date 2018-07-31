@@ -412,6 +412,10 @@
           "icon": "search",
           "autocomplete_field": "vessel.ship_type",
           "autocomplete_size": "20"
+        },
+        "geosort": {
+          "dragRatio": 0.1,
+          "minGeosortZoom": 8
         }
       }
     }
