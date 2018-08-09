@@ -17,7 +17,8 @@
  * under the License.
  */
 
-.arlas-timeline .histogram__chart .context .brush .selection{
+.arlas-timeline .histogram__chart .context .brush .selection,
+.arlas-detailed-timeline .histogram__chart .context .brush .selection{
   fill: #BDBDBD;
   fill-opacity: 0.2;
   stroke:none;
@@ -116,7 +117,8 @@
   font-size: small;
 }
 
-.arlas-timeline .histogram__brush--handles {
+.arlas-timeline .histogram__brush--handles,
+.arlas-detailed-timeline .histogram__brush--handles{
   stroke: #78909C;
   fill: white;
 }

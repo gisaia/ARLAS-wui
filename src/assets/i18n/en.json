@@ -18,5 +18,10 @@
   "Last 60 days": "Last 60 days",
   "Last 90 days": "Last 90 days",
   "Last 6 months": "Last 6 months",
-  "Last 1 year" : "Last 1 year"
+  "Last 1 year" : "Last 1 year",
+  "Clear all filters": "Clear all filters",
+  "Menu": "Menu",
+  "searchPlaceholder": "Search a MMSI, a Ship type, .... Ex: 257061000",
+  "From": "",
+  "to": "to"
 }

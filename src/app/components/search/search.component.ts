@@ -28,6 +28,7 @@ import { FormControl } from '@angular/forms';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { MatIcon } from '@angular/material';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-search',
@@ -48,7 +49,8 @@ export class SearchComponent {
   constructor(private collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     private configService: ArlasConfigService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public translate: TranslateService
   ) {
 
     this.autocomplete_field = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');

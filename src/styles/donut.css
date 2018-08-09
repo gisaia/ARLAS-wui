@@ -1,5 +1,11 @@
 .arlas-donuts-analytics{
   height: 160px !important;
+  overflow: hidden !important;
+}
+
+.arlas-donuts-status-analytics{
+  height: 160px !important;
+  overflow: hidden !important;
 }
 
 .analytics-board-card .donut-container .donut{

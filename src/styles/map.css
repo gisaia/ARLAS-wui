@@ -1,13 +1,13 @@
 .mapboxgl-ctrl-scale {
-  top: calc(-100vh + 30px) !important;
+  bottom: 155px !important;
   position: absolute !important;
-  right: 0;
+  right: -2px;
 }
 
 .mapboxgl-ctrl-top-right {
-  top : 30px !important;
+  top : 50px !important;
 }
 
 .map__layers-list--container {
-  top : 40px !important;
+  top : 60px !important;
 }

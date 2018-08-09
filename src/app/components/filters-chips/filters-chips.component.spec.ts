@@ -31,6 +31,7 @@ import {
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { FiltersChipsComponent } from './filters-chips.component';
+import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 
 describe('FiltersChipsComponent', () => {
@@ -39,9 +40,10 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatChipsModule, MatIconModule, MatTooltipModule, HttpModule, MatMenuModule, MatDialogModule, MarkdownModule],
+      imports: [MatChipsModule, MatIconModule, MatTooltipModule, HttpModule, MatMenuModule, MatDialogModule,
+         MarkdownModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})],
       declarations: [FiltersChipsComponent, AboutComponent, AboutDialogComponent, ShareComponent, TagComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService, TranslateService]
     })
       .compileComponents();
   }));

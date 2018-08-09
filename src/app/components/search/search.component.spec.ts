@@ -29,6 +29,7 @@ import {
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { SearchComponent } from './search.component';
+import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 
 describe('SearchComponent', () => {
@@ -40,10 +41,10 @@ describe('SearchComponent', () => {
       imports: [
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, HttpModule
+        MatIconModule, HttpModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})
       ],
       declarations: [SearchComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService, TranslateService]
     })
       .compileComponents();
   }));

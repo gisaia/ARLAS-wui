@@ -18,5 +18,10 @@
   "Last 60 days": "60 derniers jours",
   "Last 90 days": "90 derniers jours",
   "Last 6 months": "6 derniers mois",
-  "Last 1 year" : "Année dernière"
+  "Last 1 year" : "Année dernière",
+  "Clear all filters": "Supprimer tous les filtres",
+  "Menu": "Menu",
+  "searchPlaceholder": "Rechercher un MMSI, un type de bateau... Ex: Cargo",
+  "From": "",
+  "to": "à"
 }
