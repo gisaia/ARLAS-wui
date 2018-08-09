@@ -1,8 +1,26 @@
 # Change Log
 
+## [v7.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.3.0) (2018-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.2.0...v7.3.0)
+
+**New stuff:**
+
+- MAP : Add delta checking of the map drag before geosorting the result list [\#80](https://github.com/gisaia/ARLAS-wui/issues/80)
+- Dataset Managment [\#33](https://github.com/gisaia/ARLAS-wui/issues/33)
+
+**Fixed bugs:**
+
+- SEARCH: remove "" between search words as it doesn't allow simple\_query\_string [\#85](https://github.com/gisaia/ARLAS-wui/issues/85)
+- Search bar send a request for empty strings [\#81](https://github.com/gisaia/ARLAS-wui/issues/81)
+
 ## [v7.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.2.0) (2018-07-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.1.0...v7.2.0)
+
+**New stuff:**
+
+- Feature/v.7.2.0 [\#77](https://github.com/gisaia/ARLAS-wui/pull/77) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 ## [v7.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.1.0) (2018-07-13)
 
