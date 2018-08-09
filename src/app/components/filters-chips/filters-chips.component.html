@@ -4,7 +4,7 @@
 <arlas-tag #tag [hidden]="true"></arlas-tag>
 <div class="filters-chips--container">
     <mat-chip-list class="filters-chips">
-      <mat-basic-chip class="filter-chip menu-chip">
+      <mat-basic-chip class="filter-chip menu-chip" matTooltip="{{ 'Menu' | translate }}">
         <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-chip-button">
           <mat-icon>menu</mat-icon>
         </button>
@@ -24,7 +24,7 @@
         </mat-menu>
       </mat-basic-chip>
 
-      <mat-basic-chip class="filter-chip home-chip" (click)="removeAllFilters()">
+      <mat-basic-chip class="filter-chip home-chip" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
         <img class="home-chip--icon" src="assets/arlas-logo-inner-white-24.png" alt="[ARLAS]"/> ARLAS
       </mat-basic-chip>
 

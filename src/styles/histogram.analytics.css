@@ -71,6 +71,11 @@
   stroke: none;
 }
 
+.analytics-board-card {
+  width: 50% !important;
+  margin: 3px 0 3px 0 !important;
+}
+
 .arlas-histogram-analytics .histogram__tooltip {
   background-color: #78909C;
 }
