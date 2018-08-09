@@ -59,6 +59,12 @@
   stroke: none;
 }
 
+.arlas-histogram-analytics .histogram__chart--bar__fullyselected{
+  fill: #80CBC4;
+  fill-opacity: 1;
+  stroke: none;
+}
+
 .arlas-histogram-analytics .histogram__chart--bar {
   fill: #EEEEEE;
   fill-opacity: 1;

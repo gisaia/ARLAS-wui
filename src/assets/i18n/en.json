@@ -18,5 +18,7 @@
   "Last 60 days": "Last 60 days",
   "Last 90 days": "Last 90 days",
   "Last 6 months": "Last 6 months",
-  "Last 1 year" : "Last 1 year"
+  "Last 1 year" : "Last 1 year",
+  "From": "",
+  "to": "to"
 }
