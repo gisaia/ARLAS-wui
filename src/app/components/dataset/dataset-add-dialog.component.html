@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <h1 class="modal_title" mat-dialog-title>{{ 'Dataset name' | translate }} </h1>
   <mat-form-field>
-    <input matInput tabindex="1" [(ngModel)]="bookmarkName" class="bookmark-search-input">
+    <input matInput tabindex="1" [(ngModel)]="bookmarkName" class="bookmark-search-input" (keypress)="pressEvent($event)">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

@@ -132,4 +132,10 @@ export class DatasetAddDialogComponent {
   public cancel(): void {
     this.dialogRef.close();
   }
+
+  public pressEvent(event: KeyboardEvent) {
+    if (event.keyCode === 13 && this.bookmarkName) {
+      this.dialogRef.close(this.bookmarkName);
+    }
+  }
 }
