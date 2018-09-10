@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ArlasBookmarkService } from 'arlas-wui-toolkit/services/bookmark/bookmark.service';
 import { BookmarkDataSource } from 'arlas-wui-toolkit/services/bookmark/bookmarkDataSource';
-import { BookMark } from '../../../../node_modules/arlas-wui-toolkit/services/bookmark/model';
+import { BookMark } from 'arlas-wui-toolkit/services/bookmark/model';
 
 @Component({
   selector: 'arlas-dataset',
@@ -14,6 +14,7 @@ export class DatasetComponent implements OnInit {
   @Input() public nbTopBookmarks: number;
   public datasets: BookmarkDataSource;
   public topBookmarks: Array<BookMark>;
+  public isBookmarkOpen = false;
 
   constructor(
     public dialog: MatDialog,
@@ -21,7 +22,7 @@ export class DatasetComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.icon = this.icon ? this.icon : 'view_modules';
+    this.icon = this.icon ? this.icon : 'view_list';
     this.nbTopBookmarks = this.nbTopBookmarks ? this.nbTopBookmarks : 3;
 
     this.bookmarkService.dataBase.dataChange.subscribe(bookmarks => {
@@ -131,5 +132,11 @@ export class DatasetAddDialogComponent {
 
   public cancel(): void {
     this.dialogRef.close();
+  }
+
+  public pressEvent(event: KeyboardEvent) {
+    if (event.keyCode === 13 && this.bookmarkName) {
+      this.dialogRef.close(this.bookmarkName);
+    }
   }
 }
