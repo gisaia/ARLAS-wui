@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Output, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({

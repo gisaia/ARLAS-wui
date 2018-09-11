@@ -47,13 +47,13 @@ export class FiltersChipsComponent {
   @ViewChild('tag') private tagComponent: TagComponent;
 
   constructor(
-    private collaborativesearchService: ArlasCollaborativesearchService,
+    private collaborativeSearchService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     private configService: ArlasConfigService,
     private cdr: ChangeDetectorRef
   ) {
 
-    this.contributors = this.collaborativesearchService.registry;
+    this.contributors = this.collaborativeSearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
     this.tagComponentConfig = this.configService.getValue('arlas.web.components.tag');
@@ -61,21 +61,21 @@ export class FiltersChipsComponent {
   }
 
   public removeCollaboration(contributorId: string): void {
-    this.collaborativesearchService.removeFilter(contributorId);
+    this.collaborativeSearchService.removeFilter(contributorId);
     this.cdr.detectChanges();
   }
 
   public changeCollaborationState(contributorId): void {
-    const collaborationState = this.collaborativesearchService.isEnable(contributorId);
+    const collaborationState = this.collaborativeSearchService.isEnable(contributorId);
     if (collaborationState) {
-      this.collaborativesearchService.disable(contributorId);
+      this.collaborativeSearchService.disable(contributorId);
     } else {
-      this.collaborativesearchService.enable(contributorId);
+      this.collaborativeSearchService.enable(contributorId);
     }
   }
 
   public removeAllFilters(): void {
-    this.collaborativesearchService.removeAll();
+    this.collaborativeSearchService.removeAll();
   }
 
   public getCollaborationIcon(contributorId): string {
@@ -83,7 +83,7 @@ export class FiltersChipsComponent {
   }
 
   public getContributorLabel(contributorId: string): string {
-    let label = this.collaborativesearchService.registry.get(contributorId).getFilterDisplayName();
+    let label = this.collaborativeSearchService.registry.get(contributorId).getFilterDisplayName();
     if (label !== undefined) {
       const labelSplited = label.split('<=');
       if (labelSplited.length === 3) {
@@ -97,9 +97,9 @@ export class FiltersChipsComponent {
   }
 
   public getChipColor(contributorId: string): string {
-    const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+    const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
     if (collaboration != null) {
-      const collaborationState = this.collaborativesearchService.isEnable(contributorId);
+      const collaborationState = this.collaborativeSearchService.isEnable(contributorId);
       if (collaborationState) {
         return '#FFF';
       } else {
@@ -109,9 +109,9 @@ export class FiltersChipsComponent {
   }
 
   public getChipBackgroundColor(contributorId: string): string {
-    const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+    const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
     if (collaboration != null) {
-      if (this.collaborativesearchService.isEnable(contributorId)) {
+      if (this.collaborativeSearchService.isEnable(contributorId)) {
         return '#FF4081';
       } else {
         return '#FFF';
@@ -133,7 +133,7 @@ export class FiltersChipsComponent {
 
   private retrieveCurrentCollaborations() {
     Array.from(this.contributors.keys()).forEach(contributorId => {
-      const collaboration = this.collaborativesearchService.getCollaboration(contributorId);
+      const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
       if (collaboration != null) {
         this.collaborations.add(contributorId);
       } else {
@@ -143,10 +143,10 @@ export class FiltersChipsComponent {
   }
 
   private subscribeToFutureCollaborations() {
-    this.collaborativesearchService.collaborationBus.subscribe(collaborationBus => {
-      this.collaborativesearchService.countAll.subscribe(count => this.countAll = this.formatWithSpace(count));
+    this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
+      this.collaborativeSearchService.countAll.subscribe(count => this.countAll = this.formatWithSpace(count));
       if (!collaborationBus.all) {
-        const collaboration = this.collaborativesearchService.getCollaboration(collaborationBus.id);
+        const collaboration = this.collaborativeSearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
           if (collaborationBus.operation === 0) {
             this.collaborations.add(collaborationBus.id);

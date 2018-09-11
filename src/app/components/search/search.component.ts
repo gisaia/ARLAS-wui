@@ -17,18 +17,16 @@
  * under the License.
  */
 
-import { Component, Output, Input, ChangeDetectorRef } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { AggregationResponse, Aggregation, Filter } from 'arlas-api';
-import { ContributorService } from '../../services/contributors.service';
-import { projType } from 'arlas-web-core';
-import { Response } from '@angular/http';
+import { ChangeDetectorRef, Component, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { MatIcon } from '@angular/material';
-import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { projType } from 'arlas-web-core';
+import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { ContributorService } from '../../services/contributors.service';
 
 @Component({
   selector: 'arlas-search',
@@ -53,8 +51,8 @@ export class SearchComponent {
     public translate: TranslateService
   ) {
 
-    this.autocomplete_field = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
-    this.autocomplete_size = configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
+    this.autocomplete_field = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
+    this.autocomplete_size = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
     this.searchCtrl = new FormControl();
     this.keyEvent.pairwise().subscribe(l => {
