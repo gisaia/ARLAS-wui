@@ -57,6 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public chartType = ChartType;
   public position = Position;
   public analyticsOpen = true;
+  public searchOpen = true;
 
   // component config
   public mapComponentConfig: any;
@@ -147,10 +148,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
     }
-  }
-
-  public toggleAnalytics(event: string) {
-    this.analyticsOpen = !this.analyticsOpen;
   }
 
   public refreshComponents() {
