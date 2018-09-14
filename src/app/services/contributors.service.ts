@@ -17,20 +17,15 @@
  * under the License.
  */
 
-import { isBoolean } from 'util';
 import { Injectable } from '@angular/core';
-
-import { HistogramContributor, MapContributor, ChipsSearchContributor, SwimLaneContributor } from 'arlas-web-contributors';
+import { ChipsSearchContributor, MapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
-
-import { ChartType, DataType } from 'arlas-web-components';
-
-import { Subject } from 'rxjs/Subject';
 import {
-  ArlasConfigService,
   ArlasCollaborativesearchService,
+  ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ContributorService {

@@ -26,15 +26,20 @@
   </div>
 
   <div class="arlas-top-analytics">
-    <div class="arlas-search">
+    <mat-basic-chip class="arlas-search-toggle" (click)="searchOpen=!searchOpen" matTooltip="{{'Toggle search' | translate}}">
+      <mat-icon class="primary" [class.arlas-search-rotate]="searchOpen">keyboard_arrow_right</mat-icon>
+      <mat-icon>search</mat-icon>
+    </mat-basic-chip>
+    <div class="arlas-search" [hidden]="!searchOpen">
       <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
     </div>
-    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="Refresh components">
+    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="{{'Refresh components' | translate}}">
       <mat-icon>refresh</mat-icon>
     </span>
-    <span class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics($event)" matTooltip="Toggle analytics board">
-      <mat-icon [class.toggle-open]="analyticsOpen">filter_list</mat-icon>
-    </span>
+    <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="analyticsOpen=!analyticsOpen" matTooltip="{{'Toggle analytics board' | translate}}">
+      <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
+      <mat-icon>pie_chart</mat-icon>
+    </mat-basic-chip>
   </div>
   <div class="arlas-filters-chips">
     <arlas-filters-chips></arlas-filters-chips>
