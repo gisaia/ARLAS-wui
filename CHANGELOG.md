@@ -1,11 +1,24 @@
 # Change Log
 
+## [v7.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.0) (2018-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.3.0...v7.4.0)
+
+**New stuff:**
+
+- Add toggle button for search & analytics [\#92](https://github.com/gisaia/ARLAS-wui/pull/92) ([sebbousquet](https://github.com/sebbousquet))
+
+**Fixed bugs:**
+
+- Fix/dataset dialog validation [\#89](https://github.com/gisaia/ARLAS-wui/pull/89) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v7.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.3.0) (2018-08-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.2.0...v7.3.0)
 
 **New stuff:**
 
+- prepare Arlas-wui v7.3.0  [\#84](https://github.com/gisaia/ARLAS-wui/issues/84)
 - MAP : Add delta checking of the map drag before geosorting the result list [\#80](https://github.com/gisaia/ARLAS-wui/issues/80)
 - Dataset Managment [\#33](https://github.com/gisaia/ARLAS-wui/issues/33)
 
