@@ -37,6 +37,7 @@ import {
 import { SearchComponent } from './components/search/search.component';
 import { ContributorService } from './services/contributors.service';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subject } from 'rxjs/Subject';
 
 
 @Component({
@@ -72,6 +73,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   public featuresToSelect: Array<ElementIdentifier> = [];
   private isAutoGeosortActive;
   private geosortConfig;
+  private allowMapExtend: boolean;
+  private mapBounds: mapboxgl.LngLatBounds;
+  private mapEventListener = new Subject();
+  private mapExtendTimer: number;
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -87,6 +92,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
+      const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
+      this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
+      this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
@@ -104,6 +112,21 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
       this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
+      if (this.allowMapExtend) {
+        const url = window.location.href;
+        const paramBounds = 'extend';
+        const regex = new RegExp('[?&]' + paramBounds + '(=([^&#]*)|&|#|$)');
+        const results = regex.exec(url);
+        if (results && results[2]) {
+          const stringBounds = results[2].split(',');
+          if (stringBounds.length === 4) {
+            this.mapBounds = new mapboxgl.LngLatBounds(
+              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
+              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+            );
+          }
+        }
+      }
     }
   }
 
@@ -115,6 +138,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       dragMove = true;
       startDragCenter = this.mapglComponent.map.getCenter();
     });
+    if (this.mapBounds && this.allowMapExtend) {
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds);
+        this.mapBounds = null;
+    }
     this.mapglComponent.map.on('moveend', (e) => {
       if (dragMove === true) {
         const endDragCenter = this.mapglComponent.map.getCenter();
@@ -133,6 +160,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }
       dragMove = false;
+      if (this.allowMapExtend) {
+        this.mapEventListener.next();
+      }
+    });
+    this.mapEventListener.debounceTime(this.mapExtendTimer).subscribe(() => {
+      /** Change map extend in the url */
+      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      queryParams['extend'] = extend;
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
   }
 
