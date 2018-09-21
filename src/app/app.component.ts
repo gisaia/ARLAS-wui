@@ -64,6 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
 
+  public fitbounds: Array<Array<number>> = [];
   public featureToHightLight: {
     isleaving: boolean,
     elementidentifier: ElementIdentifier
@@ -71,7 +72,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   public featuresToSelect: Array<ElementIdentifier> = [];
   private isAutoGeosortActive;
   private geosortConfig;
-
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -103,6 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp) {
       this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
+      this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
     }
   }
 
@@ -173,6 +174,12 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
             break;
           case 'actionOnItemEvent':
+            switch (event.data.action.id) {
+              case 'zoomToFeature':
+                this.mapglContributor.getBoundsToFit(event.data.elementidentifier)
+                  .subscribe(bounds => this.fitbounds = bounds);
+                break;
+            }
             break;
           case 'globalActionEvent':
             break;
