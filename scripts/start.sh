@@ -35,4 +35,26 @@ else
   fetchAboutContent;
 fi
 
+fetchI18nENContent(){
+  echo "Download the en.json file from \"${ARLAS_WUI_I18N_EN_URL}\" ..."
+  curl ${ARLAS_WUI_I18N_EN_URL} -o "/usr/share/nginx/html/assets/i18n/en.json" && echo "'EN language' file downloaded with success." || (echo "Failed to download the 'EN language' file."; exit 1)
+}
+
+if [ -z "${ARLAS_WUI_I18N_EN_URL}" ]; then
+  echo "The default 'EN language' file is used"
+else
+  fetchI18nENContent;
+fi
+
+fetchI18nFRContent(){
+  echo "Download the fr.json file from \"${ARLAS_WUI_I18N_FR_URL}\" ..."
+  curl ${ARLAS_WUI_I18N_FR_URL} -o "/usr/share/nginx/html/assets/i18n/fr.json" && echo "'FR language' file downloaded with success." || (echo "Failed to download the 'FR language' file."; exit 1)
+}
+
+if [ -z "${ARLAS_WUI_I18N_FR_URL}" ]; then
+  echo "The default 'FR language' file is used"
+else
+  fetchI18nFRContent;
+fi
+
 nginx -g "daemon off;"
