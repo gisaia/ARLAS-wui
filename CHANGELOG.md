@@ -1,5 +1,20 @@
 # Change Log
 
+## [v7.4.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.1) (2018-09-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.0...v7.4.1)
+
+**New stuff:**
+
+- ARLAS WUI URL keeps the Map extend and moves the map to that extend at the initial load. [\#91](https://github.com/gisaia/ARLAS-wui/issues/91)
+- Add tooltips for [\#86](https://github.com/gisaia/ARLAS-wui/issues/86)
+- Add action 'zoom to' on each item in result list [\#99](https://github.com/gisaia/ARLAS-wui/pull/99) ([sebbousquet](https://github.com/sebbousquet))
+- Add env variable for 'en' and 'fr' language file in start script [\#97](https://github.com/gisaia/ARLAS-wui/pull/97) ([sebbousquet](https://github.com/sebbousquet))
+
+**Fixed bugs:**
+
+- define language configuration files in when running arlas-wui docker container  [\#96](https://github.com/gisaia/ARLAS-wui/issues/96)
+
 ## [v7.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.0) (2018-09-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.3.0...v7.4.0)
