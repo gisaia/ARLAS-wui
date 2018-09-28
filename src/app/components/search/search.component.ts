@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
@@ -130,7 +130,8 @@ export class SearchComponent {
     }
   }
 
-  public clickItemSearch() {
+  public clickItemSearch(event) {
+    (<ElementRef>event.option._element).nativeElement.focus();
     this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
   }
 }
