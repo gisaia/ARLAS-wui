@@ -50,6 +50,6 @@
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
     <arlas-analytics-board [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
   </div>
-  <arlas-timeline class="arlas-timeline-toolkit" [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig" ></arlas-timeline>
+  <arlas-timeline class="arlas-timeline-toolkit" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig" ></arlas-timeline>
   <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></mat-progress-bar>
 </div>
