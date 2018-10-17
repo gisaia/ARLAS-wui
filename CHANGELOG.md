@@ -1,5 +1,17 @@
 # Change Log
 
+## [v7.4.2](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.2) (2018-10-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.1...v7.4.2)
+
+**Fixed bugs:**
+
+- Wrap search with "" after pressing enter in autocompletion results [\#101](https://github.com/gisaia/ARLAS-wui/issues/101)
+
+**Miscellaneous:**
+
+- Add list of supported browsers in generated doc [\#103](https://github.com/gisaia/ARLAS-wui/issues/103) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+
 ## [v7.4.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.1) (2018-09-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.0...v7.4.1)
