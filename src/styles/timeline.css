@@ -126,3 +126,28 @@
 .arlas-timeline .histogram__tooltip {
   background-color: #78909C;
 }
+
+.shortcut-remove-filter{
+  margin: 0 2px;
+}
+
+/* Date Picker */
+
+.arlas-date-picker-input-from, .arlas-date-picker-input-to{
+  background-color: #FF4081;
+  color: white;
+  border: none;
+  min-width: 165px;
+}
+
+.arlas-date-picker-label-from, .arlas-date-picker-label-to{
+  margin-bottom: 0;
+}
+
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected{
+  background-color: #FF4081;
+}
+
+.owl-dt-container-buttons{
+  color: #FF4081;
+}
