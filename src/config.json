@@ -288,9 +288,7 @@
               {
                 "id": "cluster",
                 "name": "Cluster",
-                "base": [
-                  "geobox"
-                ],
+                "base": [],
                 "styles": [
                   {
                     "id": "heat",
