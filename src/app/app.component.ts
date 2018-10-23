@@ -111,7 +111,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp) {
       this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
-      this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
+      if (this.resultlistContributor) {
+        this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
+      }
       if (this.allowMapExtend) {
         const url = window.location.href;
         const paramBounds = 'extend';
@@ -154,7 +156,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         const dragRatio = (this.geosortConfig) ? this.geosortConfig.dragRatio : 0.05;
         const minGeosortZoom = (this.geosortConfig) ? this.geosortConfig.minGeosortZoom : 8;
         if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
-          if ((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) {
+          if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributor) {
             this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng);
           }
         }
@@ -202,7 +204,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             this.featureToHightLight = this.mapglContributor.getFeatureToHightLight(event.data);
             break;
           case 'selectedItemsEvent':
-            if (event.data.length > 0) {
+            if (event.data.length > 0 && this.mapComponentConfig) {
               this.featuresToSelect = event.data.map(id => ({
                 idFieldName: this.mapComponentConfig.idFeatureField,
                 idValue: id
@@ -222,7 +224,9 @@ export class AppComponent implements OnInit, AfterViewInit {
           case 'globalActionEvent':
             break;
           case 'geoSortEvent':
-            this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
+            if (this.resultlistContributor) {
+              this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
+            }
             break;
           case 'geoAutoSortEvent':
             this.isAutoGeosortActive = event.data;

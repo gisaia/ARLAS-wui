@@ -37,11 +37,11 @@ export class SearchComponent {
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
   public searchCtrl: FormControl;
   public filteredSearch: Observable<any[]>;
+  public searches: Observable<AggregationResponse>;
   private autocomplete_field: string;
   private autocomplete_size: string;
   private keyEvent: Subject<number> = new Subject<number>();
   private searchContributorId: string;
-  @Input() public searches: Observable<AggregationResponse>;
   @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
 
   constructor(private collaborativeService: ArlasCollaborativesearchService,
@@ -101,21 +101,27 @@ export class SearchComponent {
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {
-    const aggregation: Aggregation = {
-      type: Aggregation.TypeEnum.Term,
-      field: this.autocomplete_field,
-      include: encodeURI(search) + '.*',
-      size: this.autocomplete_size
-    };
-    const filter: Filter = {
-      q: [[this.autocomplete_field + ':' + search + '*']]
-    };
-    this.searches = this.collaborativeService.resolveButNotAggregation(
-      [projType.aggregate, [aggregation]],
-      this.collaborativeService.collaborations,
-      this.searchContributorId,
-      filter
-    );
+    if (this.autocomplete_size === undefined) {
+      // Default value to 20.
+      this.autocomplete_size = '20';
+    }
+    if (this.autocomplete_field) {
+      const aggregation: Aggregation = {
+        type: Aggregation.TypeEnum.Term,
+        field: this.autocomplete_field,
+        include: encodeURI(search) + '.*',
+        size: this.autocomplete_size
+      };
+      const filter: Filter = {
+        q: [[this.autocomplete_field + ':' + search + '*']]
+      };
+      this.searches = this.collaborativeService.resolveButNotAggregation(
+        [projType.aggregate, [aggregation]],
+        this.collaborativeService.collaborations,
+        this.searchContributorId,
+        filter
+      );
+    }
     return this.searches;
   }
 
