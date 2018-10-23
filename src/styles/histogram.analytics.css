@@ -105,6 +105,41 @@
   stroke-width: 0.8px;
 }
 
+.arlas-histogram-analytics-not-selectable .histogram__description{
+  display: none;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__chart--bar {
+  fill: #80CBC4;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-histogram-analytics-not-selectable .tick text {
+  fill: #BDBDBD;
+  font-size: 0.9em;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__ticks{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__axis{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__only-axis .domain{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__chart--current-selected--area {
+  fill: #80CBC4;
+  stroke: #80CBC4
+}
+
 .arlas-swimlane-filter .histogram__chart--bar {
   fill-opacity: 0.3;
   stroke-opacity: 0.1;
