@@ -1,8 +1,25 @@
 # Change Log
 
+## [v8.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v8.0.0) (2018-10-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.2...v8.0.0)
+
+**New stuff:**
+
+- Add default css for all analytics components  [\#105](https://github.com/gisaia/ARLAS-wui/issues/105)
+- Add container healthcheck [\#76](https://github.com/gisaia/ARLAS-wui/issues/76)
+
+**Fixed bugs:**
+
+- Before instantiate check existence of contributor in conf [\#106](https://github.com/gisaia/ARLAS-wui/issues/106)
+
 ## [v7.4.2](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.2) (2018-10-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.1...v7.4.2)
+
+**New stuff:**
+
+- Integrate Datapicker in timeline [\#108](https://github.com/gisaia/ARLAS-wui/pull/108) ([sebbousquet](https://github.com/sebbousquet))
 
 **Fixed bugs:**
 
