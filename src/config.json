@@ -43,8 +43,8 @@
         "map$mapbox": {
           "identifier": "mapbox",
           "idFieldName": "id",
-          "drawtype": "RECTANGLE",
           "name": "Map",
+          "geomStrategy": "centroid",
           "initZoom": 4,
           "includeFeaturesFields": [
             "course.heading",
@@ -64,7 +64,9 @@
               "interval": {
                 "value": 3
               },
-              "withGeoCentroid": true
+              "fetchGeometry": {
+                "strategy": "centroid"
+              }
             }
           ],
           "zoomLevelFullData": 6,
@@ -296,7 +298,7 @@
                     "layerIds": [
                       "cluster-heat"
                     ],
-                    "drawType": "CIRCLE"
+                    "geomStrategy": "centroid"
                   },
                   {
                     "id": "fill",
@@ -304,7 +306,7 @@
                     "layerIds": [
                       "cluster-rect-fill"
                     ],
-                    "drawType": "RECTANGLE"
+                    "geomStrategy": "geohash"
                   }
                 ]
               }
@@ -390,7 +392,7 @@
     }
   },
   "server": {
-    "url": "http://localhost:9999/arlas",
+    "url": "http://demo.arlas.io/arlas",
     "collection": {
       "name": "ais-danmark",
       "id": "id"
