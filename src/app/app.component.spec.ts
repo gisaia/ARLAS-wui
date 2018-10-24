@@ -19,7 +19,6 @@ import { APP_BASE_HREF } from '@angular/common';
  */
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule, MatChipsModule, MatIconModule,
   MatInputModule, MatMenuModule, MatSelectModule,
@@ -49,7 +48,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
-        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule,
+        FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
         MatSelectModule, MarkdownModule, MatMenuModule, MatProgressBarModule, MatRadioModule
       ],
       declarations: [

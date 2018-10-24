@@ -24,8 +24,8 @@ import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map } from 'rxjs/operators';
 import { ContributorService } from '../../services/contributors.service';
 
 @Component({
@@ -55,49 +55,58 @@ export class SearchComponent {
     this.autocomplete_size = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
     this.searchContributorId = this.contributorService.getChipSearchContributor(this.onLastBackSpace).identifier;
     this.searchCtrl = new FormControl();
-    this.keyEvent.pairwise().subscribe(l => {
+    this.keyEvent.pipe(pairwise()).subscribe(l => {
       if (l[1] === 0 && l[0] !== 0) {
         this.collaborativeService.removeFilter(this.searchContributorId);
         this.cdr.detectChanges();
       }
     });
 
-    this.collaborativeService.contribFilterBus
-      .filter(contributor => contributor.identifier === 'chipssearch')
-      .filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0).first().subscribe(
-        contributor => {
-          let initSearchValue = '';
-          (<ChipsSearchContributor>contributor).chipMapData.forEach((v, k) => {
-            let searchtxt = k;
-            if (k.split(':').length > 0) {
-              searchtxt = k.split(':')[1];
-            }
-            const pattern = /\"/gi;
-            initSearchValue += searchtxt.replace(pattern, '') + ' ';
-          });
-          this.searchCtrl.setValue(initSearchValue);
-        }
-      );
+    this.collaborativeService.contribFilterBus.pipe(
+      filter(contributor => contributor.identifier === 'chipssearch'),
+      filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0),
+      first()
+    )
+    .subscribe(
+      contributor => {
+        let initSearchValue = '';
+        (<ChipsSearchContributor>contributor).chipMapData.forEach((v, k) => {
+          let searchtxt = k;
+          if (k.split(':').length > 0) {
+            searchtxt = k.split(':')[1];
+          }
+          const pattern = /\"/gi;
+          initSearchValue += searchtxt.replace(pattern, '') + ' ';
+        });
+        this.searchCtrl.setValue(initSearchValue);
+      }
+    );
 
-    const autocomplete = this.searchCtrl.valueChanges.debounceTime(250)
-      .startWith('')
-      .filter(search => search !== null)
-      .filter(search => search.length > 1)
-      .flatMap(search => this.filterSearch(search))
-      .map(f => f.elements);
+    const autocomplete = this.searchCtrl.valueChanges.pipe(
+      debounceTime(250),
+      startWith(''),
+      filter(search => search !== null),
+      filter(search => search.length > 1),
+      flatMap(search => this.filterSearch(search)),
+      map(f => f.elements)
+    );
 
-    const noautocomplete = this.searchCtrl.valueChanges.debounceTime(250)
-      .startWith('')
-      .filter(search => search !== null)
-      .filter(search => search.length < 2)
-      .map(f => []);
+    const noautocomplete = this.searchCtrl.valueChanges.pipe(
+      debounceTime(250),
+      startWith(''),
+      filter(search => search !== null),
+      filter(search => search.length < 2),
+      map(f => [])
+    );
 
-    const nullautocomplete = this.searchCtrl.valueChanges.debounceTime(250)
-      .startWith('')
-      .filter(search => search == null)
-      .map(f => []);
+    const nullautocomplete = this.searchCtrl.valueChanges.pipe(
+      debounceTime(250),
+      startWith(''),
+      filter(search => search == null),
+      map(f => [])
+    );
 
-    this.filteredSearch = noautocomplete.merge(autocomplete).merge(nullautocomplete);
+    this.filteredSearch = noautocomplete.pipe(merge(autocomplete), merge(nullautocomplete));
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {
@@ -112,14 +121,14 @@ export class SearchComponent {
         include: encodeURI(search) + '.*',
         size: this.autocomplete_size
       };
-      const filter: Filter = {
+      const filterAgg: Filter = {
         q: [[this.autocomplete_field + ':' + search + '*']]
       };
       this.searches = this.collaborativeService.resolveButNotAggregation(
         [projType.aggregate, [aggregation]],
         this.collaborativeService.collaborations,
         this.searchContributorId,
-        filter
+        filterAgg
       );
     }
     return this.searches;

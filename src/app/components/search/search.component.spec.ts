@@ -19,7 +19,6 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { MatAutocompleteModule, MatIconModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -41,7 +40,7 @@ describe('SearchComponent', () => {
       imports: [
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, HttpModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})
+        MatIconModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})
       ],
       declarations: [SearchComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService, TranslateService]

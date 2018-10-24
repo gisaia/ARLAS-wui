@@ -24,14 +24,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DatasetComponent } from './dataset.component';
 import { ArlasBookmarkService } from 'arlas-wui-toolkit/services/bookmark/bookmark.service';
 import { ContributorService } from '../../services/contributors.service';
-import { HttpModule } from '@angular/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import {
   ArlasConfigService,
   ArlasCollaborativesearchService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { HttpClientModule } from '../../../../node_modules/@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 describe('DatasetComponent', () => {
@@ -41,8 +39,8 @@ describe('DatasetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatChipsModule, MatDialogModule, MatIconModule, RouterModule, HttpModule,
-        HttpClientModule, BrowserModule, RouterTestingModule, MatSnackBarModule,
+        MatChipsModule, MatDialogModule, MatIconModule, RouterModule,
+        BrowserModule, RouterTestingModule, MatSnackBarModule,
         MatTooltipModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})
       ],
       declarations: [DatasetComponent],

@@ -28,7 +28,7 @@
   </div>
 
   <div class="arlas-top-analytics">
-    <mat-basic-chip class="arlas-search-toggle" (click)="searchOpen=!searchOpen" matTooltip="{{'Toggle search' | translate}}">
+    <mat-basic-chip class="arlas-search-toggle" [class.arlas-search-toggle-corner]="searchOpen" (click)="searchOpen=!searchOpen" matTooltip="{{'Toggle search' | translate}}">
       <mat-icon class="primary" [class.arlas-search-rotate]="searchOpen">keyboard_arrow_right</mat-icon>
       <mat-icon>search</mat-icon>
     </mat-basic-chip>

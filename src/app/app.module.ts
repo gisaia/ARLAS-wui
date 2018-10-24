@@ -19,7 +19,6 @@
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -64,7 +63,6 @@ import { ContributorService } from './services/contributors.service';
     BrowserModule,
     TagInputModule,
     BrowserAnimationsModule,
-    HttpModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,

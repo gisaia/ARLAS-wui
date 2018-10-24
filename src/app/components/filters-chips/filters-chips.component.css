@@ -19,8 +19,8 @@
 
 .filters-chips--container {
   background-color: #FF4081;
-  display: inline-block;
-  border-radius: 3px;
+  display: block;
+  border-radius: 4px;
 }
 
 .filter-chip {
@@ -84,8 +84,9 @@
 .filter-count {
   color: white;
   margin-left: 5px;
-  margin-right: 5px;
+  margin-right: 10px;
   cursor: default;
+  padding-top: 5px !important;
 }
 .filter-chip__label{
   color: white;
