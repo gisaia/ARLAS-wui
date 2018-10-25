@@ -17,6 +17,7 @@
  * under the License.
  */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatChipsModule, MatDialogModule, MatIconModule, MatSnackBarModule, MatTooltipModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -40,8 +41,8 @@ describe('DatasetComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatChipsModule, MatDialogModule, MatIconModule, RouterModule,
-        BrowserModule, RouterTestingModule, MatSnackBarModule,
-        MatTooltipModule, TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }})
+        BrowserModule, RouterTestingModule, MatSnackBarModule, HttpClientModule,
+        MatTooltipModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       declarations: [DatasetComponent],
       providers: [
@@ -51,6 +52,7 @@ describe('DatasetComponent', () => {
         ArlasBookmarkService,
         ContributorService,
         TranslateService,
+        HttpClient,
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
     })

@@ -1,4 +1,4 @@
-<div class="bookmark-shortcut">
+<div class="bookmark-shortcut" >
   <mat-chip-list>
     <mat-basic-chip [hidden]="!isBookmarkOpen" *ngFor="let bookmark of topBookmarks;let index = index" class="bookmark-chip bookmark-view" (click)="viewBookmark(bookmark.id)">
       <span class="bookmark-name">#{{index+1}} - {{ bookmark.name}}</span>
