@@ -36,7 +36,7 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { MarkdownModule } from 'angular2-markdown';
+import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { TagInputModule } from 'ngx-chips';
@@ -74,7 +74,7 @@ import { ContributorService } from './services/contributors.service';
     MatMenuModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MarkdownModule,
+    NgxMdModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,
