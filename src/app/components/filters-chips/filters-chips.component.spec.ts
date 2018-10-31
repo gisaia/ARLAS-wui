@@ -20,7 +20,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatChipsModule, MatDialogModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
-import { MarkdownModule } from 'angular2-markdown';
+import { NgxMdModule } from 'ngx-md';
 import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
 import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import {
@@ -42,7 +42,7 @@ describe('FiltersChipsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
-        MarkdownModule, HttpClientModule,
+        NgxMdModule, HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       declarations: [FiltersChipsComponent, AboutComponent, AboutDialogComponent, ShareComponent, TagComponent],
       providers: [
