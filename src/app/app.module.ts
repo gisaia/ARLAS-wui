@@ -39,7 +39,6 @@ import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-import { TagInputModule } from 'ngx-chips';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
@@ -61,7 +60,6 @@ import { ContributorService } from './services/contributors.service';
   ],
   imports: [
     BrowserModule,
-    TagInputModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatButtonModule,
