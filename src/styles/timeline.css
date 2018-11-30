@@ -49,7 +49,9 @@
 }
 
 .arlas-timeline-toolkit .arlas-timeline--timeshortcuts{
-  bottom: 126px !important;
+  padding: 0 0 0 0 !important;
+  bottom: 130px !important;
+  border-radius: 4px 4px 0 0;
 }
 
 .arlas-timeline .histogram__description--display{

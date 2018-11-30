@@ -19,7 +19,6 @@
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -37,10 +36,9 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { MarkdownModule } from 'angular2-markdown';
+import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-import { TagInputModule } from 'ngx-chips';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
@@ -62,9 +60,7 @@ import { ContributorService } from './services/contributors.service';
   ],
   imports: [
     BrowserModule,
-    TagInputModule,
     BrowserAnimationsModule,
-    HttpModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -76,7 +72,7 @@ import { ContributorService } from './services/contributors.service';
     MatMenuModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MarkdownModule,
+    NgxMdModule,
     FormsModule,
     ReactiveFormsModule,
     MapglModule,

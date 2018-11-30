@@ -19,7 +19,6 @@ import { APP_BASE_HREF } from '@angular/common';
  */
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatAutocompleteModule, MatChipsModule, MatIconModule,
   MatInputModule, MatMenuModule, MatSelectModule,
@@ -27,7 +26,7 @@ import {
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
-import { MarkdownModule } from 'angular2-markdown';
+import { NgxMdModule } from 'ngx-md';
 import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
 import { SearchComponent } from 'app/components/search/search.component';
 import { HistogramModule, MapglComponent } from 'arlas-web-components';
@@ -49,8 +48,8 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
-        FormsModule, MatChipsModule, MatTooltipModule, HttpModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, MarkdownModule, MatMenuModule, MatProgressBarModule, MatRadioModule
+        FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
+        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule
       ],
       declarations: [
         AppComponent,
@@ -67,7 +66,7 @@ describe('AppComponent', () => {
   }));
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   }));
 });

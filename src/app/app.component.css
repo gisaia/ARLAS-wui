@@ -46,6 +46,7 @@
   padding: 3px;
   flex:5;
   background-color: white;
+  border-radius: 0 4px 4px 0;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
@@ -54,10 +55,15 @@
 }
 
 .arlas-search-toggle{
+  border-radius: 4px;
   padding: 4px 5px 0px;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   cursor: pointer;
+}
+
+.arlas-search-toggle-corner{
+  border-radius: 4px 0 0 4px;;
 }
 
 .arlas-search-toggle:hover{
@@ -69,6 +75,7 @@
   margin-left:3px;
   max-width:62px;
   background-color: white;
+  border-radius: 4px;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   cursor: pointer;
   flex:1;
@@ -94,7 +101,7 @@
 
 .arlas-filters-chips {
   position: absolute;
-  top: 0;
+  top: 5px;
   padding: 5px;
 }
 

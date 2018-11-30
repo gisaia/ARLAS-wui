@@ -17,7 +17,6 @@
  * under the License.
  */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import { ChartType, DataType, MapglComponent, Position } from 'arlas-web-components';
@@ -37,7 +36,8 @@ import {
 import { SearchComponent } from './components/search/search.component';
 import { ContributorService } from './services/contributors.service';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
 
-  constructor(private http: Http,
+  constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
@@ -166,7 +166,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.mapEventListener.next();
       }
     });
-    this.mapEventListener.debounceTime(this.mapExtendTimer).subscribe(() => {
+    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();

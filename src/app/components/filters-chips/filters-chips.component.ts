@@ -21,9 +21,6 @@ import { Contributor } from 'arlas-web-core';
 import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
 import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeAll';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
 
