@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ChipsSearchContributor, MapContributor } from 'arlas-web-contributors';
+import { ChipsSearchContributor, MapContributor, TopoMapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 import {
   ArlasCollaborativesearchService,
@@ -48,12 +48,24 @@ export class ContributorService {
 
   /* returns the map contributor */
   public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>): MapContributor {
-    const mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
-      onRemoveBbox,
-      redrawTile,
-      this.collaborativeService,
-      this.configService
-    );
+    const mapContributorConfig = this.configService.getValue('arlas.web.contributors.map$mapbox');
+    const topoMapContributorConfig = this.configService.getValue('arlas.web.contributors.topomap$mapbox');
+    let mapglcontributor;
+    if (topoMapContributorConfig !== undefined) {
+      mapglcontributor = new TopoMapContributor(this.MAPCONTRIBUTOR_ID,
+        onRemoveBbox,
+        redrawTile,
+        this.collaborativeService,
+        this.configService
+      );
+    } else if (mapContributorConfig !== undefined) {
+      mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
+        onRemoveBbox,
+        redrawTile,
+        this.collaborativeService,
+        this.configService
+      );
+    }
     this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
     this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, this.getContributorIcon(this.MAP_COMPONENT));
     return mapglcontributor;
