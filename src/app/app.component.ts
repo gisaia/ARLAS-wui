@@ -153,8 +153,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         const deltaY = Math.abs(startDragCenterPosition.y - endDragCenterPosition.y);
         const mapWidth = e.target._canvas.clientWidth;
         const mapHeight = e.target._canvas.clientHeight;
-        const dragRatio = (this.geosortConfig) ? this.geosortConfig.dragRatio : 0.05;
-        const minGeosortZoom = (this.geosortConfig) ? this.geosortConfig.minGeosortZoom : 8;
+        const dragRatio = (this.geosortConfig && Number(this.geosortConfig.dragRatio).toString() !== 'NaN') ?
+          this.geosortConfig.dragRatio : 0.05;
+        const minGeosortZoom = (this.geosortConfig && Number(this.geosortConfig.minGeosortZoom).toString() !== 'NaN') ?
+          this.geosortConfig.minGeosortZoom : 8;
         if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
           if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributor) {
             this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng);
