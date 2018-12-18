@@ -4,7 +4,7 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "",
     "module": "es2015",
-    "types": ["mapbox-gl", "geojson"]
+    "types": ["mapbox-gl", "geojson", "node"]
   },
   "exclude": [
     "test.ts",

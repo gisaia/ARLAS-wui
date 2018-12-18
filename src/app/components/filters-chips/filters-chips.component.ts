@@ -23,6 +23,7 @@ import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'arlas-filters-chips',
@@ -35,6 +36,7 @@ export class FiltersChipsComponent {
   public contributors: Map<string, Contributor> = new Map<string, Contributor>();
   public contibutorsIcons: Map<string, string>;
   public countAll;
+  public version: string = environment.VERSION;
 
   public tagComponentConfig: any;
   public shareComponentConfig: any;

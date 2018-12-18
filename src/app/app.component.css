@@ -39,7 +39,7 @@
   width:462px;
   position: absolute;
   left: 7px;
-  top: 48px;
+  top: 41px;
 }
 
 .arlas-search{
@@ -101,16 +101,16 @@
 
 .arlas-filters-chips {
   position: absolute;
-  top: 5px;
-  padding: 5px;
+  top: 10px;
+  left: 7px;
 }
 
 .arlas-analytics--container{
   position: absolute;
   left: 5px;
-  top: 85px;
+  top: 77px;
   width: 466px;
-  max-height: calc(100vh - 215px);
+  max-height: calc(100vh - 207px);
   overflow: auto;
 }
 
