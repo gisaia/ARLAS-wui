@@ -19,14 +19,15 @@
           </button>
           <button mat-menu-item (click)="displayAbout()">
             <mat-icon>info_outline</mat-icon>
-            <span>About ARLAS WUI</span>
+            <span>About ARLAS</span>
           </button>
         </mat-menu>
       </mat-basic-chip>
 
-      <mat-basic-chip class="filter-chip home-chip" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
-        <img class="home-chip--icon" src="assets/arlas-logo-inner-white-24.png" alt="[ARLAS]"/> ARLAS
+      <mat-basic-chip class="filter-chip home-chip">
+        <img src="assets/arlas-logo-inner-white-24.png" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}" alt="[ARLAS]"/>
       </mat-basic-chip>
+      <span class="home-chip--label" matTooltip="{{ version }}">ARLAS</span>
 
       <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
 

@@ -26,7 +26,7 @@
 .filter-chip {
   cursor: pointer;
   padding-top: 7px!important;
-  font-size: 0.9em;
+  font-size: 1.1em;
   font-style: normal;
   font-weight: 100;
   height: 30px;
@@ -46,18 +46,20 @@
 }
 
 .home-chip{
-  color: white;
-  padding: 3px 5px 0 10px !important;
-  font-weight: 200;
+  padding: 1px 5px 0 5px !important;
 }
 
-.home-chip--icon{
-  padding-bottom: 4px;
+.home-chip--label{
+  padding-right: 3px;
+  cursor: default;
+  font-size: 20px;
+  color: white;
+  font-weight: 100;
 }
 
 .menu-chip{
   color: white;
-  padding: 0 5px 0 5px !important;
+  padding: 0 5px 0 10px !important;
   font-weight: 200;
 }
 
@@ -86,7 +88,7 @@
   margin-left: 5px;
   margin-right: 10px;
   cursor: default;
-  padding-top: 5px !important;
+  padding-top: 3px !important;
 }
 .filter-chip__label{
   color: white;

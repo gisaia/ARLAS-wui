@@ -5,9 +5,13 @@
 }
 
 .mapboxgl-ctrl-top-right {
-  top : 50px !important;
+  top : 45px !important;
 }
 
 .map__layers-list--container {
   top : 60px !important;
+}
+
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+  margin: 5px 7px 0 0 !important;
 }
