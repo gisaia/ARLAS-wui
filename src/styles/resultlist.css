@@ -1,128 +1,27 @@
-.analytics-board-card .resultlist__header--columns__geosort--icon--active {
-  padding-bottom: 45px;
-  color: #FF4081 !important;
-}
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
 .analytics-board-card .resultlist__header--columns__geosort-action-button {
   width: 24px;
   height: 24px;
 }
 
-.analytics-board-card .resultitem__cell--label__Cargo {
-  color: #0099ff;
-  border: 1px solid #0099ff;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Tanker {
-  color: #ff8ee8;
-  border: 1px solid #ff8ee8;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Passenger {
-  color: #a5c176;
-  border: 1px solid #a5c176;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Fishing {
-  color: #86d8f7;
-  border: 1px solid #86d8f7;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Dredging {
-  color: #51a588;
-  border: 1px solid #51a588;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Pilot {
-  color: #e74b4b;
-  border: 1px solid #e74b4b;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__HSC {
-  color: #0086bd;
-  border: 1px solid #0086bd;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Undefined {
-  color: #c2c2c2;
-  border: 1px solid #c2c2c2;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Other {
-  color: #c2c2c2;
-  border: 1px solid #c2c2c2;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Military {
-  color: #a625e0;
-  border: 1px solid #a625e0;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Tug {
-  color: #f4df42;
-  border: 1px solid #f4df42;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Anti-pollution {
-  color: #00f4d0;
-  border: 1px solid #00f4d0;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Pleasure {
-  color: #ad0084;
-  border: 1px solid #ad0084;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Towing {
-  color: #d37700;
-  border: 1px solid #d37700;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Sailing {
-  color: #edc77b;
-  border: 1px solid #edc77b;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__SAR {
-  color: #03c6ac;
-  border: 1px solid #03c6ac;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
-}
-
-.analytics-board-card .resultitem__cell--label__Law {
-  color: #00b4d3;
-  border: 1px solid #00b4d3;
-  border-radius: 3px;
-  padding: 0 2px 0 2px;
+.resultlist__tools--select{
+  width: 35% !important;
 }
