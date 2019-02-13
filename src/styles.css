@@ -6,7 +6,7 @@
 
 @import 'styles/timeline.css';
 @import 'styles/powerbars.css';
-@import 'styles/histogram.analytics.css';
+@import 'styles/histogram.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
 @import 'styles/resultlist.css';
@@ -72,6 +72,7 @@ button:focus {
 
 .analytics-board-card{
   box-shadow: none !important;
+  padding: 1px !important;
 }
 
 .analytics-board-panel .mat-expansion-panel-header{
@@ -115,3 +116,5 @@ table.resultlist > tbody{
 .map__layers-list--container{
   z-index: 1;
 }
+
+

@@ -954,17 +954,17 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arlas-api@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-9.0.0.tgz#9d332e85782002ce09d883c734b7bc84f430da8a"
+arlas-api@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-9.0.1.tgz#46c67910d3108ed11678babbfbd52f26cb3bdd44"
   dependencies:
     es6-promise "4.2.4"
     portable-fetch "3.0.0"
     url "0.11.0"
 
-arlas-d3@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/arlas-d3/-/arlas-d3-5.0.0.tgz#5c1211b88aaee80d2a86508f2d33413081952c4e"
+arlas-d3@6.0.*:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/arlas-d3/-/arlas-d3-6.0.0.tgz#b7a57ce3407d49968141aa1f0955b365d8f7fa13"
   dependencies:
     "@types/d3-array" "^1.2.4"
     "@types/d3-axis" "^1.0.11"
@@ -988,9 +988,9 @@ arlas-d3@5.0.0:
     rxjs-compat "6.3.3"
     tinycolor2 "^1.4.1"
 
-arlas-web-components@9.0.*:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-9.0.0.tgz#dbe224351da17ee73496e44e2b7dd259b6979ede"
+arlas-web-components@9.2.*:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-9.2.1.tgz#87d01c5dd2508cfc11cf13855d2052ab9facd0e6"
   dependencies:
     "@angular/animations" "~7.0.0"
     "@angular/cdk" "~7.0.0"
@@ -1008,7 +1008,7 @@ arlas-web-components@9.0.*:
     "@types/d3-dsv" "1.0.33"
     "@types/mapbox-gl" "^0.39.5"
     "@types/tinycolor2" "^1.4.0"
-    arlas-d3 "5.0.0"
+    arlas-d3 "6.0.*"
     bootstrap "^4.0.0-beta"
     core-js "^2.5.4"
     d3-dsv "^1.0.10"
@@ -1022,9 +1022,9 @@ arlas-web-components@9.0.*:
     typedoc-plugin-markdown "^1.1.17"
     zone.js "^0.8.26"
 
-arlas-web-contributors@9.0.*:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-9.0.1.tgz#489de7e67b7d9da4205b2396aa1cd3195454c95f"
+arlas-web-contributors@9.2.*:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-9.2.1.tgz#fb2d38e1c498447898419e929c4213238efcf609"
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
@@ -1033,7 +1033,7 @@ arlas-web-contributors@9.0.*:
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-web-core "9.0.*"
+    arlas-web-core "9.2.*"
     file-saver "1.3.3"
     jsonpath "^1.0.0"
     moment "^2.22.1"
@@ -1042,17 +1042,17 @@ arlas-web-contributors@9.0.*:
     rxjs-compat "6.3.3"
     tinycolor2 "^1.4.1"
 
-arlas-web-core@9.0.*:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-9.0.0.tgz#5d3de55ec1c98445d2784def1b701d41edb2fcd1"
+arlas-web-core@9.2.*:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-9.2.0.tgz#336534453d090a9bcead5bfcd7e7313c52eac059"
   dependencies:
-    arlas-api "9.0.0"
+    arlas-api "9.0.1"
     rxjs "~6.3.3"
     rxjs-compat "6.3.3"
 
-arlas-wui-toolkit@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-9.0.1.tgz#6fd763921940447d5a27482ad34eff5e92aa8d80"
+arlas-wui-toolkit@9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-9.2.0.tgz#d58f01566ee22adb3563e6477ab19afa9a404d6c"
   dependencies:
     "@angular/animations" "~7.0.0"
     "@angular/cdk" "~7.0.0"
@@ -1069,8 +1069,8 @@ arlas-wui-toolkit@9.0.1:
     "@ngx-translate/http-loader" "^3.0.0"
     "@types/d3-shape" "^1.2.4"
     ajv "^6.4.0"
-    arlas-web-components "9.0.*"
-    arlas-web-contributors "9.0.*"
+    arlas-web-components "9.2.*"
+    arlas-web-contributors "9.2.*"
     cli-color "^1.2.0"
     core-js "^2.4.1"
     ng-pick-datetime "^7.0.0"

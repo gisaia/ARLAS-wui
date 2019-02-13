@@ -59,6 +59,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   public position = Position;
   public analyticsOpen = true;
   public searchOpen = true;
+  public countAll: string;
+
+  // gauge component
+  public gaugeMaxValue = 46000000;
+  public gaugeThresholdValue = 10000;
+  public gaugeCurrentValue = 46000000;
 
   // component config
   public mapComponentConfig: any;
@@ -104,6 +110,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.isAutoGeosortActive = this.analytics.filter(g => g.groupId === 'resultlist')
           .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
       }
+      this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
+        this.collaborativeService.countAll
+          .pipe()
+          .subscribe(c => this.countAll = c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
+      });
     }
   }
 
@@ -167,6 +178,12 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (this.allowMapExtend) {
         this.mapEventListener.next();
       }
+    });
+    this.mapglContributor.countExtendBus.subscribe(data => {
+      const re = /\ /gi;
+      this.gaugeMaxValue = parseFloat(this.countAll.replace(re, ''));
+      this.gaugeThresholdValue = data.threshold;
+      this.gaugeCurrentValue = data.count;
     });
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */

@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
 import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
 import { SearchComponent } from 'app/components/search/search.component';
-import { HistogramModule, MapglComponent } from 'arlas-web-components';
+import { HistogramModule, MapglComponent, GaugeModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
@@ -49,7 +49,7 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule
+        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule, GaugeModule
       ],
       declarations: [
         AppComponent,
