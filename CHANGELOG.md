@@ -1,8 +1,32 @@
 # Change Log
 
-## [v9.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.0.0) (2018-11-30)
+## [v9.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.2.0) (2019-02-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.0.0...v9.2.0)
+
+**New stuff:**
+
+- Allow analytics elements to be dragged and dropped [\#113](https://github.com/gisaia/ARLAS-wui/issues/113)
+- Add version information [\#57](https://github.com/gisaia/ARLAS-wui/issues/57)
+- Show the app version hover app title [\#119](https://github.com/gisaia/ARLAS-wui/pull/119) ([sebbousquet](https://github.com/sebbousquet))
+- Enable topomap  from conf [\#116](https://github.com/gisaia/ARLAS-wui/pull/116) ([mbarbet](https://github.com/mbarbet))
+
+**Fixed bugs:**
+
+- Fix geosort configuration validity check [\#118](https://github.com/gisaia/ARLAS-wui/issues/118)
+
+## [v9.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.0.0) (2018-12-03)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v8.0.0...v9.0.0)
+
+**Breaking changes:**
+
+- Update to angular 7 [\#104](https://github.com/gisaia/ARLAS-wui/issues/104)
+
+**New stuff:**
+
+- Replace angular2-markdown by ngx-md [\#90](https://github.com/gisaia/ARLAS-wui/issues/90)
+- Update to angular 7 [\#114](https://github.com/gisaia/ARLAS-wui/pull/114) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v8.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v8.0.0) (2018-10-24)
 
