@@ -57,6 +57,22 @@ else
   fetchI18nFRContent;
 fi
 
+if [ -z "${ARLAS_SERVER_URL}" ]; then
+  ARLAS_SERVER_URL="http://demo.arlas.io/arlas/"
+  export ARLAS_SERVER_URL
+  echo "The default ARLAS-server url is used"
+else
+  echo ${ARLAS_SERVER_URL}  "is used as 'arlas.server.url'"
+fi
+if [ -z "${ARLAS_MAP_STYLE}" ]; then
+  ARLAS_MAP_STYLE="http://demo.arlas.io:82/styles/positron/style.json"
+  export ARLAS_MAP_STYLE
+  echo "The default URL to the map tiles style url is used"
+else
+  echo ${ARLAS_MAP_STYLE}  "is used as map tiles style url "
+fi
+envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json
+
 export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
 
