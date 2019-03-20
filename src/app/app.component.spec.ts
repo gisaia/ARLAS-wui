@@ -65,8 +65,13 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
   it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.componentInstance;
+        expect(app).toBeTruthy();
+      }
+    });
   }));
 });

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatIconModule, MatInputModule } from '@angular/material';
@@ -30,16 +30,17 @@ import {
 import { ContributorService } from '../../services/contributors.service';
 import { SearchComponent } from './search.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
+        ArlasToolKitModule, ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule, HttpClientModule,
         MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
@@ -50,15 +51,17 @@ describe('SearchComponent', () => {
       ]
     })
       .compileComponents();
+  });
+
+  it('should create', (() => {
+    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(SearchComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+        expect(component).toBeTruthy();
+      }
+    });
   }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SearchComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
