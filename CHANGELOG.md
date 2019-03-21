@@ -1,6 +1,14 @@
 # Change Log
 
-## [v9.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.2.0) (2019-02-13)
+## [v9.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.3.0) (2019-03-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.2.0...v9.3.0)
+
+**New stuff:**
+
+- Add the map input :'defaultBasemapStyle' & 'basemapStyles' [\#124](https://github.com/gisaia/ARLAS-wui/pull/124) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+## [v9.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.2.0) (2019-02-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.0.0...v9.2.0)
 
