@@ -3,7 +3,8 @@
   <arlas-dataset></arlas-dataset>
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
-      [style]="mapComponentConfig?.style"
+      [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
+      [basemapStyles]="mapComponentConfig?.basemapStyles"
       [margePanForLoad]="mapComponentConfig?.margePanForLoad" [margePanForTest]="mapComponentConfig?.margePanForTest"
       (onChangeBbox)="mapglContributor?.onChangeBbox($event)"
       [initCenter]="mapComponentConfig?.initCenter"
