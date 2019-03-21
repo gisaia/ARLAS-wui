@@ -245,7 +245,24 @@
       },
       "mapgl": {
         "input": {
-          "style": "http://demo.arlas.io:82/styles/positron/style.json",
+          "defaultBasemapStyle": {
+            "name": "Positron",
+            "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
+          },
+          "basemapStyles": [
+            {
+              "name": "Positron",
+              "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
+            },
+            {
+              "name": "OSM Bright",
+              "styleFile": "http://demo.arlas.io:82/styles/osm-bright/style.json"
+            },
+            {
+              "name": "Dark Matter",
+              "styleFile": "http://demo.arlas.io:82/styles/dark-matter/style.json"
+            }
+          ],
           "margePanForLoad": 40,
           "margePanForTest": 2,
           "initZoom": 2,
