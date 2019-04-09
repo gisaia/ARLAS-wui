@@ -57,4 +57,7 @@ else
   fetchI18nFRContent;
 fi
 
+export HTTP_RESOURCES
+/usr/share/nginx/fetch-conf-by-http.sh
+
 nginx -g "daemon off;"

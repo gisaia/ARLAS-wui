@@ -6,7 +6,7 @@ Arlas-WUI is an application that allows you to visualize and explore collections
 
 ## Quickstart
 
-[Get started](http://arlas.io/arlas-tech/current/arlas-get-started/)
+[Get started](http://docs.arlas.io/arlas-tech/current/arlas-wui-configuration/))
 
 ## Want to help?
 

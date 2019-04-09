@@ -8,12 +8,11 @@ COPY ./package-lock.json  ./
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
-RUN npm update
-
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 RUN npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
 
 COPY ./scripts/start.sh ./ng-app
+COPY ./scripts/fetch-conf-by-http.sh ./ng-app
 
 WORKDIR /ng-app
 
@@ -32,7 +31,7 @@ LABEL io.arlas.wui.version=${version}
 LABEL vendor="Gisaïa"
 LABEL description="This container build and serve the ARLAS-wui app"
 
-RUN apk add --update jq netcat-openbsd curl && rm -rf /var/cache/apk/*
+RUN apk add --update bash jq netcat-openbsd curl && rm -rf /var/cache/apk/*
 
 ## Copy our default nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/
@@ -43,6 +42,7 @@ RUN rm -rf /usr/share/nginx/html/*
 ## From 'builder' stage copy over the artifacts in dist folder to default nginx public folder
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 COPY --from=builder /ng-app/start.sh /usr/share/nginx/
+COPY --from=builder /ng-app/fetch-conf-by-http.sh /usr/share/nginx/
 
 HEALTHCHECK CMD curl --fail http://localhost:80/ || exit 1
 
