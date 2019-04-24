@@ -37,7 +37,7 @@ export class ContributorService {
   public ID_PATH = 'arlas-wui.web.app.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
   public MAPCONTRIBUTOR_ID = 'mapbox';
-  public TOPOMAPCONTRIBUTOR_ID = 'mapbox';
+  public TOPOMAPCONTRIBUTOR_ID = 'topo_mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
 
   public constructor(private configService: ArlasConfigService,
