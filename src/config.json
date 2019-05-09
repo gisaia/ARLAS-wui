@@ -251,7 +251,7 @@
           "input": {
             "defaultBasemapStyle": {
               "name": "Positron",
-              "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
+              "styleFile": "${ARLAS_MAP_STYLE}"
             },
             "basemapStyles": [
               {
