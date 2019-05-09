@@ -1,5 +1,27 @@
 # Change Log
 
+## [v10.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.0) (2019-05-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.3.1...v10.0.0)
+
+**New stuff:**
+
+- Add 'map\_styles' queryParam to share selected styles of the map in url [\#128](https://github.com/gisaia/ARLAS-wui/pull/128) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+- Upgrade to arlas-wui-toolkit@10.0.0 [\#127](https://github.com/gisaia/ARLAS-wui/pull/127) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+- Add customizable css file in app assets [\#125](https://github.com/gisaia/ARLAS-wui/pull/125) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+**Miscellaneous:**
+
+- Environment variables provided to the container are replaced within the configuration file [\#115](https://github.com/gisaia/ARLAS-wui/issues/115) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
+
+## [v9.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v9.3.1) (2019-04-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.3.0...v9.3.1)
+
+**New stuff:**
+
+- Fetch resources before running the app [\#126](https://github.com/gisaia/ARLAS-wui/pull/126) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v9.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.3.0) (2019-03-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.2.0...v9.3.0)
