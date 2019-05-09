@@ -21,9 +21,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ContributorService } from '../../services/contributors.service';
-import { MatAutocomplete, MatAutocompleteModule, MatInput, MatInputModule, MatIconModule, MatDialogModule } from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMdModule } from 'ngx-md';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 
 import {
   ArlasConfigService,
@@ -36,10 +37,10 @@ describe('AboutComponent', () => {
   let component: AboutComponent;
   let fixture: ComponentFixture<AboutComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
+        ArlasToolKitModule, ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, NgxMdModule, MatDialogModule
       ],
@@ -47,15 +48,17 @@ describe('AboutComponent', () => {
       providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
     })
       .compileComponents();
+  });
+
+  it('should create', (() => {
+    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(AboutComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+        expect(component).toBeTruthy();
+      }
+    });
   }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AboutComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

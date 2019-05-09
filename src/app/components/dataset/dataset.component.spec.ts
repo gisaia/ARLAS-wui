@@ -26,6 +26,8 @@ import { DatasetComponent } from './dataset.component';
 import { ArlasBookmarkService } from 'arlas-wui-toolkit/services/bookmark/bookmark.service';
 import { ContributorService } from '../../services/contributors.service';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+
 import {
   ArlasConfigService,
   ArlasCollaborativesearchService,
@@ -40,7 +42,7 @@ describe('DatasetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatChipsModule, MatDialogModule, MatIconModule, RouterModule,
+        ArlasToolKitModule, MatChipsModule, MatDialogModule, MatIconModule, RouterModule,
         BrowserModule, RouterTestingModule, MatSnackBarModule, HttpClientModule,
         MatTooltipModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
@@ -59,13 +61,15 @@ describe('DatasetComponent', () => {
       .compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DatasetComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', (() => {
+    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(DatasetComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+        expect(component).toBeTruthy();
+      }
+    });
+  }));
 });

@@ -21,8 +21,7 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatChipsModule, MatDialogModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
 import { NgxMdModule } from 'ngx-md';
-import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
-import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
+import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
@@ -33,33 +32,34 @@ import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { FiltersChipsComponent } from './filters-chips.component';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
-
 describe('FiltersChipsComponent', () => {
   let component: FiltersChipsComponent;
   let fixture: ComponentFixture<FiltersChipsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
+        ArlasToolKitModule, MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
         NgxMdModule, HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
-      declarations: [FiltersChipsComponent, AboutComponent, AboutDialogComponent, ShareComponent, TagComponent],
+      declarations: [FiltersChipsComponent, AboutComponent, AboutDialogComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
         ContributorService, HttpClient, TranslateService
       ]
     })
       .compileComponents();
+  });
+
+  it('should create', (() => {
+    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(FiltersChipsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+        expect(component).toBeTruthy();
+      }
+    });
   }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FiltersChipsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
