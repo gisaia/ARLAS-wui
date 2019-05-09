@@ -80,9 +80,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   private isAutoGeosortActive;
   private geosortConfig;
   private allowMapExtend: boolean;
+  private allowMapStyles: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
+  private mapStyles: Array<{styleGroupId:string, styleId: string}>;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
+  private MAP_EXTEND_PARAM = 'extend';
+  private MAP_STYLES_PARAM = 'map_styles'
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -101,6 +105,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
+      this.allowMapStyles = this.configService.getValue('arlas.web.components.mapgl.allowMapStyles');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
@@ -126,17 +131,30 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
       }
       if (this.allowMapExtend) {
-        const url = window.location.href;
-        const paramBounds = 'extend';
-        const regex = new RegExp('[?&]' + paramBounds + '(=([^&#]*)|&|#|$)');
-        const results = regex.exec(url);
-        if (results && results[2]) {
-          const stringBounds = results[2].split(',');
+        const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
+        if (extendValue) {
+          const stringBounds = extendValue.split(',');
           if (stringBounds.length === 4) {
             this.mapBounds = new mapboxgl.LngLatBounds(
               new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
               new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
             );
+          }
+        }
+      }
+      if (this.allowMapStyles) {
+        /** Example : ...&map_styles=cluster:heat;features:ship_type&... */
+        const mapStylesValue = this.getParamValue(this.MAP_STYLES_PARAM);
+        if (mapStylesValue) {
+          const styles = mapStylesValue.split(';');
+          if (styles.length > 0) {
+            this.mapStyles = new Array();
+            styles.forEach(selectedStyle => {
+              const sg_s = selectedStyle.split(':');
+              if (sg_s.length === 2) {
+                this.mapStyles.push({styleGroupId: sg_s[0], styleId: sg_s[1]})
+              }
+            });
           }
         }
       }
@@ -155,6 +173,29 @@ export class AppComponent implements OnInit, AfterViewInit {
         (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds);
         this.mapBounds = null;
     }
+    this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
+      if (isLoaded) {
+        if (this.mapStyles && this.allowMapStyles) {
+          this.mapStyles.forEach(s => {
+            this.mapglComponent.onChangeStyle(s.styleGroupId, s.styleId);
+          });
+        }
+      }
+    });
+    this.mapglComponent.onStyleChanged.subscribe(styleGroups => {
+      let selectedMapStyles = "";
+      if (styleGroups) {
+        styleGroups.forEach(sg => {
+          if (sg.selectedStyle) {
+            selectedMapStyles += selectedMapStyles !== "" ? ";": "";
+            selectedMapStyles += sg.id + ':' + sg.selectedStyle.id;
+          }
+        });
+        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+        queryParams[this.MAP_STYLES_PARAM] = selectedMapStyles;
+        this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      }
+    });
     this.mapglComponent.map.on('moveend', (e) => {
       if (dragMove === true) {
         const endDragCenter = this.mapglComponent.map.getCenter();
@@ -178,6 +219,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (this.allowMapExtend) {
         this.mapEventListener.next();
       }
+
     });
     this.mapglContributor.countExtendBus.subscribe(data => {
       const re = /\ /gi;
@@ -190,7 +232,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams['extend'] = extend;
+      queryParams[this.MAP_EXTEND_PARAM] = extend;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
   }
@@ -254,5 +296,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         break;
     }
+  }
+
+  private getParamValue(param: string): string {
+    let paramValue = null;
+    const url = window.location.href;
+    const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (results && results[2]) {
+      paramValue = results[2];
+    }
+    return paramValue;
   }
 }
