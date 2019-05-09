@@ -3,7 +3,7 @@
  * license agreements. See the NOTICE.txt file distributed with
  * this work for additional information regarding copyright
  * ownership. Gisaïa licenses this file to you under
- * the Apache License, Version 2.0 (the "License"); you may
+ * the Apache License, Version 2.0 (the 'License'); you may
  * not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -11,7 +11,7 @@
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
@@ -82,11 +82,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   private allowMapExtend: boolean;
   private allowMapStyles: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
-  private mapStyles: Array<{styleGroupId:string, styleId: string}>;
+  private mapStyles: Array<{styleGroupId: string, styleId: string}>;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
-  private MAP_STYLES_PARAM = 'map_styles'
+  private MAP_STYLES_PARAM = 'map_styles';
 
   @ViewChild('map') private mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
@@ -152,7 +152,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             styles.forEach(selectedStyle => {
               const sg_s = selectedStyle.split(':');
               if (sg_s.length === 2) {
-                this.mapStyles.push({styleGroupId: sg_s[0], styleId: sg_s[1]})
+                this.mapStyles.push({styleGroupId: sg_s[0], styleId: sg_s[1]});
               }
             });
           }
@@ -183,11 +183,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
     this.mapglComponent.onStyleChanged.subscribe(styleGroups => {
-      let selectedMapStyles = "";
+      let selectedMapStyles = '';
       if (styleGroups) {
         styleGroups.forEach(sg => {
           if (sg.selectedStyle) {
-            selectedMapStyles += selectedMapStyles !== "" ? ";": "";
+            selectedMapStyles += selectedMapStyles !== '' ? ';' : '';
             selectedMapStyles += sg.id + ':' + sg.selectedStyle.id;
           }
         });
