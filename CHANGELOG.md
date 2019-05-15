@@ -1,5 +1,13 @@
 # Change Log
 
+## [v10.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.1) (2019-05-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v10.0.0...v10.0.1)
+
+**Fixed bugs:**
+
+- Fix 'envsubst' replacement [\#131](https://github.com/gisaia/ARLAS-wui/issues/131)
+
 ## [v10.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.0) (2019-05-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.3.1...v10.0.0)
