@@ -71,7 +71,8 @@ if [ -z "${ARLAS_MAP_STYLE}" ]; then
 else
   echo ${ARLAS_MAP_STYLE}  "is used as map tiles style url "
 fi
-envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json
+envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
+mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 
 export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
