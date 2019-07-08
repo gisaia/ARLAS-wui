@@ -49,7 +49,7 @@
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
-    <arlas-analytics-board [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
+    <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
   </div>
   <arlas-gauge class="gaugeSvg" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205" [maxValue]="gaugeMaxValue" [threshold]="gaugeThresholdValue" [currentValue]="gaugeCurrentValue"></arlas-gauge>
   <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig" ></arlas-timeline>

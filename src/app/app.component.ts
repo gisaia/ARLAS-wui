@@ -25,7 +25,8 @@ import {
   ElementIdentifier,
   HistogramContributor,
   MapContributor,
-  ResultListContributor
+  ResultListContributor,
+  AnalyticsContributor
 } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
 import {
@@ -51,6 +52,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
   public resultlistContributor: ResultListContributor;
+  public analyticsContributor: AnalyticsContributor;
+
 
   public analytics: Array<any>;
   public refreshButton: any;
@@ -101,6 +104,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
+      this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
