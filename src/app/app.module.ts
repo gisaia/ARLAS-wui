@@ -42,7 +42,7 @@ import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
-import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 import { ContributorService } from './services/contributors.service';
 
@@ -51,7 +51,7 @@ import { ContributorService } from './services/contributors.service';
     AboutComponent,
     AboutDialogComponent,
     AppComponent,
-    FiltersChipsComponent
+    MenuComponent
   ],
   imports: [
     BrowserModule,

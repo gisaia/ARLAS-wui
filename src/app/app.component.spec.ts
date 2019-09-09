@@ -27,7 +27,7 @@ import {
 import { RouterModule } from '@angular/router';
 
 import { NgxMdModule } from 'ngx-md';
-import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
+import { MenuComponent } from 'app/components/menu/menu.component';
 import { HistogramModule, MapglComponent, GaugeModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
@@ -51,7 +51,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapglComponent, FiltersChipsComponent, AboutComponent, AboutDialogComponent
+        MapglComponent, MenuComponent, AboutComponent, AboutDialogComponent
       ],
       providers: [
         ArlasCollaborativesearchService,
