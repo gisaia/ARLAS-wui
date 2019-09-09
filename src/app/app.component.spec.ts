@@ -28,7 +28,6 @@ import { RouterModule } from '@angular/router';
 
 import { NgxMdModule } from 'ngx-md';
 import { FiltersChipsComponent } from 'app/components/filters-chips/filters-chips.component';
-import { SearchComponent } from 'app/components/search/search.component';
 import { HistogramModule, MapglComponent, GaugeModule } from 'arlas-web-components';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
@@ -41,7 +40,6 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ContributorService } from './services/contributors.service';
-import { DatasetComponent } from './components/dataset/dataset.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -53,7 +51,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapglComponent, SearchComponent, FiltersChipsComponent, AboutComponent, AboutDialogComponent, DatasetComponent
+        MapglComponent, FiltersChipsComponent, AboutComponent, AboutDialogComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

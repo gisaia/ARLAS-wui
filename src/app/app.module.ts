@@ -42,9 +42,8 @@ import { ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
-import { DatasetAddDialogComponent, DatasetComponent, DatasetDialogComponent } from './components/dataset/dataset.component';
 import { FiltersChipsComponent } from './components/filters-chips/filters-chips.component';
-import { SearchComponent } from './components/search/search.component';
+
 import { ContributorService } from './services/contributors.service';
 
 @NgModule({
@@ -52,11 +51,7 @@ import { ContributorService } from './services/contributors.service';
     AboutComponent,
     AboutDialogComponent,
     AppComponent,
-    SearchComponent,
-    FiltersChipsComponent,
-    DatasetComponent,
-    DatasetDialogComponent,
-    DatasetAddDialogComponent
+    FiltersChipsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +82,6 @@ import { ContributorService } from './services/contributors.service';
     ContributorService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutDialogComponent, DatasetDialogComponent, DatasetAddDialogComponent]
+  entryComponents: [AboutDialogComponent]
 })
 export class AppModule { }

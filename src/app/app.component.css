@@ -39,7 +39,7 @@
   width:462px;
   position: absolute;
   left: 7px;
-  top: 41px;
+  top: 45px;
 }
 
 .arlas-search{
@@ -103,6 +103,9 @@
   position: absolute;
   top: 10px;
   left: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .arlas-analytics--container{

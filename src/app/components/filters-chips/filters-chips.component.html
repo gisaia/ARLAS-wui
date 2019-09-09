@@ -2,7 +2,7 @@
 <arlas-about #about [pathToMd]="'about.md'"></arlas-about>
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
 <arlas-tag #tag [hidden]="true"></arlas-tag>
-<div class="filters-chips--container">
+<div class="filter-menu">
     <mat-chip-list class="filters-chips">
       <mat-basic-chip class="filter-chip menu-chip" matTooltip="{{ 'Menu' | translate }}">
         <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-chip-button">
@@ -19,27 +19,9 @@
           </button>
           <button mat-menu-item (click)="displayAbout()">
             <mat-icon>info_outline</mat-icon>
-            <span>About ARLAS</span>
+            <span>About ARLAS {{ version }}</span>
           </button>
         </mat-menu>
-      </mat-basic-chip>
-
-      <mat-basic-chip class="filter-chip home-chip">
-        <img src="assets/arlas-logo-inner-white-24.png" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}" alt="[ARLAS]"/>
-      </mat-basic-chip>
-      <span class="home-chip--label" matTooltip="{{ version }}">ARLAS</span>
-
-      <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
-
-      <ng-container *ngFor="let contributorId of  collaborations">
-        <mat-basic-chip class="filter-chip" [style.color]="getChipColor(contributorId)" [style.background-color]="getChipBackgroundColor(contributorId)" (click)="changeCollaborationState(contributorId)" matTooltip="{{this.getContributorLabel(contributorId)}}" >
-          <mat-icon class="filter-chip__icon" >{{this.getCollaborationIcon(contributorId)}}</mat-icon>
-          <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">clear</mat-icon>
-        </mat-basic-chip>
-        <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
-      </ng-container>
-      <mat-basic-chip class="filter-chip filter-count" >
-        {{countAll}}
       </mat-basic-chip>
     </mat-chip-list>
 </div>

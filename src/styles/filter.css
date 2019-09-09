@@ -16,6 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-.dark{
-  color: darkgrey;
+
+.filters-chips--container {
+  background-color: #FF4081;
+}
+
+.filter-chip {
+  height: 34px;
+}
+
+.filter-delimiter {
+  color:white;
+  padding-top: 7px !important;
+}
+
+.home-chip--label{
+  color: white;
+  padding-left: 10px;
+  cursor: pointer !important;
+  font-size: 23px !important;
+}
+
+.menu-chip{
+  color: white;
+}
+
+.menu-chip-button{
+  color: white;
+}
+
+.filter-count {
+  color: white;
+}
+.filter-chip__label{
+  color: white;
+}
+
+.filter-delimiter{
+  padding-top: 4px;
 }

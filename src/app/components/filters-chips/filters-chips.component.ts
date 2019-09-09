@@ -26,7 +26,7 @@ import { AboutComponent } from '../about/about.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'arlas-filters-chips',
+  selector: 'arlas-menu',
   templateUrl: './filters-chips.component.html',
   styleUrls: ['./filters-chips.component.css']
 })
