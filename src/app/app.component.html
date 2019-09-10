@@ -1,6 +1,6 @@
 <arlas-tool-root></arlas-tool-root>
 <div class="app-container">
-  <arlas-dataset></arlas-dataset>
+  <arlas-bookmark-menu></arlas-bookmark-menu>
   <div class="arlas-map">
     <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
@@ -45,7 +45,8 @@
     </mat-basic-chip>
   </div>
   <div class="arlas-filters-chips">
-    <arlas-filters-chips></arlas-filters-chips>
+    <arlas-menu></arlas-menu>
+    <arlas-filter [title]="'ARLAS'" [backgroundColor]="'#FF4081'"></arlas-filter>
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">

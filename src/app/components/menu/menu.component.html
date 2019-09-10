@@ -1,0 +1,27 @@
+
+<arlas-about #about [pathToMd]="'about.md'"></arlas-about>
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+<arlas-tag #tag [hidden]="true"></arlas-tag>
+<div class="filter-menu">
+    <mat-chip-list class="filters-chips">
+      <mat-basic-chip class="filter-chip menu-chip" matTooltip="{{ 'Menu' | translate }}">
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-chip-button">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="tagComponentConfig" mat-menu-item (click)="displayTag()">
+            <mat-icon>local_offer</mat-icon>
+            <span>Tag</span>
+          </button>
+          <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
+            <mat-icon>share</mat-icon>
+            <span>Share</span>
+          </button>
+          <button mat-menu-item (click)="displayAbout()">
+            <mat-icon>info_outline</mat-icon>
+            <span>About ARLAS {{ version }}</span>
+          </button>
+        </mat-menu>
+      </mat-basic-chip>
+    </mat-chip-list>
+</div>

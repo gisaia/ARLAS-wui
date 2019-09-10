@@ -1,0 +1,22 @@
+.filter-menu {
+  background-color: #FF4081;
+  border-radius: 4px;
+  margin-right: 5px;
+  padding-right: 5px;
+}
+
+.menu-chip{
+  color: white;
+  padding: 0 5px 0 10px !important;
+  font-weight: 200;
+}
+
+.menu-chip-button{
+  width: 28px;
+  height: 28px;
+  line-height: 34px;
+}
+
+.menu-chip-button:focus{
+  outline: none;
+}

@@ -74,10 +74,10 @@ export class ContributorService {
 
   public getChipSearchContributor(sizeOnBackspaceBus: Subject<boolean>): ChipsSearchContributor {
     const chipsSearchContributor = new ChipsSearchContributor(this.CHIPSSEARCH_ID,
-      sizeOnBackspaceBus,
       this.collaborativeService,
       this.configService
     );
+    chipsSearchContributor.activateLastBackspace(sizeOnBackspaceBus);
     this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
     this.contributorsIcons.set(this.CHIPSSEARCH_ID, this.getContributorIcon(this.CHIPSSEARCH_ID));
     return chipsSearchContributor;

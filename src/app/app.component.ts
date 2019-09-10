@@ -20,6 +20,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import { ChartType, DataType, MapglComponent, Position } from 'arlas-web-components';
+import * as mapboxgl from 'mapbox-gl';
+import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
   ChipsSearchContributor,
   ElementIdentifier,
@@ -34,7 +36,6 @@ import {
   ArlasConfigService,
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
-import { SearchComponent } from './components/search/search.component';
 import { ContributorService } from './services/contributors.service';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs';

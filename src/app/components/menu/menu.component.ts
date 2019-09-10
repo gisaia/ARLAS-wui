@@ -26,11 +26,11 @@ import { AboutComponent } from '../about/about.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'arlas-filters-chips',
-  templateUrl: './filters-chips.component.html',
-  styleUrls: ['./filters-chips.component.css']
+  selector: 'arlas-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
-export class FiltersChipsComponent {
+export class MenuComponent {
 
   public collaborations: Set<string> = new Set<string>();
   public contributors: Map<string, Contributor> = new Map<string, Contributor>();
