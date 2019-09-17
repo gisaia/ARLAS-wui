@@ -118,4 +118,11 @@ table.resultlist > tbody{
   z-index: 1;
 }
 
+.tag-button{
+  display: none !important;
+}
 
+.arlas-tag-box{
+  top: -10px !important;
+  left: calc(50vw - 100px) !important;
+}
