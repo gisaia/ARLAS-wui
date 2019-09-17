@@ -55,7 +55,7 @@ export class MenuComponent {
     this.contributors = this.collaborativeSearchService.registry;
     this.subscribeToFutureCollaborations();
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
-    this.tagComponentConfig = this.configService.getValue('arlas.web.components.tag');
+    this.tagComponentConfig = this.configService.getValue('arlas.tagger');
     this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
   }
 
