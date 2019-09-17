@@ -1,5 +1,22 @@
 # Change Log
 
+## [v11.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.1.0) (2019-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/11.0.0...v11.1.0)
+
+**New stuff:**
+
+- Tagging with propagation \(WUI\) [\#133](https://github.com/gisaia/ARLAS-wui/issues/133)
+- Use new tagger component [\#140](https://github.com/gisaia/ARLAS-wui/pull/140) ([sebbousquet](https://github.com/sebbousquet))
+
+## [11.0.0](https://github.com/gisaia/ARLAS-WUI/tree/11.0.0) (2019-09-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.0.0...11.0.0)
+
+**New stuff:**
+
+- Feature/toollkit11 [\#138](https://github.com/gisaia/ARLAS-wui/pull/138) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.0.0) (2019-09-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v10.0.1...v11.0.0)
@@ -7,7 +24,6 @@
 **New stuff:**
 
 - Add analyticsContributor in html [\#135](https://github.com/gisaia/ARLAS-wui/issues/135)
-- Feature/toollkit11 [\#138](https://github.com/gisaia/ARLAS-wui/pull/138) ([sebbousquet](https://github.com/sebbousquet))
 - Add groupsDisplayStatusMap in analytics board [\#137](https://github.com/gisaia/ARLAS-wui/pull/137) ([mbarbet](https://github.com/mbarbet))
 
 ## [v10.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.1) (2019-05-15)
