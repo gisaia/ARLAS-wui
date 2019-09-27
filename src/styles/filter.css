@@ -55,3 +55,29 @@
 .filter-delimiter{
   padding-top: 4px;
 }
+
+.filter-chip__icon_close{
+  font-size: 12px !important;
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.filter-chip__icon{
+  margin-top: 2px !important;
+  font-size: 20px !important;
+}
+
+.filter-count {
+  font-size: 1.3em !important;
+  font-weight: 400 !important;
+}
+
+.filter-chip__label{
+  vertical-align:middle;
+  margin-right: 5px;
+  margin-left: 8px;
+  margin-bottom: 10px;
+  font-size:1em;
+  height: 26px;
+  float: left;
+}
