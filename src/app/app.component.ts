@@ -105,6 +105,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
+      this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
@@ -267,14 +268,27 @@ export class AppComponent implements OnInit, AfterViewInit {
       case 'table':
         switch (event.event) {
           case 'consultedItemEvent':
-            this.featureToHightLight = this.mapglContributor.getFeatureToHightLight(event.data);
+            const f = this.mapglContributor.getFeatureToHightLight(event.data);
+            if (this.mapglContributor.isFlat) {
+              f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+            }
+            this.featureToHightLight = f;
             break;
           case 'selectedItemsEvent':
             if (event.data.length > 0 && this.mapComponentConfig) {
-              this.featuresToSelect = event.data.map(id => ({
-                idFieldName: this.mapComponentConfig.idFeatureField,
-                idValue: id
-              }));
+              this.featuresToSelect = event.data.map(id => {
+                if (this.mapglContributor.isFlat) {
+                  return {
+                  idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
+                  idValue: id
+                  };
+                } else {
+                  return {
+                    idFieldName: this.mapComponentConfig.idFeatureField,
+                    idValue: id
+                  };
+                }
+              });
             } else {
               this.featuresToSelect = [];
             }
