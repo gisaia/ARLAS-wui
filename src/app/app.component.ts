@@ -105,6 +105,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
+      this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
