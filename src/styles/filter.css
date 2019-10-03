@@ -22,19 +22,21 @@
 }
 
 .filter-chip {
-  height: 34px;
+  height: 30px;
+  margin-bottom: 1px;
 }
 
 .filter-delimiter {
   color:white;
-  padding-top: 7px !important;
+  padding-top: 5px !important;
 }
 
 .home-chip--label{
   color: white;
   padding-left: 10px;
+  padding-top: 1px !important;
   cursor: pointer !important;
-  font-size: 23px !important;
+  font-size: 20px !important;
 }
 
 .menu-chip{
@@ -43,17 +45,11 @@
 
 .menu-chip-button{
   color: white;
+
 }
 
-.filter-count {
-  color: white;
-}
 .filter-chip__label{
   color: white;
-}
-
-.filter-delimiter{
-  padding-top: 4px;
 }
 
 .filter-chip__icon_close{
@@ -68,8 +64,10 @@
 }
 
 .filter-count {
-  font-size: 1.3em !important;
-  font-weight: 400 !important;
+  color: white;
+  font-size: 1.1em !important;
+  font-weight: 300 !important;
+  height: 30px;
 }
 
 .filter-chip__label{
