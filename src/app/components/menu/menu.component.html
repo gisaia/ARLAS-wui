@@ -2,6 +2,7 @@
 <arlas-about #about [pathToMd]="'about.md'"></arlas-about>
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
 <arlas-tag #tag></arlas-tag>
+<arlas-download #download [hidden]="true"></arlas-download>
 <div class="filter-menu">
     <mat-chip-list class="filters-chips">
       <mat-basic-chip class="filter-chip menu-chip" matTooltip="{{ 'Menu' | translate }}">
@@ -11,15 +12,19 @@
         <mat-menu #menu="matMenu">
           <button *ngIf="tagComponentConfig" mat-menu-item (click)="displayTag()">
             <mat-icon>local_offer</mat-icon>
-            <span>Tag</span>
+            <span>{{ 'Tag' | translate }}</span>
           </button>
           <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
             <mat-icon>share</mat-icon>
-            <span>Share</span>
+            <span>{{ 'Share' | translate }}</span>
+          </button>
+          <button  *ngIf="downloadComponentConfig" mat-menu-item (click)="displayDownload()">
+            <mat-icon>get_app</mat-icon>
+            <span>{{ 'Download' | translate }}</span>
           </button>
           <button mat-menu-item (click)="displayAbout()">
             <mat-icon>info_outline</mat-icon>
-            <span>About ARLAS {{ version }}</span>
+            <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
           </button>
         </mat-menu>
       </mat-basic-chip>

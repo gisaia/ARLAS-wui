@@ -20,6 +20,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Contributor } from 'arlas-web-core';
 import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
 import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
+import { DownloadComponent } from 'arlas-wui-toolkit/components/download/download.component';
 import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
@@ -40,10 +41,12 @@ export class MenuComponent {
 
   public tagComponentConfig: any;
   public shareComponentConfig: any;
+  public downloadComponentConfig: any;
 
   @ViewChild('about') private aboutcomponent: AboutComponent;
   @ViewChild('share') private shareComponent: ShareComponent;
   @ViewChild('tag') private tagComponent: TagComponent;
+  @ViewChild('download') private downloadComponent: DownloadComponent;
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -57,6 +60,7 @@ export class MenuComponent {
     this.contibutorsIcons = this.contributorService.getAllContributorsIcons();
     this.tagComponentConfig = this.configService.getValue('arlas.tagger');
     this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
+    this.downloadComponentConfig = this.configService.getValue('arlas-wui.web.app.components.download');
   }
 
   public removeCollaboration(contributorId: string): void {
@@ -92,7 +96,6 @@ export class MenuComponent {
     } else {
       return '';
     }
-
   }
 
   public getChipColor(contributorId: string): string {
@@ -128,6 +131,10 @@ export class MenuComponent {
 
   public displayTag() {
     this.tagComponent.openDialog();
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
   }
 
   private retrieveCurrentCollaborations() {
