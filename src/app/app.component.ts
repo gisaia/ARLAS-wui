@@ -217,7 +217,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.geosortConfig.minGeosortZoom : 8;
         if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
           if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributor) {
-            this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng);
+            this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng, true);
           }
         }
       }
@@ -305,7 +305,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             break;
           case 'geoSortEvent':
             if (this.resultlistContributor) {
-              this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng);
+              this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng, true);
             }
             break;
           case 'geoAutoSortEvent':
