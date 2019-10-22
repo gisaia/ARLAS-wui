@@ -46,5 +46,7 @@
     "hour12AMLabel": "AM",
     "hour12PMLabel": "PM"
   },
-  "Threshold indicator": "Indique le niveau d'effort à fournir (zoom et filtre) pour basculer entre les modes agrégation (gris) et feature (rose)"
+  "Threshold indicator": "Indique le niveau d'effort à fournir (zoom et filtre) pour basculer entre les modes agrégation (gris) et feature (rose)",
+  "Export":"Exporter au format CSV"
+
 }

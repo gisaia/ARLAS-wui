@@ -169,3 +169,11 @@ table.resultlist > tbody{
 .analytics-board-group {
     justify-content: space-evenly;
 }
+.analytics-board-panel:hover  .export-csv-button{
+  display: block
+}
+
+.export-csv-button{
+      display: none;
+
+  }

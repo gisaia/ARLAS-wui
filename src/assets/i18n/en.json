@@ -46,5 +46,6 @@
     "hour12AMLabel": "AM",
     "hour12PMLabel": "PM"
   },
-  "Threshold indicator": "Indicates the effort of filtering and zooming in order to switch between aggregation (grey) and features (pink) modes"
+  "Threshold indicator": "Indicates the effort of filtering and zooming in order to switch between aggregation (grey) and features (pink) modes",
+"Export":"Export data as CSV"
 }
