@@ -1,45 +1,62 @@
 <arlas-tool-root></arlas-tool-root>
 <div class="app-container">
   <arlas-bookmark-menu></arlas-bookmark-menu>
+  <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false">
+    <div class="arlas-map-action-container">
+      <div class="arlas-map-action-items">
+        <mat-icon (mouseenter)="isMapMenuOpen = true">map</mat-icon>
+      </div>
+      <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+        matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
+        <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
+      </div>
+      <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+        matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
+        <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
+      </div>
+      <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+        matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
+        <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
+      </div>
+      <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+        matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
+        <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
+      </div>
+    </div>
+  </div>
   <div class="arlas-map">
-    <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata" (onRemoveBbox)="mapglContributor?.onRemoveBbox($event)"
+    <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
-      [basemapStyles]="mapComponentConfig?.basemapStyles"
-      [margePanForLoad]="mapComponentConfig?.margePanForLoad" [margePanForTest]="mapComponentConfig?.margePanForTest"
-      (onChangeBbox)="mapglContributor?.onChangeBbox($event)"
-      [initCenter]="mapComponentConfig?.initCenter"
-      [initZoom]="mapComponentConfig?.initZoom"
-      [minZoom]="mapComponentConfig?.minZoom"
-      [maxZoom]="mapComponentConfig?.maxZoom"
-      [displayScale]="mapComponentConfig?.displayScale"
-      [maxWidthScale]="mapComponentConfig?.maxWidthScale"
-      [unitScale]="mapComponentConfig?.unitScale"
+      [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
+      [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
+      [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
+      [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
+      [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
+      [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
       [zoomToPrecisionCluster]="mapglContributor?.zoomToPrecisionCluster"
-      [idFeatureField]="mapComponentConfig?.idFieldName"
-      [maxPrecision]="mapglContributor?.maxPrecision"
-      (onMove)="mapglContributor?.onMove($event)"
-      [geoboxdata]="mapglContributor?.geojsonbbox"
-      [mapLayers]="mapComponentConfig?.mapLayers"
-      [mapSources]="mapComponentConfig?.mapSources"
-      [displayLayerSwitcher]=true
-      [featureToHightLight]="featureToHightLight"
-      [featuresToSelect]="featuresToSelect"
-      [boundsToFit]="fitbounds">
+      [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
+      [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]=true
+      [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect" [boundsToFit]="fitbounds"
+      [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false" [maxPrecision]="mapglContributor?.maxPrecision"
+      (onAoiChanged)="mapglContributor?.onChangeAoi($event)" (onMove)="mapglContributor?.onMove($event)">
     </arlas-mapgl>
   </div>
 
   <div class="arlas-top-analytics">
-    <mat-basic-chip class="arlas-search-toggle" [class.arlas-search-toggle-corner]="searchOpen" (click)="searchOpen=!searchOpen" matTooltip="{{'Toggle search' | translate}}">
+    <mat-basic-chip class="arlas-search-toggle" [class.arlas-search-toggle-corner]="searchOpen"
+      (click)="searchOpen=!searchOpen" matTooltip="{{'Toggle search' | translate}}">
       <mat-icon class="primary" [class.arlas-search-rotate]="searchOpen">keyboard_arrow_right</mat-icon>
       <mat-icon>search</mat-icon>
     </mat-basic-chip>
     <div class="arlas-search" [hidden]="!searchOpen">
       <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
     </div>
-    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()" matTooltip="{{'Refresh components' | translate}}">
+    <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()"
+      matTooltip="{{'Refresh components' | translate}}">
       <mat-icon>refresh</mat-icon>
     </span>
-    <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="analyticsOpen=!analyticsOpen" matTooltip="{{'Toggle analytics board' | translate}}">
+    <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="analyticsOpen=!analyticsOpen"
+      matTooltip="{{'Toggle analytics board' | translate}}">
       <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
       <mat-icon>pie_chart</mat-icon>
     </mat-basic-chip>
@@ -50,9 +67,16 @@
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
-    <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" ></arlas-analytics-board>
+    <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics"
+      (boardOutputs)="getBoardEvents($event)"></arlas-analytics-board>
   </div>
-  <arlas-gauge class="gaugeSvg" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205" [maxValue]="gaugeMaxValue" [threshold]="gaugeThresholdValue" [currentValue]="gaugeCurrentValue"></arlas-gauge>
-  <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig" ></arlas-timeline>
-  <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary" mode="indeterminate"></mat-progress-bar>
+  <arlas-gauge class="gaugeSvg" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205"
+    [maxValue]="gaugeMaxValue" [threshold]="gaugeThresholdValue" [currentValue]="gaugeCurrentValue"></arlas-gauge>
+  <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
+    [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig">
+  </arlas-timeline>
+  <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000" [maxLoadingTime]="30000"
+    [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
+  <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
+    mode="indeterminate"></mat-progress-bar>
 </div>

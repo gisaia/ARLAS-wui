@@ -126,3 +126,8 @@ table.resultlist > tbody{
   top: -10px !important;
   left: calc(50vw - 100px) !important;
 }
+
+
+.mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch{
+  display: none;
+}

@@ -21,7 +21,7 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatChipsModule, MatDialogModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
 import { NgxMdModule } from 'ngx-md';
-import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
@@ -32,7 +32,7 @@ import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { MenuComponent } from './menu.component';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
-describe('FiltersChipsComponent', () => {
+describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
@@ -40,7 +40,7 @@ describe('FiltersChipsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ArlasToolKitModule, MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
-        NgxMdModule, HttpClientModule,
+        NgxMdModule, HttpClientModule, ArlasTaggerModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       declarations: [MenuComponent, AboutComponent, AboutDialogComponent],
       providers: [

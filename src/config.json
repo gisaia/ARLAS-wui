@@ -298,7 +298,6 @@
                   "id": "features",
                   "name": "Paths",
                   "base": [
-                    "geobox",
                     "features-line-select",
                     "features-fill-hover"
                   ],
