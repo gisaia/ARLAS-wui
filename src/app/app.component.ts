@@ -19,7 +19,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
-import { ChartType, DataType, MapglComponent, Position } from 'arlas-web-components';
+import { ChartType, DataType, MapglComponent, Position, MapglImportComponent } from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
@@ -40,6 +40,8 @@ import { ContributorService } from './services/contributors.service';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 
 
 @Component({
@@ -86,14 +88,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   private allowMapExtend: boolean;
   private allowMapStyles: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
-  private mapStyles: Array<{styleGroupId: string, styleId: string}>;
+  private mapStyles: Array<{ styleGroupId: string, styleId: string }>;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
   private MAP_STYLES_PARAM = 'map_styles';
 
-  @ViewChild('map') private mapglComponent: MapglComponent;
+  public nbVerticesLimit = 50;
+  public isMapMenuOpen = true;
+
+  @ViewChild('map') public mapglComponent: MapglComponent;
   @ViewChild('search') private searchComponent: SearchComponent;
+  @ViewChild('import') public mapImportComponent: MapglImportComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -102,16 +108,21 @@ export class AppComponent implements OnInit, AfterViewInit {
     private arlasStartUpService: ArlasStartupService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private iconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
-      this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
+      if (this.resultlistContributor) {
+        this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
+      }
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
       this.allowMapStyles = this.configService.getValue('arlas.web.components.mapgl.allowMapStyles');
+      this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
@@ -131,7 +142,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.onRemoveBbox, this.mapglComponent.redrawTile);
+      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.redrawTile);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
@@ -158,13 +169,22 @@ export class AppComponent implements OnInit, AfterViewInit {
             styles.forEach(selectedStyle => {
               const sg_s = selectedStyle.split(':');
               if (sg_s.length === 2) {
-                this.mapStyles.push({styleGroupId: sg_s[0], styleId: sg_s[1]});
+                this.mapStyles.push({ styleGroupId: sg_s[0], styleId: sg_s[1] });
               }
             });
           }
         }
       }
     }
+
+    // tslint:disable-next-line:max-line-length
+    this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
+    // tslint:disable-next-line:max-line-length
+    this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
+    // tslint:disable-next-line:max-line-length
+    this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
+    // tslint:disable-next-line:max-line-length
+    this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
   }
 
   public ngAfterViewInit(): void {
@@ -176,8 +196,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       startDragCenter = this.mapglComponent.map.getCenter();
     });
     if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds);
-        this.mapBounds = null;
+      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds);
+      this.mapBounds = null;
     }
     this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
       if (isLoaded) {
@@ -279,8 +299,8 @@ export class AppComponent implements OnInit, AfterViewInit {
               this.featuresToSelect = event.data.map(id => {
                 if (this.mapglContributor.isFlat) {
                   return {
-                  idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
-                  idValue: id
+                    idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
+                    idValue: id
                   };
                 } else {
                   return {

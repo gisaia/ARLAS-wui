@@ -134,3 +134,29 @@
 {
 	background-color: #B1AEAE;
 }
+
+.arlas-map-action {
+  position: absolute;
+  top: 180px;
+  right: 7px;
+  z-index: 1;
+}
+
+.arlas-map-action-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.arlas-map-action-items {
+  height: 30px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.arlas-map-action-items:hover{
+  background-color: rgba(0, 0, 0, 0.05);
+}
+

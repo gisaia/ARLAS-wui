@@ -46,13 +46,12 @@ export class ContributorService {
   ) { }
 
   /* returns the map contributor */
-  public getMapContributor(onRemoveBbox: Subject<boolean>, redrawTile: Subject<boolean>): MapContributor {
+  public getMapContributor( redrawTile: Subject<boolean>): MapContributor {
     const mapContributorConfig = this.getContributorConfig(this.MAPCONTRIBUTOR_ID);
     const topoMapContributorConfig = this.getContributorConfig(this.TOPOMAPCONTRIBUTOR_ID);
     let mapglcontributor;
     if (topoMapContributorConfig !== undefined) {
       mapglcontributor = new TopoMapContributor(this.TOPOMAPCONTRIBUTOR_ID,
-        onRemoveBbox,
         redrawTile,
         this.collaborativeService,
         this.configService
@@ -61,7 +60,6 @@ export class ContributorService {
       this.contributorsIcons.set(this.TOPOMAPCONTRIBUTOR_ID, topoMapContributorConfig.icon);
     } else if (mapContributorConfig !== undefined) {
       mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
-        onRemoveBbox,
         redrawTile,
         this.collaborativeService,
         this.configService

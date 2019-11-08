@@ -37,7 +37,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, GaugeModule } from 'arlas-web-components';
+import { HistogramModule, MapglModule, GaugeModule, MapglImportModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -45,6 +45,7 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
 import { MenuComponent } from './components/menu/menu.component';
 
 import { ContributorService } from './services/contributors.service';
+import { MapglImportDialogComponent } from 'arlas-web-components/components/mapgl-import/mapgl-import.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ContributorService } from './services/contributors.service';
     BrowserModule,
     BrowserAnimationsModule,
     GaugeModule,
+    MapglImportModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -83,6 +85,6 @@ import { ContributorService } from './services/contributors.service';
     ContributorService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: [AboutDialogComponent, MapglImportDialogComponent]
 })
 export class AppModule { }
