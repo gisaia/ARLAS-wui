@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import { ChartType, DataType, MapglComponent, Position, MapglImportComponent } from 'arlas-web-components';
@@ -37,7 +37,6 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from './services/contributors.service';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -97,9 +96,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public nbVerticesLimit = 50;
   public isMapMenuOpen = true;
 
-  @ViewChild('map') public mapglComponent: MapglComponent;
-  @ViewChild('search') private searchComponent: SearchComponent;
-  @ViewChild('import') public mapImportComponent: MapglImportComponent;
+  @ViewChild('map', {static: true}) public mapglComponent: MapglComponent;
+  @ViewChild('search', {static: true}) private searchComponent: SearchComponent;
+  @ViewChild('import', {static: true}) public mapImportComponent: MapglImportComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -142,7 +141,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.redrawTile);
+      this.mapglContributor = this.contributorService.getMapContributor();
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });

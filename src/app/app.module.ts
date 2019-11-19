@@ -45,7 +45,6 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
 import { MenuComponent } from './components/menu/menu.component';
 
 import { ContributorService } from './services/contributors.service';
-import { MapglImportDialogComponent } from 'arlas-web-components/components/mapgl-import/mapgl-import.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +84,6 @@ import { MapglImportDialogComponent } from 'arlas-web-components/components/mapg
     ContributorService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutDialogComponent, MapglImportDialogComponent]
+  entryComponents: [AboutDialogComponent]
 })
 export class AppModule { }

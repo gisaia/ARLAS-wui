@@ -43,10 +43,10 @@ export class MenuComponent {
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
 
-  @ViewChild('about') private aboutcomponent: AboutComponent;
-  @ViewChild('share') private shareComponent: ShareComponent;
-  @ViewChild('tag') private tagComponent: TagComponent;
-  @ViewChild('download') private downloadComponent: DownloadComponent;
+  @ViewChild('about', {static: false}) private aboutcomponent: AboutComponent;
+  @ViewChild('share', {static: false}) private shareComponent: ShareComponent;
+  @ViewChild('tag', {static: false}) private tagComponent: TagComponent;
+  @ViewChild('download', {static: false}) private downloadComponent: DownloadComponent;
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
