@@ -136,3 +136,36 @@ table.resultlist > tbody{
 .mapboxgl-ctrl-group-layersswitcher {
   visibility: hidden;
 }
+
+.arlas-analytics--container .arlas-metric-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.arlas-metric-value {
+  font-weight: bold;
+  font-size: 2em;
+  padding: 5px 0;
+}
+
+.three_even_widgets {
+  width: 130px !important;
+  flex: unset !important;
+}
+
+.one_of_three {
+  width: 100px !important;
+  flex: unset !important;
+}
+
+.two_of_three {
+  width: 260px !important;
+  flex: unset !important;
+}
+
+
+.analytics-board-group {
+    justify-content: space-evenly;
+}

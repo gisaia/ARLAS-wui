@@ -96,10 +96,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   public nbVerticesLimit = 50;
   public isMapMenuOpen = true;
 
-  @ViewChild('map', {static: true}) public mapglComponent: MapglComponent;
+  @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
   @ViewChild('search', {static: true}) private searchComponent: SearchComponent;
   @ViewChild('import', {static: true}) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', {static: true}) public mapSettings: MapglSettingsComponent;
+  @ViewChild('mapSettings', {static: false}) public mapSettings: MapglSettingsComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -263,10 +263,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
+    this.cdr.detectChanges();
   }
 
   public openMapSettings(): void {
-    this.cdr.detectChanges();
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 

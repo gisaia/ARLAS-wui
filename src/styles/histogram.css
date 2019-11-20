@@ -168,3 +168,88 @@
   font-weight: normal;
   color: #656565;
 }
+
+
+/** apply the blue style to histograms that have a time dimension on x-axis**/
+.arlas-timeline-analytics .histogram__description{
+  display: none;
+}
+
+.arlas-timeline-analytics .histogram__chart--current-selected--area{
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: #2196F3;
+  stroke-width: 1px;
+  stroke-opacity: 1;
+}
+
+.arlas-timeline-analytics .histogram__chart--fixed-selected--area{
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__chart--unselected--area{
+  fill: #EEEEEE;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__chart .context .brush .selection{
+  fill: #BDBDBD;
+  fill-opacity: 0.2;
+  stroke:none;
+}
+
+.arlas-timeline-analytics .histogram__chart--bar__partlyselected {
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__chart--bar__currentselection{
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__chart--bar__fullyselected{
+  fill: #2196F3;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__chart--bar {
+  fill: #EEEEEE;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+.arlas-timeline-analytics .histogram__tooltip {
+  background-color: #78909C;
+}
+
+.arlas-timeline-analytics .histogram__brush--handles {
+  stroke: #78909C;
+  stroke-width: 1px;
+  fill: white;
+}
+
+.arlas-timeline-analytics .tick text {
+  fill: #BDBDBD;
+  font-size: 0.9em;
+}
+
+.arlas-timeline-analytics .histogram__ticks{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+.arlas-timeline-analytics .histogram__axis{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}
+
+.arlas-timeline-analytics .histogram__only-axis .domain{
+  stroke: #BDBDBD;
+  stroke-width: 0.8px;
+}

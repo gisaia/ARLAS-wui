@@ -31,9 +31,7 @@
 }
 
 .analytics-group-2 .mat-card{
-  width: 210px !important;
+  width: 210px;
 }
 
-.donut-container{
-  width: 220px !important;
-}
+
