@@ -37,7 +37,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, GaugeModule, MapglImportModule } from 'arlas-web-components';
+import { HistogramModule, MapglModule, GaugeModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -58,6 +58,7 @@ import { ContributorService } from './services/contributors.service';
     BrowserAnimationsModule,
     GaugeModule,
     MapglImportModule,
+    MapglSettingsModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,

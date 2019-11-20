@@ -20,6 +20,7 @@
               "src/assets",
               "src/favicon.ico",
               "src/config.json",
+              "src/tour.json",
               "src/config.map.json",
               "src/about.md"
             ],

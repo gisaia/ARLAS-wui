@@ -1,6 +1,13 @@
 <arlas-tool-root></arlas-tool-root>
 <div class="app-container">
   <arlas-bookmark-menu></arlas-bookmark-menu>
+  <div id="arlas-map-settings" class="arlas-map-settings">
+    <div class="arlas-map-settings-container">
+      <div class="arlas-map-settings-items" [matTooltipPosition]="'left'" matTooltip="{{'Map Settings' | translate}}"    matTooltipPosition="below">
+        <mat-icon (click)="openMapSettings()">layers</mat-icon>
+      </div>
+    </div>
+  </div>
   <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false">
     <div class="arlas-map-action-container">
       <div class="arlas-map-action-items">
@@ -35,9 +42,10 @@
       [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
       [zoomToPrecisionCluster]="mapglContributor?.zoomToPrecisionCluster"
       [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
-      [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]=true
+      [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
       [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect" [boundsToFit]="fitbounds"
       [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false" [maxPrecision]="mapglContributor?.maxPrecision"
+      [redrawTile]="mapglContributor?.redrawTile"
       (onAoiChanged)="mapglContributor?.onChangeAoi($event)" (onMove)="mapglContributor?.onMove($event)">
     </arlas-mapgl>
   </div>
@@ -64,6 +72,7 @@
   <div class="arlas-filters-chips">
     <arlas-menu></arlas-menu>
     <arlas-filter [title]="'ARLAS'" [backgroundColor]="'#FF4081'"></arlas-filter>
+    <arlas-mapgl-settings #mapSettings [styleGroups]="mapComponentConfig.mapLayers.styleGroups" [basemapStylesGroup]="mapglComponent?.basemapStylesGroup" (renderedGeometriesEmitter)="renderSelectedGeometries($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">

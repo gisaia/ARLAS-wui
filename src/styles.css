@@ -71,6 +71,8 @@ button:focus {
   font-feature-settings: 'liga';
 }
 
+
+
 .analytics-board-card{
   box-shadow: none !important;
   padding: 1px !important;
@@ -127,7 +129,10 @@ table.resultlist > tbody{
   left: calc(50vw - 100px) !important;
 }
 
-
 .mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch{
   display: none;
+}
+
+.mapboxgl-ctrl-group-layersswitcher {
+  visibility: hidden;
 }
