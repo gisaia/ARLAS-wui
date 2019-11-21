@@ -884,10 +884,10 @@
     lodash.isequal "^4.2.0"
     xtend "^4.0.1"
 
-"@gisaia-team/ng-pick-datetime@~8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@gisaia-team/ng-pick-datetime/-/ng-pick-datetime-8.0.1.tgz#4dfda885dcc638be3ef434e8ebd523eab11746d2"
-  integrity sha512-YB9VZuYDxgorj1xE+898wn2KFM5siGXnMC9KzWtH/72LPGFn5hiuKi9EF28cD8paVJhH0WaKyxw1vT7TaVPzEA==
+"@gisaia-team/ng-pick-datetime@~8.0.*":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@gisaia-team/ng-pick-datetime/-/ng-pick-datetime-8.0.3.tgz#8f5a5b629e5e0372f378bb140861d13eaa6b4c8e"
+  integrity sha512-GGOjpTd3uqYzFJlg9TiQOOEUpGYTQmq22KzJO3KZiP6f5qxGyvoU94ISl7x8xeCvm/fT/80bvHKWRhhAIrYDDQ==
   dependencies:
     tslib "^1.9.0"
 
@@ -1719,10 +1719,10 @@ arlas-tagger-api@11.0.6:
     portable-fetch "3.0.0"
     url "0.11.0"
 
-arlas-web-components@12.0.0-beta.5:
-  version "12.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-12.0.0-beta.5.tgz#700ab246282e56d03cc051420dd0af0c0dc890b4"
-  integrity sha512-dDWzdKpmh4bMpv2QGmJ3Kh+X8C2pYyfO2HB5KbbLvcN5VT5zjwiciINHtoeVr9GKl6HQLyKJ/T/g1Pmf0G3gdQ==
+arlas-web-components@12.0.*:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-12.0.1.tgz#b7a686b7f4c49755880941d4db55eaeb24872bdb"
+  integrity sha512-xB2iBut2z/JDFRjHba5muYnpupKjKvneD+ZnX6ce8DAHDv+HDHp/xeM5ghfAoI2PAE2H1i+3LEx8uEGd8JId4A==
   dependencies:
     "@angular/animations" "~8.2.10"
     "@angular/cdk" "~8.2.3"
@@ -1763,10 +1763,10 @@ arlas-web-components@12.0.0-beta.5:
     wellknown "0.5.0"
     zone.js "~0.9.1"
 
-arlas-web-contributors@12.0.0-beta.5:
-  version "12.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-12.0.0-beta.5.tgz#d8b66c3afd3bf1e571e176b275639b68b8b5963a"
-  integrity sha512-JlstanN776hPFowKO37qI7qwI+zbVGuHhscmC7UPHgT5p1TkFH64LUGHi2IqFM9XYXzAT68mVa1MP7ogMn+gRQ==
+arlas-web-contributors@12.0.*:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-12.0.1.tgz#4c758f652da8b2c8b04c0312eab682cae668e5a8"
+  integrity sha512-l6MmB91uGudFuwq+7AL/BbIzOKeX+vIEcUhJsqZ+1h/nOhUPKHKtpEkx09RY0hVhH6PBZOaZ1s9a9XrMJ1iBLw==
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
@@ -1776,7 +1776,7 @@ arlas-web-contributors@12.0.0-beta.5:
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-web-core "12.0.0-beta.4"
+    arlas-web-core "12.0.*"
     file-saver "1.3.3"
     jsonpath "^1.0.0"
     moment "^2.22.1"
@@ -1785,18 +1785,18 @@ arlas-web-contributors@12.0.0-beta.5:
     tinycolor2 "^1.4.1"
     wellknown "^0.5.0"
 
-arlas-web-core@12.0.0-beta.4:
-  version "12.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-12.0.0-beta.4.tgz#085056f0e54d3b5108008e1412484543df4cb362"
-  integrity sha512-osMBIwrV8O7ijKd0T4LyoXTLmyEpVJ7VjIMejlxI6FhBPBq7Wrr97DZZHj/ufhGOTe8Oba4+r/N2IW9yamlyhg==
+arlas-web-core@12.0.*:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-12.0.1.tgz#e01cc40e8d941d95cb20fae8798aa278ed3ec960"
+  integrity sha512-Qt83EsM10i08DndDa4F6uC4QmcMR9WgxXaJKsInovYXKco3Ytj0kk23KBXSxDXPP/tL70KPGq36++ZkNH+J48w==
   dependencies:
     arlas-api "12.0.0"
     rxjs "~6.5.3"
 
-arlas-wui-toolkit@12.0.0-beta.4:
-  version "12.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-12.0.0-beta.4.tgz#1558f370a8b736598fe3525eab86064634530989"
-  integrity sha512-s2ZazdCNfaVDJjtjjRfR2RMNM2wE0X9n9Q4qBB0HodJx6fzHezIzzv7DH400stVfWQKoEKo4CgQXffuy1KwUEg==
+arlas-wui-toolkit@12.0.0-beta.7:
+  version "12.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/arlas-wui-toolkit/-/arlas-wui-toolkit-12.0.0-beta.7.tgz#3069d7b116ead178b9e504f9c003101472c4d39e"
+  integrity sha512-v1py9f+xoax16M53absDfFuPfOyRiTT3D5b5EjWcJjsOGkATqG+tBTsHMjP9bfvilYiBa77uSODK5SkUrfoAKQ==
   dependencies:
     "@angular/animations" "~8.2.10"
     "@angular/cdk" "~8.2.3"
@@ -1808,7 +1808,7 @@ arlas-wui-toolkit@12.0.0-beta.4:
     "@angular/platform-browser" "~8.2.10"
     "@angular/platform-browser-dynamic" "~8.2.10"
     "@angular/router" "~8.2.10"
-    "@gisaia-team/ng-pick-datetime" "~8.0.1"
+    "@gisaia-team/ng-pick-datetime" "~8.0.*"
     "@ngx-translate/core" "^11.0.0"
     "@ngx-translate/http-loader" "^4.0.0"
     "@types/d3-shape" "^1.2.4"
@@ -1816,8 +1816,8 @@ arlas-wui-toolkit@12.0.0-beta.4:
     ajv-keywords "^3.4.0"
     angular-oauth2-oidc "^8.0.4"
     arlas-tagger-api "11.0.6"
-    arlas-web-components "12.0.0-beta.5"
-    arlas-web-contributors "12.0.0-beta.5"
+    arlas-web-components "12.0.*"
+    arlas-web-contributors "12.0.*"
     cli-color "^1.2.0"
     core-js "^2.4.1"
     hopscotch "0.3.1"
