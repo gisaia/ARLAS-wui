@@ -43,10 +43,14 @@ export class MenuComponent {
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
 
-  @ViewChild('about') private aboutcomponent: AboutComponent;
-  @ViewChild('share') private shareComponent: ShareComponent;
-  @ViewChild('tag') private tagComponent: TagComponent;
-  @ViewChild('download') private downloadComponent: DownloadComponent;
+  /**the added timestamp fixes a cache problem of the about.md file.
+   * The extention .md at the end is necessary for the lib to function */
+  public aboutFile: string = 'about.md?' + Date.now() + '.md';
+
+  @ViewChild('about', {static: false}) private aboutcomponent: AboutComponent;
+  @ViewChild('share', {static: false}) private shareComponent: ShareComponent;
+  @ViewChild('tag', {static: false}) private tagComponent: TagComponent;
+  @ViewChild('download', {static: false}) private downloadComponent: DownloadComponent;
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,

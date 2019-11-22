@@ -46,24 +46,16 @@ export class ContributorService {
   ) { }
 
   /* returns the map contributor */
-  public getMapContributor( redrawTile: Subject<boolean>): MapContributor {
+  public getMapContributor(): MapContributor {
     const mapContributorConfig = this.getContributorConfig(this.MAPCONTRIBUTOR_ID);
     const topoMapContributorConfig = this.getContributorConfig(this.TOPOMAPCONTRIBUTOR_ID);
     let mapglcontributor;
     if (topoMapContributorConfig !== undefined) {
-      mapglcontributor = new TopoMapContributor(this.TOPOMAPCONTRIBUTOR_ID,
-        redrawTile,
-        this.collaborativeService,
-        this.configService
-      );
+      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.TOPOMAPCONTRIBUTOR_ID);
       this.arlasContributors.set(this.TOPOMAPCONTRIBUTOR_ID, mapglcontributor);
       this.contributorsIcons.set(this.TOPOMAPCONTRIBUTOR_ID, topoMapContributorConfig.icon);
     } else if (mapContributorConfig !== undefined) {
-      mapglcontributor = new MapContributor(this.MAPCONTRIBUTOR_ID,
-        redrawTile,
-        this.collaborativeService,
-        this.configService
-      );
+      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID);
       this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
       this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, mapContributorConfig.icon);
     }

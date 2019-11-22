@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "downlevelIteration": true,
+    "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
@@ -8,7 +10,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es6",
     "types": [
       "mapbox-gl",
       "geojson"
@@ -20,6 +22,6 @@
       "es2016",
       "dom"
     ],
-    "module": "es2015"
+    "module": "esnext"
   }
 }

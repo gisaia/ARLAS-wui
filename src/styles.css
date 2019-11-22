@@ -2,7 +2,7 @@
 
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/prismjs/themes/prism.css';
-@import '../node_modules/ng-pick-datetime/assets/style/picker.min.css';
+@import '../node_modules/@gisaia-team/ng-pick-datetime/assets/style/picker.min.css';
 
 @import 'styles/timeline.css';
 @import 'styles/powerbars.css';
@@ -74,6 +74,7 @@ button:focus {
 .analytics-board-card{
   box-shadow: none !important;
   padding: 1px !important;
+  margin: 3px 0 3px 0 !important;
 }
 
 .analytics-board-panel .mat-expansion-panel-header{
@@ -127,7 +128,57 @@ table.resultlist > tbody{
   left: calc(50vw - 100px) !important;
 }
 
-
 .mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch{
   display: none;
+}
+
+.mapboxgl-ctrl-group-layersswitcher {
+  visibility: hidden;
+}
+
+.arlas-analytics--container .arlas-metric-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.arlas-metric-value {
+  font-weight: bold;
+  font-size: 2em;
+  padding: 5px 0;
+}
+
+.analytics-group-3 .mat-card{
+  width: 125px !important;
+  padding: 0 5px;
+}
+
+.one_of_three {
+  width: 100px !important;
+  flex: unset !important;
+}
+
+.two_of_three {
+  width: 270px !important;
+  flex: unset !important;
+}
+
+.analytics-board-group {
+  justify-content: space-evenly;
+}
+
+.analytics-board-panel:hover  .export-csv-button{
+  display: block;
+  position: absolute;
+}
+
+.export-csv-button{
+  display: none;
+}
+
+.analytics-board-panel-icon {
+  height: 15px !important;
+  width: 15px !important;
+  font-size: 15px;
 }

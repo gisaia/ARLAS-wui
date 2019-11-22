@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
-import { ChartType, DataType, MapglComponent, Position, MapglImportComponent } from 'arlas-web-components';
+import { ChartType, DataType, MapglComponent, Position, MapglImportComponent, MapglSettingsComponent, RenderedGeometries, GeoQuery } from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
@@ -34,15 +34,14 @@ import { Collaboration } from 'arlas-web-core';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasStartupService
-} from 'arlas-wui-toolkit/services/startup/startup.service';
+  ArlasStartupService,
+  ArlasMapSettings
+} from 'arlas-wui-toolkit';
 import { ContributorService } from './services/contributors.service';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-
 
 @Component({
   selector: 'arlas-root',
@@ -97,19 +96,22 @@ export class AppComponent implements OnInit, AfterViewInit {
   public nbVerticesLimit = 50;
   public isMapMenuOpen = true;
 
-  @ViewChild('map') public mapglComponent: MapglComponent;
-  @ViewChild('search') private searchComponent: SearchComponent;
-  @ViewChild('import') public mapImportComponent: MapglImportComponent;
+  @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
+  @ViewChild('search', {static: true}) private searchComponent: SearchComponent;
+  @ViewChild('import', {static: true}) public mapImportComponent: MapglImportComponent;
+  @ViewChild('mapSettings', {static: false}) public mapSettings: MapglSettingsComponent;
 
   constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     private arlasStartUpService: ArlasStartupService,
+    private mapSettingsService: ArlasMapSettings,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private iconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
@@ -142,7 +144,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
-      this.mapglContributor = this.contributorService.getMapContributor(this.mapglComponent.redrawTile);
+      this.mapglContributor = this.contributorService.getMapContributor();
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
@@ -261,6 +263,38 @@ export class AppComponent implements OnInit, AfterViewInit {
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
+    this.cdr.detectChanges();
+  }
+
+  public openMapSettings(): void {
+    this.mapSettings.openDialog(this.mapSettingsService);
+  }
+
+  /**
+   * Renders the selected geometries and corresponding styles
+   */
+  public renderSelectedGeometries(displayedGeometries: Array<RenderedGeometries>) {
+    const renderedClusterGeometry: RenderedGeometries = displayedGeometries.find(d => d.mode === 'cluster');
+    this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
+    if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]) {
+      this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
+    }
+    this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id, renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id)
+    const featureGeos = displayedGeometries.find(d => d.mode === 'features');
+    featureGeos.selectedStyleGroups.forEach(sg => {
+      this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id)
+    })
+    this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
+    this.mapglContributor.onChangeGeometries();
+  }
+
+  /**
+   * Applies the selected geo query
+   */
+  public applySelectedGeoQuery(geoQuery: GeoQuery) {
+    this.mapglContributor.setGeoQueryOperation(geoQuery.operation);
+    this.mapglContributor.setGeoQueryField(geoQuery.geometry_path);
+    this.mapglContributor.onChangeGeoQuery();
   }
 
   public filterSearch(value: string) {
