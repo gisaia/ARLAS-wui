@@ -19,7 +19,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
-import { ChartType, DataType, MapglComponent, Position, MapglImportComponent, MapglSettingsComponent, RenderedGeometries, GeoQuery } from 'arlas-web-components';
+import { ChartType, DataType, MapglComponent, Position, MapglImportComponent,
+  MapglSettingsComponent, RenderedGeometries, GeoQuery } from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
@@ -279,11 +280,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]) {
       this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
     }
-    this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id, renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id)
+    this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
+      renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
     const featureGeos = displayedGeometries.find(d => d.mode === 'features');
     featureGeos.selectedStyleGroups.forEach(sg => {
-      this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id)
-    })
+      this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
+    });
     this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
     this.mapglContributor.onChangeGeometries();
   }
