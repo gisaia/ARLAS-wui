@@ -1,5 +1,20 @@
 # Change Log
 
+## [v12.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.0.0) (2019-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.4.0...v12.0.0)
+
+**Breaking changes:**
+
+- Update to angular 8.1 [\#136](https://github.com/gisaia/ARLAS-wui/issues/136)
+
+**New stuff:**
+
+- \[MAP\] Use redrawTile as input  [\#153](https://github.com/gisaia/ARLAS-wui/issues/153)
+- Add MapSettings Component [\#152](https://github.com/gisaia/ARLAS-wui/issues/152)
+- Add css style for 'Export CSV' button [\#151](https://github.com/gisaia/ARLAS-wui/issues/151)
+- Display button on widget hover [\#148](https://github.com/gisaia/ARLAS-wui/pull/148) ([mbarbet](https://github.com/mbarbet))
+
 ## [v11.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.4.0) (2019-11-08)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.2.0...v11.4.0)
