@@ -47,6 +47,28 @@
     "hour12PMLabel": "PM"
   },
   "Threshold indicator": "Indique le niveau d'effort à fournir (zoom et filtre) pour basculer entre les modes agrégation (gris) et feature (rose)",
-  "Export":"Exporter au format CSV"
+  "Link to":"Limit to",
+  "Export":"Exporter au format CSV",
+  "Set geometries": "Appliquer et fermer",
+  "Set geo-queries": "Appliquer et fermer",
+  "Apply geo-queries": "Appliquer",
+  "Cancel": "Fermer",
+  "within": "contient",
+  "intersects": "intersecte",
+  "notwithin": "ne contient pas",
+  "notintersects": "n'intersecte pas",
+  "Select the geometries to render": "Géometries affichées",
+  "Geometry to render": "Géometrie affichée",
+  "Draw a bbox or a polygon that": "Dessiner une bbox ou un polygone qui",
+  "Geometries and Styles": "Géometries & Styles",
+  "Style to display": "Style appliqué",
+  "operation": "opération",
+  "Basemap styles": "Fonds cartographiques",
+  "Basemaps": "Fonds cartographiques",
+  "Features styles": "Styles appliqués",
+  "Clusters": "Mode agrégé",
+  "Features": "Mode consultation",
+  "Layers Settings": "Configuration des couches",
+  "point or geometry": "Géometrie"
 
 }

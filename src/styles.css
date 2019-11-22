@@ -76,6 +76,7 @@ button:focus {
 .analytics-board-card{
   box-shadow: none !important;
   padding: 1px !important;
+  margin: 3px 0 3px 0 !important;
 }
 
 .analytics-board-panel .mat-expansion-panel-header{
@@ -150,9 +151,9 @@ table.resultlist > tbody{
   padding: 5px 0;
 }
 
-.three_even_widgets {
-  width: 130px !important;
-  flex: unset !important;
+.analytics-group-3 .mat-card{
+  width: 125px !important;
+  padding: 0 5px;
 }
 
 .one_of_three {
