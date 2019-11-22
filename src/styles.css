@@ -161,19 +161,25 @@ table.resultlist > tbody{
 }
 
 .two_of_three {
-  width: 260px !important;
+  width: 270px !important;
   flex: unset !important;
 }
 
-
 .analytics-board-group {
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
+
 .analytics-board-panel:hover  .export-csv-button{
-  display: block
+  display: block;
+  position: absolute;
 }
 
 .export-csv-button{
-      display: none;
+  display: none;
+}
 
-  }
+.analytics-board-panel-icon {
+  height: 15px !important;
+  width: 15px !important;
+  font-size: 15px;
+}
