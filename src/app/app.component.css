@@ -160,3 +160,27 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.arlas-map-settings {
+  position: absolute;
+  top: 50px;
+  right: 7px;
+  z-index: 1;
+}
+
+.arlas-map-settings-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.arlas-map-settings-items {
+  height: 30px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.arlas-map-settings-items:hover{
+  background-color: rgba(0, 0, 0, 0.05);
+}
