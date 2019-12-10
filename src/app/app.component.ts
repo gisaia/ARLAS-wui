@@ -96,7 +96,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private MAP_STYLES_PARAM = 'map_styles';
 
   public nbVerticesLimit = 50;
-  public isMapMenuOpen = true;
+  public isMapMenuOpen = false;
 
   @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
   @ViewChild('search', {static: true}) private searchComponent: SearchComponent;

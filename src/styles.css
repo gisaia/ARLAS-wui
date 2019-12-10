@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 @import '../node_modules/prismjs/themes/prism.css';
 @import '../node_modules/@gisaia-team/ng-pick-datetime/assets/style/picker.min.css';
 
@@ -27,12 +27,19 @@
   url('./assets/fonts/material-icons.ttf') format('truetype');
 }
 
+*, ::after, ::before {
+  box-sizing: border-box;
+}
 
 body {
   width: 100%;
   height: 100%;
   min-height: 100%;
   overflow: hidden;
+  margin: 0;
+  font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 app {
@@ -81,11 +88,12 @@ button:focus {
 .analytics-board-panel .mat-expansion-panel-header{
   font-size: 18px;
   font-weight: 300;
+  align-items: inherit;
 }
 
 .analytics-board-panel .mat-expansion-panel-body{
   margin: 0 1px 0px;
-  padding: 0 10px 0 0 !important;
+  padding: 0 5px 0 0 !important;
   font-weight: 300;
 }
 
@@ -141,11 +149,11 @@ table.resultlist > tbody{
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
 }
 
 .arlas-metric-value {
-  font-weight: bold;
+  font-weight: 400;
   font-size: 2em;
   padding: 5px 0;
 }
@@ -178,10 +186,38 @@ table.resultlist > tbody{
   display: none;
 }
 
-.analytics-board-panel-icon {
-  height: 15px !important;
-  width: 15px !important;
-  font-size: 15px;
+.arlas-search .full-width-input{
+  font-size: .9rem;
+}
+
+.bookmark-chip{
+  outline: none;
+}
+
+.boats{
+  /* background-color: rgb(35, 40, 55);
+  color: white;
+  border-bottom: #FF4081 10px solid;
+  border-radius: 5px; */
+}
+
+.arlas-metric-description{
+  font-size: 1.5rem;
+  font-weight: 100;
+}
+
+.kilometer{
+  /* background-color: rgb(35, 40, 55);
+  color: white;
+  border-bottom: #2196F3 10px solid;
+  border-radius: 5px; */
+}
+
+.ship_type{
+  /* background-color: rgb(35, 40, 55);
+  color: white;
+  border-bottom: #8BC34A 10px solid;
+  border-radius: 5px; */
 }
 
 /* Walkthrough */
