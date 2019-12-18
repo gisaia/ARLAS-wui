@@ -7,6 +7,7 @@
 @import 'styles/timeline.css';
 @import 'styles/powerbars.css';
 @import 'styles/histogram.css';
+@import 'styles/hopscotch/hopscotch.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
 @import 'styles/resultlist.css';
@@ -181,4 +182,65 @@ table.resultlist > tbody{
   height: 15px !important;
   width: 15px !important;
   font-size: 15px;
+}
+
+/* Walkthrough */
+div.hopscotch-bubble .hopscotch-nav-button.next {
+  border-color: #FF4081 !important;
+  color: #ffffff !important;
+  background: none !important;
+  background-color: #FF4081 !important;
+  text-shadow: none !important;
+}
+
+div.hopscotch-bubble .hopscotch-nav-button.next:hover{
+  color: #FF4081 !important;
+  background: none !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-number{
+  background-color: #FF4081 !important;
+  background-image: none !important;
+  padding: 0 !important;
+  border-radius: 15px;
+}
+
+div.hopscotch-bubble{
+  border: 3px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-close{
+  cursor: pointer;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.up {
+  top: -20px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.up .hopscotch-bubble-arrow{
+  top: -14px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.right{
+  right: -37px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.right .hopscotch-bubble-arrow{
+  left: -4px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.down{
+  bottom: -37px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-arrow{
+  top: -22px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.left{
+  left: -20px !important;
+}
+
+div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-arrow{
+  left: 5px !important;
 }

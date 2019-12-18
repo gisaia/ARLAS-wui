@@ -25,6 +25,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from 'arlas-wui-t
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
 import { environment } from '../../../environments/environment';
+import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 
 @Component({
   selector: 'arlas-menu',
@@ -47,16 +48,17 @@ export class MenuComponent {
    * The extention .md at the end is necessary for the lib to function */
   public aboutFile: string = 'about.md?' + Date.now() + '.md';
 
-  @ViewChild('about', {static: false}) private aboutcomponent: AboutComponent;
-  @ViewChild('share', {static: false}) private shareComponent: ShareComponent;
-  @ViewChild('tag', {static: false}) private tagComponent: TagComponent;
-  @ViewChild('download', {static: false}) private downloadComponent: DownloadComponent;
+  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
+  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
+  @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
+  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     private configService: ArlasConfigService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public walkthroughService: ArlasWalkthroughService
   ) {
 
     this.contributors = this.collaborativeSearchService.registry;
@@ -139,6 +141,11 @@ export class MenuComponent {
 
   public displayDownload() {
     this.downloadComponent.openDialog();
+  }
+
+  public replayTour() {
+    this.walkthroughService.resetTour();
+    this.walkthroughService.startTour();
   }
 
   private retrieveCurrentCollaborations() {
