@@ -194,30 +194,9 @@ table.resultlist > tbody{
   outline: none;
 }
 
-.boats{
-  /* background-color: rgb(35, 40, 55);
-  color: white;
-  border-bottom: #FF4081 10px solid;
-  border-radius: 5px; */
-}
-
 .arlas-metric-description{
   font-size: 1.5rem;
   font-weight: 100;
-}
-
-.kilometer{
-  /* background-color: rgb(35, 40, 55);
-  color: white;
-  border-bottom: #2196F3 10px solid;
-  border-radius: 5px; */
-}
-
-.ship_type{
-  /* background-color: rgb(35, 40, 55);
-  color: white;
-  border-bottom: #8BC34A 10px solid;
-  border-radius: 5px; */
 }
 
 /* Walkthrough */
