@@ -43,6 +43,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
+import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 
 @Component({
   selector: 'arlas-root',
@@ -112,7 +113,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private router: Router,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private walkthroughService: ArlasWalkthroughService
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
@@ -264,6 +266,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
+    if (this.walkthroughService.isActivable) {
+        this.walkthroughService.startTour();
+      }
     this.cdr.detectChanges();
   }
 

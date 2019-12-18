@@ -22,6 +22,10 @@
             <mat-icon>get_app</mat-icon>
             <span>{{ 'Download' | translate }}</span>
           </button>
+          <button *ngIf="this.walkthroughService.isActivable" mat-menu-item (click)="replayTour()">
+            <mat-icon>slideshow</mat-icon>
+            <span>{{ 'Replay tour' | translate }}</span>
+          </button>
           <button mat-menu-item (click)="displayAbout()">
             <mat-icon>info_outline</mat-icon>
             <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
