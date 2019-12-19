@@ -288,10 +288,18 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
       renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
     const featureGeos = displayedGeometries.find(d => d.mode === 'features');
-    featureGeos.selectedStyleGroups.forEach(sg => {
-      this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
-    });
-    this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
+    if (featureGeos) {
+      featureGeos.selectedStyleGroups.forEach(sg => {
+        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
+      });
+      this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
+    }
+    const topologyGeos = displayedGeometries.find(d => d.mode === 'topology');
+    if (topologyGeos) {
+      topologyGeos.selectedStyleGroups.forEach(sg => {
+        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
+      });
+    }
     this.mapglContributor.onChangeGeometries();
   }
 
