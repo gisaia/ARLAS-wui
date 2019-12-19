@@ -1,5 +1,19 @@
 # Change Log
 
+## [v12.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.0) (2019-12-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.0.0...v12.1.0)
+
+**New stuff:**
+
+- Remove bootstrap dependency [\#160](https://github.com/gisaia/ARLAS-wui/issues/160)
+- Start the presentation tour on app launch if available [\#157](https://github.com/gisaia/ARLAS-wui/issues/157)
+
+**Miscellaneous:**
+
+- Remove yarn.lock [\#159](https://github.com/gisaia/ARLAS-wui/issues/159)
+- Document the configuration of ARLAS-wui [\#35](https://github.com/gisaia/ARLAS-wui/issues/35) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+
 ## [v12.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.0.0) (2019-11-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.4.0...v12.0.0)
