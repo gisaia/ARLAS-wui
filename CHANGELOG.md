@@ -1,13 +1,22 @@
 # Change Log
 
+## [v12.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.1) (2019-12-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.0...v12.1.1)
+
 ## [v12.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.0) (2019-12-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.0.0...v12.1.0)
 
 **New stuff:**
 
+- Upgrade to v12.1.0 of the stack [\#163](https://github.com/gisaia/ARLAS-wui/issues/163)
 - Remove bootstrap dependency [\#160](https://github.com/gisaia/ARLAS-wui/issues/160)
 - Start the presentation tour on app launch if available [\#157](https://github.com/gisaia/ARLAS-wui/issues/157)
+
+**Fixed bugs:**
+
+- Changing the rendred styles in Feature mode is not supported [\#164](https://github.com/gisaia/ARLAS-wui/issues/164)
 
 **Miscellaneous:**
 
