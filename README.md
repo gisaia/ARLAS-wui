@@ -6,7 +6,7 @@ Arlas-WUI is an application that allows you to visualize and explore collections
 
 ## Quickstart
 
-[Get started](http://docs.arlas.io/arlas-tech/current/arlas-wui-configuration/))
+[Get started](http://docs.arlas.io/arlas-tech/current/arlas-wui-configuration/)
 
 ## Want to help?
 
@@ -17,4 +17,4 @@ Read up on our guidelines for [contributing](https://github.com/gisaia/ARLAS-wui
 - Thanks to [BrowserStack](https://browserstack.com/) for their support of this open-source project.
 + If you aren't using the same browser and machine that we use to develop this opensource project, you can thank [BrowserStack](https://browserstack.com/) for their support.
 
-[![BrowserStack](https://startupvictoria.com.au/assets/coupons/BrowserStack-Logo-67c88493a6d4a1c1e168ba8b28228150.jpg "BrowserStack")](https://www.browserstack.com/)
+[![BrowserStack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/browserstack.svg)](https://www.browserstack.com/)
