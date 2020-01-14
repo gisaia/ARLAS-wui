@@ -97,6 +97,14 @@ button:focus {
   font-weight: 300;
 }
 
+.analytics-tabs .mat-tab-header{
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 2;
+}
+
 table.resultlist > tbody{
   height: 400px !important;
 }
