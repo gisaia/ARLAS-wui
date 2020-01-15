@@ -2,9 +2,6 @@ language: node_js
 node_js:
   - "10"
 
-before_script:
-    - ./scripts/prebuild.sh
-
 jobs:
   include:
     - env:
@@ -15,7 +12,9 @@ jobs:
       script: npm run test
     - env:
         - job=build
-      script: npm run build
+      script:
+        - npm install
+        - npm run build
     - env:
         - job=docker-build
       script: docker build --no-cache .
