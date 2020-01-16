@@ -71,6 +71,8 @@ if [ -z "${ARLAS_MAP_STYLE}" ]; then
 else
   echo ${ARLAS_MAP_STYLE}  "is used as map tiles style url "
 fi
+
+# Set Google Analytics key
 if [ -z "${ARLAS_GOOGLE_ANALYTICS_KEY}" ]; then
   ARLAS_GOOGLE_ANALYTICS_KEY="XX-XXXXXXXXX-X"
   export ARLAS_GOOGLE_ANALYTICS_KEY
@@ -78,11 +80,24 @@ if [ -z "${ARLAS_GOOGLE_ANALYTICS_KEY}" ]; then
 else
   echo ${ARLAS_GOOGLE_ANALYTICS_KEY}  "is used as Google Analytics key "
 fi
+
+# Set App base path
+if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
+  ARLAS_WUI_APP_PATH=""
+  export ARLAS_WUI_APP_PATH
+  echo "No specific path for the app"
+else
+  echo ${ARLAS_WUI_APP_PATH}  "is used as app base path "
+fi
+
 envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
 mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 
-envsubst < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
+envsubst '$ARLAS_GOOGLE_ANALYTICS_KEY' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
 mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
+
+envsubst '$ARLAS_WUI_APP_PATH' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp
+mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
 
 export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
