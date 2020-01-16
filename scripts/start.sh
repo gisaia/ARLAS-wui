@@ -71,8 +71,18 @@ if [ -z "${ARLAS_MAP_STYLE}" ]; then
 else
   echo ${ARLAS_MAP_STYLE}  "is used as map tiles style url "
 fi
+if [ -z "${ARLAS_GOOGLE_ANALYTICS_KEY}" ]; then
+  ARLAS_GOOGLE_ANALYTICS_KEY="XX-XXXXXXXXX-X"
+  export ARLAS_GOOGLE_ANALYTICS_KEY
+  echo "No key defined for Google Analytics"
+else
+  echo ${ARLAS_GOOGLE_ANALYTICS_KEY}  "is used as Google Analytics key "
+fi
 envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
 mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
+
+envsubst < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
+mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
 export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
