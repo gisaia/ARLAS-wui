@@ -19,8 +19,10 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
-import { ChartType, DataType, MapglComponent, Position, MapglImportComponent,
-  MapglSettingsComponent, RenderedGeometries, GeoQuery } from 'arlas-web-components';
+import {
+  ChartType, DataType, MapglComponent, Position, MapglImportComponent,
+  MapglSettingsComponent, RenderedGeometries, GeoQuery
+} from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
@@ -97,11 +99,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
+  public spinner: { showSpinner: boolean, diameterSpinner: string, colorSpinner: string }
+    = { showSpinner: false, diameterSpinner: '60', colorSpinner: 'accent' };
 
-  @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
-  @ViewChild('search', {static: true}) private searchComponent: SearchComponent;
-  @ViewChild('import', {static: true}) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', {static: false}) public mapSettings: MapglSettingsComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
+  @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
+  @ViewChild('import', { static: true }) public mapImportComponent: MapglImportComponent;
+  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -133,6 +137,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.analytics = this.configService.getValue('arlas.web.analytics');
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.geosortConfig = this.configService.getValue('arlas-wui.web.app.components.geosort');
+
+      if (this.configService.getValue('arlas.web.options.spinner')) {
+        this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
+      }
       if (this.analytics) {
         this.isAutoGeosortActive = this.analytics.filter(g => g.groupId === 'resultlist')
           .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
@@ -267,8 +275,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
     if (this.walkthroughService.isActivable) {
-        this.walkthroughService.startTour();
-      }
+      this.walkthroughService.startTour();
+    }
     this.cdr.detectChanges();
   }
 
