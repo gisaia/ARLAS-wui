@@ -1,11 +1,17 @@
 # Change Log
 
+## [v12.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.1) (2020-01-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.0...v12.2.1)
+
 ## [v12.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.0) (2020-01-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.1...v12.2.0)
 
 **New stuff:**
 
+- Upgrade stack to v12.2.0 [\#174](https://github.com/gisaia/ARLAS-wui/issues/174)
+- Add configuration node for Spinner activation [\#173](https://github.com/gisaia/ARLAS-wui/issues/173)
 - Add env variable to set Google Analytics key [\#168](https://github.com/gisaia/ARLAS-wui/issues/168)
 - Support serving app under URL base-path [\#156](https://github.com/gisaia/ARLAS-wui/issues/156)
 
