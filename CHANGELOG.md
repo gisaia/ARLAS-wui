@@ -1,8 +1,22 @@
 # Change Log
 
+## [v12.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.0) (2020-01-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.1...v12.2.0)
+
+**New stuff:**
+
+- Add env variable to set Google Analytics key [\#168](https://github.com/gisaia/ARLAS-wui/issues/168)
+- Support serving app under URL base-path [\#156](https://github.com/gisaia/ARLAS-wui/issues/156)
+
 ## [v12.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.1) (2019-12-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.0...v12.1.1)
+
+**Fixed bugs:**
+
+- Sort radio buttons of Result list get deselected by MapSettings component [\#166](https://github.com/gisaia/ARLAS-wui/issues/166)
+- Hide and show topology styles [\#165](https://github.com/gisaia/ARLAS-wui/issues/165)
 
 ## [v12.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.0) (2019-12-19)
 
