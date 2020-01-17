@@ -77,7 +77,7 @@
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">
     <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics"
-      (boardOutputs)="getBoardEvents($event)"></arlas-analytics-board>
+      (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.showSpinner" [diameterSpinner]="spinner.diameterSpinner" [colorSpinner]="spinner.colorSpinner"></arlas-analytics-board>
   </div>
   <arlas-gauge class="gaugeSvg" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205"
     [maxValue]="gaugeMaxValue" [threshold]="gaugeThresholdValue" [currentValue]="gaugeCurrentValue"></arlas-gauge>
