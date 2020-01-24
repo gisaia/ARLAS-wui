@@ -30,8 +30,16 @@
   display: none;
 }
 
-.analytics-group-2 .mat-card{
-  width: 210px;
+.analytics-group-2 .donut-container{
+  width: 250px;
+  height: 190px;
 }
+
+.one_of_three .donut-container{
+  width: 100px;
+  height: 160px;
+}
+
+
 
 
