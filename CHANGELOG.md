@@ -1,8 +1,16 @@
 # Change Log
 
+## [v12.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.2) (2020-01-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.1...v12.2.2)
+
 ## [v12.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.1) (2020-01-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.0...v12.2.1)
+
+**Fixed bugs:**
+
+- Missing replacement of Google Analytics Key [\#176](https://github.com/gisaia/ARLAS-wui/issues/176)
 
 ## [v12.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.0) (2020-01-17)
 
