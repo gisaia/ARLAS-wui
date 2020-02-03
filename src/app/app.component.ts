@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import {
   ChartType, DataType, MapglComponent, Position, MapglImportComponent,
-  MapglSettingsComponent, RenderedGeometries, GeoQuery
+  MapglSettingsComponent, RenderedGeometries, GeoQuery, GeometrySelectModel
 } from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
@@ -38,7 +38,8 @@ import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService,
-  ArlasMapSettings
+  ArlasMapSettings,
+  ArlasMapService
 } from 'arlas-wui-toolkit';
 import { ContributorService } from './services/contributors.service';
 import { Subject } from 'rxjs';
@@ -118,7 +119,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
-    private walkthroughService: ArlasWalkthroughService
+    private walkthroughService: ArlasWalkthroughService,
+    private mapService: ArlasMapService
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
@@ -338,6 +340,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   public refreshComponents() {
     const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
     this.collaborativeService.setCollaborations(dataModel);
+  }
+
+  public zoomToData() {
+    const geoms: GeometrySelectModel[]
+      = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
+    if (geoms.length > 0) {
+      this.mapService.zoomToData(geoms[0].path, this.mapglComponent.map, 0.2);
+    }
   }
 
   public getBoardEvents(event: { origin: string, event: string, data: any }) {

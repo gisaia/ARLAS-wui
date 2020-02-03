@@ -73,6 +73,7 @@
     <arlas-menu></arlas-menu>
     <arlas-filter [title]="'ARLAS'" [backgroundColor]="'#FF4081'"></arlas-filter>
     <arlas-mapgl-settings #mapSettings [styleGroups]="mapComponentConfig.mapLayers.styleGroups" [basemapStylesGroup]="mapglComponent?.basemapStylesGroup" (renderedGeometriesEmitter)="renderSelectedGeometries($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
+    <button mat-flat-button class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}"><mat-icon (click)="zoomToData()">filter_center_focus</mat-icon></button>
   </div>
 
   <div class="arlas-analytics--container" *ngIf="analyticsOpen">

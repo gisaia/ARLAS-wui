@@ -103,6 +103,7 @@ button:focus {
   top: 0;
   background-color: inherit;
   z-index: 2;
+  border-bottom: none;
 }
 
 table.resultlist > tbody{
