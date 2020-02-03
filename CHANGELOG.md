@@ -1,8 +1,21 @@
 # Change Log
 
+## [v12.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.3.0) (2020-02-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.2...v12.3.0)
+
+**New stuff:**
+
+- Update stack to v12.3.0 [\#181](https://github.com/gisaia/ARLAS-wui/issues/181)
+- Add a button that allows to zoom to data extent [\#180](https://github.com/gisaia/ARLAS-wui/issues/180)
+
 ## [v12.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.2) (2020-01-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.1...v12.2.2)
+
+**Fixed bugs:**
+
+- Donut size change when applying a filter [\#178](https://github.com/gisaia/ARLAS-wui/issues/178)
 
 ## [v12.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.1) (2020-01-17)
 
