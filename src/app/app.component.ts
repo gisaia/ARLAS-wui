@@ -203,7 +203,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.mapglComponent.switchLayer.subscribe(data => this.mapglContributor.switchLayerCluster(data));
+    this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
     let startDragCenter;
     let dragMove = false;
     this.mapglComponent.map.on('dragstart', (e) => {
