@@ -71,11 +71,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   public searchOpen = true;
   public countAll: string;
 
-  // gauge component
-  public gaugeMaxValue = 46000000;
-  public gaugeThresholdValue = 10000;
-  public gaugeCurrentValue = 46000000;
-
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
@@ -100,8 +95,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
-  public spinner: { showSpinner: boolean, diameterSpinner: string, colorSpinner: string }
-    = { showSpinner: false, diameterSpinner: '60', colorSpinner: 'accent' };
+
+  /* Options */
+  public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
+    = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
+  public gauge: { show: boolean, maxValue: number, thresholdValue: number, currentValue: number }
+    = { show: false, maxValue: 46000000, thresholdValue: 10000, currentValue: 46000000 };
+  public showZoomToData = false;
+  public showIndicators = false;
+
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
@@ -142,6 +144,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
+      }
+      if (this.configService.getValue('arlas.web.options.gauge')) {
+        this.gauge = Object.assign(this.gauge, this.configService.getValue('arlas.web.options.gauge'));
+      }
+      if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
+        this.showZoomToData = true;
+      }
+      if (this.configService.getValue('arlas.web.options.indicators')) {
+        this.showIndicators = true;
       }
       if (this.analytics) {
         this.isAutoGeosortActive = this.analytics.filter(g => g.groupId === 'resultlist')
@@ -264,9 +275,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     this.mapglContributor.countExtendBus.subscribe(data => {
       const re = /\ /gi;
-      this.gaugeMaxValue = parseFloat(this.countAll.replace(re, ''));
-      this.gaugeThresholdValue = data.threshold;
-      this.gaugeCurrentValue = data.count;
+      this.gauge.maxValue = parseFloat(this.countAll.replace(re, ''));
+      this.gauge.thresholdValue = data.threshold;
+      this.gauge.currentValue = data.count;
     });
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */

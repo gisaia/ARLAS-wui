@@ -31,6 +31,7 @@ import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { MenuComponent } from './menu.component';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -44,22 +45,20 @@ describe('MenuComponent', () => {
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       declarations: [MenuComponent, AboutComponent, AboutDialogComponent],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
-        ContributorService, HttpClient, TranslateService
+        ArlasConfigService, ArlasCollaborativesearchService,
+        ContributorService, HttpClient, TranslateService, ArlasWalkthroughService
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
+
+  });
+
+  beforeEach( () => {
+      fixture = TestBed.createComponent(MenuComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
   });
 
   it('should create', (() => {
-    const arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(MenuComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-        expect(component).toBeTruthy();
-      }
-    });
+      expect(component).toBeTruthy();
   }));
 });

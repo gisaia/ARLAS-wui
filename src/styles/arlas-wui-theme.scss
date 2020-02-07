@@ -45,4 +45,5 @@ $arlas-app-theme: mat-light-theme($arlas-app-primary, $arlas-app-accent, $arlas-
 /* SB: Not the right way to fix the margin value (new angular material) */
 .mat-chip-list-wrapper{
   align-items: normal !important;
+  margin: 0 -4px !important;
 }

@@ -9,28 +9,38 @@
         <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-chip-button">
           <mat-icon>menu</mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
-          <button *ngIf="tagComponentConfig" mat-menu-item (click)="displayTag()">
-            <mat-icon>local_offer</mat-icon>
-            <span>{{ 'Tag' | translate }}</span>
-          </button>
-          <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
-            <mat-icon>share</mat-icon>
-            <span>{{ 'Share' | translate }}</span>
-          </button>
-          <button  *ngIf="downloadComponentConfig" mat-menu-item (click)="displayDownload()">
-            <mat-icon>get_app</mat-icon>
-            <span>{{ 'Download' | translate }}</span>
-          </button>
-          <button *ngIf="this.walkthroughService.isActivable" mat-menu-item (click)="replayTour()">
-            <mat-icon>slideshow</mat-icon>
-            <span>{{ 'Replay tour' | translate }}</span>
-          </button>
-          <button mat-menu-item (click)="displayAbout()">
-            <mat-icon>info_outline</mat-icon>
-            <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
-          </button>
-        </mat-menu>
       </mat-basic-chip>
     </mat-chip-list>
+    <mat-menu #menu="matMenu">
+      <button *ngIf="tagComponentConfig" mat-menu-item [matMenuTriggerFor]="tagMenu">
+        <mat-icon>local_offer</mat-icon>
+        <span>{{ 'Tag' | translate }}</span>
+      </button>
+      <button  *ngIf="shareComponentConfig" mat-menu-item (click)="displayShare()">
+        <mat-icon>share</mat-icon>
+        <span>{{ 'Share' | translate }}</span>
+      </button>
+      <button  *ngIf="downloadComponentConfig" mat-menu-item (click)="displayDownload()">
+        <mat-icon>get_app</mat-icon>
+        <span>{{ 'Download' | translate }}</span>
+      </button>
+      <button *ngIf="this.walkthroughService.isActivable" mat-menu-item (click)="replayTour()">
+        <mat-icon>slideshow</mat-icon>
+        <span>{{ 'Replay tour' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="displayAbout()">
+        <mat-icon>info_outline</mat-icon>
+        <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
+      </button>
+    </mat-menu>
+    <mat-menu #tagMenu="matMenu">
+      <button mat-menu-item (click)="displayTag()">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span>{{ 'Add' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="displayTagManagement()">
+        <mat-icon>replay</mat-icon>
+        <span>{{ 'Replay' | translate }}</span>
+      </button>
+    </mat-menu>
 </div>

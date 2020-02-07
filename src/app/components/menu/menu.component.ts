@@ -44,8 +44,10 @@ export class MenuComponent {
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
 
-  /**the added timestamp fixes a cache problem of the about.md file.
-   * The extention .md at the end is necessary for the lib to function */
+  /*
+    The added timestamp fixes a cache problem of the about.md file.
+    The extention .md at the end is necessary for the lib to function
+  */
   public aboutFile: string = 'about.md?' + Date.now() + '.md';
 
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
@@ -137,6 +139,10 @@ export class MenuComponent {
 
   public displayTag() {
     this.tagComponent.openDialog();
+  }
+
+  public displayTagManagement() {
+    this.tagComponent.openManagement();
   }
 
   public displayDownload() {
