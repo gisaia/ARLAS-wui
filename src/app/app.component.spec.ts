@@ -17,7 +17,7 @@ import { APP_BASE_HREF } from '@angular/common';
  * specific language governing permissions and limitations
  * under the License.
  */
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule, MatChipsModule, MatIconModule,
@@ -42,6 +42,10 @@ import { AboutComponent, AboutDialogComponent } from './components/about/about.c
 import { ContributorService } from './services/contributors.service';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let arlasStartupService: ArlasStartupService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -61,14 +65,20 @@ describe('AppComponent', () => {
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
     }).compileComponents();
-  }));
-  it('should create the app', async(() => {
-    const arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService = TestBed.get(ArlasStartupService);
     arlasStartupService.arlasIsUp.subscribe(isUp => {
       if (isUp) {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.componentInstance;
-        expect(app).toBeTruthy();
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      }
+    });
+  }));
+
+  it('should create the app', async(() => {
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        expect(component).toBeTruthy();
       }
     });
   }));

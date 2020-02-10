@@ -5,18 +5,18 @@
   padding-right: 5px;
 }
 
-.menu-chip{
+.menu-chip {
   color: white;
   padding: 0 5px 0 10px !important;
   font-weight: 200;
 }
 
-.menu-chip-button{
+.menu-chip-button {
   width: 28px;
   height: 28px;
   line-height: 30px;
 }
 
-.menu-chip-button:focus{
+.menu-chip-button:focus {
   outline: none;
 }

@@ -20,17 +20,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ContributorService } from '../../services/contributors.service';
 import { MatAutocompleteModule, MatInputModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMdModule } from 'ngx-md';
 import { ArlasToolKitModule } from 'arlas-wui-toolkit';
-
-import {
-  ArlasConfigService,
-  ArlasCollaborativesearchService,
-  ArlasStartupService
-} from 'arlas-wui-toolkit/services/startup/startup.service';
 import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
@@ -44,21 +37,17 @@ describe('AboutComponent', () => {
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, NgxMdModule, MatDialogModule
       ],
-      declarations: [AboutComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ContributorService, ArlasStartupService]
-    })
-      .compileComponents();
+      declarations: [AboutComponent]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AboutComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', (() => {
-    const arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(AboutComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   }));
 });
