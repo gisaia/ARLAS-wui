@@ -302,12 +302,14 @@ export class AppComponent implements OnInit, AfterViewInit {
    */
   public renderSelectedGeometries(displayedGeometries: Array<RenderedGeometries>) {
     const renderedClusterGeometry: RenderedGeometries = displayedGeometries.find(d => d.mode === 'cluster');
-    this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
-    if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]) {
+    if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]
+      && renderedClusterGeometry.selectedStyleGroups[0].selectedStyle) {
+      this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
       this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
+
+      this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
+        renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
     }
-    this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
-      renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
     const featureGeos = displayedGeometries.find(d => d.mode === 'features');
     if (featureGeos) {
       featureGeos.selectedStyleGroups.forEach(sg => {

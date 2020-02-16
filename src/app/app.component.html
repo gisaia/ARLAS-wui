@@ -59,7 +59,7 @@
       <mat-icon>search</mat-icon>
     </mat-basic-chip>
     <div class="arlas-search" [hidden]="!searchOpen">
-      <arlas-search #search (valuesChangedEvent)="filterSearch($event)"></arlas-search>
+      <arlas-search #search id="search" (valuesChangedEvent)="filterSearch($event)"></arlas-search>
     </div>
     <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()"
       matTooltip="{{'Refresh components' | translate}}">
