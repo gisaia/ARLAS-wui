@@ -1,8 +1,19 @@
 # Change Log
 
+## [v12.5.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.0) (2020-02-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.4.0...v12.5.0)
+
 ## [v12.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.4.0) (2020-02-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.3.0...v12.4.0)
+
+**New stuff:**
+
+- Add entry in configuration to display or not indicators on analytics board [\#187](https://github.com/gisaia/ARLAS-wui/issues/187) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
+- Update toolkit version to 12.4.0 [\#186](https://github.com/gisaia/ARLAS-wui/issues/186)
+- Add entry in configuration to display or not "zoom to data" button [\#185](https://github.com/gisaia/ARLAS-wui/issues/185) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
+- Add entry in configuration to activate gauge [\#184](https://github.com/gisaia/ARLAS-wui/issues/184) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
 
 ## [v12.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.3.0) (2020-02-03)
 
