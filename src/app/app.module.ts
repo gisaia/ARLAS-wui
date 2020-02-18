@@ -40,7 +40,7 @@ import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule, GaugeModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
-import { routing } from './app.routes';
+import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { MenuComponent } from './components/menu/menu.component';
 
