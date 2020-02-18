@@ -83,7 +83,7 @@ fi
 
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
-  ARLAS_WUI_APP_PATH=""
+  ARLAS_WUI_APP_PATH="/"
   export ARLAS_WUI_APP_PATH
   echo "No specific path for the app"
 else
@@ -96,8 +96,12 @@ mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 envsubst '$ARLAS_GOOGLE_ANALYTICS_KEY' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
 mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
+envsubst '$ARLAS_WUI_APP_PATH' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
+mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
+
 envsubst '$ARLAS_WUI_APP_PATH' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp
 mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
+
 
 export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
