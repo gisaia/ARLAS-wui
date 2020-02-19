@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot --base-href='$ARLAS_WUI_APP_PATH/'",
+    "build": "ng build --prod --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
