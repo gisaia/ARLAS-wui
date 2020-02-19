@@ -1,8 +1,16 @@
 # Change Log
 
+## [v12.5.3](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.3) (2020-02-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.2...v12.5.3)
+
 ## [v12.5.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.2) (2020-02-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.1...v12.5.2)
+
+**Fixed bugs:**
+
+- Fix routing for auth callback response [\#191](https://github.com/gisaia/ARLAS-wui/issues/191)
 
 ## [v12.5.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.1) (2020-02-17)
 
