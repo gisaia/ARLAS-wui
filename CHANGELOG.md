@@ -1,5 +1,13 @@
 # Change Log
 
+## [v12.5.5](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.5) (2020-03-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/12.5.4...v12.5.5)
+
+## [12.5.4](https://github.com/gisaia/ARLAS-WUI/tree/12.5.4) (2020-02-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.4...12.5.4)
+
 ## [v12.5.4](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.4) (2020-02-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.3...v12.5.4)
