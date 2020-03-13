@@ -294,6 +294,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openMapSettings(): void {
+    this.mapSettingsService.mapContributor = this.mapglContributor;
+    this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
