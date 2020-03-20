@@ -71,6 +71,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public searchOpen = true;
   public countAll: string;
 
+  public appName: string;
+  public appNameBackgroundColor: string;
+
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
@@ -129,6 +132,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributor) {
         this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
       }
+      this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
+        this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
+        this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
