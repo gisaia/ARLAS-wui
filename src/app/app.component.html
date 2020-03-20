@@ -73,7 +73,7 @@
   </div>
   <div class="arlas-filters-chips">
     <arlas-menu></arlas-menu>
-    <arlas-filter [title]="'ARLAS'" [backgroundColor]="'#FF4081'"></arlas-filter>
+    <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor"></arlas-filter>
     <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}" (click)="zoomToData()">
       <mat-icon class="arlas-zoom-to-data-icon">filter_center_focus</mat-icon>
     </div>

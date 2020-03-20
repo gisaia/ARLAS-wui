@@ -71,6 +71,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public searchOpen = true;
   public countAll: string;
 
+  public appName: string;
+  public appNameBackgroundColor: string;
+
   // component config
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
@@ -129,6 +132,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributor) {
         this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
       }
+      this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
+        this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
+        this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
@@ -217,6 +224,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
     let startDragCenter;
     let dragMove = false;
+    this.mapService.setMap(this.mapglComponent.map);
     this.mapglComponent.map.on('dragstart', (e) => {
       dragMove = true;
       startDragCenter = this.mapglComponent.map.getCenter();
@@ -358,6 +366,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public zoomToData() {
+    if (!this.mapSettingsService.mapContributor) {
+      this.mapSettingsService.mapContributor = this.mapglContributor;
+    }
+    if (!this.mapSettingsService.componentConfig) {
+      this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
+    }
     const geoms: GeometrySelectModel[]
       = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
     if (geoms.length > 0) {
