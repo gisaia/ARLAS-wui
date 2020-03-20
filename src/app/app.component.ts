@@ -359,6 +359,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public zoomToData() {
+    if (!this.mapSettingsService.mapContributor) {
+      this.mapSettingsService.mapContributor = this.mapglContributor;
+    }
+    if (!this.mapSettingsService.componentConfig) {
+      this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
+    }
     const geoms: GeometrySelectModel[]
       = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
     if (geoms.length > 0) {
