@@ -217,6 +217,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
     let startDragCenter;
     let dragMove = false;
+    this.mapService.setMap(this.mapglComponent.map);
     this.mapglComponent.map.on('dragstart', (e) => {
       dragMove = true;
       startDragCenter = this.mapglComponent.map.getCenter();
