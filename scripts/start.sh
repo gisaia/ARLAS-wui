@@ -66,7 +66,7 @@ else
 fi
 
 if [ -z "${ARLAS_SERVER_COLLECTION}" ]; then
-  ARLAS_SERVER_COLLECTION="demo_ais-danmark"
+  ARLAS_SERVER_COLLECTION="foobar"
   export ARLAS_SERVER_COLLECTION
   echo "The default ARLAS-server collection '${ARLAS_SERVER_COLLECTION}' is used"
 else
