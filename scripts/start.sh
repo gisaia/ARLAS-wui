@@ -60,10 +60,19 @@ fi
 if [ -z "${ARLAS_SERVER_URL}" ]; then
   ARLAS_SERVER_URL="http://demo.arlas.io/arlas/"
   export ARLAS_SERVER_URL
-  echo "The default ARLAS-server url is used"
+  echo "The default ARLAS-server url '${ARLAS_SERVER_URL}' is used"
 else
   echo ${ARLAS_SERVER_URL}  "is used as 'arlas.server.url'"
 fi
+
+if [ -z "${ARLAS_SERVER_COLLECTION}" ]; then
+  ARLAS_SERVER_COLLECTION="demo_ais-danmark"
+  export ARLAS_SERVER_COLLECTION
+  echo "The default ARLAS-server collection '${ARLAS_SERVER_COLLECTION}' is used"
+else
+  echo ${ARLAS_SERVER_COLLECTION}  "is used as 'arlas.server.collection'"
+fi
+
 if [ -z "${ARLAS_MAP_STYLE}" ]; then
   ARLAS_MAP_STYLE="http://demo.arlas.io:82/styles/positron/style.json"
   export ARLAS_MAP_STYLE

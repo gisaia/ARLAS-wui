@@ -419,7 +419,7 @@
     "server": {
       "url": "${ARLAS_SERVER_URL}",
       "collection": {
-        "name": "demo_ais-danmark",
+        "name": "${ARLAS_SERVER_COLLECTION}",
         "id": "id"
       },
       "max_age_cache": 120
