@@ -1,727 +1,312 @@
 {
   "layers": [
+
     {
-      "id": "cluster-rect-fill",
-      "type": "fill",
-      "source": "data_source",
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-color": {
-          "property": "point_count_normalize",
-          "type": "exponential",
-          "stops": [
-            [
-              0,
-              "#36a996"
-            ],
-            [
-              20,
-              "#3683a9"
-            ],
-            [
-              40,
-              "#3649a9"
-            ],
-            [
-              60,
-              "#5c36a9"
-            ],
-            [
-              80,
-              "#9636a9"
-            ],
-            [
-              100,
-              "#a93683"
-            ]
-          ]
-        },
-        "fill-opacity": 0.7
-      },
-      "filter": [
-        "==",
-        "feature_type",
-        "aggregation"
-      ]
-    },
-    {
-      "id": "cluster-heat",
-      "type": "heatmap",
-      "source": "data_source",
-      "layout": {
-        "visibility": "visible"
-      },
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "aggregation"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "heatmap-weight": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "point_count_normalize"
-          ],
-          0,
-          0,
-          100,
-          1
-        ],
-        "heatmap-intensity": 3,
-        "heatmap-color": [
-          "interpolate",
-          [
-            "exponential",
-            10
-          ],
-          [
-            "heatmap-density"
-          ],
-          0,
-          "rgba(33,102,172,0)",
-          0.01,
-          "rgb(33,102,172)",
-          0.2,
-          "rgb(103,169,207)",
-          0.4,
-          "rgb(209,229,240)",
-          0.6,
-          "rgb(253,219,199)",
-          0.8,
-          "rgb(239,138,98)",
-          1,
-          "rgb(178,24,43)"
-        ],
-        "heatmap-radius": 50,
-        "heatmap-opacity": 0.6
-      }
-    },
-    {
-      "id": "features-symbol",
+      "id": "confirmed_cases_count",
       "type": "symbol",
-      "source": "data_source",
+      "source": "feature-metric2",
       "layout": {
-        "icon-image": "monument-11",
-        "icon-allow-overlap": true,
-        "icon-rotate": [
-          "interpolate",
-          [
-            "linear"
+        "text-field": "{data_confirmed_sum_}",
+        "text-size": ["interpolate", ["linear"], ["zoom"],
+          0,[
+            "case",
+            ["<=",["number",["get","data_confirmed_sum_"]],1000],
+            0,
+            [">",["number",["get","data_confirmed_sum_"]],1000],
+            10,
+            20
           ],
-          [
-            "get",
-            "cours_heading"
+          2,[
+            "case",
+            ["<=",["number",["get","data_confirmed_sum_"]],100],
+            0,
+            ["<=",["number",["get","data_confirmed_sum_"]],150],
+            5,
+            ["<=",["number",["get","data_confirmed_sum_"]],1500],
+            10,
+            ["<=",["number",["get","data_confirmed_sum_"]],4000],
+            13,
+            20
           ],
+          3,[
+          "case",
+          ["==",["number",["get","data_confirmed_sum_"]],0],
           0,
-          0,
-          360,
-          360
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ]
-    },
-    {
-      "id": "features-point-speed",
-      "type": "circle",
-      "source": "data_source",
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "circle-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
+          ["<=",["number",["get","data_confirmed_sum_"]],150],
+          9,
+          ["<=",["number",["get","data_confirmed_sum_"]],1500],
           10,
-          "#3649a9",
+          ["<=",["number",["get","data_confirmed_sum_"]],8000],
           15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
+          20
+        ]
+
         ],
-        "circle-opacity": 1
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": [
+          "case",
+          [
+            "<=",
+            [
+              "number",
+              [
+                "get",
+                "data_confirmed_sum_"
+              ]
+            ],
+            1000
+          ],
+          "#000",
+          "#000"
+        ]
       }
     },
     {
-      "id": "features-point-ship-type",
+      "id": "features-confirmed",
       "type": "circle",
-      "source": "data_source",
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "circle-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "feature-line-ship-type",
-      "source": "data_source",
-      "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "type": "line",
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "hit"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      }
-    },
-    {
-      "id": "feature-line-speed",
-      "source": "data_source",
-      "paint": {
-        "line-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
-        ],
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "type": "line",
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "hit"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      }
-    },
-    {
-      "id": "features-line-select",
-      "type": "line",
-      "source": "data_source",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": 10
-      }
-    },
-    {
-      "id": "features-fill-hover",
-      "type": "line",
-      "source": "data_source",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": 10
-      }
-    },
-    {
-      "id": "polygon_imported",
-      "type": "fill",
-      "source": "polygon_imported",
-      "paint": {
-        "fill-color": "rgba(153, 32, 228, 1)",
-        "fill-opacity": 0.1
-      }
-    },
-    {
-      "id": "polygon_imported_line",
-      "type": "line",
-      "source": "polygon_imported",
-      "paint": {
-        "line-color": "rgba(153, 32, 228, 1)",
-        "line-width": 2
-      },
+      "source": "feature-metric2",
       "layout": {
         "visibility": "visible"
+      },
+      "filter": [
+        "all",
+        [
+          "!has",
+          "geohash"
+        ]
+      ],
+      "paint": {
+        "circle-color": "#E16200",
+        "circle-opacity": 0,
+        "circle-stroke-color": "#E16200",
+        "circle-stroke-width": ["case",["==",["number",["get","data_confirmed_sum_"]],0],0,2],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"],
+        0, ["case",
+          ["==",["number",["get","data_confirmed_sum_"]],0],0,
+          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 2, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 10]],
+          10],
+        3, ["case",
+          ["==",["number",["get","data_confirmed_sum_"]],0],0,
+          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 3, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 30]],
+          30],
+        4, ["case",
+          ["==",["number",["get","data_confirmed_sum_"]],0],0,
+          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 4, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 70]],
+          70],
+        24, ["case",
+          ["==",["number",["get","data_confirmed_sum_"]],0],0,
+          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 5, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 90]],
+          90]
+        ]
+      }
+    },
+    {
+      "id": "features_raw",
+      "type": "line",
+      "source": "feature1",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "red",
+        "line-opacity": 1,
+        "line-width": 3
+      }
+    },
+    {
+      "id": "features-recovered",
+      "type": "circle",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "visible"
+      },
+      "filter": [
+        "all",
+        [
+          "!has",
+          "geohash"
+        ]
+      ],
+      "paint": {
+        "circle-color": "#00A971",
+        "circle-opacity": 1,
+        "circle-stroke-color": "#00A971",
+        "circle-stroke-width": 0,
+        "circle-radius": ["interpolate", ["linear"], ["zoom"],
+        0, ["case",
+          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
+          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 2, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 10]],
+          10],
+        3, ["case",
+          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
+          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 3, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 30]],
+          30],
+        4, ["case",
+          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
+          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 4, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 70]],
+          70],
+        24, ["case",
+          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
+          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 5, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 90]],
+          90]
+        ]
+      }
+    },
+    {
+      "id": "features-death",
+      "type": "circle",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "visible"
+      },
+      "filter": [
+        "all",
+        [
+          "!has",
+          "geohash"
+        ]
+      ],
+      "paint": {
+        "circle-color": "#bababa",
+        "circle-opacity": 1,
+        "circle-stroke-color": "#bababa",
+        "circle-radius": ["interpolate", ["linear"], ["zoom"],
+        0, ["case",
+          ["==",["number",["get","data_death_sum_"]],0],0,
+          [">",["number",["get","data_death_sum_"]],0], ["+", 2, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 10]],
+          10],
+        3, ["case",
+          ["==",["number",["get","data_death_sum_"]],0],0,
+          [">",["number",["get","data_death_sum_"]],0], ["+", 3, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 30]],
+          30],
+        4, ["case",
+          ["==",["number",["get","data_death_sum_"]],0],0,
+          [">",["number",["get","data_death_sum_"]],0], ["+", 4, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 70]],
+          70],
+        24, ["case",
+          ["==",["number",["get","data_death_sum_"]],0],0,
+          [">",["number",["get","data_death_sum_"]],0], ["+", 5, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 90]],
+          90]
+        ]
+      }
+    },
+    {
+      "id": "features-select",
+      "type": "line",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "all"
+      ],
+      "paint": {
+        "line-color": "#fff387",
+        "line-opacity": 1,
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center_locally_normalized_per_object_id"
+          ],
+          0,
+          2,
+          1,
+          7
+        ]
+      }
+    },
+    {
+      "id": "features-hover",
+      "type": "line",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "all"
+      ],
+      "paint": {
+        "line-color": "white",
+        "line-opacity": 1,
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center_locally_normalized_per_object_id"
+          ],
+          0,
+          2,
+          1,
+          7
+        ]
+      }
+    },
+    {
+      "id": "features-black-hover",
+      "type": "line",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "all"
+      ],
+      "paint": {
+        "line-color": "black",
+        "line-opacity": 1,
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center_locally_normalized_per_object_id"
+          ],
+          0,
+          4,
+          1,
+          9
+        ]
+      }
+    },
+    {
+      "id": "features-black-select",
+      "type": "line",
+      "source": "feature-metric2",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "all"
+      ],
+      "paint": {
+        "line-color": "black",
+        "line-opacity": 1,
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center_locally_normalized_per_object_id"
+          ],
+          0,
+          4,
+          1,
+          9
+        ]
       }
     }
   ]
