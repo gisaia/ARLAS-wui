@@ -221,7 +221,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
     let startDragCenter;
     let dragMove = false;
     this.mapService.setMap(this.mapglComponent.map);
@@ -315,8 +314,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]
       && renderedClusterGeometry.selectedStyleGroups[0].selectedStyle) {
       this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
-      // this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
-
       this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
         renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
     }

@@ -44,12 +44,10 @@
       [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
       [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
       [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
-      [zoomToPrecisionCluster]="mapglContributor?.zoomToPrecisionCluster"
       [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
       [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
       [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect" [boundsToFit]="fitbounds"
-      [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false" [maxPrecision]="mapglContributor?.maxPrecision"
-      [redrawTile]="mapglContributor?.redrawTile"
+      [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
       (onAoiChanged)="mapglContributor?.onChangeAoi($event)" (onMove)="mapglContributor?.onMove($event)">
     </arlas-mapgl>
   </div>
