@@ -2,110 +2,9 @@
   "layers": [
 
     {
-      "id": "confirmed_cases_count",
-      "type": "symbol",
-      "source": "feature-metric2",
-      "layout": {
-        "text-field": "{data_confirmed_sum_}",
-        "text-size": ["interpolate", ["linear"], ["zoom"],
-          0,[
-            "case",
-            ["<=",["number",["get","data_confirmed_sum_"]],1000],
-            0,
-            [">",["number",["get","data_confirmed_sum_"]],1000],
-            10,
-            20
-          ],
-          2,[
-            "case",
-            ["<=",["number",["get","data_confirmed_sum_"]],100],
-            0,
-            ["<=",["number",["get","data_confirmed_sum_"]],150],
-            5,
-            ["<=",["number",["get","data_confirmed_sum_"]],1500],
-            10,
-            ["<=",["number",["get","data_confirmed_sum_"]],4000],
-            13,
-            20
-          ],
-          3,[
-          "case",
-          ["==",["number",["get","data_confirmed_sum_"]],0],
-          0,
-          ["<=",["number",["get","data_confirmed_sum_"]],150],
-          9,
-          ["<=",["number",["get","data_confirmed_sum_"]],1500],
-          10,
-          ["<=",["number",["get","data_confirmed_sum_"]],8000],
-          15,
-          20
-        ]
-
-        ],
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": [
-          "case",
-          [
-            "<=",
-            [
-              "number",
-              [
-                "get",
-                "data_confirmed_sum_"
-              ]
-            ],
-            1000
-          ],
-          "#000",
-          "#000"
-        ]
-      }
-    },
-    {
-      "id": "features-confirmed",
-      "type": "circle",
-      "source": "feature-metric2",
-      "layout": {
-        "visibility": "visible"
-      },
-      "filter": [
-        "all",
-        [
-          "!has",
-          "geohash"
-        ]
-      ],
-      "paint": {
-        "circle-color": "#E16200",
-        "circle-opacity": 0,
-        "circle-stroke-color": "#E16200",
-        "circle-stroke-width": ["case",["==",["number",["get","data_confirmed_sum_"]],0],0,2],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"],
-        0, ["case",
-          ["==",["number",["get","data_confirmed_sum_"]],0],0,
-          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 2, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 10]],
-          10],
-        3, ["case",
-          ["==",["number",["get","data_confirmed_sum_"]],0],0,
-          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 3, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 30]],
-          30],
-        4, ["case",
-          ["==",["number",["get","data_confirmed_sum_"]],0],0,
-          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 4, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 70]],
-          70],
-        24, ["case",
-          ["==",["number",["get","data_confirmed_sum_"]],0],0,
-          [">",["number",["get","data_confirmed_sum_"]],0], ["+", 5, ["*", ["sqrt",["/", ["get","data_confirmed_sum_"], 90000] ], 90]],
-          90]
-        ]
-      }
-    },
-    {
       "id": "features_raw",
       "type": "line",
-      "source": "feature1",
+      "source": "feature-features_raw",
       "layout": {
         "line-join": "round",
         "line-cap": "round"
@@ -117,196 +16,95 @@
       }
     },
     {
-      "id": "features-recovered",
-      "type": "circle",
-      "source": "feature-metric2",
+      "id": "cluster_grid",
+      "type": "fill",
+      "source": "cluster-cluster_grid",
       "layout": {
         "visibility": "visible"
       },
-      "filter": [
-        "all",
-        [
-          "!has",
-          "geohash"
-        ]
-      ],
       "paint": {
-        "circle-color": "#00A971",
-        "circle-opacity": 1,
-        "circle-stroke-color": "#00A971",
-        "circle-stroke-width": 0,
-        "circle-radius": ["interpolate", ["linear"], ["zoom"],
-        0, ["case",
-          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
-          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 2, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 10]],
-          10],
-        3, ["case",
-          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
-          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 3, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 30]],
-          30],
-        4, ["case",
-          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
-          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 4, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 70]],
-          70],
-        24, ["case",
-          ["==",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0],0,
-          [">",["number",["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]]],0], ["+", 5, ["*", ["sqrt",["/", ["+",[ "get","data_recovered_sum_"],["get","data_death_sum_"]], 90000] ], 90]],
-          90]
-        ]
+        "fill-color": {
+          "property": "point_count_normalize",
+          "type": "exponential",
+          "stops": [
+            [
+              0,
+              "#36a996"
+            ],
+            [
+              20,
+              "#3683a9"
+            ],
+            [
+              40,
+              "#3649a9"
+            ],
+            [
+              60,
+              "#5c36a9"
+            ],
+            [
+              80,
+              "#9636a9"
+            ],
+            [
+              100,
+              "#a93683"
+            ]
+          ]
+        },
+        "fill-opacity": 0.7
       }
     },
     {
-      "id": "features-death",
-      "type": "circle",
-      "source": "feature-metric2",
+      "id": "cluster_heat",
+      "type": "heatmap",
+      "source": "cluster-cluster_heatmap",
       "layout": {
         "visibility": "visible"
       },
-      "filter": [
-        "all",
-        [
-          "!has",
-          "geohash"
-        ]
-      ],
       "paint": {
-        "circle-color": "#bababa",
-        "circle-opacity": 1,
-        "circle-stroke-color": "#bababa",
-        "circle-radius": ["interpolate", ["linear"], ["zoom"],
-        0, ["case",
-          ["==",["number",["get","data_death_sum_"]],0],0,
-          [">",["number",["get","data_death_sum_"]],0], ["+", 2, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 10]],
-          10],
-        3, ["case",
-          ["==",["number",["get","data_death_sum_"]],0],0,
-          [">",["number",["get","data_death_sum_"]],0], ["+", 3, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 30]],
-          30],
-        4, ["case",
-          ["==",["number",["get","data_death_sum_"]],0],0,
-          [">",["number",["get","data_death_sum_"]],0], ["+", 4, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 70]],
-          70],
-        24, ["case",
-          ["==",["number",["get","data_death_sum_"]],0],0,
-          [">",["number",["get","data_death_sum_"]],0], ["+", 5, ["*", ["sqrt",["/", ["get","data_death_sum_"], 90000] ], 90]],
-          90]
-        ]
-      }
-    },
-    {
-      "id": "features-select",
-      "type": "line",
-      "source": "feature-metric2",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all"
-      ],
-      "paint": {
-        "line-color": "#fff387",
-        "line-opacity": 1,
-        "line-width": [
+        "heatmap-weight": [
           "interpolate",
           [
             "linear"
           ],
           [
             "get",
-            "track_timestamps_center_locally_normalized_per_object_id"
+            "point_count_normalize"
           ],
           0,
-          2,
-          1,
-          7
-        ]
-      }
-    },
-    {
-      "id": "features-hover",
-      "type": "line",
-      "source": "feature-metric2",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all"
-      ],
-      "paint": {
-        "line-color": "white",
-        "line-opacity": 1,
-        "line-width": [
+          0,
+          100,
+          1
+        ],
+        "heatmap-intensity": 3,
+        "heatmap-color": [
           "interpolate",
           [
-            "linear"
+            "exponential",
+            10
           ],
           [
-            "get",
-            "track_timestamps_center_locally_normalized_per_object_id"
+            "heatmap-density"
           ],
           0,
-          2,
+          "rgba(33,102,172,0)",
+          0.01,
+          "rgb(33,102,172)",
+          0.2,
+          "rgb(103,169,207)",
+          0.4,
+          "rgb(209,229,240)",
+          0.6,
+          "rgb(253,219,199)",
+          0.8,
+          "rgb(239,138,98)",
           1,
-          7
-        ]
-      }
-    },
-    {
-      "id": "features-black-hover",
-      "type": "line",
-      "source": "feature-metric2",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all"
-      ],
-      "paint": {
-        "line-color": "black",
-        "line-opacity": 1,
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center_locally_normalized_per_object_id"
-          ],
-          0,
-          4,
-          1,
-          9
-        ]
-      }
-    },
-    {
-      "id": "features-black-select",
-      "type": "line",
-      "source": "feature-metric2",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all"
-      ],
-      "paint": {
-        "line-color": "black",
-        "line-opacity": 1,
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center_locally_normalized_per_object_id"
-          ],
-          0,
-          4,
-          1,
-          9
-        ]
+          "rgb(178,24,43)"
+        ],
+        "heatmap-radius": 50,
+        "heatmap-opacity": 0.6
       }
     }
   ]
