@@ -62,7 +62,7 @@ if [ -z "${ARLAS_SERVER_URL}" ]; then
   export ARLAS_SERVER_URL
   echo "The default ARLAS-server url '${ARLAS_SERVER_URL}' is used"
 else
-  echo ${ARLAS_SERVER_URL}  "is used as 'arlas.server.url'"
+  echo ${ARLAS_SERVER_URL} "is used as 'arlas.server.url'"
 fi
 
 if [ -z "${ARLAS_SERVER_COLLECTION}" ]; then
@@ -70,7 +70,15 @@ if [ -z "${ARLAS_SERVER_COLLECTION}" ]; then
   export ARLAS_SERVER_COLLECTION
   echo "The default ARLAS-server collection '${ARLAS_SERVER_COLLECTION}' is used"
 else
-  echo ${ARLAS_SERVER_COLLECTION}  "is used as 'arlas.server.collection'"
+  echo ${ARLAS_SERVER_COLLECTION} "is used as 'arlas.server.collection'"
+fi
+
+if [ -z "${ARLAS_TAGGER_URL}" ]; then
+  ARLAS_TAGGER_URL="http://localhost:9999"
+  export ARLAS_TAGGER_URL
+  echo "The default ARLAS-tagger url '${ARLAS_TAGGER_URL}' is used"
+else
+  echo ${ARLAS_TAGGER_URL} "is used as 'arlas.server.url'"
 fi
 
 if [ -z "${ARLAS_MAP_STYLE}" ]; then
