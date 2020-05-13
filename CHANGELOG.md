@@ -1,8 +1,21 @@
 # Change Log
 
+## [v12.7.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.7.0) (2020-05-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.4...v12.7.0)
+
+**New stuff:**
+
+- Enable persistance-server configuration through env var for gisaia/arlas-wui [\#207](https://github.com/gisaia/ARLAS-wui/issues/207)
+- Enable tagger configuration through env var for gisaia/arlas-wui [\#206](https://github.com/gisaia/ARLAS-wui/issues/206)
+
 ## [v12.6.4](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.4) (2020-04-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.3...v12.6.4)
+
+**New stuff:**
+
+- Enable collection configuration through env var for gisaia/arlas-wui  [\#200](https://github.com/gisaia/ARLAS-wui/issues/200) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)] [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
 
 ## [v12.6.3](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.3) (2020-03-26)
 
