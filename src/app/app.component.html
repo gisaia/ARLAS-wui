@@ -1,12 +1,12 @@
 <arlas-tool-root></arlas-tool-root>
-<arlas-mapgl-settings #mapSettings [styleGroups]="mapComponentConfig.mapLayers.styleGroups" [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
-  (renderedGeometriesEmitter)="renderSelectedGeometries($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
+<arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
+  (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
 <div class="app-container">
   <arlas-bookmark-menu></arlas-bookmark-menu>
   <div id="arlas-map-settings" class="arlas-map-settings">
     <div class="arlas-map-settings-container">
       <div class="arlas-map-settings-items" [matTooltipPosition]="'left'" matTooltip="{{'Map Settings' | translate}}"    matTooltipPosition="below">
-        <mat-icon (click)="openMapSettings()">layers</mat-icon>
+        <mat-icon (click)="openMapSettings()">search</mat-icon>
       </div>
     </div>
   </div>
@@ -34,10 +34,14 @@
     </div>
   </div>
   <div class="arlas-map">
-    <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata"
+    <arlas-mapgl #map
       [dataSources]="mapglContributor.dataSources"
       [redrawSource]= "mapglContributor.redrawSource"
+      [legendUpdater]= "mapglContributor.legendUpdater"
+      [visibilityUpdater]= "mapglContributor.visibilityUpdater"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
+      [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
+      (visualisations)="mapglContributor.changeVisualisation($event)"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
       [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
