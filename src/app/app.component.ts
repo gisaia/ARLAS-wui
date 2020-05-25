@@ -99,8 +99,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
-  public gauge: { show: boolean, maxValue: number, thresholdValue: number, currentValue: number }
-    = { show: false, maxValue: 46000000, thresholdValue: 10000, currentValue: 46000000 };
+
   public showZoomToData = false;
   public showIndicators = false;
 
@@ -147,9 +146,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
-      }
-      if (this.configService.getValue('arlas.web.options.gauge')) {
-        this.gauge = Object.assign(this.gauge, this.configService.getValue('arlas.web.options.gauge'));
       }
       if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
         this.showZoomToData = true;
@@ -244,12 +240,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.mapEventListener.next();
       }
 
-    });
-    this.mapglContributor.countExtendBus.subscribe(data => {
-      const re = /\ /gi;
-      this.gauge.maxValue = parseFloat(this.countAll.replace(re, ''));
-      this.gauge.thresholdValue = data.threshold;
-      this.gauge.currentValue = data.count;
     });
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
