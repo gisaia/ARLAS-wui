@@ -36,17 +36,3 @@
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
   margin: 5px 7px 0 0 !important;
 }
-
-.gaugeSvg{
-  position: absolute;
-  top: 45px;
-  right: 47px;
-}
-
-.gaugeSvg .full-gauge{
-  fill: #FF4081;
-}
-
-.gaugeSvg .part-gauge{
-  fill: grey;
-}

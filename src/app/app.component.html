@@ -87,8 +87,7 @@
     <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics"
       (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show" [showIndicators]="showIndicators" [diameterSpinner]="spinner.diameter" [colorSpinner]="spinner.color" [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
   </div>
-  <arlas-gauge class="gaugeSvg" *ngIf="gauge.show" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205"
-    [maxValue]="gauge.maxValue" [threshold]="gauge.thresholdValue" [currentValue]="gauge.currentValue"></arlas-gauge>
+
   <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
     [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig">
   </arlas-timeline>
