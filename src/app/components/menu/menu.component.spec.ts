@@ -17,15 +17,16 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async} from '@angular/core/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatChipsModule, MatDialogModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
 import { NgxMdModule } from 'ngx-md';
-import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
+import { ArlasTaggerModule, ArlasToolkitSharedModule, ArlasMapSettings, ArlasMapService, ArlasToolKitModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasStartupService
+  ArlasStartupService,
+  CONFIG_UPDATER,
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent, AboutDialogComponent } from '../about/about.component';
@@ -36,29 +37,42 @@ import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
+  let arlasStartupService: ArlasStartupService;
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ArlasToolKitModule, MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
-        NgxMdModule, HttpClientModule, ArlasTaggerModule,
+        MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule, MatDialogModule,
+        NgxMdModule, HttpClientModule, ArlasTaggerModule, ArlasToolkitSharedModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       declarations: [MenuComponent, AboutComponent, AboutDialogComponent],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService,
-        ContributorService, HttpClient, TranslateService, ArlasWalkthroughService
+        ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
+        ContributorService, HttpClient, TranslateService, ArlasWalkthroughService, ArlasToolKitModule,
+        ArlasMapSettings, ArlasMapService,
+        { provide: CONFIG_UPDATER, useValue: {} }
       ]
     }).compileComponents();
 
   });
 
-  beforeEach( () => {
-      fixture = TestBed.createComponent(MenuComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-  });
+  beforeEach(async(() => {
+    arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(MenuComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      }
+    });
+  }));
 
-  it('should create', (() => {
-      expect(component).toBeTruthy();
+  it('should create the app', async(() => {
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        expect(component).toBeTruthy();
+      }
+    });
   }));
 });
