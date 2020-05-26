@@ -28,8 +28,8 @@ import { RouterModule } from '@angular/router';
 
 import { NgxMdModule } from 'ngx-md';
 import { MenuComponent } from 'app/components/menu/menu.component';
-import { HistogramModule, MapglComponent, GaugeModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
-import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
+import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
+import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
@@ -40,6 +40,7 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ContributorService } from './services/contributors.service';
+import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -51,11 +52,13 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule, GaugeModule,
-        ArlasTaggerModule, MapglImportModule, MapglSettingsModule
+        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        MapglModule,
+        ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,
       ],
       declarations: [
-        AppComponent, MapglComponent, MenuComponent, AboutComponent, AboutDialogComponent
+        AppComponent, MenuComponent, AboutComponent, AboutDialogComponent
       ],
       providers: [
         ArlasCollaborativesearchService,
@@ -65,20 +68,16 @@ describe('AppComponent', () => {
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
     }).compileComponents();
+
+  }));
+
+  beforeEach(async(() => {
     arlasStartupService = TestBed.get(ArlasStartupService);
     arlasStartupService.arlasIsUp.subscribe(isUp => {
       if (isUp) {
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-      }
-    });
-  }));
-
-  it('should create the app', async(() => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
       }
     });
   }));

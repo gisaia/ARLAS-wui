@@ -43,186 +43,41 @@
           "isOneDimension": false
         },
         {
-          "type":"map",
+          "type": "map",
           "identifier": "mapbox",
-          "idFieldName": "id",
-          "name": "Map",
-          "geomStrategy": "centroid",
-          "initZoom": 4,
-          "includeFeaturesFields": [
-            "course.heading",
-            "course.sog",
-            "vessel.ship_type"
-          ],
-          "icon": "check_box_outline_blank",
-          "geometry": "course.segment.geometry.geometry",
-          "actions": {
-            "flyto": true,
-            "hightlight": true
-          },
-          "aggregationmodels": [
+          "geo_query_field": "position.location",
+          "geo_query_qp": "Intersects",
+          "name": "map",
+          "layers_sources" : [
             {
-              "type": "geohash",
-              "field": "position.location",
-              "interval": {
-                "value": 3
-              },
-              "fetch_geometry": {
-                "strategy": "centroid"
-              }
+              "id": "features_raw",
+              "source": "feature-features_raw",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures":10000,
+              "returned_geometry": "course.segment.geometry.geometry"
+            },
+            {
+              "id": "cluster_grid",
+              "source": "cluster-cluster_grid",
+              "minzoom": 6,
+              "maxzoom": 24,
+              "minfeatures": 10000,
+              "agg_geo_field": "position.location",
+              "aggregated_geometry": "geohash",
+              "granularity": "Fine"
+            },
+            {
+              "id": "cluster_heatmap",
+              "source": "cluster-cluster_heatmap",
+              "minzoom": 0,
+              "maxzoom": 6,
+              "minfeatures": 10000,
+              "agg_geo_field": "position.location",
+              "aggregated_geometry": "centroid",
+              "granularity": "Fine"
             }
-          ],
-          "zoomLevelFullData": 6,
-          "zoomLevelForTestCount": 6,
-          "nbMaxDefautFeatureForCluster": 10000,
-          "zoomToNbMaxFeatureForCluster": [
-            [
-              4,
-              10000
-            ],
-            [
-              5,
-              10000
-            ],
-            [
-              6,
-              10000
-            ],
-            [
-              7,
-              10000
-            ],
-            [
-              8,
-              10000
-            ],
-            [
-              9,
-              10000
-            ],
-            [
-              10,
-              10000
-            ],
-            [
-              11,
-              10000
-            ],
-            [
-              12,
-              10000
-            ]
-          ],
-          "maxPrecision": [
-            7,
-            4
-          ],
-          "zoomToPrecisionCluster": [
-            [
-              0,
-              3,
-              1
-            ],
-            [
-              1,
-              3,
-              1
-            ],
-            [
-              2,
-              3,
-              1
-            ],
-            [
-              3,
-              3,
-              1
-            ],
-            [
-              4,
-              4,
-              2
-            ],
-            [
-              5,
-              4,
-              2
-            ],
-            [
-              6,
-              4,
-              2
-            ],
-            [
-              7,
-              5,
-              3
-            ],
-            [
-              8,
-              5,
-              3
-            ],
-            [
-              9,
-              6,
-              4
-            ],
-            [
-              10,
-              6,
-              4
-            ],
-            [
-              11,
-              7,
-              5
-            ],
-            [
-              12,
-              7,
-              5
-            ],
-            [
-              13,
-              7,
-              5
-            ],
-            [
-              14,
-              8,
-              6
-            ],
-            [
-              15,
-              8,
-              6
-            ],
-            [
-              16,
-              8,
-              6
-            ],
-            [
-              17,
-              8,
-              6
-            ],
-            [
-              18,
-              8,
-              6
-            ],
-            [
-              19,
-              8,
-              6
-            ],
-            [
-              20,
-              8,
-              6
-            ]
+
           ],
           "search_size": 10000
         },
@@ -251,7 +106,7 @@
           "input": {
             "defaultBasemapStyle": {
               "name": "Positron",
-              "styleFile": "${ARLAS_MAP_STYLE}"
+              "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
             },
             "basemapStyles": [
               {
@@ -280,59 +135,22 @@
                       "id": "heat",
                       "name": "Heats",
                       "layerIds": [
-                        "cluster-heat"
+                        "cluster_heat",
+                        "cluster_grid",
+                        "features_raw"
+
                       ],
                       "geomStrategy": "centroid"
-                    },
-                    {
-                      "id": "fill",
-                      "name": "Rectangle",
-                      "layerIds": [
-                        "cluster-rect-fill"
-                      ],
-                      "geomStrategy": "geohash"
                     }
-                  ]
-                },
-                {
-                  "id": "features",
-                  "name": "Paths",
-                  "base": [
-                    "features-line-select",
-                    "features-fill-hover"
-                  ],
-                  "styles": [
-                    {
-                      "id": "speed",
-                      "name": "Speed",
-                      "layerIds": [
-                        "features-point-speed",
-                        "feature-line-speed"
-                      ],
-                      "isDefault": false
-                    },
-                    {
-                      "id": "shiptype",
-                      "name": "Ship type",
-                      "layerIds": [
-                        "feature-line-ship-type",
-                        "features-point-ship-type"
-                      ],
-                      "isDefault": false
-                    }
-
                   ]
                 }
               ],
               "events": {
                 "zoomOnClick": [
-                  "cluster-rect-fill"
                 ],
                 "emitOnClick": [
-                  "cluster-rect-fill"
                 ],
                 "onHover": [
-                  "cluster-rect-fill"
                 ]
               }
             },

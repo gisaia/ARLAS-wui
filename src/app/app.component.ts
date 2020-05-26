@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Filter } from 'arlas-api';
 import {
   ChartType, DataType, MapglComponent, Position, MapglImportComponent,
-  MapglSettingsComponent, RenderedGeometries, GeoQuery, GeometrySelectModel
+  MapglSettingsComponent, GeoQuery, GeometrySelectModel, BasemapStyle
 } from 'arlas-web-components';
 import * as mapboxgl from 'mapbox-gl';
 import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
@@ -88,13 +88,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   private isAutoGeosortActive;
   private geosortConfig;
   private allowMapExtend: boolean;
-  private allowMapStyles: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
-  private mapStyles: Array<{ styleGroupId: string, styleId: string }>;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
-  private MAP_STYLES_PARAM = 'map_styles';
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
@@ -102,8 +99,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
-  public gauge: { show: boolean, maxValue: number, thresholdValue: number, currentValue: number }
-    = { show: false, maxValue: 46000000, thresholdValue: 10000, currentValue: 46000000 };
+
   public showZoomToData = false;
   public showIndicators = false;
 
@@ -141,7 +137,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
-      this.allowMapStyles = this.configService.getValue('arlas.web.components.mapgl.allowMapStyles');
       this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
@@ -151,9 +146,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
-      }
-      if (this.configService.getValue('arlas.web.options.gauge')) {
-        this.gauge = Object.assign(this.gauge, this.configService.getValue('arlas.web.options.gauge'));
       }
       if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
         this.showZoomToData = true;
@@ -192,22 +184,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           }
         }
       }
-      if (this.allowMapStyles) {
-        /** Example : ...&map_styles=cluster:heat;features:ship_type&... */
-        const mapStylesValue = this.getParamValue(this.MAP_STYLES_PARAM);
-        if (mapStylesValue) {
-          const styles = mapStylesValue.split(';');
-          if (styles.length > 0) {
-            this.mapStyles = new Array();
-            styles.forEach(selectedStyle => {
-              const sg_s = selectedStyle.split(':');
-              if (sg_s.length === 2) {
-                this.mapStyles.push({ styleGroupId: sg_s[0], styleId: sg_s[1] });
-              }
-            });
-          }
-        }
-      }
     }
 
     // tslint:disable-next-line:max-line-length
@@ -221,7 +197,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
     let startDragCenter;
     let dragMove = false;
     this.mapService.setMap(this.mapglComponent.map);
@@ -230,30 +205,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       startDragCenter = this.mapglComponent.map.getCenter();
     });
     if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds);
+      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
       this.mapBounds = null;
     }
     this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
+      /** wait until the map component loading is finished before fetching the data */
       if (isLoaded) {
-        if (this.mapStyles && this.allowMapStyles) {
-          this.mapStyles.forEach(s => {
-            this.mapglComponent.onChangeStyle(s.styleGroupId, s.styleId);
-          });
-        }
-      }
-    });
-    this.mapglComponent.onStyleChanged.subscribe(styleGroups => {
-      let selectedMapStyles = '';
-      if (styleGroups) {
-        styleGroups.forEach(sg => {
-          if (sg.selectedStyle) {
-            selectedMapStyles += selectedMapStyles !== '' ? ';' : '';
-            selectedMapStyles += sg.id + ':' + sg.selectedStyle.id;
-          }
-        });
-        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-        queryParams[this.MAP_STYLES_PARAM] = selectedMapStyles;
-        this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+        this.mapglContributor.updateData = true;
+        this.mapglContributor.fetchData(null);
+        this.mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(this.mapglContributor.identifier));
       }
     });
     this.mapglComponent.map.on('moveend', (e) => {
@@ -281,12 +241,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
 
     });
-    this.mapglContributor.countExtendBus.subscribe(data => {
-      const re = /\ /gi;
-      this.gauge.maxValue = parseFloat(this.countAll.replace(re, ''));
-      this.gauge.thresholdValue = data.threshold;
-      this.gauge.currentValue = data.count;
-    });
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
@@ -307,35 +261,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
-  /**
-   * Renders the selected geometries and corresponding styles
-   */
-  public renderSelectedGeometries(displayedGeometries: Array<RenderedGeometries>) {
-    const renderedClusterGeometry: RenderedGeometries = displayedGeometries.find(d => d.mode === 'cluster');
-    if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]
-      && renderedClusterGeometry.selectedStyleGroups[0].selectedStyle) {
-      this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
-      this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
-
-      this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
-        renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
-    }
-    const featureGeos = displayedGeometries.find(d => d.mode === 'features');
-    if (featureGeos) {
-      featureGeos.selectedStyleGroups.forEach(sg => {
-        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
-      });
-      this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
-    }
-    const topologyGeos = displayedGeometries.find(d => d.mode === 'topology');
-    if (topologyGeos) {
-      topologyGeos.selectedStyleGroups.forEach(sg => {
-        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
-      });
-    }
-    this.mapglContributor.onChangeGeometries();
+  public setBasemapStylesGroup(selectedBasemapStyle: BasemapStyle) {
+    this.mapglComponent.onChangeBasemapStyle(selectedBasemapStyle);
   }
-
   /**
    * Applies the selected geo query
    */
@@ -371,11 +299,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     if (!this.mapSettingsService.componentConfig) {
       this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
-    }
-    const geoms: GeometrySelectModel[]
-      = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
-    if (geoms.length > 0) {
-      this.mapService.zoomToData(geoms[0].path, this.mapglComponent.map, 0.2);
     }
   }
 

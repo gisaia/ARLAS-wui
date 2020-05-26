@@ -23,7 +23,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatInputModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMdModule } from 'ngx-md';
-import { ArlasToolKitModule } from 'arlas-wui-toolkit';
+import { ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
@@ -33,9 +33,9 @@ describe('AboutComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ArlasToolKitModule, ReactiveFormsModule, MatAutocompleteModule,
+        ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, NgxMdModule, MatDialogModule
+        MatIconModule, NgxMdModule, MatDialogModule, ArlasToolkitSharedModule
       ],
       declarations: [AboutComponent]
     }).compileComponents();
