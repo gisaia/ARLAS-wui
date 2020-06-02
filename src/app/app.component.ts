@@ -39,7 +39,8 @@ import {
   ArlasConfigService,
   ArlasStartupService,
   ArlasMapSettings,
-  ArlasMapService
+  ArlasMapService,
+  ArlasColorGeneratorLoader
 } from 'arlas-wui-toolkit';
 import { ContributorService } from './services/contributors.service';
 import { Subject } from 'rxjs';
@@ -300,6 +301,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (!this.mapSettingsService.componentConfig) {
       this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
     }
+    const centroid_path = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).centroid_path;
+    this.mapService.zoomToData(centroid_path, this.mapglComponent.map, 0.2);
   }
 
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
