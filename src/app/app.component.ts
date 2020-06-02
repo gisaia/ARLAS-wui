@@ -122,7 +122,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private walkthroughService: ArlasWalkthroughService,
-    private mapService: ArlasMapService
+    private mapService: ArlasMapService,
+    private colorGenerator: ArlasColorGeneratorLoader
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
@@ -169,6 +170,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
       this.mapglContributor = this.contributorService.getMapContributor();
+      this.mapglContributor.colorGenerator = this.colorGenerator;
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
