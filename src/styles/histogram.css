@@ -71,10 +71,6 @@
   stroke: none;
 }
 
-.arlas-histogram-analytics .histogram__tooltip {
-  background-color: #78909C;
-}
-
 .arlas-histogram-analytics .histogram__brush--handles {
   stroke: #78909C;
   stroke-width: 1px;
@@ -219,10 +215,6 @@
   fill: #EEEEEE;
   fill-opacity: 1;
   stroke: none;
-}
-
-.arlas-timeline-analytics .histogram__tooltip {
-  background-color: #78909C;
 }
 
 .arlas-timeline-analytics .histogram__brush--handles {

@@ -18,7 +18,6 @@
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
-          "datatype": "time",
           "isOneDimension": false
         },
         {
@@ -39,190 +38,86 @@
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
-          "datatype": "time",
           "isOneDimension": false
         },
         {
-          "type":"map",
+          "type": "map",
           "identifier": "mapbox",
-          "idFieldName": "id",
-          "name": "Map",
-          "geomStrategy": "centroid",
-          "initZoom": 4,
-          "includeFeaturesFields": [
-            "course.heading",
-            "course.sog",
-            "vessel.ship_type"
-          ],
+          "geo_query_field": "position.location",
+          "geo_query_op": "Intersects",
+          "name": "map",
           "icon": "check_box_outline_blank",
-          "geometry": "course.segment.geometry.geometry",
-          "actions": {
-            "flyto": true,
-            "hightlight": true
-          },
-          "aggregationmodels": [
+          "layers_sources" : [
             {
-              "type": "geohash",
-              "field": "position.location",
-              "interval": {
-                "value": 3
-              },
-              "fetch_geometry": {
-                "strategy": "centroid"
-              }
+              "id": "Grid",
+              "source": "cluster-position.location-Fine-geohash",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "minfeatures": 10000,
+              "agg_geo_field": "position.location",
+              "aggregated_geometry": "geohash",
+              "granularity": "Fine",
+              "metrics": [
+                {
+                  "field": "count",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ]
+            },
+            {
+              "id": "Heatmap",
+              "source": "cluster-position.location-Fine-centroid",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "minfeatures": 10000,
+              "agg_geo_field": "position.location",
+              "aggregated_geometry": "centroid",
+              "granularity": "Fine",
+              "metrics": [
+                {
+                  "field": "count",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ]
+            },
+            {
+              "id": "Boats positions (Speed)",
+              "source": "feature-position.location",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures": 5000,
+              "returned_geometry": "position.location",
+              "include_fields": ["course.sog"]
+            },
+            {
+              "id": "Boats positions (Ship type)",
+              "source": "feature-position.location",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures": 5000,
+              "returned_geometry": "position.location",
+              "include_fields": ["vessel.ship_type"]
+            },
+            {
+              "id": "Boats fragments (Speed)",
+              "source": "feature-course.segment.geometry.geometry",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures": 5000,
+              "returned_geometry": "course.segment.geometry.geometry",
+              "include_fields": ["course.sog"]
+            },
+            {
+              "id": "Boats fragments (Ship type)",
+              "source": "feature-course.segment.geometry.geometry",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures": 5000,
+              "returned_geometry": "course.segment.geometry.geometry",
+              "include_fields": ["vessel.ship_type"]
             }
-          ],
-          "zoomLevelFullData": 6,
-          "zoomLevelForTestCount": 6,
-          "nbMaxDefautFeatureForCluster": 10000,
-          "zoomToNbMaxFeatureForCluster": [
-            [
-              4,
-              10000
-            ],
-            [
-              5,
-              10000
-            ],
-            [
-              6,
-              10000
-            ],
-            [
-              7,
-              10000
-            ],
-            [
-              8,
-              10000
-            ],
-            [
-              9,
-              10000
-            ],
-            [
-              10,
-              10000
-            ],
-            [
-              11,
-              10000
-            ],
-            [
-              12,
-              10000
-            ]
-          ],
-          "maxPrecision": [
-            7,
-            4
-          ],
-          "zoomToPrecisionCluster": [
-            [
-              0,
-              3,
-              1
-            ],
-            [
-              1,
-              3,
-              1
-            ],
-            [
-              2,
-              3,
-              1
-            ],
-            [
-              3,
-              3,
-              1
-            ],
-            [
-              4,
-              4,
-              2
-            ],
-            [
-              5,
-              4,
-              2
-            ],
-            [
-              6,
-              4,
-              2
-            ],
-            [
-              7,
-              5,
-              3
-            ],
-            [
-              8,
-              5,
-              3
-            ],
-            [
-              9,
-              6,
-              4
-            ],
-            [
-              10,
-              6,
-              4
-            ],
-            [
-              11,
-              7,
-              5
-            ],
-            [
-              12,
-              7,
-              5
-            ],
-            [
-              13,
-              7,
-              5
-            ],
-            [
-              14,
-              8,
-              6
-            ],
-            [
-              15,
-              8,
-              6
-            ],
-            [
-              16,
-              8,
-              6
-            ],
-            [
-              17,
-              8,
-              6
-            ],
-            [
-              18,
-              8,
-              6
-            ],
-            [
-              19,
-              8,
-              6
-            ],
-            [
-              20,
-              8,
-              6
-            ]
           ],
           "search_size": 10000
         },
@@ -259,80 +154,44 @@
                 "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
               }
             ],
-            "margePanForLoad": 40,
-            "margePanForTest": 2,
+            "margePanForLoad": 5,
+            "margePanForTest": 5,
             "initZoom": 2,
             "initCenter": [
               9.667969,
               55.627996
             ],
             "displayScale": true,
+            "visualisations_sets": [
+              {
+                "name": "Boats positions distribution",
+                "layers": ["Grid"],
+                "enabled": true
+              },
+              {
+                "name": "Boats positions density",
+                "layers": ["Heatmap"],
+                "enabled": false
+              },
+              {
+                "name": "Boats positions by speed",
+                "layers": ["Boats positions (Speed)", "Boats fragments (Speed)"],
+                "enabled": true
+              },
+              {
+                "name": "Boats positions by ship type",
+                "layers": ["Boats positions (Ship type)", "Boats fragments (Ship type)"],
+                "enabled": false
+              }
+            ],
             "mapLayers": {
               "layers": [],
-              "styleGroups": [
-                {
-                  "id": "cluster",
-                  "name": "Cluster",
-                  "base": [
-                  ],
-                  "styles": [
-                    {
-                      "id": "heat",
-                      "name": "Heats",
-                      "layerIds": [
-                        "cluster-heat"
-                      ],
-                      "geomStrategy": "centroid"
-                    },
-                    {
-                      "id": "fill",
-                      "name": "Rectangle",
-                      "layerIds": [
-                        "cluster-rect-fill"
-                      ],
-                      "geomStrategy": "geohash"
-                    }
-                  ]
-                },
-                {
-                  "id": "features",
-                  "name": "Paths",
-                  "base": [
-                    "features-line-select",
-                    "features-fill-hover"
-                  ],
-                  "styles": [
-                    {
-                      "id": "speed",
-                      "name": "Speed",
-                      "layerIds": [
-                        "features-point-speed",
-                        "feature-line-speed"
-                      ],
-                      "isDefault": false
-                    },
-                    {
-                      "id": "shiptype",
-                      "name": "Ship type",
-                      "layerIds": [
-                        "feature-line-ship-type",
-                        "features-point-ship-type"
-                      ],
-                      "isDefault": false
-                    }
-
-                  ]
-                }
-              ],
               "events": {
                 "zoomOnClick": [
-                  "cluster-rect-fill"
                 ],
                 "emitOnClick": [
-                  "cluster-rect-fill"
                 ],
                 "onHover": [
-                  "cluster-rect-fill"
                 ]
               }
             },
@@ -419,8 +278,7 @@
     "server": {
       "url": "${ARLAS_SERVER_URL}",
       "collection": {
-        "name": "${ARLAS_SERVER_COLLECTION}",
-        "id": "id"
+        "name": "${ARLAS_SERVER_COLLECTION}"
       },
       "max_age_cache": 120
     }

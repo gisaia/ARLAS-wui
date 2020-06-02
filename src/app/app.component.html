@@ -1,18 +1,18 @@
 <arlas-tool-root></arlas-tool-root>
-<arlas-mapgl-settings #mapSettings [styleGroups]="mapComponentConfig.mapLayers.styleGroups" [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
-  (renderedGeometriesEmitter)="renderSelectedGeometries($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
+<arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
+  (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
 <div class="app-container">
   <arlas-bookmark-menu></arlas-bookmark-menu>
   <div id="arlas-map-settings" class="arlas-map-settings">
     <div class="arlas-map-settings-container">
       <div class="arlas-map-settings-items" [matTooltipPosition]="'left'" matTooltip="{{'Map Settings' | translate}}"    matTooltipPosition="below">
-        <mat-icon (click)="openMapSettings()">layers</mat-icon>
+        <mat-icon (click)="openMapSettings()">search</mat-icon>
       </div>
     </div>
   </div>
-  <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false">
+  <div id="arlas-map-action" class="arlas-map-action"  (mouseleave)="isMapMenuOpen = false">
     <div class="arlas-map-action-container">
-      <div class="arlas-map-action-items">
+      <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-action-items">
         <mat-icon (mouseenter)="isMapMenuOpen = true">map</mat-icon>
       </div>
       <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
@@ -34,20 +34,24 @@
     </div>
   </div>
   <div class="arlas-map">
-    <arlas-mapgl #map [geojsondata]="mapglContributor?.geojsondata"
+    <arlas-mapgl #map
+      [dataSources]="mapglContributor.dataSources"
+      [redrawSource]= "mapglContributor.redrawSource"
+      [legendUpdater]= "mapglContributor.legendUpdater"
+      [visibilityUpdater]= "mapglContributor.visibilityUpdater"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
+      [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
+      (visualisations)="mapglContributor.changeVisualisation($event)"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
       [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
       [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
       [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
       [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
-      [zoomToPrecisionCluster]="mapglContributor?.zoomToPrecisionCluster"
       [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
       [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
       [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect" [boundsToFit]="fitbounds"
-      [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false" [maxPrecision]="mapglContributor?.maxPrecision"
-      [redrawTile]="mapglContributor?.redrawTile"
+      [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
       (onAoiChanged)="mapglContributor?.onChangeAoi($event)" (onMove)="mapglContributor?.onMove($event)">
     </arlas-mapgl>
   </div>
@@ -83,8 +87,7 @@
     <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow" [groups]="this.analytics"
       (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show" [showIndicators]="showIndicators" [diameterSpinner]="spinner.diameter" [colorSpinner]="spinner.color" [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
   </div>
-  <arlas-gauge class="gaugeSvg" *ngIf="gauge.show" [toolTipContent]="'Threshold indicator' | translate" [width]="22" [height]="205"
-    [maxValue]="gauge.maxValue" [threshold]="gauge.thresholdValue" [currentValue]="gauge.currentValue"></arlas-gauge>
+
   <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
     [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig">
   </arlas-timeline>

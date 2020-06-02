@@ -37,12 +37,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, GaugeModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
-import { ArlasToolKitModule, ArlasTaggerModule } from 'arlas-wui-toolkit';
+import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
+import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { CustomTranslateLoader } from 'arlas-wui-toolkit/shared.module';
+import { HttpClient } from '@angular/common/http';
 
 import { ContributorService } from './services/contributors.service';
 
@@ -56,7 +59,6 @@ import { ContributorService } from './services/contributors.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    GaugeModule,
     MapglImportModule,
     MapglSettingsModule,
     MatAutocompleteModule,
@@ -78,7 +80,15 @@ import { ContributorService } from './services/contributors.service';
     HistogramModule,
     RouterModule,
     routing,
+    ArlasToolkitSharedModule,
     ArlasToolKitModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
     ArlasTaggerModule
   ],
   providers: [

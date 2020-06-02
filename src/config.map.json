@@ -1,71 +1,53 @@
 {
   "layers": [
     {
-      "id": "cluster-rect-fill",
+      "id": "Grid",
       "type": "fill",
-      "source": "data_source",
+      "source": "cluster-position.location-Fine-geohash",
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "fill-color": {
-          "property": "point_count_normalize",
-          "type": "exponential",
-          "stops": [
-            [
-              0,
-              "#36a996"
-            ],
-            [
-              20,
-              "#3683a9"
-            ],
-            [
-              40,
-              "#3649a9"
-            ],
-            [
-              60,
-              "#5c36a9"
-            ],
-            [
-              80,
-              "#9636a9"
-            ],
-            [
-              100,
-              "#a93683"
-            ]
-          ]
-        },
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.01,
+          "#9dc95b",
+          0.02,
+          "#4bc71e",
+          0.2,
+          "#1bc473",
+          0.3,
+          "#16ccc9",
+          0.45,
+          "#167bc9",
+          0.60,
+          "#3619cf",
+          0.75,
+          "#9317d1",
+          0.90,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
         "fill-opacity": 0.7
-      },
-      "filter": [
-        "==",
-        "feature_type",
-        "aggregation"
-      ]
+      }
     },
     {
-      "id": "cluster-heat",
+      "id": "Heatmap",
       "type": "heatmap",
-      "source": "data_source",
+      "source": "cluster-position.location-Fine-centroid",
       "layout": {
         "visibility": "visible"
       },
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "aggregation"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
       "paint": {
         "heatmap-weight": [
           "interpolate",
@@ -74,93 +56,53 @@
           ],
           [
             "get",
-            "point_count_normalize"
+            "count_:normalized"
           ],
           0,
           0,
-          100,
+          1,
           1
         ],
         "heatmap-intensity": 3,
         "heatmap-color": [
           "interpolate",
           [
-            "exponential",
-            10
+            "linear"
           ],
           [
             "heatmap-density"
           ],
           0,
-          "rgba(33,102,172,0)",
+          "rgba(206, 232, 151,0)",
+          0.000000000001,
+          "rgba(206, 232, 151,0.8)",
           0.01,
-          "rgb(33,102,172)",
-          0.2,
-          "rgb(103,169,207)",
-          0.4,
-          "rgb(209,229,240)",
-          0.6,
-          "rgb(253,219,199)",
-          0.8,
-          "rgb(239,138,98)",
+          "rgba(157, 201, 91,0.9)",
+          0.02,
+          "#4bc71e",
+          0.20,
+          "#1bc473",
+          0.30,
+          "#16ccc9",
+          0.45,
+          "#167bc9",
+          0.60,
+          "#3619cf",
+          0.75,
+          "#9317d1",
+          0.90,
+          "#d11799",
           1,
-          "rgb(178,24,43)"
+          "#cf1919"
         ],
-        "heatmap-radius": 50,
+        "heatmap-radius": 20,
         "heatmap-opacity": 0.6
       }
     },
     {
-      "id": "features-symbol",
-      "type": "symbol",
-      "source": "data_source",
-      "layout": {
-        "icon-image": "monument-11",
-        "icon-allow-overlap": true,
-        "icon-rotate": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "cours_heading"
-          ],
-          0,
-          0,
-          360,
-          360
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ]
-    },
-    {
-      "id": "features-point-speed",
+      "id": "Boats positions (Speed)",
       "type": "circle",
-      "source": "data_source",
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
+      "source": "feature-position.location",
       "paint": {
         "circle-color": [
           "interpolate",
@@ -188,245 +130,117 @@
       }
     },
     {
-      "id": "features-point-ship-type",
+      "id": "Boats positions (Ship type)",
       "type": "circle",
-      "source": "data_source",
-      "filter": [
-        "all",
-        [
-          "!has",
-          "point_count"
-        ],
-        [
-          "==",
-          "$type",
-          "Point"
-        ]
-      ],
+      "source": "feature-position.location",
       "paint": {
-        "circle-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
+        "circle-color": [
+          "match",
+          [
+            "get",
+            "vessel_ship_type"
+          ],
+          "Tanker",
+          "#ff8ee8",
+          "Fishing",
+          "#86d8f7",
+          "Tug",
+          "#f4df42",
+          "SAR",
+          "#03c6ac",
+          "OTHER",
+          "#c2c2c2",
+          "Undefined",
+          "#c2c2c2",
+          "Pilot",
+          "#e74b4b",
+          "HSC",
+          "#0086bd",
+          "Law enforcement",
+          "#00b4d3",
+          "Military",
+          "#a625e0",
+          "Cargo",
+          "#0099ff",
+          "Passenger",
+          "#a5c176",
+          "Dredging",
+          "#51a588",
+          "Anti-pollution",
+          "#00f4d0",
+          "Pleasure",
+          "#ad0084",
+          "Towing",
+          "#d37700",
+          "Towing long/wide",
+          "#d37700",
+          "Sailing",
+          "#edc77b",
+          "#c2c2c2"
+        ],
         "circle-opacity": 1
       }
     },
     {
-      "id": "feature-line-ship-type",
-      "source": "data_source",
+      "id": "Boats fragments (Speed)",
+      "source": "feature-course.segment.geometry.geometry",
       "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
+        "line-color": [
+          "match",
+          [
+            "get",
+            "vessel_ship_type"
+          ],
+          "Tanker",
+          "#ff8ee8",
+          "Fishing",
+          "#86d8f7",
+          "Tug",
+          "#f4df42",
+          "SAR",
+          "#03c6ac",
+          "OTHER",
+          "#c2c2c2",
+          "Undefined",
+          "#c2c2c2",
+          "Pilot",
+          "#e74b4b",
+          "HSC",
+          "#0086bd",
+          "Law enforcement",
+          "#00b4d3",
+          "Military",
+          "#a625e0",
+          "Cargo",
+          "#0099ff",
+          "Passenger",
+          "#a5c176",
+          "Dredging",
+          "#51a588",
+          "Anti-pollution",
+          "#00f4d0",
+          "Pleasure",
+          "#ad0084",
+          "Towing",
+          "#d37700",
+          "Towing long/wide",
+          "#d37700",
+          "Sailing",
+          "#edc77b",
+          "#c2c2c2"
+        ],
         "line-opacity": 1,
         "line-width": 4
       },
       "type": "line",
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "hit"
-        ]
-      ],
       "layout": {
         "line-cap": "round",
         "line-join": "round"
       }
     },
     {
-      "id": "feature-line-speed",
-      "source": "data_source",
+      "id": "Boats fragments (Ship type)",
+      "source": "feature-course.segment.geometry.geometry",
       "paint": {
         "line-color": [
           "interpolate",
@@ -454,274 +268,9 @@
         "line-width": 4
       },
       "type": "line",
-      "filter": [
-        "all",
-        [
-          "==",
-          "feature_type",
-          "hit"
-        ]
-      ],
       "layout": {
         "line-cap": "round",
         "line-join": "round"
-      }
-    },
-    {
-      "id": "features-line-select",
-      "type": "line",
-      "source": "data_source",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": 10
-      }
-    },
-    {
-      "id": "features-fill-hover",
-      "type": "line",
-      "source": "data_source",
-      "layout": {
-        "visibility": "none"
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "$type",
-          "Point"
-        ]
-      ],
-      "paint": {
-        "line-color": {
-          "property": "vessel_ship_type",
-          "type": "categorical",
-          "stops": [
-            [
-              "Tanker",
-              "#ff8ee8"
-            ],
-            [
-              "Fishing",
-              "#86d8f7"
-            ],
-            [
-              "Tug",
-              "#f4df42"
-            ],
-            [
-              "SAR",
-              "#03c6ac"
-            ],
-            [
-              "OTHER",
-              "#c2c2c2"
-            ],
-            [
-              "Other",
-              "#c2c2c2"
-            ],
-            [
-              "Undefined",
-              "#c2c2c2"
-            ],
-            [
-              "Category X",
-              "#eab738"
-            ],
-            [
-              "Category Y",
-              "#ead538"
-            ],
-            [
-              "Category Z",
-              "#ea8538"
-            ],
-            [
-              "Category OS",
-              "#ed29d5"
-            ],
-            [
-              "Pilot",
-              "#e74b4b"
-            ],
-            [
-              "HSC",
-              "#0086bd"
-            ],
-            [
-              "Law enforcement",
-              "#00b4d3"
-            ],
-            [
-              "Military",
-              "#a625e0"
-            ],
-            [
-              "Cargo",
-              "#0099ff"
-            ],
-            [
-              "Passenger",
-              "#a5c176"
-            ],
-            [
-              "Dredging",
-              "#51a588"
-            ],
-            [
-              "Anti-pollution",
-              "#00f4d0"
-            ],
-            [
-              "Pleasure",
-              "#ad0084"
-            ],
-            [
-              "Towing",
-              "#d37700"
-            ],
-            [
-              "Towing long/wide",
-              "#d37700"
-            ],
-            [
-              "Sailing",
-              "#edc77b"
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": 10
-      }
-    },
-    {
-      "id": "polygon_imported",
-      "type": "fill",
-      "source": "polygon_imported",
-      "paint": {
-        "fill-color": "rgba(153, 32, 228, 1)",
-        "fill-opacity": 0.1
-      }
-    },
-    {
-      "id": "polygon_imported_line",
-      "type": "line",
-      "source": "polygon_imported",
-      "paint": {
-        "line-color": "rgba(153, 32, 228, 1)",
-        "line-width": 2
-      },
-      "layout": {
-        "visibility": "visible"
       }
     }
   ]
