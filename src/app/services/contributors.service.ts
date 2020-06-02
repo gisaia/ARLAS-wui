@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ChipsSearchContributor, MapContributor, TopoMapContributor } from 'arlas-web-contributors';
+import { ChipsSearchContributor, MapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 import {
   ArlasCollaborativesearchService,
@@ -37,7 +37,6 @@ export class ContributorService {
   public ID_PATH = 'arlas-wui.web.app.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
   public MAPCONTRIBUTOR_ID = 'mapbox';
-  public TOPOMAPCONTRIBUTOR_ID = 'topo_mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
 
   public constructor(private configService: ArlasConfigService,
@@ -48,13 +47,8 @@ export class ContributorService {
   /* returns the map contributor */
   public getMapContributor(): MapContributor {
     const mapContributorConfig = this.getContributorConfig(this.MAPCONTRIBUTOR_ID);
-    const topoMapContributorConfig = this.getContributorConfig(this.TOPOMAPCONTRIBUTOR_ID);
     let mapglcontributor;
-    if (topoMapContributorConfig !== undefined) {
-      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.TOPOMAPCONTRIBUTOR_ID);
-      this.arlasContributors.set(this.TOPOMAPCONTRIBUTOR_ID, mapglcontributor);
-      this.contributorsIcons.set(this.TOPOMAPCONTRIBUTOR_ID, topoMapContributorConfig.icon);
-    } else if (mapContributorConfig !== undefined) {
+    if (mapContributorConfig !== undefined) {
       mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID);
       this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
       this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, mapContributorConfig.icon);
