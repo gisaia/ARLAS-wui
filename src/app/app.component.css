@@ -142,7 +142,7 @@
 
 .arlas-map-action-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   background-color: white;
