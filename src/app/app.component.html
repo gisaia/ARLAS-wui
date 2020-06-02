@@ -10,9 +10,9 @@
       </div>
     </div>
   </div>
-  <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false">
+  <div id="arlas-map-action" class="arlas-map-action"  (mouseleave)="isMapMenuOpen = false">
     <div class="arlas-map-action-container">
-      <div class="arlas-map-action-items">
+      <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-action-items">
         <mat-icon (mouseenter)="isMapMenuOpen = true">map</mat-icon>
       </div>
       <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
