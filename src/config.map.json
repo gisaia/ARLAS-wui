@@ -20,9 +20,9 @@
           0,
           "#cee897",
           0.01,
-          "#9dc95b",
+          "#cee897",
           0.02,
-          "#4bc71e",
+          "#cee897",
           0.2,
           "#1bc473",
           0.3,
@@ -105,36 +105,6 @@
       "source": "feature-position.location",
       "paint": {
         "circle-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
-        ],
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "Boats positions (Ship type)",
-      "type": "circle",
-      "source": "feature-position.location",
-      "paint": {
-        "circle-color": [
           "match",
           [
             "get",
@@ -178,6 +148,37 @@
           "#edc77b",
           "#c2c2c2"
         ],
+        "circle-opacity": 1
+      }
+    },
+    {
+      "id": "Boats positions (Ship type)",
+      "type": "circle",
+      "source": "feature-position.location",
+      "paint": {
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "course_sog"
+          ],
+          0,
+          "#36a996",
+          5,
+          "#3683a9",
+          10,
+          "#3649a9",
+          15,
+          "#5c36a9",
+          20,
+          "#9636a9",
+          25,
+          "#a93683"
+        ],
+
         "circle-opacity": 1
       }
     },
