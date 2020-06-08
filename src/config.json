@@ -146,7 +146,7 @@
           "input": {
             "defaultBasemapStyle": {
               "name": "Positron",
-              "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
+              "styleFile": "${ARLAS_MAP_STYLE}"
             },
             "basemapStyles": [
               {
@@ -276,9 +276,9 @@
       }
     },
     "server": {
-      "url": "http://localhost:9999/arlas",
+      "url": "${ARLAS_SERVER_URL}",
       "collection": {
-        "name": "demo_ais-danmark"
+        "name": "${ARLAS_SERVER_COLLECTION}"
       },
       "max_age_cache": 120
     }
