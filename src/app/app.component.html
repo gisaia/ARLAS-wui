@@ -42,6 +42,7 @@
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
       [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
       (visualisations)="mapglContributor.changeVisualisation($event)"
+      [icons]="mapComponentConfig?.icons"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
       [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
