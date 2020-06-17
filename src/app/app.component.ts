@@ -175,7 +175,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
-      console.log(this.chipsSearchContributor)
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
       }
@@ -278,21 +277,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mapglContributor.setGeoQueryOperation(geoQuery.operation);
     this.mapglContributor.setGeoQueryField(geoQuery.geometry_path);
     this.mapglContributor.onChangeGeoQuery();
-  }
-
-  public filterSearch(value: string) {
-    if (value.trim() !== '') {
-      const filter: Filter = {
-        q: [[this.chipsSearchContributor.getConfigValue('search_field') + ':' + value.trim()]]
-      };
-
-      const collaboration: Collaboration = {
-        filter: filter,
-        enabled: true
-      };
-
-      this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
-    }
   }
 
   public refreshComponents() {
