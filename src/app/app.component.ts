@@ -176,7 +176,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     if (this.arlasStartUpService.shouldRunApp) {
       this.mapglContributor = this.contributorService.getMapContributor();
-      this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
+      this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
       }
@@ -221,7 +221,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => this.mapglContributor.switchLayerCluster(data));
+    this.mapglComponent.switchLayer.pipe(debounceTime(200)).subscribe(data => {
+      if (this.mapglContributor) {
+        this.mapglContributor.switchLayerCluster(data);
+      }
+    });
     let startDragCenter;
     let dragMove = false;
     this.mapService.setMap(this.mapglComponent.map);
@@ -281,12 +285,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
 
     });
-    this.mapglContributor.countExtendBus.subscribe(data => {
-      const re = /\ /gi;
-      this.gauge.maxValue = parseFloat(this.countAll.replace(re, ''));
-      this.gauge.thresholdValue = data.threshold;
-      this.gauge.currentValue = data.count;
-    });
+    if (this.mapglContributor) {
+      this.mapglContributor.countExtendBus.subscribe(data => {
+        const re = /\ /gi;
+        this.gauge.maxValue = parseFloat(this.countAll.replace(re, ''));
+        this.gauge.thresholdValue = data.threshold;
+        this.gauge.currentValue = data.count;
+      });
+    }
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
@@ -311,52 +317,41 @@ export class AppComponent implements OnInit, AfterViewInit {
    * Renders the selected geometries and corresponding styles
    */
   public renderSelectedGeometries(displayedGeometries: Array<RenderedGeometries>) {
-    const renderedClusterGeometry: RenderedGeometries = displayedGeometries.find(d => d.mode === 'cluster');
-    if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]
-      && renderedClusterGeometry.selectedStyleGroups[0].selectedStyle) {
-      this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
-      this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
+    if (this.mapglContributor) {
+      const renderedClusterGeometry: RenderedGeometries = displayedGeometries.find(d => d.mode === 'cluster');
+      if (renderedClusterGeometry.selectedStyleGroups && renderedClusterGeometry.selectedStyleGroups[0]
+        && renderedClusterGeometry.selectedStyleGroups[0].selectedStyle) {
+        this.mapglContributor.setGeoAggregateGeomField(renderedClusterGeometry.geometries[0]);
+        this.mapglContributor.setGeomStrategy(renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.geomStrategy);
 
-      this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
-        renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
+        this.mapglComponent.setStyleGroup(renderedClusterGeometry.selectedStyleGroups[0].id,
+          renderedClusterGeometry.selectedStyleGroups[0].selectedStyle.id);
+      }
+      const featureGeos = displayedGeometries.find(d => d.mode === 'features');
+      if (featureGeos) {
+        featureGeos.selectedStyleGroups.forEach(sg => {
+          this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
+        });
+        this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
+      }
+      const topologyGeos = displayedGeometries.find(d => d.mode === 'topology');
+      if (topologyGeos) {
+        topologyGeos.selectedStyleGroups.forEach(sg => {
+          this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
+        });
+      }
+      this.mapglContributor.onChangeGeometries();
     }
-    const featureGeos = displayedGeometries.find(d => d.mode === 'features');
-    if (featureGeos) {
-      featureGeos.selectedStyleGroups.forEach(sg => {
-        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
-      });
-      this.mapglContributor.setReturnedGeometries(displayedGeometries.find(d => d.mode === 'features').geometries.join(','));
-    }
-    const topologyGeos = displayedGeometries.find(d => d.mode === 'topology');
-    if (topologyGeos) {
-      topologyGeos.selectedStyleGroups.forEach(sg => {
-        this.mapglComponent.setStyleGroup(sg.id, sg.selectedStyle.id);
-      });
-    }
-    this.mapglContributor.onChangeGeometries();
   }
 
   /**
    * Applies the selected geo query
    */
   public applySelectedGeoQuery(geoQuery: GeoQuery) {
-    this.mapglContributor.setGeoQueryOperation(geoQuery.operation);
-    this.mapglContributor.setGeoQueryField(geoQuery.geometry_path);
-    this.mapglContributor.onChangeGeoQuery();
-  }
-
-  public filterSearch(value: string) {
-    if (value.trim() !== '') {
-      const filter: Filter = {
-        q: [[this.chipsSearchContributor.getConfigValue('search_field') + ':' + value.trim()]]
-      };
-
-      const collaboration: Collaboration = {
-        filter: filter,
-        enabled: true
-      };
-
-      this.collaborativeService.setFilter(this.chipsSearchContributor.identifier, collaboration);
+    if (this.mapglContributor) {
+      this.mapglContributor.setGeoQueryOperation(geoQuery.operation);
+      this.mapglContributor.setGeoQueryField(geoQuery.geometry_path);
+      this.mapglContributor.onChangeGeoQuery();
     }
   }
 
@@ -366,16 +361,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public zoomToData() {
-    if (!this.mapSettingsService.mapContributor) {
-      this.mapSettingsService.mapContributor = this.mapglContributor;
-    }
-    if (!this.mapSettingsService.componentConfig) {
-      this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
-    }
-    const geoms: GeometrySelectModel[]
-      = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
-    if (geoms.length > 0) {
-      this.mapService.zoomToData(geoms[0].path, this.mapglComponent.map, 0.2);
+    if (this.mapglContributor) {
+      if (!this.mapSettingsService.mapContributor) {
+        this.mapSettingsService.mapContributor = this.mapglContributor;
+      }
+      if (!this.mapSettingsService.componentConfig) {
+        this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
+      }
+      const geoms: GeometrySelectModel[]
+        = this.mapSettingsService.getClusterGeometries().filter((geom: GeometrySelectModel) => geom.selected === true);
+      if (geoms.length > 0) {
+        this.mapService.zoomToData(geoms[0].path, this.mapglComponent.map, 0.2);
+      }
     }
   }
 
@@ -384,16 +381,18 @@ export class AppComponent implements OnInit, AfterViewInit {
       case 'table':
         switch (event.event) {
           case 'consultedItemEvent':
-            const f = this.mapglContributor.getFeatureToHightLight(event.data);
-            if (this.mapglContributor.isFlat) {
-              f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+            if (this.mapglContributor) {
+              const f = this.mapglContributor.getFeatureToHightLight(event.data);
+              if (this.mapglContributor.isFlat) {
+                f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+              }
+              this.featureToHightLight = f;
             }
-            this.featureToHightLight = f;
             break;
           case 'selectedItemsEvent':
             if (event.data.length > 0 && this.mapComponentConfig) {
               this.featuresToSelect = event.data.map(id => {
-                if (this.mapglContributor.isFlat) {
+                if (this.mapglContributor && this.mapglContributor.isFlat) {
                   return {
                     idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
                     idValue: id
@@ -412,8 +411,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           case 'actionOnItemEvent':
             switch (event.data.action.id) {
               case 'zoomToFeature':
-                this.mapglContributor.getBoundsToFit(event.data.elementidentifier)
-                  .subscribe(bounds => this.fitbounds = bounds);
+                if (this.mapglContributor) {
+                  this.mapglContributor.getBoundsToFit(event.data.elementidentifier)
+                    .subscribe(bounds => this.fitbounds = bounds);
+                }
                 break;
             }
             break;
