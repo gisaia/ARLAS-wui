@@ -73,6 +73,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public countAll: string;
 
   public appName: string;
+  public appUnit: string;
   public appNameBackgroundColor: string;
 
   // component config
@@ -132,6 +133,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
         this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appUnit = this.configService.getValue('arlas-wui.web.app.unit') ?
+        this.configService.getValue('arlas-wui.web.app.unit') : '';
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');

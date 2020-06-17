@@ -1,0 +1,901 @@
+{
+  "keysToColors": [
+
+      [
+          "Bus",
+          "#1b9e77"
+      ],
+      [
+          "Subway",
+          "#d95f02"
+      ],
+      [
+          "Tramway",
+          "#7570b3"
+      ],
+      [
+          "B",
+          "#ffdd00"
+      ],
+      [
+          "L1",
+          "#ff671b"
+      ],
+      [
+          "A",
+          "#db001b"
+      ],
+      [
+          "L2",
+          "#ff671b"
+      ],
+      [
+          "L9",
+          "#ff671b"
+      ],
+      [
+          "19",
+          "#58ac25"
+      ],
+      [
+          "L7",
+          "#ff671b"
+      ],
+      [
+          "L8",
+          "#5555"
+      ],
+      [
+          "L5",
+          "#ff671b"
+      ],
+      [
+          "78",
+          "#db001b"
+      ],
+      [
+          "T1",
+          "#004687"
+      ],
+      [
+          "14",
+          "#bb9dc6"
+      ],
+      [
+          "L3",
+          "#ff671b"
+      ],
+      [
+          "79",
+          "#0098d4"
+      ],
+      [
+          "60",
+          "#3f2682"
+      ],
+      [
+          "L4",
+          "#ff671b"
+      ],
+      [
+          "27",
+          "#58ac25"
+      ],
+      [
+          "70",
+          "#e675a7"
+      ],
+      [
+          "23",
+          "#a0670f"
+      ],
+      [
+          "63",
+          "#e675a7"
+      ],
+      [
+          "44",
+          "#0098d4"
+      ],
+      [
+          "57",
+          "#572f08"
+      ],
+      [
+          "47",
+          "#db001b"
+      ],
+      [
+          "37",
+          "#e46809"
+      ],
+      [
+          "13",
+          "#3f2682"
+      ],
+      [
+          "29",
+          "#dc006b"
+      ],
+      [
+          "54",
+          "#e46809"
+      ],
+      [
+          "58",
+          "#58ac25"
+      ],
+      [
+          "L6",
+          "#ff671b"
+      ],
+      [
+          "T2",
+          "#0098d4"
+      ],
+      [
+          "61",
+          "#db001b"
+      ],
+      [
+          "72",
+          "#004687"
+      ],
+      [
+          "84",
+          "#0098d4"
+      ],
+      [
+          "21",
+          "#007c52"
+      ],
+      [
+          "83",
+          "#dc006b"
+      ],
+      [
+          "80",
+          "#3f2682"
+      ],
+      [
+          "50",
+          "#a0670f"
+      ],
+      [
+          "67",
+          "#e675a7"
+      ],
+      [
+          "34",
+          "#e46809"
+      ],
+      [
+          "59",
+          "#3f2682"
+      ],
+      [
+          "66",
+          "#007c52"
+      ],
+      [
+          "33",
+          "#0098d4"
+      ],
+      [
+          "69",
+          "#bb9dc6"
+      ],
+      [
+          "18",
+          "#e46809"
+      ],
+      [
+          "46",
+          "#dc006b"
+      ],
+      [
+          "109",
+          "#e46809"
+      ],
+      [
+          "45",
+          "#58ac25"
+      ],
+      [
+          "42",
+          "#e46809"
+      ],
+      [
+          "15",
+          "#a0670f"
+      ],
+      [
+          "87",
+          "#004687"
+      ],
+      [
+          "102",
+          "#3f2682"
+      ],
+      [
+          "53",
+          "#0098d4"
+      ],
+      [
+          "150",
+          "#0098d4"
+      ],
+      [
+          "43",
+          "#58ac25"
+      ],
+      [
+          "73",
+          "#db001b"
+      ],
+      [
+          "103",
+          "#58ac25"
+      ],
+      [
+          "40",
+          "#dc006b"
+      ],
+      [
+          "81",
+          "#dc006b"
+      ],
+      [
+          "41",
+          "#e46809"
+      ],
+      [
+          "36",
+          "#a0670f"
+      ],
+      [
+          "48",
+          "#007c52"
+      ],
+      [
+          "31",
+          "#572f08"
+      ],
+      [
+          "105",
+          "#e675a7"
+      ],
+      [
+          "56",
+          "#58ac25"
+      ],
+      [
+          "76",
+          "#a0670f"
+      ],
+      [
+          "39",
+          "#007c52"
+      ],
+      [
+          "68",
+          "#572f08"
+      ],
+      [
+          "116",
+          "#0098d4"
+      ],
+      [
+          "VILLE",
+          "#e675a7"
+      ],
+      [
+          "32",
+          "#a0670f"
+      ],
+      [
+          "20",
+          "#007c52"
+      ],
+      [
+          "305",
+          "#0098d4"
+      ],
+      [
+          "301",
+          "#dc006b"
+      ],
+      [
+          "55",
+          "#db001b"
+      ],
+      [
+          "317",
+          "#e46809"
+      ],
+      [
+          "113",
+          "#e46809"
+      ],
+      [
+          "302",
+          "#e46809"
+      ],
+      [
+          "316",
+          "#004687"
+      ],
+      [
+          "26",
+          "#a0670f"
+      ],
+      [
+          "51",
+          "#e46809"
+      ],
+      [
+          "311",
+          "#58ac25"
+      ],
+      [
+          "320",
+          "#0098d4"
+      ],
+      [
+          "315",
+          "#a0670f"
+      ],
+      [
+          "AERO",
+          "#e46809"
+      ],
+      [
+          "304",
+          "#dc006b"
+      ],
+      [
+          "30",
+          "#0098d4"
+      ],
+      [
+          "110",
+          "#0098d4"
+      ],
+      [
+          "201",
+          "#e675a7"
+      ],
+      [
+          "82",
+          "#db001b"
+      ],
+      [
+          "49",
+          "#004687"
+      ],
+      [
+          "115",
+          "#007c52"
+      ],
+      [
+          "303",
+          "#e675a7"
+      ],
+      [
+          "112",
+          "#007c52"
+      ],
+      [
+          "104",
+          "#e675a7"
+      ],
+      [
+          "17",
+          "#e46809"
+      ],
+      [
+          "NCHR",
+          "#00758d"
+      ],
+      [
+          "205",
+          "#0098d4"
+      ],
+      [
+          "204",
+          "#db001b"
+      ],
+      [
+          "314",
+          "#db001b"
+      ],
+      [
+          "152",
+          "#572f08"
+      ],
+      [
+          "202",
+          "#58ac25"
+      ],
+      [
+          "117",
+          "#0098d4"
+      ],
+      [
+          "111",
+          "#dc006b"
+      ],
+      [
+          "114",
+          "#58ac25"
+      ],
+      [
+          "101",
+          "#bb9dc6"
+      ],
+      [
+          "312",
+          "#3f2682"
+      ],
+      [
+          "313",
+          "#e675a7"
+      ],
+      [
+          "310",
+          "#007c52"
+      ],
+      [
+          "71",
+          "#58ac25"
+      ],
+      [
+          "CIMTR",
+          "#0098d4"
+      ],
+      [
+          "306",
+          "#e675a7"
+      ],
+      [
+          "NOCT",
+          "#dc006b"
+      ],
+      [
+          "Borderouge / Ramonville",
+          "#ffdd00"
+      ],
+      [
+          "Sept Deniers - Salvador Dali / Gymnase de l'Hers",
+          "#ff671b"
+      ],
+      [
+          "Basso Cambo / Balma - Gramont",
+          "#db001b"
+      ],
+      [
+          "Arènes / Colomiers Lycée International",
+          "#ff671b"
+      ],
+      [
+          "Empalot / L'Union Grande Halle",
+          "#ff671b"
+      ],
+      [
+          "Arènes / Plaisance Monestié",
+          "#e675a7"
+      ],
+      [
+          "Borderouge / Place de l'Indépendance",
+          "#58ac25"
+      ],
+      [
+          "Cours Dillon / Saint-Orens Centre Commercial",
+          "#ff671b"
+      ],
+      [
+          "Marengo - SNCF / Gonin",
+          "#ff671b"
+      ],
+      [
+          "Empalot / Portet Gare SNCF",
+          "#ff671b"
+      ],
+      [
+          "Université Paul Sabatier / St Orens Lycée",
+          "#db001b"
+      ],
+      [
+          "Aéroconstellation / Palais de Justice",
+          "#004687"
+      ],
+      [
+          "Basso Cambo / Marengo - SNCF",
+          "#bb9dc6"
+      ],
+      [
+          "Ramonville Métro / Labège Couder ou St-Orens Lycée",
+          "#0098d4"
+      ],
+      [
+          "La Vache / Castelginest Buffebiau",
+          "#3f2682"
+      ],
+      [
+          "Basso Cambo / Cours Dillon",
+          "#ff671b"
+      ],
+      [
+          "Lycée Toulouse-Lautrec / Rangueil",
+          "#58ac25"
+      ],
+      [
+          "Jeanne d'Arc / Aéroconstellation",
+          "#e675a7"
+      ],
+      [
+          "Jeanne d'Arc / Rangueil",
+          "#a0670f"
+      ],
+      [
+          "Basso Cambo / Portet Gare SNCF",
+          "#db001b"
+      ],
+      [
+          "Tournefeuille Lycée / Compans - Caffarelli",
+          "#e675a7"
+      ],
+      [
+          "Cours Dillon / Université Paul Sabatier",
+          "#0098d4"
+      ],
+      [
+          "Basso Cambo / Frouzins JP Sabatier",
+          "#572f08"
+      ],
+      [
+          "Jolimont / Ramonville Métro",
+          "#e46809"
+      ],
+      [
+          "St Cyprien - République / Oncopole",
+          "#3f2682"
+      ],
+      [
+          "Grand Rond / Aucamville Collège",
+          "#dc006b"
+      ],
+      [
+          "Empalot / Gleyze-Vieille",
+          "#e46809"
+      ],
+      [
+          "Basso Cambo / Muret Lycée",
+          "#58ac25"
+      ],
+      [
+          "Ramonville / Castanet-Tolosan",
+          "#ff671b"
+      ],
+      [
+          "Aéroport / Palais de Justice",
+          "#0098d4"
+      ],
+      [
+          "Trois Cocus / Fonbeauzard Mairie, Montberon ou St Loup",
+          "#db001b"
+      ],
+      [
+          "Balma - Gramont / Balma Lasbordes",
+          "#004687"
+      ],
+      [
+          "Balma - Gramont / Balma - Lasbordes",
+          "#0098d4"
+      ],
+      [
+          "Basso Cambo / Colomiers Airbus",
+          "#007c52"
+      ],
+      [
+          "Balma - Gramont / St Orens Lycée",
+          "#dc006b"
+      ],
+      [
+          "Rangueil / Belberaud La Balme",
+          "#3f2682"
+      ],
+      [
+          "Basso Cambo / Portet H. Boucher",
+          "#a0670f"
+      ],
+      [
+          "Université Paul Sabatier / Arènes",
+          "#e46809"
+      ],
+      [
+          "La Vache / Lespinasse Viguerie",
+          "#3f2682"
+      ],
+      [
+          "Pelletier Purpan / St Cyprien - République",
+          "#007c52"
+      ],
+      [
+          "Argoulets / Bruguières Mairie",
+          "#0098d4"
+      ],
+      [
+          "La Vache / Gratentour Gravette ou Bruguières",
+          "#bb9dc6"
+      ],
+      [
+          "Basso Cambo / Cité Scolaire Rive-Gauche",
+          "#e46809"
+      ],
+      [
+          "Pelletier Purpan / Mirail-Université",
+          "#dc006b"
+      ],
+      [
+          "Malepère / Castanet-Tolosan",
+          "#e46809"
+      ],
+      [
+          "Jeanne d'Arc / Pelletier Purpan",
+          "#58ac25"
+      ],
+      [
+          "Borderouge / Saint-Jean Clinique de L'Union",
+          "#e46809"
+      ],
+      [
+          "Jeanne d'Arc / États-Unis Fondeyre",
+          "#a0670f"
+      ],
+      [
+          "Cité Scolaire Rive-Gauche / Cugnaux Henry Gladi",
+          "#004687"
+      ],
+      [
+          "Balma - Gramont / Drémil Stade",
+          "#3f2682"
+      ],
+      [
+          "Basso Cambo / Tibaous",
+          "#0098d4"
+      ],
+      [
+          "Colomiers Gare SNCF / Colomiers Gare SNCF",
+          "#0098d4"
+      ],
+      [
+          "Argoulets / Saint-Jean Clinique de L'Union",
+          "#58ac25"
+      ],
+      [
+          "Borderouge / St Jean Lestang",
+          "#db001b"
+      ],
+      [
+          "Balma - Gramont / Drémil Le Colombier",
+          "#58ac25"
+      ],
+      [
+          "Borderouge / L'Union Malbou",
+          "#dc006b"
+      ],
+      [
+          "Université Paul Sabatier / Castanet-Tolosan",
+          "#dc006b"
+      ],
+      [
+          "Borderouge / Chaussas",
+          "#e46809"
+      ],
+      [
+          "Borderouge / Roseraie",
+          "#a0670f"
+      ],
+      [
+          "Basso Cambo / Tournefeuille Lycée",
+          "#007c52"
+      ],
+      [
+          "Grand Rond / Compans - Caffarelli",
+          "#572f08"
+      ],
+      [
+          "La Vache / St Jory",
+          "#e675a7"
+      ],
+      [
+          "Université Paul Sabatier / Auzeville Église",
+          "#58ac25"
+      ],
+      [
+          "Argoulets / Lapeyrouse",
+          "#a0670f"
+      ],
+      [
+          "Jeanne d'Arc / Amouroux",
+          "#007c52"
+      ],
+      [
+          "Tournefeuille Lycée / Saint-Lys Rossignols",
+          "#0098d4"
+      ],
+      [
+          "Navette Centre Ville",
+          "#e675a7"
+      ],
+      [
+          "Colomiers Gare SNCF / Brax le Château",
+          "#a0670f"
+      ],
+      [
+          "Balma - Gramont / Beaupuy Mairie",
+          "#007c52"
+      ],
+      [
+          "Muret Gare SNCF / Muret Côte des Bènes",
+          "#0098d4"
+      ],
+      [
+          "Muret Gare SNCF / Muret Sans Soucis",
+          "#dc006b"
+      ],
+      [
+          "Colomiers Gare SNCF / Plaisance Monestié",
+          "#db001b"
+      ],
+      [
+          "Muret Gare SNCF / Portet Gare SNCF (par Saubens)",
+          "#e46809"
+      ],
+      [
+          "Fenouillet Centre Commercial / Pechbonnieu Collège",
+          "#e46809"
+      ],
+      [
+          "Muret Gare SNCF / Muret Bellefontaine",
+          "#e46809"
+      ],
+      [
+          "Muret Gare SNCF / Portet Gare SNCF (par Labarthe)",
+          "#004687"
+      ],
+      [
+          "Borderouge / Launaguet Nobles",
+          "#a0670f"
+      ],
+      [
+          "Balma - Gramont / La Terrasse",
+          "#e46809"
+      ],
+      [
+          "Muret Gare SNCF / Portet Gare SNCF (par Villate)",
+          "#58ac25"
+      ],
+      [
+          "Portet Gare SNCF / Roques Charmes",
+          "#0098d4"
+      ],
+      [
+          "Muret Gare SNCF / St-Lys ZA du Boutet",
+          "#a0670f"
+      ],
+      [
+          "Navette Aéroport",
+          "#e46809"
+      ],
+      [
+          "Muret Gare SNCF / Muret Guyenne",
+          "#dc006b"
+      ],
+      [
+          "Aéroport / Fenouillet Ctre Cial",
+          "#0098d4"
+      ],
+      [
+          "Barrière de Paris / Glacière Sesquières",
+          "#0098d4"
+      ],
+      [
+          "Saint Orens Lycée / Varennes En Clavié",
+          "#e675a7"
+      ],
+      [
+          "Université Paul Sabatier / Ramonville Port-Sud",
+          "#db001b"
+      ],
+      [
+          "St Agne - Gare SNCF / Université Paul Sabatier",
+          "#007c52"
+      ],
+      [
+          "Muret Gare SNCF / Muret Peyrusse",
+          "#e675a7"
+      ],
+      [
+          "Ramonville Métro / Montjoie",
+          "#007c52"
+      ],
+      [
+          "Balma Ribaute / Aigrefeuille Ch. du Baric",
+          "#e675a7"
+      ],
+      [
+          "Andromède - Lycée / Mondonville Foyer Rural",
+          "#e46809"
+      ],
+      [
+          "Navette Hôpital Rangueil",
+          "#00758d"
+      ],
+      [
+          "Castanet Tolosan / Ayguesvives Collège",
+          "#0098d4"
+      ],
+      [
+          "Labège Innopole Gare SNCF / Ayguesvives Collège",
+          "#db001b"
+      ],
+      [
+          "Muret Gare SNCF / Eaunes ZAC du Mandarin",
+          "#db001b"
+      ],
+      [
+          "Empalot / IUC",
+          "#572f08"
+      ],
+      [
+          "Castanet Tolosan / Montbrun Lauragais Roumieu",
+          "#58ac25"
+      ],
+      [
+          "Potier Oncopole / Muret Gare SNCF",
+          "#0098d4"
+      ],
+      [
+          "Ramonville Métro / Théogone / Ramonville Métro",
+          "#dc006b"
+      ],
+      [
+          "Borderouge / Quartier Virebent",
+          "#58ac25"
+      ],
+      [
+          "Balma - Gramont / Mondouzil ZA Les Landes",
+          "#bb9dc6"
+      ],
+      [
+          "Muret Gare SNCF / St-Clar Mairie",
+          "#3f2682"
+      ],
+      [
+          "Muret Gare SNCF / Le Fauga La Carrère",
+          "#e675a7"
+      ],
+      [
+          "Muret Gare SNCF / Muret Estantens Eglise",
+          "#007c52"
+      ],
+      [
+          "Andromède - Lycée / Aussonne Agassines",
+          "#58ac25"
+      ],
+      [
+          "Navette Cimetières",
+          "#0098d4"
+      ],
+      [
+          "Muret Gare SNCF / Muret C.A.M.",
+          "#e675a7"
+      ],
+      [
+          "Noctambus",
+          "#dc006b"
+      ]
+  ]
+}

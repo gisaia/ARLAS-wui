@@ -42,6 +42,7 @@
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
       [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
       (visualisations)="mapglContributor.changeVisualisation($event)"
+      [icons]="mapComponentConfig?.icons"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
       [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
@@ -77,7 +78,7 @@
   </div>
   <div class="arlas-filters-chips">
     <arlas-menu></arlas-menu>
-    <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor"></arlas-filter>
+    <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit"></arlas-filter>
     <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}" (click)="zoomToData()">
       <mat-icon class="arlas-zoom-to-data-icon">filter_center_focus</mat-icon>
     </div>
