@@ -174,7 +174,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
-      this.chipsSearchContributor = this.contributorService.getChipSearchContributor(this.searchComponent.onLastBackSpace);
+      this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
+      console.log(this.chipsSearchContributor)
       if (this.resultlistContributor) {
         this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
       }

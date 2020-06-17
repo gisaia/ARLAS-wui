@@ -56,14 +56,14 @@ export class ContributorService {
     return mapglcontributor;
   }
 
-  public getChipSearchContributor(sizeOnBackspaceBus: Subject<boolean>): ChipsSearchContributor {
-    const chipsSearchContributor = new ChipsSearchContributor(this.CHIPSSEARCH_ID,
-      this.collaborativeService,
-      this.configService
-    );
-    chipsSearchContributor.activateLastBackspace(sizeOnBackspaceBus);
-    this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
-    this.contributorsIcons.set(this.CHIPSSEARCH_ID, this.getContributorIcon(this.CHIPSSEARCH_ID));
+  public getChipSearchContributor(): ChipsSearchContributor {
+    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
+    let chipsSearchContributor: ChipsSearchContributor;
+    if (chipssearchContributorConfig !== undefined) {
+      chipsSearchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID);
+      this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
+      this.contributorsIcons.set(this.CHIPSSEARCH_ID, chipssearchContributorConfig.icon);
+    }
     return chipsSearchContributor;
   }
 
