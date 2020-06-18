@@ -1,5 +1,14 @@
 # Change Log
 
+## [v13.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.0) (2020-06-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.7.0...v13.0.0)
+
+**New stuff:**
+
+- Add unit to global count [\#213](https://github.com/gisaia/ARLAS-wui/issues/213)
+- Dot indicating filters in Tab's title appears on the title [\#194](https://github.com/gisaia/ARLAS-wui/issues/194)
+
 ## [v12.7.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.7.0) (2020-05-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.4...v12.7.0)
