@@ -13,8 +13,11 @@ jobs:
     - env:
         - job=build
       script:
+        - export NODE_OPTIONS=--max_old_space_size=8192;
         - npm install
         - npm run build
     - env:
         - job=docker-build
-      script: docker build --no-cache .
+      script:
+        - export NODE_OPTIONS=--max_old_space_size=8192;
+        - docker build --no-cache .
