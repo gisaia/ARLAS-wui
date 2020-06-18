@@ -27,12 +27,14 @@ import {
   ArlasConfigService,
   ArlasStartupService,
   CONFIG_UPDATER,
+  FETCH_OPTIONS,
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { MenuComponent } from './menu.component';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import { ArlasConfigurationUpdaterService } from 'arlas-wui-toolkit/services/configuration-updater/configurationUpdater.service';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -48,10 +50,20 @@ describe('MenuComponent', () => {
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       declarations: [MenuComponent, AboutComponent, AboutDialogComponent],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
+        ArlasConfigService, ArlasCollaborativesearchService,
         ContributorService, HttpClient, TranslateService, ArlasWalkthroughService, ArlasToolKitModule,
         ArlasMapSettings, ArlasMapService,
-        { provide: CONFIG_UPDATER, useValue: {} }
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     }).compileComponents();
 
