@@ -1,5 +1,17 @@
 # Change Log
 
+## [v13.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.1) (2020-06-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.0...v13.0.1)
+
+**New stuff:**
+
+- Add percentage in "donut" widget  [\#147](https://github.com/gisaia/ARLAS-wui/issues/147)
+
+**Fixed bugs:**
+
+- Map: Two aggregation levels presented at once [\#143](https://github.com/gisaia/ARLAS-wui/issues/143)
+
 ## [v13.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.0) (2020-06-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.7.0...v13.0.0)
