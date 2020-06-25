@@ -129,7 +129,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp) {
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
       if (this.resultlistContributor) {
-        this.resultlistContributor.sort = this.configService.getValue('arlas.server.collection.id');
+        this.resultlistContributor.sort = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).id_path;
       }
       this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
         this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
