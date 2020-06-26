@@ -18,15 +18,14 @@
  */
 
 .arlas-powerbars-analytics .powerbar__powerbar--progression--neutral-state {
-  background-color: #80CBC4 !important;
+  background-color: #80CBC4;
 }
 
 .arlas-powerbars-analytics .powerbar__powerbar--progression--selected-bar {
-  background-color: #255b55 !important;
+  background-color: #255b55;
 
 }
 
 .arlas-powerbars-analytics .powerbars__powerbar--selected-bar {
-  background-color: rgb(152, 152, 152);
   opacity: 0.8;
 }
