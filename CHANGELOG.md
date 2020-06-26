@@ -1,11 +1,16 @@
 # Change Log
 
+## [v13.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.2) (2020-06-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.1...v13.0.2)
+
 ## [v13.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.1) (2020-06-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.0...v13.0.1)
 
 **New stuff:**
 
+- \[Resultlist\] Get collection id from CSS instead of config [\#218](https://github.com/gisaia/ARLAS-wui/issues/218)
 - Add percentage in "donut" widget  [\#147](https://github.com/gisaia/ARLAS-wui/issues/147)
 
 **Fixed bugs:**
