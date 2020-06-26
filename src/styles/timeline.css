@@ -33,17 +33,17 @@
 .arlas-timeline .headband_currentselection,
 .arlas-timeline-analytics .headband_currentselection
 {
-  height: 0 !important;
+  height: 0;
 }
 
 .arlas-timeline .headband_partlyselected,
 .arlas-timeline-analytics .headband_partlyselected
 {
-  height: 0 !important;
+  height: 0;
 }
 .arlas-timeline .headband_fullyselected,
 .arlas-timeline-analytics .headband_fullyselected{
-  height: 0 !important;
+  height: 0;
 }
 .arlas-detailed-timeline .histogram__description{
   display: none;
