@@ -1,277 +1,353 @@
 {
   "layers": [
     {
-      "id": "Grid",
-      "type": "fill",
-      "source": "cluster-position.location-Fine-geohash",
-      "layout": {
-        "visibility": "visible"
-      },
+      "id": "Arrival stops",
+      "source": "feature-metric-section.locations.arrival_stop.location-section.arrival_stop_id-Medium",
+      "minzoom": 0,
+      "maxzoom": 24,
       "paint": {
-        "fill-color": [
+        "circle-color": "red",
+        "circle-opacity": 0.5,
+        "circle-radius": 8
+      },
+      "type": "circle"
+    },
+    {
+      "id": "Lines",
+      "source": "feature-metric-section.trail-section.topology_id-Medium",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "paint": {
+        "line-color": [
+          "get",
+          "trip_route_color"
+        ],
+        "line-opacity": 1,
+        "line-width": [
+          "match",
+          [
+            "get",
+            "trip_route_type"
+          ],
+          "Bus",
+          2,
+          "Tram",
+          4,
+          "Subway",
+          6,
+          2
+          ]
+      },
+      "type": "line",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      }
+    },
+    {
+      "id": "Stop - Waiting time",
+      "source": "feature-metric-section.locations.departure_stop.location-section.departure_stop_id-Medium",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "paint": {
+        "circle-color": [
           "interpolate",
           [
             "linear"
           ],
           [
             "get",
-            "count_:normalized"
+            "passage_delays_next_passage_s_avg_"
           ],
           0,
-          "#cee897",
-          0.01,
-          "#cee897",
-          0.02,
-          "#cee897",
-          0.2,
-          "#1bc473",
-          0.3,
-          "#16ccc9",
-          0.45,
-          "#167bc9",
-          0.60,
-          "#3619cf",
-          0.75,
-          "#9317d1",
-          0.90,
-          "#d11799",
-          1,
-          "#cf1919"
+          "#1a9850",
+          300,
+          "#91cf60",
+          600,
+          "#d9ef8b",
+          900,
+          "#fee08b",
+          1800,
+          "#fee08b",
+          3600,
+          "#d73027"
         ],
-        "fill-opacity": 0.7
+        "circle-opacity": 1,
+        "circle-radius": 5,
+        "circle-stroke-color": "#fff",
+        "circle-stroke-width": 1
+      },
+      "type": "circle"
+    },
+    {
+      "id": "Stop - type",
+      "source": "feature-metric-section.locations.departure_stop.location-section.departure_stop_id-Medium",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "paint": {
+        "circle-color": "#fff",
+        "circle-opacity": 1,
+        "circle-radius": [
+          "match",
+          [
+            "get",
+            "trip_route_type"
+          ],
+          "Bus",
+          2,
+          "Tram",
+          4,
+          "Subway",
+          6,
+          2
+        ],
+        "circle-stroke-color": "#000",
+        "circle-stroke-width": 1
+      },
+      "type": "circle"
+    },
+    {
+      "id": "Segments validations",
+      "source": "feature-metric-section.trail-section.topology_id-Medium",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "paint": {
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "passage_realtime_validations_sum_"
+          ],
+          0,
+          "#d73027",
+          100,
+          "#fee08b",
+          400,
+          "#fee08b",
+          600,
+          "#d9ef8b",
+          700,
+          "#91cf60",
+          1000,
+          "#1a9850"
+        ],
+        "line-opacity": 1,
+        "line-width": 7
+      },
+      "type": "line",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
       }
     },
     {
-      "id": "Heatmap",
+      "id": "Segments speed",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "source": "feature-metric-section.trail-section.topology_id-Medium",
+      "paint": {
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "passage_speed_kmh_avg_"
+          ],
+          0,
+          "#d73027",
+          20,
+          "#fee08b",
+          30,
+          "#fee08b",
+          40,
+          "#d9ef8b",
+          50,
+          "#91cf60",
+          55,
+          "#1a9850"
+        ],
+        "line-opacity": 1,
+        "line-width": 2
+      },
+      "type": "line",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      }
+    },
+    {
+      "id": "Birds positions",
+      "type": "circle",
+      "source": "feature-track.location",
+      "paint": {
+        "circle-radius": [
+          "interpolate", ["linear"],
+          ["get", "track_timestamps_center:normalized:object_id"],
+          0, 2,
+          1, 8
+        ],
+        "circle-color": [
+          "interpolate", ["linear"],
+          ["get", "track_dynamics_sensor_height_above_ellipsoid:normalized"],
+          0, "#53d9e8",
+          0.2, "#29AFFB",
+          0.4, "#2874FA",
+          0.6, "#3b69fa",
+          0.8, "#eb79fc",
+          1, "#ef586c"
+        ]
+      }
+    },
+    {
+      "id": "Fragments by altitude",
+      "type": "line",
+      "source": "feature-track.trail",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate", ["linear"],
+          ["get", "track_timestamps_center:normalized:object_id"],
+          0, 2,
+          1, 8
+        ],
+        "line-color": [
+          "interpolate", ["linear"],
+          ["get", "track_dynamics_sensor_height_above_ellipsoid:normalized"],
+          0, "#53d9e8",
+          0.2, "#29AFFB",
+          0.4, "#2874FA",
+          0.6, "#3b69fa",
+          0.8, "#eb79fc",
+          1, "#ef586c"
+        ],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "features-speed-trail",
+      "type": "line",
+      "source": "feature-features_raw",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate", ["linear"],
+          ["get", "track_timestamps_center:normalized:object_id"],
+          0, 0,
+          1, 6
+        ],
+        "line-color": [
+          "interpolate", ["linear"],
+          ["get", "track_dynamics_sensor_speed_ms:normalized"],
+          0, "#53d9e8",
+          0.2, "#29AFFB",
+          0.4, "#2874FA",
+          0.6, "#3b69fa",
+          0.8, "#eb79fc",
+          1, "#ef586c"
+        ],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "features-identity-trail",
+      "type": "line",
+      "source": "feature-features_raw",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate", ["linear"],
+          ["get", "track_timestamps_center:normalized:object_id"],
+          0, 3,
+          1, 9
+        ],
+        "line-color": ["get", "object_id_color"],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "Birds speed average distribution",
+      "type": "circle",
+      "source": "cluster-cluster_grid",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-color": [
+          "interpolate", ["linear"],
+          ["get", "track_dynamics_sensor_speed_ms_avg_:normalized"],
+          0, "#cee897",
+          0.01, "#9dc95b",
+          0.02, "#4bc71e",
+          0.20, "#1bc473",
+          0.30, "#16ccc9",
+          0.45, "#167bc9",
+          0.60, "#3619cf",
+          0.75, "#9317d1",
+          0.90, "#d11799",
+          1, "#cf1919"
+        ],
+        "circle-opacity": 0.8,
+        "circle-radius":  [
+          "interpolate", ["linear"],
+          ["get", "track_dynamics_sensor_speed_ms_avg_:normalized"],
+          0, 4,
+          0.01, 5,
+          0.02, 6,
+          0.20, 7,
+          0.30, 8,
+          0.45, 9,
+          0.60, 10,
+          0.75, 11,
+          0.90, 12,
+          1, 15]
+      }
+    },
+    {
+      "id": "Birds position density",
       "type": "heatmap",
-      "source": "cluster-position.location-Fine-centroid",
+      "source": "cluster-cluster_heatmap",
       "layout": {
         "visibility": "visible"
       },
       "paint": {
         "heatmap-weight": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          0,
-          1,
-          1
+          "interpolate", ["linear"],
+          ["get", "count_:normalized"],
+          0, 0,
+          1, 1
         ],
         "heatmap-intensity": 3,
         "heatmap-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "heatmap-density"
-          ],
-          0,
-          "rgba(206, 232, 151,0)",
-          0.000000000001,
-          "rgba(206, 232, 151,0.8)",
-          0.01,
-          "rgba(157, 201, 91,0.9)",
-          0.02,
-          "#4bc71e",
-          0.20,
-          "#1bc473",
-          0.30,
-          "#16ccc9",
-          0.45,
-          "#167bc9",
-          0.60,
-          "#3619cf",
-          0.75,
-          "#9317d1",
-          0.90,
-          "#d11799",
-          1,
-          "#cf1919"
+          "interpolate", ["linear"],
+          ["heatmap-density"],
+          0, "rgba(206, 232, 151,0)",
+          0.000000000001, "rgba(206, 232, 151,0.8)",
+          0.01, "rgba(157, 201, 91,0.9)",
+          0.02, "#4bc71e",
+          0.20, "#1bc473",
+          0.30, "#16ccc9",
+          0.45, "#167bc9",
+          0.60, "#3619cf",
+          0.75, "#9317d1",
+          0.90, "#d11799",
+          1,    "#cf1919"
         ],
         "heatmap-radius": 20,
-        "heatmap-opacity": 0.6
-      }
-    },
-    {
-      "id": "Boats positions (Speed)",
-      "type": "circle",
-      "source": "feature-position.location",
-      "paint": {
-        "circle-color": [
-          "match",
-          [
-            "get",
-            "vessel_ship_type"
-          ],
-          "Tanker",
-          "#ff8ee8",
-          "Fishing",
-          "#86d8f7",
-          "Tug",
-          "#f4df42",
-          "SAR",
-          "#03c6ac",
-          "OTHER",
-          "#c2c2c2",
-          "Undefined",
-          "#c2c2c2",
-          "Pilot",
-          "#e74b4b",
-          "HSC",
-          "#0086bd",
-          "Law enforcement",
-          "#00b4d3",
-          "Military",
-          "#a625e0",
-          "Cargo",
-          "#0099ff",
-          "Passenger",
-          "#a5c176",
-          "Dredging",
-          "#51a588",
-          "Anti-pollution",
-          "#00f4d0",
-          "Pleasure",
-          "#ad0084",
-          "Towing",
-          "#d37700",
-          "Towing long/wide",
-          "#d37700",
-          "Sailing",
-          "#edc77b",
-          "#c2c2c2"
-        ],
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "Boats positions (Ship type)",
-      "type": "circle",
-      "source": "feature-position.location",
-      "paint": {
-        "circle-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
-        ],
-
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "Boats fragments (Speed)",
-      "source": "feature-course.segment.geometry.geometry",
-      "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "vessel_ship_type"
-          ],
-          "Tanker",
-          "#ff8ee8",
-          "Fishing",
-          "#86d8f7",
-          "Tug",
-          "#f4df42",
-          "SAR",
-          "#03c6ac",
-          "OTHER",
-          "#c2c2c2",
-          "Undefined",
-          "#c2c2c2",
-          "Pilot",
-          "#e74b4b",
-          "HSC",
-          "#0086bd",
-          "Law enforcement",
-          "#00b4d3",
-          "Military",
-          "#a625e0",
-          "Cargo",
-          "#0099ff",
-          "Passenger",
-          "#a5c176",
-          "Dredging",
-          "#51a588",
-          "Anti-pollution",
-          "#00f4d0",
-          "Pleasure",
-          "#ad0084",
-          "Towing",
-          "#d37700",
-          "Towing long/wide",
-          "#d37700",
-          "Sailing",
-          "#edc77b",
-          "#c2c2c2"
-        ],
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "type": "line",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      }
-    },
-    {
-      "id": "Boats fragments (Ship type)",
-      "source": "feature-course.segment.geometry.geometry",
-      "paint": {
-        "line-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
-        ],
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "type": "line",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
+        "heatmap-opacity": 0.8
       }
     }
   ]

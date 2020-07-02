@@ -26,6 +26,7 @@ import { ContributorService } from '../../services/contributors.service';
 import { AboutComponent } from '../about/about.component';
 import { environment } from '../../../environments/environment';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'arlas-menu',
@@ -60,7 +61,8 @@ export class MenuComponent {
     private contributorService: ContributorService,
     private configService: ArlasConfigService,
     private cdr: ChangeDetectorRef,
-    public walkthroughService: ArlasWalkthroughService
+    public walkthroughService: ArlasWalkthroughService,
+    public router: Router
   ) {
 
     this.contributors = this.collaborativeSearchService.registry;
@@ -187,6 +189,10 @@ export class MenuComponent {
 
   public formatWithSpace(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+
+  public navigateTo(page: string) {
+    this.router.navigate(['/' + page]);
   }
 
 }

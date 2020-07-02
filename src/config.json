@@ -3,21 +3,92 @@
     "web": {
       "contributors": [
         {
-          "type":"histogram",
+          "type": "metric",
+          "identifier": "number_of_lines",
+          "title": "Number of lines",
+          "icon": "local_shipping",
+          "name": "Number of lines",
+          "metrics": [
+            {
+              "field": "trip.route_short_name",
+              "metric": "cardinality"
+            }
+          ],
+          "function": "m[0]"
+        },
+        {
+          "type": "metric",
+          "identifier": "travelled_km",
+          "title": "Travelled distance",
+          "icon": "straighten",
+          "name": "Travelled distance",
+          "function": "m[0]/1000",
+          "metrics": [
+            {
+              "field": "section.travelled_m",
+              "metric": "sum"
+            }
+          ]
+        },
+        {
+          "type": "metric",
+          "identifier": "number_of_validations",
+          "title": "Number of validations",
+          "icon": "local_shipping",
+          "name": "Number of validations",
+          "metrics": [
+            {
+              "field": "passage.realtime.validations",
+              "metric": "sum"
+            }
+          ],
+          "function": "m[0]"
+        },
+        {
+          "type": "metric",
+          "identifier": "average_of_delays",
+          "title": "Average of delays",
+          "icon": "local_shipping",
+          "name": "Average of delays",
+          "metrics": [
+            {
+              "field": "passage.realtime.delay.value_s",
+              "metric": "avg"
+            }
+          ],
+          "function": "m[0]"
+        },
+        {
+          "type": "metric",
+          "identifier": "indic_of_perf",
+          "title": "Indice of performance",
+          "icon": "local_shipping",
+          "name": "Validations/Km Commercial",
+          "metrics": [
+            {
+              "field": "passage.realtime.validations",
+              "metric": "sum"
+            },
+            {
+              "field": "section.travelled_m",
+              "metric": "sum"
+            }
+          ],
+          "function": "m[0]/(m[1]/1000)"
+        },
+        {
+          "type": "histogram",
           "identifier": "timeline",
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
+              "field": "passage.timestamps.center"
             }
           ],
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
+          "datatype": "time",
           "isOneDimension": false
         },
         {
@@ -28,117 +99,1556 @@
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
+              "field": "passage.timestamps.center"
             }
           ],
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
+          "datatype": "time",
           "isOneDimension": false
         },
         {
           "type": "map",
           "identifier": "mapbox",
-          "geo_query_field": "position.location",
+          "geo_query_field": "section.trail",
           "geo_query_op": "Intersects",
-          "name": "map",
           "icon": "check_box_outline_blank",
+          "name": "map",
           "layers_sources" : [
             {
-              "id": "Grid",
-              "source": "cluster-position.location-Fine-geohash",
+              "id": "Lines",
+              "source": "feature-metric-section.trail-section.topology_id-Medium",
               "minzoom": 0,
               "maxzoom": 24,
-              "minfeatures": 10000,
-              "agg_geo_field": "position.location",
-              "aggregated_geometry": "geohash",
-              "granularity": "Fine",
+              "maxfeatures":5000,
+              "geometry_support": "section.trail",
+              "geometry_id": "section.topology_id",
+              "provided_fields": [
+                {
+                  "color": "trip.route_color",
+                  "label": "trip.route_short_name"
+                },
+                {
+                  "color":"trip.route_color",
+                  "label":"trip.route_type"
+                }
+              ],
+              "granularity": "Medium",
+              "metrics": [
+             ]
+            },
+            {
+              "id": "Stop - Waiting time",
+              "source": "feature-metric-section.locations.departure_stop.location-section.departure_stop_id-Medium",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "maxfeatures":5000,
+              "geometry_support": "section.locations.departure_stop.location",
+              "geometry_id": "section.departure_stop_id",
+              "granularity": "Medium",
               "metrics": [
                 {
-                  "field": "count",
-                  "metric": "count",
-                  "normalize": true
+                  "field": "passage.delays.next_passage_s",
+                  "metric": "avg"
                 }
               ]
             },
             {
-              "id": "Heatmap",
-              "source": "cluster-position.location-Fine-centroid",
+              "id": "Stop - type",
+              "source": "feature-metric-section.locations.departure_stop.location-section.departure_stop_id-Medium",
               "minzoom": 0,
-              "maxzoom": 24,
-              "minfeatures": 10000,
-              "agg_geo_field": "position.location",
-              "aggregated_geometry": "centroid",
-              "granularity": "Fine",
-              "metrics": [
+              "maxzoom": 23,
+              "maxfeatures":5000,
+              "geometry_support": "section.locations.departure_stop.location",
+              "geometry_id": "section.departure_stop_id",
+              "granularity": "Medium",
+              "provided_fields": [
                 {
-                  "field": "count",
-                  "metric": "count",
-                  "normalize": true
+                "color":"trip.route_color",
+                "label":"trip.route_type"
                 }
               ]
             },
             {
-              "id": "Boats positions (Speed)",
-              "source": "feature-position.location",
+              "id": "Segments speed",
+              "source": "feature-metric-section.trail-section.topology_id-Medium",
               "minzoom": 0,
               "maxzoom": 24,
-              "maxfeatures": 5000,
-              "returned_geometry": "position.location",
-              "include_fields": ["course.sog"]
-            },
-            {
-              "id": "Boats positions (Ship type)",
-              "source": "feature-position.location",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "maxfeatures": 5000,
-              "returned_geometry": "position.location",
-              "include_fields": ["vessel.ship_type"]
-            },
-            {
-              "id": "Boats fragments (Speed)",
-              "source": "feature-course.segment.geometry.geometry",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "maxfeatures": 5000,
-              "returned_geometry": "course.segment.geometry.geometry",
-              "include_fields": ["course.sog"]
-            },
-            {
-              "id": "Boats fragments (Ship type)",
-              "source": "feature-course.segment.geometry.geometry",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "maxfeatures": 5000,
-              "returned_geometry": "course.segment.geometry.geometry",
-              "include_fields": ["vessel.ship_type"]
+              "maxfeatures":5000,
+              "geometry_support": "section.trail",
+              "geometry_id": "section.topology_id",
+              "granularity": "Medium",
+              "metrics": [
+                {
+                  "field":"passage.speed_kmh",
+                  "metric":"avg",
+                  "normalize": false
+                }
+             ]
             }
           ],
           "search_size": 10000
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.route_short_name",
+              "size": 10
+            }
+          ],
+          "title": "Line number",
+          "identifier": "line_number",
+          "name": "Line number",
+          "icon": "linear_scale"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.route_long_name",
+              "size": 10
+            }
+          ],
+          "title": "Line Name",
+          "identifier": "line_name",
+          "name": "Line name",
+          "icon": "linear_scale"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "section.locations.departure_stop.name",
+              "size": 5
+            }
+          ],
+          "title": "Start stop",
+          "identifier": "start_stop",
+          "name": "Start stop",
+          "icon": "place"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "section.locations.arrival_stop.name",
+              "size": 5
+            }
+          ],
+          "title": "End stop",
+          "identifier": "end_stop",
+          "name": "End stop",
+          "icon": "place"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.route_type",
+              "size": 5
+            }
+          ],
+          "nodeSizeMinPourcentage": 0.001,
+          "title": "",
+          "identifier": "routeType",
+          "name": "Mode",
+          "icon": "category"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.agency_name",
+              "size": 5
+            }
+          ],
+          "nodeSizeMinPourcentage": 0.001,
+          "title": "",
+          "identifier": "agencies",
+          "name": "Agencies",
+          "icon": "account_balance"
+        },
+        {
+          "type": "histogram",
+          "identifier": "size",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "section.travelled_m",
+              "interval": {
+                "value": 30
+              }
+            }
+          ],
+          "numberOfBuckets": 50,
+          "name": "Route length",
+          "icon": "trending_flat",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "metric",
+          "identifier": "waiting_time_avg",
+          "title": "Average waiting time",
+          "icon": "functions",
+          "name": "Average waiting time",
+          "metrics": [
+            {
+              "field": "passage.delays.next_passage_s",
+              "metric": "avg"
+            }
+          ],
+          "function": "Math.round(m[0] / 60 * 100) / 100"
+        },
+        {
+          "type": "metric",
+          "identifier": "waiting_time_min",
+          "title": "Minimum waiting time",
+          "icon": "functions",
+          "name": "Minimum waiting time",
+          "metrics": [
+            {
+              "field": "passage.delays.next_passage_s",
+              "metric": "min"
+            }
+          ],
+          "function": "Math.round(m[0] / 60 * 100) / 100"
+        },
+        {
+          "type": "metric",
+          "identifier": "waiting_time_max",
+          "title": "Maximum waiting time",
+          "icon": "functions",
+          "name": "Maximum waiting time",
+          "metrics": [
+            {
+              "field": "passage.delays.next_passage_s",
+              "metric": "max"
+            }
+          ],
+          "function": "Math.round(m[0] / 60 * 100) / 100"
+        },
+        {
+          "type": "metric",
+          "identifier": "waiting_time_sum",
+          "title": "Cumulated waiting time",
+          "icon": "functions",
+          "name": "Cumulated waiting time",
+          "metrics": [
+            {
+              "field": "passage.delays.next_passage_s",
+              "metric": "sum"
+            }
+          ],
+          "function": "Math.round(m[0] / 60 * 100) / 100"
+        },
+        {
+          "type": "histogram",
+          "identifier": "delay_average_over_time",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.delays.next_passage_s"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "numberOfBuckets": 50,
+          "name": "Average waiting time over time",
+          "icon": "timeline",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "delay_average_by_hour",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.delays.next_passage_s"
+                }
+              ],
+              "interval": {
+                "value": 1
+              }
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Average waiting time per hour",
+          "icon": "date_range",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "delay_sum_by_hour",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "interval": {
+                "value": 1
+              },
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "passage.delays.next_passage_s"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Cumulated waiting time per hour",
+          "icon": "date_range",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "speed",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.speed_kmh",
+              "interval": {
+                "value": 30
+              }
+            }
+          ],
+          "numberOfBuckets": 50,
+          "name": "Route speed",
+          "icon": "slow_motion_video",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "hour_in_day",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "interval": {
+                "value": 1
+              }
+            }
+          ],
+          "name": "Passage per hour",
+          "icon": "schedule",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "tree",
+          "identifier": "day_in_week",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "passage.calendar.day_in_week"
+            }
+          ],
+          "name": "Passage per day",
+          "icon": "today",
+          "title": "",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "hour_in_day_val",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "passage.realtime.validations"
+                }
+              ],
+              "interval": {
+                "value": 1
+              }
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Validations per hour",
+          "icon": "schedule",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "tree",
+          "identifier": "day_in_week_val",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "passage.calendar.day_in_week",
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "passage.realtime.validations"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Validatons per day",
+          "title": "",
+          "icon": "today"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.route_short_name",
+              "size": 5,
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "passage.realtime.validations"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "title": "Validations by line",
+          "identifier": "line_number_val",
+          "name": "Validations by line",
+          "icon": "linear_scale"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "section.locations.departure_stop.name",
+              "size": 5,
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "passage.realtime.validations"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "title": "Validations by start stop",
+          "identifier": "start_stop_val",
+          "name": "Validations by start stop",
+          "icon": "place"
+        },
+        {
+          "type": "histogram",
+          "identifier": "hour_in_day_delay_ahead",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.realtime.delay.ahead_time_s"
+                }
+              ],
+              "interval": {
+                "value": 1
+              }
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Average ahead delay per hour",
+          "icon": "schedule",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "histogram",
+          "identifier": "hour_in_day_delay_behind",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "passage.calendar.hour_in_day",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.realtime.delay.behind_time_s"
+                }
+              ],
+              "interval": {
+                "value": 1
+              }
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Average behind delay per hour",
+          "icon": "schedule",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "tree",
+          "identifier": "day_in_week_delay",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "passage.calendar.day_in_week",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.realtime.delay.value_s"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "name": "Average delay per day",
+          "title": "",
+          "icon": "today",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "trip.route_short_name",
+              "size": 5,
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.realtime.delay.value_s"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "title": "Average delay by line",
+          "identifier": "line_number_delay",
+          "name": "Average delay by line",
+          "icon": "linear_scale"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "section.locations.departure_stop.name",
+              "size": 5,
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "passage.realtime.delay.value_s"
+                }
+              ]
+            }
+          ],
+          "jsonpath": "$.metrics[0].value",
+          "title": "Average delay by start stop",
+          "identifier": "start_stop_delay",
+          "name": "Average delay by start stop",
+          "icon": "place"
+        },
+        {
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "passage.tags",
+              "size": 2
+            }
+          ],
+          "title": "First/Last departure of the day",
+          "identifier": "first_last_departure",
+          "name": "First/Last departure of the day",
+          "icon": "place"
         },
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
           "search_size": 100,
           "search_field": "internal.fulltext",
+          "autocomplete_field": "internal.autocomplete",
+          "autocomplete_size": 20,
           "name": "Search",
           "icon": "search"
+        },
+        {
+          "type": "resultlist",
+          "identifier": "table",
+          "icon": "list",
+          "fieldsConfiguration": {
+            "idFieldName": "passage.id"
+          },
+          "columns": [
+            {
+              "columnName": "Line",
+              "fieldName": "trip.route_short_name",
+              "useColorService": true,
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Type",
+              "fieldName": "trip.route_type",
+              "useColorService": true,
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Start",
+              "fieldName": "section.locations.departure_stop.name",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "End",
+              "fieldName": "section.locations.arrival_stop.name",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Date",
+              "fieldName": "passage.timestamps.center",
+              "dataType": "",
+              "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result* 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+            }
+          ],
+          "process": {
+            "urlImageTemplate": {
+              "process": ""
+            },
+            "urlThumbnailTemplate": {
+              "process": ""
+            }
+          },
+          "details": [
+            {
+              "name": "Topology Information",
+              "order": 1,
+              "fields": [
+                {
+                  "label": "Line",
+                  "path": "trip.route_short_name",
+                  "process": ""
+                },
+                {
+                  "label": "Name",
+                  "path": "trip.route_long_name",
+                  "process": ""
+                },
+                {
+                  "label": "Type",
+                  "path": "trip.route_type",
+                  "process": ""
+                },
+                {
+                  "path": "section.departure_stop_code",
+                  "label": "Departure stop code",
+                  "process": ""
+                },
+                {
+                  "path": "section.locations.departure_stop.name",
+                  "label": "Departure stop name",
+                  "process": ""
+                },
+                {
+                  "path": "section.arrival_stop_code",
+                  "label": "Arrival stop name",
+                  "process": ""
+                },
+                {
+                  "path": "section.locations.arrival_stop.name",
+                  "label": "Arrival stop name",
+                  "process": ""
+                },
+                {
+                  "path": "travelled_m",
+                  "label": "Section length (m)",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Passage Information",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "passage.speed_kmh",
+                  "label": "Speed (km/h)",
+                  "process": "Math.round(result * 100) / 100"
+                },
+                {
+                  "path": "passage.duration_s",
+                  "label": "Duration (min)",
+                  "process": "Math.round(result/60)"
+                },
+                {
+                  "path": "passage.timestamps.departure",
+                  "label": "Departure time",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result* 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "passage.timestamps.arrival",
+                  "label": "Arrival time",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result* 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "passage.calendar.day_in_week",
+                  "label": "Day of week",
+                  "process": ""
+                },
+                {
+                  "path": "passage.delays.previous_passage_s",
+                  "label": "Previous passage (sec)",
+                  "process": ""
+                },
+                {
+                  "path": "passage.delays.next_passage_s",
+                  "label": "Next passage (sec)",
+                  "process": ""
+                },
+                {
+                  "path": "passage.realtime.delay_s",
+                  "label": "Delay (sec)",
+                  "process": ""
+                },
+                {
+                  "path": "passage.realtime.validations",
+                  "label": "Validations",
+                  "process": ""
+                }
+              ]
+            }
+          ],
+          "search_size": 100,
+          "name": "Detail list"
         }
       ],
+      "analytics": [
+        {
+          "groupId": "0",
+          "title": "Statistics",
+          "tab": "network",
+          "icon": "functions",
+          "components": [
+            {
+              "contributorId": "number_of_lines",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Total number of",
+                "afterValue": "lines"
+              }
+            },
+            {
+              "contributorId": "travelled_km",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Travelled distance of",
+                "afterValue": "km",
+                "shortValue": false
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "1",
+          "title": "Agencies",
+          "icon": "account_balance",
+          "tab": "network",
+          "showExportCsv": true,
+          "components": [
+            {
+              "contributorId": "agencies",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-type",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Agencies",
+                "displayFilter": true,
+                "useColorService": false,
+                "unit": "passages"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "2",
+          "title": "Type",
+          "icon": "category",
+          "tab": "network",
+          "showExportCsv": true,
+          "components": [
+            {
+              "contributorId": "routeType",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-type",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Type",
+                "displayFilter": true,
+                "useColorService": false,
+                "unit": "passages"
+              }
+            },
+            {
+              "contributorId": "line_number",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-number",
+                "powerbarTitle": "Lines",
+                "showExportCsv": true,
+                "displayFilter": true,
+                "useColorService": true,
+                "unit": "passages"
+              }
+            },
+            {
+              "contributorId": "line_name",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-name",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Names",
+                "displayFilter": true,
+                "useColorService": false,
+                "unit": "passages"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "4",
+          "title": "Stop",
+          "icon": "place",
+          "tab": "network",
+          "components": [
+            {
+              "contributorId": "start_stop",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-start",
+                "powerbarTitle": "Start",
+                "customizedCssClass": "arlas-city",
+                "displayFilter": true,
+                "unit": "passages"
+              }
+            },
+            {
+              "contributorId": "end_stop",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-end",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "End",
+                "displayFilter": true,
+                "unit": "passages"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "5",
+          "title": "Waiting time stats",
+          "tab": "theorical_offer",
+          "icon": "functions",
+          "components": [
+            {
+              "contributorId": "waiting_time_min",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Min waiting time",
+                "afterValue": "minutes",
+                "shortValue": false
+              }
+            },
+            {
+              "contributorId": "waiting_time_avg",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Avg waiting time",
+                "afterValue": "minutes",
+                "shortValue": false
+              }
+            },
+            {
+              "contributorId": "waiting_time_max",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Max waiting time",
+                "afterValue": "minutes",
+                "shortValue": false
+              }
+            },
+            {
+              "contributorId": "waiting_time_sum",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Cumulated waiting time",
+                "afterValue": "minutes",
+                "shortValue": false
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "6",
+          "title": "Average waiting time per hour",
+          "icon": "date_range",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "delay_average_by_hour",
+              "showExportCsv": true,
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Average waiting time",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "seconds",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "6_1",
+          "title": "Cumulated waiting time per hour",
+          "icon": "date_range",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "delay_sum_by_hour",
+              "showExportCsv": true,
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Cumulated waiting time",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "seconds",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "7",
+          "title": "Average waiting time over time",
+          "icon": "timeline",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "delay_average_over_time",
+              "showExportCsv": true,
+              "componentType": "histogram",
+              "input": {
+                "dataType": "time",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Average waiting time",
+                "chartXLabel": "Date",
+                "xUnit": "",
+                "yUnit": "seconds",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-timeline-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.7
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "8",
+          "title": "Route length",
+          "icon": "trending_flat",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "size",
+              "showExportCsv": true,
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Number of passages",
+                "chartXLabel": "Route length",
+                "xUnit": "m",
+                "yUnit": "passages",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "9",
+          "title": "Route speed",
+          "icon": "slow_motion_video",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "showExportCsv": true,
+              "contributorId": "speed",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Number of passages",
+                "chartXLabel": "Route speed",
+                "xUnit": "km/h",
+                "yUnit": "passages",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "10",
+          "title": "First & Last departures",
+          "icon": "place",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "first_last_departure",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-first_last",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "",
+                "displayFilter": false,
+                "unit": "passages"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "11",
+          "title": "Passage per hour",
+          "icon": "schedule",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "showExportCsv": true,
+              "contributorId": "hour_in_day",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Number of passages",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "passages",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "12",
+          "title": "Passage per day",
+          "icon": "today",
+          "tab": "theorical_offer",
+          "components": [
+            {
+              "contributorId": "day_in_week",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-number",
+                "powerbarTitle": "",
+                "customizedCssClass": "arlas-city",
+                "showExportCsv": true,
+                "displayFilter": false,
+                "useColorService": false,
+                "unit": "passages"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "13",
+          "title": "Statistics",
+          "tab": "real_offer",
+          "icon": "functions",
+          "components": [
+            {
+              "contributorId": "average_of_delays",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Average delay",
+                "afterValue": "seconds",
+                "valuePrecision": 2
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "14",
+          "title": "Average delay per hour",
+          "icon": "schedule",
+          "tab": "real_offer",
+          "components": [
+            {
+              "showExportCsv": true,
+              "contributorId": "hour_in_day_delay_ahead",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Average ahead delay",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "seconds",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            },
+            {
+              "showExportCsv": true,
+              "contributorId": "hour_in_day_delay_behind",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Average behind delay",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "seconds",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "15",
+          "title": "Average delay per day",
+          "icon": "today",
+          "tab": "real_offer",
+          "components": [
+            {
+              "contributorId": "day_in_week_delay",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-number",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "",
+                "showExportCsv": true,
+                "displayFilter": false,
+                "useColorService": false,
+                "unit": "seconds"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "16",
+          "title": "Average delay by stop/line",
+          "icon": "place",
+          "tab": "real_offer",
+          "components": [
+            {
+              "contributorId": "start_stop_delay",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-start",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Stop",
+                "displayFilter": true,
+                "unit": "seconds"
+              }
+            },
+            {
+              "contributorId": "line_number_delay",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-end",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Line",
+                "displayFilter": true,
+                "unit": "seconds"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "17",
+          "title": "Statistics",
+          "tab": "validations",
+          "icon": "functions",
+          "components": [
+            {
+              "contributorId": "number_of_validations",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Total number of",
+                "afterValue": "validations"
+              }
+            },
+            {
+              "contributorId": "indic_of_perf",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "beforeValue": "Validations/Km Commercial :",
+                "afterValue": "",
+                "valuePrecision": 2
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "18",
+          "title": "Validations per hour",
+          "icon": "schedule",
+          "tab": "validations",
+          "components": [
+            {
+              "showExportCsv": true,
+              "contributorId": "hour_in_day_val",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "numeric",
+                "id": "duration",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "chartType": "bars",
+                "chartTitle": "Validations number",
+                "chartXLabel": "Hour",
+                "xUnit": "h",
+                "yUnit": "validations",
+                "chartWidth": 445,
+                "chartHeight": 100,
+                "customizedCssClass": "arlas-histogram-analytics",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "yAxisStartsFromZero": true,
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "isSmoothedCurve": true,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "19",
+          "title": "Validations per day",
+          "icon": "today",
+          "tab": "validations",
+          "components": [
+            {
+              "contributorId": "day_in_week_val",
+              "componentType": "powerbars",
+              "input": {
+                "id": "powerbars-number",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "",
+                "showExportCsv": true,
+                "displayFilter": false,
+                "useColorService": false,
+                "unit": "validations"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "20",
+          "title": "Validations by stop/line",
+          "icon": "place",
+          "tab": "validations",
+          "components": [
+            {
+              "contributorId": "start_stop_val",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-start",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Stop",
+                "displayFilter": true,
+                "unit": "validations"
+              }
+            },
+            {
+              "contributorId": "line_number_val",
+              "componentType": "powerbars",
+              "showExportCsv": true,
+              "input": {
+                "id": "powerbars-end",
+                "customizedCssClass": "arlas-city",
+                "powerbarTitle": "Line",
+                "displayFilter": true,
+                "unit": "validations"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "resultlist",
+          "title": "Result List",
+          "tab": "result_tab",
+          "icon": "list",
+          "components": [
+            {
+              "contributorId": "table",
+              "componentType": "resultlist",
+              "input": {
+                "tableWidth": 455,
+                "globalActionsList": [],
+                "searchSize": 20,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "displayFilters": false,
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "isAutoGeoSortActived": true,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null,
+                "useColorService": true,
+                "cellBackgroundStyle": "filled"
+              }
+            }
+          ]
+        }
+      ],
+      "options": {
+        "drag_items": true,
+        "zoom_to_data": true,
+        "indicators": true,
+        "spinner": {
+          "show": true,
+          "color": "#4ECDC4"
+        },
+        "gauge": {
+          "show": false
+        }
+      },
       "components": {
         "share": {
           "geojson": {
             "max_for_feature": 10000,
             "max_for_cluster": 100000,
-            "agg_field": "position.location",
+            "agg_field": "centroidPoint",
             "sort_excluded_type": [
-                "TEXT",
-                "GEO_POINT"
+              "TEXT",
+              "GEO_POINT"
             ]
           }
         },
@@ -146,57 +1656,63 @@
           "input": {
             "defaultBasemapStyle": {
               "name": "Positron",
-              "styleFile": "${ARLAS_MAP_STYLE}"
+              "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
             },
             "basemapStyles": [
               {
                 "name": "Positron",
-                "styleFile": "http://demo.arlas.io:82/styles/positron/style.json"
+                "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
               }
             ],
-            "margePanForLoad": 5,
-            "margePanForTest": 5,
-            "initZoom": 2,
+            "margePanForLoad": 3,
+            "margePanForTest": 3,
+            "initZoom": 9,
             "initCenter": [
-              9.667969,
-              55.627996
+              1.4437,
+              43.6043
             ],
-            "displayScale": true,
             "visualisations_sets": [
               {
-                "name": "Boats positions distribution",
-                "layers": ["Grid"],
+                "name": "Commercial speed",
+                "layers": ["Segments speed"],
                 "enabled": true
               },
               {
-                "name": "Boats positions density",
-                "layers": ["Heatmap"],
+                "name": "Network",
+                "layers": ["Lines"]
+              },
+              {
+                "name": "Stop - Waiting time",
+                "layers": ["Stop - Waiting time"],
                 "enabled": false
               },
               {
-                "name": "Boats positions by speed",
-                "layers": ["Boats positions (Speed)", "Boats fragments (Speed)"],
-                "enabled": true
-              },
-              {
-                "name": "Boats positions by ship type",
-                "layers": ["Boats positions (Ship type)", "Boats fragments (Ship type)"],
+                "name": "Stop - type",
+                "layers": ["Stop - type"],
                 "enabled": false
               }
             ],
+            "displayScale": true,
             "mapLayers": {
               "layers": [],
               "events": {
-                "zoomOnClick": [
-                ],
-                "emitOnClick": [
-                ],
-                "onHover": [
-                ]
+                "zoomOnClick": [],
+                "emitOnClick": [],
+                "onHover": []
               }
             },
             "idFeatureField": "id"
           }
+        },
+        "mapgl_settings": {
+          "has_features_mode": false,
+          "has_topology_mode": true,
+          "has_cluster_mode": false,
+          "exlude_geom_for_cluster": [],
+          "exlude_geom_for_topology": [
+            "section.locations.centroid.location"
+          ],
+          "exlude_geom_for_features": []
         },
         "timeline": {
           "contributorId": "timeline",
@@ -207,14 +1723,17 @@
             "yTicks": 2,
             "xLabels": 9,
             "yLabels": 2,
-            "chartTitle": "Number of AIS positions over time",
+            "chartTitle": "Passages number",
+            "chartXLabel": "Date",
+            "xUnit": "",
+            "yUnit": "passages",
             "customizedCssClass": "arlas-timeline",
             "chartHeight": 128,
             "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8,
+            "brushHandlesHeightWeight": 1,
             "dataType": "time",
             "isHistogramSelectable": true,
-            "chartType": "area",
+            "chartType": "bars",
             "chartWidth": null,
             "xAxisPosition": "bottom",
             "descriptionPosition": "top",
@@ -238,15 +1757,18 @@
             "yTicks": 2,
             "xLabels": 5,
             "yLabels": 2,
-            "chartTitle": "Detailed of AIS positions over time",
+            "chartTitle": "Passages number",
+            "chartXLabel": "Date",
+            "xUnit": "",
+            "yUnit": "passages",
             "customizedCssClass": "arlas-detailed-timeline",
             "chartHeight": 60,
             "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8,
+            "brushHandlesHeightWeight": 1,
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
-            "chartType": "area",
+            "chartType": "bars",
             "chartWidth": null,
             "xAxisPosition": "top",
             "yAxisStartsFromZero": true,
@@ -262,23 +1784,15 @@
         }
       },
       "colorGenerator": {
-        "keysToColors": [["Tanker", "#ff8ee8"], ["Fishing", "#7AD8F5"],
-        ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
-        ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
-        ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
-        ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
-        ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
-        ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
-        ["Sailing", "#edc77b"],["Under way using engine", "#51a588"], ["Unknown value", "#c2c2c2"],
-        ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
-        ["Under way sailing", "#ad0084"]],
+        "keysToColors": [],
         "colorsSaturationWeight": 0.6
       }
     },
     "server": {
-      "url": "${ARLAS_SERVER_URL}",
+      "url": "http://localhost:9999/arlas",
       "collection": {
-        "name": "${ARLAS_SERVER_COLLECTION}"
+        "name": "demo_city_passages",
+        "id": "passage.id"
       },
       "max_age_cache": 120
     }
@@ -286,15 +1800,16 @@
   "arlas-wui": {
     "web": {
       "app": {
-        "idFieldName": "id",
+        "name": "ARLAS-city",
+        "unit": "passages",
+        "name_background_color": "black",
+        "idFieldName": "passage.id",
         "refresh": false,
         "components": {
           "chipssearch": {
             "search_size": 100,
-            "name": "Search a MMSI",
-            "icon": "search",
-            "autocomplete_field": "vessel.mmsi",
-            "autocomplete_size": "20"
+            "name": "Search",
+            "icon": "search"
           }
         }
       }
@@ -305,6 +1820,11 @@
       "configPath": "config.map.json",
       "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
       "replacer": "layers"
+    },
+    {
+      "configPath": "assets/config.color.json",
+      "replacedAttribute": "arlas.web.colorGenerator.keysToColors",
+      "replacer": "keysToColors"
     }
   ]
 }

@@ -19,8 +19,10 @@
 
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { PrintComponent } from './components/print/print.component';
 
 export const ROUTES: Routes = [
-  { path: '', component: AppComponent }
+  { path: '', component: AppComponent },
+  { path: 'print', component: PrintComponent}
 ];
 export const routing = RouterModule.forRoot(ROUTES);

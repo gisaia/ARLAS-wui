@@ -267,3 +267,31 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left {
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-arrow {
   left: 5px !important;
 }
+
+@media print {
+  @page {
+    size: A4 landscape;
+    max-height: 100%;
+    max-width: 100%
+  }
+  body {
+    overflow: visible !important;
+  }
+  .app-container {
+    overflow: visible !important;
+  }
+  .arlas-analytics--container {
+    position: relative !important;
+    width: initial !important;
+    height: initial !important;
+    overflow: visible !important;
+  }
+  .arlas-map {
+    width: 100% !important;
+    page-break-after: always !important;
+    overflow: visible !important;
+  }
+  .arlas-filters-chips, .arlas-top-analytics, arlas-bookmark-menu, .arlas-map-settings, .arlas-map-action, .mapboxgl-ctrl-top-right {
+    display: none !important;
+  }
+}

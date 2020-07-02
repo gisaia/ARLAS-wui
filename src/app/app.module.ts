@@ -40,7 +40,6 @@ import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import { AppComponent } from './app.component';
-import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -48,15 +47,19 @@ import { CustomTranslateLoader } from 'arlas-wui-toolkit/shared.module';
 import { HttpClient } from '@angular/common/http';
 
 import { ContributorService } from './services/contributors.service';
+import { PrintComponent } from './components/print/print.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AboutComponent,
     AboutDialogComponent,
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    PrintComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MapglImportModule,
@@ -79,7 +82,6 @@ import { ContributorService } from './services/contributors.service';
     MatTableModule,
     HistogramModule,
     RouterModule,
-    routing,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({
