@@ -124,6 +124,14 @@ else
   echo ${ARLAS_WUI_BASE_HREF}  "is used as app base href "
 fi
 
+if [ -z "${ARLAS_PERSISTENCE_URL}" ]; then
+  ARLAS_PERSISTENCE_URL=""
+  export ARLAS_PERSISTENCE_URL
+  echo "NO ARLAS-persistence URL is specified. ARLAS-wui will load its own config.json file"
+else
+  echo ${ARLAS_PERSISTENCE_URL} "is used for 'arlas.persistence-server.url'"
+fi
+
 envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
 mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 
@@ -135,6 +143,9 @@ mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
 envsubst '$ARLAS_WUI_APP_PATH' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp
 mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
+
+envsubst '$ARLAS_PERSISTENCE_URL' < /usr/share/nginx/html/env.js > /usr/share/nginx/html/env.js.tmp
+mv /usr/share/nginx/html/env.js.tmp /usr/share/nginx/html/env.js
 
 
 export HTTP_RESOURCES

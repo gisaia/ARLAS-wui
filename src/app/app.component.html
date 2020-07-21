@@ -35,13 +35,13 @@
   </div>
   <div class="arlas-map">
     <arlas-mapgl #map
-      [dataSources]="mapglContributor.dataSources"
-      [redrawSource]= "mapglContributor.redrawSource"
-      [legendUpdater]= "mapglContributor.legendUpdater"
-      [visibilityUpdater]= "mapglContributor.visibilityUpdater"
+      [dataSources]="mapglContributor?.dataSources"
+      [redrawSource]= "mapglContributor?.redrawSource"
+      [legendUpdater]= "mapglContributor?.legendUpdater"
+      [visibilityUpdater]= "mapglContributor?.visibilityUpdater"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
       [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
-      (visualisations)="mapglContributor.changeVisualisation($event)"
+      (visualisations)="mapglContributor?.changeVisualisation($event)"
       [icons]="mapComponentConfig?.icons"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
