@@ -115,7 +115,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    private arlasStartUpService: ArlasStartupService,
+    public arlasStartUpService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
     private activatedRoute: ActivatedRoute,
     private router: Router,
