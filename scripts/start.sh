@@ -408,4 +408,3 @@ export HTTP_RESOURCES
 /usr/share/nginx/fetch-conf-by-http.sh
 
 nginx -g "daemon off;"
-  docker run -p 8080:8080 -e ARLAS_USE_AUTHENT=true -e ARLAS_PERSISTENCE_URL="http://localhost:19997/arlas_persistence_server" gisaia/arlas-wui:14-test
