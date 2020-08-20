@@ -1,5 +1,17 @@
 #!/bin/sh
 
+fetchSettings(){
+  echo "Download the WUI settings file from \"${ARLAS_SETTINGS_URL}\" ..."
+  curl ${ARLAS_SETTINGS_URL} -o /usr/share/nginx/html/settings.yaml && echo "settings.yaml file downloaded with success." || (echo "Failed to download the settings.yaml file."; exit 1)
+}
+
+### URL to WUI SETTINGS
+if [ -z "${ARLAS_SETTINGS_URL}" ]; then
+  echo "The default WUI container settings.yaml file is used"
+else
+  fetchSettings;
+fi
+
 fetchConfiguration(){
   echo "Download the CATALOG configuration file from \"${ARLAS_WUI_CONFIGURATION_URL}\" ..."
   curl ${ARLAS_WUI_CONFIGURATION_URL} -o /usr/share/nginx/html/config.json && echo "Configuration file downloaded with success." || (echo "Failed to download the configuration file."; exit 1)
