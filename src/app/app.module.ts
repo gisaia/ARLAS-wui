@@ -78,7 +78,6 @@ import { ContributorService } from './services/contributors.service';
     MapglModule,
     MatTableModule,
     HistogramModule,
-    RouterModule,
     routing,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,

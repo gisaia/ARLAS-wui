@@ -1,4 +1,5 @@
 <arlas-tool-root></arlas-tool-root>
+<div *ngIf="arlasStartUpService.shouldRunApp">
 <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
   (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
 <div class="app-container">
@@ -35,13 +36,13 @@
   </div>
   <div class="arlas-map">
     <arlas-mapgl #map
-      [dataSources]="mapglContributor.dataSources"
-      [redrawSource]= "mapglContributor.redrawSource"
-      [legendUpdater]= "mapglContributor.legendUpdater"
-      [visibilityUpdater]= "mapglContributor.visibilityUpdater"
+      [dataSources]="mapglContributor?.dataSources"
+      [redrawSource]= "mapglContributor?.redrawSource"
+      [legendUpdater]= "mapglContributor?.legendUpdater"
+      [visibilityUpdater]= "mapglContributor?.visibilityUpdater"
       [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
       [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
-      (visualisations)="mapglContributor.changeVisualisation($event)"
+      (visualisations)="mapglContributor?.changeVisualisation($event)"
       [icons]="mapComponentConfig?.icons"
       [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
       [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
@@ -96,4 +97,6 @@
     [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
   <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
     mode="indeterminate"></mat-progress-bar>
+</div>
+
 </div>

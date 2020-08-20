@@ -22,7 +22,8 @@
               "src/config.json",
               "src/tour.json",
               "src/config.map.json",
-              "src/about.md"
+              "src/about.md",
+              "src/settings.yaml"
             ],
             "styles": [
               "src/styles.css",
@@ -92,7 +93,8 @@
               "src/favicon.ico",
               "src/config.json",
               "src/config.map.json",
-              "src/about.md"
+              "src/about.md",
+              "src/settings.yaml"
             ]
           }
         },
