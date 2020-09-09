@@ -23,7 +23,8 @@
               "src/tour.json",
               "src/config.map.json",
               "src/about.md",
-              "src/settings.yaml"
+              "src/settings.yaml",
+              "src/silent-refresh.html"
             ],
             "styles": [
               "src/styles.css",
@@ -94,7 +95,8 @@
               "src/config.json",
               "src/config.map.json",
               "src/about.md",
-              "src/settings.yaml"
+              "src/settings.yaml",
+              "src/silent-refresh.html"
             ]
           }
         },
