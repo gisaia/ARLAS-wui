@@ -52,6 +52,7 @@ import { HttpClient } from '@angular/common/http';
 import { ContributorService } from './services/contributors.service';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { SidenavService } from './services/sidenav.service';
+import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { SidenavService } from './services/sidenav.service';
     AboutDialogComponent,
     AppComponent,
     MenuComponent,
-    LeftMenuComponent
+    LeftMenuComponent,
+    ConfigsListComponent
   ],
   imports: [
     BrowserModule,

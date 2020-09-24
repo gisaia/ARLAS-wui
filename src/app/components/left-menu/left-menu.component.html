@@ -1,35 +1,54 @@
 <div class="menu_container" [class.hide-label]="!isLabelDisplayed">
+  <div>
     <div class="logo">
-        <img src="assets/logo-only.png" />
-        <span>ARLAS-wui</span>
+      <img src="assets/logo-only.png" />
+      <span>ARLAS-wui</span>
     </div>
     <div>
-        <div class="action-list">
-            <mat-nav-list>
-                <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'User info' | translate}}" (click)="getUserInfos()">
-                    <button mat-icon-button>
-                        <img src="{{avatar}}" class="user_avatar">
-                        <span class="user_name">{{name}}</span>
-                    </button>
-                </mat-list-item>
-                <mat-list-item *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}" (click)="connect()">
-                    <button mat-icon-button>
-                        <mat-icon>account_circle</mat-icon>
-                        <span>{{'Log In' | translate}}</span>
-                    </button>
-                </mat-list-item>
-                <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'Log Out' | translate}}" (click)="connect()">
-                    <button mat-icon-button>
-                        <mat-icon>lock_open</mat-icon>
-                        <span >{{'Log Out' | translate}}</span>
-                    </button>
-                </mat-list-item>
-            </mat-nav-list>
-        </div>
-        <div class="toggler">
-            <button mat-icon-button (click)="expandMenu()" [matTooltip]="isLabelDisplayed? reduce : expand">
-                <mat-icon>{{ isLabelDisplayed ? 'arrow_left' : 'arrow_right' }}</mat-icon>
+      <div *ngIf="persistenceService.isAvailable"  (click)="showConfig()">
+        <mat-nav-list [class.active-menu]="!!toggleStates.configs">
+          <mat-list-item  matTooltip="{{'Switch configuration' | translate}}">
+            <button mat-icon-button>
+              <mat-icon>apps</mat-icon>
+              <span>{{'Switch configuration' | translate}}</span>
             </button>
-        </div>
+          </mat-list-item>
+        </mat-nav-list>
+        <mat-divider></mat-divider>
+      </div>
     </div>
+  </div>
+  <div>
+    <div class="action-list">
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+        <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'User info' | translate}}"
+          (click)="getUserInfos()">
+          <button mat-icon-button>
+            <img src="{{avatar}}" class="user_avatar">
+            <span class="user_name">{{name}}</span>
+          </button>
+        </mat-list-item>
+        <mat-list-item *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}"
+          (click)="connect()">
+          <button mat-icon-button>
+            <mat-icon>account_circle</mat-icon>
+            <span>{{'Log In' | translate}}</span>
+          </button>
+        </mat-list-item>
+        <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'Log Out' | translate}}"
+          (click)="connect()">
+          <button mat-icon-button>
+            <mat-icon>lock_open</mat-icon>
+            <span>{{'Log Out' | translate}}</span>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+    <div class="toggler">
+      <button mat-icon-button (click)="expandMenu()" [matTooltip]="isLabelDisplayed? reduce : expand">
+        <mat-icon>{{ isLabelDisplayed ? 'arrow_left' : 'arrow_right' }}</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

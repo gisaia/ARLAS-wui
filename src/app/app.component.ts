@@ -50,6 +50,7 @@ import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { SidenavService } from './services/sidenav.service';
 import { onMainContentChange } from './components/left-menu/animations';
+import { MenuState } from './components/left-menu/left-menu.component';
 
 @Component({
   animations: [onMainContentChange],
@@ -100,6 +101,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
+  public showConfigsList = false;
 
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
@@ -276,6 +278,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.walkthroughService.startTour();
     }
     this.cdr.detectChanges();
+  }
+
+  public consumeMenuEvents(states: MenuState) {
+    this.showConfigsList = states.configs;
   }
 
   public openMapSettings(): void {

@@ -3,7 +3,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    mat-icon {
+      color: #666;
+    }
     .logo {
         padding: 5px;
         display: flex;
@@ -35,6 +37,7 @@
         }
     }
 
+
     mat-icon {
         padding-right: 5px;
     }
@@ -42,4 +45,11 @@
     &.hide-label span {
         display: none;
     }
+}
+
+.active-menu {
+  background-color: rgb(255, 64, 129, 0.2);
+  mat-icon {
+    color: #FF4081;
+  }
 }
