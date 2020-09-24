@@ -1,0 +1,45 @@
+.menu_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .logo {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        font-size: 1.5em;
+    }
+
+    .toggler {
+        display: flex;
+        justify-content: flex-end;
+        padding: 15px;
+    }
+
+    .action-list {
+        .disabled-item {
+            cursor: not-allowed;
+            color: rgba(0, 0, 0, 0.26);
+            button {
+                cursor: not-allowed;
+            }
+        }
+
+        .user_avatar {
+            vertical-align: middle;
+            height: 26px;
+        }
+        .user_name {
+            margin-left: 5px;
+        }
+    }
+
+    mat-icon {
+        padding-right: 5px;
+    }
+
+    &.hide-label span {
+        display: none;
+    }
+}

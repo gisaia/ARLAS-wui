@@ -31,7 +31,9 @@ import {
   MatMenuModule,
   MatProgressBarModule,
   MatTableModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatListModule,
+  MatSidenavModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -48,13 +50,16 @@ import { CustomTranslateLoader } from 'arlas-wui-toolkit/shared.module';
 import { HttpClient } from '@angular/common/http';
 
 import { ContributorService } from './services/contributors.service';
+import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import { SidenavService } from './services/sidenav.service';
 
 @NgModule({
   declarations: [
     AboutComponent,
     AboutDialogComponent,
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    LeftMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +82,8 @@ import { ContributorService } from './services/contributors.service';
     ReactiveFormsModule,
     MapglModule,
     MatTableModule,
+    MatListModule,
+    MatSidenavModule,
     HistogramModule,
     routing,
     ArlasToolkitSharedModule,
@@ -91,7 +98,9 @@ import { ContributorService } from './services/contributors.service';
     ArlasTaggerModule
   ],
   providers: [
-    ContributorService
+    ContributorService,
+    SidenavService
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [AboutDialogComponent]

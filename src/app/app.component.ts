@@ -43,13 +43,16 @@ import {
   ArlasColorGeneratorLoader
 } from 'arlas-wui-toolkit';
 import { ContributorService } from './services/contributors.service';
-import { Subject } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import { SidenavService } from './services/sidenav.service';
+import { onMainContentChange } from './components/left-menu/animations';
 
 @Component({
+  animations: [onMainContentChange],
   selector: 'arlas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -104,6 +107,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public showZoomToData = false;
   public showIndicators = false;
+  public onSideNavChange: boolean;
+
 
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
@@ -124,9 +129,21 @@ export class AppComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private walkthroughService: ArlasWalkthroughService,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader
+    private colorGenerator: ArlasColorGeneratorLoader,
+    private sidenavService: SidenavService
   ) {
     if (this.arlasStartUpService.shouldRunApp) {
+      fromEvent(window, 'resize').pipe(
+        debounceTime(100))
+        .subscribe((event: Event) => {
+          // resize the map
+          this.mapglComponent.map.resize();
+        });
+      this.sidenavService.sideNavState.subscribe(res => {
+        this.onSideNavChange = res;
+        // trigger resize event
+        window.dispatchEvent(new Event('resize'));
+      });
       this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
       if (this.resultlistContributor) {
         this.resultlistContributor.sort = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).id_path;
