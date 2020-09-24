@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #leftSidenav mode="side" opened>
-    <arlas-left-menu></arlas-left-menu>
+    <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)"></arlas-left-menu>
   </mat-sidenav>
   <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
     <div class="main_content">
@@ -108,6 +108,7 @@
             [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
           <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
             mode="indeterminate"></mat-progress-bar>
+          <arlas-configs-list *ngIf="showConfigsList"></arlas-configs-list>
         </div>
 
       </div>

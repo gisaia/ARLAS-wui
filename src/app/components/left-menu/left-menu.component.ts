@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
 import { onSideNavChange, animateText } from './animations';
 import { AuthentificationService } from 'arlas-wui-toolkit/services/authentification/authentification.service';
 import { UserInfosComponent } from 'arlas-wui-toolkit/components/user-infos/user-infos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
+import { Subject } from 'rxjs';
 
 interface Page {
   link: string;
@@ -11,7 +13,9 @@ interface Page {
   icon: string;
   disabled?: boolean;
 }
-
+export interface MenuState {
+  configs?: boolean;
+}
 @Component({
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
@@ -19,6 +23,11 @@ interface Page {
   animations: [onSideNavChange, animateText]
 })
 export class LeftMenuComponent implements OnInit {
+
+  @Input() public toggleStates: MenuState = {
+    configs: false
+  };
+  @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
   public sideNavState = false;
   public linkText = false;
@@ -31,10 +40,11 @@ export class LeftMenuComponent implements OnInit {
   public expand: string;
   public isLabelDisplayed = false;
 
-  constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService) {
-    this.reduce = this.translate.instant('reduce');
-    this.expand = this.translate.instant('expand');
-    this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
+  constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
+    public persistenceService: PersistenceService) {
+      this.reduce = this.translate.instant('reduce');
+      this.expand = this.translate.instant('expand');
+      this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
   }
 
   public ngOnInit() {
@@ -51,6 +61,13 @@ export class LeftMenuComponent implements OnInit {
     });
   }
 
+  /**
+   * Shows/hides configuration list
+   */
+  public showConfig() {
+    this.toggleStates.configs = !this.toggleStates.configs;
+    this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
+  }
   public connect() {
     if (this.connected) {
       this.authentService.logout();

@@ -1,0 +1,11 @@
+<div class="configs-list_wrapper">
+  <div class="configs-list_container">
+    <h5 class="title">{{'Choose a configuration to load' | translate}}</h5>
+    <a target="_blank" [routerLink]="['/']" [queryParams]="{config_id: conf.id }" *ngFor="let conf of configurations" class="config" [style.borderTopColor]="conf.color">
+      {{conf.name}}
+    </a>
+  </div>
+  <div *ngIf="hubUrl" class="manage-config" (click)="navigate(hubUrl)">
+    <button mat-raised-button >{{'Manage configurations' | translate}}</button>
+  </div>
+</div>
