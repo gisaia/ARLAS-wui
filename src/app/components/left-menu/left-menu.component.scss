@@ -46,3 +46,10 @@
         display: none;
     }
 }
+
+.active-menu {
+  background-color: rgb(255, 64, 129, 0.2);
+  mat-icon {
+    color: #FF4081;
+  }
+}
