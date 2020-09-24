@@ -21,3 +21,6 @@ jobs:
       script:
         - export NODE_OPTIONS=--max_old_space_size=8192;
         - docker build --no-cache .
+    - env:
+        - job=check_i18n
+      script: ./checki18n.sh
