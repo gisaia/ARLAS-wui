@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #leftSidenav mode="side" opened>
-    <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)"></arlas-left-menu>
+    <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"></arlas-left-menu>
   </mat-sidenav>
   <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
     <div class="main_content">
@@ -10,7 +10,7 @@
           (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
         </arlas-mapgl-settings>
         <div class="app-container">
-          <arlas-bookmark-menu></arlas-bookmark-menu>
+          <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
           <div id="arlas-map-settings" class="arlas-map-settings">
             <div class="arlas-map-settings-container">
               <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
@@ -47,7 +47,7 @@
             <arlas-mapgl #map [dataSources]="mapglContributor?.dataSources"
               [redrawSource]="mapglContributor?.redrawSource" [legendUpdater]="mapglContributor?.legendUpdater"
               [visibilityUpdater]="mapglContributor?.visibilityUpdater"
-              [defaultBasemapStyle]="mapComponentConfig?.defaultBasemapStyle"
+              [defaultBasemapStyle]="defaultBaseMap"
               [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
               (visualisations)="mapglContributor?.changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
               [basemapStyles]="mapComponentConfig?.basemapStyles"
@@ -85,7 +85,7 @@
               <mat-icon>pie_chart</mat-icon>
             </mat-basic-chip>
           </div>
-          <div class="arlas-filters-chips">
+          <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
             <arlas-menu></arlas-menu>
             <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit"></arlas-filter>
             <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}"
@@ -108,7 +108,7 @@
             [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
           <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
             mode="indeterminate"></mat-progress-bar>
-          <arlas-configs-list *ngIf="showConfigsList"></arlas-configs-list>
+          <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false"></arlas-configs-list>
         </div>
 
       </div>

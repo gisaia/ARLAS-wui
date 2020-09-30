@@ -88,12 +88,8 @@ export class ContributorService {
   }
 
   private getContributorConfig(contributorIdentifier: string) {
-    return this.configService.getValue(this.CONTRIBUTORS_PATH).find(
+    return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue(this.CONTRIBUTORS_PATH).find(
       contrib => (contrib.identifier === contributorIdentifier)
     );
-  }
-
-  private getContributorIcon(contributorIdentifier: string) {
-    return this.getContributorConfig(contributorIdentifier).icon;
   }
 }

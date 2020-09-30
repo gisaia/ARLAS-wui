@@ -5,9 +5,9 @@
       <span>ARLAS-wui</span>
     </div>
     <div>
-      <div *ngIf="persistenceService.isAvailable"  (click)="showConfig()">
-        <mat-nav-list [class.active-menu]="!!toggleStates.configs">
-          <mat-list-item  matTooltip="{{'Switch configuration' | translate}}">
+      <div>
+        <mat-nav-list>
+          <mat-list-item *ngIf="persistenceService.isAvailable"  (click)="show('configs')" [class.active-menu]="!!toggleStates.configs" matTooltip="{{'Switch configuration' | translate}}">
             <button mat-icon-button>
               <mat-icon>apps</mat-icon>
               <span>{{'Switch configuration' | translate}}</span>
@@ -16,6 +16,7 @@
         </mat-nav-list>
         <mat-divider></mat-divider>
       </div>
+
     </div>
   </div>
   <div>

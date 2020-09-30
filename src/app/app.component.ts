@@ -72,8 +72,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
-  public analyticsOpen = true;
-  public searchOpen = true;
   public countAll: string;
 
   public appName: string;
@@ -101,7 +99,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
-  public showConfigsList = false;
+
+  public menuState: MenuState;
+  public analyticsOpen = true;
+  public searchOpen = true;
+
 
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
@@ -111,6 +113,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public showIndicators = false;
   public onSideNavChange: boolean;
 
+  public defaultBaseMap;
 
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
@@ -134,7 +137,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     private colorGenerator: ArlasColorGeneratorLoader,
     private sidenavService: SidenavService
   ) {
-    if (this.arlasStartUpService.shouldRunApp) {
+    this.menuState = {
+      configs: false
+    };
+    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       fromEvent(window, 'resize').pipe(
         debounceTime(100))
         .subscribe((event: Event) => {
@@ -168,6 +174,12 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.geosortConfig = this.configService.getValue('arlas-wui.web.app.components.geosort');
 
+      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
+        {
+          styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
+          name: 'Positron'
+        };
+
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
       }
@@ -186,11 +198,16 @@ export class AppComponent implements OnInit, AfterViewInit {
           .pipe()
           .subscribe(c => this.countAll = c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
       });
+    } else {
+      this.defaultBaseMap = {
+        styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
+        name: 'Positron'
+      };
     }
   }
 
   public ngOnInit() {
-    if (this.arlasStartUpService.shouldRunApp) {
+    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
@@ -229,13 +246,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       dragMove = true;
       startDragCenter = this.mapglComponent.map.getCenter();
     });
+    this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
       (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
       this.mapBounds = null;
     }
     this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
       /** wait until the map component loading is finished before fetching the data */
-      if (isLoaded) {
+      if (isLoaded && !this.arlasStartUpService.emptyMode) {
         this.mapglContributor.updateData = true;
         this.mapglContributor.fetchData(null);
         this.mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(this.mapglContributor.identifier));
@@ -281,7 +299,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public consumeMenuEvents(states: MenuState) {
-    this.showConfigsList = states.configs;
+    this.menuState = states;
   }
 
   public openMapSettings(): void {

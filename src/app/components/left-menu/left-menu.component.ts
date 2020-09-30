@@ -16,6 +16,7 @@ interface Page {
 export interface MenuState {
   configs?: boolean;
 }
+
 @Component({
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
@@ -62,10 +63,14 @@ export class LeftMenuComponent implements OnInit {
   }
 
   /**
-   * Shows/hides configuration list
+   * Shows/hides menu element
    */
-  public showConfig() {
-    this.toggleStates.configs = !this.toggleStates.configs;
+  public show(element: string) {
+    if (element === ('configs')) {
+      this.toggleStates.configs = !this.toggleStates.configs;
+    } else {
+      this.toggleStates.configs = false;
+    }
     this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
   }
   public connect() {

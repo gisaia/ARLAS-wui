@@ -7,10 +7,26 @@
       color: #666;
     }
     .logo {
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        font-size: 1.5em;
+      padding: 3px;
+      display: flex;
+      justify-content: center;
+
+      span{
+        font-size: 1.3em;
+      }
+
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .mat-list-base {
+      padding-top: 0;
+    }
+    .mat-list-item {
+      height: 40px;
+      margin-bottom: 5px;
     }
 
     .toggler {
@@ -38,6 +54,7 @@
     }
 
 
+
     mat-icon {
         padding-right: 5px;
     }
@@ -48,7 +65,7 @@
 }
 
 .active-menu {
-  background-color: rgb(255, 64, 129, 0.2);
+  background-color: rgb(255, 64, 129, 0.1);
   mat-icon {
     color: #FF4081;
   }
