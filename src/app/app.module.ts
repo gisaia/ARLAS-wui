@@ -46,13 +46,14 @@ import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { CustomTranslateLoader } from 'arlas-wui-toolkit/shared.module';
 import { HttpClient } from '@angular/common/http';
-
 import { ContributorService } from './services/contributors.service';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { SidenavService } from './services/sidenav.service';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
+import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
+import { CustomTranslateLoader } from './tools/customTranslatelLoader';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,7 @@ import { ConfigsListComponent } from './components/configs-list/configs-list.com
       loader: {
         provide: TranslateLoader,
         useClass: CustomTranslateLoader,
-        deps: [HttpClient]
+        deps: [HttpClient, ArlasSettingsService, PersistenceService]
       }
     }),
     ArlasTaggerModule

@@ -9,7 +9,9 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports":true,
     "experimentalDecorators": true,
+    "resolveJsonModule":true,
     "target": "es6",
     "types": [
       "mapbox-gl",
