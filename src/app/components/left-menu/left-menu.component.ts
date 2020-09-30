@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewChild } from '@angular/core';
 import { onSideNavChange, animateText } from './animations';
 import { AuthentificationService } from 'arlas-wui-toolkit/services/authentification/authentification.service';
 import { UserInfosComponent } from 'arlas-wui-toolkit/components/user-infos/user-infos.component';
@@ -6,6 +6,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
 import { Subject } from 'rxjs';
+import { ShareComponent } from 'arlas-wui-toolkit/components/share/share.component';
+import { ArlasConfigService } from 'arlas-wui-toolkit';
+import { environment } from '../../../environments/environment';
+import { AboutComponent } from '../about/about.component';
+import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import { DownloadComponent } from 'arlas-wui-toolkit/components/download/download.component';
+import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
 
 interface Page {
   link: string;
@@ -16,6 +23,7 @@ interface Page {
 export interface MenuState {
   configs?: boolean;
 }
+
 @Component({
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
@@ -27,7 +35,21 @@ export class LeftMenuComponent implements OnInit {
   @Input() public toggleStates: MenuState = {
     configs: false
   };
+  @Input() public isEmptyMode;
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
+
+  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
+  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
+  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
+  @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
+
+
+  public tagComponentConfig: any;
+  public shareComponentConfig: any;
+  public downloadComponentConfig: any;
+
+  public version: string = environment.VERSION;
+  public aboutFile: string = 'about.md?' + Date.now() + '.md';
 
   public sideNavState = false;
   public linkText = false;
@@ -40,11 +62,19 @@ export class LeftMenuComponent implements OnInit {
   public expand: string;
   public isLabelDisplayed = false;
 
+
   constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
-    public persistenceService: PersistenceService) {
+    public persistenceService: PersistenceService, private configService: ArlasConfigService,
+    public walkthroughService: ArlasWalkthroughService
+    ) {
       this.reduce = this.translate.instant('reduce');
       this.expand = this.translate.instant('expand');
       this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
+      if (!this.isEmptyMode) {
+        this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
+        this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
+        this.tagComponentConfig = this.configService.getValue('arlas.tagger');
+      }
   }
 
   public ngOnInit() {
@@ -62,10 +92,14 @@ export class LeftMenuComponent implements OnInit {
   }
 
   /**
-   * Shows/hides configuration list
+   * Shows/hides menu element
    */
-  public showConfig() {
-    this.toggleStates.configs = !this.toggleStates.configs;
+  public show(element: string) {
+    if (element === ('configs')) {
+      this.toggleStates.configs = !this.toggleStates.configs;
+    } else {
+      this.toggleStates.configs = false;
+    }
     this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
   }
   public connect() {
@@ -86,4 +120,30 @@ export class LeftMenuComponent implements OnInit {
       window.dispatchEvent(new Event('resize'));
     }, 100);
   }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
+  }
+
+  public displayAbout() {
+    this.aboutcomponent.openDialog();
+  }
+
+  public replayTour() {
+    this.walkthroughService.resetTour();
+    this.walkthroughService.startTour();
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
+  }
+
+  public displayTag() {
+    this.tagComponent.openDialog();
+  }
+
+  public displayTagManagement() {
+    this.tagComponent.openManagement();
+  }
+
 }

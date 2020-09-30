@@ -400,6 +400,18 @@ fi
 envsubst '$ARLAS_AUTHENT_DUMMY_CLIENT_SECRET' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+
+### ARLAS_HUB_URL
+if [ -z "${ARLAS_HUB_URL}" ]; then
+  ARLAS_HUB_URL="http://localhost:8095"
+  export ARLAS_HUB_URL
+  echo "Default arlas_hub_url : http://localhost:8095"
+else
+  echo ${ARLAS_HUB_URL} "is used for managing configurations"
+fi
+envsubst '$ARLAS_HUB_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
 mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 

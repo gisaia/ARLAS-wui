@@ -27,7 +27,6 @@ import {
 import { RouterModule } from '@angular/router';
 
 import { NgxMdModule } from 'ngx-md';
-import { MenuComponent } from 'app/components/menu/menu.component';
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import {
@@ -41,6 +40,7 @@ import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ContributorService } from './services/contributors.service';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -58,7 +58,7 @@ describe('AppComponent', () => {
         ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,
       ],
       declarations: [
-        AppComponent, MenuComponent, AboutComponent, AboutDialogComponent
+        AppComponent, LeftMenuComponent, AboutComponent, AboutDialogComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

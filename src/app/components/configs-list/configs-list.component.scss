@@ -1,31 +1,39 @@
-.configs-list_wrapper {
-  width: 240px;
+.configs-list_all_app {
   position: absolute;
-  top: 85px;
-  left: 5px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+}
+.configs-list_wrapper {
+  max-width: 300px;
+  min-width: 130px;
+  padding: 10px;
+  position: absolute;
+  top: 45px;
+  left: 7px;
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  z-index: 1002;
+  .title {
+    margin: 5px;
+  }
+
   .configs-list_container {
     display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    .title {
-      margin: 0 5px
+    flex-direction: column;
+    .loading {
+      color: #999;
+      font-style: italic;
+      text-align: center;
     }
     .config {
-        max-width: 70px;
-        min-width: 70px;
         padding: 6px;
-        height: 60px;
-        margin: 5px;
+        margin: 3px;
         border: 1px solid #ddd;
-        /* box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12); */
-        border-top: 4px solid;
+        border-left: 4px solid;
         text-overflow: ellipsis;
-        width: 110px;
         white-space: nowrap;
         overflow: hidden;
         display: inline-block;
@@ -48,8 +56,8 @@
     display: flex;
     justify-content: center;
     button {
-      color: #fff;
-      background-color: #3f51b5;
+      color: #3f51b5;
+      background-color: #fff;
     }
   }
 

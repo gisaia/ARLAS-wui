@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 
@@ -20,6 +21,7 @@ export interface Configuration {
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
   public hubUrl;
+  @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   constructor(private persistenceService: PersistenceService, private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
     private arlasSettingsService: ArlasSettingsService) {
@@ -36,6 +38,8 @@ export class ConfigsListComponent implements OnInit {
    */
   public navigate(url: string) {
     window.open(url, '_blank');
+    // emit this event to let know app.component that the component container should be closed
+    this.openHubEventEmitter.next(true);
   }
 
   /**

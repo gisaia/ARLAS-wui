@@ -7,10 +7,10 @@
       color: #666;
     }
     .logo {
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        font-size: 1.5em;
+      padding: 5px 10px 5px 5px;
+      display: flex;
+      align-items: center;
+      font-size: 1.5em;
     }
 
     .toggler {
@@ -38,6 +38,7 @@
     }
 
 
+
     mat-icon {
         padding-right: 5px;
     }
@@ -48,7 +49,7 @@
 }
 
 .active-menu {
-  background-color: rgb(255, 64, 129, 0.2);
+  background-color: rgb(255, 64, 129, 0.1);
   mat-icon {
     color: #FF4081;
   }
