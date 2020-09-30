@@ -9,6 +9,12 @@
 	"Refresh components": "",
 	"Toggle analytics board": "",
 	"Zoom to data": "",
+	"Choose a configuration to load": "",
+	"Manage configurations": "",
+	"Switch configuration": "",
+	"User info": "",
+	"Log In": "",
+	"Log Out": "",
 	"Menu": "",
 	"Tag": "",
 	"Share": "",
@@ -16,5 +22,7 @@
 	"Replay tour": "",
 	"About ARLAS": "",
 	"Add": "",
-	"Replay": ""
+	"Replay": "",
+	"reduce": "",
+	"expand": ""
 }
