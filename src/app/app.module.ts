@@ -44,7 +44,6 @@ import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 
 import { AppComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ContributorService } from './services/contributors.service';
@@ -60,7 +59,6 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
     AboutComponent,
     AboutDialogComponent,
     AppComponent,
-    MenuComponent,
     LeftMenuComponent,
     ConfigsListComponent
   ],

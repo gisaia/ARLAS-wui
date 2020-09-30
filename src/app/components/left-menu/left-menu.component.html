@@ -21,6 +21,42 @@
   </div>
   <div>
     <div class="action-list">
+      <mat-nav-list>
+        <mat-list-item *ngIf="shareComponentConfig" matTooltip="{{'Share geographical data' | translate}}"
+          (click)="displayShare()">
+          <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+            <span class="user_name">{{'Share'}}</span>
+          </button>
+        </mat-list-item>
+        <mat-list-item *ngIf="downloadComponentConfig"  (click)="displayDownload()" matTooltip="{{ 'Download data' | translate }}">
+          <button mat-icon-button>
+            <mat-icon>get_app</mat-icon>
+            <span>{{ 'Download data' | translate }}</span>
+          </button>
+        </mat-list-item>
+        <mat-list-item *ngIf="tagComponentConfig"  [matMenuTriggerFor]="tagMenu" matTooltip="{{ 'Tag data' | translate }}">
+          <button mat-icon-button  >
+            <mat-icon>local_offer</mat-icon>
+            <span>{{ 'Tag' | translate }}</span>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+        <mat-list-item *ngIf="this.walkthroughService.isActivable" (click)="replayTour()" matTooltip="{{ 'Replay tour' | translate }}">
+          <button mat-icon-button >
+            <mat-icon>slideshow</mat-icon>
+            <span>{{ 'Replay tour' | translate }}</span>
+          </button>
+        </mat-list-item>
+        <mat-list-item (click)="displayAbout()" matTooltip="{{ 'About ARLAS' | translate }} {{ version }}">
+          <button mat-icon-button>
+            <mat-icon>info_outline</mat-icon>
+            <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
       <mat-divider></mat-divider>
       <mat-nav-list>
         <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'User info' | translate}}"
@@ -53,3 +89,17 @@
     </div>
   </div>
 </div>
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+<arlas-about #about [pathToMd]="aboutFile"></arlas-about>
+<arlas-download #download [hidden]="true"></arlas-download>
+<arlas-tag #tag></arlas-tag>
+<mat-menu #tagMenu="matMenu">
+  <button mat-menu-item (click)="displayTag()">
+    <mat-icon>add_circle_outline</mat-icon>
+    <span>{{ 'Add' | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="displayTagManagement()">
+    <mat-icon>replay</mat-icon>
+    <span>{{ 'Replay' | translate }}</span>
+  </button>
+</mat-menu>
