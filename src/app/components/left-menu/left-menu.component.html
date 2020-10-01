@@ -26,7 +26,7 @@
           (click)="displayShare()">
           <button mat-icon-button>
             <mat-icon>share</mat-icon>
-            <span class="user_name">{{'Share'}}</span>
+            <span class="user_name">{{'Share' | translate}}</span>
           </button>
         </mat-list-item>
         <mat-list-item *ngIf="downloadComponentConfig"  (click)="displayDownload()" matTooltip="{{ 'Download data' | translate }}">
