@@ -25,7 +25,7 @@ export class ConfigsListComponent implements OnInit {
 
   constructor(private persistenceService: PersistenceService, private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
     private arlasSettingsService: ArlasSettingsService) {
-      this.hubUrl = this.arlasSettingsService.getArlasBuilderUrl();
+      this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
   }
 
   public ngOnInit() {
