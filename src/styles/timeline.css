@@ -98,34 +98,76 @@
   stroke: none;
 }
 
-.arlas-timeline .histogram__chart--unselected--area{
-  fill: #EEEEEE;
-  fill-opacity: 1;
-  stroke: none;
+/** TIMELINE BARS**/
+.arlas-timeline .histogram__chart--bar__currentselection,
+.arlas-detailed-timeline .histogram__chart--bar__currentselection
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
 }
-
-.arlas-timeline .histogram__chart--bar__currentselection{
-  fill: #2196F3;
-  fill-opacity: 1;
-  stroke: none
+.arlas-timeline .histogram__chart--bar__partlyselected,
+.arlas-detailed-timeline .histogram__chart--bar__partlyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
 }
-
-.arlas-timeline .histogram__chart--bar__partlyselected{
-  fill: #35b8ff;
-  fill-opacity: 1;
-  stroke: none;
+.arlas-timeline .histogram__chart--bar__fullyselected,
+.arlas-detailed-timeline .histogram__chart--bar__fullyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
 }
-
-.arlas-timeline .histogram__chart--bar__fullyselected{
-  fill: #2196F3;
-  fill-opacity: 1;
-  stroke: none;
+.arlas-timeline .histogram__chart--bar,
+.arlas-detailed-timeline .histogram__chart--bar
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0.4px;
+  stroke-opacity: 1;
 }
-
-.arlas-timeline .histogram__chart--bar{
-  fill: #EEEEEE;
-  fill-opacity: 1;
-  stroke: none;
+/** TIMELINE HEADBANDS**/
+.arlas-timeline .headband_currentselection,
+.arlas-detailed-timeline .headband_currentselection
+{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
+}
+.arlas-timeline .headband_currentselection_max,
+.arlas-detailed-timeline .headband_currentselection_max
+{
+  fill: rgb(201, 0, 100) !important;
+  stroke: rgb(201, 0, 100) !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
+}
+.arlas-timeline .headband_partlyselected,
+.arlas-detailed-timeline .headband_partlyselected
+{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-timeline .headband_fullyselected,
+.arlas-detailed-timeline .headband_fullyselected
+{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-timeline .headband_notselected,
+.arlas-detailed-timeline .headband_notselected
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0 !important;
+  height: 0 !important;
 }
 
 .arlas-timeline .histogram__no-chart__key,
