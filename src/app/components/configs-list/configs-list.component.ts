@@ -21,6 +21,7 @@ export interface Configuration {
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
   public hubUrl;
+  public listResolved = false;
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   constructor(private persistenceService: PersistenceService, private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
@@ -46,9 +47,11 @@ export class ConfigsListComponent implements OnInit {
    * Gets the configurations list
    */
   public getConfigList() {
+    this.listResolved = false;
     this.persistenceService.list(ZONE_WUI_BUILDER, 10, 1, 'desc')
       .subscribe({
         next: (result: DataResource) => {
+          this.listResolved = true;
           if (!!result.data) {
             result.data.forEach((d: DataWithLinks) => {
               const config: Configuration = {
