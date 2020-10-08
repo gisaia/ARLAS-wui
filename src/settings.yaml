@@ -27,3 +27,4 @@ authentication:
   dummy_client_secret: ${ARLAS_AUTHENT_DUMMY_CLIENT_SECRET}
 persistence:
   url: ${ARLAS_PERSISTENCE_URL}
+arlas_hub_url: ${ARLAS_HUB_URL}

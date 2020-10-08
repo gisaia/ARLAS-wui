@@ -17,118 +17,157 @@
  * under the License.
  */
 
-.arlas-histogram-analytics .histogram__description{
+.arlas-histogram-analytics .histogram__description {
   display: none;
 }
 
-.arlas-histogram-analytics .histogram__chart--current-selected--area{
-  fill: #80CBC4;
+.arlas-histogram-analytics .histogram__chart--current-selected--area {
+  fill: #80cbc4;
   fill-opacity: 1;
-  stroke: #80CBC4;
+  stroke: #80cbc4;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
-.arlas-histogram-analytics .histogram__chart--fixed-selected--area{
-  fill: #80CBC4;
+.arlas-histogram-analytics .histogram__chart--fixed-selected--area {
+  fill: #80cbc4;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-histogram-analytics .histogram__chart--unselected--area{
-  fill: #EEEEEE;
+.arlas-histogram-analytics .histogram__chart--unselected--area {
+  fill: #eeeeee;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-histogram-analytics .histogram__chart .context .brush .selection{
-  fill: #BDBDBD;
+.arlas-histogram-analytics .histogram__chart .context .brush .selection {
+  fill: #bdbdbd;
   fill-opacity: 0.2;
-  stroke:none;
-}
-
-.arlas-histogram-analytics .histogram__chart--bar__partlyselected {
-  fill: #9de0ad;
-  fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics .histogram__chart--bar__currentselection{
-  fill: #80CBC4;
-  fill-opacity: 1;
-  stroke: none;
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-histogram-analytics .histogram__chart--bar__partlyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-histogram-analytics .histogram__chart--bar__fullyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-histogram-analytics .histogram__chart--bar
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0.4px;
+  stroke-opacity: 1;
 }
 
-.arlas-histogram-analytics .histogram__chart--bar__fullyselected{
-  fill: #80CBC4;
-  fill-opacity: 1;
-  stroke: none;
+.arlas-histogram-analytics .headband_currentselection
+{
+  fill: #4ECDC4 !important;
+  stroke: #4ECDC4 !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
 }
 
-.arlas-histogram-analytics .histogram__chart--bar {
-  fill: #EEEEEE;
-  fill-opacity: 1;
-  stroke: none;
+.arlas-histogram-analytics .headband_currentselection_max
+{
+  fill: rgb(238, 35, 69) !important;
+  stroke: rgb(238, 35, 69) !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
 }
+.arlas-histogram-analytics .headband_partlyselected
+{
+  fill: #4ECDC4 !important;
+  stroke: #4ECDC4 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-histogram-analytics .headband_fullyselected{
+  fill: #4ECDC4 !important;
+  stroke: #4ECDC4 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-histogram-analytics .headband_notselected
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0 !important;
+  height: 0 !important;
+}
+
 
 .arlas-histogram-analytics .histogram__brush--handles {
-  stroke: #78909C;
+  stroke: #78909c;
   stroke-width: 1px;
   fill: white;
 }
 
 .arlas-histogram-analytics .tick text {
-  fill: #BDBDBD;
+  fill: #bdbdbd;
   font-size: 0.9em;
 }
 
-.arlas-histogram-analytics .histogram__ticks{
-  stroke: #BDBDBD;
+.arlas-histogram-analytics .histogram__ticks {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
-.arlas-histogram-analytics .histogram__axis{
-  stroke: #BDBDBD;
-  stroke-width: 0.8px;
-}
-
-.arlas-histogram-analytics .histogram__only-axis .domain{
-  stroke: #BDBDBD;
+.arlas-histogram-analytics .histogram__axis {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
 
-.arlas-histogram-analytics-not-selectable .histogram__description{
+.arlas-histogram-analytics .histogram__only-axis .domain {
+  stroke: #bdbdbd;
+  stroke-width: 0.8px;
+}
+
+.arlas-histogram-analytics-not-selectable .histogram__description {
   display: none;
 }
 
 .arlas-histogram-analytics-not-selectable .histogram__chart--bar {
-  fill: #80CBC4;
+  fill: #80cbc4;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-histogram-analytics-not-selectable .tick text {
-  fill: #BDBDBD;
+  fill: #bdbdbd;
   font-size: 0.9em;
 }
 
-.arlas-histogram-analytics-not-selectable .histogram__ticks{
-  stroke: #BDBDBD;
+.arlas-histogram-analytics-not-selectable .histogram__ticks {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
 
-.arlas-histogram-analytics-not-selectable .histogram__axis{
-  stroke: #BDBDBD;
+.arlas-histogram-analytics-not-selectable .histogram__axis {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
 
-.arlas-histogram-analytics-not-selectable .histogram__only-axis .domain{
-  stroke: #BDBDBD;
+.arlas-histogram-analytics-not-selectable .histogram__only-axis .domain {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
 
-.arlas-histogram-analytics-not-selectable .histogram__chart--current-selected--area {
-  fill: #80CBC4;
-  stroke: #80CBC4
+.arlas-histogram-analytics-not-selectable
+  .histogram__chart--current-selected--area {
+  fill: #80cbc4;
+  stroke: #80cbc4;
 }
 
 .arlas-swimlane-filter .histogram__chart--bar {
@@ -136,25 +175,25 @@
   stroke-opacity: 0.1;
 }
 
-.analytics-board-content .group-item-title{
+.analytics-board-content .group-item-title {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
   color: #656565 !important;
 }
 
-.analytics-board-content .detail-item{
-  color: #FF4081 !important;
+.analytics-board-content .detail-item {
+  color: #ff4081 !important;
 }
 
-.analytics-board-content .resultdetaileditem-key{
+.analytics-board-content .resultdetaileditem-key {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
   color: #656565;
 }
 
-.analytics-board-content .resultdetaileditem-value{
+.analytics-board-content .resultdetaileditem-value {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
@@ -163,81 +202,144 @@
 
 
 /** apply the blue style to histograms that have a time dimension on x-axis**/
-.arlas-timeline-analytics .histogram__description{
+
+.arlas-timeline-analytics .histogram__description {
   display: none;
 }
 
-.arlas-timeline-analytics .histogram__chart--current-selected--area{
-  fill: #2196F3;
+.arlas-timeline-analytics .histogram__chart--current-selected--area {
+  fill: #4ecdc4;
   fill-opacity: 1;
-  stroke: #2196F3;
+  stroke: #4ecdc4;
   stroke-width: 1px;
   stroke-opacity: 1;
 }
 
-.arlas-timeline-analytics .histogram__chart--fixed-selected--area{
-  fill: #2196F3;
+.arlas-timeline-analytics .histogram__chart--fixed-selected--area {
+  fill: #4ecdc4;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-analytics .histogram__chart--unselected--area{
-  fill: #EEEEEE;
+.arlas-timeline-analytics .histogram__chart--unselected--area {
+  fill: #eeeeee;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-analytics .histogram__chart .context .brush .selection{
-  fill: #BDBDBD;
-  fill-opacity: 0.2;
-  stroke:none;
+.arlas-timeline-analytics .histogram__chart .context .brush .selection {
+  fill: #4ecdc4;
+  fill-opacity: 0;
+  stroke: none;
 }
 
 .arlas-timeline-analytics .histogram__chart--bar__partlyselected {
-  fill: #2196F3;
+  fill: #4ecdc4;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-analytics .histogram__chart--bar__currentselection{
-  fill: #2196F3;
+.arlas-timeline-analytics .histogram__chart--bar__currentselection {
+  fill: #4ecdc4;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-analytics .histogram__chart--bar__fullyselected{
-  fill: #2196F3;
+.arlas-timeline-analytics .histogram__chart--bar__fullyselected {
+  fill: #4ecdc4;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-timeline-analytics .histogram__chart--bar {
-  fill: #EEEEEE;
+  fill: #eeeeee;
   fill-opacity: 1;
   stroke: none;
 }
 
 .arlas-timeline-analytics .histogram__brush--handles {
-  stroke: #78909C;
+  stroke: #78909c;
   stroke-width: 1px;
   fill: white;
 }
 
 .arlas-timeline-analytics .tick text {
-  fill: #BDBDBD;
+  fill: #bdbdbd;
   font-size: 0.9em;
 }
 
-.arlas-timeline-analytics .histogram__ticks{
-  stroke: #BDBDBD;
+.arlas-timeline-analytics .histogram__ticks {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
-.arlas-timeline-analytics .histogram__axis{
-  stroke: #BDBDBD;
+.arlas-timeline-analytics .histogram__axis {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
 }
 
-.arlas-timeline-analytics .histogram__only-axis .domain{
-  stroke: #BDBDBD;
+.arlas-timeline-analytics .histogram__only-axis .domain {
+  stroke: #bdbdbd;
   stroke-width: 0.8px;
+}
+
+
+/** TIMELINE BARS**/
+.arlas-timeline-analytics .histogram__chart--bar__currentselection{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-timeline-analytics .histogram__chart--bar__partlyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-timeline-analytics .histogram__chart--bar__fullyselected
+{
+  fill: #FFF !important;
+  stroke: #a5a5a5 !important;
+  stroke-width: 0.4px;
+}
+.arlas-timeline-analytics .histogram__chart--bar
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0.4px;
+  stroke-opacity: 1;
+}
+/** TIMELINE HEADBANDS**/
+.arlas-timeline-analytics .headband_currentselection
+{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
+}
+.arlas-timeline-analytics .headband_currentselection_max
+{
+  fill: rgb(201, 0, 100) !important;
+  stroke: rgb(201, 0, 100) !important;
+  stroke-width: 0.4px !important;;
+  height: 1.5px !important;
+}
+.arlas-timeline-analytics .headband_partlyselected
+{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-timeline-analytics .headband_fullyselected{
+  fill: #2196F3 !important;
+  stroke: #2196F3 !important;
+  stroke-width: 0.4px !important;
+  height: 1.5px !important;
+}
+.arlas-timeline-analytics .headband_notselected
+{
+  fill: #FFF !important;
+  stroke: #b7b7b7 !important;
+  stroke-width: 0 !important;
+  height: 0 !important;
 }

@@ -4,7 +4,7 @@
 <div class="configs-list_wrapper">
   <h4 class="title">{{'Choose a configuration to load' | translate}}</h4>
   <div class="configs-list_container">
-    <span *ngIf="configurations && configurations.length === 0" class="loading">{{'Loading configurations ...'}}</span>
+    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading configurations ...' | translate}}</span>
     <a target="_blank" [routerLink]="['/']" [queryParams]="{config_id: conf.id }" *ngFor="let conf of configurations" class="config" [style.borderLeftColor]="conf.color">
       {{conf.name}}
     </a>
