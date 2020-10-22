@@ -1,8 +1,7 @@
 <div class="menu_container" [class.hide-label]="!isLabelDisplayed">
   <div>
     <div class="logo">
-      <img src="assets/logo-only.png" />
-      <span>ARLAS-wui</span>
+      <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" />
     </div>
     <div>
       <div>
@@ -10,7 +9,6 @@
           <mat-list-item *ngIf="persistenceService.isAvailable"  (click)="show('configs')" [class.active-menu]="!!toggleStates.configs" matTooltip="{{'Switch configuration' | translate}}">
             <button mat-icon-button>
               <mat-icon>apps</mat-icon>
-              <span>{{'Switch configuration' | translate}}</span>
             </button>
           </mat-list-item>
         </mat-nav-list>
@@ -26,19 +24,16 @@
           (click)="displayShare()">
           <button mat-icon-button>
             <mat-icon>share</mat-icon>
-            <span class="user_name">{{'Share' | translate}}</span>
           </button>
         </mat-list-item>
         <mat-list-item *ngIf="downloadComponentConfig"  (click)="displayDownload()" matTooltip="{{ 'Download data' | translate }}">
           <button mat-icon-button>
             <mat-icon>get_app</mat-icon>
-            <span>{{ 'Download data' | translate }}</span>
           </button>
         </mat-list-item>
         <mat-list-item *ngIf="tagComponentConfig"  [matMenuTriggerFor]="tagMenu" matTooltip="{{ 'Tag data' | translate }}">
           <button mat-icon-button  >
             <mat-icon>local_offer</mat-icon>
-            <span>{{ 'Tag' | translate }}</span>
           </button>
         </mat-list-item>
       </mat-nav-list>
@@ -47,13 +42,11 @@
         <mat-list-item *ngIf="this.walkthroughService.isActivable" (click)="replayTour()" matTooltip="{{ 'Replay tour' | translate }}">
           <button mat-icon-button >
             <mat-icon>slideshow</mat-icon>
-            <span>{{ 'Replay tour' | translate }}</span>
           </button>
         </mat-list-item>
         <mat-list-item (click)="displayAbout()" matTooltip="{{ 'About ARLAS' | translate }} {{ version }}">
           <button mat-icon-button>
             <mat-icon>info_outline</mat-icon>
-            <span>{{ 'About ARLAS' | translate }} {{ version }}</span>
           </button>
         </mat-list-item>
       </mat-nav-list>
@@ -63,29 +56,21 @@
           (click)="getUserInfos()">
           <button mat-icon-button>
             <img src="{{avatar}}" class="user_avatar">
-            <span class="user_name">{{name}}</span>
           </button>
         </mat-list-item>
         <mat-list-item *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}"
           (click)="connect()">
           <button mat-icon-button>
             <mat-icon>account_circle</mat-icon>
-            <span>{{'Log In' | translate}}</span>
           </button>
         </mat-list-item>
         <mat-list-item *ngIf="connected && isAuthentActivated" matTooltip="{{'Log Out' | translate}}"
           (click)="connect()">
           <button mat-icon-button>
             <mat-icon>lock_open</mat-icon>
-            <span>{{'Log Out' | translate}}</span>
           </button>
         </mat-list-item>
       </mat-nav-list>
-    </div>
-    <div class="toggler">
-      <button mat-icon-button (click)="expandMenu()" [matTooltip]="isLabelDisplayed? reduce : expand">
-        <mat-icon>{{ isLabelDisplayed ? 'arrow_left' : 'arrow_right' }}</mat-icon>
-      </button>
     </div>
   </div>
 </div>

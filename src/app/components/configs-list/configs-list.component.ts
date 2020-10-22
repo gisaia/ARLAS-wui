@@ -4,6 +4,8 @@ import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 
@@ -22,11 +24,15 @@ export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
   public hubUrl;
   public listResolved = false;
+  public retrieveData = true;
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
-  constructor(private persistenceService: PersistenceService, private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
-    private arlasSettingsService: ArlasSettingsService) {
-      this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
+  constructor(
+    private persistenceService: PersistenceService,
+    private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
+    private arlasSettingsService: ArlasSettingsService
+  ) {
+    this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
   }
 
   public ngOnInit() {
@@ -64,6 +70,8 @@ export class ConfigsListComponent implements OnInit {
           }
         },
         error: (msg) => {
+          this.listResolved = true;
+          this.retrieveData = false;
         }
       });
   }
