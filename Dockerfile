@@ -9,7 +9,7 @@ COPY ./package-lock.json  ./
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
+RUN export NODE_OPTIONS=--max_old_space_size=8192 npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
 
 COPY ./scripts/start.sh ./ng-app
 COPY ./scripts/fetch-conf-by-http.sh ./ng-app
@@ -19,9 +19,7 @@ WORKDIR /ng-app
 COPY . .
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN export NODE_OPTIONS=--max_old_space_size=8192;
-RUN $(npm bin)/ng build --prod --aot --base-href='$ARLAS_WUI_BASE_HREF/'
-
+RUN export NODE_OPTIONS=--max_old_space_size=8192 && $(npm bin)/ng build --prod --aot --base-href='$ARLAS_WUI_BASE_HREF/'
 
 ### STAGE 2: Setup ###
 
