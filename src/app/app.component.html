@@ -3,7 +3,7 @@
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
     </mat-sidenav>
-    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+    <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">

@@ -49,11 +49,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { SidenavService } from './services/sidenav.service';
-import { onMainContentChange } from './components/left-menu/animations';
 import { MenuState } from './components/left-menu/left-menu.component';
 
 @Component({
-  animations: [onMainContentChange],
   selector: 'arlas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

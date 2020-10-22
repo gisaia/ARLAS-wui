@@ -9,7 +9,7 @@ COPY ./package-lock.json  ./
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN export NODE_OPTIONS=--max_old_space_size=8192 npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
+RUN export NODE_OPTIONS=--max_old_space_size=8192 && npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
 
 COPY ./scripts/start.sh ./ng-app
 COPY ./scripts/fetch-conf-by-http.sh ./ng-app

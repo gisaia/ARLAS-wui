@@ -7,7 +7,7 @@
       color: #666;
     }
     .logo {
-      padding: 5px 10px 5px 5px;
+      padding: 5px 0 0 3px;
       display: flex;
       align-items: center;
       font-size: 1.5em;
@@ -37,7 +37,9 @@
         }
     }
 
-
+    ::ng-deep .mat-list-item-content{
+      padding: 0 13px !important;
+    }
 
     mat-icon {
         padding-right: 5px;
