@@ -4,8 +4,6 @@ import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { Subject } from 'rxjs';
-import { MatSnackBar } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 
@@ -47,6 +45,10 @@ export class ConfigsListComponent implements OnInit {
     window.open(url, '_blank');
     // emit this event to let know app.component that the component container should be closed
     this.openHubEventEmitter.next(true);
+  }
+
+  public switchConf(confId) {
+    window.location.href = '/?config_id=' + confId;
   }
 
   /**
