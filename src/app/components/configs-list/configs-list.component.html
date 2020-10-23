@@ -6,7 +6,7 @@
   <div class="configs-list_container">
     <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading configurations ...' | translate}}</span>
     <span *ngIf="listResolved && !retrieveData" class="loading">{{'Error while retrieving configurations' | translate}}</span>
-    <a [routerLink]="['/']" [queryParams]="{config_id: conf.id }" *ngFor="let conf of configurations" class="config" [style.borderLeftColor]="conf.color">
+    <a (click)="switchConf(conf.id)" *ngFor="let conf of configurations" class="config" [style.borderLeftColor]="conf.color">
       {{conf.name}}
     </a>
   </div>
