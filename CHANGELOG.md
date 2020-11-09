@@ -1,5 +1,29 @@
 # Change Log
 
+## [v14.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0) (2020-11-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-rc.2...v14.0.0)
+
+## [v14.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-rc.2) (2020-10-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-test-doc...v14.0.0-rc.2)
+
+**New stuff:**
+
+- Add a list of configs to load in the lateral menu [\#232](https://github.com/gisaia/ARLAS-wui/pull/232) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+## [v14.0.0-test-doc](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-test-doc) (2020-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-beta.1...v14.0.0-test-doc)
+
+**Fixed bugs:**
+
+- Add a silent-refresh html page to renew token [\#227](https://github.com/gisaia/ARLAS-wui/issues/227)
+
+## [v14.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-beta.1) (2020-08-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.3...v14.0.0-beta.1)
+
 ## [v13.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.3) (2020-07-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.2...v13.0.3)
