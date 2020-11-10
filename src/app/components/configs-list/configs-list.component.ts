@@ -48,7 +48,7 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public switchConf(confId) {
-    window.location.href = '/?config_id=' + confId;
+    window.location.search = '?config_id=' + confId;
   }
 
   /**
