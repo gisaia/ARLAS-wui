@@ -116,7 +116,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
-  @ViewChild('import', { static: true }) public mapImportComponent: MapglImportComponent;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
 
   constructor(
