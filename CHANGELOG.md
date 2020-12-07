@@ -1,5 +1,13 @@
 # Change Log
 
+## [v14.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.0) (2020-12-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.1...v14.1.0)
+
+**Fixed bugs:**
+
+- Import geometries as filter is broken [\#244](https://github.com/gisaia/ARLAS-wui/issues/244)
+
 ## [v14.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.1) (2020-11-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0...v14.0.1)
