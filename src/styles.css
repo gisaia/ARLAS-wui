@@ -161,21 +161,6 @@ table.resultlist>tbody {
   padding: 5px 0;
 }
 
-.analytics-group-3 .mat-card {
-  width: 125px !important;
-  padding: 0 5px;
-}
-
-.one_of_three {
-  width: 100px !important;
-  flex: unset !important;
-}
-
-.two_of_three {
-  width: 270px !important;
-  flex: unset !important;
-}
-
 .analytics-board-group {
   justify-content: space-evenly;
 }

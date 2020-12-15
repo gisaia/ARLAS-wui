@@ -17,29 +17,14 @@
  * under the License.
  */
 
-.arlas-donuts-analytics{
+.arlas-donuts-analytics {
   overflow: hidden !important;
 }
 
-.arlas-donuts-status-analytics{
-
+.arlas-donuts-status-analytics {
   overflow: hidden !important;
 }
 
-.analytics-board-card .donut-container .donut{
+.analytics-board-card .donut-container .donut {
   display: none;
 }
-
-.analytics-group-2 .donut-container{
-  width: 250px;
-  height: 190px;
-}
-
-.one_of_three .donut-container{
-  width: 100px;
-  height: 160px;
-}
-
-
-
-
