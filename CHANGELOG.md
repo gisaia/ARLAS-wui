@@ -1,5 +1,13 @@
 # Change Log
 
+## [v14.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.1) (2020-12-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.1.0...v14.1.1)
+
+**New stuff:**
+
+- Add map coordinates [\#248](https://github.com/gisaia/ARLAS-wui/issues/248)
+
 ## [v14.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.0) (2020-12-07)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.1...v14.1.0)
