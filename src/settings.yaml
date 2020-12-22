@@ -28,3 +28,4 @@ authentication:
 persistence:
   url: ${ARLAS_PERSISTENCE_URL}
 arlas_hub_url: ${ARLAS_HUB_URL}
+links: ${ARLAS_STATIC_LINKS}
