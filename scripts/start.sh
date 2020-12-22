@@ -400,6 +400,16 @@ fi
 envsubst '$ARLAS_AUTHENT_DUMMY_CLIENT_SECRET' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+### Array of statics links
+if [ -z "${ARLAS_STATIC_LINKS}" ]; then
+  ARLAS_STATIC_LINKS="[]"
+  export ARLAS_STATIC_LINKS
+  echo "None static link is defined"
+else
+  echo ${ARLAS_STATIC_LINKS} "is used for 'links' in settings.yaml file"
+fi
+envsubst '$ARLAS_STATIC_LINKS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 ### ARLAS_HUB_URL
 if [ -z "${ARLAS_HUB_URL}" ]; then
