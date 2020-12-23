@@ -20,6 +20,7 @@
   <div>
     <div class="action-list">
       <arlas-tool-link></arlas-tool-link>
+      <mat-divider *ngIf="shareComponentConfig || downloadComponentConfig || tagComponentConfig"></mat-divider>
       <mat-nav-list>
         <mat-list-item *ngIf="shareComponentConfig" matTooltip="{{'Share geographical data' | translate}}"
           (click)="displayShare()">
@@ -48,6 +49,11 @@
         <mat-list-item (click)="displayAbout()" matTooltip="{{ 'About ARLAS' | translate }} {{ version }}">
           <button mat-icon-button>
             <mat-icon>info_outline</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item *ngIf="this.zendeskActive" (click)="window.zE('webWidget', 'open');window.zE('webWidget', 'show');" matTooltip="{{ 'Support' | translate }}">
+          <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
           </button>
         </mat-list-item>
       </mat-nav-list>

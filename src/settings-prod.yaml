@@ -1,0 +1,33 @@
+
+########################################################
+############   AUTHENTICATION SETTINGS   ###############
+########################################################
+authentication:
+  use_authent: ${ARLAS_USE_AUTHENT}
+  force_connect: ${ARLAS_AUTHENT_FORCE_CONNECT}
+  use_discovery: ${ARLAS_AUTHENT_USE_DISCOVERY}
+  issuer: ${ARLAS_AUTHENT_ISSUER}
+  client_id: ${ARLAS_AUTHENT_CLIENT_ID}
+  redirect_uri: ${ARLAS_AUTHENT_REDIRECT_URI}
+  silent_refresh_redirect_uri: ${ARLAS_AUTHENT_SILENT_REFRESH_REDIRECT_URI}
+  scope: ${ARLAS_AUTHENT_SCOPE}
+  token_endpoint: ${ARLAS_AUTHENT_TOKEN_ENDPOINT}
+  userinfo_endpoint: ${ARLAS_AUTHENT_USERINFO_ENDPOINT}
+  jwks_endpoint: ${ARLAS_AUTHENT_JWKS_ENDPOINT}
+  login_url: ${ARLAS_AUTHENT_LOGIN_URL}
+  logout_url: ${ARLAS_AUTHENT_LOGOUT_URL}
+  show_debug_information: ${ARLAS_AUTHENT_SHOW_DEBUG}
+  require_https: ${ARLAS_AUTHENT_REQUIRE_HTTPS}
+  response_type: ${ARLAS_AUTHENT_RESPONSE_TYPE}
+  silent_refresh_timeout: ${ARLAS_AUTHENT_SILENT_REFRESH_TIMEOUT}
+  timeout_factor: ${ARLAS_AUTHENT_TIMEOUT_FACTOR}
+  session_checks_enabled: ${ARLAS_AUTHENT_ENABLE_SESSION_CHECKS}
+  clear_hash_after_login: ${ARLAS_AUTHENT_CLEAR_HASH}
+  storage: ${ARLAS_AUTHENT_STORAGE}
+  disable_at_hash_check: ${ARLAS_AUTHENT_DISABLE_AT_HASH_CHECK}
+  dummy_client_secret: ${ARLAS_AUTHENT_DUMMY_CLIENT_SECRET}
+persistence:
+  url: ${ARLAS_PERSISTENCE_URL}
+arlas_hub_url: ${ARLAS_HUB_URL}
+links: ${ARLAS_STATIC_LINKS}
+ticketing_key: ${ARLAS_TICKETING_KEY}

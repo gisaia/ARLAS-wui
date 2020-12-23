@@ -17,24 +17,28 @@
   <body>
     <arlas-root></arlas-root>
     <!-- Start of gisaiasupport Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=5debbd37-dec0-46fb-85a5-ef5fdc01d13e"> </script>
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=${ARLAS_TICKETING_KEY}"> </script>
     <script>
       window.zESettings = {
         webWidget: {
           launcher: {
             label: {
-              'en-US': 'Support'
+              'en-US': 'Support',
+              'fr': 'Assistance'
             }
           },
           offset: {
-            horizontal: '-15px',
-            vertical: '185px'
+            vertical: '100px'
           },
           color: {
             launcherText: '#FFFFFF'
           }
         }
       };
+      zE('webWidget', 'hide');
+      zE('webWidget:on', 'close', function() {
+        zE('webWidget', 'hide');
+      });
     </script>
     <!-- End of gisaiasupport Zendesk Widget script -->
   </body>
