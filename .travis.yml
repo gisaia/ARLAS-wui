@@ -15,7 +15,9 @@ jobs:
       script:
         - export NODE_OPTIONS=--max_old_space_size=8192;
         - npm install
+        - npm rebuild node-sass
         - npm run build
+        - npm run ngc-build
     - env:
         - job=docker-build
       script:
