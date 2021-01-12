@@ -18,9 +18,9 @@
  */
 
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
+import { ArlasWuiComponent } from './app.component';
 
 export const ROUTES: Routes = [
-  { path: '', component: AppComponent }
+  { path: '', component: ArlasWuiComponent }
 ];
 export const routing = RouterModule.forRoot(ROUTES);

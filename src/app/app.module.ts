@@ -41,7 +41,7 @@ import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
-import { AppComponent } from './app.component';
+import { ArlasWuiComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -58,7 +58,14 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
   declarations: [
     AboutComponent,
     AboutDialogComponent,
-    AppComponent,
+    ArlasWuiComponent,
+    LeftMenuComponent,
+    ConfigsListComponent
+  ],
+  exports: [
+    AboutComponent,
+    AboutDialogComponent,
+    ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent
   ],
@@ -103,7 +110,7 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
     SidenavService
 
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]
 })
-export class AppModule { }
+export class ArlasWuiModule { }

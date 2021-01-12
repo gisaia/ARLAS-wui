@@ -52,11 +52,11 @@ import { SidenavService } from './services/sidenav.service';
 import { MenuState } from './components/left-menu/left-menu.component';
 
 @Component({
-  selector: 'arlas-root',
+  selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public mapglContributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;

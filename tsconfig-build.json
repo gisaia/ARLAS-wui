@@ -1,0 +1,51 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "baseUrl": "src",
+        "sourceMap": true,
+        "declaration": true,
+        "resolveJsonModule": true,
+        "target": "es6",
+        "module": "es2015",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "stripInternal": true,
+        "skipLibCheck": true,
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2016",
+            "es6",
+            "dom"
+        ]
+    },
+    "files": [
+        "src/app/index.ts"
+    ],
+    "include": [
+        "src/styles/*",
+        "src/styles.css",
+        "src/app/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/app/**/*.spec.*",
+        "e2e/"
+    ],
+    "angularCompilerOptions": {
+        "genDir": "dist",
+        "strictMetadataEmit": true,
+        "annotateForClosureCompiler": false,
+        "skipTemplateCodegen": true,
+        "fullTemplateTypeCheck": true
+    }
+}
