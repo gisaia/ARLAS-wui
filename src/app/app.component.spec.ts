@@ -35,7 +35,7 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 
-import { AppComponent } from './app.component';
+import { ArlasWuiComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ContributorService } from './services/contributors.service';
@@ -43,8 +43,8 @@ import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 
 describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
+  let component: ArlasWuiComponent;
+  let fixture: ComponentFixture<ArlasWuiComponent>;
   let arlasStartupService: ArlasStartupService;
 
   beforeEach(async(() => {
@@ -58,7 +58,7 @@ describe('AppComponent', () => {
         ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,
       ],
       declarations: [
-        AppComponent, LeftMenuComponent, AboutComponent, AboutDialogComponent
+        ArlasWuiComponent, LeftMenuComponent, AboutComponent, AboutDialogComponent
       ],
       providers: [
         ArlasCollaborativesearchService,
@@ -75,7 +75,7 @@ describe('AppComponent', () => {
     arlasStartupService = TestBed.get(ArlasStartupService);
     arlasStartupService.arlasIsUp.subscribe(isUp => {
       if (isUp) {
-        fixture = TestBed.createComponent(AppComponent);
+        fixture = TestBed.createComponent(ArlasWuiComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       }

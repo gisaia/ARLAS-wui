@@ -57,7 +57,7 @@
     "node": "^11.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "node-sass": "^3.8.0",
+    "node-sass": "^4.0.0",
     "karma": "~4.2.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "~1.1.2",
