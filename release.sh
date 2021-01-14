@@ -97,6 +97,18 @@ docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${
 docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:latest
 
+echo "==> Npm"
+rm -rf dist
+npm install
+npm run ngc-build
+cp package.json dist
+cd dist && npm publish
+cd ..
+
+echo "==> Clean local environment"
+npm cache clean --force
+rm -rf node_modules/
+
 echo "==> Go back to develop branch and rebase"
 git checkout develop
 git pull origin develop
