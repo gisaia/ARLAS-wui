@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json s--key-as-default-value --replace --format json",
+    "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
   },
   "private": true,
@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "~8.2.10",
     "@angular/router": "~8.2.10",
     "@types/d3-dsv": "1.0.32",
-    "arlas-wui-toolkit": "14.1.1",
+    "arlas-wui-toolkit": "14.2.0-beta.1",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
     "cryptiles": ">=4.1.2",

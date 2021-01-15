@@ -118,6 +118,15 @@ else
   echo ${ARLAS_GOOGLE_ANALYTICS_KEY}  "is used as Google Analytics key "
 fi
 
+# Set zendesk key
+if [ -z "${ARLAS_TICKETING_KEY}" ]; then
+  ARLAS_TICKETING_KEY=""
+  export ARLAS_TICKETING_KEY
+  echo "No key defined for Zendesk ticketing"
+else
+  echo ${ARLAS_TICKETING_KEY}  "is used as Zendesk ticketing key "
+fi
+
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
   ARLAS_WUI_APP_PATH=""
@@ -428,6 +437,10 @@ mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
 envsubst '$ARLAS_GOOGLE_ANALYTICS_KEY' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
 mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
+envsubst '$ARLAS_TICKETING_KEY' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
+mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
+
+
 envsubst '$ARLAS_WUI_BASE_HREF' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
 mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
@@ -435,6 +448,9 @@ envsubst '$ARLAS_WUI_APP_PATH' < /etc/nginx/conf.d/default.conf > /etc/nginx/con
 mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
 
 envsubst '$ARLAS_PERSISTENCE_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+envsubst '$ARLAS_TICKETING_KEY' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 

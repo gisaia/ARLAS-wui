@@ -12,6 +12,7 @@ import { AboutComponent } from '../about/about.component';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { DownloadComponent } from 'arlas-wui-toolkit/components/download/download.component';
 import { TagComponent } from 'arlas-wui-toolkit/components/tag/tag.component';
+import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 
 interface Page {
   link: string;
@@ -41,6 +42,8 @@ export class LeftMenuComponent implements OnInit {
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
 
+  public window;
+  public zendeskActive = false;
 
   public tagComponentConfig: any;
   public shareComponentConfig: any;
@@ -63,16 +66,19 @@ export class LeftMenuComponent implements OnInit {
 
   constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
     public persistenceService: PersistenceService, private configService: ArlasConfigService,
-    public walkthroughService: ArlasWalkthroughService
-    ) {
-      this.reduce = this.translate.instant('reduce');
-      this.expand = this.translate.instant('expand');
-      this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
-      if (!this.isEmptyMode) {
-        this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
-        this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
-        this.tagComponentConfig = this.configService.getValue('arlas.tagger');
-      }
+    public walkthroughService: ArlasWalkthroughService,
+    public settings: ArlasSettingsService
+  ) {
+    this.window = window;
+    this.reduce = this.translate.instant('reduce');
+    this.expand = this.translate.instant('expand');
+    this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
+    if (!this.isEmptyMode) {
+      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
+      this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
+      this.tagComponentConfig = this.configService.getValue('arlas.tagger');
+      this.zendeskActive = this.settings.getTicketingKey() ? true : false;
+    }
   }
 
   public ngOnInit() {
