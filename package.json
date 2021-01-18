@@ -14,7 +14,6 @@
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.10",
     "@angular/cdk": "~8.2.3",
