@@ -3,14 +3,17 @@
 </div>
 <div class="configs-list_wrapper">
   <h4 class="title">{{'Choose a dashboard to load' | translate}}</h4>
+  <div *ngIf="hubUrl" class="manage-config" (click)="navigate(hubUrl)">
+    <button mat-stroked-button>{{'Manage dashboards' | translate}}</button>
+  </div>
   <div class="configs-list_container">
-    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading dashboards ...' | translate}}</span>
-    <span *ngIf="listResolved && !retrieveData" class="loading">{{'Error while retrieving dashboards' | translate}}</span>
-    <a (click)="switchConf(conf.id)" *ngFor="let conf of configurations" class="config" [style.borderLeftColor]="conf.color">
+    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading dashboards
+      ...' | translate}}</span>
+    <span *ngIf="listResolved && !retrieveData" class="loading">{{'Error while retrieving dashboards' |
+      translate}}</span>
+    <a (click)="switchConf(conf.id)" *ngFor="let conf of configurations" class="config"
+      [style.borderLeftColor]="conf.color">
       {{conf.name}}
     </a>
-  </div>
-  <div *ngIf="hubUrl" class="manage-config" (click)="navigate(hubUrl)">
-    <button mat-raised-button >{{'Manage dashboards' | translate}}</button>
   </div>
 </div>
