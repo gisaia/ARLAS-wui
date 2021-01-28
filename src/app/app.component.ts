@@ -154,8 +154,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributor) {
         this.resultlistContributor.sort = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).id_path;
       }
-      this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
-        this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appName = !!this.configService.appName ? this.configService.appName :
+        this.configService.getValue('arlas-wui.web.app.name') ?
+          this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
       this.appUnit = this.configService.getValue('arlas-wui.web.app.unit') ?
         this.configService.getValue('arlas-wui.web.app.unit') : '';
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
@@ -246,7 +247,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     });
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
+      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
     }
     this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
