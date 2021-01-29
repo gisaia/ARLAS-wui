@@ -45,7 +45,7 @@ import {
 import { ContributorService } from './services/contributors.service';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { SidenavService } from './services/sidenav.service';
@@ -133,7 +133,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private walkthroughService: ArlasWalkthroughService,
     private mapService: ArlasMapService,
     private colorGenerator: ArlasColorGeneratorLoader,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private titleService: Title
   ) {
     this.menuState = {
       configs: false
@@ -154,8 +155,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributor) {
         this.resultlistContributor.sort = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).id_path;
       }
-      this.appName = this.configService.getValue('arlas-wui.web.app.name') ?
-        this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appName = !!this.configService.appName ? this.configService.appName :
+        this.configService.getValue('arlas-wui.web.app.name') ?
+          this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
       this.appUnit = this.configService.getValue('arlas-wui.web.app.unit') ?
         this.configService.getValue('arlas-wui.web.app.unit') : '';
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
@@ -205,6 +207,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle(this.appName);
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
@@ -246,7 +249,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     });
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
+      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
     }
     this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
