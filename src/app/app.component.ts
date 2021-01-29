@@ -45,7 +45,7 @@ import {
 import { ContributorService } from './services/contributors.service';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { SidenavService } from './services/sidenav.service';
@@ -133,7 +133,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private walkthroughService: ArlasWalkthroughService,
     private mapService: ArlasMapService,
     private colorGenerator: ArlasColorGeneratorLoader,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private titleService: Title
   ) {
     this.menuState = {
       configs: false
@@ -206,6 +207,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle(this.appName);
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
