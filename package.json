@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui",
-  "version": "14.3.0-dev",
+  "version": "14.3.0",
   "author": "gisaia",
   "license": "Apache-2.0",
   "scripts": {

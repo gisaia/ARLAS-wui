@@ -1,5 +1,14 @@
 # Change Log
 
+## [v14.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.0) (2021-02-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.2.2...v14.3.0)
+
+**New stuff:**
+
+- Make Tab title configurable [\#265](https://github.com/gisaia/ARLAS-wui/issues/265)
+- Display the dashboard name instead of "ARLAS" [\#240](https://github.com/gisaia/ARLAS-wui/issues/240)
+
 ## [v14.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v14.2.2) (2021-01-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.2.1...v14.2.2)
