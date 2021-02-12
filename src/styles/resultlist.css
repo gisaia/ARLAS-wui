@@ -29,3 +29,23 @@
 .resultlist__tools__td{
   align-items: center !important;
 }
+
+.analytics-board-content .group-item-title {
+  color: #656565 !important;
+}
+
+.analytics-board-content .detail-item {
+  color: #ff4081 !important;
+  display: inline-block;
+}
+
+.analytics-board-content .resultdetaileditem-key {
+  color: #656565;
+}
+
+.analytics-board-content .resultdetaileditem-value {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #656565;
+}

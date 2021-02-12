@@ -175,31 +175,6 @@
   stroke-opacity: 0.1;
 }
 
-.analytics-board-content .group-item-title {
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-size: 0.9em;
-  font-weight: normal;
-  color: #656565 !important;
-}
-
-.analytics-board-content .detail-item {
-  color: #ff4081 !important;
-}
-
-.analytics-board-content .resultdetaileditem-key {
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-size: 0.9em;
-  font-weight: normal;
-  color: #656565;
-}
-
-.analytics-board-content .resultdetaileditem-value {
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-size: 0.9em;
-  font-weight: normal;
-  color: #656565;
-}
-
 
 /** apply the blue style to histograms that have a time dimension on x-axis**/
 
