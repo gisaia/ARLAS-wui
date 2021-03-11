@@ -65,31 +65,34 @@ export class CustomTranslateLoader implements TranslateLoader {
                         observer.complete();
                     },
                     error => {
-                        // failed to retrieve requested language file, use default
-                        observer.complete(); // => Default language is already loaded
+                        this.mergeLocalI18n(localI18nAdress, lang, observer);
                     }
                 );
             });
         } else {
             return Observable.create(observer => {
-                this.http.get(localI18nAdress).subscribe(
-                    res => {
-                        let merged = res;
-                        // Properties in res will overwrite those in frToolkit and frComponents .
-                        if (lang === 'fr') {
-                            merged = { ...frComponents, ...frToolkit, ...res };
-                        } else if (lang === 'en') {
-                            merged = { ...enComponents, ...enToolkit, ...res };
-                        }
-                        observer.next(merged);
-                        observer.complete();
-                    },
-                    error => {
-                        // failed to retrieve requested language file, use default
-                        observer.complete(); // => Default language is already loaded
-                    }
-                );
+                this.mergeLocalI18n(localI18nAdress, lang, observer);
             });
         }
+    }
+
+    private mergeLocalI18n(localI18nAdress, lang, observer) {
+        this.http.get(localI18nAdress).subscribe(
+            res => {
+                let merged = res;
+                // Properties in res will overwrite those in frToolkit and frComponents .
+                if (lang === 'fr') {
+                    merged = { ...frComponents, ...frToolkit, ...res };
+                } else if (lang === 'en') {
+                    merged = { ...enComponents, ...enToolkit, ...res };
+                }
+                observer.next(merged);
+                observer.complete();
+            },
+            error => {
+                // failed to retrieve requested language file, use default
+                observer.complete(); // => Default language is already loaded
+            }
+        );
     }
 }
