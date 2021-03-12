@@ -127,6 +127,17 @@ else
   echo ${ARLAS_TICKETING_KEY}  "is used as Zendesk ticketing key "
 fi
 
+# Set Tab title name
+if [ -z "${ARLAS_TAB_NAME}" ]; then
+  ARLAS_TAB_NAME=""
+  export ARLAS_TAB_NAME
+  echo "No specific tab name for the app"
+else
+  echo ${ARLAS_TAB_NAME}  "is used as tab name "
+fi
+envsubst '$ARLAS_TAB_NAME' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
   ARLAS_WUI_APP_PATH=""
