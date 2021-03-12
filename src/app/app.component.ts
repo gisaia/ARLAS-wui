@@ -50,6 +50,7 @@ import { MatIconRegistry } from '@angular/material';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import { SidenavService } from './services/sidenav.service';
 import { MenuState } from './components/left-menu/left-menu.component';
+import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -134,7 +135,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private mapService: ArlasMapService,
     private colorGenerator: ArlasColorGeneratorLoader,
     private sidenavService: SidenavService,
-    private titleService: Title
+    private titleService: Title,
+    private arlasSettingsService: ArlasSettingsService
   ) {
     this.menuState = {
       configs: false
@@ -207,7 +209,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle(this.appName);
+    const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
+    // tslint:disable-next-line:no-string-literal
+    this.arlasSettingsService.settings['tab_name'] : '';
+    this.titleService.setTitle(prefixTitle.concat(this.appName));
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;

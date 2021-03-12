@@ -31,3 +31,4 @@ persistence:
 arlas_hub_url: ${ARLAS_HUB_URL}
 links: ${ARLAS_STATIC_LINKS}
 ticketing_key: ${ARLAS_TICKETING_KEY}
+tab_name:  ${ARLAS_TAB_NAME}
