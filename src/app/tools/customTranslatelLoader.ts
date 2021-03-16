@@ -30,6 +30,9 @@ import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
+import { timeFormatDefaultLocale, TimeLocaleDefinition } from 'd3-time-format';
+import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
+import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -43,6 +46,11 @@ export class CustomTranslateLoader implements TranslateLoader {
         const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
             && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
         const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
+        if (lang === 'fr') {
+            timeFormatDefaultLocale(frD3TimeLocal as any);
+        } else if (lang === 'en') {
+            timeFormatDefaultLocale(enD3TimeLocal as any);
+        }
         if (usePersistence && configurationId) {
             const localI18nObs = this.http.get(localI18nAdress);
             const externalI18nObs = this.persistenceService.get(configurationId)
