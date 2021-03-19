@@ -62,7 +62,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapglContributor: MapContributor;
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
-  public resultlistContributor: ResultListContributor;
+  public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
 
@@ -153,9 +153,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         // trigger resize event
         window.dispatchEvent(new Event('resize'));
       });
-      this.resultlistContributor = this.arlasStartUpService.contributorRegistry.get('table');
-      if (this.resultlistContributor) {
-        this.resultlistContributor.sort = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.collection).id_path;
+      this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
+        if (v instanceof ResultListContributor) {
+          this.resultlistContributors.push(v);
+        }
+
+      });
+      if (this.resultlistContributors.length > 0) {
+        this.resultlistContributors.forEach(c => c.sort = this.arlasStartUpService.collectionsMap.
+          get(this.collaborativeService.collection).id_path);
       }
       this.appName = !!this.configService.appName ? this.configService.appName :
         this.configService.getValue('arlas-wui.web.app.name') ?
@@ -210,15 +216,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
-    // tslint:disable-next-line:no-string-literal
-    this.arlasSettingsService.settings['tab_name'] : '';
+      // tslint:disable-next-line:no-string-literal
+      this.arlasSettingsService.settings['tab_name'] : '';
     this.titleService.setTitle(prefixTitle.concat(this.appName));
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributor = this.contributorService.getMapContributor();
       this.mapglContributor.colorGenerator = this.colorGenerator;
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
-      if (this.resultlistContributor) {
-        this.resultlistContributor.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' });
+      if (this.resultlistContributors.length > 0) {
+        this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));
       }
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
@@ -279,8 +285,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const minGeosortZoom = (this.geosortConfig && Number(this.geosortConfig.minGeosortZoom).toString() !== 'NaN') ?
           this.geosortConfig.minGeosortZoom : 8;
         if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
-          if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributor) {
-            this.resultlistContributor.geoSort(endDragCenter.lat, endDragCenter.lng, true);
+          if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributors) {
+            if (this.resultlistContributors.length > 0) {
+              this.resultlistContributors.forEach(c => c.geoSort(endDragCenter.lat, endDragCenter.lng, true));
+            }
           }
         }
       }
@@ -343,55 +351,51 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
-    switch (event.origin) {
-      case 'table':
-        switch (event.event) {
-          case 'consultedItemEvent':
-            const f = this.mapglContributor.getFeatureToHightLight(event.data);
+    switch (event.event) {
+      case 'consultedItemEvent':
+        const f = this.mapglContributor.getFeatureToHightLight(event.data);
+        if (this.mapglContributor.isFlat) {
+          f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+        }
+        this.featureToHightLight = f;
+        break;
+      case 'selectedItemsEvent':
+        if (event.data.length > 0 && this.mapComponentConfig) {
+          this.featuresToSelect = event.data.map(id => {
             if (this.mapglContributor.isFlat) {
-              f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-            }
-            this.featureToHightLight = f;
-            break;
-          case 'selectedItemsEvent':
-            if (event.data.length > 0 && this.mapComponentConfig) {
-              this.featuresToSelect = event.data.map(id => {
-                if (this.mapglContributor.isFlat) {
-                  return {
-                    idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
-                    idValue: id
-                  };
-                } else {
-                  return {
-                    idFieldName: this.mapComponentConfig.idFeatureField,
-                    idValue: id
-                  };
-                }
-              });
+              return {
+                idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
+                idValue: id
+              };
             } else {
-              this.featuresToSelect = [];
+              return {
+                idFieldName: this.mapComponentConfig.idFeatureField,
+                idValue: id
+              };
             }
-            break;
-          case 'actionOnItemEvent':
-            switch (event.data.action.id) {
-              case 'zoomToFeature':
-                this.mapglContributor.getBoundsToFit(event.data.elementidentifier)
-                  .subscribe(bounds => this.fitbounds = bounds);
-                break;
-            }
-            break;
-          case 'globalActionEvent':
-            break;
-          case 'geoSortEvent':
-            if (this.resultlistContributor) {
-              this.resultlistContributor.geoSort(this.mapglComponent.map.getCenter().lat, this.mapglComponent.map.getCenter().lng, true);
-            }
-            break;
-          case 'geoAutoSortEvent':
-            this.isAutoGeosortActive = event.data;
+          });
+        } else {
+          this.featuresToSelect = [];
+        }
+        break;
+      case 'actionOnItemEvent':
+        switch (event.data.action.id) {
+          case 'zoomToFeature':
+            this.mapglContributor.getBoundsToFit(event.data.elementidentifier)
+              .subscribe(bounds => this.fitbounds = bounds);
             break;
         }
-
+        break;
+      case 'globalActionEvent':
+        break;
+      case 'geoSortEvent':
+        if (this.resultlistContributors.length > 0) {
+          this.resultlistContributors.forEach(c => c.geoSort(this.mapglComponent.map.getCenter().lat,
+            this.mapglComponent.map.getCenter().lng, true));
+        }
+        break;
+      case 'geoAutoSortEvent':
+        this.isAutoGeosortActive = event.data;
         break;
     }
   }
