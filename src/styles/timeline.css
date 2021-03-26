@@ -188,14 +188,28 @@
 
 .arlas-timeline .histogram__ticks,
 .arlas-timeline-not-selectable .histogram__ticks{
-  stroke: #757575;
+  stroke: #bdbdbd;
   stroke-width: 1px;
 }
 
-.arlas-timeline .histogram__axis,
 .arlas-timeline .histogram__axis{
-  stroke: #757575;
+  stroke: #bdbdbd;
   stroke-width: 1px;
+}
+
+.arlas-timeline .histogram__only-axis .domain {
+  stroke: #bdbdbd;
+  stroke-width: 0.8px;
+}
+
+.arlas-detailed-timeline .histogram__axis{
+  stroke: #bdbdbd;
+  stroke-width: 1px;
+}
+
+.arlas-detailed-timeline .histogram__only-axis .domain {
+  stroke: #bdbdbd;
+  stroke-width: 0.8px;
 }
 
 .arlas-detailed-timeline .tick text,
@@ -203,7 +217,6 @@
 .arlas-timeline-not-selectable .tick text{
   fill: #757575;
   font-size: 1em;
-  font-size: small;
 }
 
 .arlas-timeline .histogram__brush--handles,

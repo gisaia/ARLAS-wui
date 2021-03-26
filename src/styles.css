@@ -172,6 +172,7 @@ table.resultlist>tbody {
 
 .export-csv-button {
   display: none;
+  cursor: pointer;
 }
 
 .arlas-search .full-width-input {
