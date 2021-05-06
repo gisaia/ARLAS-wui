@@ -228,6 +228,9 @@
     {
       "id": "arlas_id:Gathered birds positions:1614847523990",
       "type": "fill",
+      "metadata":{
+        "collection":"demo_birdtracking-movebank"
+      },
       "source": "cluster-track.location-Finest-geohash",
       "minzoom": 0,
       "maxzoom": 24,
@@ -632,7 +635,7 @@
         ]
       ]
     }
- 
+
 
   ],
   "external-event-layers": [
