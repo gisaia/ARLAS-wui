@@ -54,6 +54,7 @@ import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
 import { CustomTranslateLoader } from './tools/customTranslatelLoader';
 
+
 @NgModule({
   declarations: [
     AboutComponent,
@@ -61,6 +62,8 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent
+
+
   ],
   exports: [
     AboutComponent,
