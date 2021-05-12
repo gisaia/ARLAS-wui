@@ -233,7 +233,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
       // tslint:disable-next-line:no-string-literal
       this.arlasSettingsService.settings['tab_name'] : '';
-    this.titleService.setTitle(prefixTitle.concat(this.appName));
+    prefixTitle === '' ? this.titleService.setTitle(this.appName) :
+      this.titleService.setTitle(prefixTitle.concat(' - ').concat(this.appName));
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributors = this.contributorService.getMapContributors();
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
@@ -243,10 +244,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
       this.mapglContributors.forEach(contrib => contrib.colorGenerator = this.colorGenerator);
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
-              this.geojsondraw = {
-                'type': 'FeatureCollection',
-                'features': this.mapglContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
-              };
+        this.geojsondraw = {
+          'type': 'FeatureCollection',
+          'features': this.mapglContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
+        };
       }));
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {

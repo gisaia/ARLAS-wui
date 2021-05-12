@@ -33,10 +33,10 @@ import { HttpClient } from '@angular/common/http';
 import { timeFormatDefaultLocale } from 'd3-time-format';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
-import { WalkthrougLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
 
 
-export class ArlasWalkthrougLoader implements WalkthrougLoader {
+export class ArlasWalkthroughLoader implements WalkthroughLoader {
     constructor(private http: HttpClient, private arlasSettings: ArlasSettingsService,
         private persistenceService: PersistenceService, private translateService: TranslateService) {
     }

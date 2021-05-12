@@ -21,7 +21,6 @@
               "src/favicon.ico",
               "src/config.json",
               "src/config.map.json",
-              "src/about.md",
               "src/settings.yaml",
               "src/silent-refresh.html"
             ],
@@ -97,7 +96,6 @@
               "src/favicon.ico",
               "src/config.json",
               "src/config.map.json",
-              "src/about.md",
               "src/settings.yaml",
               "src/silent-refresh.html"
             ]

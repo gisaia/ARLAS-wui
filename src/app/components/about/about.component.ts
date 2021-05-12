@@ -28,6 +28,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class AboutComponent {
 
   @Input() public pathToMd: string;
+  @Input() public extraTextData: string;
+
   @Input() public displayLink = false;
   public dialogRef: MatDialogRef<AboutDialogComponent>;
 
@@ -36,6 +38,7 @@ export class AboutComponent {
   public openDialog() {
     this.dialogRef = this.dialog.open(AboutDialogComponent);
     this.dialogRef.componentInstance.pathToMd = this.pathToMd;
+    this.dialogRef.componentInstance.extraTextData = this.extraTextData;
   }
 }
 
@@ -47,7 +50,7 @@ export class AboutComponent {
 export class AboutDialogComponent {
 
   public pathToMd: string;
-
+  public extraTextData: string;
   constructor(public dialogRef: MatDialogRef<AboutDialogComponent>) {
 
   }

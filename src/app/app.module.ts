@@ -52,8 +52,8 @@ import { SidenavService } from './services/sidenav.service';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
-import { ArlasTranslateLoader, ArlasWalkthrougLoader } from './tools/customLoader';
-import { WalkthrougLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
 
 
 @NgModule({
@@ -109,8 +109,8 @@ import { WalkthrougLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthr
     }),
     ArlasWalkthroughModule.forRoot({
       loader: {
-        provide: WalkthrougLoader,
-        useClass: ArlasWalkthrougLoader,
+        provide: WalkthroughLoader,
+        useClass: ArlasWalkthroughLoader,
         deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
