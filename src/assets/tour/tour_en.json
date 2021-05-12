@@ -1,0 +1,11 @@
+{
+  "id": "arlastour",
+  "steps": [
+    {
+      "title": "Welcome to arlas.city",
+      "content": "You visualize the theoric offer of your transport network in real time.",
+      "target": ".home-chip--label",
+      "placement": "bottom"
+    }
+  ]
+}
