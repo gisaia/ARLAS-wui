@@ -45,25 +45,25 @@
               </div>
             </div>
             <div class="arlas-map">
-              <arlas-mapgl #map [dataSources]="mapglContributor?.dataSources"
-                [redrawSource]="mapglContributor?.redrawSource" [legendUpdater]="mapglContributor?.legendUpdater"
-                [visibilityUpdater]="mapglContributor?.visibilityUpdater"
+              <arlas-mapgl #map [dataSources]="mapDataSources"
+                [redrawSource]="mapRedrawSources" [legendUpdater]="mapLegendUpdater"
+                [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
-                (visualisations)="mapglContributor?.changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
+                (visualisations)="changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
                 [basemapStyles]="mapComponentConfig?.basemapStyles"
                 [margePanForLoad]="mapComponentConfig?.margePanForLoad"
                 [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
-                [drawData]="mapglContributor?.geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
+                [drawData]="geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
                 [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
-                [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale" 
-                [displayCurrentCoordinates]= "mapComponentConfig?.displayCurrentCoordinates" 
+                [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
+                [displayCurrentCoordinates]= "mapComponentConfig?.displayCurrentCoordinates"
                 [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
-                (onAoiChanged)="mapglContributor?.onChangeAoi($event)" (onMove)="mapglContributor?.onMove($event)">
+                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)">
               </arlas-mapgl>
             </div>
 

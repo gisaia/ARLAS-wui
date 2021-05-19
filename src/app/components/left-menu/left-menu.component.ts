@@ -50,7 +50,8 @@ export class LeftMenuComponent implements OnInit {
   public downloadComponentConfig: any;
 
   public version: string = environment.VERSION;
-  public aboutFile: string = 'about.md?' + Date.now() + '.md';
+  public aboutFile: string;
+  public extraAboutText: string;
 
   public sideNavState = false;
   public linkText = false;
@@ -69,6 +70,8 @@ export class LeftMenuComponent implements OnInit {
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService
   ) {
+    this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
+    this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
     this.window = window;
     this.reduce = this.translate.instant('reduce');
     this.expand = this.translate.instant('expand');

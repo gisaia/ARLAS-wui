@@ -28,13 +28,42 @@ import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persi
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { catchError } from 'rxjs/internal/operators/catchError';
-import { TranslateLoader } from '@ngx-translate/core';
+import { TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { timeFormatDefaultLocale, TimeLocaleDefinition } from 'd3-time-format';
+import { timeFormatDefaultLocale } from 'd3-time-format';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
+import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
 
-export class CustomTranslateLoader implements TranslateLoader {
+
+export class ArlasWalkthroughLoader implements WalkthroughLoader {
+    constructor(private http: HttpClient, private arlasSettings: ArlasSettingsService,
+        private persistenceService: PersistenceService, private translateService: TranslateService) {
+    }
+    public loader(): Promise<any> {
+        const lang = this.translateService.currentLang;
+        const localTourAdress = 'assets/tour/tour_' + lang + '.json?' + Date.now();
+        const localTour = this.http.get(localTourAdress);
+        const settings = this.arlasSettings.getSettings();
+        const url = new URL(window.location.href);
+        const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
+            && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
+        const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
+        if (usePersistence && configurationId) {
+            return this.persistenceService.get(configurationId)
+            .pipe(mergeMap(configDoc => this.persistenceService
+                .existByZoneKey('tour', configDoc.doc_key.concat('_').concat(lang))
+                .pipe(mergeMap(exist => exist.exists ? this.persistenceService
+                .getByZoneKey('tour', configDoc.doc_key.concat('_').concat(lang))
+                .pipe(map(tourDoc => JSON.parse(tourDoc.doc_value))) : localTour), catchError(() => localTour)))).toPromise();
+        } else {
+            return localTour.toPromise();
+        }
+    }
+
+}
+
+export class ArlasTranslateLoader implements TranslateLoader {
 
     constructor(private http: HttpClient, private arlasSettings: ArlasSettingsService,
         private persistenceService: PersistenceService) { }
@@ -55,8 +84,10 @@ export class CustomTranslateLoader implements TranslateLoader {
             const localI18nObs = this.http.get(localI18nAdress);
             const externalI18nObs = this.persistenceService.get(configurationId)
                 .pipe(mergeMap(configDoc => this.persistenceService
+                    .existByZoneKey('i18n', configDoc.doc_key.concat('_').concat(lang))
+                    .pipe(mergeMap(exist => exist.exists ? this.persistenceService
                     .getByZoneKey('i18n', configDoc.doc_key.concat('_').concat(lang))
-                    .pipe(map(i18nDoc => i18nDoc.doc_value), catchError(e => of('{}')))));
+                    .pipe(map(i18nDoc => i18nDoc.doc_value)) : of('{}')), catchError(e => of('{}')))));
             return Observable.create(observer => {
                 forkJoin([localI18nObs, externalI18nObs]).subscribe(
                     results => {

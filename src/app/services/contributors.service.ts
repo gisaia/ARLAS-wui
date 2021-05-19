@@ -26,6 +26,7 @@ import {
   ArlasStartupService
 } from 'arlas-wui-toolkit/services/startup/startup.service';
 import { Subject } from 'rxjs';
+import { ContributorBuilder } from 'arlas-wui-toolkit/services/startup/contributorBuilder';
 
 @Injectable()
 export class ContributorService {
@@ -54,6 +55,22 @@ export class ContributorService {
       this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, mapContributorConfig.icon);
     }
     return mapglcontributor;
+  }
+
+  public getMapContributors(): Array<MapContributor> {
+    const mapContributorsConfig = this.getMapContributorConfigs();
+    const mapcontributors = new Array<MapContributor>();
+    if (mapContributorsConfig !== undefined) {
+      mapContributorsConfig
+      .forEach(config => {
+        const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier);
+
+        this.arlasContributors.set(config.identifier, contrib);
+        this.contributorsIcons.set(config.identifier, config.icon);
+        mapcontributors.push(contrib);
+      });
+    }
+    return mapcontributors;
   }
 
   public getChipSearchContributor(): ChipsSearchContributor {
@@ -90,6 +107,12 @@ export class ContributorService {
   private getContributorConfig(contributorIdentifier: string) {
     return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue(this.CONTRIBUTORS_PATH).find(
       contrib => (contrib.identifier === contributorIdentifier)
+    );
+  }
+
+  private getMapContributorConfigs() {
+    return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue('arlas')['web']['contributors'].filter(
+      contrib => (contrib.type === 'map')
     );
   }
 }

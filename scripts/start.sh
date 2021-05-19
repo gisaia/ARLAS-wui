@@ -36,15 +36,26 @@ else
   fetchMapConfiguration;
 fi
 
-fetchAboutContent(){
-  echo "Download the about.md file from \"${ARLAS_WUI_ABOUT_URL}\" ..."
-  curl ${ARLAS_WUI_ABOUT_URL} -o "/usr/share/nginx/html/about.md" && echo "'About' file downloaded with success." || (echo "Failed to download the 'About' file."; exit 1)
+fetchAboutEnContent(){
+  echo "Download the about_en.md file from \"${ARLAS_WUI_ABOUT_EN_URL}\" ..."
+  curl ${ARLAS_WUI_ABOUT_EN_URL} -o "/usr/share/nginx/html/assets/about/about_en.md" && echo "'About EN' file downloaded with success." || (echo "Failed to download the 'About EN' file."; exit 1)
 }
 
-if [ -z "${ARLAS_WUI_ABOUT_URL}" ]; then
-  echo "The default 'about' file is used"
+if [ -z "${ARLAS_WUI_ABOUT_EN_URL}" ]; then
+  echo "The default 'about_en' file is used"
 else
-  fetchAboutContent;
+  fetchAboutEnContent;
+fi
+
+fetchAboutFrContent(){
+  echo "Download the about_fr.md file from \"${ARLAS_WUI_ABOUT_FR_URL}\" ..."
+  curl ${ARLAS_WUI_ABOUT_FR_URL} -o "/usr/share/nginx/html/assets/about/about_en.md" && echo "'About FR' file downloaded with success." || (echo "Failed to download the 'About FR' file."; exit 1)
+}
+
+if [ -z "${ARLAS_WUI_ABOUT_FR_URL}" ]; then
+  echo "The default 'about_fr' file is used"
+else
+  fetchAboutFrContent;
 fi
 
 fetchI18nENContent(){

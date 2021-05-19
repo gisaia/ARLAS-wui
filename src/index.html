@@ -16,30 +16,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
   <body>
     <arlas-wui-root></arlas-wui-root>
-    <!-- Start of gisaiasupport Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=${ARLAS_TICKETING_KEY}"> </script>
-    <script>
-      window.zESettings = {
-        webWidget: {
-          launcher: {
-            label: {
-              'en-US': 'Support',
-              'fr': 'Assistance'
-            }
-          },
-          offset: {
-            vertical: '100px'
-          },
-          color: {
-            launcherText: '#FFFFFF'
-          }
-        }
-      };
-      zE('webWidget', 'hide');
-      zE('webWidget:on', 'close', function() {
-        zE('webWidget', 'hide');
-      });
-    </script>
+
     <!-- End of gisaiasupport Zendesk Widget script -->
   </body>
 </html>

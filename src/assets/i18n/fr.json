@@ -77,5 +77,8 @@
 	"Show time shortcuts": "Afficher les raccourcis temporels",
 	"Hide time shortcuts": "Masquer les raccourcis temporels",
 	"Double click to save this period": "Double clic pour sélectionner la période",
-	"Types TEXT, GEO_POINT are excluded": "Les types 'TEXT' et 'GEOPOINT' ne sont pas inclus"
+	"Types TEXT, GEO_POINT are excluded": "Les types 'TEXT' et 'GEOPOINT' ne sont pas inclus",
+	"Area Of Interest": "Zone d'intérêt",
+	"extraAboutText": " "
+
 }

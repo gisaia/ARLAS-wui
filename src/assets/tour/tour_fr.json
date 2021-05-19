@@ -1,0 +1,75 @@
+{
+  "id": "arlastour",
+  "steps": [
+    {
+      "title": "Bienvenue à ARLAS Exploration",
+      "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammess, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
+      "target": ".home-chip--label",
+      "placement": "bottom"
+    },
+    {
+      "title": "Compte global",
+      "content": "Indique le nombre d'éléments explorés.",
+      "target": "arlas-count",
+      "placement": "bottom"
+    },
+    {
+      "title": "Barre de recherche",
+      "content": "Effectuer une recherche Fulltext pour filtrer les données",
+      "target": "arlas-search",
+      "placement": "bottom"
+    },
+    {
+      "title": "Tableau de board et Filtres",
+      "content": "Ce tableau de board vous donne une vue globale de la donnée grâce aux différents analytiques. <br> Vous pouvez intéragir avec ces widgets pour filtrer la donnée.",
+      "target": ".arlas-analytics--container",
+      "placement": "right"
+    },
+    {
+      "title": "Frise temporelle",
+      "content": "Cet histogramme représente la distribution du nombres d'éléments dans le temps. <br> Vous pouvez filtrer la donnée en sélectionnant une ou plusieurs périodes: double-cliquez sur une période pour la sauvegarder, puis resélectionnez un nouvel intervalle.",
+      "target": ".arlas-timeline--timelines",
+      "placement": "top",
+      "arrowOffset": "center"
+    },
+    {
+      "title": "Raccourcis temporels",
+      "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une prériode de temps précise",
+      "target": ".arlas-timeline--timeshortcuts",
+      "placement": "left",
+      "yOffset": -15
+    },
+    {
+      "title": "Configuration de la carte",
+      "content": " <strong>ACTION :</strong> Cliquez sur le bouton 'Configuration de la carte' (icône de Loupe)",
+      "placement": "left",
+      "target": ".arlas-map-settings-container",
+      "yOffset": -15,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Appliquer les changements",
+      "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+      "target": ".apply-displayed-geometries",
+      "placement": "left",
+      "yOffset": -10,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Outils de filtres géographiques",
+      "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée.",
+      "placement": "left",
+      "target": ".arlas-map-action-container",
+      "yOffset": -15
+    },
+    {
+      "title": "Table de contenu & Légende des couches cartographiques",
+      "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
+      "placement": "left",
+      "target": ".map__visu-container",
+      "yOffset": -15
+    }
+  ]
+}

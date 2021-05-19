@@ -1,13 +1,244 @@
 {
   "layers": [
     {
-      "id": "Grid",
+      "id": "arlas_id:Age moyen agrégé:1616424152973",
       "type": "fill",
-      "source": "cluster-position.location-Fine-geohash",
+      "source": "cluster-centroid-Finest-geohash",
+      "minzoom": 1,
+      "maxzoom": 22,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
+        "fill-opacity": 0.5,
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "Ind_age_avg_avg_"
+          ],
+          17.36,
+          "#cee897",
+          26.307499999999997,
+          "#9dc95b",
+          35.254999999999995,
+          "#4bc71e",
+          44.2025,
+          "#1bc473",
+          53.15,
+          "#16ccc9",
+          62.0975,
+          "#3619cf",
+          71.045,
+          "#9317d1",
+          79.9925,
+          "#d11799",
+          88.94,
+          "#cf1919"
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "Ind_age_avg_avg_",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "Ind_age_avg_avg_",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Age moyen:1616424153013",
+      "type": "fill",
+      "source": "feature-geom",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": 0.5,
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "Ind_age_avg"
+          ],
+          17.36,
+          "#cee897",
+          26.307499999999997,
+          "#9dc95b",
+          35.254999999999995,
+          "#4bc71e",
+          44.2025,
+          "#1bc473",
+          53.15,
+          "#16ccc9",
+          62.0975,
+          "#3619cf",
+          71.045,
+          "#9317d1",
+          79.9925,
+          "#d11799",
+          88.94,
+          "#cf1919"
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "Ind_age_avg",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "Ind_age_avg",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Densité d'individus agrégée:1616424202277",
+      "type": "fill",
+      "source": "cluster-centroid-Finest-geohash",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0.1,
+          0.2,
+          0.2,
+          0.4,
+          0.30000000000000004,
+          0.6,
+          0.4,
+          0.8,
+          0.5,
+          1,
+          0.6
+        ],
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "Ind_sum_:normalized"
+          ],
+          0,
+          "#53d9e8",
+          0.05,
+          "#29AFFB",
+          0.1,
+          "#2874FA",
+          0.15,
+          "#3b69fa",
+          0.3,
+          "#eb79fc",
+          1,
+          "#ef586c"
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "Ind_sum_:normalized",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "Ind_sum_:normalized",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Densité d'individus:1616424153074",
+      "type": "fill",
+      "source": "feature-geom",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": 0.5,
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "Ind:normalized"
+          ],
+          0,
+          "#53d9e8",
+          0.1,
+          "#29AFFB",
+          0.2,
+          "#2874FA",
+          0.3,
+          "#3b69fa",
+          0.65,
+          "#eb79fc",
+          1,
+          "#ef586c"
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "Ind:normalized",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "Ind:normalized",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Gathered birds positions:1614847523990",
+      "type": "fill",
+      "metadata":{
+        "collection":"demo_birdtracking-movebank"
+      },
+      "source": "cluster-track.location-Finest-geohash",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": 0.8,
         "fill-color": [
           "interpolate",
           [
@@ -20,35 +251,70 @@
           0,
           "#cee897",
           0.01,
-          "#cee897",
+          "#9dc95b",
           0.02,
-          "#cee897",
+          "#4bc71e",
           0.2,
           "#1bc473",
           0.3,
           "#16ccc9",
           0.45,
           "#167bc9",
-          0.60,
+          0.6,
           "#3619cf",
           0.75,
           "#9317d1",
-          0.90,
+          0.9,
           "#d11799",
           1,
           "#cf1919"
-        ],
-        "fill-opacity": 0.7
-      }
+        ]
+      },
+      "filter": [
+        "all"
+      ]
     },
     {
-      "id": "Heatmap",
+      "id": "arlas_id:Density of birds positions:1614849073568",
       "type": "heatmap",
-      "source": "cluster-position.location-Fine-centroid",
+      "source": "cluster-track.location-Finest-centroid",
+      "minzoom": 0,
+      "maxzoom": 23,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
+        "heatmap-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "heatmap-density"
+          ],
+          0,
+          "rgba(0, 0, 0, 0)",
+          1e-12,
+          "#cee897",
+          0.05,
+          "#9dc95b",
+          0.1,
+          "#4bc71e",
+          0.15,
+          "#1bc473",
+          0.2,
+          "#16ccc9",
+          0.25,
+          "#3619cf",
+          0.3,
+          "#9317d1",
+          0.4,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "heatmap-opacity": 0.7,
+        "heatmap-intensity": 1.5,
         "heatmap-weight": [
           "interpolate",
           [
@@ -60,189 +326,34 @@
           ],
           0,
           0,
-          1,
-          1
-        ],
-        "heatmap-intensity": 3,
-        "heatmap-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "heatmap-density"
-          ],
-          0,
-          "rgba(206, 232, 151,0)",
-          0.000000000001,
-          "rgba(206, 232, 151,0.8)",
-          0.01,
-          "rgba(157, 201, 91,0.9)",
-          0.02,
-          "#4bc71e",
-          0.20,
-          "#1bc473",
-          0.30,
-          "#16ccc9",
-          0.45,
-          "#167bc9",
-          0.60,
-          "#3619cf",
-          0.75,
-          "#9317d1",
-          0.90,
-          "#d11799",
-          1,
-          "#cf1919"
-        ],
-        "heatmap-radius": 20,
-        "heatmap-opacity": 0.6
-      }
-    },
-    {
-      "id": "Boats positions (Speed)",
-      "type": "circle",
-      "source": "feature-position.location",
-      "paint": {
-        "circle-color": [
-          "match",
-          [
-            "get",
-            "vessel_ship_type"
-          ],
-          "Tanker",
-          "#ff8ee8",
-          "Fishing",
-          "#86d8f7",
-          "Tug",
-          "#f4df42",
-          "SAR",
-          "#03c6ac",
-          "OTHER",
-          "#c2c2c2",
-          "Undefined",
-          "#c2c2c2",
-          "Pilot",
-          "#e74b4b",
-          "HSC",
-          "#0086bd",
-          "Law enforcement",
-          "#00b4d3",
-          "Military",
-          "#a625e0",
-          "Cargo",
-          "#0099ff",
-          "Passenger",
-          "#a5c176",
-          "Dredging",
-          "#51a588",
-          "Anti-pollution",
-          "#00f4d0",
-          "Pleasure",
-          "#ad0084",
-          "Towing",
-          "#d37700",
-          "Towing long/wide",
-          "#d37700",
-          "Sailing",
-          "#edc77b",
-          "#c2c2c2"
-        ],
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "Boats positions (Ship type)",
-      "type": "circle",
-      "source": "feature-position.location",
-      "paint": {
-        "circle-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "course_sog"
-          ],
-          0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
+          0.2,
           20,
-          "#9636a9",
-          25,
-          "#a93683"
+          0.4,
+          40,
+          0.6,
+          60,
+          0.8,
+          80,
+          1,
+          100
         ],
-
-        "circle-opacity": 1
-      }
-    },
-    {
-      "id": "Boats fragments (Speed)",
-      "source": "feature-course.segment.geometry.geometry",
-      "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "vessel_ship_type"
-          ],
-          "Tanker",
-          "#ff8ee8",
-          "Fishing",
-          "#86d8f7",
-          "Tug",
-          "#f4df42",
-          "SAR",
-          "#03c6ac",
-          "OTHER",
-          "#c2c2c2",
-          "Undefined",
-          "#c2c2c2",
-          "Pilot",
-          "#e74b4b",
-          "HSC",
-          "#0086bd",
-          "Law enforcement",
-          "#00b4d3",
-          "Military",
-          "#a625e0",
-          "Cargo",
-          "#0099ff",
-          "Passenger",
-          "#a5c176",
-          "Dredging",
-          "#51a588",
-          "Anti-pollution",
-          "#00f4d0",
-          "Pleasure",
-          "#ad0084",
-          "Towing",
-          "#d37700",
-          "Towing long/wide",
-          "#d37700",
-          "Sailing",
-          "#edc77b",
-          "#c2c2c2"
-        ],
-        "line-opacity": 1,
-        "line-width": 4
+        "heatmap-radius": 12
       },
-      "type": "line",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      }
+      "filter": [
+        "all"
+      ]
     },
     {
-      "id": "Boats fragments (Ship type)",
-      "source": "feature-course.segment.geometry.geometry",
+      "id": "arlas_id:Birds altitude fragment:1614847509810",
+      "type": "line",
+      "source": "feature-track.trail",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
       "paint": {
+        "line-opacity": 1,
         "line-color": [
           "interpolate",
           [
@@ -250,29 +361,284 @@
           ],
           [
             "get",
-            "course_sog"
+            "track_dynamics_sensor_height_above_ellipsoid:normalized"
           ],
           0,
-          "#36a996",
-          5,
-          "#3683a9",
-          10,
-          "#3649a9",
-          15,
-          "#5c36a9",
-          20,
-          "#9636a9",
-          25,
-          "#a93683"
+          "#53d9e8",
+          0.2,
+          "#29AFFB",
+          0.4,
+          "#2874FA",
+          0.6,
+          "#3b69fa",
+          0.8,
+          "#eb79fc",
+          1,
+          "#ef586c"
         ],
-        "line-opacity": 1,
-        "line-width": 4
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:object_id"
+          ],
+          0,
+          1,
+          1,
+          6
+        ]
       },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "track.dynamics.sensor.height_above_ellipsoid:normalized",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.dynamics.sensor.height_above_ellipsoid:normalized",
+          "-Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Birds migration status fragment:1614847509828",
       "type": "line",
+      "source": "feature-track.trail",
+      "minzoom": 0,
+      "maxzoom": 24,
       "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      }
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "tagging_tag1_0"
+          ],
+          "local_train",
+          "#F27F79",
+          "travel_train",
+          "#44a2aa",
+          "#d6d6d3"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:object_id"
+          ],
+          0,
+          0,
+          1,
+          6
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Birds predicted migration status fragment:1614847509847",
+      "type": "line",
+      "source": "feature-track.trail",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "tagging_tag2_0"
+          ],
+          "local_xgb",
+          "#F27F79",
+          "travel_xgb",
+          "#44a2aa",
+          "#d6d6d3"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:object_id"
+          ],
+          0,
+          0,
+          1,
+          6
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Birds speed fragment:1614847509863",
+      "type": "line",
+      "source": "feature-track.trail",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_dynamics_sensor_speed_ms:normalized"
+          ],
+          0,
+          "#53d9e8",
+          0.2,
+          "#29AFFB",
+          0.4,
+          "#2874FA",
+          0.6,
+          "#3b69fa",
+          0.8,
+          "#eb79fc",
+          1,
+          "#ef586c"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:object_id"
+          ],
+          0,
+          1,
+          1,
+          6
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "track.dynamics.sensor.speed_ms:normalized",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.dynamics.sensor.speed_ms:normalized",
+          "-Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "-Infinity"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Birds identifiers fragment:1614847509880",
+      "type": "line",
+      "source": "feature-track.trail",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "get",
+          "object_id_color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:object_id"
+          ],
+          0,
+          0,
+          1,
+          6
+        ]
+      },
+      "filter": [
+        "all",
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "Infinity"
+        ],
+        [
+          "!=",
+          "track.timestamps.center:normalized:object_id",
+          "-Infinity"
+        ]
+      ]
     }
+
+
+  ],
+  "external-event-layers": [
+
   ]
 }

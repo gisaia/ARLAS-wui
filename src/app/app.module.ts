@@ -40,11 +40,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
-import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
+import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule, ArlasWalkthroughModule } from 'arlas-wui-toolkit';
 import { ArlasWuiComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ContributorService } from './services/contributors.service';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
@@ -52,7 +52,9 @@ import { SidenavService } from './services/sidenav.service';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
-import { CustomTranslateLoader } from './tools/customTranslatelLoader';
+import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent
+
+
   ],
   exports: [
     AboutComponent,
@@ -99,8 +103,15 @@ import { CustomTranslateLoader } from './tools/customTranslatelLoader';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
+        useClass: ArlasTranslateLoader,
         deps: [HttpClient, ArlasSettingsService, PersistenceService]
+      }
+    }),
+    ArlasWalkthroughModule.forRoot({
+      loader: {
+        provide: WalkthroughLoader,
+        useClass: ArlasWalkthroughLoader,
+        deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
     ArlasTaggerModule
