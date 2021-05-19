@@ -2,10 +2,74 @@
   "id": "arlastour",
   "steps": [
     {
-      "title": "Welcome to arlas.city",
-      "content": "You visualize the theoric offer of your transport network in real time.",
+      "title": "Welcome to ARLAS Exploration",
+      "content": "Explore your data instantly through <br><br> - Geo-analytic view on the map (Heatmaps, Grids, ...) <br> - Timeline <br> - Different widgets (histograms, donuts, powernbars) to analyse diffent dimensions of the data.",
       "target": ".home-chip--label",
       "placement": "bottom"
+    },
+    {
+      "title": "Global count",
+      "content": "It indicates how many elements are explored.",
+      "target": "arlas-count",
+      "placement": "bottom"
+    },
+    {
+      "title": "Search box",
+      "content": "Here you can search anything to filter the data.",
+      "target": "arlas-search",
+      "placement": "bottom"
+    },
+    {
+      "title": "Analytics and Filters",
+      "content": "This board gives you a global view of your data thanks to the different analytics. <br> You can interact with them directly to filter the data.",
+      "target": ".arlas-analytics--container",
+      "placement": "right"
+    },
+    {
+      "title": "Timeline filter",
+      "content": "This histogram represents the distibution of number of elements over time. You can filter your data by selecting one or several periods: double click on one period to save it, then move the selection brush to define a new interval.",
+      "target": ".arlas-timeline--timelines",
+      "placement": "top",
+      "arrowOffset": "center"
+    },
+    {
+      "title": "Time shortcuts",
+      "content": "A list of time shortcuts to filter data on a specific time range.",
+      "target": ".arlas-timeline--timeshortcuts",
+      "placement": "left",
+      "yOffset": -15
+    },
+    {
+      "title": "Maps settings",
+      "content": " <strong>ACTION :</strong> Click on the Map settings button",
+      "placement": "left",
+      "target": ".arlas-map-settings-container",
+      "yOffset": -15,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Apply change",
+      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> - Choose a basemap. <br><br> <strong>ACTION :</strong> Click to apply changes",
+      "target": ".apply-displayed-geometries",
+      "placement": "left",
+      "yOffset": -10,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Filters and drawing tools",
+      "content": "You can draw or remove a bbox/polygon or import it as KML, Geojson or Zipped Shapefile to filter data.",
+      "placement": "left",
+      "target": ".arlas-map-action-container",
+      "yOffset": -15
+    },
+    {
+      "title": "Table of Contents and Layers legend",
+      "content": "Layers are placed in different Visualisation sets that you can hide/display separately. <br><br> You can reorder Visualisation sets and the layers within by dragging and dropping them. <br><br> Each layer has its own legend that you can fold/unfold ",
+      "placement": "left",
+      "target": ".map__visu-container",
+      "yOffset": -15
     }
   ]
 }
