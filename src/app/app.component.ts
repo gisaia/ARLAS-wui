@@ -238,7 +238,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributors = this.contributorService.getMapContributors();
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
-      this.mapDataSources = this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2]));
+      this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
+        this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
       this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
       this.mapLegendUpdater = merge(...this.mapglContributors.map(c => c.legendUpdater));
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
