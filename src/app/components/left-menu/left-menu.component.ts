@@ -31,6 +31,7 @@ export interface MenuState {
 })
 export class LeftMenuComponent implements OnInit {
 
+  @Input() public version: string;
   @Input() public toggleStates: MenuState = {
     configs: false
   };
@@ -49,7 +50,6 @@ export class LeftMenuComponent implements OnInit {
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
 
-  public version: string = environment.VERSION;
   public aboutFile: string;
   public extraAboutText: string;
 
@@ -96,6 +96,10 @@ export class LeftMenuComponent implements OnInit {
         this.avatar = '';
       }
     });
+
+    if (!this.version) {
+      this.version = environment.VERSION;
+    }
   }
 
   /**
