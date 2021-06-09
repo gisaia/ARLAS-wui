@@ -36,6 +36,7 @@ export class LeftMenuComponent implements OnInit {
     configs: false
   };
   @Input() public isEmptyMode;
+  @Input() public layersVisibilityStatus: Map<string, boolean> = new Map();
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
@@ -132,8 +133,9 @@ export class LeftMenuComponent implements OnInit {
     }, 100);
   }
 
+  /** When opening the dialog of layers to share, we specify the visibility status of all layers so that we choose only the displayed ones */
   public displayShare() {
-    this.shareComponent.openDialog();
+    this.shareComponent.openDialog(this.layersVisibilityStatus);
   }
 
   public displayAbout() {
