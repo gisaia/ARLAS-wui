@@ -1,7 +1,7 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
+      <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [version]="version" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">

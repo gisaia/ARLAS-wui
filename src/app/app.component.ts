@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, PipeTransform, Pipe } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, PipeTransform, Pipe, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChartType, DataType, MapglComponent, Position, MapglImportComponent,
@@ -59,6 +59,8 @@ import { timer } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class ArlasWuiComponent implements OnInit, AfterViewInit {
+
+  @Input() public version: string;
 
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
