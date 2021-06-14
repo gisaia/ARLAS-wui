@@ -1,11 +1,16 @@
 # Change Log
 
+## [v17.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.2) (2021-06-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.1...v17.1.2)
+
 ## [v17.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.1) (2021-06-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.0...v17.1.1)
 
 **New stuff:**
 
+- Share only layers that are visible on the map [\#294](https://github.com/gisaia/ARLAS-wui/issues/294)
 - Add the possibility to override the arlas-version dynamically [\#292](https://github.com/gisaia/ARLAS-wui/issues/292)
 
 ## [v17.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.0) (2021-06-04)
