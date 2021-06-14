@@ -195,21 +195,34 @@ table.resultlist>tbody {
 /* Walkthrough */
 
 div.hopscotch-bubble .hopscotch-nav-button.next {
-  border-color: #FF4081 !important;
-  color: #ffffff !important;
-  background: none !important;
-  background-color: #FF4081 !important;
+  border-color: #FF4081;
+  color: #ffffff;
+  background: none ;
+  background-color: #FF4081 ;
   text-shadow: none !important;
 }
 
 div.hopscotch-bubble .hopscotch-nav-button.next:hover {
-  color: #FF4081 !important;
-  background: none !important;
+  color: #FF4081;
+  background: none;
+}
+
+div.hopscotch-bubble .hopscotch-nav-button.prev {
+  border-color: #000;
+  color: #000;
+  background: none ;
+  background-color: #fff ;
+  text-shadow: none !important;
+}
+
+div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
+  background: none;
+  background-color: #f1f1f1 ;
 }
 
 div.hopscotch-bubble .hopscotch-bubble-number {
-  background-color: #FF4081 !important;
-  background-image: none !important;
+  background-color: #FF4081;
+  background-image: none;
   padding: 0 !important;
   border-radius: 15px;
 }
