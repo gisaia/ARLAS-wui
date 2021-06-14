@@ -1,5 +1,13 @@
 # Change Log
 
+## [v17.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.1) (2021-06-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.0...v17.1.1)
+
+**New stuff:**
+
+- Add the possibility to override the arlas-version dynamically [\#292](https://github.com/gisaia/ARLAS-wui/issues/292)
+
 ## [v17.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.0) (2021-06-04)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.0.1...v17.1.0)
@@ -58,19 +66,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
-
 ## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
