@@ -133,7 +133,8 @@ export class LeftMenuComponent implements OnInit {
     }, 100);
   }
 
-  /** When opening the dialog of layers to share, we specify the visibility status of all layers so that we choose only the displayed ones */
+  /** When opening the dialog of layers to share, we specify the visibility status of all
+   * layers so that we choose only the displayed ones */
   public displayShare() {
     this.shareComponent.openDialog(this.layersVisibilityStatus);
   }
