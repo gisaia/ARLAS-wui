@@ -124,6 +124,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapRedrawSources;
   public mapLegendUpdater;
   public mapVisibilityUpdater;
+  /** Visibility status of layers on the map */
+  public layersVisibilityStatus: Map<string, boolean> = new Map();
   public mainMapContributor;
   public mainCollection;
   public geojsondraw: { type: string, features: Array<any> } = {
@@ -252,6 +254,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           'features': this.mapglContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
         };
       }));
+
+      this.mapVisibilityUpdater.subscribe(r => this.layersVisibilityStatus = r);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
         this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));
@@ -450,8 +454,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public changeVisualisation(event) {
     this.mapglContributors.forEach(contrib => contrib.changeVisualisation(event));
   }
-
-
 
   private getParamValue(param: string): string {
     let paramValue = null;
