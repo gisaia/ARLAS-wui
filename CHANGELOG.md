@@ -1,5 +1,9 @@
 # Change Log
 
+## [v17.1.4](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.4) (2021-06-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.3...v17.1.4)
+
 ## [v17.1.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.3) (2021-06-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.2...v17.1.3)
