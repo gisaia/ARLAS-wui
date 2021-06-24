@@ -255,7 +255,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         };
       }));
 
-      this.mapVisibilityUpdater.subscribe(r => this.layersVisibilityStatus = r);
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
         this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));

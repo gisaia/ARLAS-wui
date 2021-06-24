@@ -1,7 +1,7 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [layersVisibilityStatus]="layersVisibilityStatus" (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
+      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus" (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">
@@ -63,7 +63,8 @@
                 [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
-                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)">
+                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+                (legendVisibiltyStatus)="layersVisibilityStatus = $event">
               </arlas-mapgl>
             </div>
 
