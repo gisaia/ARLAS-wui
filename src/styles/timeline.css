@@ -63,7 +63,7 @@
   stroke: none;
 }
 
-.arlas-timeline-toolkit .arlas-timeline--timeshortcuts{
+.arlas-timeline-toolkit .arlas-timeline--tools{
   padding: 0 0 0 0 !important;
   bottom: 130px !important;
   border-radius: 4px 4px 0 0;
@@ -197,20 +197,13 @@
   stroke-width: 1px;
 }
 
-.arlas-timeline .histogram__only-axis .domain {
-  stroke: #bdbdbd;
-  stroke-width: 0.8px;
-}
+
 
 .arlas-detailed-timeline .histogram__axis{
   stroke: #bdbdbd;
   stroke-width: 1px;
 }
 
-.arlas-detailed-timeline .histogram__only-axis .domain {
-  stroke: #bdbdbd;
-  stroke-width: 0.8px;
-}
 
 .arlas-detailed-timeline .tick text,
 .arlas-timeline .tick text,
