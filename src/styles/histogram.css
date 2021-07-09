@@ -323,3 +323,28 @@
   stroke-width: 0 !important;
   height: 0 !important;
 }
+.histogram__chart--fixed-selected--curve, .histogram__chart--fixed-selected--curve--without_color /* @doc Sets the style of the curve's selected parts*/
+{
+  stroke-width: 1.5px;
+  fill: none;
+}
+
+.histogram__chart--fixed-selected--curve{
+  stroke: #88c9c3;
+}
+.histogram__chart--current-selected--curve, .histogram__chart--current-selected--curve--without_color /* @doc Sets the style of the curve's selected parts*/
+{
+  stroke-width: 1.5px;
+  fill: none;
+}
+.histogram__chart--current-selected--curve{
+   stroke: #88c9c3;
+}
+
+.histogram__chart--unselected--curve /* @doc Sets the style of the curve's unselected parts*/
+{
+  fill: none;
+  stroke: #a5a5a5;
+  stroke-width: 0.8px;
+
+}

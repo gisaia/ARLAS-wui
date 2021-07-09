@@ -64,7 +64,9 @@
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
                 (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
-                (legendVisibiltyStatus)="layersVisibilityStatus = $event">
+                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)"
+                (onFeatureOver)="emitFeaturesOnOver($event)"
+                (onFeatureClic)="emitFeaturesOnClic($event)">
               </arlas-mapgl>
             </div>
 

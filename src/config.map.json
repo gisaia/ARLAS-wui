@@ -1,428 +1,15 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Age moyen agrégé:1616424152973",
-      "type": "fill",
-      "source": "cluster-centroid-Finest-geohash",
-      "minzoom": 1,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.5,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "Ind_age_avg_avg_"
-          ],
-          17.36,
-          "#cee897",
-          26.307499999999997,
-          "#9dc95b",
-          35.254999999999995,
-          "#4bc71e",
-          44.2025,
-          "#1bc473",
-          53.15,
-          "#16ccc9",
-          62.0975,
-          "#3619cf",
-          71.045,
-          "#9317d1",
-          79.9925,
-          "#d11799",
-          88.94,
-          "#cf1919"
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "Ind_age_avg_avg_",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "Ind_age_avg_avg_",
-          "-Infinity"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Age moyen:1616424153013",
-      "type": "fill",
-      "source": "feature-geom",
-      "minzoom": 1,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.5,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "Ind_age_avg"
-          ],
-          17.36,
-          "#cee897",
-          26.307499999999997,
-          "#9dc95b",
-          35.254999999999995,
-          "#4bc71e",
-          44.2025,
-          "#1bc473",
-          53.15,
-          "#16ccc9",
-          62.0975,
-          "#3619cf",
-          71.045,
-          "#9317d1",
-          79.9925,
-          "#d11799",
-          88.94,
-          "#cf1919"
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "Ind_age_avg",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "Ind_age_avg",
-          "-Infinity"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Densité d'individus agrégée:1616424202277",
-      "type": "fill",
-      "source": "cluster-centroid-Finest-geohash",
-      "minzoom": 1,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          0.1,
-          0.2,
-          0.2,
-          0.4,
-          0.30000000000000004,
-          0.6,
-          0.4,
-          0.8,
-          0.5,
-          1,
-          0.6
-        ],
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "Ind_sum_:normalized"
-          ],
-          0,
-          "#53d9e8",
-          0.05,
-          "#29AFFB",
-          0.1,
-          "#2874FA",
-          0.15,
-          "#3b69fa",
-          0.3,
-          "#eb79fc",
-          1,
-          "#ef586c"
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "Ind_sum_:normalized",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "Ind_sum_:normalized",
-          "-Infinity"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Densité d'individus:1616424153074",
-      "type": "fill",
-      "source": "feature-geom",
-      "minzoom": 1,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.5,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "Ind:normalized"
-          ],
-          0,
-          "#53d9e8",
-          0.1,
-          "#29AFFB",
-          0.2,
-          "#2874FA",
-          0.3,
-          "#3b69fa",
-          0.65,
-          "#eb79fc",
-          1,
-          "#ef586c"
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "Ind:normalized",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "Ind:normalized",
-          "-Infinity"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Gathered birds positions:1614847523990",
-      "type": "fill",
-      "metadata":{
-        "collection":"demo_birdtracking-movebank"
-      },
-      "source": "cluster-track.location-Finest-geohash",
-      "minzoom": 0,
-      "maxzoom": 24,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.8,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#cee897",
-          0.01,
-          "#9dc95b",
-          0.02,
-          "#4bc71e",
-          0.2,
-          "#1bc473",
-          0.3,
-          "#16ccc9",
-          0.45,
-          "#167bc9",
-          0.6,
-          "#3619cf",
-          0.75,
-          "#9317d1",
-          0.9,
-          "#d11799",
-          1,
-          "#cf1919"
-        ]
-      },
-      "filter": [
-        "all"
-      ]
-    },
-    {
-      "id": "arlas_id:Density of birds positions:1614849073568",
-      "type": "heatmap",
-      "source": "cluster-track.location-Finest-centroid",
-      "minzoom": 0,
-      "maxzoom": 23,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "heatmap-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "heatmap-density"
-          ],
-          0,
-          "rgba(0, 0, 0, 0)",
-          1e-12,
-          "#cee897",
-          0.05,
-          "#9dc95b",
-          0.1,
-          "#4bc71e",
-          0.15,
-          "#1bc473",
-          0.2,
-          "#16ccc9",
-          0.25,
-          "#3619cf",
-          0.3,
-          "#9317d1",
-          0.4,
-          "#d11799",
-          1,
-          "#cf1919"
-        ],
-        "heatmap-opacity": 0.7,
-        "heatmap-intensity": 1.5,
-        "heatmap-weight": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          0,
-          0.2,
-          20,
-          0.4,
-          40,
-          0.6,
-          60,
-          0.8,
-          80,
-          1,
-          100
-        ],
-        "heatmap-radius": 12
-      },
-      "filter": [
-        "all"
-      ]
-    },
-    {
-      "id": "arlas_id:Birds altitude fragment:1614847509810",
+      "id": "arlas_id:SPOT:1625676905679",
       "type": "line",
-      "source": "feature-track.trail",
-      "minzoom": 0,
-      "maxzoom": 24,
+      "source": "feature-_geometry_wkt-SPOT",
+      "minzoom": 1,
+      "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-opacity": 1,
-        "line-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_dynamics_sensor_height_above_ellipsoid:normalized"
-          ],
-          0,
-          "#53d9e8",
-          0.2,
-          "#29AFFB",
-          0.4,
-          "#2874FA",
-          0.6,
-          "#3b69fa",
-          0.8,
-          "#eb79fc",
-          1,
-          "#ef586c"
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center:normalized:object_id"
-          ],
-          0,
-          1,
-          1,
-          6
-        ]
-      },
-      "filter": [
-        "all",
-        [
-          "!=",
-          "track.dynamics.sensor.height_above_ellipsoid:normalized",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.dynamics.sensor.height_above_ellipsoid:normalized",
-          "-Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "-Infinity"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Birds migration status fragment:1614847509828",
-      "type": "line",
-      "source": "feature-track.trail",
-      "minzoom": 0,
-      "maxzoom": 24,
-      "layout": {
-        "visibility": "visible"
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
         "line-opacity": 1,
@@ -430,51 +17,52 @@
           "match",
           [
             "get",
-            "tagging_tag1_0"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
-          "local_train",
-          "#F27F79",
-          "travel_train",
-          "#44a2aa",
-          "#d6d6d3"
+          "SPOT5",
+          "#ecff4b",
+          "SPOT6",
+          "#19ff88",
+          "SPOT4",
+          "#7d4eff",
+          "SPOT 7",
+          "#ffff70",
+          "SPOT1",
+          "#691a3a",
+          "SPOT 6",
+          "#b370e4",
+          "SPOT3",
+          "#ffabc8",
+          "PLEIADES",
+          "#84ffff",
+          "SPOT2",
+          "#b5ff58",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center:normalized:object_id"
-          ],
-          0,
-          0,
-          1,
-          6
-        ]
+        "line-width": 2
+      },
+      "metadata": {
+        "collection": "SPOT"
       },
       "filter": [
         "all",
         [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "-Infinity"
+          "all"
         ]
       ]
     },
     {
-      "id": "arlas_id:Birds predicted migration status fragment:1614847509847",
+      "id": "arlas_id:PLEIADE:1625676886732",
       "type": "line",
-      "source": "feature-track.trail",
-      "minzoom": 0,
-      "maxzoom": 24,
+      "source": "feature-_geometry_wkt-PLEIADE",
+      "minzoom": 1,
+      "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
         "line-opacity": 1,
@@ -482,163 +70,229 @@
           "match",
           [
             "get",
-            "tagging_tag2_0"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
-          "local_xgb",
-          "#F27F79",
-          "travel_xgb",
-          "#44a2aa",
-          "#d6d6d3"
+          "PLEIADES",
+          "#84ffff",
+          "PLEIADES 1A",
+          "#9bc419",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center:normalized:object_id"
-          ],
-          0,
-          0,
-          1,
-          6
-        ]
+        "line-width": 2
+      },
+      "metadata": {
+        "collection": "PLEIADE"
       },
       "filter": [
         "all",
         [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "-Infinity"
+          "all"
         ]
       ]
     },
     {
-      "id": "arlas_id:Birds speed fragment:1614847509863",
+      "id": "arlas-select-arlas_id:SPOT:1625676905679",
       "type": "line",
-      "source": "feature-track.trail",
-      "minzoom": 0,
-      "maxzoom": 24,
+      "source": "feature-_geometry_wkt-SPOT",
+      "minzoom": 1,
+      "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
         "line-opacity": 1,
         "line-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
+          "match",
           [
             "get",
-            "track_dynamics_sensor_speed_ms:normalized"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
-          0,
-          "#53d9e8",
-          0.2,
-          "#29AFFB",
-          0.4,
-          "#2874FA",
-          0.6,
-          "#3b69fa",
-          0.8,
-          "#eb79fc",
-          1,
-          "#ef586c"
+          "SPOT5",
+          "#ecff4b",
+          "SPOT6",
+          "#19ff88",
+          "SPOT4",
+          "#7d4eff",
+          "SPOT 7",
+          "#ffff70",
+          "SPOT1",
+          "#691a3a",
+          "SPOT 6",
+          "#b370e4",
+          "SPOT3",
+          "#ffabc8",
+          "PLEIADES",
+          "#84ffff",
+          "SPOT2",
+          "#b5ff58",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "track_timestamps_center:normalized:object_id"
-          ],
-          0,
-          1,
-          1,
-          6
-        ]
+        "line-width": 14
+      },
+      "metadata": {
+        "collection": "SPOT"
       },
       "filter": [
         "all",
         [
-          "!=",
-          "track.dynamics.sensor.speed_ms:normalized",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.dynamics.sensor.speed_ms:normalized",
-          "-Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "Infinity"
-        ],
-        [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "-Infinity"
+          "all"
         ]
       ]
     },
     {
-      "id": "arlas_id:Birds identifiers fragment:1614847509880",
+      "id": "arlas-select-arlas_id:PLEIADE:1625676886732",
       "type": "line",
-      "source": "feature-track.trail",
-      "minzoom": 0,
-      "maxzoom": 24,
+      "source": "feature-_geometry_wkt-PLEIADE",
+      "minzoom": 1,
+      "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
         "line-opacity": 1,
         "line-color": [
-          "get",
-          "object_id_color"
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
+          "match",
           [
             "get",
-            "track_timestamps_center:normalized:object_id"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
-          0,
-          0,
-          1,
-          6
-        ]
+          "PLEIADES",
+          "#84ffff",
+          "PLEIADES 1A",
+          "#9bc419",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
+        ],
+        "line-width": 14
+      },
+      "metadata": {
+        "collection": "PLEIADE"
       },
       "filter": [
         "all",
         [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "Infinity"
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:SPOT:1625676905679",
+      "type": "line",
+      "source": "feature-_geometry_wkt-SPOT",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform"
+          ],
+          "SPOT5",
+          "#ecff4b",
+          "SPOT6",
+          "#19ff88",
+          "SPOT4",
+          "#7d4eff",
+          "SPOT 7",
+          "#ffff70",
+          "SPOT1",
+          "#691a3a",
+          "SPOT 6",
+          "#b370e4",
+          "SPOT3",
+          "#ffabc8",
+          "PLEIADES",
+          "#84ffff",
+          "SPOT2",
+          "#b5ff58",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
         ],
+        "line-width": 14
+      },
+      "metadata": {
+        "collection": "SPOT"
+      },
+      "filter": [
+        "all",
         [
-          "!=",
-          "track.timestamps.center:normalized:object_id",
-          "-Infinity"
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:PLEIADE:1625676886732",
+      "type": "line",
+      "source": "feature-_geometry_wkt-PLEIADE",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform"
+          ],
+          "PLEIADES",
+          "#84ffff",
+          "PLEIADES 1A",
+          "#9bc419",
+          "PLEIADES 1B",
+          "#ff834b",
+          "#fff619"
+        ],
+        "line-width": 14
+      },
+      "metadata": {
+        "collection": "PLEIADE"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
         ]
       ]
     }
-
-
   ],
   "external-event-layers": [
-
+    {
+      "id": "arlas-hover-arlas_id:SPOT:1625676905679",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:PLEIADE:1625676886732",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-select-arlas_id:SPOT:1625676905679",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:PLEIADE:1625676886732",
+      "on": "select"
+    }
   ]
 }
