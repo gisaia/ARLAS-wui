@@ -66,7 +66,8 @@
                 (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)"
                 (onFeatureOver)="emitFeaturesOnOver($event)"
-                (onFeatureClic)="emitFeaturesOnClic($event)">
+                (onFeatureClic)="emitFeaturesOnClic($event)"
+                [offset]="offset" >
               </arlas-mapgl>
             </div>
 
@@ -93,7 +94,7 @@
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
               <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit"></arlas-filter>
               <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}"
-                (click)="zoomToData()">
+                (click)="onZoomToData()">
                 <mat-icon class="arlas-zoom-to-data-icon">filter_center_focus</mat-icon>
               </div>
             </div>
