@@ -51,8 +51,13 @@ import { MenuState } from './components/left-menu/left-menu.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import * as helpers from '@turf/helpers';
 import { timer } from 'rxjs';
-
-
+import { DataMode } from 'arlas-web-contributors/contributors/MapContributor';
+import { SortEnum, ResultListComponent, Column, ModeEnum } from 'arlas-web-components';
+import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
+import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
+import { DynamicComponentService } from './services/dynamicComponent.service';
+import { Item } from 'arlas-web-components/components/results/model/item';
+import { group } from '@angular/animations';
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
@@ -68,6 +73,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
+  public sortOutput = new Map<string, { fieldName: string, sortDirection: SortEnum }>();
 
   public analytics: Array<any>;
   public refreshButton: any;
@@ -106,7 +112,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public analyticsOpen = true;
   public searchOpen = true;
 
-
+  public actionPopup = new Subject<any>();
 
 
   /* Options */
@@ -133,6 +139,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     'features': []
   };
 
+  public recalculateExtend = true;
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
@@ -155,7 +162,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private colorGenerator: ArlasColorGeneratorLoader,
     private sidenavService: SidenavService,
     private titleService: Title,
-    private arlasSettingsService: ArlasSettingsService
+    private arlasSettingsService: ArlasSettingsService,
+    private dynamicComponentService: DynamicComponentService
   ) {
     this.menuState = {
       configs: false
@@ -234,6 +242,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
+    this.actionPopup.subscribe(data => {
+      const mc = this.mapglContributors
+        .filter(m => {
+          return m.collection === data.action.collection;
+        })[0];
+        console.log(mc);
+        mc.getBoundsToFit(data.elementidentifier, data.action.collection).subscribe(bounds => this.fitbounds = bounds);
+    });
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
       // tslint:disable-next-line:no-string-literal
       this.arlasSettingsService.settings['tab_name'] : '';
@@ -374,6 +390,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.collaborativeService.setCollaborations(dataModel);
   }
 
+  public setLyersVisibilityStatus(event) {
+    console.log(event);
+    this.layersVisibilityStatus = event;
+  }
+
   public zoomToData() {
     if (!this.mapSettingsService.mapContributor) {
       this.mapSettingsService.mapContributor = this.mainMapContributor;
@@ -386,13 +407,74 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
 
-  // TODO : for the moment we use the first map contributor to manage getBoardEvents
-  // We must use all  map contributors for getBoardEvents
+  /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
+  public sortColumnEvent(contributorId: string, sortOutput: { fieldName: string, sortDirection: SortEnum }) {
+    /**Cancel geo-sort */
+    /** Save the sorted column */
+    this.sortOutput.set(contributorId, sortOutput);
+    /** Sort the list by the selected column and the id field name */
+    (this.collaborativeService.registry.get(contributorId) as ResultListContributor).sortColumn(sortOutput, true);
+    /** set mapcontritbutor sort */
+    let sortOrder = null;
+    if (sortOutput.sortDirection.toString() === '0') {
+      sortOrder = '';
+    } else if (sortOutput.sortDirection.toString() === '1') {
+      sortOrder = '-';
+    }
+    let sort = '';
+    if (sortOrder !== null) {
+      sort = sortOrder + sortOutput.fieldName;
+    }
+
+    this.mapglContributors.forEach(c => {
+      // Could have some problems if we put 2 lists with the same collection and different sort ?
+      c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
+    });
+    /** Redraw features with setted sort in case of Simple mode */
+    /** Remove old features */
+    this.mapglContributors.forEach(c => {
+      // Could have some problems if we put 2 lists with the same collection and different sort ?
+      c.getConfigValue('layers_sources')
+        .filter(ls => ls.source.startsWith('feature-'))
+        .map(ls => ls.source)
+        .forEach(source => c.clearData(source));
+      c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
+    });
+    /** Set new features */
+    this.mapglContributors
+      .filter(c => c.collection === (this.collaborativeService.registry.get(contributorId) as ResultListContributor).collection)
+      .forEach(c => c.drawGeoSearch(0, true));
+  }
+
+  /**
+ *Function Call on the end of the scroll list
+ */
+  public paginate(contributor, eventPaginate: PageQuery): void {
+
+    contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
+    if (this.mainMapContributor.dataMode === DataMode.simple) {
+      const sort = contributor.sort;
+      this.mapglContributors
+        .filter(c => c.collection === contributor.collection)
+        .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
+    }
+  }
+
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
+    const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
+    const mapContributor = this.mapglContributors.filter(c => c.collection === resultListContributor.collection)[0];
+
     switch (event.event) {
+      case 'paginationEvent':
+        this.paginate(resultListContributor, event.data);
+        break;
+
+      case 'sortColumnEvent':
+        this.sortColumnEvent(event.origin, event.data);
+        break;
       case 'consultedItemEvent':
-        const f = this.mainMapContributor.getFeatureToHightLight(event.data);
-        if (this.mainMapContributor.isFlat) {
+        const f = mapContributor.getFeatureToHightLight(event.data);
+        if (mapContributor) {
           f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
         }
         this.featureToHightLight = f;
@@ -400,14 +482,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'selectedItemsEvent':
         if (event.data.length > 0 && this.mapComponentConfig) {
           this.featuresToSelect = event.data.map(id => {
-            if (this.mainMapContributor.isFlat) {
+            const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
+            if (mapContributor.isFlat) {
               return {
-                idFieldName: this.mapComponentConfig.idFeatureField.replace(/\./g, '_'),
+                idFieldName: idFieldName.replace(/\./g, '_'),
                 idValue: id
               };
             } else {
               return {
-                idFieldName: this.mapComponentConfig.idFeatureField,
+                idFieldName: idFieldName,
                 idValue: id
               };
             }
@@ -419,9 +502,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'actionOnItemEvent':
         switch (event.data.action.id) {
           case 'zoomToFeature':
-            this.mainMapContributor.getBoundsToFit(event.data.elementidentifier)
-              .subscribe(bounds => this.fitbounds = bounds);
-            break;
+            this.mapglContributors
+              .filter(c => c.collection === resultListContributor.collection)
+              .forEach(c => c.getBoundsToFit(event.data.elementidentifier, c.collection).subscribe(bounds => this.fitbounds = bounds));
         }
         break;
       case 'globalActionEvent':
@@ -449,11 +532,115 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public onMove(event) {
-    this.mapglContributors.forEach(contrib => contrib.onMove(event));
+    /** Change map extend in the url */
+    const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+    const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams[this.MAP_EXTEND_PARAM] = extend;
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    localStorage.setItem('currentExtent', JSON.stringify(bounds));
+    const ratioToAutoSort = 0.1;
+    if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort)) {
+      this.recalculateExtend = true;
+    }
+    // TODO Optimize recalcul call on move
+    this.recalculateExtend = true;
+    if (this.recalculateExtend) {
+      const newMapExtent = event.extendWithOffset;
+      const newMapExtentRaw = event.rawExtendWithOffset;
+      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
+      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
+      this.resultlistContributors
+        // TODO Geo count field HARD CODED
+        .forEach(c => c.filter = this.mainMapContributor.getFilterForCount(pwithinRaw, pwithin, '_centroid_wkt'));
+      this.resultlistContributors.forEach(c => c.sortColumn(this.sortOutput.get(c.identifier), true));
+      this.mapglContributors.forEach(c => {
+        // Could have some problems if we put 2 lists with the same collection and different sort ?
+        c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
+        c.getConfigValue('layers_sources')
+          .filter(ls => ls.source.startsWith('feature-'))
+          .map(ls => ls.source)
+          .forEach(source => c.clearData(source));
+        c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
+      });
+
+      this.mapglContributors.forEach(contrib => contrib.onMove(event));
+
+
+      this.recalculateExtend = false;
+    }
+
   }
 
   public changeVisualisation(event) {
     this.mapglContributors.forEach(contrib => contrib.changeVisualisation(event));
+  }
+
+
+  public emitFeaturesOnOver(event) {
+    if (event.features) {
+      this.mapglComponent.map.getCanvas().style.cursor = 'pointer';
+      // Get feature by collection
+      this.resultlistContributors.forEach(c => {
+        const idFieldName = c.getConfigValue('fieldsConfiguration')['idFieldName'];
+        const highLightItems = event.features
+          .filter(f => f.layer.metadata.collection === c.collection)
+          .map(f => f.properties[idFieldName.replace(/\./g, '_')]);
+        c.setHighlightItems(highLightItems);
+      });
+    } else {
+      this.mapglComponent.map.getCanvas().style.cursor = '';
+      this.resultlistContributors.forEach(c => {
+        c.setHighlightItems([]);
+      });
+    }
+  }
+
+  public emitFeaturesOnClic(event) {
+    console.log(event);
+    if (event.features) {
+      const feature = event.features[0];
+      const resultListContributor = this.resultlistContributors.filter(c => feature.layer.metadata.collection === c.collection)[0];
+      const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
+      const id = feature.properties[idFieldName.replace(/\./g, '_')];
+      resultListContributor.detailedDataRetriever.getData(id).subscribe(
+        data => {
+          const rowItem = new Item([], new Map());
+          rowItem.identifier = id;
+          resultListContributor.detailedDataRetriever.getActions(rowItem).subscribe(ac => rowItem.actions = ac);
+          const detail = new Array<{
+            group: string;
+            details: Array<{
+              key: string;
+              value: string;
+            }>;
+          }>();
+          data.details.forEach((k, v) => {
+            const details = new Array<{
+              key: string;
+              value: string;
+            }>();
+            k.forEach((value, key) => {
+              details.push(
+                { key, value }
+              );
+            });
+            detail.push({
+              group: v,
+              details: details
+            });
+          });
+          rowItem.itemDetailedData = detail;
+          const popupContent = this.dynamicComponentService.injectComponent(
+            ResultDetailedItemComponent,
+            x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionPopup; x.idFieldName = idFieldName; });
+          new mapboxgl.Popup({ closeOnClick: false })
+            .setLngLat(event.point)
+            .setDOMContent(popupContent)
+            .addTo(this.mapglComponent.map);
+        }
+      );
+    }
   }
 
   private getParamValue(param: string): string {
@@ -467,3 +654,5 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     return paramValue;
   }
 }
+
+
