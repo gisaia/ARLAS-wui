@@ -297,3 +297,14 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
 .resultitem-grid__actions {
   cursor: pointer;
 }
+.gif{
+  background-color: #FF4081; 
+  border-radius: 50%;
+  width: 500px;
+  height: 500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+}
