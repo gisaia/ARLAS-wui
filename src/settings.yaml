@@ -22,5 +22,4 @@ authentication:
   storage: sessionstorage
 ticketing_key:
 tab_name: "ARLAS Wui"
-persistence:
-  url: 'http://localhost:19997/arlas-persistence-server'
+

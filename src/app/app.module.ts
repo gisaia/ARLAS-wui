@@ -54,6 +54,8 @@ import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+import { DynamicComponentService } from './services/dynamicComponent.service';
+import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
 
 
 @NgModule({
@@ -118,10 +120,11 @@ import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkth
   ],
   providers: [
     ContributorService,
-    SidenavService
+    SidenavService,
+    DynamicComponentService
 
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: [AboutDialogComponent, ResultDetailedItemComponent]
 })
 export class ArlasWuiModule { }
