@@ -49,13 +49,17 @@ import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/
 import { SidenavService } from './services/sidenav.service';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import { SortEnum } from 'arlas-web-components';
+import * as helpers from '@turf/helpers';
+import { timer } from 'rxjs';
+import { DataMode } from 'arlas-web-contributors/contributors/MapContributor';
+import { SortEnum, ResultListComponent, Column, ModeEnum } from 'arlas-web-components';
 import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { Item } from 'arlas-web-components/components/results/model/item';
 import { appendIdToSort, ASC } from 'arlas-web-contributors/utils/utils';
 
+import { group } from '@angular/animations';
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
