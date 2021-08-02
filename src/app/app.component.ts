@@ -49,15 +49,13 @@ import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/
 import { SidenavService } from './services/sidenav.service';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import * as helpers from '@turf/helpers';
-import { timer } from 'rxjs';
-import { DataMode } from 'arlas-web-contributors/contributors/MapContributor';
-import { SortEnum, ResultListComponent, Column, ModeEnum } from 'arlas-web-components';
+import { SortEnum } from 'arlas-web-components';
 import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { Item } from 'arlas-web-components/components/results/model/item';
-import { group } from '@angular/animations';
+import { appendIdToSort, ASC } from 'arlas-web-contributors/utils/utils';
+
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
@@ -97,8 +95,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     elementidentifier: ElementIdentifier
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
-  private isAutoGeosortActive;
-  private geosortConfig;
   private allowMapExtend: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
   private mapEventListener = new Subject();
@@ -113,6 +109,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public searchOpen = true;
 
   public actionPopup = new Subject<any>();
+  public centerLatLng: { lat: number; lng: number } = { lat: 0, lng: 0 };
+  public offset = { north: 0, east: 0, south: -128, west: 465 };
 
 
   /* Options */
@@ -140,6 +138,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   };
 
   public recalculateExtend = true;
+  public zoomToData = false;
+  public zoomStart: number;
+
+  public isGeoSortActivated = new Map<string, boolean>();
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
@@ -207,7 +209,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.analytics = this.configService.getValue('arlas.web.analytics');
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
-      this.geosortConfig = this.configService.getValue('arlas-wui.web.app.components.geosort');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
         {
@@ -223,10 +224,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
-      }
-      if (this.analytics) {
-        this.isAutoGeosortActive = this.analytics.filter(g => g.groupId === 'resultlist')
-          .map(g => this.isAutoGeosortActive = g.components[0].input.isAutoGeoSortActived);
       }
       this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
         this.collaborativeService.countAll
@@ -247,8 +244,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         .filter(m => {
           return m.collection === data.action.collection;
         })[0];
-        console.log(mc);
-        mc.getBoundsToFit(data.elementidentifier, data.action.collection).subscribe(bounds => this.fitbounds = bounds);
+      mc.getBoundsToFit(data.elementidentifier, data.action.collection).subscribe(bounds => this.fitbounds = bounds);
     });
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
       // tslint:disable-next-line:no-string-literal
@@ -300,13 +296,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    let startDragCenter;
-    let dragMove = false;
     this.mapService.setMap(this.mapglComponent.map);
-    this.mapglComponent.map.on('dragstart', (e) => {
-      dragMove = true;
-      startDragCenter = this.mapglComponent.map.getCenter();
-    });
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
       (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
@@ -322,32 +312,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         });
       }
     });
+    this.mapglComponent.map.on('movestart', (e) => {
+      this.zoomStart = this.mapglComponent.map.getZoom();
+      console.log('Move Start Center ' + this.mapglComponent.map.getCenter());
+
+
+    });
     this.mapglComponent.map.on('moveend', (e) => {
-      if (dragMove === true) {
-        const endDragCenter = this.mapglComponent.map.getCenter();
-        const startDragCenterPosition = this.mapglComponent.map.project(startDragCenter);
-        const endDragCenterPosition = this.mapglComponent.map.project(endDragCenter);
-        const deltaX = Math.abs(startDragCenterPosition.x - endDragCenterPosition.x);
-        const deltaY = Math.abs(startDragCenterPosition.y - endDragCenterPosition.y);
-        const mapWidth = e.target._canvas.clientWidth;
-        const mapHeight = e.target._canvas.clientHeight;
-        const dragRatio = (this.geosortConfig && Number(this.geosortConfig.dragRatio).toString() !== 'NaN') ?
-          this.geosortConfig.dragRatio : 0.05;
-        const minGeosortZoom = (this.geosortConfig && Number(this.geosortConfig.minGeosortZoom).toString() !== 'NaN') ?
-          this.geosortConfig.minGeosortZoom : 8;
-        if (this.isAutoGeosortActive && this.mapglComponent.map.getZoom() > minGeosortZoom) {
-          if (((deltaX / mapWidth > dragRatio) || (deltaY / mapHeight > dragRatio)) && this.resultlistContributors) {
-            if (this.resultlistContributors.length > 0) {
-              this.resultlistContributors.forEach(c => c.geoSort(endDragCenter.lat, endDragCenter.lng, true));
-            }
-          }
-        }
+      if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+        this.zoomToData = true;
       }
-      dragMove = false;
       if (this.allowMapExtend) {
         this.mapEventListener.next();
       }
-
     });
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
@@ -389,11 +366,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public setLyersVisibilityStatus(event) {
-    console.log(event);
     this.layersVisibilityStatus = event;
   }
 
-  public zoomToData() {
+  public onZoomToData() {
     if (!this.mapSettingsService.mapContributor) {
       this.mapSettingsService.mapContributor = this.mainMapContributor;
     }
@@ -407,7 +383,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
   public sortColumnEvent(contributorId: string, sortOutput: { fieldName: string, sortDirection: SortEnum }) {
-    /**Cancel geo-sort */
+    this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
@@ -448,14 +424,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
  *Function Call on the end of the scroll list
  */
   public paginate(contributor, eventPaginate: PageQuery): void {
-
     contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
-    if (this.mainMapContributor.dataMode === DataMode.simple) {
-      const sort = contributor.sort;
-      this.mapglContributors
-        .filter(c => c.collection === contributor.collection)
-        .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
-    }
+    const sort = this.isGeoSortActivated.get(contributor.identifier) ? contributor.geoOrderSort : contributor.sort;
+    this.mapglContributors
+      .filter(c => c.collection === contributor.collection)
+      .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
@@ -508,14 +481,42 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'globalActionEvent':
         break;
       case 'geoSortEvent':
-        if (this.resultlistContributors.length > 0) {
-          this.resultlistContributors.forEach(c => c.geoSort(this.mapglComponent.map.getCenter().lat,
-            this.mapglComponent.map.getCenter().lng, true));
-        }
         break;
       case 'geoAutoSortEvent':
-        this.isAutoGeosortActive = event.data;
+        const lat = this.centerLatLng.lat;
+        const lng = this.centerLatLng.lng;
+        this.onActiveOnGeosort(event.data, resultListContributor, mapContributor, lat, lng);
         break;
+    }
+  }
+
+  public onActiveOnGeosort(data, resultListContributor: ResultListContributor, mapContributor: MapContributor, lat, lng): void {
+    this.isGeoSortActivated.set(resultListContributor.identifier, data);
+    if (data) {
+      /** Apply geosort in list */
+      resultListContributor.geoSort(lat, lng, true);
+      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
+      /** Apply geosort in map (for simple mode) */
+      mapContributor.getConfigValue('layers_sources')
+        .filter(ls => ls.source.startsWith('feature-'))
+        .map(ls => ls.source)
+        .forEach(source => mapContributor.clearData(source));
+      mapContributor.searchSort = resultListContributor.geoOrderSort;
+      mapContributor.searchSize = resultListContributor.pageSize;
+      mapContributor.drawGeoSearch(0, true);
+    } else {
+      const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
+      this.sortOutput.set(resultListContributor.identifier,
+        { fieldName: idFieldName, sortDirection: SortEnum.none });
+      /** Sort the list by the selected column and the id field name */
+      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
+      mapContributor.searchSort = resultListContributor.sort;
+      mapContributor.searchSize = resultListContributor.pageSize;
+      mapContributor.getConfigValue('layers_sources')
+        .filter(ls => ls.source.startsWith('feature-'))
+        .map(ls => ls.source)
+        .forEach(source => mapContributor.clearData(source));
+      mapContributor.drawGeoSearch(0, true);
     }
   }
 
@@ -538,11 +539,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     localStorage.setItem('currentExtent', JSON.stringify(bounds));
     const ratioToAutoSort = 0.1;
-    if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort)) {
+    this.centerLatLng['lat'] = event.centerWithOffset[1];
+    this.centerLatLng['lng'] = event.centerWithOffset[0];
+    if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomToData)) {
       this.recalculateExtend = true;
     }
-    // TODO Optimize recalcul call on move
-    this.recalculateExtend = true;
     if (this.recalculateExtend) {
       const newMapExtent = event.extendWithOffset;
       const newMapExtentRaw = event.rawExtendWithOffset;
@@ -551,23 +552,34 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.resultlistContributors
         // TODO Geo count field HARD CODED
         .forEach(c => c.filter = this.mainMapContributor.getFilterForCount(pwithinRaw, pwithin, '_centroid_wkt'));
-      this.resultlistContributors.forEach(c => c.sortColumn(this.sortOutput.get(c.identifier), true));
+      this.resultlistContributors.forEach(c => {
+        if (this.isGeoSortActivated.get(c.identifier)) {
+          const idFieldName = c.getConfigValue('fieldsConfiguration')['idFieldName'];
+          const sort = 'geodistance:' + this.centerLatLng.lat.toString() + ' ' + this.centerLatLng.lng.toString();
+          const geoSort = appendIdToSort(sort, ASC, idFieldName);
+          c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
+        } else {
+          c.sortColumn(this.sortOutput.get(c.identifier), true);
+        }
+      });
       this.mapglContributors.forEach(c => {
         // Could have some problems if we put 2 lists with the same collection and different sort ?
-        c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
+        if (this.isGeoSortActivated.get(c.identifier)) {
+          c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].geoOrderSort;
+
+        } else {
+          c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
+        }
         c.getConfigValue('layers_sources')
           .filter(ls => ls.source.startsWith('feature-'))
           .map(ls => ls.source)
           .forEach(source => c.clearData(source));
         c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
       });
-
       this.mapglContributors.forEach(contrib => contrib.onMove(event));
-
-
+      this.zoomToData = false;
       this.recalculateExtend = false;
     }
-
   }
 
   public changeVisualisation(event) {
@@ -595,7 +607,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public emitFeaturesOnClic(event) {
-    console.log(event);
     if (event.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistContributors.filter(c => feature.layer.metadata.collection === c.collection)[0];
