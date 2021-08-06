@@ -65,7 +65,7 @@
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
-                [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
+                [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
                 (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)"
                 (onFeatureOver)="emitFeaturesOnOver($event)"
@@ -104,7 +104,7 @@
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
                   <mat-tab *ngFor="let list of rightListContributors" [label]="list.getName()">
-                    <div *ngIf="!!this.resultListConfigPerContId.get(list.identifier)">
+                    <div>
                       <arlas-result-list style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"

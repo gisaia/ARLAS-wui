@@ -34,11 +34,11 @@ import {
   MatTooltipModule,
   MatListModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatTabsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule, ArlasWalkthroughModule } from 'arlas-wui-toolkit';
@@ -57,6 +57,7 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
+import { VisualizeService } from './services/visualize.service';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { ResultDetailedItemComponent } from 'arlas-web-components/components/res
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatTooltipModule,
     MatTabsModule,
     MatProgressBarModule,
@@ -124,7 +126,8 @@ import { ResultDetailedItemComponent } from 'arlas-web-components/components/res
   providers: [
     ContributorService,
     SidenavService,
-    DynamicComponentService
+    DynamicComponentService,
+    VisualizeService
 
   ],
   bootstrap: [ArlasWuiComponent],
