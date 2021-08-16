@@ -26,7 +26,7 @@
     "@angular/platform-browser-dynamic": "~8.2.10",
     "@angular/router": "~8.2.10",
     "@types/d3-dsv": "1.0.32",
-    "arlas-wui-toolkit": "~17.2.3",
+    "arlas-wui-toolkit": "~17.2.4",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
     "cryptiles": ">=4.1.2",
