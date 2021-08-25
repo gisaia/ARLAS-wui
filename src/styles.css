@@ -104,6 +104,18 @@ table.resultlist>tbody {
   height: 400px !important;
 }
 
+.side-result-list table.resultlist>tbody {
+  height: calc(100vh - 100px) !important;
+}
+
+.side-result-list .resultgrid__title-highlight- {
+  margin: unset !important;
+  display: flex;
+  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .boxdraw {
   background: transparent;
   border: 2px solid black;
