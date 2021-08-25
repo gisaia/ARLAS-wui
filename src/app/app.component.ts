@@ -88,6 +88,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
+  public resultListsConfig = [];
+  public resultListConfigPerContId = new Map<string, any>();
 
   public fitbounds: Array<Array<number>> = [];
   public featureToHightLight: {
@@ -112,6 +114,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public centerLatLng: { lat: number; lng: number } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
+  public listOpen = false;
 
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
@@ -147,6 +150,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
+  @ViewChild('tabsList', { static: false }) public tabsList;
 
   constructor(
     private configService: ArlasConfigService,
@@ -201,6 +205,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
+      this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
@@ -273,6 +278,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributors.length > 0) {
         this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));
       }
+      this.resultListsConfig.forEach(rlConf => {
+        this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
+      });
+
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
         if (extendValue) {
@@ -654,6 +663,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public toggleList() {
+    this.tabsList.realignInkBar();
+    this.listOpen = !this.listOpen;
+  }
+
   private getParamValue(param: string): string {
     let paramValue = null;
     const url = window.location.href;
@@ -664,6 +678,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     return paramValue;
   }
+
 }
 
 
