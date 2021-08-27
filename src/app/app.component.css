@@ -39,11 +39,15 @@
   width: calc(100% - 450px);
 }
 
+.app-container-with-list ::ng-deep#mapgl {
+  width: calc(100% - 150px);
+}
+
 .side-result-list-toggle {
   z-index: 1;
   height: 100%;
   position: absolute;
-  right: 0;
+  right: 150px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -64,6 +68,23 @@
 
 .side-result-list-icon-open {
   padding: 6px 0;
+}
+
+.side-result-list-preview {
+  width: 150px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  display: block;
+  background-color: white;
+}
+
+.side-result-list-preview-close {
+  display: none;
+}
+
+.side-result-list-preview .resultgrid__icon_check {
+  display: none;
 }
 
 .side-result-list {
@@ -184,8 +205,12 @@
   z-index: 1;
 }
 
-.app-container-reduce .arlas-map-action{
+.app-container-reduce .arlas-map-action {
   right: 457px;
+}
+
+.app-container-with-list .arlas-map-action {
+  right: 157px;
 }
 
 .arlas-map-action-container {
@@ -213,8 +238,12 @@
   z-index: 1;
 }
 
-.app-container-reduce .arlas-map-settings{
+.app-container-reduce .arlas-map-settings {
   right: 457px;
+}
+
+.app-container-with-list .arlas-map-settings {
+  right: 157px;
 }
 
 .arlas-map-settings-container {
@@ -256,14 +285,28 @@
   height: 100vh;
 }
 
-.app-container-reduce ::ng-deep.arlas-timeline--tools{
+.app-container-reduce ::ng-deep.arlas-timeline--tools {
   right: 457px;
 }
 
-.app-container-reduce ::ng-deep.arlas-timeline--timelines{
-  width: calc(100% - 464px); /* 450px for list and 14px for margin left and right */
+.app-container-reduce ::ng-deep.arlas-timeline--timelines {
+  width: calc(100% - 464px);
+  /* 450px for list and 14px for margin left and right */
 }
 
 .app-container-reduce ::ng-deep.bookmark-shortcut {
   right: 461px;
+}
+
+.app-container-with-list ::ng-deep.arlas-timeline--tools {
+  right: 157px;
+}
+
+.app-container-with-list ::ng-deep.arlas-timeline--timelines {
+  width: calc(100% - 164px);
+  /* 150px for list and 14px for margin left and right */
+}
+
+.app-container-with-list ::ng-deep.bookmark-shortcut {
+  right: 161px;
 }

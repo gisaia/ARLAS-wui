@@ -16,45 +16,40 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, PipeTransform, Pipe, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatIconRegistry, MatTabGroup } from '@angular/material';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  ChartType, DataType, MapglComponent, Position, MapglImportComponent,
-  MapglSettingsComponent, GeoQuery, BasemapStyle
+  BasemapStyle, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, Position
 } from 'arlas-web-components';
-import * as mapboxgl from 'mapbox-gl';
-import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import {
-  ChipsSearchContributor,
+  AnalyticsContributor, ChipsSearchContributor,
   ElementIdentifier,
   HistogramContributor,
   MapContributor,
-  ResultListContributor,
-  AnalyticsContributor
+  ResultListContributor
 } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasStartupService,
-  ArlasMapSettings,
-  ArlasMapService,
-  ArlasColorGeneratorLoader
+  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService
 } from 'arlas-wui-toolkit';
-import { ContributorService } from './services/contributors.service';
-import { Subject, fromEvent, merge } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { DomSanitizer, Title } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material';
-import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
-import { SidenavService } from './services/sidenav.service';
-import { MenuState } from './components/left-menu/left-menu.component';
+import { SearchComponent } from 'arlas-wui-toolkit/components/search/search.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import * as mapboxgl from 'mapbox-gl';
+import { fromEvent, merge, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { MenuState } from './components/left-menu/left-menu.component';
 import { SortEnum } from 'arlas-web-components';
 import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { Item } from 'arlas-web-components/components/results/model/item';
 import { appendIdToSort, ASC } from 'arlas-web-contributors/utils/utils';
+import { ContributorService } from './services/contributors.service';
+import { SidenavService } from './services/sidenav.service';
+
 
 @Component({
   selector: 'arlas-wui-root',
@@ -115,6 +110,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
   public listOpen = false;
+  public selectedListTabIndex = 0;
+  public previewListContrib: ResultListContributor = null;
 
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
@@ -150,7 +147,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('search', { static: true }) private searchComponent: SearchComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
-  @ViewChild('tabsList', { static: false }) public tabsList;
+  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
 
   constructor(
     private configService: ArlasConfigService,
@@ -274,6 +271,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
+        this.previewListContrib = this.resultlistContributors[0];
         this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));
       }
       this.resultListsConfig.forEach(rlConf => {
@@ -335,6 +333,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapEventListener.next();
       }
     });
+    // Keep the last displayed list as preview when closing the right panel
+    this.tabsList.selectedIndexChange.subscribe(index => this.previewListContrib = this.resultlistContributors[index]);
+
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();

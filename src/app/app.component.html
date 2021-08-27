@@ -13,7 +13,7 @@
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container" [class.app-container-reduce]="listOpen">
+          <div class="app-container" [class.app-container-reduce]="listOpen" [class.app-container-with-list]="resultlistContributors.length > 0 && !listOpen">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
               <div class="arlas-map-settings-container">
@@ -48,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="arlas-map" [class.arlas-map-reduce]="listOpen">
+            <div class="arlas-map">
               <arlas-mapgl #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
@@ -72,15 +72,38 @@
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 [offset]="offset" >
               </arlas-mapgl>
-              <div class="side-result-list-toggle" [class.side-result-list-toggle-open]="listOpen">
+              <div *ngIf="resultlistContributors.length > 0" class="side-result-list-toggle" [class.side-result-list-toggle-open]="listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
                   (click)="toggleList()">
                   <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
                   <mat-icon *ngIf="listOpen">arrow_forward_ios</mat-icon>
                 </div>
               </div>
-              <div class="side-result-list mat-elevation-z1" [class.side-result-list-open]="listOpen">
-                <mat-tab-group [selectedIndex]="0" #tabsList>
+              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen" *ngIf="!!previewListContrib">
+                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data" [fieldsList]="previewListContrib.fieldsList"
+                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever" [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
+                  [dropDownMapValues]="previewListContrib.dropDownMapValues" [filtersMap]="previewListContrib.filtersMap"
+                  [highlightItems]="previewListContrib.highlightItems" [nbLinesBeforeFetch]="2" [nbGridColumns]="1"
+                  [tableWidth]="'150'" [defautMode]="1"
+                  [globalActionsList]="[]"
+                  [isGeoSortEnabled]="true"
+                  [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
+                  [displayFilters]="false"
+                  [useColorService]="resultListConfigPerContId.get(previewListContrib.identifier)?.useColorService"
+                  [cellBackgroundStyle]="resultListConfigPerContId.get(previewListContrib.identifier)?.cellBackgroundStyle"
+                  [colorsSaturationWeight]="resultListConfigPerContId.get(previewListContrib.identifier)?.colorsSaturationWeight"
+                  [keysToColors]="resultListConfigPerContId.get(previewListContrib.identifier)?.keysToColors"
+
+                  (paginationEvent)="previewListContrib?.getPage($event.reference, $event.whichPage)"
+                  (geoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoSortEvent', data: $event })"
+                  (geoAutoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoAutoSortEvent', data: $event })"
+                  (consultedItemEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
+                  (actionOnItemEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
+                  (globalActionEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
+                </arlas-result-list>
+              </div>
+              <div *ngIf="resultlistContributors.length > 0" class="side-result-list mat-elevation-z1" [class.side-result-list-open]="listOpen">
+                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
                   <mat-tab *ngFor="let list of resultlistContributors" [label]="list.getName()">
                     <div>
                       <arlas-result-list style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
