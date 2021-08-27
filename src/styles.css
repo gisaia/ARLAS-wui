@@ -108,6 +108,18 @@ table.resultlist>tbody {
   height: calc(100vh - 100px) !important;
 }
 
+.side-result-list-preview table.resultlist>tbody {
+  height: 100vh !important;
+}
+
+.side-result-list-preview table.resultlist>thead {
+  display: none;
+}
+
+.side-result-list-preview table.resultlist .resultgrid__icon_check {
+  display: none;
+}
+
 .side-result-list .resultgrid__title-highlight- {
   margin: unset !important;
   display: flex;
