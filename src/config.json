@@ -140,7 +140,8 @@
               }
             ],
             "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
-            "icon": "fiber_manual_record"          },
+            "icon": "fiber_manual_record"
+          },
           "columns": [
             {
               "columnName": "Sensor",
@@ -154,14 +155,14 @@
               "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
               "dataType": "",
               "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-            },            
+            },
             {
               "columnName": "Cloud coverage",
               "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
               "dataType": "%",
               "process": "",
               "useColorService": false
-            },            
+            },
             {
               "columnName": "Incidence angle",
               "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
@@ -170,133 +171,134 @@
               "useColorService": false
             }
           ],
-          "details": [            
+          "details": [
             {
-            "name": "Toponymy",
-            "order": 1,
-            "fields": [
-              {
-                "path": "_keywords.country",
-                "label": "Country",
-                "process": ""
-              },
-              {
-                "path": "_keywords.state",
-                "label": "State",
-                "process": ""
-              },
-              {
-                "path": "_keywords.region",
-                "label": "Region",
-                "process": ""
-              },
-              {
-                "path": "_keywords.city",
-                "label": "City",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Identification",
-            "order": 2,
-            "fields": [
-              {
-                "path": "metadata.core.identity.identifier",
-                "label": "Identifier",
-                "process": ""
-              },
-              {
-                "path": "metadata.core.identity.parentIdentifier",
-                "label": "parentIdentifier",
-                "process": ""
-              },
-              {
-                "path": "metadata.core.identity.collection",
-                "label": "Plateforme",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Technical Information",
-            "order": 3,
-            "fields": [
-              {
-                "path": "_resolution",
-                "label": "Resolution",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-                "label": "Incidence angle",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                "label": "Cloud coverage",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
-                "label": "Snow coverage",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
-                "label": "Water coverage",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Product and processing levels",
-            "order": 4,
-            "fields": [
-              {
-                "path": "metadata.core.description.processingLevel",
-                "label": "Product level",
-                "process": ""
-              },
-              {
-                "path": "_keywords.Discipline",
-                "label": "Discipline",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Acquisition mode",
-            "order": 5,
-            "fields": [
-              {
-                "path": "metadata.ObservationContext.processusUsed.platform",
-                "label": "Sensor",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.processusUsed.sensor.mode",
-                "label": "Sensor mode",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.processusUsed.instrument",
-                "label": "Instrument",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Services Links",
-            "order": 6,
-            "fields": [
-              {
-                "path": "_services.WMS.url",
-                "label": "WMS Links",
-                "process": ""
-              }
-            ]
-          }]
+              "name": "Toponymy",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "_keywords.country",
+                  "label": "Country",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.state",
+                  "label": "State",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.region",
+                  "label": "Region",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.city",
+                  "label": "City",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Identification",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "metadata.core.identity.identifier",
+                  "label": "Identifier",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.core.identity.parentIdentifier",
+                  "label": "parentIdentifier",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.core.identity.collection",
+                  "label": "Plateforme",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Technical Information",
+              "order": 3,
+              "fields": [
+                {
+                  "path": "_resolution",
+                  "label": "Resolution",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
+                  "label": "Incidence angle",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
+                  "label": "Cloud coverage",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
+                  "label": "Snow coverage",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
+                  "label": "Water coverage",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Product and processing levels",
+              "order": 4,
+              "fields": [
+                {
+                  "path": "metadata.core.description.processingLevel",
+                  "label": "Product level",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.Discipline",
+                  "label": "Discipline",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Acquisition mode",
+              "order": 5,
+              "fields": [
+                {
+                  "path": "metadata.ObservationContext.processusUsed.platform",
+                  "label": "Sensor",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
+                  "label": "Sensor mode",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.instrument",
+                  "label": "Instrument",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Services Links",
+              "order": 6,
+              "fields": [
+                {
+                  "path": "_services.WMS.url",
+                  "label": "WMS Links",
+                  "process": ""
+                }
+              ]
+            }
+          ]
         },
         {
           "identifier": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
@@ -332,7 +334,8 @@
               }
             ],
             "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
-            "icon": "fiber_manual_record"          },
+            "icon": "fiber_manual_record"
+          },
           "columns": [
             {
               "columnName": "Sensor",
@@ -346,14 +349,14 @@
               "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
               "dataType": "",
               "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-            },            
+            },
             {
               "columnName": "Cloud coverage",
               "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
               "dataType": "%",
               "process": "",
               "useColorService": false
-            },            
+            },
             {
               "columnName": "Incidence angle",
               "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
@@ -362,132 +365,134 @@
               "useColorService": false
             }
           ],
-          "details": [            {
-            "name": "Toponymy",
-            "order": 1,
-            "fields": [
-              {
-                "path": "_keywords.country",
-                "label": "Country",
-                "process": ""
-              },
-              {
-                "path": "_keywords.state",
-                "label": "State",
-                "process": ""
-              },
-              {
-                "path": "_keywords.region",
-                "label": "Region",
-                "process": ""
-              },
-              {
-                "path": "_keywords.city",
-                "label": "City",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Identification",
-            "order": 2,
-            "fields": [
-              {
-                "path": "metadata.core.identity.identifier",
-                "label": "Identifier",
-                "process": ""
-              },
-              {
-                "path": "metadata.core.identity.parentIdentifier",
-                "label": "parentIdentifier",
-                "process": ""
-              },
-              {
-                "path": "metadata.core.identity.collection",
-                "label": "Plateforme",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Technical Information",
-            "order": 3,
-            "fields": [
-              {
-                "path": "_resolution",
-                "label": "Resolution",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-                "label": "Incidence angle",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                "label": "Cloud coverage",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
-                "label": "Snow coverage",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
-                "label": "Water coverage",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Product and processing levels",
-            "order": 4,
-            "fields": [
-              {
-                "path": "metadata.core.description.processingLevel",
-                "label": "Product level",
-                "process": ""
-              },
-              {
-                "path": "_keywords.Discipline",
-                "label": "Discipline",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Acquisition mode",
-            "order": 5,
-            "fields": [
-              {
-                "path": "metadata.ObservationContext.processusUsed.platform",
-                "label": "Sensor",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.processusUsed.sensor.mode",
-                "label": "Sensor mode",
-                "process": ""
-              },
-              {
-                "path": "metadata.ObservationContext.processusUsed.instrument",
-                "label": "Instrument",
-                "process": ""
-              }
-            ]
-          },
-          {
-            "name": "Services Links",
-            "order": 6,
-            "fields": [
-              {
-                "path": "_services.WMS.url",
-                "label": "WMS Links",
-                "process": ""
-              }
-            ]
-          }]
+          "details": [
+            {
+              "name": "Toponymy",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "_keywords.country",
+                  "label": "Country",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.state",
+                  "label": "State",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.region",
+                  "label": "Region",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.city",
+                  "label": "City",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Identification",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "metadata.core.identity.identifier",
+                  "label": "Identifier",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.core.identity.parentIdentifier",
+                  "label": "parentIdentifier",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.core.identity.collection",
+                  "label": "Plateforme",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Technical Information",
+              "order": 3,
+              "fields": [
+                {
+                  "path": "_resolution",
+                  "label": "Resolution",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
+                  "label": "Incidence angle",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
+                  "label": "Cloud coverage",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
+                  "label": "Snow coverage",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
+                  "label": "Water coverage",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Product and processing levels",
+              "order": 4,
+              "fields": [
+                {
+                  "path": "metadata.core.description.processingLevel",
+                  "label": "Product level",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.Discipline",
+                  "label": "Discipline",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Acquisition mode",
+              "order": 5,
+              "fields": [
+                {
+                  "path": "metadata.ObservationContext.processusUsed.platform",
+                  "label": "Sensor",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
+                  "label": "Sensor mode",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.instrument",
+                  "label": "Instrument",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Services Links",
+              "order": 6,
+              "fields": [
+                {
+                  "path": "_services.WMS.url",
+                  "label": "WMS Links",
+                  "process": ""
+                }
+              ]
+            }
+          ]
         },
         {
           "identifier": "dinamis-_keywords.city-10-Count",
@@ -642,6 +647,65 @@
             "barWeight": 0.8
           }
         },
+        "resultlists": [
+          {
+            "contributorId": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+            "componentType": "resultlist",
+            "input": {
+              "id": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+              "tableWidth": 445,
+              "globalActionsList": [],
+              "searchSize": 50,
+              "nLastLines": 3,
+              "detailedGridHeight": 25,
+              "nbGridColumns": 3,
+              "defautMode": "list",
+              "displayFilters": false,
+              "isBodyHidden": false,
+              "isGeoSortActived": false,
+              "isAutoGeoSortActived": true,
+              "selectedItemsEvent": null,
+              "consultedItemEvent": null,
+              "actionOnItemEvent": null,
+              "globalActionEvent": null,
+              "useColorService": true,
+              "cellBackgroundStyle": "filled",
+              "options": {
+                "showActionsOnhover": "true",
+                "showDetailIconName": "keyboard_arrow_down",
+                "hideDetailIconName": "keyboard_arrow_up"
+              }
+            }
+          },
+          {
+              "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+              "componentType": "resultlist",
+              "input": {
+                "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+                "tableWidth": 445,
+                "globalActionsList": [],
+                "searchSize": 50,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "displayFilters": false,
+                "isBodyHidden": false,
+                "isGeoSortEnabled": true,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null,
+                "useColorService": true,
+                "cellBackgroundStyle": "filled",
+                "options": {
+                  "showActionsOnhover": "true",
+                  "showDetailIconName": "keyboard_arrow_down",
+                  "hideDetailIconName": "keyboard_arrow_up"
+                }
+              }
+            }
+        ],
         "share": {
           "geojson": {
             "max_for_feature": 5000,
@@ -670,7 +734,7 @@
                 "globalActionsList": [],
                 "searchSize": 50,
                 "nLastLines": 3,
-                "detailedGridHeight": 25,
+                "detailedGridHeight": 250,
                 "nbGridColumns": 3,
                 "defautMode": "list",
                 "displayFilters": false,
@@ -706,7 +770,7 @@
                 "globalActionsList": [],
                 "searchSize": 50,
                 "nLastLines": 3,
-                "detailedGridHeight": 25,
+                "detailedGridHeight": 250,
                 "nbGridColumns": 3,
                 "defautMode": "list",
                 "displayFilters": false,
@@ -825,7 +889,7 @@
       }
     },
     "server": {
-      "url": "http://localhost:81/server/",
+      "url": "http://localhost:9998/arlas/",
       "max_age_cache": 120,
       "collection": {
         "name": "SPOT"
