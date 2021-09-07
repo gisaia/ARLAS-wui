@@ -112,6 +112,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public listOpen = false;
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
+  public rightListContributors: Array<ResultListContributor> = new Array();
 
   /* Options */
   public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
@@ -202,7 +203,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists');
+      this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists') ?
+        this.configService.getValue('arlas.web.components.resultlists') : [];
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
@@ -271,7 +273,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
-        this.previewListContrib = this.resultlistContributors[0];
+        this.rightListContributors = this.resultlistContributors
+          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId));
+
+        this.previewListContrib = this.rightListContributors[0];
         this.resultlistContributors.forEach(c => c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '' }));
       }
       this.resultListsConfig.forEach(rlConf => {
@@ -334,7 +339,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
     });
     // Keep the last displayed list as preview when closing the right panel
-    this.tabsList.selectedIndexChange.subscribe(index => this.previewListContrib = this.resultlistContributors[index]);
+    if (!!this.tabsList) {
+      this.tabsList.selectedIndexChange.subscribe(index => this.previewListContrib = this.resultlistContributors[index]);
+    }
 
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
@@ -444,7 +451,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const mapContributor = this.mapglContributors.filter(c => c.collection === resultListContributor.collection)[0];
-
     switch (event.event) {
       case 'paginationEvent':
         this.paginate(resultListContributor, event.data);
