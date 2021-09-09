@@ -33,13 +33,14 @@ import {
   MatTableModule,
   MatTooltipModule,
   MatListModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatTabsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
+import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule, ArlasWalkthroughModule } from 'arlas-wui-toolkit';
 import { ArlasWuiComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
@@ -90,10 +91,12 @@ import { ResultDetailedItemComponent } from 'arlas-web-components/components/res
     MatInputModule,
     MatMenuModule,
     MatTooltipModule,
+    MatTabsModule,
     MatProgressBarModule,
     NgxMdModule,
     FormsModule,
     ReactiveFormsModule,
+    ResultsModule,
     MapglModule,
     MatTableModule,
     MatListModule,
