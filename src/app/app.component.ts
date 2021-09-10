@@ -110,6 +110,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public listOpen = false;
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
+  public previewListConfig = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
 
   /* Options */
@@ -274,8 +275,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = this.resultlistContributors
-          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId));
+          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
+          .map( rlcontrib => {
+            (rlcontrib as any).name = rlcontrib.getName();
+            return rlcontrib;
+          });
+
         this.previewListContrib = this.rightListContributors[0];
+        this.previewListConfig = this.resultListsConfig[0];
         this.resultlistContributors.forEach(c => {
           c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip : 'Zoom to product' });
           // TODO add action only if the visualize url is configured in the config of the resultlist contributor
@@ -350,7 +357,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     });
     // Keep the last displayed list as preview when closing the right panel
     if (!!this.tabsList) {
-      this.tabsList.selectedIndexChange.subscribe(index => this.previewListContrib = this.resultlistContributors[index]);
+      this.tabsList.selectedIndexChange.subscribe(index => {
+        this.previewListContrib = this.resultlistContributors[index]
+        this.previewListConfig = this.resultListsConfig[index];
+      });
     }
 
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
