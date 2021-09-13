@@ -252,6 +252,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.geojsondraw = {
           'type': 'FeatureCollection',
           'features': this.mapglContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
+            .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
+
         };
       }));
 
