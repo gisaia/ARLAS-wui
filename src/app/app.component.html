@@ -84,9 +84,9 @@
                   [detailedDataRetriever]="previewListContrib.detailedDataRetriever" [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
                   [dropDownMapValues]="previewListContrib.dropDownMapValues" [filtersMap]="previewListContrib.filtersMap"
                   [highlightItems]="previewListContrib.highlightItems" [nbLinesBeforeFetch]="10" [nbGridColumns]="1"
-                  [tableWidth]="'150'" [defautMode]="1"
+                  [tableWidth]="'150'" [defautMode]="1" [fetchState]="previewListContrib.fetchState"
                   [globalActionsList]="[]"
-                  [isGeoSortEnabled]="true"
+                  [isGeoSortEnabled]="previewListConfig.isGeoSortEnabled"
                   [options]="previewListConfig?.options"
                   [displayFilters]="false"
                   [useColorService]="previewListConfig?.useColorService"
@@ -109,7 +109,7 @@
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
-                        [nbGridColumns]="3" [tableWidth]="'450'" [defautMode]="1"
+                        [nbGridColumns]="3" [tableWidth]="'450'" [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode" [fetchState]="list.fetchState"
                         [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
                         [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortEnabled"
                         [options]="resultListConfigPerContId.get(list.identifier)?.options"
@@ -169,7 +169,7 @@
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
 
-            <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
+            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
               [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>

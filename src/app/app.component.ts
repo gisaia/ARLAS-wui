@@ -22,7 +22,7 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   BasemapStyle, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, Position
+  MapglSettingsComponent, Position, CellBackgroundStyleEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -32,8 +32,9 @@ import {
   ResultListContributor
 } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService
+  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService,
 } from 'arlas-wui-toolkit';
+import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Subject, zip } from 'rxjs';
@@ -148,6 +149,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+  @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -276,7 +278,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
-          .map( rlcontrib => {
+          .map(rlcontrib => {
             (rlcontrib as any).name = rlcontrib.getName();
             return rlcontrib;
           });
@@ -284,12 +286,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.previewListContrib = this.rightListContributors[0];
         this.previewListConfig = this.resultListsConfig[0];
         this.resultlistContributors.forEach(c => {
-          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip : 'Zoom to product' });
+          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
           // TODO add action only if the visualize url is configured in the config of the resultlist contributor
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip : 'Visualize on the map' });
+          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
         });
       }
       this.resultListsConfig.forEach(rlConf => {
+        rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ? CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
         this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
       });
 
@@ -309,11 +312,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const collections = new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection));
     zip(...Array.from(collections).map(c =>
       this.collaborativeService
-        .describe(c))).subscribe(cdrs => {cdrs.forEach(cdr => {
+        .describe(c))).subscribe(cdrs => {
+          cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
-        });  const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
-      });
+          }); const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+        });
 
     // tslint:disable-next-line:max-line-length
     this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
@@ -682,6 +686,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
+    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
   private getParamValue(param: string): string {
