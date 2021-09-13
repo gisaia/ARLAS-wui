@@ -660,7 +660,7 @@
               "nLastLines": 3,
               "detailedGridHeight": 25,
               "nbGridColumns": 3,
-              "defautMode": "list",
+              "defautMode": "grid",
               "displayFilters": false,
               "isBodyHidden": false,
               "isGeoSortActived": false,
