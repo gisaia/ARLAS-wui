@@ -111,7 +111,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public listOpen = false;
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
-  public previewListConfig = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
 
   /* Options */
@@ -276,6 +275,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
+
+        this.resultlistContributors.forEach(c => {
+          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+          // TODO add action only if the visualize url is configured in the config of the resultlist contributor
+          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+        });
+
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
           .map(rlcontrib => {
@@ -283,18 +289,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             return rlcontrib;
           });
 
-        this.previewListContrib = this.rightListContributors[0];
-        this.previewListConfig = this.resultListsConfig[0];
-        this.resultlistContributors.forEach(c => {
-          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          // TODO add action only if the visualize url is configured in the config of the resultlist contributor
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+        this.resultListsConfig.forEach(rlConf => {
+          rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ? CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+          this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
+
+        this.previewListContrib = this.rightListContributors[0];
+
       }
-      this.resultListsConfig.forEach(rlConf => {
-        rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ? CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
-        this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
-      });
+
 
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
@@ -363,7 +366,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (!!this.tabsList) {
       this.tabsList.selectedIndexChange.subscribe(index => {
         this.previewListContrib = this.resultlistContributors[index]
-        this.previewListConfig = this.resultListsConfig[index];
       });
     }
 
