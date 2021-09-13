@@ -650,6 +650,34 @@
         },
         "resultlists": [
           {
+            "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+            "componentType": "resultlist",
+            "input": {
+              "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+              "tableWidth": 445,
+              "globalActionsList": [],
+              "searchSize": 50,
+              "nLastLines": 3,
+              "detailedGridHeight": 25,
+              "nbGridColumns": 3,
+              "defautMode": "list",
+              "displayFilters": false,
+              "isBodyHidden": false,
+              "isGeoSortEnabled": true,
+              "selectedItemsEvent": null,
+              "consultedItemEvent": null,
+              "actionOnItemEvent": null,
+              "globalActionEvent": null,
+              "useColorService": true,
+              "cellBackgroundStyle": "filled",
+              "options": {
+                "showActionsOnhover": "true",
+                "showDetailIconName": "keyboard_arrow_down",
+                "hideDetailIconName": "keyboard_arrow_up"
+              }
+            }
+          },
+          {
             "contributorId": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
             "componentType": "resultlist",
             "input": {
@@ -677,35 +705,7 @@
                 "hideDetailIconName": "keyboard_arrow_up"
               }
             }
-          },
-          {
-              "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-              "componentType": "resultlist",
-              "input": {
-                "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-                "tableWidth": 445,
-                "globalActionsList": [],
-                "searchSize": 50,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortEnabled": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled",
-                "options": {
-                  "showActionsOnhover": "true",
-                  "showDetailIconName": "keyboard_arrow_down",
-                  "hideDetailIconName": "keyboard_arrow_up"
-                }
-              }
-            }
+          }
         ],
         "share": {
           "geojson": {
