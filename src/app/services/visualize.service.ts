@@ -81,7 +81,7 @@ export class VisualizeService {
                 true);
         return searchResult.pipe(map(data => {
             // TODO use path from config
-            const url = data.hits[0].data['_services_WMS_0_url_'];
+            const url = data.hits[0].data['_services_WMS_0_url'];
             return url;
         }));
     }

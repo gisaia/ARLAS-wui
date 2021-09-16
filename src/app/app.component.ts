@@ -290,7 +290,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           });
 
         this.resultListsConfig.forEach(rlConf => {
-          rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ? CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+          rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
+          CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
           this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
 
@@ -365,7 +366,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     // Keep the last displayed list as preview when closing the right panel
     if (!!this.tabsList) {
       this.tabsList.selectedIndexChange.subscribe(index => {
-        this.previewListContrib = this.resultlistContributors[index]
+        this.previewListContrib = this.resultlistContributors[index];
       });
     }
 
