@@ -1,16 +1,24 @@
 # Change Log
 
-## [v18.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.0) (2021-07-12)
+## [v17.2.5](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.4) (2021-09-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.2...v18.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.4...v17.2.5)
 
-## [v17.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.2) (2021-07-09)
+**Fixed bugs:**
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.3...v17.2.2)
+- Fix date picker timezone
+
+## [v17.2.4](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.4) (2021-08-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.3...v17.2.4)
 
 ## [v17.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.3) (2021-07-09)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.1...v17.2.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.2...v17.2.3)
+
+## [v17.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.2) (2021-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.1...v17.2.2)
 
 ## [v17.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.1) (2021-06-30)
 
