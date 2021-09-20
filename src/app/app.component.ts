@@ -479,19 +479,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public clickOnTile(item: Item) {
     this.tabsList.realignInkBar();
-    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier)
+    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
     config.defautMode =  this.modeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
-    this.resultListConfigPerContId.set(this.previewListContrib.identifier,config);
+    this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
     this.listOpen = !this.listOpen;
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
-  public changeListResultMode(mode:ModeEnum, identifier:string){
-    const config = this.resultListConfigPerContId.get(identifier)
+  public changeListResultMode(mode: ModeEnum, identifier: string) {
+    const config = this.resultListConfigPerContId.get(identifier);
     config.defautMode =  mode;
-    this.resultListConfigPerContId.set(identifier,config);
+    this.resultListConfigPerContId.set(identifier, config);
   }
 
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
@@ -507,7 +507,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
-        if(!!mapContributor){
+        if (!!mapContributor) {
           const f = mapContributor.getFeatureToHightLight(event.data);
           if (mapContributor) {
             f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
@@ -707,12 +707,26 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
+
+  public toggleAnalytics() {
+    this.analyticsOpen = !this.analyticsOpen;
+    if (this.analyticsOpen) {
+      this.offset.west = 465;
+    } else {
+      this.offset.west = 0;
+    }
+    this.recalculateExtend = true;
+    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+  }
+
+
   private clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
         .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
         .map(ls => ls.source)
         .forEach(source => contributor.clearData(source));
   }
+
 
   private getParamValue(param: string): string {
     let paramValue = null;
