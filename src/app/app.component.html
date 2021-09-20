@@ -161,7 +161,7 @@
                 <mat-icon>refresh</mat-icon>
               </span>
               <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics"
-                (click)="analyticsOpen=!analyticsOpen" matTooltip="{{'Toggle analytics board' | translate}}">
+                (click)="toggleAnalytics()" matTooltip="{{'Toggle analytics board' | translate}}">
                 <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
                 <mat-icon>pie_chart</mat-icon>
               </mat-basic-chip>
@@ -181,11 +181,12 @@
                 [showIndicators]="showIndicators" [diameterSpinner]="spinner.diameter" [colorSpinner]="spinner.color"
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
+ 
+              <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+                [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+                [detailedTimelineComponent]="detailedTimelineComponentConfig">
+              </arlas-timeline>
 
-            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
-              [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-              [detailedTimelineComponent]="detailedTimelineComponentConfig">
-            </arlas-timeline>
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
