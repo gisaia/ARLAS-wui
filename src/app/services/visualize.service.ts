@@ -57,7 +57,7 @@ export class VisualizeService {
             });
     }
 
-    public getVisuInfo(elementidentifier: ElementIdentifier, collection: string):
+    public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
         Observable<string> {
         let searchResult: Observable<Hits>;
         const search: Search = {
@@ -80,9 +80,21 @@ export class VisualizeService {
                 _filterExpression,
                 true);
         return searchResult.pipe(map(data => {
-            // TODO use path from config
-            const url = data.hits[0].data['_services_WMS_0_url'];
-            return url;
+            if (urlTemplate.indexOf('{') < 0) {
+                return urlTemplate;
+            } else {
+                const fields = urlTemplate.split(/[{}]/).filter(v => v.length > 0);
+
+                fields.forEach( field => {
+                    if (data.hits[0].data[field] === undefined) {
+                        return undefined;
+                    } else {
+                        urlTemplate = urlTemplate.replace('{' + field + '}' , data.hits[0].data[field]);
+                    }
+                });
+            }
+            console.log(urlTemplate);
+            return urlTemplate;
         }));
     }
 
