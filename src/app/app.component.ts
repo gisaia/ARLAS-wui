@@ -29,7 +29,8 @@ import {
   ElementIdentifier,
   HistogramContributor,
   MapContributor,
-  ResultListContributor
+  ResultListContributor,
+  FeatureRenderMode
 } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService,
@@ -452,10 +453,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     /** Remove old features */
     this.mapglContributors.forEach(c => {
       // Could have some problems if we put 2 lists with the same collection and different sort ?
-      c.getConfigValue('layers_sources')
-        .filter(ls => ls.source.startsWith('feature-'))
-        .map(ls => ls.source)
-        .forEach(source => c.clearData(source));
+      this.clearWindowData(c);
       c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
     });
     /** Set new features */
@@ -465,8 +463,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   /**
- *Function Call on the end of the scroll list
- */
+   * Called at the end of scrolling the list
+   * @param contributor ResultlistContributor instance that fetches the data
+   * @param eventPaginate Which page is queried
+   */
   public paginate(contributor, eventPaginate: PageQuery): void {
     contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
     const sort = this.isGeoSortActivated.get(contributor.identifier) ? contributor.geoOrderSort : contributor.sort;
@@ -530,10 +530,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       resultListContributor.geoSort(lat, lng, true);
       // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
       /** Apply geosort in map (for simple mode) */
-      mapContributor.getConfigValue('layers_sources')
-        .filter(ls => ls.source.startsWith('feature-'))
-        .map(ls => ls.source)
-        .forEach(source => mapContributor.clearData(source));
+      this.clearWindowData(mapContributor);
       mapContributor.searchSort = resultListContributor.geoOrderSort;
       mapContributor.searchSize = resultListContributor.pageSize;
       mapContributor.drawGeoSearch(0, true);
@@ -545,10 +542,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
       mapContributor.searchSort = resultListContributor.sort;
       mapContributor.searchSize = resultListContributor.pageSize;
-      mapContributor.getConfigValue('layers_sources')
-        .filter(ls => ls.source.startsWith('feature-'))
-        .map(ls => ls.source)
-        .forEach(source => mapContributor.clearData(source));
+      this.clearWindowData(mapContributor);
       mapContributor.drawGeoSearch(0, true);
     }
   }
@@ -599,15 +593,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapglContributors.forEach(c => {
           if (this.isGeoSortActivated.get(c.identifier)) {
             c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].geoOrderSort;
-
           } else {
             c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
           }
-          c.getConfigValue('layers_sources')
-            .filter(ls => ls.source.startsWith('feature-'))
-            .map(ls => ls.source)
-            .forEach(source => c.clearData(source));
-          c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
+          this.clearWindowData(c);
+          c.searchSize = 50;
         });
         this.mapglContributors.forEach(contrib => contrib.onMove(event));
         this.zoomToData = false;
@@ -690,6 +680,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+  }
+
+  private clearWindowData(contributor: MapContributor) {
+    contributor.getConfigValue('layers_sources')
+        .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
+        .map(ls => ls.source)
+        .forEach(source => contributor.clearData(source));
   }
 
   private getParamValue(param: string): string {
