@@ -294,10 +294,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
         this.resultlistContributors.forEach(c => {
           c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          if(!!this.resultListConfigPerContId.get(c.identifier).visualisationLink){
+          if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
             c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
           }
-          if(!!this.resultListConfigPerContId.get(c.identifier).downloadLink){
+          if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
             c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
           }
         });
@@ -740,7 +740,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     return paramValue;
   }
-  private actionOnItemEvent(data, mapContributor, listContributor ,collection) {
+  private actionOnItemEvent(data, mapContributor, listContributor , collection) {
     switch (data.action.id) {
       case 'zoomToFeature':
         mapContributor.getBoundsToFit(data.elementidentifier, collection)
@@ -756,7 +756,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         break;
       case 'download':
         const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
-        if(urlDownloadTemplate){
+        if (urlDownloadTemplate) {
           this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
             const win = window.open(url, '_blank');
             win.focus();
