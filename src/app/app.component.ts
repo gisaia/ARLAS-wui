@@ -258,7 +258,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.actionPopup.subscribe(data => {
         const collection = data.action.collection;
         const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-        this.actionOnItemEvent(data, mapContributor, collection);
+        const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
+        this.actionOnItemEvent(data, mapContributor, listContributor, collection);
       });
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
@@ -278,13 +279,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
-
-        this.resultlistContributors.forEach(c => {
-          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          // TODO add action only if the visualize url is configured in the config of the resultlist contributor
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
-        });
-
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
           .map(rlcontrib => {
@@ -298,8 +292,16 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
 
+        this.resultlistContributors.forEach(c => {
+          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+          if(!!this.resultListConfigPerContId.get(c.identifier).visualisationLink){
+            c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+          }
+          if(!!this.resultListConfigPerContId.get(c.identifier).downloadLink){
+            c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+          }
+        });
         this.previewListContrib = this.rightListContributors[0];
-
       }
 
 
@@ -532,7 +534,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
         break;
       case 'actionOnItemEvent':
-        this.actionOnItemEvent(event.data, mapContributor, currentCollection);
+        this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
         break;
@@ -738,18 +740,29 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     return paramValue;
   }
-  private actionOnItemEvent(data, mapContributor, collection) {
+  private actionOnItemEvent(data, mapContributor, listContributor ,collection) {
     switch (data.action.id) {
       case 'zoomToFeature':
         mapContributor.getBoundsToFit(data.elementidentifier, collection)
           .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         break;
       case 'visualize':
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection).subscribe(url => {
+        const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
+        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
           this.visualizeService.displayDataOnMap(url,
             data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
             this.collectionToDescription.get(collection).centroid_path, collection);
         });
+        break;
+      case 'download':
+        const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
+        if(urlDownloadTemplate){
+          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
+            const win = window.open(url, '_blank');
+            win.focus();
+          });
+        }
+
         break;
     }
   }
