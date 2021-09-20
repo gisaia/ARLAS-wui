@@ -591,13 +591,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
         });
         this.mapglContributors.forEach(c => {
-          if (this.isGeoSortActivated.get(c.identifier)) {
-            c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].geoOrderSort;
-          } else {
-            c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
+          if (!!this.resultlistContributors) {
+            const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
+            if (!!resultlistContrbutor) {
+              if (this.isGeoSortActivated.get(c.identifier)) {
+                c.searchSort = resultlistContrbutor.geoOrderSort;
+              } else {
+                c.searchSort = resultlistContrbutor.sort;
+              }
+            }
           }
           this.clearWindowData(c);
-          c.searchSize = 50;
         });
         this.mapglContributors.forEach(contrib => contrib.onMove(event));
         this.zoomToData = false;
