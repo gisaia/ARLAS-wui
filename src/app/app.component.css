@@ -56,7 +56,9 @@
 .side-result-list-toggle-open {
   right: 450px;
 }
-
+.side-result-list-toggle-open-no-grid {
+  right: 0px;
+}
 .side-result-list-icon {
   background-color: white;
   height: 36px;

@@ -51,6 +51,8 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
 import { SidenavService } from './services/sidenav.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ModeEnum} from 'arlas-web-components';
+
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
@@ -59,7 +61,7 @@ import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.
 export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   @Input() public version: string;
-
+  public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
@@ -475,6 +477,23 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
+  public clickOnTile(item: Item) {
+    this.tabsList.realignInkBar();
+    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier)
+    config.defautMode =  this.modeEnum.grid;
+    config.selectedGridItem = item;
+    config.isDetailledGridOpen = true;
+    this.resultListConfigPerContId.set(this.previewListContrib.identifier,config);
+    this.listOpen = !this.listOpen;
+    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+  }
+
+  public changeListResultMode(mode:ModeEnum, identifier:string){
+    const config = this.resultListConfigPerContId.get(identifier)
+    config.defautMode =  mode;
+    this.resultListConfigPerContId.set(identifier,config);
+  }
+
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const currentCollection = resultListContributor.collection;
@@ -488,11 +507,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
-        const f = mapContributor.getFeatureToHightLight(event.data);
-        if (mapContributor) {
-          f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+        if(!!mapContributor){
+          const f = mapContributor.getFeatureToHightLight(event.data);
+          if (mapContributor) {
+            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+          }
+          this.featureToHightLight = f;
         }
-        this.featureToHightLight = f;
         break;
       case 'selectedItemsEvent':
         if (event.data.length > 0 && this.mapComponentConfig) {
