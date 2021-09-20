@@ -51,6 +51,8 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
 import { SidenavService } from './services/sidenav.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ModeEnum} from 'arlas-web-components';
+
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
@@ -59,7 +61,7 @@ import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.
 export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   @Input() public version: string;
-
+  public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
@@ -256,7 +258,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.actionPopup.subscribe(data => {
         const collection = data.action.collection;
         const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-        this.actionOnItemEvent(data, mapContributor, collection);
+        const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
+        this.actionOnItemEvent(data, mapContributor, listContributor, collection);
       });
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
@@ -276,13 +279,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       if (this.resultlistContributors.length > 0) {
-
-        this.resultlistContributors.forEach(c => {
-          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          // TODO add action only if the visualize url is configured in the config of the resultlist contributor
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
-        });
-
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
           .map(rlcontrib => {
@@ -296,8 +292,16 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
 
+        this.resultlistContributors.forEach(c => {
+          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+          if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
+            c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+          }
+          if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
+            c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+          }
+        });
         this.previewListContrib = this.rightListContributors[0];
-
       }
 
 
@@ -475,6 +479,23 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
+  public clickOnTile(item: Item) {
+    this.tabsList.realignInkBar();
+    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
+    config.defautMode =  this.modeEnum.grid;
+    config.selectedGridItem = item;
+    config.isDetailledGridOpen = true;
+    this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
+    this.listOpen = !this.listOpen;
+    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+  }
+
+  public changeListResultMode(mode: ModeEnum, identifier: string) {
+    const config = this.resultListConfigPerContId.get(identifier);
+    config.defautMode =  mode;
+    this.resultListConfigPerContId.set(identifier, config);
+  }
+
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const currentCollection = resultListContributor.collection;
@@ -488,11 +509,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
-        const f = mapContributor.getFeatureToHightLight(event.data);
-        if (mapContributor) {
-          f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+        if (!!mapContributor) {
+          const f = mapContributor.getFeatureToHightLight(event.data);
+          if (mapContributor) {
+            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+          }
+          this.featureToHightLight = f;
         }
-        this.featureToHightLight = f;
         break;
       case 'selectedItemsEvent':
         if (event.data.length > 0 && this.mapComponentConfig) {
@@ -511,7 +534,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
         break;
       case 'actionOnItemEvent':
-        this.actionOnItemEvent(event.data, mapContributor, currentCollection);
+        this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
         break;
@@ -686,12 +709,26 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
+
+  public toggleAnalytics() {
+    this.analyticsOpen = !this.analyticsOpen;
+    if (this.analyticsOpen) {
+      this.offset.west = 465;
+    } else {
+      this.offset.west = 0;
+    }
+    this.recalculateExtend = true;
+    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+  }
+
+
   private clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
         .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
         .map(ls => ls.source)
         .forEach(source => contributor.clearData(source));
   }
+
 
   private getParamValue(param: string): string {
     let paramValue = null;
@@ -703,18 +740,29 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     return paramValue;
   }
-  private actionOnItemEvent(data, mapContributor, collection) {
+  private actionOnItemEvent(data, mapContributor, listContributor , collection) {
     switch (data.action.id) {
       case 'zoomToFeature':
         mapContributor.getBoundsToFit(data.elementidentifier, collection)
           .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         break;
       case 'visualize':
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection).subscribe(url => {
+        const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
+        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
           this.visualizeService.displayDataOnMap(url,
             data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
             this.collectionToDescription.get(collection).centroid_path, collection);
         });
+        break;
+      case 'download':
+        const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
+        if (urlDownloadTemplate) {
+          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
+            const win = window.open(url, '_blank');
+            win.focus();
+          });
+        }
+
         break;
     }
   }
