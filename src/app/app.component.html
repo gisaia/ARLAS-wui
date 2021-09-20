@@ -13,7 +13,8 @@
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container" [class.app-container-reduce]="listOpen" [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen">
+          <div class="app-container" [class.app-container-reduce]="listOpen"
+            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
               <div class="arlas-map-settings-container">
@@ -72,23 +73,28 @@
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 [offset]="offset" >
               </arlas-mapgl>
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle" [class.side-result-list-toggle-open]="listOpen">
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle" 
+                [class.side-result-list-toggle-open]="listOpen" [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
                   (click)="toggleList()">
                   <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
                   <mat-icon *ngIf="listOpen">arrow_forward_ios</mat-icon>
                 </div>
               </div>
-              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen" *ngIf="!!previewListContrib">
-                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data" [fieldsList]="previewListContrib.fieldsList"
-                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever" [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
-                  [dropDownMapValues]="previewListContrib.dropDownMapValues" [filtersMap]="previewListContrib.filtersMap"
-                  [highlightItems]="previewListContrib.highlightItems" [nbLinesBeforeFetch]="2" [nbGridColumns]="1"
-                  [tableWidth]="'150'" [defautMode]="1"
-                  [globalActionsList]="[]"
-                  [isGeoSortEnabled]="true"
+              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
+                *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
+                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
+                  [fieldsList]="previewListContrib.fieldsList"
+                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
+                  [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
+                  [dropDownMapValues]="previewListContrib.dropDownMapValues"
+                  [filtersMap]="previewListContrib.filtersMap" [highlightItems]="previewListContrib.highlightItems"
+                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="'150'" [defautMode]="1"
+                  [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
+                  [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
+                  (clickOnTile)="clickOnTile($event)"
                   [useColorService]="resultListConfigPerContId.get(previewListContrib.identifier)?.useColorService"
                   [cellBackgroundStyle]="resultListConfigPerContId.get(previewListContrib.identifier)?.cellBackgroundStyle"
                   [colorsSaturationWeight]="resultListConfigPerContId.get(previewListContrib.identifier)?.colorsSaturationWeight"
@@ -103,13 +109,16 @@
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
-                  <mat-tab *ngFor="let list of rightListContributors" [label]="list.getName()">
-                    <div *ngIf="!!this.resultListConfigPerContId.get(list.identifier)">
-                      <arlas-result-list style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
+                  <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
+                    <div *ngIf="listOpen">
+                      <arlas-result-list #resultsidenav  style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
-                        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="20"
-                        [nbGridColumns]="3" [tableWidth]="'450'" [defautMode]="1"
+                        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
+                        [nbGridColumns]="3" [tableWidth]="'450'"
+                        [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
+                        [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
+                        [fetchState]="list.fetchState"
                         [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
                         [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortEnabled"
                         [options]="resultListConfigPerContId.get(list.identifier)?.options"
@@ -118,14 +127,17 @@
                         [cellBackgroundStyle]="resultListConfigPerContId.get(list.identifier)?.cellBackgroundStyle"
                         [colorsSaturationWeight]="resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
                         [keysToColors]="resultListConfigPerContId.get(list.identifier)?.keysToColors"
-                        (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })" (setFiltersEvent)="list.setFilters($event)"
+                        [isDetailledGridOpen]="resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
+                        (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+                        (setFiltersEvent)="list.setFilters($event)"
                         (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
                         (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
                         (geoAutoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoAutoSortEvent', data: $event })"
                         (selectedItemsEvent)="getBoardEvents({ origin: list.identifier, event: 'selectedItemsEvent', data: $event })"
                         (consultedItemEvent)="getBoardEvents({ origin: list.identifier, event: 'consultedItemEvent', data: $event })"
                         (actionOnItemEvent)="getBoardEvents({ origin: list.identifier, event: 'actionOnItemEvent', data: $event })"
-                        (globalActionEvent)="getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })">
+                        (globalActionEvent)="getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })"
+                        (changeResultMode)="changeListResultMode($event,list.identifier)">
                       </arlas-result-list>
                     </div>
                   </mat-tab>

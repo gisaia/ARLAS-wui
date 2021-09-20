@@ -49,7 +49,8 @@ import { Item } from 'arlas-web-components/components/results/model/item';
 import { appendIdToSort, ASC } from 'arlas-web-contributors/utils/utils';
 import { ContributorService } from './services/contributors.service';
 import { SidenavService } from './services/sidenav.service';
-
+import { ModeEnum} from 'arlas-web-components';
+import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -59,7 +60,7 @@ import { SidenavService } from './services/sidenav.service';
 export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   @Input() public version: string;
-
+  public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
   public timelineContributor: HistogramContributor;
@@ -149,6 +150,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+  @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
 
   constructor(
     private configService: ArlasConfigService,
@@ -326,9 +328,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     });
     this.mapglComponent.map.on('movestart', (e) => {
       this.zoomStart = this.mapglComponent.map.getZoom();
-      console.log('Move Start Center ' + this.mapglComponent.map.getCenter());
-
-
     });
     this.mapglComponent.map.on('moveend', (e) => {
       if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
@@ -448,6 +447,23 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
+  public clickOnTile(item: Item) {
+    this.tabsList.realignInkBar();
+    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier)
+    config.defautMode =  this.modeEnum.grid;
+    config.selectedGridItem = item;
+    config.isDetailledGridOpen = true;
+    this.resultListConfigPerContId.set(this.previewListContrib.identifier,config);
+    this.listOpen = !this.listOpen;
+    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+  }
+
+  public changeListResultMode(mode:ModeEnum, identifier:string){
+    const config = this.resultListConfigPerContId.get(identifier)
+    config.defautMode =  mode;
+    this.resultListConfigPerContId.set(identifier,config);
+  }
+
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const mapContributor = this.mapglContributors.filter(c => c.collection === resultListContributor.collection)[0];
@@ -461,11 +477,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
-        const f = mapContributor.getFeatureToHightLight(event.data);
-        if (mapContributor) {
-          f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+        if(!!mapContributor){
+          const f = mapContributor.getFeatureToHightLight(event.data);
+          if (mapContributor) {
+            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+          }
+          this.featureToHightLight = f;
         }
-        this.featureToHightLight = f;
         break;
       case 'selectedItemsEvent':
         if (event.data.length > 0 && this.mapComponentConfig) {
@@ -672,6 +690,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
+    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
   private getParamValue(param: string): string {
