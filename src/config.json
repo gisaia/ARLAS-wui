@@ -123,8 +123,8 @@
           "search_size": 50,
           "fieldsConfiguration": {
             "urlImageTemplate": "{metadata.core.graphics.quicklook}",
-            "urlThumbnailTemplate": "{metadata.core.graphics.quicklook}",
-            "thumbnailFieldName": "metadata.core.graphics.quicklook",
+            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
+            "thumbnailFieldName": "metadata.core.graphics.thumbnail",
             "imageFieldName": "metadata.core.graphics.quicklook",
             "idFieldName": "metadata.core.identity.identifier",
             "titleFieldNames": [
@@ -317,8 +317,8 @@
           "search_size": 50,
           "fieldsConfiguration": {
             "urlImageTemplate": "{metadata.core.graphics.quicklook}",
-            "urlThumbnailTemplate": "{metadata.core.graphics.quicklook}",
-            "thumbnailFieldName": "metadata.core.graphics.quicklook",
+            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
+            "thumbnailFieldName": "metadata.core.graphics.thumbnail",
             "imageFieldName": "metadata.core.graphics.quicklook",
             "idFieldName": "metadata.core.identity.identifier",
             "titleFieldNames": [
@@ -592,7 +592,8 @@
               "layers": [],
               "events": {
                 "zoomOnClick": [],
-                "emitOnClick": [],
+                "emitOnClick": [ "arlas_id:test:1627635624321",
+                  "arlas_id:grid:1627635655961"],
                 "onHover": [
                   "arlas_id:test:1627635624321",
                   "arlas_id:grid:1627635655961"
@@ -649,6 +650,34 @@
         },
         "resultlists": [
           {
+            "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+            "componentType": "resultlist",
+            "input": {
+              "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
+              "tableWidth": 445,
+              "globalActionsList": [],
+              "searchSize": 50,
+              "nLastLines": 3,
+              "detailedGridHeight": 25,
+              "nbGridColumns": 3,
+              "defautMode": "list",
+              "displayFilters": false,
+              "isBodyHidden": false,
+              "isGeoSortEnabled": true,
+              "selectedItemsEvent": null,
+              "consultedItemEvent": null,
+              "actionOnItemEvent": null,
+              "globalActionEvent": null,
+              "useColorService": true,
+              "cellBackgroundStyle": "filled",
+              "options": {
+                "showActionsOnhover": "true",
+                "showDetailIconName": "keyboard_arrow_down",
+                "hideDetailIconName": "keyboard_arrow_up"
+              }
+            }
+          },
+          {
             "contributorId": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
             "componentType": "resultlist",
             "input": {
@@ -659,7 +688,7 @@
               "nLastLines": 3,
               "detailedGridHeight": 25,
               "nbGridColumns": 3,
-              "defautMode": "list",
+              "defautMode": "grid",
               "displayFilters": false,
               "isBodyHidden": false,
               "isGeoSortActived": false,
@@ -676,35 +705,7 @@
                 "hideDetailIconName": "keyboard_arrow_up"
               }
             }
-          },
-          {
-              "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-              "componentType": "resultlist",
-              "input": {
-                "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-                "tableWidth": 445,
-                "globalActionsList": [],
-                "searchSize": 50,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortEnabled": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled",
-                "options": {
-                  "showActionsOnhover": "true",
-                  "showDetailIconName": "keyboard_arrow_down",
-                  "hideDetailIconName": "keyboard_arrow_up"
-                }
-              }
-            }
+          }
         ],
         "share": {
           "geojson": {
@@ -719,79 +720,7 @@
         "download": {}
       },
       "analytics": [
-        {
-          "groupId": "Data-0",
-          "title": "Data",
-          "tab": "SPOT",
-          "icon": "poll",
-          "components": [
-            {
-              "contributorId": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-              "componentType": "resultlist",
-              "input": {
-                "id": "SPOT-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-                "tableWidth": 445,
-                "globalActionsList": [],
-                "searchSize": 50,
-                "nLastLines": 3,
-                "detailedGridHeight": 250,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortEnabled": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled",
-                "options": {
-                  "showActionsOnhover": "true",
-                  "showDetailIconName": "keyboard_arrow_down",
-                  "hideDetailIconName": "keyboard_arrow_up"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "Data-0",
-          "title": "Data",
-          "tab": "PLEIADE",
-          "icon": "poll",
-          "components": [
-            {
-              "contributorId": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-              "componentType": "resultlist",
-              "input": {
-                "id": "PLEIADE-metadata.core.identity.identifier-50-Sensor-Cloud Coverage-Incidence Angle-",
-                "tableWidth": 445,
-                "globalActionsList": [],
-                "searchSize": 50,
-                "nLastLines": 3,
-                "detailedGridHeight": 250,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "isAutoGeoSortActived": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled",
-                "options": {
-                  "showActionsOnhover": "true",
-                  "showDetailIconName": "keyboard_arrow_down",
-                  "hideDetailIconName": "keyboard_arrow_up"
-                }
-              }
-            }
-          ]
-        },
+
         {
           "groupId": "Filter-0",
           "title": "New group",
@@ -889,7 +818,7 @@
       }
     },
     "server": {
-      "url": "http://localhost:9998/arlas/",
+      "url": "http://localhost:81/server/",
       "max_age_cache": 120,
       "collection": {
         "name": "SPOT"

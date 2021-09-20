@@ -13,7 +13,8 @@
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container" [class.app-container-reduce]="listOpen" [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen">
+          <div class="app-container" [class.app-container-reduce]="listOpen"
+            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
               <div class="arlas-map-settings-container">
@@ -65,34 +66,37 @@
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
-                [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
-                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
-                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)"
-                (onFeatureOver)="emitFeaturesOnOver($event)"
-                (onFeatureClic)="emitFeaturesOnClic($event)"
-                [offset]="offset" >
+                [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
+                [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
+                (onFeatureClic)="emitFeaturesOnClic($event)" [offset]="offset">
               </arlas-mapgl>
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle" [class.side-result-list-toggle-open]="listOpen">
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
+                [class.side-result-list-toggle-open]="listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
                   (click)="toggleList()">
                   <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
                   <mat-icon *ngIf="listOpen">arrow_forward_ios</mat-icon>
                 </div>
               </div>
-              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen" *ngIf="!!previewListContrib">
-                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data" [fieldsList]="previewListContrib.fieldsList"
-                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever" [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
-                  [dropDownMapValues]="previewListContrib.dropDownMapValues" [filtersMap]="previewListContrib.filtersMap"
-                  [highlightItems]="previewListContrib.highlightItems" [nbLinesBeforeFetch]="2" [nbGridColumns]="1"
-                  [tableWidth]="'150'" [defautMode]="1"
-                  [globalActionsList]="[]"
-                  [isGeoSortEnabled]="true"
+              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
+                *ngIf="!!previewListContrib && !listOpen">
+                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
+                  [fieldsList]="previewListContrib.fieldsList"
+                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
+                  [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
+                  [dropDownMapValues]="previewListContrib.dropDownMapValues"
+                  [filtersMap]="previewListContrib.filtersMap" [highlightItems]="previewListContrib.highlightItems"
+                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="'150'" [defautMode]="1"
+                  [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
+                  [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
                   [useColorService]="resultListConfigPerContId.get(previewListContrib.identifier)?.useColorService"
                   [cellBackgroundStyle]="resultListConfigPerContId.get(previewListContrib.identifier)?.cellBackgroundStyle"
                   [colorsSaturationWeight]="resultListConfigPerContId.get(previewListContrib.identifier)?.colorsSaturationWeight"
                   [keysToColors]="resultListConfigPerContId.get(previewListContrib.identifier)?.keysToColors"
+                  (sortColumnEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'sortColumnEvent', data: $event })"
                   (paginationEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'paginationEvent', data: $event })"
                   (geoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoSortEvent', data: $event })"
                   (geoAutoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoAutoSortEvent', data: $event })"
@@ -101,24 +105,28 @@
                   (globalActionEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
                 </arlas-result-list>
               </div>
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.side-result-list-open]="listOpen">
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1"
+                [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
-                  <mat-tab *ngFor="let list of rightListContributors" [label]="list.getName()">
-                    <div *ngIf="!!this.resultListConfigPerContId.get(list.identifier)">
+                  <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
+                    <div *ngIf="listOpen">
                       <arlas-result-list style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
-                        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="20"
-                        [nbGridColumns]="3" [tableWidth]="'450'" [defautMode]="1"
+                        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
+                        [nbGridColumns]="3" [tableWidth]="'450'"
+                        [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
+                        [fetchState]="list.fetchState"
                         [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
-                        [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortEnabled"
+                        [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortActived"
                         [options]="resultListConfigPerContId.get(list.identifier)?.options"
                         [displayFilters]="resultListConfigPerContId.get(list.identifier)?.displayFilters"
                         [useColorService]="resultListConfigPerContId.get(list.identifier)?.useColorService"
                         [cellBackgroundStyle]="resultListConfigPerContId.get(list.identifier)?.cellBackgroundStyle"
                         [colorsSaturationWeight]="resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
                         [keysToColors]="resultListConfigPerContId.get(list.identifier)?.keysToColors"
-                        (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })" (setFiltersEvent)="list.setFilters($event)"
+                        (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+                        (setFiltersEvent)="list.setFilters($event)"
                         (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
                         (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
                         (geoAutoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoAutoSortEvent', data: $event })"
@@ -127,6 +135,7 @@
                         (actionOnItemEvent)="getBoardEvents({ origin: list.identifier, event: 'actionOnItemEvent', data: $event })"
                         (globalActionEvent)="getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })">
                       </arlas-result-list>
+
                     </div>
                   </mat-tab>
                 </mat-tab-group>
@@ -169,8 +178,8 @@
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
 
-            <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
-              [timelineComponent]="timelineComponentConfig"
+            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+              [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
