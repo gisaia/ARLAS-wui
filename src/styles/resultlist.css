@@ -79,3 +79,42 @@
 .mapboxgl-popup-content .resultdetaileditem-key {
   color: #656565;
 }
+
+.resultgrid--container-highlight-true {
+  background-color: #fff !important;
+  color: #000 !important;
+
+}
+
+.resultgrid--container-highlight-false {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.resultgrid--container-highlight- {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+
+.resultgrid__title-highlight- {
+  color: #000 !important;
+}
+
+.resultlist__tbody {
+  background-color: #ddd !important;
+}
+
+.resultlist__body--item-hover- {
+  background-color: #fff !important;
+}
+
+.resultlist__body--item-hover-true {
+  background-color: #fff !important;
+  font-weight: bold;
+}
+
+.resultlist__body--item-hover-false {
+  background-color: #eee !important;
+  color: #aaa !important;
+}
