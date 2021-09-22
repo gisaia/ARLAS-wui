@@ -334,12 +334,11 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
 .gif {
   background-color: #FF4081;
   border-radius: 50%;
-  width: 500px;
-  height: 500px;
+  width: 100px;
+  height: 100px;
   display: block;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50vh;
   transform: translateY(-50%);
-
 }

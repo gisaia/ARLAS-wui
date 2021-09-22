@@ -267,7 +267,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
       this.mapLegendUpdater = merge(...this.mapglContributors.map(c => c.legendUpdater));
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
-      this.mapglContributors.forEach(contrib => contrib.colorGenerator = this.colorGenerator);
+      this.mapglContributors.forEach(contrib => {
+        contrib.colorGenerator = this.colorGenerator;
+        if (!!this.resultlistContributors) {
+          const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === contrib.collection);
+          if (!!resultlistContrbutor) {
+            contrib.searchSize = resultlistContrbutor.pageSize;
+            contrib.searchSort = resultlistContrbutor.sort;
+          } else {
+            contrib.searchSize = 50;
+          }
+        }
+      });
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
         this.geojsondraw = {
           'type': 'FeatureCollection',
