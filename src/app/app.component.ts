@@ -722,6 +722,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+    if (!this.listOpen) {
+      const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
+      config.isDetailledGridOpen = false;
+    }
   }
 
 
