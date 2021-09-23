@@ -507,6 +507,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.resultListConfigPerContId.set(identifier, config);
   }
 
+  public reloadMapImages() {
+    this.visualizeService.setMap(this.mapglComponent.map);
+  }
+
   public getBoardEvents(event: { origin: string, event: string, data: any }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const currentCollection = resultListContributor.collection;
