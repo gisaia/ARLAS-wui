@@ -1,1 +1,13 @@
-See https://github.com/gisaia/ARLAS-wui/network/dependencies
+ARLAS-wui
+Copyright 2017-2021 and onwards Gisaïa
+
+ARLAS-wui embeds all the dependencies in the following link:
+https://github.com/gisaia/ARLAS-wui/network/dependencies
+
+
+## Attributions:
+
+ARLAS-wui uses a set of graphical elements:
+
+- 'cross' icon in 'src/assets/cross.png'. This icon is made by Cole Bemis (https://www.iconfinder.com/colebemis) under the Creative Commons (Attribution 3.0 Unported) license. Link to the license : https://creativecommons.org/licenses/by/3.0/. The icon was modified : - a white background is added. - the icon is resized to (100px x 100px).
+

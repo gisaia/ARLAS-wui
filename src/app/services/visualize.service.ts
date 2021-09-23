@@ -46,7 +46,7 @@ export class VisualizeService {
     public setMap(m) {
         this.map = m;
         this.map.loadImage(
-            '/assets/cross.png',
+            'assets/cross.png',
             (error, image) => {
                 if (error) {
                     throw error;
@@ -93,7 +93,6 @@ export class VisualizeService {
                     }
                 });
             }
-            console.log(urlTemplate);
             return urlTemplate;
         }));
     }
@@ -151,7 +150,7 @@ export class VisualizeService {
             this.isWMTSOnMap = true;
         }
 
-        this.addCrossToRemove(bounds[2], bounds[3], id);
+        this.addcrossToRemove(bounds[2], bounds[3], id);
     }
 
     public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
@@ -175,7 +174,7 @@ export class VisualizeService {
         }
     }
 
-    public addCrossToRemove(lat, lng, id) {
+    public addcrossToRemove(lat, lng, id) {
         this.map.addSource('cross-' + id, {
             'type': 'geojson',
             'data': {
