@@ -18,7 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ElementIdentifier, Action } from 'arlas-web-contributors';
+import { ElementIdentifier } from 'arlas-web-contributors';
+import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
 import { Observable } from 'rxjs';
 import { Expression, Search, Hits, Filter } from 'arlas-api';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
@@ -105,16 +106,16 @@ export class VisualizeService {
             if (this.map.getSource('wmts-source-' + id)) {
                 this.map.removeSource('wmts-source-' + id);
             }
-            if (this.map.getLayer('cross-' + id)) {
-                this.map.removeLayer('cross-' + id);
+            if (this.map.getLayer(CROSS_LAYER_PREFIX + id)) {
+                this.map.removeLayer(CROSS_LAYER_PREFIX + id);
             }
-            if (this.map.getSource('cross-' + id)) {
-                this.map.removeSource('cross-' + id);
+            if (this.map.getSource(CROSS_LAYER_PREFIX + id)) {
+                this.map.removeSource(CROSS_LAYER_PREFIX + id);
             }
         } else {
             this.map.getStyle().layers
                 .filter(layer => layer.source !== undefined)
-                .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf('cross-') >= 0)
+                .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0)
                 .forEach(layer => {
                     this.map.removeLayer(layer.id);
                     this.map.removeSource(layer.source);
@@ -175,7 +176,7 @@ export class VisualizeService {
     }
 
     public addcrossToRemove(lat, lng, id) {
-        this.map.addSource('cross-' + id, {
+        this.map.addSource(CROSS_LAYER_PREFIX + id, {
             'type': 'geojson',
             'data': {
                 'type': 'FeatureCollection',
@@ -191,26 +192,26 @@ export class VisualizeService {
             }
         });
         this.map.addLayer({
-            'id': 'cross-' + id,
+            'id': CROSS_LAYER_PREFIX + id,
             'type': 'symbol',
-            'source': 'cross-' + id,
+            'source': CROSS_LAYER_PREFIX + id,
             'layout': {
                 'icon-image': 'cross',
                 'icon-size': 0.25,
                 'visibility': 'visible'
             }
         });
-        this.map.on('click', 'cross-' + id, (e) => {
+        this.map.on('click', CROSS_LAYER_PREFIX + id, (e) => {
             this.removeWMTS(id);
             // Remove button 'remove all wmts' if no more wmts left on the map
             this.isWMTSOnMap = this.map.getStyle().layers
                 .filter(layer => layer.source !== undefined)
-                .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf('cross-') >= 0).length > 0;
+                .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0).length > 0;
         });
-        this.map.on('mousemove', 'cross-' + id, (e) => {
+        this.map.on('mousemove', CROSS_LAYER_PREFIX + id, (e) => {
             this.map.getCanvas().style.cursor = 'pointer';
         });
-        this.map.on('mouseleave', 'cross-' + id, (e) => {
+        this.map.on('mouseleave', CROSS_LAYER_PREFIX + id, (e) => {
             this.map.getCanvas().style.cursor = '';
         });
         this.handlePopup(lat, lng, id);
@@ -221,13 +222,13 @@ export class VisualizeService {
             closeButton: false,
             closeOnClick: false
         });
-        this.map.on('mouseenter', 'cross-' + id, (e) => {
+        this.map.on('mouseenter', CROSS_LAYER_PREFIX + id, (e) => {
             const tooltip_msg = this.translateService.instant('Remove visualisation');
             popup.setLngLat([lat, lng])
                 .setHTML(tooltip_msg)
                 .addTo(this.map);
         });
-        this.map.on('mouseleave', 'cross-' + id, () => {
+        this.map.on('mouseleave', CROSS_LAYER_PREFIX + id, () => {
             popup.remove();
         });
     }
