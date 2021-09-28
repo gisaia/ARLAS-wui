@@ -70,5 +70,7 @@
 	"Clusters": "Clusters",
 	"Features": "Features",
 	"Layers Settings": "Layers Settings",
-	"extraAboutText": " "
+	"extraAboutText": " ",
+	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
+	"Remove visualisation": "Remove visualisation"
 }

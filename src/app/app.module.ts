@@ -33,13 +33,14 @@ import {
   MatTableModule,
   MatTooltipModule,
   MatListModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatSnackBarModule,
+  MatTabsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
+import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule, ArlasWalkthroughModule } from 'arlas-wui-toolkit';
 import { ArlasWuiComponent } from './app.component';
 import { routing } from 'arlas-wui-toolkit/app.routes';
@@ -54,6 +55,9 @@ import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.
 import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+import { DynamicComponentService } from './services/dynamicComponent.service';
+import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
+import { VisualizeService } from './services/visualize.service';
 
 
 @NgModule({
@@ -87,11 +91,14 @@ import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkth
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatTooltipModule,
+    MatTabsModule,
     MatProgressBarModule,
     NgxMdModule,
     FormsModule,
     ReactiveFormsModule,
+    ResultsModule,
     MapglModule,
     MatTableModule,
     MatListModule,
@@ -118,10 +125,12 @@ import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkth
   ],
   providers: [
     ContributorService,
-    SidenavService
+    SidenavService,
+    DynamicComponentService,
+    VisualizeService
 
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: [AboutDialogComponent, ResultDetailedItemComponent]
 })
 export class ArlasWuiModule { }

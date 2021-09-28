@@ -1,16 +1,20 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus" (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [isEmptyMode]="arlasStartUpService.emptyMode" ></arlas-left-menu>
+      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
+        (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
+        [isEmptyMode]="arlasStartUpService.emptyMode"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">
+
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container">
+          <div class="app-container" [class.app-container-reduce]="listOpen"
+            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
               <div class="arlas-map-settings-container">
@@ -20,7 +24,8 @@
                 </div>
               </div>
             </div>
-            <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false" *ngIf="!arlasStartUpService.emptyMode">
+            <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false"
+              *ngIf="!arlasStartUpService.emptyMode">
               <div class="arlas-map-action-container">
                 <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below"
                   class="arlas-map-action-items">
@@ -45,9 +50,8 @@
               </div>
             </div>
             <div class="arlas-map">
-              <arlas-mapgl #map [dataSources]="mapDataSources"
-                [redrawSource]="mapRedrawSources" [legendUpdater]="mapLegendUpdater"
-                [visibilityUpdater]="mapVisibilityUpdater"
+              <arlas-mapgl #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+                [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
                 (visualisations)="changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
@@ -57,22 +61,97 @@
                 [drawData]="geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
                 [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
                 [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
-                [displayCurrentCoordinates]= "mapComponentConfig?.displayCurrentCoordinates"
+                [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
                 [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
-                [boundsToFit]="fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit" [drawButtonEnabled]="false"
-                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
-                (legendVisibiltyStatus)="layersVisibilityStatus = $event">
+                [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
+                [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+                (onBasemapChanged)="reloadMapImages()"
+                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
+                (onFeatureClic)="emitFeaturesOnClic($event)" [offset]="offset">
               </arlas-mapgl>
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle" 
+                [class.side-result-list-toggle-open]="listOpen" [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
+                <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
+                  (click)="toggleList()">
+                  <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
+                  <mat-icon *ngIf="listOpen">arrow_forward_ios</mat-icon>
+                </div>
+              </div>
+              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
+                *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
+                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
+                  [fieldsList]="previewListContrib.fieldsList"
+                  [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
+                  [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
+                  [dropDownMapValues]="previewListContrib.dropDownMapValues"
+                  [filtersMap]="previewListContrib.filtersMap" [highlightItems]="previewListContrib.highlightItems"
+                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="'150'" [defautMode]="1"
+                  [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
+                  [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
+                  [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
+                  [displayFilters]="false"
+                  (clickOnTile)="clickOnTile($event)"
+                  [useColorService]="resultListConfigPerContId.get(previewListContrib.identifier)?.useColorService"
+                  [cellBackgroundStyle]="resultListConfigPerContId.get(previewListContrib.identifier)?.cellBackgroundStyle"
+                  [colorsSaturationWeight]="resultListConfigPerContId.get(previewListContrib.identifier)?.colorsSaturationWeight"
+                  [keysToColors]="resultListConfigPerContId.get(previewListContrib.identifier)?.keysToColors"
+                  (sortColumnEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'sortColumnEvent', data: $event })"
+                  (paginationEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'paginationEvent', data: $event })"
+                  (geoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoSortEvent', data: $event })"
+                  (geoAutoSortEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'geoAutoSortEvent', data: $event })"
+                  (consultedItemEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
+                  (actionOnItemEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
+                  (globalActionEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
+                </arlas-result-list>
+              </div>
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1"
+                [class.side-result-list-open]="listOpen">
+                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
+                  <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
+                    <div *ngIf="listOpen">
+                      <arlas-result-list #resultsidenav  style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
+                        [detailedDataRetriever]="list.detailedDataRetriever"
+                        [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
+                        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
+                        [nbGridColumns]="3" [tableWidth]="'450'"
+                        [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
+                        [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
+                        [fetchState]="list.fetchState"
+                        [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
+                        [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortActived"
+                        [options]="resultListConfigPerContId.get(list.identifier)?.options"
+                        [displayFilters]="resultListConfigPerContId.get(list.identifier)?.displayFilters"
+                        [useColorService]="resultListConfigPerContId.get(list.identifier)?.useColorService"
+                        [cellBackgroundStyle]="resultListConfigPerContId.get(list.identifier)?.cellBackgroundStyle"
+                        [colorsSaturationWeight]="resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
+                        [keysToColors]="resultListConfigPerContId.get(list.identifier)?.keysToColors"
+                        [isDetailledGridOpen]="resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
+                        (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+                        (setFiltersEvent)="list.setFilters($event)"
+                        (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
+                        (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
+                        (geoAutoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoAutoSortEvent', data: $event })"
+                        (selectedItemsEvent)="getBoardEvents({ origin: list.identifier, event: 'selectedItemsEvent', data: $event })"
+                        (consultedItemEvent)="getBoardEvents({ origin: list.identifier, event: 'consultedItemEvent', data: $event })"
+                        (actionOnItemEvent)="getBoardEvents({ origin: list.identifier, event: 'actionOnItemEvent', data: $event })"
+                        (globalActionEvent)="getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })"
+                        (changeResultMode)="changeListResultMode($event,list.identifier)">
+                      </arlas-result-list>
+
+                    </div>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
             </div>
 
             <div class="arlas-top-analytics">
               <mat-basic-chip *ngIf="chipsSearchContributor" class="arlas-search-toggle"
                 [class.arlas-search-toggle-corner]="searchOpen" (click)="searchOpen=!searchOpen"
                 matTooltip="{{'Toggle search' | translate}}">
-                <mat-icon class="primary" [class.arlas-search-rotate]="searchOpen">keyboard_arrow_right</mat-icon>
+                <mat-icon class="primary" [class.rotate-icon]="searchOpen">keyboard_arrow_right</mat-icon>
                 <mat-icon>search</mat-icon>
               </mat-basic-chip>
               <div *ngIf="chipsSearchContributor" class="arlas-search" [hidden]="!searchOpen">
@@ -83,34 +162,38 @@
                 <mat-icon>refresh</mat-icon>
               </span>
               <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics"
-                (click)="analyticsOpen=!analyticsOpen" matTooltip="{{'Toggle analytics board' | translate}}">
+                (click)="toggleAnalytics()" matTooltip="{{'Toggle analytics board' | translate}}">
                 <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
                 <mat-icon>pie_chart</mat-icon>
               </mat-basic-chip>
             </div>
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
-              <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit"></arlas-filter>
+              <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit">
+              </arlas-filter>
               <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}"
-                (click)="zoomToData()">
+                (click)="onZoomToData()">
                 <mat-icon class="arlas-zoom-to-data-icon">filter_center_focus</mat-icon>
               </div>
             </div>
 
             <div class="arlas-analytics--container" *ngIf="analyticsOpen && !arlasStartUpService.emptyMode">
-              <arlas-analytics-board  [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
+              <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
                 [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
                 [showIndicators]="showIndicators" [diameterSpinner]="spinner.diameter" [colorSpinner]="spinner.color"
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
+ 
+              <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+                [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+                [detailedTimelineComponent]="detailedTimelineComponentConfig">
+              </arlas-timeline>
 
-            <arlas-timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit" [activeDatePicker]="true"
-              [timelineComponent]="timelineComponentConfig" [detailedTimelineComponent]="detailedTimelineComponentConfig">
-            </arlas-timeline>
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
               mode="indeterminate"></mat-progress-bar>
-            <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false"></arlas-configs-list>
+            <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
+            </arlas-configs-list>
           </div>
 
         </div>
@@ -118,5 +201,4 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
-
 </div>

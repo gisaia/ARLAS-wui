@@ -79,6 +79,8 @@
 	"Double click to save this period": "Double clic pour sélectionner la période",
 	"Types TEXT, GEO_POINT are excluded": "Les types 'TEXT' et 'GEOPOINT' ne sont pas inclus",
 	"Area Of Interest": "Zone d'intérêt",
-	"extraAboutText": " "
+	"extraAboutText": " ",
+	"The visualisation is not available for this product.": "Ce produit n'est pas disponible à la visualisation.",
+	"Remove visualisation": "Supprimer"
 
 }
