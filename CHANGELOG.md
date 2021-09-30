@@ -1,8 +1,32 @@
 # Change Log
 
+## [v19.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.1) (2021-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0...v19.0.1)
+
+**New stuff:**
+
+- Optimize 'scrollable top hits' layers fetch data trigger [\#313](https://github.com/gisaia/ARLAS-wui/issues/313)
+- Support interaction between list elements and map features both ways [\#309](https://github.com/gisaia/ARLAS-wui/issues/309)
+- \[Multi-collection\] apply timeline filters to widgets and layers of other collections [\#287](https://github.com/gisaia/ARLAS-wui/issues/287)
+
+**Fixed bugs:**
+
+- Legend issue : empty fill polygon with data driven color stroke display no legend [\#322](https://github.com/gisaia/ARLAS-wui/issues/322)
+
+**Miscellaneous:**
+
+- Display additional information on the map  [\#307](https://github.com/gisaia/ARLAS-wui/issues/307)
+- Apply same pagination between map and result list [\#306](https://github.com/gisaia/ARLAS-wui/issues/306)
+- Synchronise data displayed on the map and the result list [\#305](https://github.com/gisaia/ARLAS-wui/issues/305)
+
 ## [v19.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0) (2021-09-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0-beta.7...v19.0.0)
+
+**New stuff:**
+
+- Add result list to the right of the application with tabs [\#314](https://github.com/gisaia/ARLAS-wui/issues/314)
 
 ## [v19.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0-beta.7) (2021-09-22)
 
