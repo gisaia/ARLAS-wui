@@ -305,11 +305,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
         this.resultlistContributors.forEach(c => {
           c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
-            c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
-          }
-          if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
-            c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+          if (!!this.resultListConfigPerContId.get(c.identifier)) {
+            if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
+              c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+            }
+            if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
+              c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+            }
           }
         });
         this.previewListContrib = this.rightListContributors[0];
@@ -766,22 +768,25 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         break;
       case 'visualize':
-        const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-          this.visualizeService.displayDataOnMap(url,
-            data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-            this.collectionToDescription.get(collection).centroid_path, collection);
-        });
-        break;
-      case 'download':
-        const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
-        if (urlDownloadTemplate) {
-          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
-            const win = window.open(url, '_blank');
-            win.focus();
+        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
+          const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
+          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
+            this.visualizeService.displayDataOnMap(url,
+              data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
+              this.collectionToDescription.get(collection).centroid_path, collection);
           });
         }
-
+        break;
+      case 'download':
+        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
+          const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
+          if (urlDownloadTemplate) {
+            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
+              const win = window.open(url, '_blank');
+              win.focus();
+            });
+          }
+        }
         break;
     }
   }
