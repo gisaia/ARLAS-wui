@@ -1,5 +1,9 @@
 # Change Log
 
+## [v19.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.2) (2021-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.1...v19.0.2)
+
 ## [v19.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.1) (2021-09-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0...v19.0.1)
@@ -12,6 +16,7 @@
 
 **Fixed bugs:**
 
+- Fill icon color in legend is wrong [\#335](https://github.com/gisaia/ARLAS-wui/issues/335)
 - Legend issue : empty fill polygon with data driven color stroke display no legend [\#322](https://github.com/gisaia/ARLAS-wui/issues/322)
 
 **Miscellaneous:**
