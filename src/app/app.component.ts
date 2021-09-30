@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry, MatTabGroup } from '@angular/material';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -51,7 +51,7 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
 import { SidenavService } from './services/sidenav.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import { ModeEnum} from 'arlas-web-components';
+import { ModeEnum } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -59,8 +59,19 @@ import { ModeEnum} from 'arlas-web-components';
   styleUrls: ['./app.component.css']
 })
 export class ArlasWuiComponent implements OnInit, AfterViewInit {
-
   @Input() public version: string;
+  @Output() public actionOnPopup = new Subject<{
+    action: {
+      id: string;
+      label: string;
+      collection: string,
+      cssClass?: string | string[];
+      tooltip?: string;
+    };
+    elementidentifier: ElementIdentifier;
+  }>();
+  @Output() public actionOnList = new Subject<{ origin: string, event: string, data: any }>();
+
   public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
@@ -107,7 +118,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public analyticsOpen = true;
   public searchOpen = true;
 
-  public actionPopup = new Subject<any>();
   public centerLatLng: { lat: number; lng: number } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
@@ -255,7 +265,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.titleService.setTitle(prefixTitle.concat(' - ').concat(this.appName));
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       this.mapglContributors = this.contributorService.getMapContributors();
-      this.actionPopup.subscribe(data => {
+      this.actionOnPopup.subscribe(data => {
         const collection = data.action.collection;
         const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
         const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
@@ -299,7 +309,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
         this.resultListsConfig.forEach(rlConf => {
           rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
-          CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+            CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
           this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
 
@@ -495,7 +505,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public clickOnTile(item: Item) {
     this.tabsList.realignInkBar();
     const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
-    config.defautMode =  this.modeEnum.grid;
+    config.defautMode = this.modeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
@@ -505,7 +515,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultListConfigPerContId.get(identifier);
-    config.defautMode =  mode;
+    config.defautMode = mode;
     this.resultListConfigPerContId.set(identifier, config);
   }
 
@@ -561,6 +571,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.onActiveOnGeosort(event.data, resultListContributor, mapContributor, this.centerLatLng.lat, this.centerLatLng.lng);
         break;
     }
+    this.actionOnList.next(event);
   }
 
   public onActiveOnGeosort(data, resultListContributor: ResultListContributor, mapContributor: MapContributor, lat, lng): void {
@@ -710,7 +721,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           rowItem.itemDetailedData = detail;
           const popupContent = this.dynamicComponentService.injectComponent(
             ResultDetailedItemComponent,
-            x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionPopup; x.idFieldName = idFieldName; });
+            x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName; });
           new mapboxgl.Popup({ closeOnClick: false })
             .setLngLat(event.point)
             .setDOMContent(popupContent)
@@ -745,9 +756,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   private clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
-        .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
-        .map(ls => ls.source)
-        .forEach(source => contributor.clearData(source));
+      .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
+      .map(ls => ls.source)
+      .forEach(source => contributor.clearData(source));
   }
 
 
@@ -761,7 +772,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     return paramValue;
   }
-  private actionOnItemEvent(data, mapContributor, listContributor , collection) {
+  private actionOnItemEvent(data, mapContributor, listContributor, collection) {
     switch (data.action.id) {
       case 'zoomToFeature':
         mapContributor.getBoundsToFit(data.elementidentifier, collection)
