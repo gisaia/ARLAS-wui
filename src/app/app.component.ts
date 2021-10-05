@@ -690,45 +690,47 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (event.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistContributors.filter(c => feature.layer.metadata.collection === c.collection)[0];
-      const idFieldName = this.collectionToDescription.get(resultListContributor.collection).id_path;
-      const id = feature.properties[idFieldName.replace(/\./g, '_')];
-      resultListContributor.detailedDataRetriever.getData(id).subscribe(
-        data => {
-          const rowItem = new Item([], new Map());
-          rowItem.identifier = id;
-          resultListContributor.detailedDataRetriever.getActions(rowItem).subscribe(ac => rowItem.actions = ac);
-          const detail = new Array<{
-            group: string;
-            details: Array<{
-              key: string;
-              value: string;
-            }>;
-          }>();
-          data.details.forEach((k, v) => {
-            const details = new Array<{
-              key: string;
-              value: string;
+      if (!!resultListContributor) {
+        const idFieldName = this.collectionToDescription.get(resultListContributor.collection).id_path;
+        const id = feature.properties[idFieldName.replace(/\./g, '_')];
+        resultListContributor.detailedDataRetriever.getData(id).subscribe(
+          data => {
+            const rowItem = new Item([], new Map());
+            rowItem.identifier = id;
+            resultListContributor.detailedDataRetriever.getActions(rowItem).subscribe(ac => rowItem.actions = ac);
+            const detail = new Array<{
+              group: string;
+              details: Array<{
+                key: string;
+                value: string;
+              }>;
             }>();
-            k.forEach((value, key) => {
-              details.push(
-                { key, value }
-              );
+            data.details.forEach((k, v) => {
+              const details = new Array<{
+                key: string;
+                value: string;
+              }>();
+              k.forEach((value, key) => {
+                details.push(
+                  { key, value }
+                );
+              });
+              detail.push({
+                group: v,
+                details: details
+              });
             });
-            detail.push({
-              group: v,
-              details: details
-            });
-          });
-          rowItem.itemDetailedData = detail;
-          const popupContent = this.dynamicComponentService.injectComponent(
-            ResultDetailedItemComponent,
-            x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName; });
-          new mapboxgl.Popup({ closeOnClick: false })
-            .setLngLat(event.point)
-            .setDOMContent(popupContent)
-            .addTo(this.mapglComponent.map);
-        }
-      );
+            rowItem.itemDetailedData = detail;
+            const popupContent = this.dynamicComponentService.injectComponent(
+              ResultDetailedItemComponent,
+              x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName; });
+            new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat(event.point)
+              .setDOMContent(popupContent)
+              .addTo(this.mapglComponent.map);
+          }
+        );
+      }
     }
   }
 
