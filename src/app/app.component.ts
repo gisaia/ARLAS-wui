@@ -624,11 +624,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomToData)) {
         this.recalculateExtend = true;
       }
+      const newMapExtent = event.extendWithOffset;
+      const newMapExtentRaw = event.rawExtendWithOffset;
+      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
+      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
       if (this.recalculateExtend) {
-        const newMapExtent = event.extendWithOffset;
-        const newMapExtentRaw = event.rawExtendWithOffset;
-        const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
-        const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
         this.resultlistContributors
           .forEach(c => {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
@@ -654,10 +654,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
           this.clearWindowData(c);
         });
-        this.mapglContributors.forEach(contrib => contrib.onMove(event));
         this.zoomToData = false;
-        this.recalculateExtend = false;
       }
+      this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
+      this.recalculateExtend = false;
+
     }
   }
 
