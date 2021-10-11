@@ -1,8 +1,22 @@
 # Change Log
 
+## [v19.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.3) (2021-10-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.3...v19.0.4)
+
+**Maintenance:**
+
+- Upgrade to toolkit 19.0.3  [\#342](https://github.com/gisaia/ARLAS-wui/issues/342)
+
+
 ## [v19.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.3) (2021-10-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.2...v19.0.3)
+
+**Fixed bugs:**
+
+- Click on features when no resullist is defined throws an error  [\#339](https://github.com/gisaia/ARLAS-wui/issues/339)
+- Layers that are not "Scrollable top elements" are not fetched correctly [\#338](https://github.com/gisaia/ARLAS-wui/issues/338)
 
 ## [v19.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.2) (2021-09-30)
 
