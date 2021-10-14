@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry, MatTabGroup } from '@angular/material';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,8 +38,8 @@ import {
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Subject, zip } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
+import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { SortEnum } from 'arlas-web-components';
 import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
@@ -71,6 +71,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     elementidentifier: ElementIdentifier;
   }>();
   @Output() public actionOnList = new Subject<{ origin: string, event: string, data: any }>();
+
 
   public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
@@ -156,7 +157,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
-
+  public visibleItems = [];
+  public apploading = true;
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
@@ -174,7 +176,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
-    private walkthroughService: ArlasWalkthroughService,
     private mapService: ArlasMapService,
     private colorGenerator: ArlasColorGeneratorLoader,
     private sidenavService: SidenavService,
@@ -256,6 +257,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
   }
 
+
   public ngOnInit() {
 
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
@@ -325,6 +327,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
         });
         this.previewListContrib = this.rightListContributors[0];
+
       }
 
 
@@ -359,6 +362,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
     // tslint:disable-next-line:max-line-length
     this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
+  }
+
+  public isElementInViewport(el) {
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      return (rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth));
+    } else {
+      return false;
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -406,7 +421,71 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     });
+
+    if (!!this.previewListContrib) {
+      timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
+        if (this.previewListContrib.data.length > 0 &&
+          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+          this.updateVisibleItems();
+          this.apploading = false;
+        }
+      });
+    }
     this.cdr.detectChanges();
+  }
+
+
+  public updateVisibleItems() {
+    const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+    setTimeout(() => {
+      this.visibleItems = this.previewListContrib.data.map(i => i.get(idFieldName))
+        .filter(i => this.isElementInViewport(document.getElementById(i.toString())));
+      this.updateMapStyle(this.visibleItems);
+    }, 200);
+  }
+
+  public updateMapStyle(ids: Array<string>) {
+    // use always this.previewListContrib because it's the current contributor list
+    if (!!this.mapComponentConfig.mapLayers.events.onHover) {
+      this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
+        const layer = this.mapglComponent.map.getLayer(l);
+        if (!!layer && layer.source.indexOf(this.previewListContrib.collection) >= 0 && ids.length > 0) {
+          this.mapglComponent.map.setFilter(l, [
+            'match',
+            ['get', 'id'],
+            Array.from(new Set(ids)),
+            true,
+            false
+          ]);
+          const strokeLayerName = l.replace('_id:', '-fill_stroke-');
+          const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerName);
+          if (!!strokeLayer) {
+            this.mapglComponent.map.setFilter(strokeLayerName, [
+              'match',
+              ['get', 'id'],
+              Array.from(new Set(ids)),
+              true,
+              false
+            ]);
+          }
+        }
+      });
+    }
+  }
+
+  public updateMapStyleFromScroll(items: Array<Item>) {
+    this.visibleItems = items.map(i => i.identifier);
+    this.updateMapStyle(this.visibleItems);
+  }
+
+  public updateMapStyleFromChange(items: Array<Map<string, string>>) {
+    if (this.collectionToDescription.size > 0) {
+      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+      setTimeout(() => {
+        this.visibleItems = items.map(i => i.get(idFieldName)).filter(i => this.isElementInViewport(document.getElementById(i.toString())));
+        this.updateMapStyle(this.visibleItems);
+      }, 200);
+    }
   }
 
   public consumeMenuEvents(states: MenuState) {
@@ -517,6 +596,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const config = this.resultListConfigPerContId.get(identifier);
     config.defautMode = mode;
     this.resultListConfigPerContId.set(identifier, config);
+    setTimeout(() => {
+      this.updateVisibleItems();
+    }, 100);
   }
 
   public reloadMapImages() {
@@ -633,6 +715,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           .forEach(c => {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
             c.filter = this.mainMapContributor.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            this.collaborativeService.registry.set(c.identifier, c);
           });
         this.resultlistContributors.forEach(c => {
           if (this.isGeoSortActivated.get(c.identifier)) {
@@ -650,12 +733,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               } else {
                 c.searchSort = resultlistContrbutor.sort;
               }
+              this.collaborativeService.registry.set(c.identifier, c);
             }
           }
           this.clearWindowData(c);
         });
         this.zoomToData = false;
       }
+      event.extendForTest = newMapExtent ;
+      event.rawExtendForTest =  newMapExtentRaw;
       this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
       this.recalculateExtend = false;
 
@@ -737,11 +823,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
-    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
     if (!this.listOpen) {
       const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
     }
+    setTimeout(() => {
+      this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+      this.updateVisibleItems();
+    }, 100);
   }
 
 
