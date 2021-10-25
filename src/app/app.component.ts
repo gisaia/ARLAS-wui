@@ -446,7 +446,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public updateMapStyle(ids: Array<string>) {
-    console.log(ids)
     // use always this.previewListContrib because it's the current contributor list
     if (!!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
