@@ -52,6 +52,7 @@ import { ContributorService } from './services/contributors.service';
 import { SidenavService } from './services/sidenav.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { ModeEnum } from 'arlas-web-components';
+import { isArray } from 'util';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -445,29 +446,29 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public updateMapStyle(ids: Array<string>) {
+    console.log(ids)
     // use always this.previewListContrib because it's the current contributor list
     if (!!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
         const layer = this.mapglComponent.map.getLayer(l);
-        if (!!layer && layer.source.indexOf(this.previewListContrib.collection) >= 0 && ids.length > 0) {
-          this.mapglComponent.map.setFilter(l, [
-            'match',
-            ['get', 'id'],
-            Array.from(new Set(ids)),
-            true,
-            false
-          ]);
-          const strokeLayerName = l.replace('_id:', '-fill_stroke-');
-          const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerName);
-          if (!!strokeLayer) {
-            this.mapglComponent.map.setFilter(strokeLayerName, [
-              'match',
-              ['get', 'id'],
-              Array.from(new Set(ids)),
-              true,
-              false
-            ]);
+        if (ids && ids.length > 0) {
+          if (!!layer && layer.source.indexOf(this.previewListContrib.collection) >= 0 && ids.length > 0 &&
+            layer.metadata.isScrollableLayer) {
+            this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
+            const strokeLayerId = l.replace('_id:', '-fill_stroke-');
+            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+            if (!!strokeLayer) {
+              this.mapglComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
+            }
           }
+        } else {
+          this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
+          const strokeLayerId = l.replace('_id:', '-fill_stroke-');
+            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+            if (!!strokeLayer) {
+              this.mapglComponent.map.setFilter(strokeLayerId,
+                this.mapglComponent.layersMap.get(strokeLayerId).filter);
+            }
         }
       });
     }
@@ -843,6 +844,28 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     this.recalculateExtend = true;
     this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+  }
+
+
+  private getVisibleElementLayerFilter(l, ids) {
+    const lFilter = this.mapglComponent.layersMap.get(l).filter;
+    const filters = [];
+    if (lFilter) {
+      lFilter.forEach(f => {
+        filters.push(f);
+      });
+    }
+    if (filters.length === 0) {
+      filters.push('all');
+    }
+    filters.push([
+      'match',
+      ['get', 'id'],
+      Array.from(new Set(ids)),
+      true,
+      false
+    ]);
+    return filters;
   }
 
 
