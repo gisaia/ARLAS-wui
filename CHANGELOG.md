@@ -1,20 +1,98 @@
 # Change Log
 
-## [v17.2.5](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.4) (2021-09-17)
+## [v17.2.6](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.6) (2021-10-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.4...v17.2.5)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.0...v17.2.6)
+
+## [v19.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.0) (2021-10-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.4...v19.1.0)
+
+## [v19.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.4) (2021-10-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.3...v19.0.4)
+
+## [v19.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.3) (2021-10-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.2...v19.0.3)
 
 **Fixed bugs:**
 
-- Fix date picker timezone
+- Click on features when no resullist is defined throws an error [\#339](https://github.com/gisaia/ARLAS-wui/issues/339)
+- Layers that are not "Scrollable top elements" are not fetched correctly [\#338](https://github.com/gisaia/ARLAS-wui/issues/338)
+
+## [v19.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.2) (2021-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.1...v19.0.2)
+
+## [v19.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.1) (2021-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0...v19.0.1)
+
+**New stuff:**
+
+- Optimize 'scrollable top hits' layers fetch data trigger [\#313](https://github.com/gisaia/ARLAS-wui/issues/313)
+- Support interaction between list elements and map features both ways [\#309](https://github.com/gisaia/ARLAS-wui/issues/309)
+- \[Multi-collection\] apply timeline filters to widgets and layers of other collections [\#287](https://github.com/gisaia/ARLAS-wui/issues/287)
+
+**Fixed bugs:**
+
+- Fill icon color in legend is wrong [\#335](https://github.com/gisaia/ARLAS-wui/issues/335)
+- Legend issue : empty fill polygon with data driven color stroke display no legend [\#322](https://github.com/gisaia/ARLAS-wui/issues/322)
+
+**Miscellaneous:**
+
+- Display additional information on the map  [\#307](https://github.com/gisaia/ARLAS-wui/issues/307)
+- Apply same pagination between map and result list [\#306](https://github.com/gisaia/ARLAS-wui/issues/306)
+- Synchronise data displayed on the map and the result list [\#305](https://github.com/gisaia/ARLAS-wui/issues/305)
+
+## [v19.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0) (2021-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0-beta.7...v19.0.0)
+
+**New stuff:**
+
+- Add result list to the right of the application with tabs [\#314](https://github.com/gisaia/ARLAS-wui/issues/314)
+
+## [v19.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0-beta.7) (2021-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0-beta.6...v19.0.0-beta.7)
+
+## [v19.0.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0-beta.6) (2021-09-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.1.1...v19.0.0-beta.6)
+
+## [v18.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v18.1.1) (2021-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.5...v18.1.1)
+
+## [v17.2.5](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.5) (2021-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.1.0...v17.2.5)
+
+## [v18.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v18.1.0) (2021-09-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.2...v18.1.0)
+
+## [v18.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.2) (2021-08-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.4...v18.0.2)
 
 ## [v17.2.4](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.4) (2021-08-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.3...v17.2.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.1...v17.2.4)
 
-## [v17.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.3) (2021-07-09)
+## [v18.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.1) (2021-08-06)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.2...v17.2.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.3...v18.0.1)
+
+## [v17.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.3) (2021-08-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.0...v17.2.3)
+
+## [v18.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.0) (2021-07-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.2...v18.0.0)
 
 ## [v17.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.2) (2021-07-09)
 
@@ -111,19 +189,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
-
 ## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
@@ -247,7 +325,7 @@
 
 **New stuff:**
 
-- Enable collection configuration through env var for gisaia/arlas-wui  [\#200](https://github.com/gisaia/ARLAS-wui/issues/200) [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)] [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+- Enable collection configuration through env var for gisaia/arlas-wui  [\#200](https://github.com/gisaia/ARLAS-wui/issues/200) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)] [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
 
 ## [v12.6.3](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.3) (2020-03-26)
 
