@@ -36,7 +36,8 @@ import {
   ResultListContributor
 } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService
+  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
+  ArlasMapService, ArlasMapSettings, ArlasStartupService, CollectionUnit
 } from 'arlas-wui-toolkit';
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
@@ -83,10 +84,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
-  public countAll: string;
 
   public appName: string;
-  public appUnit: string;
+  public appUnits: CollectionUnit[];
   public appNameBackgroundColor: string;
 
   // component config
@@ -148,7 +148,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   };
 
   public recalculateExtend = true;
-  public zoomToData = false;
+  public zoomChanged = false;
   public zoomStart: number;
 
   public isGeoSortActivated = new Map<string, boolean>();
@@ -208,8 +208,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.appName = !!this.configService.appName ? this.configService.appName :
         this.configService.getValue('arlas-wui.web.app.name') ?
           this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
-      this.appUnit = this.configService.getValue('arlas-wui.web.app.unit') ?
-        this.configService.getValue('arlas-wui.web.app.unit') : '';
+
+      this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
+        this.configService.getValue('arlas-wui.web.app.units') : [];
+      /** retrocompatibility code for unit*/
+      const appUnit = this.configService.getValue('arlas-wui.web.app.unit');
+      if (appUnit) {
+        this.appUnits.push({
+          collection: this.collaborativeService.defaultCollection,
+          unit: appUnit
+        });
+      }
+      /** end of retrocompatibility code */
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
@@ -240,11 +250,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
       }
-      this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
-        this.collaborativeService.countAll
-          .pipe()
-          .subscribe(c => this.countAll = c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
-      });
     } else {
       this.defaultBaseMap = {
         styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
@@ -396,7 +401,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     });
     this.mapglComponent.map.on('moveend', (e) => {
       if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-        this.zoomToData = true;
+        this.zoomChanged = true;
       }
       if (this.allowMapExtend) {
         this.mapEventListener.next();
@@ -515,15 +520,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.layersVisibilityStatus = event;
   }
 
-  public onZoomToData() {
+  public zoomToData(collection: string): void {
     if (!this.mapSettingsService.mapContributor) {
       this.mapSettingsService.mapContributor = this.mainMapContributor;
     }
     if (!this.mapSettingsService.componentConfig) {
       this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
     }
-    const centroid_path = this.arlasStartUpService.collectionsMap.get(this.collaborativeService.defaultCollection).centroid_path;
-    this.mapService.zoomToData(centroid_path, this.mapglComponent.map, 0.2);
+    const centroid_path = this.collectionToDescription.get(collection).centroid_path;
+    this.mapService.zoomToData(collection, centroid_path, this.mapglComponent.map, 0.2);
   }
 
 
@@ -698,7 +703,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const ratioToAutoSort = 0.1;
       this.centerLatLng['lat'] = event.centerWithOffset[1];
       this.centerLatLng['lng'] = event.centerWithOffset[0];
-      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomToData)) {
+      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
         this.recalculateExtend = true;
       }
       const newMapExtent = event.extendWithOffset;
@@ -733,7 +738,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
           this.clearWindowData(c);
         });
-        this.zoomToData = false;
+        this.zoomChanged = false;
       }
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;

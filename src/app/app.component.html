@@ -172,12 +172,8 @@
               </mat-basic-chip>
             </div>
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
-              <arlas-filter [title]="appName" [backgroundColor]="appNameBackgroundColor" [unit]="appUnit">
+              <arlas-filter [title]="appName" [collectionToDescription]="collectionToDescription" [backgroundColor]="appNameBackgroundColor" [units]="appUnits" (zoomEvent)="zoomToData($event)">
               </arlas-filter>
-              <div *ngIf="showZoomToData" class="arlas-zoom-to-data" matTooltip="{{'Zoom to data' | translate}}"
-                (click)="onZoomToData()">
-                <mat-icon class="arlas-zoom-to-data-icon">filter_center_focus</mat-icon>
-              </div>
             </div>
 
             <div class="arlas-analytics--container" *ngIf="analyticsOpen && !arlasStartUpService.emptyMode">
