@@ -22,6 +22,17 @@
   height: 24px;
 }
 
+<<<<<<< HEAD
+=======
+.fit-picture {
+  object-fit: contain !important;
+}
+
+.resultlist__tools--select{
+  width: 35% !important;
+}
+
+>>>>>>> Display count of all configured collections
 .resultlist__tools__td{
   align-items: center !important;
 }
