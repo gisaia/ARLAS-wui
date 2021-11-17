@@ -44,7 +44,7 @@
 }
 
 .side-result-list-toggle {
-  z-index: 1;
+  z-index: 0;
   height: 100%;
   position: absolute;
   right: 150px;
