@@ -93,11 +93,11 @@
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
-                  (visibleItems)="updateMapStyleFromScroll($event)"
+                  (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
+                  (onChangeItems)="updateMapStyleFromChange($event, previewListContrib.collection)"
                   (clickOnTile)="clickOnTile($event)"
                   [useColorService]="resultListConfigPerContId.get(previewListContrib.identifier)?.useColorService"
                   [cellBackgroundStyle]="resultListConfigPerContId.get(previewListContrib.identifier)?.cellBackgroundStyle"
-                  (onChangeItems)="updateMapStyleFromChange($event)"
                   [colorsSaturationWeight]="resultListConfigPerContId.get(previewListContrib.identifier)?.colorsSaturationWeight"
                   [keysToColors]="resultListConfigPerContId.get(previewListContrib.identifier)?.keysToColors"
                   (sortColumnEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'sortColumnEvent', data: $event })"
@@ -122,8 +122,8 @@
                         [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
                         [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
                         [fetchState]="list.fetchState"
-                        (visibleItems)="updateMapStyleFromScroll($event)"
-                        (onChangeItems)="updateMapStyleFromChange($event)"
+                        (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
+                        (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
                         [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
                         [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortActived"
                         [options]="resultListConfigPerContId.get(list.identifier)?.options"
@@ -168,7 +168,8 @@
               <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics"
                 (click)="toggleAnalytics()" matTooltip="{{'Toggle analytics board' | translate}}">
                 <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon>pie_chart</mat-icon>
+                <mat-icon>poll</mat-icon>
+                
               </mat-basic-chip>
             </div>
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
