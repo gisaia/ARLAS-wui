@@ -840,6 +840,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     setTimeout(() => {
       this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+      }
+      this.mapglComponent.map.resize();
       this.updateVisibleItems();
     }, 100);
   }
