@@ -724,7 +724,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.resultlistContributors
           .forEach(c => {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
-            c.filter = this.mainMapContributor.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
+            if (!!mapContrib) {
+              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            } else {
+              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
+            }
             this.collaborativeService.registry.set(c.identifier, c);
           });
         this.resultlistContributors.forEach(c => {
