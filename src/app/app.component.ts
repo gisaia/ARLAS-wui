@@ -16,43 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { MatIconRegistry, MatTabGroup } from '@angular/material';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatTabGroup } from '@angular/material/tabs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  BasemapStyle, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, Position, CellBackgroundStyleEnum
+  BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum
 } from 'arlas-web-components';
+import { Item } from 'arlas-web-components/components/results/model/item';
+import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
+import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
 import {
   AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier,
-  HistogramContributor,
+  ElementIdentifier, FeatureRenderMode, HistogramContributor,
   MapContributor,
-  ResultListContributor,
-  FeatureRenderMode
+  ResultListContributor
 } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService,
+  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService
 } from 'arlas-wui-toolkit';
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
-import { ArlasWalkthroughService } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.service';
+import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
-import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
+import { debounceTime, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
-import { SortEnum } from 'arlas-web-components';
-import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
-import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
-import { DynamicComponentService } from './services/dynamicComponent.service';
-import { Item } from 'arlas-web-components/components/results/model/item';
-import { VisualizeService } from './services/visualize.service';
-import { CollectionReferenceParameters } from 'arlas-api';
 import { ContributorService } from './services/contributors.service';
+import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import { ModeEnum } from 'arlas-web-components';
-import { isArray } from 'util';
+import { VisualizeService } from './services/visualize.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -463,11 +458,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         } else {
           this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
           const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-            if (!!strokeLayer) {
-              this.mapglComponent.map.setFilter(strokeLayerId,
-                this.mapglComponent.layersMap.get(strokeLayerId).filter);
-            }
+          const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+          if (!!strokeLayer) {
+            this.mapglComponent.map.setFilter(strokeLayerId,
+              this.mapglComponent.layersMap.get(strokeLayerId).filter);
+          }
         }
       });
     }
@@ -740,8 +735,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         });
         this.zoomToData = false;
       }
-      event.extendForTest = newMapExtent ;
-      event.rawExtendForTest =  newMapExtentRaw;
+      event.extendForTest = newMapExtent;
+      event.rawExtendForTest = newMapExtentRaw;
       this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
       this.recalculateExtend = false;
 
@@ -775,7 +770,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public emitFeaturesOnClic(event) {
     if (event.features) {
       const feature = event.features[0];
-      const resultListContributor = this.resultlistContributors.filter(c => feature.layer.metadata.collection === c.collection)[0];
+      const resultListContributor = this.resultlistContributors
+        .filter(c => feature.layer.metadata.collection === c.collection && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
       if (!!resultListContributor) {
         const idFieldName = this.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
