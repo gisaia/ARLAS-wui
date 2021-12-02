@@ -93,6 +93,8 @@
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
+                  
+                  (thumbnailFitEvent)="resultListConfigPerContId.get(previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
                   (onChangeItems)="updateMapStyleFromChange($event, previewListContrib.collection)"
                   (clickOnTile)="clickOnTile($event)"
