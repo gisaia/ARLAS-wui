@@ -724,7 +724,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.resultlistContributors
           .forEach(c => {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
-            c.filter = this.mainMapContributor.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
+            if (!!mapContrib) {
+              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            } else {
+              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
+            }
             this.collaborativeService.registry.set(c.identifier, c);
           });
         this.resultlistContributors.forEach(c => {
@@ -840,6 +845,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     setTimeout(() => {
       this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+      }
+      this.mapglComponent.map.resize();
       this.updateVisibleItems();
     }, 100);
   }
