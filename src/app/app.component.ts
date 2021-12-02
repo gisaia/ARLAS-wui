@@ -41,8 +41,8 @@ import {
 } from 'arlas-wui-toolkit';
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import * as mapboxgl from 'mapbox-gl';
-import { from, fromEvent, merge, of, Subject, timer, zip } from 'rxjs';
-import { concatMap, debounceTime, delay, map, takeWhile } from 'rxjs/operators';
+import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
+import { debounceTime, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
@@ -50,6 +50,7 @@ import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -179,6 +180,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private arlasSettingsService: ArlasSettingsService,
     private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
+    private translate: TranslateService,
     private snackbar: MatSnackBar
   ) {
     this.menuState = {
@@ -468,11 +470,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           if (!!layer && layer.source.indexOf(collection) >= 0) {
             this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-              const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-              if (!!strokeLayer) {
-                this.mapglComponent.map.setFilter(strokeLayerId,
-                  this.mapglComponent.layersMap.get(strokeLayerId).filter);
-              }
+            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+            if (!!strokeLayer) {
+              this.mapglComponent.map.setFilter(strokeLayerId,
+                this.mapglComponent.layersMap.get(strokeLayerId).filter);
+            }
           }
         }
       });
@@ -694,12 +696,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    // todo : fix debounceTime bug
-    this.mapglContributors.forEach((contrib, i) => {
+    for (let i = 0; i < this.mapglContributors.length; i++) {
       setTimeout(() => {
-        contrib.onChangeAoi(event);
-      }, i * (debounceDuration + 200));
-    });
+        this.snackbar.open(this.translate.instant('Loading data of') + ' ' + this.mapglContributors[i].collection);
+        this.mapglContributors[i].onChangeAoi(event);
+        if (i === this.mapglContributors.length - 1) {
+          setTimeout(() => this.snackbar.dismiss(), 1000);
+        }
+      }, (i) * (debounceDuration * 1.5));
+    }
   }
 
   public onMove(event) {
