@@ -694,7 +694,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    // todo : fix debounceTime bug 
+    // todo : fix debounceTime bug
     this.mapglContributors.forEach((contrib, i) => {
       setTimeout(() => {
         contrib.onChangeAoi(event);
