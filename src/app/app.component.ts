@@ -216,7 +216,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (appUnit) {
         this.appUnits.push({
           collection: this.collaborativeService.defaultCollection,
-          unit: appUnit
+          unit: appUnit,
+          ignored: false
         });
       }
       /** end of retrocompatibility code */
