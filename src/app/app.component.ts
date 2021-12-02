@@ -442,7 +442,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
     setTimeout(() => {
       const visibleItems = this.previewListContrib.data.map(i => i.get(idFieldName).toString())
-        .filter(i => this.isElementInViewport(document.getElementById(i.toString())));
+        .filter(i => this.isElementInViewport(document.getElementById(i)));
       this.updateMapStyle(visibleItems, this.previewListContrib.collection);
     }, 500);
   }
@@ -490,7 +490,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const idFieldName = this.collectionToDescription.get(collection).id_path;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName).toString())
-          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id.toString())));
+          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id)));
         this.updateMapStyle(visibleItems, collection);
       }, 200);
     }
