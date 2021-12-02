@@ -546,11 +546,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
   public sortColumnEvent(contributorId: string, sortOutput: Column) {
+    const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
     this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
-    (this.collaborativeService.registry.get(contributorId) as ResultListContributor).sortColumn(sortOutput, true);
+    resultlistContributor.sortColumn(sortOutput, true);
     /** set mapcontritbutor sort */
     let sortOrder = null;
     if (sortOutput.sortDirection.toString() === '0') {
@@ -563,21 +564,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       sort = sortOrder + sortOutput.fieldName;
     }
 
-    this.mapglContributors.forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
-    });
-    /** Redraw features with setted sort in case of Simple mode */
-    /** Remove old features */
-    this.mapglContributors.forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      this.clearWindowData(c);
-      c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
-    });
-    /** Set new features */
     this.mapglContributors
-      .filter(c => c.collection === (this.collaborativeService.registry.get(contributorId) as ResultListContributor).collection)
-      .forEach(c => c.drawGeoSearch(0, true));
+      .filter(c => c.collection === resultlistContributor.collection)
+      .forEach(c => {
+      // Could have some problems if we put 2 lists with the same collection and different sort ?
+      c.searchSort = resultlistContributor.sort;
+      c.searchSize = resultlistContributor.getConfigValue('search_size');
+      /** Redraw features with setted sort in case of window mode */
+      /** Remove old features */
+      this.clearWindowData(c);
+      /** Set new features */
+      c.drawGeoSearch(0, true);
+    });
   }
 
   /**
@@ -674,6 +672,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (data) {
       /** Apply geosort in list */
       resultListContributor.geoSort(lat, lng, true);
+      this.sortOutput.delete(resultListContributor.identifier);
       // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
       /** Apply geosort in map (for simple mode) */
       this.clearWindowData(mapContributor);
