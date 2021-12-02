@@ -100,17 +100,8 @@ button:focus {
   border-bottom: none;
 }
 
-table.resultlist>tbody {
-  height: 400px !important;
-}
 
-.side-result-list table {
-  height: calc(100vh - 50px);
-}
 
-.side-result-list table.resultlist>tbody {
-  height: 100% !important;
-}
 
 .side-result-list-preview table.resultlist>tbody {
   height: 100vh !important;
@@ -121,6 +112,10 @@ table.resultlist>tbody {
 }
 
 .side-result-list-preview table.resultlist .resultgrid__icon_check {
+  display: none;
+}
+
+.side-result-list-preview table.resultlist .resultlist-thumbnails-fit {
   display: none;
 }
 

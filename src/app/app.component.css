@@ -90,16 +90,19 @@
 }
 
 .side-result-list {
-  width: 450px;
+  width: 0;
   height: 100%;
   position: absolute;
   right: 0;
-  display: none;
+  visibility: hidden;
   background-color: white;
 }
 
 .side-result-list-open {
   display: block;
+  width: 450px;   
+  visibility: visible;
+  overflow: hidden;
 }
 
 .arlas-top-analytics {

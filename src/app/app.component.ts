@@ -24,7 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum
+  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum, Column
 } from 'arlas-web-components';
 import { Item } from 'arlas-web-components/components/results/model/item';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
@@ -41,8 +41,8 @@ import {
 } from 'arlas-wui-toolkit';
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { from, fromEvent, merge, of, Subject, timer, zip } from 'rxjs';
+import { concatMap, debounceTime, delay, map, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
@@ -177,7 +177,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
     private dynamicComponentService: DynamicComponentService,
-    public visualizeService: VisualizeService
+    public visualizeService: VisualizeService,
+    private snackbar: MatSnackBar
   ) {
     this.menuState = {
       configs: false
@@ -541,7 +542,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
 
   /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
-  public sortColumnEvent(contributorId: string, sortOutput: { fieldName: string, sortDirection: SortEnum }) {
+  public sortColumnEvent(contributorId: string, sortOutput: Column) {
     this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);
@@ -621,7 +622,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'paginationEvent':
         this.paginate(resultListContributor, event.data);
         break;
-
       case 'sortColumnEvent':
         this.sortColumnEvent(event.origin, event.data);
         break;
@@ -693,6 +693,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
+    // todo : fix debounceTime bug 
     this.mapglContributors.forEach((contrib, i) => {
       setTimeout(() => {
         contrib.onChangeAoi(event);

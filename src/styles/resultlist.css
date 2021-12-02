@@ -22,14 +22,6 @@
   height: 24px;
 }
 
-.fit-picture {
-  object-fit: contain !important;
-}
-
-.resultlist__tools--select{
-  width: 35% !important;
-}
-
 .resultlist__tools__td{
   align-items: center !important;
 }
@@ -57,12 +49,6 @@
   font-weight: normal;
   color: #656565;
 }
-
-.side-result-list .resultlist__thead__tr {
-  overflow-y: auto;
-  overflow-x: clip;
-}
-
 
 .mapboxgl-popup-content .resultdetaileditem-value {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
