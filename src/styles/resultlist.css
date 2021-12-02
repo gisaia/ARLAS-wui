@@ -22,6 +22,10 @@
   height: 24px;
 }
 
+.fit-picture {
+  object-fit: contain !important;
+}
+
 .resultlist__tools--select{
   width: 35% !important;
 }
