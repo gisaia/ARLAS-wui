@@ -444,7 +444,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const visibleItems = this.previewListContrib.data.map(i => i.get(idFieldName).toString())
         .filter(i => this.isElementInViewport(document.getElementById(i.toString())));
       this.updateMapStyle(visibleItems, this.previewListContrib.collection);
-    }, 1000);
+    }, 500);
   }
 
   public updateMapStyle(ids: Array<string>, collection: string) {
