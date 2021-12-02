@@ -41,8 +41,8 @@ import {
 } from 'arlas-wui-toolkit';
 import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import * as mapboxgl from 'mapbox-gl';
-import { from, fromEvent, merge, of, Subject, timer, zip } from 'rxjs';
-import { concatMap, debounceTime, delay, map, takeWhile } from 'rxjs/operators';
+import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
+import { debounceTime, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
