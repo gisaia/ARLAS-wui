@@ -138,6 +138,8 @@
                         [keysToColors]="resultListConfigPerContId.get(list.identifier)?.keysToColors"
                         [isDetailledGridOpen]="resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
                         (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+                        [currentSortedColumn]="sortOutput.get(list.identifier)"
+                        [isGeoSortActivated]="isGeoSortActivated.get(list.identifier)"
                         (setFiltersEvent)="list.setFilters($event)"
                         (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
                         (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
