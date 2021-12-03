@@ -24,7 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum
+  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum, Column
 } from 'arlas-web-components';
 import { Item } from 'arlas-web-components/components/results/model/item';
 import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
@@ -49,6 +49,8 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -177,7 +179,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
     private dynamicComponentService: DynamicComponentService,
-    public visualizeService: VisualizeService
+    public visualizeService: VisualizeService,
+    private translate: TranslateService,
+    private snackbar: MatSnackBar
   ) {
     this.menuState = {
       configs: false
@@ -466,11 +470,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           if (!!layer && layer.source.indexOf(collection) >= 0) {
             this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-              const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-              if (!!strokeLayer) {
-                this.mapglComponent.map.setFilter(strokeLayerId,
-                  this.mapglComponent.layersMap.get(strokeLayerId).filter);
-              }
+            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+            if (!!strokeLayer) {
+              this.mapglComponent.map.setFilter(strokeLayerId,
+                this.mapglComponent.layersMap.get(strokeLayerId).filter);
+            }
           }
         }
       });
@@ -541,12 +545,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
 
   /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
-  public sortColumnEvent(contributorId: string, sortOutput: { fieldName: string, sortDirection: SortEnum }) {
+  public sortColumnEvent(contributorId: string, sortOutput: Column) {
+    const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
     this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
-    (this.collaborativeService.registry.get(contributorId) as ResultListContributor).sortColumn(sortOutput, true);
+    resultlistContributor.sortColumn(sortOutput, true);
     /** set mapcontritbutor sort */
     let sortOrder = null;
     if (sortOutput.sortDirection.toString() === '0') {
@@ -559,21 +564,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       sort = sortOrder + sortOutput.fieldName;
     }
 
-    this.mapglContributors.forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      c.searchSort = this.resultlistContributors.filter(v => v.collection === c.collection)[0].sort;
-    });
-    /** Redraw features with setted sort in case of Simple mode */
-    /** Remove old features */
-    this.mapglContributors.forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      this.clearWindowData(c);
-      c.searchSize = this.resultlistContributors.filter(v => v.collection === c.collection)[0].getConfigValue('search_size');
-    });
-    /** Set new features */
     this.mapglContributors
-      .filter(c => c.collection === (this.collaborativeService.registry.get(contributorId) as ResultListContributor).collection)
-      .forEach(c => c.drawGeoSearch(0, true));
+      .filter(c => c.collection === resultlistContributor.collection)
+      .forEach(c => {
+      // Could have some problems if we put 2 lists with the same collection and different sort ?
+      c.searchSort = resultlistContributor.sort;
+      c.searchSize = resultlistContributor.getConfigValue('search_size');
+      /** Redraw features with setted sort in case of window mode */
+      /** Remove old features */
+      this.clearWindowData(c);
+      /** Set new features */
+      c.drawGeoSearch(0, true);
+    });
   }
 
   /**
@@ -621,7 +623,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'paginationEvent':
         this.paginate(resultListContributor, event.data);
         break;
-
       case 'sortColumnEvent':
         this.sortColumnEvent(event.origin, event.data);
         break;
@@ -671,6 +672,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (data) {
       /** Apply geosort in list */
       resultListContributor.geoSort(lat, lng, true);
+      this.sortOutput.delete(resultListContributor.identifier);
       // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
       /** Apply geosort in map (for simple mode) */
       this.clearWindowData(mapContributor);
@@ -693,11 +695,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    this.mapglContributors.forEach((contrib, i) => {
+    for (let i = 0; i < this.mapglContributors.length; i++) {
       setTimeout(() => {
-        contrib.onChangeAoi(event);
-      }, i * (debounceDuration + 200));
-    });
+        this.snackbar.open(this.translate.instant('Loading data of') + ' ' + this.mapglContributors[i].collection);
+        this.mapglContributors[i].onChangeAoi(event);
+        if (i === this.mapglContributors.length - 1) {
+          setTimeout(() => this.snackbar.dismiss(), 1000);
+        }
+      }, (i) * (debounceDuration * 1.5));
+    }
   }
 
   public onMove(event) {

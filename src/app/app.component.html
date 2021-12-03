@@ -93,6 +93,8 @@
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
+                  
+                  (thumbnailFitEvent)="resultListConfigPerContId.get(previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
                   (onChangeItems)="updateMapStyleFromChange($event, previewListContrib.collection)"
                   (clickOnTile)="clickOnTile($event)"
@@ -113,8 +115,8 @@
                 [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
                   <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
-                    <div *ngIf="listOpen">
-                      <arlas-result-list #resultsidenav  style="height:100%" [rowItemList]="list.data" [fieldsList]="list.fieldsList"
+                    <div class="left_resultlist_wrapper">
+                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data" [fieldsList]="list.fieldsList"
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
@@ -128,12 +130,15 @@
                         [isGeoSortEnabled]="resultListConfigPerContId.get(list.identifier)?.isGeoSortActived"
                         [options]="resultListConfigPerContId.get(list.identifier)?.options"
                         [displayFilters]="resultListConfigPerContId.get(list.identifier)?.displayFilters"
+                        (thumbnailFitEvent)="resultListConfigPerContId.get(list.identifier).fitThumbnail = $event"
                         [useColorService]="resultListConfigPerContId.get(list.identifier)?.useColorService"
                         [cellBackgroundStyle]="resultListConfigPerContId.get(list.identifier)?.cellBackgroundStyle"
                         [colorsSaturationWeight]="resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
                         [keysToColors]="resultListConfigPerContId.get(list.identifier)?.keysToColors"
                         [isDetailledGridOpen]="resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
                         (sortColumnEvent)="getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+                        [currentSortedColumn]="sortOutput.get(list.identifier)"
+                        [isGeoSortActivated]="isGeoSortActivated.get(list.identifier)"
                         (setFiltersEvent)="list.setFilters($event)"
                         (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
                         (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
