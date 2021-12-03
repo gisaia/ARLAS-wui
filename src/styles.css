@@ -100,7 +100,9 @@ button:focus {
   border-bottom: none;
 }
 
-
+.analytics-board-card table.resultlist>tbody {
+  height: 400px !important;
+}
 
 
 .side-result-list-preview table.resultlist>tbody {

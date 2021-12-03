@@ -96,13 +96,13 @@
   right: 0;
   visibility: hidden;
   background-color: white;
+  overflow: hidden;
 }
 
 .side-result-list-open {
   display: block;
-  width: 450px;   
+  width: 450px;
   visibility: visible;
-  overflow: hidden;
 }
 
 .arlas-top-analytics {
@@ -135,6 +135,11 @@
 
 .arlas-search-toggle-corner {
   border-radius: 4px 0 0 4px;
+}
+
+.left_resultlist_wrapper {
+  height: calc(100vh - 50px);
+  overflow: hidden;
 }
 
 .arlas-search-toggle:hover {

@@ -115,8 +115,7 @@
                 [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
                   <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
-                    <div style="height: calc(100vh - 50px);
-                    overflow: hidden;">
+                    <div class="left_resultlist_wrapper">
                       <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data" [fieldsList]="list.fieldsList"
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
