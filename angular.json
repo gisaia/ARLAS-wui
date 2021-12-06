@@ -25,8 +25,8 @@
               "src/silent-refresh.html"
             ],
             "styles": [
-              "src/styles.css",
               "src/styles/arlas-wui-theme.scss",
+              "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@gisaia-team/mapbox-gl-draw/dist/mapbox-gl-draw.css"
@@ -87,8 +87,8 @@
               "node_modules/mapbox-gl/dist/mapbox-gl.js"
             ],
             "styles": [
-              "src/styles.css",
               "src/styles/arlas-wui-theme.scss",
+              "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@gisaia-team/mapbox-gl-draw/dist/mapbox-gl-draw.css"
