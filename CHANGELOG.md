@@ -1,5 +1,20 @@
 # Change Log
 
+## [v19.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.0) (2021-12-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.1...v19.2.0)
+
+**New stuff:**
+
+- Display the count of all decalred collections in collaborations [\#352](https://github.com/gisaia/ARLAS-wui/issues/352)
+- Apply the ZoomTo feature by collection [\#351](https://github.com/gisaia/ARLAS-wui/issues/351)
+
+**Fixed bugs:**
+
+- Chosen sort field disappear from the list after hiding and redesplaying it [\#357](https://github.com/gisaia/ARLAS-wui/issues/357)
+- Map tooltip keeps an 'close' icon after hiding it [\#350](https://github.com/gisaia/ARLAS-wui/issues/350)
+- Interaction of the list on linestring on map doesn't work [\#349](https://github.com/gisaia/ARLAS-wui/issues/349)
+
 ## [v19.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.1) (2021-10-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.6...v19.1.1)
