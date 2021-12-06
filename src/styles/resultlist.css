@@ -95,8 +95,8 @@
 .resultgrid__info-view-button, .resultgrid__info-show-button, .resultgrid__info-close-button {
   top: 5px;
   right: 15px;
-  background-color: #fff;
-  color: #000;
+  background-color: #fff !important;
+  color: #000 !important;
   width: 25px;
   height: 25px;
   margin-right: 5px;
@@ -111,5 +111,5 @@
 .fit-icon {
   height: 18px;
   width: 18px;
-  font-size: 18px;
+  font-size: 18px !important;
 }
