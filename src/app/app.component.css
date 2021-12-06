@@ -44,9 +44,9 @@
 }
 
 .side-result-list-toggle {
-  z-index: 0;
-  height: 100%;
+  z-index: 2;
   position: absolute;
+  top: 50vh;
   right: 150px;
   display: flex;
   justify-content: center;
