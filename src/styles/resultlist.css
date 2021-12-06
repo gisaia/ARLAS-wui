@@ -91,3 +91,25 @@
 .resultitem-grid__actions {
   cursor: pointer;
 }
+
+.resultgrid__info-view-button, .resultgrid__info-show-button, .resultgrid__info-close-button {
+  top: 5px;
+  right: 15px;
+  background-color: #fff;
+  color: #000;
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}
+
+.contain-icon {
+  position: absolute;
+  top: 11px;
+  transform: rotate(90deg);
+}
+
+.fit-icon {
+  height: 18px;
+  width: 18px;
+  font-size: 18px;
+}
