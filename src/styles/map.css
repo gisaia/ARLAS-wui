@@ -23,14 +23,26 @@
   right: -2px;
 }
 
+.mapboxgl-ctrl-attrib {
+  position: absolute;
+  right: 57px;
+  bottom: calc(100vh - 26px) !important;
+  right: 7px;
+  width: 235px;
+}
+
 .mapboxgl-ctrl-top-right {
-  top : 45px !important;
+  top : 65px !important;
 }
 
 .map__layers-list--container {
   top: 50px !important;
   border-radius: 4px;
   right: 43px !important;
+}
+
+.map__visu-list--wrapper {
+  top: 230px !important
 }
 
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
