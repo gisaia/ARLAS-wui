@@ -17,27 +17,10 @@
  * under the License.
  */
 
-.filters-chips--container {
-  background-color: #FF4081;
-}
-
 .filter-chip {
   height: 30px;
-  margin-bottom: 1px;
 }
 
-.filter-delimiter {
-  color:white;
-  padding-top: 5px !important;
-}
-
-.home-chip--label{
-  color: white;
-  padding-left: 10px;
-  padding-top: 1px !important;
-  cursor: pointer !important;
-  font-size: 20px !important;
-}
 
 .menu-chip{
   color: white;

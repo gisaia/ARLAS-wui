@@ -44,9 +44,9 @@
 }
 
 .side-result-list-toggle {
-  z-index: 1;
-  height: 100%;
+  z-index: 2;
   position: absolute;
+  top: 50vh;
   right: 150px;
   display: flex;
   justify-content: center;
@@ -90,16 +90,19 @@
 }
 
 .side-result-list {
-  width: 450px;
+  width: 0;
   height: 100%;
   position: absolute;
   right: 0;
-  display: none;
+  visibility: hidden;
   background-color: white;
+  overflow: hidden;
 }
 
 .side-result-list-open {
   display: block;
+  width: 450px;
+  visibility: visible;
 }
 
 .arlas-top-analytics {
@@ -132,6 +135,11 @@
 
 .arlas-search-toggle-corner {
   border-radius: 4px 0 0 4px;
+}
+
+.left_resultlist_wrapper {
+  height: calc(100vh - 50px);
+  overflow: hidden;
 }
 
 .arlas-search-toggle:hover {
@@ -202,7 +210,7 @@
 
 .arlas-map-action {
   position: absolute;
-  top: 180px;
+  top: 195px;
   right: 7px;
   z-index: 1;
 }
@@ -235,7 +243,7 @@
 
 .arlas-map-settings {
   position: absolute;
-  top: 50px;
+  top: 70px;
   right: 7px;
   z-index: 1;
 }
@@ -297,6 +305,7 @@
 }
 
 .app-container-reduce ::ng-deep.bookmark-shortcut {
+  top: 35px;
   right: 461px;
 }
 
@@ -311,4 +320,5 @@
 
 .app-container-with-list ::ng-deep.bookmark-shortcut {
   right: 161px;
+  top: 35px;
 }
