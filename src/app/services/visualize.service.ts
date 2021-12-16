@@ -19,7 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { ElementIdentifier } from 'arlas-web-contributors';
-import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
+import { CROSS_LAYER_PREFIX } from 'arlas-web-components/lib/components/mapgl/mapgl.component';
 import { Observable } from 'rxjs';
 import { Expression, Search, Hits, Filter } from 'arlas-api';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
@@ -30,7 +30,7 @@ import bbox from '@turf/bbox';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { parse } from 'wellknown';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BBox } from '@turf/helpers';
 
 

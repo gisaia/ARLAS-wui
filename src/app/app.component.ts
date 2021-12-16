@@ -24,11 +24,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum, Column
+  MapglSettingsComponent, ModeEnum, Position, SortEnum, Column
 } from 'arlas-web-components';
-import { Item } from 'arlas-web-components/components/results/model/item';
-import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
-import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
+import { SCROLLABLE_ARLAS_ID } from 'arlas-web-components/lib/components/mapgl/model/mapLayers'
+import { Item, PageQuery, ResultDetailedItemComponent } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
   ElementIdentifier, FeatureRenderMode, HistogramContributor,
@@ -39,7 +38,7 @@ import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasStartupService, CollectionUnit
 } from 'arlas-wui-toolkit';
-import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
+import { TimelineComponent } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -48,7 +47,7 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ArlasSettingsService } from 'arlas-wui-toolkit';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -402,7 +401,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.zoomChanged = true;
       }
       if (this.allowMapExtend) {
-        this.mapEventListener.next();
+        this.mapEventListener.next(null);
       }
     });
     // Keep the last displayed list as preview when closing the right panel
@@ -567,15 +566,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.mapglContributors
       .filter(c => c.collection === resultlistContributor.collection)
       .forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      c.searchSort = resultlistContributor.sort;
-      c.searchSize = resultlistContributor.getConfigValue('search_size');
-      /** Redraw features with setted sort in case of window mode */
-      /** Remove old features */
-      this.clearWindowData(c);
-      /** Set new features */
-      c.drawGeoSearch(0, true);
-    });
+        // Could have some problems if we put 2 lists with the same collection and different sort ?
+        c.searchSort = resultlistContributor.sort;
+        c.searchSize = resultlistContributor.getConfigValue('search_size');
+        /** Redraw features with setted sort in case of window mode */
+        /** Remove old features */
+        this.clearWindowData(c);
+        /** Set new features */
+        c.drawGeoSearch(0, true);
+      });
   }
 
   /**

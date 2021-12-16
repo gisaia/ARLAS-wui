@@ -21,10 +21,10 @@ import frComponents from 'arlas-web-components/assets/i18n/fr.json';
 import enToolkit from 'arlas-wui-toolkit/assets/i18n/en.json';
 import frToolkit from 'arlas-wui-toolkit/assets/i18n/fr.json';
 import { Observable, forkJoin, of } from 'rxjs';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import { CONFIG_ID_QUERY_PARAM } from 'arlas-wui-toolkit/tools/utils';
-import { NOT_CONFIGURED } from 'arlas-wui-toolkit/services/authentification/authentification.service';
-import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
+import { ArlasSettingsService } from 'arlas-wui-toolkit';
+import { CONFIG_ID_QUERY_PARAM } from 'arlas-wui-toolkit/lib/tools/utils';
+import { NOT_CONFIGURED } from 'arlas-wui-toolkit/lib/services/authentification/authentification.service';
+import { PersistenceService } from 'arlas-wui-toolkit/lib/services/persistence/persistence.service';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -33,7 +33,7 @@ import { HttpClient } from '@angular/common/http';
 import { timeFormatDefaultLocale } from 'd3-time-format';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
-import { WalkthroughLoader } from 'arlas-wui-toolkit/services/walkthrough/walkthrough.utils';
+import { WalkthroughLoader } from 'arlas-wui-toolkit/lib/services/walkthrough/walkthrough.utils';
 
 
 export class ArlasWalkthroughLoader implements WalkthroughLoader {

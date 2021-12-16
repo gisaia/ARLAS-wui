@@ -26,7 +26,7 @@ import {
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
-import { NgxMdModule } from 'ngx-md';
+
 import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import {
@@ -52,7 +52,7 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
+        MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MapglModule,
         ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,

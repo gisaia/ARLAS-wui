@@ -36,11 +36,20 @@
             ]
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "budgets": []
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -65,10 +74,14 @@
             "browserTarget": "arlas-wui:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "arlas-wui:build:development"
+            },
             "production": {
               "browserTarget": "arlas-wui:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -146,8 +159,7 @@
   "defaultProject": "arlas-wui",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "arlas",
-      "styleext": "css"
+      "prefix": "arlas"
     },
     "@schematics/angular:directive": {
       "prefix": "arlas"

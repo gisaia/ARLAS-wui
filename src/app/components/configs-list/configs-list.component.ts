@@ -18,10 +18,10 @@
  */
 
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
+import { PersistenceService } from 'arlas-wui-toolkit/lib/services/persistence/persistence.service';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ArlasSettingsService } from 'arlas-wui-toolkit/lib/services/settings/arlas.settings.service';
 import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';

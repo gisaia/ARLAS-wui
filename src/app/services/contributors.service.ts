@@ -24,9 +24,7 @@ import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
-} from 'arlas-wui-toolkit/services/startup/startup.service';
-import { Subject } from 'rxjs';
-import { ContributorBuilder } from 'arlas-wui-toolkit/services/startup/contributorBuilder';
+} from 'arlas-wui-toolkit';
 
 @Injectable()
 export class ContributorService {
