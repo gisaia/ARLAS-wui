@@ -1,18 +1,13 @@
-import { Component, OnInit, Output, Input, ViewChild } from '@angular/core';
-import { AuthentificationService } from 'arlas-wui-toolkit/lib/services/authentification/authentification.service';
-import { UserInfosComponent } from 'arlas-wui-toolkit';
+import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { PersistenceService } from 'arlas-wui-toolkit/lib/services/persistence/persistence.service';
+import {
+  ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
+  DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
+} from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
-import { ShareComponent } from 'arlas-wui-toolkit';
-import { ArlasConfigService } from 'arlas-wui-toolkit';
 import { environment } from '../../../environments/environment';
 import { AboutComponent } from '../about/about.component';
-import { ArlasWalkthroughService } from 'arlas-wui-toolkit/lib/services/walkthrough/walkthrough.service';
-import { DownloadComponent } from 'arlas-wui-toolkit';
-import { TagComponent } from 'arlas-wui-toolkit';
-import { ArlasSettingsService } from 'arlas-wui-toolkit';
 
 interface Page {
   link: string;

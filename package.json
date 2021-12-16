@@ -29,7 +29,7 @@
     "@gisaia-team/ng-pick-datetime": "8.0.4",
     "@ngx-translate/core": "14.0.0",
     "@types/d3-dsv": "1.0.32",
-    "arlas-wui-toolkit": "20.0.0-beta.1",
+    "arlas-wui-toolkit": "20.0.0-beta.5",
     "classlist.js": "^1.1.20150312",
     "core-js": "~3.19.3",
     "cryptiles": ">=4.1.2",

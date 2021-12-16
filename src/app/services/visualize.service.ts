@@ -18,20 +18,20 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ElementIdentifier } from 'arlas-web-contributors';
-import { CROSS_LAYER_PREFIX } from 'arlas-web-components/lib/components/mapgl/mapgl.component';
-import { Observable } from 'rxjs';
-import { Expression, Search, Hits, Filter } from 'arlas-api';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { projType } from 'arlas-web-core';
-import { map } from 'rxjs/operators';
-import { Popup } from 'mapbox-gl';
-import bbox from '@turf/bbox';
-import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
-import { parse } from 'wellknown';
-import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
+import { Expression, Filter, Hits, Search } from 'arlas-api';
+import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
+import { ElementIdentifier } from 'arlas-web-contributors';
+import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
+import { projType } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { Popup } from 'mapbox-gl';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { parse } from 'wellknown';
 
 
 @Injectable()

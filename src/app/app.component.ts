@@ -18,16 +18,16 @@
  */
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, Position, SortEnum, Column
+  BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
-import { SCROLLABLE_ARLAS_ID } from 'arlas-web-components/lib/components/mapgl/model/mapLayers'
-import { Item, PageQuery, ResultDetailedItemComponent } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
   ElementIdentifier, FeatureRenderMode, HistogramContributor,
@@ -36,9 +36,8 @@ import {
 } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasStartupService, CollectionUnit
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
-import { TimelineComponent } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -47,9 +46,6 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { ArlasSettingsService } from 'arlas-wui-toolkit';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-wui-root',
