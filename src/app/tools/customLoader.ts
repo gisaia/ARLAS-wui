@@ -37,7 +37,7 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
         private persistenceService: PersistenceService, private translateService: TranslateService) {
     }
     public loader(): Promise<any> {
-        const lang = this.translateService.currentLang;
+        const lang = this.translateService.currentLang ? this.translateService.currentLang : 'en';
         const localTourAdress = 'assets/tour/tour_' + lang + '.json?' + Date.now();
         const localTour = this.http.get(localTourAdress);
         const settings = this.arlasSettings.getSettings();
