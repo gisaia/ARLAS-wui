@@ -64,10 +64,13 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                },
+                }
+              ],
+              "assets": [
                 {
-                  "replace": "src/settings.yaml",
-                  "with": "src/settings-prod.yaml"
+                  "input": "src/environments/prod/",
+                  "output": "/",
+                  "glob": "*.yaml"
                 }
               ]
             }
