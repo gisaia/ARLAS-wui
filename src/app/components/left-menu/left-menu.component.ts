@@ -61,7 +61,7 @@ export class LeftMenuComponent implements OnInit {
   public isLabelDisplayed = false;
 
 
-  constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
+  public constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
     public persistenceService: PersistenceService, private configService: ArlasConfigService,
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService

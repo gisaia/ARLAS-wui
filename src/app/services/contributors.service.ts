@@ -38,9 +38,10 @@ export class ContributorService {
   public MAPCONTRIBUTOR_ID = 'mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
 
-  public constructor(private configService: ArlasConfigService,
-    public collaborativeService: ArlasCollaborativesearchService,
-    private arlasStartupService: ArlasStartupService
+  public constructor(
+    private configService: ArlasConfigService,
+    private arlasStartupService: ArlasStartupService,
+    public collaborativeService: ArlasCollaborativesearchService
   ) { }
 
   /* returns the map contributor */
@@ -60,13 +61,13 @@ export class ContributorService {
     const mapcontributors = new Array<MapContributor>();
     if (mapContributorsConfig !== undefined) {
       mapContributorsConfig
-      .forEach(config => {
-        const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier);
+        .forEach(config => {
+          const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier);
 
-        this.arlasContributors.set(config.identifier, contrib);
-        this.contributorsIcons.set(config.identifier, config.icon);
-        mapcontributors.push(contrib);
-      });
+          this.arlasContributors.set(config.identifier, contrib);
+          this.contributorsIcons.set(config.identifier, config.icon);
+          mapcontributors.push(contrib);
+        });
     }
     return mapcontributors;
   }

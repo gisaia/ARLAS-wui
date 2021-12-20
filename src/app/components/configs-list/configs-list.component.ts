@@ -42,7 +42,7 @@ export class ConfigsListComponent implements OnInit {
   public retrieveData = true;
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
-  constructor(
+  public constructor(
     private persistenceService: PersistenceService,
     private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
     private arlasSettingsService: ArlasSettingsService
