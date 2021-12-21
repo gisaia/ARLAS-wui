@@ -64,7 +64,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     };
     elementidentifier: ElementIdentifier;
   }>();
-  @Output() public actionOnList = new Subject<{ origin: string; event: string; data: any; }>();
+  @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
 
   public modeEnum = ModeEnum;
@@ -613,7 +613,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.visualizeService.setMap(this.mapglComponent.map);
   }
 
-  public getBoardEvents(event: { origin: string; event: string; data: any; }) {
+  public getBoardEvents(event: { origin: string; event: string; data?: any; }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const currentCollection = resultListContributor.collection;
     const mapContributor: MapContributor = this.mapglContributors.filter(c => c.collection === currentCollection)[0];
