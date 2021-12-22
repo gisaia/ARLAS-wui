@@ -16,7 +16,7 @@
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@angular/animations": "~13.0.0",
     "@angular/cdk": "~13.0.0",
     "@angular/common": "~13.0.0",
@@ -27,10 +27,13 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "rxjs": "~7.4.0",
+    "zone.js": "^0.11.4"
+  },
+  "dependencies": {
     "@gisaia-team/ng-pick-datetime": "9.0.0-beta.3",
     "@ngx-translate/core": "14.0.0",
-    "@types/d3-dsv": "1.0.32",
-    "arlas-wui-toolkit": "20.0.0-beta.8",
+    "arlas-wui-toolkit": "20.0.0-beta.10",
     "classlist.js": "^1.1.20150312",
     "core-js": "~3.19.3",
     "cryptiles": ">=4.1.2",
@@ -39,10 +42,7 @@
     "ng-packagr": "^13.1.2",
     "ngx-markdown": "13.0.0",
     "patch-package": "^6.4.7",
-    "rxjs": "~7.4.0",
-    "tslib": "^1.9.0",
-    "web-animations-js": "^2.3.2",
-    "zone.js": "~0.11.4"
+    "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.1.1",
@@ -74,10 +74,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "node": "^12.11.1",
-    "node-sass": "7.0.0",
     "protractor": "~7.0.0",
-    "run-parallel": "1.1.10",
-    "sass-extract": "2.1.0",
     "ts-node": "~10.4.0",
     "typescript": "~4.4.3"
   }

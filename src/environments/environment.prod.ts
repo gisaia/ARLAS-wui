@@ -1,4 +1,5 @@
+
 export const environment = {
   production: true,
-  VERSION: require('../../package.json').version
+  VERSION: '20.0.0-beta.10'
 };
