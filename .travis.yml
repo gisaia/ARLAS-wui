@@ -17,12 +17,12 @@ jobs:
         - npm install
         - npm rebuild node-sass
         - npm run build
-        - npm run ng-pack
+        - npm run build-lib
     - env:
         - job=docker-build
       script:
         - export NODE_OPTIONS=--max_old_space_size=8192;
         - docker build --no-cache .
-    - env:
-        - job=check_i18n
-      script: ./checki18n.sh
+    # - env:
+    #     - job=check_i18n
+    #   script: ./checki18n.sh

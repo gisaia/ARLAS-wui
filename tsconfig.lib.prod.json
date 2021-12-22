@@ -1,14 +1,14 @@
 {
-    "extends": "./tsconfig.lib.json",
-    "compilerOptions": {
-      "declarationMap": false,
-      "resolveJsonModule": true
-    },
-    "angularCompilerOptions": {
-      "enableIvy": false
-    },
-    "exclude": [
-          "src/test.ts",
-          "**/*.spec.ts"
-        ]
-  }
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "resolveJsonModule": true
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  },
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ]
+}
