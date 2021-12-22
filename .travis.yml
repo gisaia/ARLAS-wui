@@ -17,7 +17,7 @@ jobs:
         - npm install
         - npm rebuild node-sass
         - npm run build
-        - npm run ngc-build
+        - npm run ng-pack
     - env:
         - job=docker-build
       script:

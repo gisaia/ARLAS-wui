@@ -27,7 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import { AboutComponent } from './about.component';
-import { NgxMdModule } from 'ngx-md';
+import { MarkdownModule } from 'ngx-markdown';
+
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -39,7 +40,7 @@ describe('AboutComponent', () => {
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule, ArlasToolkitSharedModule,
-        NgxMdModule
+        MarkdownModule
       ],
       declarations: [AboutComponent]
     }).compileComponents();
