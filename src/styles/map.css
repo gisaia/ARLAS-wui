@@ -24,10 +24,10 @@
 }
 
 .mapboxgl-ctrl-attrib {
+  padding: 0 1px !important;
   position: absolute;
-  right: 57px;
-  bottom: calc(100vh - 26px) !important;
-  right: 7px;
+  right: 0;
+  bottom: calc(100vh - 20px) !important;
   width: 235px;
 }
 
