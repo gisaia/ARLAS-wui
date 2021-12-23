@@ -72,7 +72,9 @@
                   "input": "src/environments/prod/",
                   "output": "/",
                   "glob": "*.yaml"
-                }
+                },
+                "src/assets",
+                "src/silent-refresh.html"
               ]
             }
           }
