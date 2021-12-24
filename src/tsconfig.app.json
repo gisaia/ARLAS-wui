@@ -3,10 +3,18 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "",
-    "types": ["mapbox-gl", "geojson", "node"]
+    "types": [
+      "mapbox-gl",
+      "geojson",
+      "node"
+    ]
   },
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
+  ],
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ]
 }
