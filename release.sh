@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd)"
+PROJECT_ROOT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
 
 # dockerlogin=`docker info | sed '/Username:/!d;s/.* //'`
 # if  [ -z "$dockerlogin"  ] ; then echo "your are not logged on dockerhub"; exit -1; else  echo "logged as "$dockerlogin ; fi
@@ -18,6 +20,11 @@ usage(){
   echo " -rel|--app-release   release arlas-app X version"
 	echo " -dev|--app-dev   development arlas-app version (-SNAPSHOT qualifier will be automatically added)"
 	echo " --no-tests           do not run integration tests"
+  echo " -beta|--beta    if present, release and publish the npm package with beta tag. If the beta is launched from develop, there is no merge of develop into master"
+  echo " -beta_n|--beta_number=n, the released version will be : [x].[y].[z]-beta.[n]"
+	echo " -ref_branch | --reference_branch  from which branch to start the release."
+  echo "    Add -ref_branch=develop for a new official release"
+  echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
 }
 
@@ -37,6 +44,18 @@ case $i in
     TESTS="NO"
     shift # past argument with no value
     ;;
+    -ref_branch=*|--reference_branch=*)
+    REF_BRANCH="${i#*=}"
+    shift # past argument=value
+    ;;
+     -beta|--beta)
+    ARLAS_BETA="true"
+    shift # past argument=value
+    ;;
+    -beta_n=*|--beta_number=*)
+    BETA_NUMBER="${i#*=}"
+    shift # past argument=value
+    ;;
     *)
       # unknown option
     ;;
@@ -45,10 +64,7 @@ done
 
 VERSION="${APP_REL}"
 DEV="${APP_DEV}"
-
-echo "==> Get develop branch"
-git checkout develop
-git pull origin develop
+ARLAS_BETA="false"
 
 if [ "$TESTS" == "YES" ]; then
   ng lint
@@ -58,14 +74,49 @@ else
   echo "==> Skip tests"
 fi
 
-echo "==> Merge develop into master"
-git checkout master
-git pull origin master
-git merge origin/develop -m "Merge develop into master"
+if [ -z ${REF_BRANCH+x} ];
+    then
+        echo ""
+        echo "###########"
+        echo "-ref_branch is missing."
+        echo "  Add -ref_branch=develop for a new official release"
+        echo "  Add -ref_branch=x.x.x for a maintenance release"
+        echo "###########"
+        echo ""
+        usage;
+fi
+
+if [ "${ARLAS_BETA}" == "true" ];
+    then
+        if [ -z ${BETA_NUMBER+x} ];
+        then
+            echo ""
+            echo "###########"
+            echo "You chose to release this version as beta."
+            echo "--beta_number is missing."
+            echo "  Add --beta_number=n, the released version will be : [x].[y].[z]-beta.[n]"
+            echo "###########"
+            echo ""
+            usage;
+        fi
+fi
+
+echo "==> Get $REF_BRANCH branch"
+git checkout "$REF_BRANCH"
+git pull origin "$REF_BRANCH"
+
+if [ "${ARLAS_BETA}" == "true" ];
+    then
+    VERSION="${APP_REL}-beta.${BETA_NUMBER}"
+fi
+
+echo "VERSION   ${VERSION}"
 
 echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
+npm --no-git-tag-version --prefix src version ${VERSION}
 git add package.json
+git add src/package.json
 
 echo "  -- Create and push tag"
 git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
@@ -87,7 +138,7 @@ echo "  -- Commit release version"
 git commit -a -m "prod automatic release ${VERSION}"
 git tag v${VERSION}
 git push origin v${VERSION}
-git push origin master
+git push origin ${REF_BRANCH}
 
 echo "==> Clean local environment"
 npm cache clean --force
@@ -97,28 +148,46 @@ echo "==> Docker"
 docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
 
 docker push gisaia/arlas-wui:${VERSION}
-docker push gisaia/arlas-wui:latest
+if [ "${ARLAS_BETA}" == "false" ];
+    then
+    docker push gisaia/arlas-wui:latest
+fi
 
-echo "==> Npm"
+echo "==> Publish to npm"
 rm -rf dist
 npm install
-npm run ngc-build
-cp package.json dist
-cd dist && npm publish
-cd ..
+npm run build-lib
+cd dist/arlas-wui
+if [ "${ARLAS_BETA}" == "true" ];
+    then
+    echo "  -- tagged as beta"
+    npm publish --tag=beta
+else 
+    npm publish
+fi
+cd ../..
 
 echo "==> Clean local environment"
 npm cache clean --force
 rm -rf node_modules/
 
-echo "==> Go back to develop branch and rebase"
-git checkout develop
-git pull origin develop
-git rebase origin/master
+if [ "${REF_BRANCH}" == "develop" ] && [ "${ARLAS_BETA}" == "false" ];
+    then
+    echo "==> Merge develop into master"
+    git checkout master
+    git pull origin master
+    git merge origin/develop
+    git push origin master
+
+    git checkout develop
+    git pull origin develop
+    git rebase origin/master
+fi
 
 npm --no-git-tag-version version "${DEV}-dev"
+npm --no-git-tag-version --prefix src version "${DEV}-dev"
 
 git commit -a -m "development version ${DEV}-dev"
-git push origin develop
+git push origin ${REF_BRANCH}
 
 echo "==> Well done :)"
