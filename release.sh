@@ -48,7 +48,7 @@ case $i in
     REF_BRANCH="${i#*=}"
     shift # past argument=value
     ;;
-     -beta|--beta)
+    -beta|--beta)
     ARLAS_BETA="true"
     shift # past argument=value
     ;;
