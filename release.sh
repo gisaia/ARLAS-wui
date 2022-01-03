@@ -27,7 +27,7 @@ usage(){
   echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
 }
-
+ARLAS_BETA="false"
 TESTS="YES"
 for i in "$@"
 do
@@ -64,7 +64,6 @@ done
 
 VERSION="${APP_REL}"
 DEV="${APP_DEV}"
-ARLAS_BETA="false"
 
 if [ "$TESTS" == "YES" ]; then
   ng lint
