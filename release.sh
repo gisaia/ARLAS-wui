@@ -132,8 +132,6 @@ if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
         VERSION="${APP_REL}-${STAGE}.${STAGE_ITERATION}"
 fi
 
-echo "VERSION   ${VERSION}"
-
 echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
 npm --no-git-tag-version --prefix src version ${VERSION}
