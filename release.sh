@@ -20,14 +20,13 @@ usage(){
   echo " -rel|--app-release   release arlas-app X version"
 	echo " -dev|--app-dev   development arlas-app version (-SNAPSHOT qualifier will be automatically added)"
 	echo " --no-tests           do not run integration tests"
-  echo " -beta|--beta    if present, release and publish the npm package with beta tag. If the beta is launched from develop, there is no merge of develop into master"
-  echo " -beta_n|--beta_number=n, the released version will be : [x].[y].[z]-beta.[n]"
-	echo " -ref_branch | --reference_branch  from which branch to start the release."
+  echo " -s|--stage    Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
+  echo " -i|--stage_iteration=n, the released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"	echo " -ref_branch | --reference_branch  from which branch to start the release."
   echo "    Add -ref_branch=develop for a new official release"
   echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
 }
-ARLAS_BETA="false"
+STAGE="stable"
 TESTS="YES"
 for i in "$@"
 do
@@ -48,12 +47,12 @@ case $i in
     REF_BRANCH="${i#*=}"
     shift # past argument=value
     ;;
-    -beta|--beta)
-    ARLAS_BETA="true"
+     -s=*|--stage=*)
+    STAGE="${i#*=}"
     shift # past argument=value
     ;;
-    -beta_n=*|--beta_number=*)
-    BETA_NUMBER="${i#*=}"
+    -i=*|--stage_iteration=*)
+    STAGE_ITERATION="${i#*=}"
     shift # past argument=value
     ;;
     *)
@@ -85,18 +84,40 @@ if [ -z ${REF_BRANCH+x} ];
         usage;
 fi
 
-if [ "${ARLAS_BETA}" == "true" ];
+if [ -z ${STAGE+x} ];
     then
-        if [ -z ${BETA_NUMBER+x} ];
-        then
-            echo ""
-            echo "###########"
-            echo "You chose to release this version as beta."
-            echo "--beta_number is missing."
-            echo "  Add --beta_number=n, the released version will be : [x].[y].[z]-beta.[n]"
-            echo "###########"
-            echo ""
-            usage;
+        echo ""
+        echo "###########"
+        echo "-s=*|--stage* is missing."
+        echo "  Add --stage=beta|rc|stable to define the release stage"
+        echo "###########"
+        echo ""
+        usage;
+fi
+
+if [ "${STAGE}" != "beta" ] && [ "${STAGE}" != "rc" ] && [ "${STAGE}" != "stable" ];
+    then
+        echo ""
+        echo "###########"
+        echo "Stage ${STAGE} is invalid."
+        echo "  Add --stage=beta|rc|stable to define the release stage"
+        echo "###########"
+        echo ""
+        usage;
+fi
+
+if [ "${STAGE}" == "beta" ] || [ "${STAGE}" == "rc" ];
+    then
+        if [ -z ${STAGE_ITERATION+x} ];
+            then
+                echo ""
+                echo "###########"
+                echo "You chose to release this version as ${STAGE}."
+                echo "--stage_iteration is missing."
+                echo "  Add -i=n|--stage_iteration=n, the released version will be : [x].[y].[z]-${STAGE}.[n]"
+                echo "###########"
+                echo ""
+                usage;
         fi
 fi
 
@@ -104,9 +125,10 @@ echo "==> Get $REF_BRANCH branch"
 git checkout "$REF_BRANCH"
 git pull origin "$REF_BRANCH"
 
-if [ "${ARLAS_BETA}" == "true" ];
+
+if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
-    VERSION="${APP_REL}-beta.${BETA_NUMBER}"
+        VERSION="${APP_REL}-${STAGE}.${STAGE_ITERATION}"
 fi
 
 echo "VERSION   ${VERSION}"
@@ -147,20 +169,21 @@ echo "==> Docker"
 docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
 
 docker push gisaia/arlas-wui:${VERSION}
-if [ "${ARLAS_BETA}" == "false" ];
+if [ "${STAGE}" == "stable" ];
     then
     docker push gisaia/arlas-wui:latest
 fi
 
-echo "==> Publish to npm"
+echo "==> Build arlas-wui library"
 rm -rf dist
 npm install
 npm run build-lib
 cd dist/arlas-wui
-if [ "${ARLAS_BETA}" == "true" ];
+echo "==> Publish to npm"
+if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
-    echo "  -- tagged as beta"
-    npm publish --tag=beta
+    echo "  -- tagged as ${STAGE}"
+    npm publish --tag=${STAGE}
 else 
     npm publish
 fi
@@ -170,7 +193,7 @@ echo "==> Clean local environment"
 npm cache clean --force
 rm -rf node_modules/
 
-if [ "${REF_BRANCH}" == "develop" ] && [ "${ARLAS_BETA}" == "false" ];
+if [ "${REF_BRANCH}" == "develop" ] && [ "${STAGE}" == "stable" ];
     then
     echo "==> Merge develop into master"
     git checkout master
