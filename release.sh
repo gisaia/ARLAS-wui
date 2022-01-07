@@ -22,6 +22,7 @@ usage(){
 	echo " --no-tests           do not run integration tests"
   echo " -s|--stage    Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
   echo " -i|--stage_iteration=n, the released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"	echo " -ref_branch | --reference_branch  from which branch to start the release."
+ 	echo " -ref_branch | --reference_branch  from which branch to start the release."
   echo "    Add -ref_branch=develop for a new official release"
   echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
