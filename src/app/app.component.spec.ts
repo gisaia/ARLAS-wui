@@ -1,4 +1,3 @@
-import { APP_BASE_HREF } from '@angular/common';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -17,30 +16,32 @@ import { APP_BASE_HREF } from '@angular/common';
  * specific language governing permissions and limitations
  * under the License.
  */
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule, MatChipsModule, MatIconModule,
-  MatInputModule, MatMenuModule, MatSelectModule,
-  MatTooltipModule, MatProgressBarModule, MatRadioModule
-} from '@angular/material';
-import { RouterModule } from '@angular/router';
 
-import { NgxMdModule } from 'ngx-md';
-import { HistogramModule, MapglModule, MapglImportModule, MapglSettingsModule } from 'arlas-web-components';
-import { ArlasToolKitModule, ArlasTaggerModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
+import { APP_BASE_HREF } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule } from 'arlas-web-components';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasStartupService
-} from 'arlas-wui-toolkit/services/startup/startup.service';
-
+  ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
+} from 'arlas-wui-toolkit';
 import { ArlasWuiComponent } from './app.component';
 import { routing } from './app.routes';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
-import { ContributorService } from './services/contributors.service';
-import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import { ContributorService } from './services/contributors.service';
 
 describe('AppComponent', () => {
   let component: ArlasWuiComponent;
@@ -52,7 +53,7 @@ describe('AppComponent', () => {
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
-        MatSelectModule, NgxMdModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
+        MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MapglModule,
         ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,

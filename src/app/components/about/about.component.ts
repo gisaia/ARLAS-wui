@@ -33,7 +33,7 @@ export class AboutComponent {
   @Input() public displayLink = false;
   public dialogRef: MatDialogRef<AboutDialogComponent>;
 
-  constructor(public dialog: MatDialog) { }
+  public constructor(public dialog: MatDialog) { }
 
   public openDialog() {
     this.dialogRef = this.dialog.open(AboutDialogComponent);
@@ -51,7 +51,7 @@ export class AboutDialogComponent {
 
   public pathToMd: string;
   public extraTextData: string;
-  constructor(public dialogRef: MatDialogRef<AboutDialogComponent>) {
+  public constructor(public dialogRef: MatDialogRef<AboutDialogComponent>) {
 
   }
 }

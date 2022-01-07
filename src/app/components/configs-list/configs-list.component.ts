@@ -17,11 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { PersistenceService } from 'arlas-wui-toolkit/services/persistence/persistence.service';
+import { Component, OnInit, Output } from '@angular/core';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
+import { ArlasColorGeneratorLoader, ArlasSettingsService, PersistenceService } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
@@ -44,7 +42,7 @@ export class ConfigsListComponent implements OnInit {
   public retrieveData = true;
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
-  constructor(
+  public constructor(
     private persistenceService: PersistenceService,
     private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
     private arlasSettingsService: ArlasSettingsService

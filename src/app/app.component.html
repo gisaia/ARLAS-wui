@@ -88,7 +88,7 @@
                   [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
                   [dropDownMapValues]="previewListContrib.dropDownMapValues"
                   [filtersMap]="previewListContrib.filtersMap" [highlightItems]="previewListContrib.highlightItems"
-                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="'150'" [defautMode]="1"
+                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="150" [defautMode]="1"
                   [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
@@ -120,7 +120,7 @@
                         [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
-                        [nbGridColumns]="3" [tableWidth]="'450'"
+                        [nbGridColumns]="3" [tableWidth]="450"
                         [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
                         [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
                         [fetchState]="list.fetchState"
@@ -185,7 +185,7 @@
             <div class="arlas-analytics--container" *ngIf="analyticsOpen && !arlasStartUpService.emptyMode">
               <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
                 [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
-                [showIndicators]="showIndicators" [diameterSpinner]="spinner.diameter" [colorSpinner]="spinner.color"
+                [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
  

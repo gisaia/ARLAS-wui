@@ -20,11 +20,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatInputModule, MatIconModule, MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMdModule } from 'ngx-md';
 import { ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
 import { AboutComponent } from './about.component';
+import { MarkdownModule } from 'ngx-markdown';
+
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -35,7 +39,8 @@ describe('AboutComponent', () => {
       imports: [
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, NgxMdModule, MatDialogModule, ArlasToolkitSharedModule
+        MatIconModule, MatDialogModule, ArlasToolkitSharedModule,
+        MarkdownModule
       ],
       declarations: [AboutComponent]
     }).compileComponents();

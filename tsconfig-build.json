@@ -1,7 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "outDir": "./dist/",
+        "outDir": "./dist/src/",
         "baseUrl": "src",
         "sourceMap": true,
         "declaration": true,
@@ -46,6 +46,7 @@
         "strictMetadataEmit": true,
         "annotateForClosureCompiler": false,
         "skipTemplateCodegen": true,
-        "fullTemplateTypeCheck": true
+        "fullTemplateTypeCheck": true,
+        "enableIvy": true
     }
 }

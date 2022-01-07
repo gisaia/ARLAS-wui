@@ -304,8 +304,12 @@
   /* 450px for list and 14px for margin left and right */
 }
 
+::ng-deep.bookmark-shortcut{
+  top: 30px !important;
+}
+
 .app-container-reduce ::ng-deep.bookmark-shortcut {
-  top: 35px;
+  top: 30px;
   right: 461px;
 }
 

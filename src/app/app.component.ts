@@ -18,17 +18,16 @@
  */
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  BasemapStyle, CellBackgroundStyleEnum, ChartType, DataType, GeoQuery, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, Position, SCROLLABLE_ARLAS_ID, SortEnum, Column
+  BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
-import { Item } from 'arlas-web-components/components/results/model/item';
-import { ResultDetailedItemComponent } from 'arlas-web-components/components/results/result-detailed-item/result-detailed-item.component';
-import { PageQuery } from 'arlas-web-components/components/results/utils/results.utils';
 import {
   AnalyticsContributor, ChipsSearchContributor,
   ElementIdentifier, FeatureRenderMode, HistogramContributor,
@@ -37,9 +36,8 @@ import {
 } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasStartupService, CollectionUnit
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
-import { TimelineComponent } from 'arlas-wui-toolkit/components/timeline/timeline/timeline.component';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -48,9 +46,6 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { ArlasSettingsService } from 'arlas-wui-toolkit/services/settings/arlas.settings.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -63,13 +58,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     action: {
       id: string;
       label: string;
-      collection: string,
+      collection: string;
       cssClass?: string | string[];
       tooltip?: string;
     };
     elementidentifier: ElementIdentifier;
   }>();
-  @Output() public actionOnList = new Subject<{ origin: string, event: string, data: any }>();
+  @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
 
   public modeEnum = ModeEnum;
@@ -79,7 +74,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
-  public sortOutput = new Map<string, { fieldName: string, sortDirection: SortEnum }>();
+  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; }>();
 
   public analytics: Array<any>;
   public refreshButton: any;
@@ -100,8 +95,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public fitbounds: Array<Array<number>> = [];
   public featureToHightLight: {
-    isleaving: boolean,
-    elementidentifier: ElementIdentifier
+    isleaving: boolean;
+    elementidentifier: ElementIdentifier;
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
   private allowMapExtend: boolean;
@@ -117,7 +112,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public analyticsOpen = true;
   public searchOpen = true;
 
-  public centerLatLng: { lat: number; lng: number } = { lat: 0, lng: 0 };
+  public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
   public listOpen = false;
@@ -126,7 +121,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public rightListContributors: Array<ResultListContributor> = new Array();
 
   /* Options */
-  public spinner: { show: boolean, diameter: string, color: string, strokeWidth: number }
+  public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
 
   public showZoomToData = false;
@@ -144,7 +139,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public layersVisibilityStatus: Map<string, boolean> = new Map();
   public mainMapContributor;
   public mainCollection;
-  public geojsondraw: { type: string, features: Array<any> } = {
+  public geojsondraw: { type: string; features: Array<any>; } = {
     'type': 'FeatureCollection',
     'features': []
   };
@@ -162,7 +157,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
 
-  constructor(
+  public constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
@@ -353,13 +348,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         });
     }
 
-    // tslint:disable-next-line:max-line-length
+
+    // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
-    // tslint:disable-next-line:max-line-length
+
+    // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
-    // tslint:disable-next-line:max-line-length
+
+    // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
-    // tslint:disable-next-line:max-line-length
+
+    // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
   }
 
@@ -402,7 +401,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.zoomChanged = true;
       }
       if (this.allowMapExtend) {
-        this.mapEventListener.next();
+        this.mapEventListener.next(null);
       }
     });
     // Keep the last displayed list as preview when closing the right panel
@@ -436,10 +435,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public setAppTitle() {
     const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
-      // tslint:disable-next-line:no-string-literal
       this.arlasSettingsService.settings['tab_name'] : '';
-    prefixTitle === '' ? this.titleService.setTitle(this.appName) :
-      this.titleService.setTitle(prefixTitle.concat(' - ').concat(this.appName));
+    this.titleService.setTitle(prefixTitle === '' ? this.appName :
+      prefixTitle.concat(' - ').concat(this.appName));
   }
 
   public updateVisibleItems() {
@@ -539,12 +537,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (!this.mapSettingsService.componentConfig) {
       this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
     }
-    const centroid_path = this.collectionToDescription.get(collection).centroid_path;
-    this.mapService.zoomToData(collection, centroid_path, this.mapglComponent.map, 0.2);
+    const centroidPath = this.collectionToDescription.get(collection).centroid_path;
+    this.mapService.zoomToData(collection, centroidPath, this.mapglComponent.map, 0.2);
   }
 
 
-  /**This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
+  /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
   public sortColumnEvent(contributorId: string, sortOutput: Column) {
     const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
     this.isGeoSortActivated.set(contributorId, false);
@@ -567,15 +565,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.mapglContributors
       .filter(c => c.collection === resultlistContributor.collection)
       .forEach(c => {
-      // Could have some problems if we put 2 lists with the same collection and different sort ?
-      c.searchSort = resultlistContributor.sort;
-      c.searchSize = resultlistContributor.getConfigValue('search_size');
-      /** Redraw features with setted sort in case of window mode */
-      /** Remove old features */
-      this.clearWindowData(c);
-      /** Set new features */
-      c.drawGeoSearch(0, true);
-    });
+        // Could have some problems if we put 2 lists with the same collection and different sort ?
+        c.searchSort = resultlistContributor.sort;
+        c.searchSize = resultlistContributor.getConfigValue('search_size');
+        /** Redraw features with setted sort in case of window mode */
+        /** Remove old features */
+        this.clearWindowData(c);
+        /** Set new features */
+        c.drawGeoSearch(0, true);
+      });
   }
 
   /**
@@ -615,7 +613,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.visualizeService.setMap(this.mapglComponent.map);
   }
 
-  public getBoardEvents(event: { origin: string, event: string, data: any }) {
+  public getBoardEvents(event: { origin: string; event: string; data?: any; }) {
     const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
     const currentCollection = resultListContributor.collection;
     const mapContributor: MapContributor = this.mapglContributors.filter(c => c.collection === currentCollection)[0];
@@ -831,7 +829,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             rowItem.itemDetailedData = detail;
             const popupContent = this.dynamicComponentService.injectComponent(
               ResultDetailedItemComponent,
-              x => { x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName; });
+              x => {
+                x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName;
+              });
             new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat(event.point)
               .setDOMContent(popupContent)

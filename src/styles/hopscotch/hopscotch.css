@@ -247,13 +247,10 @@ div.hopscotch-bubble .hopscotch-nav-button {
   height: 26px;
   line-height: 24px;
   font-size: 12px;
-  *zoom: 1;
   white-space: nowrap;
   display: -moz-inline-stack;
   display: inline-block;
-  *vertical-align: auto;
   zoom: 1;
-  *display: inline;
   vertical-align: middle;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -265,7 +262,6 @@ div.hopscotch-bubble .hopscotch-nav-button {
   box-sizing: border-box;
 }
 div.hopscotch-bubble .hopscotch-nav-button:hover {
-  *zoom: 1;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
