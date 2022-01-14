@@ -201,10 +201,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.units') : [];
       /** retrocompatibility code for unit*/
       const appUnit = this.configService.getValue('arlas-wui.web.app.unit');
-      if (appUnit) {
+      if (appUnit || this.appUnits.length === 0) {
         this.appUnits.push({
           collection: this.collaborativeService.defaultCollection,
-          unit: appUnit,
+          unit: !!appUnit ? appUnit : this.collaborativeService.defaultCollection,
           ignored: false
         });
       }
