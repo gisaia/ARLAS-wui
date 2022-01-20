@@ -443,13 +443,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public updateVisibleItems() {
     const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
     setTimeout(() => {
-      const visibleItems = this.previewListContrib.data.map(i => i.get(idFieldName).toString())
-        .filter(i => this.isElementInViewport(document.getElementById(i)));
+      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
+        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
       this.updateMapStyle(visibleItems, this.previewListContrib.collection);
     }, 500);
   }
 
-  public updateMapStyle(ids: Array<string>, collection: string) {
+  public updateMapStyle(ids: Array<string | number>, collection: string) {
     // use always this.previewListContrib because it's the current resultlist contributor
     if (!!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
@@ -491,8 +491,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (this.collectionToDescription.size > 0) {
       const idFieldName = this.collectionToDescription.get(collection).id_path;
       setTimeout(() => {
-        const visibleItems = items.map(item => item.get(idFieldName).toString())
-          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id)));
+        const visibleItems = items.map(item => item.get(idFieldName))
+          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id.toString())));
         this.updateMapStyle(visibleItems, collection);
       }, 200);
     }
