@@ -382,17 +382,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
     }
-    this.mapglComponent.onMapLoaded.subscribe(isLoaded => {
-      /** wait until the map component loading is finished before fetching the data */
-      if (isLoaded && !this.arlasStartUpService.emptyMode) {
-        this.mapglContributors.forEach(mapglContributor => {
-          mapglContributor.updateData = true;
-          mapglContributor.fetchData(null);
-          mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
-        });
-      }
-
-    });
     this.mapglComponent.map.on('movestart', (e) => {
       this.zoomStart = this.mapglComponent.map.getZoom();
     });
@@ -431,6 +420,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
     this.cdr.detectChanges();
+  }
+
+  public onMapLoaded(isLoaded: boolean): void {
+    /** wait until the map component loading is finished before fetching the data */
+    if (isLoaded && !this.arlasStartUpService.emptyMode) {
+      this.mapglContributors.forEach(mapglContributor => {
+        mapglContributor.updateData = true;
+        mapglContributor.fetchData(null);
+        mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
+      });
+    }
   }
 
   public setAppTitle() {
