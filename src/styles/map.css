@@ -28,7 +28,7 @@
   position: absolute;
   right: 0;
   bottom: calc(100vh - 20px) !important;
-  width: 235px;
+  width: 240px;
 }
 
 .mapboxgl-ctrl-top-right {
