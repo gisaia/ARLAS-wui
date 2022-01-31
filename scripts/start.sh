@@ -104,14 +104,6 @@ else
   echo ${ARLAS_TAGGER_URL} "is used for 'arlas.tagger.url'"
 fi
 
-if [ -z "${ARLAS_PERSISTENCE_URL}" ]; then
-  ARLAS_PERSISTENCE_URL="http://localhost:9997"
-  export ARLAS_PERSISTENCE_URL
-  echo "The default ARLAS-persistence url '${ARLAS_PERSISTENCE_URL}' is used"
-else
-  echo ${ARLAS_PERSISTENCE_URL} "is used for 'arlas.persistence-server.url'"
-fi
-
 if [ -z "${ARLAS_MAP_STYLE}" ]; then
   ARLAS_MAP_STYLE="http://demo.arlas.io:82/styles/positron/style.json"
   export ARLAS_MAP_STYLE
