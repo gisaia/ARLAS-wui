@@ -1,8 +1,44 @@
 # Change Log
 
+## [v20.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0) (2022-02-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.3...v20.0.0)
+
+**New stuff:**
+
+- Add possibility to exclude selection from filter in powerbars widgets [\#421](https://github.com/gisaia/ARLAS-wui/issues/421)
+
+**Fixed bugs:**
+
+- Issue with embarked config.json file [\#424](https://github.com/gisaia/ARLAS-wui/issues/424)
+- Export CSV button is not well positionned in the analytics board [\#377](https://github.com/gisaia/ARLAS-wui/issues/377)
+- Widgets are not loaded in the analytics board [\#374](https://github.com/gisaia/ARLAS-wui/issues/374)
+
+## [v19.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.3) (2022-01-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-rc.1...v19.2.3)
+
+**Fixed bugs:**
+
+- Count does not show for dashboards created with 19.1.0 and displayed in 19.2.0 [\#413](https://github.com/gisaia/ARLAS-wui/issues/413)
+- Interpolation of colors of a layer according to timestamp doesn't work [\#410](https://github.com/gisaia/ARLAS-wui/issues/410)
+- Basmap credits are not visible correctly [\#405](https://github.com/gisaia/ARLAS-wui/issues/405)
+- Scrolling data in resultlist may fetch duplicated raws [\#378](https://github.com/gisaia/ARLAS-wui/issues/378)
+- Features and Legend of layers colored with the `manual` option don't render correctly when having negative values [\#371](https://github.com/gisaia/ARLAS-wui/issues/371)
+- Scrollable layers style is not set correctly at app initialisation [\#369](https://github.com/gisaia/ARLAS-wui/issues/369)
+- List loads 'precedent' data that already exists [\#358](https://github.com/gisaia/ARLAS-wui/issues/358)
+
+**Miscellaneous:**
+
+- Use the mapComponent outputs directly in the html [\#134](https://github.com/gisaia/ARLAS-wui/issues/134)
+
 ## [v20.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-rc.1) (2022-01-07)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-beta.15...v20.0.0-rc.1)
+
+**Miscellaneous:**
+
+- Migrate to Angular 13 [\#415](https://github.com/gisaia/ARLAS-wui/issues/415)
 
 ## [v20.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-beta.15) (2022-01-03)
 
