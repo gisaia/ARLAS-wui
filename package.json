@@ -30,9 +30,8 @@
     "zone.js": "^0.11.4"
   },
   "dependencies": {
-    "@gisaia-team/ng-pick-datetime": "9.0.0-beta.3",
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "20.0.0-rc.2",
+    "arlas-wui-toolkit": "20.0.1",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^13.1.2",
     "ngx-markdown": "13.0.0",
