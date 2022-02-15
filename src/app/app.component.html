@@ -44,9 +44,14 @@
                   <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
                 </div>
                 <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
-                  matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
-                  <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
-                </div>
+                matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
+                <mat-icon  (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
+              </div>
+                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+                matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
+                <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
+              </div>
+
               </div>
             </div>
             <div class="arlas-map">

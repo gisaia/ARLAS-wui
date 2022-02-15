@@ -5,6 +5,7 @@
 	"Draw a polygon": "Dessiner un polygone",
 	"Import polygon": "Importer un polygone",
 	"Remove drawings": "Effacer les polygones et bbox",
+	"Edit drawings": "Editer les polygones et bbox",
 	"Toggle search": "Afficher/Masquer la barre de recherche",
 	"Refresh components": "Rafraîchir les composants",
 	"Toggle analytics board": "Afficher/Masquer les widgets",
