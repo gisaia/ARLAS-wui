@@ -147,6 +147,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
+  public popup: mapboxgl.Popup;
 
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
@@ -832,10 +833,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               x => {
                 x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName;
               });
-            new mapboxgl.Popup({ closeOnClick: false })
+            if (!!this.popup) {
+              this.popup.remove();
+            }
+            this.popup = new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat(event.point)
-              .setDOMContent(popupContent)
-              .addTo(this.mapglComponent.map);
+              .setDOMContent(popupContent);
+            this.popup.addTo(this.mapglComponent.map);
           }
         );
       }
