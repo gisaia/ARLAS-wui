@@ -1,5 +1,20 @@
 # Change Log
 
+## [v20.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.0) (2022-02-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0...v20.1.0)
+
+**New stuff:**
+
+- Add possibility to scroll in powerbars widgets [\#422](https://github.com/gisaia/ARLAS-wui/issues/422)
+- Make powerbars scrollable [\#398](https://github.com/gisaia/ARLAS-wui/issues/398)
+
+**Fixed bugs:**
+
+- Resultlists with small initial page size are not scrollable [\#408](https://github.com/gisaia/ARLAS-wui/issues/408)
+- Aggegated data don't load east the Behring detroit [\#379](https://github.com/gisaia/ARLAS-wui/issues/379)
+- Hovering items on the list doesn't highlight features on the map [\#370](https://github.com/gisaia/ARLAS-wui/issues/370)
+
 ## [v20.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0) (2022-02-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.3...v20.0.0)
