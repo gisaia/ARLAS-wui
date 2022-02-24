@@ -1,0 +1,45 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    name: Lint, Test, Build & Docker build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: |
+          export NODE_OPTIONS=--max_old_space_size=8192;
+          npm install
+          npm rebuild node-sass
+          npm run build
+          npm run build-lib
+      - name: Docker build
+        run: |
+          export NODE_OPTIONS=--max_old_space_size=8192;
+          docker build --no-cache .
+      #- name: i18n
+      #  run: ./checki18n.sh
