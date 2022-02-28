@@ -78,7 +78,7 @@
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)" [offset]="offset">
               </arlas-mapgl>
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle" 
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen" [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
                   (click)="toggleList()">
@@ -99,7 +99,7 @@
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
-                  
+
                   (thumbnailFitEvent)="resultListConfigPerContId.get(previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
                   (onChangeItems)="updateMapStyleFromChange($event, previewListContrib.collection)"
@@ -180,7 +180,7 @@
                 (click)="toggleAnalytics()" matTooltip="{{'Toggle analytics board' | translate}}">
                 <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
                 <mat-icon>poll</mat-icon>
-                
+
               </mat-basic-chip>
             </div>
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
@@ -194,7 +194,7 @@
                 [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
- 
+
               <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
                 [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
                 [detailedTimelineComponent]="detailedTimelineComponentConfig">
