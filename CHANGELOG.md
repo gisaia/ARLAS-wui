@@ -1,5 +1,99 @@
 # Change Log
 
+## [v19.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.2) (2022-02-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.1.0...v19.1.2)
+
+**New stuff:**
+
+- Add the possibility to exclude a bar in powerbars [\#396](https://github.com/gisaia/ARLAS-wui/issues/396)
+
+**Fixed bugs:**
+
+- bboxes prevent from showing detail of a feature when clicking on it [\#373](https://github.com/gisaia/ARLAS-wui/issues/373)
+
+## [v20.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.0) (2022-02-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0...v20.1.0)
+
+**New stuff:**
+
+- Add possibility to scroll in powerbars widgets [\#422](https://github.com/gisaia/ARLAS-wui/issues/422)
+- Make powerbars scrollable [\#398](https://github.com/gisaia/ARLAS-wui/issues/398)
+
+**Fixed bugs:**
+
+- Resultlists with small initial page size are not scrollable [\#408](https://github.com/gisaia/ARLAS-wui/issues/408)
+- Aggegated data don't load east the Behring detroit [\#379](https://github.com/gisaia/ARLAS-wui/issues/379)
+- Hovering items on the list doesn't highlight features on the map [\#370](https://github.com/gisaia/ARLAS-wui/issues/370)
+
+## [v20.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0) (2022-02-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.3...v20.0.0)
+
+**New stuff:**
+
+- Add possibility to exclude selection from filter in powerbars widgets [\#421](https://github.com/gisaia/ARLAS-wui/issues/421)
+
+**Fixed bugs:**
+
+- Issue with embarked config.json file [\#424](https://github.com/gisaia/ARLAS-wui/issues/424)
+- Export CSV button is not well positionned in the analytics board [\#377](https://github.com/gisaia/ARLAS-wui/issues/377)
+- Widgets are not loaded in the analytics board [\#374](https://github.com/gisaia/ARLAS-wui/issues/374)
+
+## [v19.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.3) (2022-01-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-rc.1...v19.2.3)
+
+**Fixed bugs:**
+
+- Count does not show for dashboards created with 19.1.0 and displayed in 19.2.0 [\#413](https://github.com/gisaia/ARLAS-wui/issues/413)
+- Interpolation of colors of a layer according to timestamp doesn't work [\#410](https://github.com/gisaia/ARLAS-wui/issues/410)
+- Basmap credits are not visible correctly [\#405](https://github.com/gisaia/ARLAS-wui/issues/405)
+- Scrolling data in resultlist may fetch duplicated raws [\#378](https://github.com/gisaia/ARLAS-wui/issues/378)
+- Features and Legend of layers colored with the `manual` option don't render correctly when having negative values [\#371](https://github.com/gisaia/ARLAS-wui/issues/371)
+- Scrollable layers style is not set correctly at app initialisation [\#369](https://github.com/gisaia/ARLAS-wui/issues/369)
+- List loads 'precedent' data that already exists [\#358](https://github.com/gisaia/ARLAS-wui/issues/358)
+
+**Miscellaneous:**
+
+- Use the mapComponent outputs directly in the html [\#134](https://github.com/gisaia/ARLAS-wui/issues/134)
+
+## [v20.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-rc.1) (2022-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-beta.15...v20.0.0-rc.1)
+
+**Miscellaneous:**
+
+- Migrate to Angular 13 [\#415](https://github.com/gisaia/ARLAS-wui/issues/415)
+
+## [v20.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-beta.15) (2022-01-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.2...v20.0.0-beta.15)
+
+## [v19.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.2) (2021-12-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.1...v19.2.2)
+
+## [v19.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.1) (2021-12-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.0...v19.2.1)
+
+## [v19.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.0) (2021-12-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.1...v19.2.0)
+
+**New stuff:**
+
+- Display the count of all decalred collections in collaborations [\#352](https://github.com/gisaia/ARLAS-wui/issues/352)
+- Apply the ZoomTo feature by collection [\#351](https://github.com/gisaia/ARLAS-wui/issues/351)
+
+**Fixed bugs:**
+
+- Chosen sort field disappear from the list after hiding and redesplaying it [\#357](https://github.com/gisaia/ARLAS-wui/issues/357)
+- Map tooltip keeps an 'close' icon after hiding it [\#350](https://github.com/gisaia/ARLAS-wui/issues/350)
+- Interaction of the list on linestring on map doesn't work [\#349](https://github.com/gisaia/ARLAS-wui/issues/349)
+
 ## [v19.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.1) (2021-10-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.6...v19.1.1)
