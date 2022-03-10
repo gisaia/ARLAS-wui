@@ -44,13 +44,13 @@
                   <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
                 </div>
                 <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
-                matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
-                <mat-icon  (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
-              </div>
+                  matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
+                  <mat-icon (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
+                </div>
                 <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
-                matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
-                <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
-              </div>
+                  matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
+                  <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
+                </div>
 
               </div>
             </div>
@@ -73,13 +73,13 @@
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
-                (onBasemapChanged)="reloadMapImages()"
-                (onMapLoaded)="onMapLoaded($event)"
+                (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)" [offset]="offset">
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
-                [class.side-result-list-toggle-open]="listOpen" [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
+                [class.side-result-list-toggle-open]="listOpen"
+                [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
                   (click)="toggleList()">
                   <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
@@ -99,7 +99,6 @@
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
                   [displayFilters]="false"
-
                   (thumbnailFitEvent)="resultListConfigPerContId.get(previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
                   (onChangeItems)="updateMapStyleFromChange($event, previewListContrib.collection)"
@@ -119,11 +118,23 @@
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1"
                 [class.side-result-list-open]="listOpen">
-                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList>
-                  <mat-tab *ngFor="let list of rightListContributors" [label]="$any(list).name">
+                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
+                  <mat-tab *ngFor="let list of rightListContributors">
+                    <ng-template mat-tab-label>
+                      <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
+                      [matTooltip]="list.name"
+                      [matTooltipDisabled]="resultListConfigPerContId.get(list.identifier)?.options?.showName
+                      && resultListConfigPerContId.get(list.identifier)?.options?.showIcon">
+                        {{resultListConfigPerContId.get(list.identifier)?.options?.icon}}
+                      </mat-icon>
+                      <span class="name"
+                        *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showName === undefined || resultListConfigPerContId.get(list.identifier)?.options?.showName">
+                        {{list.name | translate}}
+                      </span>
+                    </ng-template>
                     <div class="left_resultlist_wrapper">
-                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data" [fieldsList]="list.fieldsList"
-                        [detailedDataRetriever]="list.detailedDataRetriever"
+                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
+                        [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
                         [nbGridColumns]="3" [tableWidth]="450"
@@ -176,15 +187,16 @@
                 matTooltip="{{'Refresh components' | translate}}">
                 <mat-icon>refresh</mat-icon>
               </span>
-              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics"
-                (click)="toggleAnalytics()" matTooltip="{{'Toggle analytics board' | translate}}">
+              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics()"
+                matTooltip="{{'Toggle analytics board' | translate}}">
                 <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
                 <mat-icon>poll</mat-icon>
 
               </mat-basic-chip>
             </div>
             <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
-              <arlas-filter [title]="appName" [collectionToDescription]="collectionToDescription" [backgroundColor]="appNameBackgroundColor" [units]="appUnits" (zoomEvent)="zoomToData($event)">
+              <arlas-filter [title]="appName" [collectionToDescription]="collectionToDescription"
+                [backgroundColor]="appNameBackgroundColor" [units]="appUnits" (zoomEvent)="zoomToData($event)">
               </arlas-filter>
             </div>
 
@@ -195,10 +207,10 @@
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
 
-              <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
-                [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-                [detailedTimelineComponent]="detailedTimelineComponentConfig">
-              </arlas-timeline>
+            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+              [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+              [detailedTimelineComponent]="detailedTimelineComponentConfig">
+            </arlas-timeline>
 
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
