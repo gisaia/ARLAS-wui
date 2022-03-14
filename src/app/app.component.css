@@ -56,9 +56,11 @@
 .side-result-list-toggle-open {
   right: 450px;
 }
+
 .side-result-list-toggle-open-no-grid {
   right: 0px;
 }
+
 .side-result-list-icon {
   background-color: white;
   height: 36px;
@@ -304,7 +306,7 @@
   /* 450px for list and 14px for margin left and right */
 }
 
-::ng-deep.bookmark-shortcut{
+::ng-deep.bookmark-shortcut {
   top: 30px !important;
 }
 
@@ -324,4 +326,23 @@
 
 .app-container-with-list ::ng-deep.bookmark-shortcut {
   right: 161px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label{
+  min-width: 60px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0 10px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content .icon {
+  flex: 1;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content .name {
+  flex: 5;
 }
