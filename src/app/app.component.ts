@@ -214,6 +214,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
+      const queryParamVisibleVisualisations  = this.getParamValue('vs');
+      if (queryParamVisibleVisualisations) {
+        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
+        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+      }
       this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists') ?
         this.configService.getValue('arlas.web.components.resultlists') : [];
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
@@ -720,7 +725,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       const ratioToAutoSort = 0.1;
@@ -778,6 +785,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public changeVisualisation(event) {
     this.mapglContributors.forEach(contrib => contrib.changeVisualisation(event));
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+    queryParams['vs'] = visibileVisus;
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
 
