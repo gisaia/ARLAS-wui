@@ -214,6 +214,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
+      const queryParamVisibleVisualisations  = this.getParamValue('vs');
+      if (queryParamVisibleVisualisations) {
+        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
+        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+      }
       this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists') ?
         this.configService.getValue('arlas.web.components.resultlists') : [];
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
