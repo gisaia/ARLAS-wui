@@ -249,7 +249,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
 
       const analyticOpenString = this.getParamValue('ao');
-      if (analyticOpenString) {
+      if (!!analyticOpenString) {
         this.analyticsOpen = (analyticOpenString === 'true');
       }
       const resultlistOpenString = this.getParamValue('ro');
@@ -904,10 +904,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   private adjustGrids() {
-    this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
     if (!this.listOpen) {
       const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
+    } else {
+      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
     }
   }
   private adjustTimelineSize() {
