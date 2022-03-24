@@ -74,7 +74,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
-  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; }>();
+  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
 
   public analytics: Array<any>;
   public refreshButton: any;
@@ -278,6 +278,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
           .map(rlcontrib => {
             (rlcontrib as any).name = rlcontrib.getName();
+            const sortColumn = rlcontrib.fieldsList.find( c => !!(c as any).sort && (c as any).sort !== '');
+            if( !!sortColumn) {
+              this.sortOutput.set(rlcontrib.identifier, {
+                columnName: sortColumn.columnName,
+                fieldName: sortColumn.fieldName,
+                sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
+              });
+            }
             return rlcontrib;
           });
 
