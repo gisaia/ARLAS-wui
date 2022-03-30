@@ -26,6 +26,8 @@ authentication:
   storage: ${ARLAS_AUTHENT_STORAGE}
   disable_at_hash_check: ${ARLAS_AUTHENT_DISABLE_AT_HASH_CHECK}
   dummy_client_secret: ${ARLAS_AUTHENT_DUMMY_CLIENT_SECRET}
+  custom_query_params: ${ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS}
+
 persistence:
   url: ${ARLAS_PERSISTENCE_URL}
 arlas_hub_url: ${ARLAS_HUB_URL}
