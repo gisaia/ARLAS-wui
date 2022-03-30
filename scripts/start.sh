@@ -423,6 +423,18 @@ fi
 envsubst '$ARLAS_AUTHENT_DUMMY_CLIENT_SECRET' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+### ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS
+if [ -z "${ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS}" ]; then
+  ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS="[]"
+  export ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS
+  echo "None Authentication custom query params is defined"
+else
+  echo ${ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS} "is used for 'authentication.custom_query_params' in settings.yaml file"
+fi
+envsubst '$ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
 ### Array of statics links
 if [ -z "${ARLAS_STATIC_LINKS}" ]; then
   ARLAS_STATIC_LINKS="[]"
