@@ -1,5 +1,13 @@
 # Change Log
 
+## [v21.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0) (2022-04-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.5...v21.0.0)
+
+**New stuff:**
+
+- Encode the visible layers and selected tabs in url [\#403](https://github.com/gisaia/ARLAS-wui/issues/403)
+
 ## [v21.0.0-beta.5](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.5) (2022-03-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.4...v21.0.0-beta.5)
