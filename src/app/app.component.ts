@@ -164,8 +164,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private contributorService: ContributorService,
     public arlasStartUpService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -177,7 +175,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
     private translate: TranslateService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.menuState = {
       configs: false
@@ -214,11 +214,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      const queryParamVisibleVisualisations  = this.getParamValue('vs');
-      if (queryParamVisibleVisualisations) {
-        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
-        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
-      }
       this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists') ?
         this.configService.getValue('arlas.web.components.resultlists') : [];
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
@@ -334,7 +329,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
         if (previewListContrib) {
           this.previewListContrib = previewListContrib;
-          // this.selectedListTabIndex = this.rightListContributors.indexOf(previewListContrib);
         } else {
           this.previewListContrib = this.rightListContributors[0];
         }
