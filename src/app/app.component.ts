@@ -164,8 +164,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private contributorService: ContributorService,
     public arlasStartUpService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -177,7 +175,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
     private translate: TranslateService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.menuState = {
       configs: false
@@ -239,6 +239,22 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
+      }
+
+      /** init from url */
+      const queryParamVisibleVisualisations = this.getParamValue('vs');
+      if (queryParamVisibleVisualisations) {
+        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
+        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+      }
+
+      const analyticOpenString = this.getParamValue('ao');
+      if (!!analyticOpenString) {
+        this.analyticsOpen = (analyticOpenString === 'true');
+      }
+      const resultlistOpenString = this.getParamValue('ro');
+      if (resultlistOpenString) {
+        this.listOpen = (resultlistOpenString === 'true');
       }
     } else {
       this.defaultBaseMap = {
@@ -309,7 +325,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             }
           }
         });
-        this.previewListContrib = this.rightListContributors[0];
+        const selectedResultlistTab = this.getParamValue('rt');
+        const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
+        if (previewListContrib) {
+          this.previewListContrib = previewListContrib;
+        } else {
+          this.previewListContrib = this.rightListContributors[0];
+        }
       }
       this.actionOnPopup.subscribe(data => {
         const collection = data.action.collection;
@@ -402,12 +424,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapEventListener.next(null);
       }
     });
+    this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel
     if (!!this.tabsList) {
       this.tabsList.selectedIndexChange.subscribe(index => {
         this.previewListContrib = this.resultlistContributors[index];
+
         this.updateVisibleItems();
+        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+        queryParams['rt'] = this.previewListContrib.getName();
+        this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       });
+      this.adjustGrids();
+      this.adjustTimelineSize();
     }
 
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
@@ -606,6 +635,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
     this.listOpen = !this.listOpen;
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['ro'] = this.listOpen + '';
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
@@ -720,7 +752,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       const ratioToAutoSort = 0.1;
@@ -778,6 +812,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public changeVisualisation(event) {
     this.mapglContributors.forEach(contrib => contrib.changeVisualisation(event));
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+    queryParams['vs'] = visibileVisus;
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
 
@@ -857,10 +895,22 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['ro'] = this.listOpen + '';
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.adjustGrids();
+    this.adjustTimelineSize();
+  }
+
+  private adjustGrids() {
     if (!this.listOpen) {
       const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
+    } else {
+      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
     }
+  }
+  private adjustTimelineSize() {
     setTimeout(() => {
       this.timelineComponent.timelineHistogramComponent.resizeHistogram();
       if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
@@ -874,6 +924,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public toggleAnalytics() {
     this.analyticsOpen = !this.analyticsOpen;
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['ao'] = this.analyticsOpen + '';
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.adjustMapOffset();
+  }
+
+  private adjustMapOffset() {
     if (this.analyticsOpen) {
       this.offset.west = 465;
     } else {
