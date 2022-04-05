@@ -164,8 +164,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private contributorService: ContributorService,
     public arlasStartUpService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -177,7 +175,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
     private translate: TranslateService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.menuState = {
       configs: false
@@ -329,7 +329,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
         if (previewListContrib) {
           this.previewListContrib = previewListContrib;
-          // this.selectedListTabIndex = this.rightListContributors.indexOf(previewListContrib);
         } else {
           this.previewListContrib = this.rightListContributors[0];
         }
