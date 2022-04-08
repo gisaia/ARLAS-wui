@@ -16,42 +16,43 @@
           <div class="app-container" [class.app-container-reduce]="listOpen"
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
-            <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
-              <div class="arlas-map-settings-container">
-                <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
-                  matTooltip="{{'Map Settings' | translate}}" matTooltipPosition="below">
-                  <mat-icon (click)="openMapSettings()">search</mat-icon>
+
+            <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" (mouseleave)="isMapMenuOpen = false">
+              <div class="arlas-map-settings-container" >
+                <div class="arlas-map-settings-items" style="padding:4px 3px 3px 4px" [matTooltipPosition]="'left'"
+                  matTooltip="{{'Map Settings' | translate}}">
+                  <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
+                </div>
+                <div class="arlas-map-settings-items" style="border-top: 1px solid #ddd;" [matTooltipPosition]="'left'"
+                  matTooltip="{{'Basemaps' | translate}}" >
+                  <mat-icon style="width:22px;height:22px" (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+                </div>
+                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below"
+                  class="arlas-map-settings-items" style="border-top: 1px solid #ddd;padding-top:1px;">
+                  <mat-icon (mouseenter)="isMapMenuOpen = true">image_search</mat-icon>
                 </div>
               </div>
-            </div>
-            <div id="arlas-map-action" class="arlas-map-action" (mouseleave)="isMapMenuOpen = false"
-              *ngIf="!arlasStartUpService.emptyMode">
-              <div class="arlas-map-action-container">
-                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below"
-                  class="arlas-map-action-items">
-                  <mat-icon (mouseenter)="isMapMenuOpen = true">map</mat-icon>
-                </div>
-                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+              <div class="arlas-map-action-container" *ngIf="isMapMenuOpen">
+                <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
                 </div>
-                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+                <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
                 </div>
-                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+                <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
                 </div>
-                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+                <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
                   <mat-icon (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
                 </div>
-                <div *ngIf="isMapMenuOpen" class="arlas-map-action-items" [matTooltipPosition]="'left'"
+                <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
                 </div>
-
               </div>
             </div>
             <div class="arlas-map">
