@@ -56,6 +56,7 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { ResultlistsComponent } from './components/resultlists/resultlists.component';
 
 @NgModule({
   declarations: [
@@ -63,14 +64,16 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ResultlistsComponent
   ],
   exports: [
     AboutComponent,
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ResultlistsComponent
   ],
   imports: [
     BrowserModule,

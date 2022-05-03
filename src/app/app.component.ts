@@ -148,6 +148,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public zoomChanged = false;
   public zoomStart: number;
   public popup: mapboxgl.Popup;
+  @Input() public hiddenAnalyticsTabs: string[] = [];
+  @Input() public hiddenResultlistTabs: string[] = [];
 
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
@@ -214,15 +216,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      this.resultListsConfig = this.configService.getValue('arlas.web.components.resultlists') ?
-        this.configService.getValue('arlas.web.components.resultlists') : [];
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
       this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
-      this.analytics = this.configService.getValue('arlas.web.analytics');
+
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
@@ -268,6 +268,21 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.setAppTitle();
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
+      /** Retrieve displayable analytics */
+      const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
+      const allAnalytics = this.configService.getValue('arlas.web.analytics');
+      this.analytics = !!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : [];
+      /** Retrieve displayable resultlists */
+      const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
+      const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
+      const allContributors= this.configService.getValue('arlas.web.contributors');
+      this.resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
+        const contId = a.contributorId;
+        const tab = allContributors.find(c => c.identifier === contId).name;
+        console.log(tab);
+        return !hiddenListsTabsSet.has(tab);
+      }) : [];
+      /** Prepare map data */
       this.mapglContributors = this.contributorService.getMapContributors();
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
@@ -333,6 +348,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           this.previewListContrib = this.rightListContributors[0];
         }
       }
+
       this.actionOnPopup.subscribe(data => {
         const collection = data.action.collection;
         const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
@@ -391,6 +407,51 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
     // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
+  }
+
+  public onListsLoaded(resultListContributors: ResultListContributor[]): void {
+    this.resultlistContributors = resultListContributors;
+    this.rightListContributors = this.resultlistContributors
+      .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
+      .map(rlcontrib => {
+        (rlcontrib as any).name = rlcontrib.getName();
+        const sortColumn = rlcontrib.fieldsList.find( c => !!(c as any).sort && (c as any).sort !== '');
+        if( !!sortColumn) {
+          this.sortOutput.set(rlcontrib.identifier, {
+            columnName: sortColumn.columnName,
+            fieldName: sortColumn.fieldName,
+            sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
+          });
+        }
+        return rlcontrib;
+      });
+    this.resultlistContributors.forEach(c => {
+      const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
+      if (!!mapcontributor) {
+        c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+      }
+      if (!!this.resultListConfigPerContId.get(c.identifier)) {
+        if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
+          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+        }
+        if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
+          c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+        }
+      }
+    });
+    const selectedResultlistTab = this.getParamValue('rt');
+    const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
+    if (previewListContrib) {
+      this.previewListContrib = previewListContrib;
+    } else {
+      this.previewListContrib = this.rightListContributors[0];
+    }
+    this.actionOnPopup.subscribe(data => {
+      const collection = data.action.collection;
+      const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
+      const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
+      this.actionOnItemEvent(data, mapContributor, listContributor, collection);
+    });
   }
 
   public isElementInViewport(el) {
