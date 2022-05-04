@@ -299,8 +299,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }));
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
+      const ids = new Set(this.resultListsConfig.map(c => c.contributorId));
       this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
         if (v instanceof ResultListContributor) {
+          v.updateData = ids.has(v.identifier);
           this.resultlistContributors.push(v);
         }
       });
@@ -491,13 +493,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.tabsList.selectedIndexChange.subscribe(index => {
         this.previewListContrib = this.resultlistContributors[index];
 
-        this.updateVisibleItems();
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
         queryParams['rt'] = this.previewListContrib.getName();
         this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+        this.adjustGrids();
+        this.adjustTimelineSize();
       });
-      this.adjustGrids();
-      this.adjustTimelineSize();
     }
 
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
@@ -750,7 +751,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           });
           this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
         } else {
-          this.mapglComponent.selectFeaturesByCollection([], currentCollection);
+          if (!!this.mapglComponent) {
+            this.mapglComponent.selectFeaturesByCollection([], currentCollection);
+          }
         }
         break;
       case 'actionOnItemEvent':
