@@ -136,7 +136,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapVisibilityUpdater;
   /** Visibility status of layers on the map */
   public layersVisibilityStatus: Map<string, boolean> = new Map();
-  public mainMapContributor;
+  public mainMapContributor: MapContributor;
   public mainCollection;
   public geojsondraw: { type: string; features: Array<any>; } = {
     'type': 'FeatureCollection',
@@ -213,7 +213,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       /** end of retrocompatibility code */
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
-      this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics');
+      this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
@@ -560,8 +560,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public openMapSettings(): void {
-    this.mapSettingsService.mapContributor = this.mainMapContributor;
-    this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
+    this.mapSettingsService.mapContributors = this.mapglContributors;
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
@@ -571,10 +570,24 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   /**
    * Applies the selected geo query
    */
-  public applySelectedGeoQuery(geoQuery: GeoQuery) {
-    this.mainMapContributor.setGeoQueryOperation(geoQuery.operation);
-    this.mainMapContributor.setGeoQueryField(geoQuery.geometry_path);
-    this.mainMapContributor.onChangeGeoQuery();
+  public applySelectedGeoQuery(geoQueries: Map<string, GeoQuery>) {
+    const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
+    const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
+    const changedMapContributors = this.mapglContributors.filter(mc => !!geoQueries.has(mc.collection));
+    for (let i = 0; i < changedMapContributors.length; i++) {
+      setTimeout(() => {
+        const collection = changedMapContributors[i].collection;
+        const geoQuery = geoQueries.get(collection);
+        changedMapContributors[i].setGeoQueryOperation(geoQuery.operation);
+        changedMapContributors[i].setGeoQueryField(geoQuery.geometry_path);
+        changedMapContributors[i].onChangeGeoQuery();
+        this.snackbar.open(this.translate.instant('Updating Geo-query of') + ' ' + changedMapContributors[i].collection);
+        if (i === changedMapContributors.length - 1) {
+          setTimeout(() => this.snackbar.dismiss(), 1000);
+        }
+
+      }, (i) * (debounceDuration * 1.5));
+    }
 
   }
 
@@ -588,11 +601,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public zoomToData(collection: string): void {
-    if (!this.mapSettingsService.mapContributor) {
-      this.mapSettingsService.mapContributor = this.mainMapContributor;
-    }
-    if (!this.mapSettingsService.componentConfig) {
-      this.mapSettingsService.componentConfig = this.configService.getValue('arlas.web.components');
+    if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
+      this.mapSettingsService.mapContributors = this.mapglContributors;
     }
     const centroidPath = this.collectionToDescription.get(collection).centroid_path;
     this.mapService.zoomToData(collection, centroidPath, this.mapglComponent.map, 0.2);
