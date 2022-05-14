@@ -165,13 +165,7 @@ button:focus {
   left: calc(50vw - 100px) !important;
 }
 
-.mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch {
-  display: none;
-}
 
-.mapboxgl-ctrl-group-layersswitcher {
-  visibility: hidden;
-}
 
 .arlas-analytics--container .arlas-metric-container {
   display: flex;
