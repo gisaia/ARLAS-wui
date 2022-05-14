@@ -110,6 +110,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public menuState: MenuState;
   public analyticsOpen = true;
   public searchOpen = true;
+  public mapId = 'mapgl';
 
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };

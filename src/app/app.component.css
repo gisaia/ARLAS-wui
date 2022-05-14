@@ -35,11 +35,11 @@
   height: 100%;
 }
 
-.app-container-reduce ::ng-deep#mapgl {
+.app-container-reduce ::ng-deep.map_container {
   width: calc(100% - 450px);
 }
 
-.app-container-with-list ::ng-deep#mapgl {
+.app-container-with-list ::ng-deep.map_container {
   width: calc(100% - 150px);
 }
 
@@ -254,7 +254,7 @@
 }
 
 .app-container-reduce .arlas-map-settings {
-  right: 457px;
+  right: 487px;
 }
 
 .app-container-with-list .arlas-map-settings {
