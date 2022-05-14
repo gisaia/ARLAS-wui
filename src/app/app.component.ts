@@ -70,7 +70,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
-  public timelineContributor: HistogramContributor;
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
@@ -279,7 +278,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
         const contId = a.contributorId;
         const tab = allContributors.find(c => c.identifier === contId).name;
-        console.log(tab);
         return !hiddenListsTabsSet.has(tab);
       }) : [];
       /** Prepare map data */
