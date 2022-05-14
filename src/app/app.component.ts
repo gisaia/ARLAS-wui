@@ -409,50 +409,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
   }
 
-  public onListsLoaded(resultListContributors: ResultListContributor[]): void {
-    this.resultlistContributors = resultListContributors;
-    this.rightListContributors = this.resultlistContributors
-      .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
-      .map(rlcontrib => {
-        (rlcontrib as any).name = rlcontrib.getName();
-        const sortColumn = rlcontrib.fieldsList.find( c => !!(c as any).sort && (c as any).sort !== '');
-        if( !!sortColumn) {
-          this.sortOutput.set(rlcontrib.identifier, {
-            columnName: sortColumn.columnName,
-            fieldName: sortColumn.fieldName,
-            sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
-          });
-        }
-        return rlcontrib;
-      });
-    this.resultlistContributors.forEach(c => {
-      const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
-      if (!!mapcontributor) {
-        c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-      }
-      if (!!this.resultListConfigPerContId.get(c.identifier)) {
-        if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
-        }
-        if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
-          c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
-        }
-      }
-    });
-    const selectedResultlistTab = this.getParamValue('rt');
-    const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
-    if (previewListContrib) {
-      this.previewListContrib = previewListContrib;
-    } else {
-      this.previewListContrib = this.rightListContributors[0];
-    }
-    this.actionOnPopup.subscribe(data => {
-      const collection = data.action.collection;
-      const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-      const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
-      this.actionOnItemEvent(data, mapContributor, listContributor, collection);
-    });
-  }
 
   public isElementInViewport(el) {
     if (el) {
