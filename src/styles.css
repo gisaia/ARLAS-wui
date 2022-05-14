@@ -156,6 +156,14 @@ button:focus {
   z-index: 1;
 }
 
+.mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch {
+  display: none;
+}
+
+.mapboxgl-ctrl-group-layersswitcher {
+  visibility: hidden;
+}
+
 .tag-button {
   display: none !important;
 }
