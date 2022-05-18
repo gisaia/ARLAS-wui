@@ -156,7 +156,7 @@ jobs:
           path: ~/.cache/Cypress
           key: my-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      - name: "UI Tests - Firefox"
+      - name: "UI Tests - Edge"
         uses: cypress-io/github-action@v2
         with:
           install: false
