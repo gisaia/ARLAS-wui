@@ -18,3 +18,29 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+beforeEach(() => {
+
+  // Visit is automatically prefixed with baseUrl
+  cy.visit('/');
+
+  // Sometime needed for DOM being ready
+  cy.wait(5000);
+
+  // remove gif
+  cy.get('.gif').invoke('attr', 'style', 'display:none');
+
+  // get('.hopscotch-bubble-close') => get the DOM element with css class "arlas-search-container"
+  // click() => click on the selected element
+  cy.get('.hopscotch-bubble-close').click();
+
+});
+
+afterEach(() => {
+  cy.wait(2000);
+  // reset filters
+  cy.get('.home-chip--label').click();
+  // zoom to data extent
+  cy.get('#arlas-count .zoom').click()
+});
+
