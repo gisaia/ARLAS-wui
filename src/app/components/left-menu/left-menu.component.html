@@ -83,7 +83,7 @@
 </div>
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
 <arlas-about #about [pathToMd]="aboutFile" [extraTextData]="extraAboutText"></arlas-about>
-<arlas-download #download [hidden]="true"></arlas-download>
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
 <arlas-tag #tag></arlas-tag>
 <mat-menu #tagMenu="matMenu">
   <button mat-menu-item (click)="displayTag()">
