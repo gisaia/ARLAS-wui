@@ -1,3 +1,4 @@
+export { ContributorService } from './app/services/contributors.service';
 export { ArlasWuiModule} from './app/app.module';
 export { ArlasWuiComponent} from './app/app.component';
 export { AboutComponent} from './app/components/about/about.component';

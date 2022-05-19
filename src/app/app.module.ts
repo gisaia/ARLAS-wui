@@ -70,7 +70,7 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
   ],
   imports: [
     BrowserModule,
