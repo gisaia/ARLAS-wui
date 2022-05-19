@@ -206,6 +206,12 @@ button:focus {
 
 .bookmark-chip {
   outline: none;
+  padding: 4px 6px 0 !important;
+  box-shadow: 0 1px 2px #888 !important;
+}
+
+.bookmark-view {
+  height: 34px;
 }
 
 .arlas-metric-description {
@@ -318,6 +324,12 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
 
 .resultitem-grid__actions {
   cursor: pointer;
+}
+
+.basemap-container {
+  top: 75px !important;
+  right: 72px !important;
+  z-index: 1;
 }
 
 .gif {

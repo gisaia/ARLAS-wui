@@ -32,7 +32,7 @@
 }
 
 .mapboxgl-ctrl-top-right {
-  top : 65px !important;
+  top: 65px !important;
 }
 
 .map__layers-list--container {
@@ -42,7 +42,15 @@
 }
 
 .map__visu-list--wrapper {
-  top: 230px !important
+  top: 165px !important
+}
+
+.map__visu-list--wrapper .map_legend-button--wrapper {
+  width: 29px;
+}
+
+.map__visu-list--wrapper .map_legend-button-icon {
+  height: 29px !important;
 }
 
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
