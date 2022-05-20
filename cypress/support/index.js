@@ -25,10 +25,10 @@ beforeEach(() => {
   cy.visit('/');
 
   // Sometime needed for DOM being ready
-  cy.wait(5000);
+  cy.wait(3500);
 
   // remove gif
-  cy.get('.gif').invoke('attr', 'style', 'display:none');
+  cy.get('.gif', {timeout: 5000}).invoke('attr', 'style', 'display:none');
 
   // get('.hopscotch-bubble-close') => get the DOM element with css class "arlas-search-container"
   // click() => click on the selected element
@@ -36,11 +36,5 @@ beforeEach(() => {
 
 });
 
-afterEach(() => {
-  cy.wait(2000);
-  // reset filters
-  cy.get('.home-chip--label').click();
-  // zoom to data extent
-  cy.get('#arlas-count .zoom').click()
-});
+afterEach(() => {});
 
