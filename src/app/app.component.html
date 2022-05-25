@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="arlas-map">
-              <arlas-mapgl #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+              <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -70,7 +70,7 @@
                 [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
                 [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
-                [mapSources]="mapComponentConfig?.mapSources" [displayLayerSwitcher]="true"
+                [mapSources]="mapComponentConfig?.mapSources"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"

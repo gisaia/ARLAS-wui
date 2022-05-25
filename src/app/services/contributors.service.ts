@@ -49,7 +49,7 @@ export class ContributorService {
     const mapContributorConfig = this.getContributorConfig(this.MAPCONTRIBUTOR_ID);
     let mapglcontributor;
     if (mapContributorConfig !== undefined) {
-      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID);
+      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID) as MapContributor;
       this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
       this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, mapContributorConfig.icon);
     }
@@ -62,7 +62,7 @@ export class ContributorService {
     if (mapContributorsConfig !== undefined) {
       mapContributorsConfig
         .forEach(config => {
-          const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier);
+          const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier) as MapContributor;
 
           this.arlasContributors.set(config.identifier, contrib);
           this.contributorsIcons.set(config.identifier, config.icon);
@@ -76,7 +76,7 @@ export class ContributorService {
     const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
     let chipsSearchContributor: ChipsSearchContributor;
     if (chipssearchContributorConfig !== undefined) {
-      chipsSearchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID);
+      chipsSearchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
       this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
       this.contributorsIcons.set(this.CHIPSSEARCH_ID, chipssearchContributorConfig.icon);
     }
