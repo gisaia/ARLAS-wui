@@ -2,9 +2,9 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   force_connect: false
-  use_discovery: true
+  use_discovery: false
   issuer: https://arlas-cloud-dev.eu.auth0.com/
   client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
   redirect_uri: http://localhost:4200/callback

@@ -153,6 +153,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
+  public collections: string[];
   public apploading = true;
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
@@ -369,8 +370,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
         }
       }
-      const collections = new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection));
-      zip(...Array.from(collections).map(c => this.collaborativeService.describe(c)))
+      this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+      zip(...this.collections .map(c => this.collaborativeService.describe(c)))
         .subscribe(cdrs => {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);

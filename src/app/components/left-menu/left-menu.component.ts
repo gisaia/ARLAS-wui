@@ -27,6 +27,8 @@ export interface MenuState {
 export class LeftMenuComponent implements OnInit {
 
   @Input() public version: string;
+  @Input() public collections: string[];
+
   @Input() public toggleStates: MenuState = {
     configs: false
   };
