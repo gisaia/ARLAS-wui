@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+
+## Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
+variables:
+  npm_config_cache: '$CI_PROJECT_DIR/.npm'
+  CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
+  FF_USE_FASTZIP: 1
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .cache/*
+    - cache/Cypress
+    - node_modules
+    - build
+
+## Install NPM dependencies and Cypress
+install:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: build
+  script:
+    - npm ci
+
+ui-chrome-tests:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  parallel: 2
+  script:
+    # start the server in the background
+    - npm run start & npx wait-on http://localhost:4200
+    # run Cypress tests in parallel
+    - npx cypress run --parallel --record --browser chrome --group "UI - Chrome"
+
+ui-firefox-tests:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  parallel: 2
+  script:
+    # start the server in the background
+    - npm run start & npx wait-on http://localhost:4200
+    # run Cypress tests in parallel
+    - npx cypress run --parallel --record --browser firefox --group "UI - Firefox"
