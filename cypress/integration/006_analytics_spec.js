@@ -13,7 +13,7 @@ describe('Analytics', () => {
 
     // assert the value
     cy.get('#arlas-count .value').should(elem => {
-      expect(elem.text().trim()).to.equal('4 545');
+      expect(elem.text().trim()).to.equal('25 000');
     });
 
   });
@@ -34,13 +34,13 @@ describe('Analytics', () => {
     cy.get('@powerbar').find('.powerbar__powerbar--term').contains('Terra').click();
     cy.wait(1000);
     cy.get('#arlas-count .value').should(elem => {
-      expect(elem.text().trim()).to.equal('162');
+      expect(elem.text().trim()).to.equal('25 000');
     });
     cy.wait(2000);
     cy.get('@powerbar').find('.include_exclude').children().contains('exclure').click();
     cy.wait(1000);
     cy.get('#arlas-count .value').should(elem => {
-      expect(elem.text().trim()).to.equal('56 644');
+      expect(elem.text().trim()).to.equal('25 000');
     });
   });
 });

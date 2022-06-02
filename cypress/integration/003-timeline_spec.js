@@ -22,7 +22,7 @@ describe('Timeline filter', () => {
 
     // assert the value
     cy.get('#arlas-count .value').should(elem => {
-      expect(elem.text().trim()).to.equal('41 275');
+      expect(elem.text().trim()).to.equal('25 000');
     });
   });
 });

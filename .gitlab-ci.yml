@@ -13,21 +13,43 @@ cache:
   paths:
     - .cache/*
     - cache/Cypress
-    - node_modules
     - build
+    - .npm/
 
-## Install NPM dependencies and Cypress
+# ## Install NPM dependencies and Cypress
 install:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: build
   script:
     - npm ci
 
+with-backend:
+  image: docker
+  services:
+    - docker:dind
+  stage: test
+  needs:
+    - install
+  parallel: 2
+  before_script:
+    - apk --update add --no-cache nodejs npm gcompat libstdc++ libc6-compat
+  script:
+    - docker run -d -e ARLAS_ELASTIC_NODES=$ARLAS_ELASTIC_NODES -e ARLAS_ELASTIC_INDEX=.demo_arlas -e ARLAS_ELASTIC_CREDENTIALS=$ARLAS_ELASTIC_CREDENTIALS -e ARLAS_ELASTIC_ENABLE_SSL=true -e ARLAS_CORS_ENABLED=true -p9999:9999 --name=arlas-server-ci gisaia/arlas-server:21.0.0
+    - i=1; until nc -w 2 localhost 9999; do if [ $i -lt 30 ]; then sleep 1; else break; fi; i=$(($i + 1)); done
+    - npm ci --cache .npm --prefer-offline
+    - npm run start &
+    - npx wait-on http://localhost:4200
+    # - npx cypress run --parallel --record --browser chrome --group "UI - Chrome"
+    - docker run --network host -v $PWD:/e2e -w /e2e -e CYPRESS_RECORD_KEY=$CYPRESS_RECORD_KEY --entrypoint=cypress cypress/included:9.6.1 run --record --browser chrome --group "UI - Chrome" --parallel
+
 ui-chrome-tests:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   parallel: 2
+  needs:
+    - install
   script:
+    - npm ci --cache .npm --prefer-offline
     # start the server in the background
     - npm run start & npx wait-on http://localhost:4200
     # run Cypress tests in parallel
@@ -37,7 +59,10 @@ ui-firefox-tests:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   parallel: 2
+  needs:
+    - install
   script:
+    - npm ci --cache .npm --prefer-offline
     # start the server in the background
     - npm run start & npx wait-on http://localhost:4200
     # run Cypress tests in parallel

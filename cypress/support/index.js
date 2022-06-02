@@ -20,6 +20,18 @@ import './commands';
 // require('./commands')
 
 beforeEach(() => {
+  cy.intercept('GET', 'http://localhost:9999/arlas/explore/_list*', { fixture: 'list.json' }).as('list');
+  cy.intercept(
+    'GET',
+    'http://localhost:9999/arlas/explore/demo_eo/_count*',
+    { fixture: 'count.json' }
+  ).as('count');
+  // cy.intercept({
+  //   method: 'GET',
+  //   url: '/arlas/explore/demo_eo/_count*',
+  //   hostname: 'localhost',
+  //   port: 9999
+  // }, { fixture: 'count.json' }).as('count');
 
   // Visit is automatically prefixed with baseUrl
   cy.visit('/');
@@ -28,7 +40,7 @@ beforeEach(() => {
   cy.wait(3500);
 
   // remove gif
-  cy.get('.gif', {timeout: 5000}).invoke('attr', 'style', 'display:none');
+  cy.get('.gif', { timeout: 5000 }).invoke('attr', 'style', 'display:none');
 
   // get('.hopscotch-bubble-close') => get the DOM element with css class "arlas-search-container"
   // click() => click on the selected element
@@ -36,5 +48,5 @@ beforeEach(() => {
 
 });
 
-afterEach(() => {});
+afterEach(() => { });
 
