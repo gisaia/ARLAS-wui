@@ -328,11 +328,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
   cursor: pointer;
 }
 
-.basemap-container {
-  top: 75px !important;
-  right: 72px !important;
-  z-index: 1;
-}
+
 
 .gif {
   background-color: #FF4081;

@@ -253,12 +253,28 @@
   z-index: 1;
 }
 
+
 .app-container-reduce .arlas-map-settings {
+  
   right: 487px;
 }
 
+.arlas-map-settings ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 72px !important;
+  z-index: 1;
+}
+.app-container-reduce ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 520px !important;
+}
+.app-container-with-list ::ng-deep.basemap-container {
+  right: 220px !important;
+  top: 70px !important;
+}
+
 .app-container-with-list .arlas-map-settings {
-  right: 157px;
+  right: 187px;
 }
 
 .arlas-map-settings-container {
