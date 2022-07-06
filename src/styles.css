@@ -312,6 +312,29 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
   padding-left: 5px;
 }
 
+.arlas-map .current-coordinate {
+  position: absolute;
+  right: 120px;
+  bottom: 165px;
+  background-color: white;
+  color: black;
+  font-size: smaller;
+  border-radius: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.app-container-reduce .arlas-map .current-coordinate {
+  right: 570px;
+}
+.app-container-with-list .arlas-map .current-coordinate {
+  right: 270px;
+}
+
+.app-container-with-list .arlas-map-settings {
+  right: 187px;
+}
+
 .arlas-map .current-coordinate .lat {
   width: 110px;
 }
