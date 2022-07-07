@@ -265,6 +265,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public downloadLayerSource(d) {
+    const mc = this.mapglContributors.find(mc => mc.collection === d.collection);
+    if (mc) {
+      mc.donwloadLayerSource(d.sourceName, d.layerName, d.downloadType);
+    }
+  }
 
   public ngOnInit() {
     this.setAppTitle();
