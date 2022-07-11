@@ -76,7 +76,9 @@
                 [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
-                (onFeatureClic)="emitFeaturesOnClic($event)" [offset]="offset">
+                (onFeatureClic)="emitFeaturesOnClic($event)"
+                (downloadSourceEmitter)="downloadLayerSource($event)"
+                [offset]="offset">
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
