@@ -1,5 +1,17 @@
 # Change Log
 
+## [v22.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.3) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.0...v22.0.3)
+
+## [v23.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.0) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.2...v23.0.0)
+
+**New stuff:**
+
+- Export a visible layer as Geojson [\#475](https://github.com/gisaia/ARLAS-wui/issues/475)
+
 ## [v22.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.2) (2022-07-08)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.1...v22.0.2)
