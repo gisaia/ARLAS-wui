@@ -157,7 +157,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 if [ -z "${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}" ]; then
   ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS=1000
   export ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS
-  echo "No ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS is specified. Defaults to 100"
+  echo "No ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS is specified. Defaults to 1000"
 else
   echo ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}  "is used as histograms maximum nuber of buckets at CSV export"
 fi
