@@ -141,6 +141,30 @@ fi
 envsubst '$ARLAS_TAB_NAME' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Set histograms max buckets
+if [ -z "${ARLAS_HISTOGRAMS_MAX_BUCKETS}" ]; then
+  ARLAS_HISTOGRAMS_MAX_BUCKETS=200
+  export ARLAS_HISTOGRAMS_MAX_BUCKETS
+  echo "No ARLAS_HISTOGRAMS_MAX_BUCKETS is specified. Defaults to 200"
+else
+  echo ${ARLAS_HISTOGRAMS_MAX_BUCKETS}  "is used as histograms maximum number of buckets "
+fi
+envsubst '$ARLAS_HISTOGRAMS_MAX_BUCKETS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
+# Set histograms max buckets at CSV export
+if [ -z "${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}" ]; then
+  ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS=1000
+  export ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS
+  echo "No ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS is specified. Defaults to 100"
+else
+  echo ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}  "is used as histograms maximum nuber of buckets at CSV export"
+fi
+envsubst '$ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
   ARLAS_WUI_APP_PATH=""
