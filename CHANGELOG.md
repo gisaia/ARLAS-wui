@@ -1,5 +1,20 @@
 # Change Log
 
+## [v23.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.1) (2022-08-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.3...v23.0.1)
+
+**Fixed bugs:**
+
+- Metric Hits count creates an error [\#509](https://github.com/gisaia/ARLAS-wui/issues/509)
+- Choosing a bucket size in the timeline does not seem to work [\#490](https://github.com/gisaia/ARLAS-wui/issues/490)
+- Detail view of resultlist is not scrollable [\#447](https://github.com/gisaia/ARLAS-wui/issues/447)
+- Legend values are between 0 and 1 when normalizing a metric [\#445](https://github.com/gisaia/ARLAS-wui/issues/445)
+
+## [v22.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.3) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.0...v22.0.3)
+
 ## [v23.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.0) (2022-07-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.2...v23.0.0)
