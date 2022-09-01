@@ -74,7 +74,8 @@
                   "glob": "*.yaml"
                 },
                 "src/assets",
-                "src/silent-refresh.html"
+                "src/silent-refresh.html",
+                "src/favicon.ico"
               ]
             }
           }
