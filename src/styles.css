@@ -219,6 +219,7 @@ button:focus {
 .arlas-metric-description {
   font-size: 1.5rem;
   font-weight: 100;
+  text-align: center;
 }
 
 .tags-table-items {
