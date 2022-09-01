@@ -70,6 +70,10 @@
   color: #656565;
 }
 
+.mapboxgl-popup-content div {
+  overflow: auto;
+}
+
 .download-onhover-action{
   background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2720%27%20height%3D%2720%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M0%200h24v24H0z%27%20fill%3D%27none%27%2F%3E%3Cpath%20d%3D%27M19.35%2010.04C18.67%206.59%2015.64%204%2012%204%209.11%204%206.6%205.64%205.35%208.04%202.34%208.36%200%2010.91%200%2014c0%203.31%202.69%206%206%206h13c2.76%200%205-2.24%205-5%200-2.64-2.05-4.78-4.65-4.96zM17%2013l-5%205-5-5h3V9h4v4h3z%27%20fill%3D%27%23000000%27%2F%3E%3C%2Fsvg%3E") !important;
   cursor:pointer;
