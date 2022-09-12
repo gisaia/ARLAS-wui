@@ -1,5 +1,15 @@
 # Change Log
 
+## [v23.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.2) (2022-09-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.1...v23.0.2)
+
+**Fixed bugs:**
+
+- Text not contained in text box when interacting with features restricted by a data table [\#517](https://github.com/gisaia/ARLAS-wui/issues/517)
+- favicon disappeared [\#511](https://github.com/gisaia/ARLAS-wui/issues/511)
+- Legend of metrics not centered [\#507](https://github.com/gisaia/ARLAS-wui/issues/507)
+
 ## [v23.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.1) (2022-08-31)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.3...v23.0.1)
