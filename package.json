@@ -34,7 +34,7 @@
     "arlas-wui-toolkit": "~23.0.4",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^13.1.2",
-    "ngx-markdown": "13.0.0",
+    "ngx-markdown": "13.1.0",
     "patch-package": "^6.4.7",
     "web-animations-js": "^2.3.2"
   },
