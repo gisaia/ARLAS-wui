@@ -1,5 +1,94 @@
 # Change Log
 
+## [v20.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.2) (2022-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.3...v20.1.2)
+
+## [v23.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.3) (2022-09-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.2...v23.0.3)
+
+## [v23.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.2) (2022-09-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.1...v23.0.2)
+
+**Fixed bugs:**
+
+- Text not contained in text box when interacting with features restricted by a data table [\#517](https://github.com/gisaia/ARLAS-wui/issues/517)
+- favicon disappeared [\#511](https://github.com/gisaia/ARLAS-wui/issues/511)
+- Legend of metrics not centered [\#507](https://github.com/gisaia/ARLAS-wui/issues/507)
+
+## [v23.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.1) (2022-08-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.3...v23.0.1)
+
+**Fixed bugs:**
+
+- Metric Hits count creates an error [\#509](https://github.com/gisaia/ARLAS-wui/issues/509)
+- Choosing a bucket size in the timeline does not seem to work [\#490](https://github.com/gisaia/ARLAS-wui/issues/490)
+- Detail view of resultlist is not scrollable [\#447](https://github.com/gisaia/ARLAS-wui/issues/447)
+- Legend values are between 0 and 1 when normalizing a metric [\#445](https://github.com/gisaia/ARLAS-wui/issues/445)
+
+## [v22.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.3) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.0...v22.0.3)
+
+## [v23.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.0) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.2...v23.0.0)
+
+**New stuff:**
+
+- Export a visible layer as Geojson [\#475](https://github.com/gisaia/ARLAS-wui/issues/475)
+
+## [v22.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.2) (2022-07-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.1...v22.0.2)
+
+**New stuff:**
+
+- Timeline : recalculate the number of buckets after showing/hiding a collection  [\#452](https://github.com/gisaia/ARLAS-wui/issues/452)
+
+**Fixed bugs:**
+
+- Cartographic elements are not displayed correctly on the map [\#474](https://github.com/gisaia/ARLAS-wui/issues/474)
+
+## [v22.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.1) (2022-07-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.0...v22.0.1)
+
+**New stuff:**
+
+- Timeline : enhance displayed tooltip at hover [\#453](https://github.com/gisaia/ARLAS-wui/issues/453)
+
+**Fixed bugs:**
+
+- Creating a dataset \(bookmark\) does not work [\#489](https://github.com/gisaia/ARLAS-wui/issues/489)
+- The map actions are not visible on demos that are using a image grid on the right side [\#487](https://github.com/gisaia/ARLAS-wui/issues/487)
+
+**Miscellaneous:**
+
+- Link "Get started" not working [\#461](https://github.com/gisaia/ARLAS-wui/issues/461) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+
+## [v22.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.0) (2022-05-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.1.1...v22.0.0)
+
+**New stuff:**
+
+- Adapt Map settings component to handle multi-collection [\#464](https://github.com/gisaia/ARLAS-wui/issues/464)
+- Replace the collection name by the display\_name of the collection [\#457](https://github.com/gisaia/ARLAS-wui/issues/457)
+- Download command doesn't handle multi-collection [\#440](https://github.com/gisaia/ARLAS-wui/issues/440)
+- Create a dedicated component to choose basemaps [\#387](https://github.com/gisaia/ARLAS-wui/issues/387)
+
+**Fixed bugs:**
+
+- Timeline : legend of collections is wrongly displayed when using time shortcuts [\#454](https://github.com/gisaia/ARLAS-wui/issues/454)
+
+**Miscellaneous:**
+
+- Dockerfile need root right to be execute in K8S [\#423](https://github.com/gisaia/ARLAS-wui/issues/423)
+
 ## [v20.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.1) (2022-04-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0...v20.1.1)
