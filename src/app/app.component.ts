@@ -34,13 +34,14 @@ import {
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
+import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Subject, timer, zip } from 'rxjs';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { combineLatest, fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { combineLatestAll, concatMap, debounceTime, map, mergeAll, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
@@ -133,7 +134,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapDataSources;
 
   public mapRedrawSources;
-  public mapLegendUpdater;
+  public mapLegendUpdater = new Subject<Map<string, LegendData>>();
   public mapVisibilityUpdater;
   /** Visibility status of layers on the map */
   public layersVisibilityStatus: Map<string, boolean> = new Map();
@@ -294,7 +295,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
         this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
       this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
-      this.mapLegendUpdater = merge(...this.mapglContributors.map(c => c.legendUpdater));
+      /** take into consideration legend updaters of all mapcontributors */
+      const legendUpdaters: Observable<Map<string, LegendData>[]> = combineLatest(this.mapglContributors.map(c => c.legendUpdater));
+      legendUpdaters.subscribe(legendDataByContrib => {
+        const legendData = new Map<string, LegendData>();
+        legendDataByContrib.forEach(lg => {
+          lg.forEach((l, s) => {
+            legendData.set(s, l);
+          });
+        });
+        this.mapLegendUpdater.next(legendData);
+      });
+
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
         this.geojsondraw = {
