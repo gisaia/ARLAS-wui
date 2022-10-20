@@ -44,11 +44,13 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader
+  LoginModule,
+  PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArlasWuiComponent } from './app.component';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
@@ -56,19 +58,24 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AboutComponent,
     AboutDialogComponent,
     ArlasWuiComponent,
+    ArlasWuiRootComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ArlasWuiRootComponent
   ],
   exports: [
     AboutComponent,
     AboutDialogComponent,
     ArlasWuiComponent,
+    ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
   ],
@@ -99,7 +106,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatListModule,
     MatSidenavModule,
     HistogramModule,
-    ToolkitRoutingModule,
+    RouterModule,
+    AppRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({
@@ -116,7 +124,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
         deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
-    ArlasTaggerModule
+    ArlasTaggerModule,
+    LoginModule
   ],
   providers: [
     ContributorService,
