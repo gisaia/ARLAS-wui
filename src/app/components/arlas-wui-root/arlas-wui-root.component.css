@@ -17,7 +17,73 @@
  * under the License.
  */
 
-.gif {
+ .app-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.arlas-progression {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.arlas-map {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.app-container-reduce ::ng-deep.map_container {
+  width: calc(100% - 450px);
+}
+
+.app-container-with-list ::ng-deep.map_container {
+  width: calc(100% - 150px);
+}
+
+.side-result-list-toggle {
+  z-index: 2;
+  position: absolute;
+  top: 50vh;
+  right: 150px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.side-result-list-toggle-open {
+  right: 450px;
+}
+
+.side-result-list-toggle-open-no-grid {
+  right: 0px;
+}
+
+.side-result-list-icon {
+  background-color: white;
+  height: 36px;
+  width: 20px;
+  padding: 6px 0 6px 3px;
+  cursor: pointer;
+  border-radius: 4px 0 0 4px;
+}
+
+.side-result-list-icon-open {
+  padding: 6px 0;
+}
+
+.side-result-list-preview {
+  width: 150px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  display: block;
+  background-color: white;
+}
+
+.side-result-list-preview-close {
   display: none;
 }
 
