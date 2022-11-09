@@ -40,7 +40,7 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { combineLatest, fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { combineLatest, forkJoin, fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
 import { combineLatestAll, concatMap, debounceTime, map, mergeAll, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
@@ -134,7 +134,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapDataSources;
 
   public mapRedrawSources;
-  public mapLegendUpdater = new Subject<Map<string, LegendData>>();
+  public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
   public mapVisibilityUpdater;
   /** Visibility status of layers on the map */
   public layersVisibilityStatus: Map<string, boolean> = new Map();
@@ -283,7 +283,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       /** Retrieve displayable resultlists */
       const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
       const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
-      const allContributors= this.configService.getValue('arlas.web.contributors');
+      const allContributors = this.configService.getValue('arlas.web.contributors');
       this.resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
         const contId = a.contributorId;
         const tab = allContributors.find(c => c.identifier === contId).name;
@@ -295,15 +295,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
         this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
       this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
-      /** take into consideration legend updaters of all mapcontributors */
-      const legendUpdaters: Observable<Map<string, LegendData>[]> = combineLatest(this.mapglContributors.map(c => c.legendUpdater));
-      legendUpdaters.subscribe(legendDataByContrib => {
-        const legendData = new Map<string, LegendData>();
-        legendDataByContrib.forEach(lg => {
-          lg.forEach((l, s) => {
-            legendData.set(s, l);
-          });
-        });
+
+      const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
+        merge(...this.mapglContributors
+          .map(c => c.legendUpdater
+            .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
+          ));
+      const legendData = new Map<string, Map<string, LegendData>>();
+      legendUpdaters.subscribe(lg => {
+        legendData.set(lg.collection, lg.legendData);
         this.mapLegendUpdater.next(legendData);
       });
 
@@ -329,8 +329,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
           .map(rlcontrib => {
             (rlcontrib as any).name = rlcontrib.getName();
-            const sortColumn = rlcontrib.fieldsList.find( c => !!(c as any).sort && (c as any).sort !== '');
-            if( !!sortColumn) {
+            const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
+            if (!!sortColumn) {
               this.sortOutput.set(rlcontrib.identifier, {
                 columnName: sortColumn.columnName,
                 fieldName: sortColumn.fieldName,
@@ -389,7 +389,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
       }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
-      zip(...this.collections .map(c => this.collaborativeService.describe(c)))
+      zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .subscribe(cdrs => {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
