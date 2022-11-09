@@ -40,8 +40,8 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { combineLatest, forkJoin, fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
-import { combineLatestAll, concatMap, debounceTime, map, mergeAll, mergeMap, takeWhile } from 'rxjs/operators';
+import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
@@ -792,7 +792,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         if (i === this.mapglContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
         }
-      }, (i) * (debounceDuration * 1.5));
+      }, (i) * ((debounceDuration + 100) * 1.5));
     }
   }
 
