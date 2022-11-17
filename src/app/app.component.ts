@@ -866,7 +866,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const idFieldName = this.collectionToDescription.get(c.collection).id_path;
         const highLightItems = event.features
           .filter(f => f.layer.metadata.collection === c.collection)
-          .map(f => f.properties[idFieldName.replace(/\./g, '_')]);
+          .map(f => f.properties[idFieldName.replace(/\./g, '_')])
+          .filter(id => id !== undefined)
+          .map(id => id.toString());
         c.setHighlightItems(highLightItems);
       });
     } else {
