@@ -85,14 +85,16 @@ export class VisualizeService {
         return urlTemplate;
       } else {
         const fields = urlTemplate.split(/[{}]/).filter(v => v.length > 0);
-
-        fields.forEach(field => {
-          if (data.hits[0].data[field] === undefined) {
-            return undefined;
-          } else {
-            urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
-          }
-        });
+        fields
+          .filter(f => f !== 'x')
+          .filter(f => f !== 'y')
+          .filter(f => f !== 'z').forEach(field => {
+            if (data.hits[0].data[field] === undefined) {
+              return undefined;
+            } else {
+              urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
+            }
+          });
       }
       return urlTemplate;
     }));
