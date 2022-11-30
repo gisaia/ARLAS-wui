@@ -255,11 +255,10 @@
 
 
 .app-container-reduce .arlas-map-settings {
-  
   right: 487px;
 }
 
-.arlas-map-settings ::ng-deep.basemap-container {
+.arlas-map ::ng-deep.basemap-container {
   top: 70px !important;
   right: 72px !important;
   z-index: 1;
