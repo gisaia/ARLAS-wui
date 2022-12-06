@@ -107,6 +107,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
+  public shouldCloseMapMenu = true;
 
   public menuState: MenuState;
   public analyticsOpen = true;
@@ -981,6 +982,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     queryParams['ao'] = this.analyticsOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     this.adjustMapOffset();
+  }
+
+  public closeMapMenu() {
+    setTimeout(() => {
+      if (this.shouldCloseMapMenu) {
+        this.isMapMenuOpen = false;
+      }
+    }, 100);
   }
 
   private adjustMapOffset() {
