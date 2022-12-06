@@ -17,7 +17,7 @@
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
 
-            <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" (mouseleave)="isMapMenuOpen = false">
+            <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
                 <div class="arlas-map-settings-items" style="padding:4px 3px 3px 4px" [matTooltipPosition]="'left'"
                   matTooltip="{{'Map Settings' | translate}}">
@@ -27,12 +27,13 @@
                   matTooltip="{{'Basemaps' | translate}}" >
                   <mat-icon style="width:22px;height:22px" (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
-                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below"
+                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false"
+                  (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()"
                   class="arlas-map-settings-items" style="border-top: 1px solid #ddd;padding-top:1px;">
-                  <mat-icon (mouseenter)="isMapMenuOpen = true">image_search</mat-icon>
+                  <mat-icon>image_search</mat-icon>
                 </div>
               </div>
-              <div class="arlas-map-action-container" *ngIf="isMapMenuOpen">
+              <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
                 <div class="arlas-map-action-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
