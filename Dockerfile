@@ -1,7 +1,7 @@
 ### STAGE 1: Build ###
 
 # We label our stage as 'builder'
-FROM node:16.13.1-alpine3.14 as builder
+FROM node:16.18.1-alpine3.17 as builder
 
 COPY ./package.json  ./
 COPY ./package-lock.json  ./
@@ -23,7 +23,7 @@ RUN export NODE_OPTIONS=--max_old_space_size=8192 && $(npm bin)/ng build --confi
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.13.3-alpine
+FROM nginx:1.23.3-alpine
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
