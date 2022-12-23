@@ -18,38 +18,38 @@
  */
 
 .arlas-timeline .histogram__chart .context .brush .selection,
-.arlas-detailed-timeline .histogram__chart .context .brush .selection{
+.arlas-detailed-timeline .histogram__chart .context .brush .selection {
   fill: #BDBDBD;
   fill-opacity: 0.2;
-  stroke:none;
+  stroke: none;
 }
 
-.arlas-timeline .histogram__description{
+.arlas-timeline .histogram__description {
   font-size: 1em;
   font-weight: 300;
   display: none;
 }
 
 .arlas-timeline .headband_currentselection,
-.arlas-timeline-analytics .headband_currentselection
-{
+.arlas-timeline-analytics .headband_currentselection {
   height: 0;
 }
 
 .arlas-timeline .headband_partlyselected,
-.arlas-timeline-analytics .headband_partlyselected
-{
+.arlas-timeline-analytics .headband_partlyselected {
   height: 0;
 }
+
 .arlas-timeline .headband_fullyselected,
-.arlas-timeline-analytics .headband_fullyselected{
+.arlas-timeline-analytics .headband_fullyselected {
   height: 0;
 }
-.arlas-detailed-timeline .histogram__description{
+
+.arlas-detailed-timeline .histogram__description {
   display: none;
 }
 
-.arlas-detailed-timeline .histogram__chart--current-selected--area{
+.arlas-detailed-timeline .histogram__chart--current-selected--area {
   fill: #2196F3;
   fill-opacity: 1;
   stroke: #2196F3;
@@ -57,34 +57,34 @@
   stroke-opacity: 5;
 }
 
-.arlas-detailed-timeline .histogram__chart--unselected--area{
+.arlas-detailed-timeline .histogram__chart--unselected--area {
   fill: #EEEEEE;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-toolkit .arlas-timeline--tools{
+.arlas-timeline-toolkit .arlas-timeline--tools {
   padding: 0 0 0 0 !important;
   bottom: 130px !important;
   border-radius: 4px 4px 0 0;
   overflow: hidden !important;
 }
 
-.arlas-timeline .histogram__description--display{
+.arlas-timeline .histogram__description--display {
   color: black;
   padding-top: 5px;
 }
 
-.arlas-timeline .histogram__description__title{
+.arlas-timeline .histogram__description__title {
   color: black;
 }
 
 .arlas-timeline .histogram__description__startvalue--background,
-.arlas-timeline .histogram__description__endvalue--background{
+.arlas-timeline .histogram__description__endvalue--background {
   background-color: white;
 }
 
-.arlas-timeline .histogram__chart--current-selected--area{
+.arlas-timeline .histogram__chart--current-selected--area {
   fill: #2196F3;
   fill-opacity: 1;
   stroke: #2196F3;
@@ -92,7 +92,7 @@
   stroke-opacity: 1;
 }
 
-.arlas-timeline .histogram__chart--fixed-selected--area{
+.arlas-timeline .histogram__chart--fixed-selected--area {
   fill: #2196F3;
   fill-opacity: 1;
   stroke: none;
@@ -100,70 +100,71 @@
 
 /** TIMELINE BARS**/
 .arlas-timeline .histogram__chart--bar__currentselection,
-.arlas-detailed-timeline .histogram__chart--bar__currentselection
-{
+.arlas-detailed-timeline .histogram__chart--bar__currentselection {
   fill: #FFF !important;
   stroke: #a5a5a5 !important;
   stroke-width: 0.4px;
 }
+
 .arlas-timeline .histogram__chart--bar__partlyselected,
-.arlas-detailed-timeline .histogram__chart--bar__partlyselected
-{
+.arlas-detailed-timeline .histogram__chart--bar__partlyselected {
   fill: #FFF !important;
   stroke: #a5a5a5 !important;
   stroke-width: 0.4px;
 }
+
 .arlas-timeline .histogram__chart--bar__fullyselected,
-.arlas-detailed-timeline .histogram__chart--bar__fullyselected
-{
+.arlas-detailed-timeline .histogram__chart--bar__fullyselected {
   fill: #FFF !important;
   stroke: #a5a5a5 !important;
   stroke-width: 0.4px;
 }
+
 .arlas-timeline .histogram__chart--bar,
-.arlas-detailed-timeline .histogram__chart--bar
-{
+.arlas-detailed-timeline .histogram__chart--bar {
   fill: #FFF !important;
   stroke: #b7b7b7 !important;
   stroke-width: 0.4px;
   stroke-opacity: 1;
 }
+
 /** TIMELINE HEADBANDS**/
 .arlas-timeline .headband_currentselection,
-.arlas-detailed-timeline .headband_currentselection
-{
+.arlas-detailed-timeline .headband_currentselection {
   fill: #2196F3 !important;
   stroke: #2196F3 !important;
-  stroke-width: 0.4px !important;;
+  stroke-width: 0.4px !important;
+  ;
   height: 1.5px !important;
 }
+
 .arlas-timeline .headband_currentselection_max,
-.arlas-detailed-timeline .headband_currentselection_max
-{
+.arlas-detailed-timeline .headband_currentselection_max {
   fill: rgb(201, 0, 100) !important;
   stroke: rgb(201, 0, 100) !important;
-  stroke-width: 0.4px !important;;
+  stroke-width: 0.4px !important;
+  ;
   height: 1.5px !important;
 }
+
 .arlas-timeline .headband_partlyselected,
-.arlas-detailed-timeline .headband_partlyselected
-{
+.arlas-detailed-timeline .headband_partlyselected {
   fill: #2196F3 !important;
   stroke: #2196F3 !important;
   stroke-width: 0.4px !important;
   height: 1.5px !important;
 }
+
 .arlas-timeline .headband_fullyselected,
-.arlas-detailed-timeline .headband_fullyselected
-{
+.arlas-detailed-timeline .headband_fullyselected {
   fill: #2196F3 !important;
   stroke: #2196F3 !important;
   stroke-width: 0.4px !important;
   height: 1.5px !important;
 }
+
 .arlas-timeline .headband_notselected,
-.arlas-detailed-timeline .headband_notselected
-{
+.arlas-detailed-timeline .headband_notselected {
   fill: #FFF !important;
   stroke: #b7b7b7 !important;
   stroke-width: 0 !important;
@@ -187,19 +188,19 @@
 }
 
 .arlas-timeline .histogram__ticks,
-.arlas-timeline-not-selectable .histogram__ticks{
+.arlas-timeline-not-selectable .histogram__ticks {
   stroke: #bdbdbd;
   stroke-width: 1px;
 }
 
-.arlas-timeline .histogram__axis{
+.arlas-timeline .histogram__axis {
   stroke: #bdbdbd;
   stroke-width: 1px;
 }
 
 
 
-.arlas-detailed-timeline .histogram__axis{
+.arlas-detailed-timeline .histogram__axis {
   stroke: #bdbdbd;
   stroke-width: 1px;
 }
@@ -207,24 +208,24 @@
 
 .arlas-detailed-timeline .tick text,
 .arlas-timeline .tick text,
-.arlas-timeline-not-selectable .tick text{
+.arlas-timeline-not-selectable .tick text {
   fill: #757575;
   font-size: 1em;
 }
 
 .arlas-timeline .histogram__brush--handles,
-.arlas-detailed-timeline .histogram__brush--handles{
+.arlas-detailed-timeline .histogram__brush--handles {
   stroke: #78909C;
   fill: white;
 }
 
-.arlas-timeline-not-selectable .histogram__chart--bar{
+.arlas-timeline-not-selectable .histogram__chart--bar {
   fill: #2196F3;
   fill-opacity: 1;
   stroke: none;
 }
 
-.arlas-timeline-not-selectable .histogram__chart--current-selected--area{
+.arlas-timeline-not-selectable .histogram__chart--current-selected--area {
   fill: #2196F3;
   fill-opacity: 1;
   stroke: #2196F3;
@@ -232,27 +233,41 @@
   stroke-opacity: 1;
 }
 
-.shortcut-remove-filter{
+.shortcut-remove-filter {
   margin: 0 2px;
+}
+
+.shortcut-button span{
+  display: flex;
+  align-items: center;
+}
+
+.arlas-time-shortcuts__list--container {
+  width: 100%;
+  width: -moz-available;
+  /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;
+  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
 }
 
 /* Date Picker */
 
-.arlas-date-picker-input-from, .arlas-date-picker-input-to{
+.arlas-date-picker-input-from, .arlas-date-picker-input-to {
   background-color: #FF4081;
   color: white;
   border: none;
   min-width: 165px;
 }
 
-.arlas-date-picker-label-from, .arlas-date-picker-label-to{
+.arlas-date-picker-label-from, .arlas-date-picker-label-to {
   margin-bottom: 0;
 }
 
-.owl-dt-calendar-table .owl-dt-calendar-cell-selected{
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected {
   background-color: #FF4081;
 }
 
-.owl-dt-container-buttons{
+.owl-dt-container-buttons {
   color: #FF4081;
 }
