@@ -101,6 +101,10 @@
   overflow: hidden;
 }
 
+.one-tab ::ng-deep.mat-tab-header{
+  display: none;
+}
+
 .side-result-list-open {
   display: block;
   width: 450px;
@@ -141,6 +145,11 @@
 
 .left_resultlist_wrapper {
   height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.one-tab .left_resultlist_wrapper {
+  height: 100vh;
   overflow: hidden;
 }
 

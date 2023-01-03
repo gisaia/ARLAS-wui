@@ -120,7 +120,7 @@
                   (globalActionEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
                 </arlas-result-list>
               </div>
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1"
+              <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
                 [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
                   <mat-tab *ngFor="let list of rightListContributors">
