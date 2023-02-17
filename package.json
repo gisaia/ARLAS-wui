@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "~23.1.0",
+    "arlas-wui-toolkit": "~23.2.0",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^13.1.2",
     "ngx-markdown": "13.1.0",
@@ -67,5 +67,10 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.4.0",
     "typescript": "~4.4.3"
-  }
+  },
+  "overrides": {
+    "portable-fetch": {
+      "node-fetch": "3.3.0"
+    }
+  }  
 }
