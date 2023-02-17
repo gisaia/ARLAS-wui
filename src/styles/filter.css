@@ -18,30 +18,30 @@
  */
 
 .filter-chip {
-  height: 30px;
+  height: 28px;
 }
 
 
-.menu-chip{
+.menu-chip {
   color: white;
 }
 
-.menu-chip-button{
+.menu-chip-button {
   color: white;
 
 }
 
-.filter-chip__label{
+.filter-chip__label {
   color: white;
 }
 
-.filter-chip__icon_close{
+.filter-chip__icon_close {
   font-size: 12px !important;
   width: 12px !important;
   height: 12px !important;
 }
 
-.filter-chip__icon{
+.filter-chip__icon {
   font-size: 16px !important;
 }
 
@@ -52,12 +52,49 @@
   height: 30px;
 }
 
-.filter-chip__label{
-  vertical-align:middle;
+.filter-chip__label {
+  vertical-align: middle;
   margin-right: 5px;
   margin-left: 8px;
   margin-bottom: 10px;
-  font-size:1em;
+  font-size: 1em;
   height: 26px;
   float: left;
 }
+
+/* UPDATE ERGO */
+
+.count-chip {
+  border-radius: 20px;
+  border: 1px solid;
+  border-left: 6px;
+  padding: 0 12px;
+}
+
+.mat-elevation-z1 {
+  box-shadow: none;
+}
+
+.filters-chips {
+  border-radius: 20px;
+}
+
+.home-chip--label {
+  padding-right: 10px;
+  padding-left: 15px;
+  font-weight: 300 !important;
+}
+
+.count-container{
+  font-weight: 400;
+}
+
+.count-container .value-unit .value {
+  font-weight: unset;
+}
+
+.count-container .value-unit .unit {
+  font-size: unset;
+  font-weight: unset;
+}
+

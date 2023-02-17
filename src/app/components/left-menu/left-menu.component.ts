@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  AnalyticsTabs,
   ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
@@ -35,11 +36,17 @@ export class LeftMenuComponent implements OnInit {
   @Input() public isEmptyMode;
   @Input() public layersVisibilityStatus: Map<string, boolean> = new Map();
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
+  @Output() public mode: Subject<boolean> = new Subject();
+  @Output() public searchToggle: Subject<boolean> = new Subject();
+
+  @Input() public tabs: AnalyticsTabs[] = new Array();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
+
+  public darkMode = false;
 
   public window;
   public zendeskActive = false;
@@ -98,6 +105,11 @@ export class LeftMenuComponent implements OnInit {
     if (!this.version) {
       this.version = environment.VERSION;
     }
+  }
+
+  public changeMode(){
+    this.darkMode = !this.darkMode;
+    this.mode.next(this.darkMode);
   }
 
   /**

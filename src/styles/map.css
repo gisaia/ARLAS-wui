@@ -23,16 +23,20 @@
   right: -2px;
 }
 
+.arlas-map.timeline-close .mapboxgl-ctrl-scale {
+  bottom: -5px !important;
+}
+
 .mapboxgl-ctrl-attrib {
   padding: 0 1px !important;
   position: absolute;
-  right: 0;
-  bottom: calc(100vh - 20px) !important;
+  right: 3px;
+  bottom: calc(100vh - 60px) !important;
   width: 240px;
 }
 
 .mapboxgl-ctrl-top-right {
-  top: 65px !important;
+  top: 95px !important;
 }
 
 .map__layers-list--container {
@@ -42,17 +46,40 @@
 }
 
 .map__visu-list--wrapper {
-  top: 165px !important
+  top: 65px !important;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 0 5px;
 }
 
 .map__visu-list--wrapper .map_legend-button--wrapper {
-  width: 29px;
+  width: 31px;
+  border-radius: unset;
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .map__visu-list--wrapper .map_legend-button-icon {
   height: 29px !important;
 }
 
+.map__visu-list--container {
+  padding: 0 !important;
+  box-shadow: none;
+  max-height: calc(100vh - 215px);
+}
+
+.map__visu-container {
+  margin: 0 !important;
+  border-radius: unset !important;
+}
+
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
   margin: 5px 7px 0 0 !important;
+}
+
+.mapboxgl-ctrl-group:not(:empty) {
+  box-shadow: unset !important;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: unset;
 }

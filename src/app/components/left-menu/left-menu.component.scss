@@ -1,58 +1,62 @@
 .menu_container {
-    height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  mat-icon {
+    color: #666;
+  }
+  .logo {
+    padding: 0 0 0 13px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    mat-icon {
-      color: #666;
+    align-items: center;
+    font-size: 1.5em;
+    img {
+      width: 40px;
+      height: 40px;
     }
-    .logo {
-      padding: 5px 0 0 3px;
-      display: flex;
-      align-items: center;
-      font-size: 1.5em;
+  }
+
+  .toggler {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+  }
+
+  .action-list {
+    .disabled-item {
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 0.26);
+      button {
+        cursor: not-allowed;
+      }
     }
 
-    .toggler {
-        display: flex;
-        justify-content: flex-end;
-        padding: 15px;
+    .user_avatar {
+      vertical-align: middle;
+      height: 26px;
     }
-
-    .action-list {
-        .disabled-item {
-            cursor: not-allowed;
-            color: rgba(0, 0, 0, 0.26);
-            button {
-                cursor: not-allowed;
-            }
-        }
-
-        .user_avatar {
-            vertical-align: middle;
-            height: 26px;
-        }
-        .user_name {
-            margin-left: 5px;
-        }
+    .user_name {
+      margin-left: 5px;
     }
+  }
 
-    ::ng-deep .mat-list-item-content{
-      padding: 0 13px !important;
-    }
+  ::ng-deep .mat-list-item-content {
+    padding: 0 13px !important;
+  }
 
-    mat-icon {
-        padding-right: 5px;
-    }
+  mat-icon {
+    padding-right: 5px;
+  }
 
-    &.hide-label span {
-        display: none;
-    }
+  &.hide-label span {
+    display: none;
+  }
 }
 
 .active-menu {
   background-color: rgba(255, 64, 129, 0.1);
   mat-icon {
-    color: #FF4081;
+    color: #ff4081;
   }
 }

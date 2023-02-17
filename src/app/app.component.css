@@ -67,7 +67,7 @@
   width: 20px;
   padding: 6px 0 6px 3px;
   cursor: pointer;
-  border-radius: 4px 0 0 4px;
+  border-right: none;
 }
 
 .side-result-list-icon-open {
@@ -101,7 +101,7 @@
   overflow: hidden;
 }
 
-.one-tab ::ng-deep.mat-tab-header{
+.one-tab ::ng-deep.mat-tab-header {
   display: none;
 }
 
@@ -117,14 +117,16 @@
   position: absolute;
   left: 7px;
   top: 43px;
+  z-index: 2;
 }
 
 .arlas-search {
   padding: 8px 0 0 5px;
   flex: 5;
   background-color: white;
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: unset;
 }
 
 .rotate-icon {
@@ -132,15 +134,14 @@
 }
 
 .arlas-search-toggle {
-  border-radius: 4px;
   padding: 4px 5px 0px;
   background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: unset;
 }
 
 .arlas-search-toggle-corner {
-  border-radius: 4px 0 0 4px;
 }
 
 .left_resultlist_wrapper {
@@ -159,11 +160,9 @@
 
 .arlas-analytics-toggle {
   padding: 4px 5px 0px;
-  margin-left: 3px;
   max-width: 62px;
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer;
   flex: 1;
 }
@@ -188,8 +187,8 @@
 
 .arlas-filters-chips {
   position: absolute;
-  top: 6px;
-  left: 7px;
+  top: 45px;
+  left: 439px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -198,10 +197,14 @@
 .arlas-analytics--container {
   position: absolute;
   left: 5px;
-  top: 78px;
+  top: 79px;
   width: 466px;
   max-height: calc(100vh - 207px);
   overflow: auto;
+}
+
+.arlas-analytics--container.timeline-close{
+  max-height: calc(100vh - 80px);
 }
 
 ::-webkit-scrollbar {
@@ -236,19 +239,20 @@
 
 .arlas-map-action-container {
   position: absolute;
-  right: 30px;
+  right: 31px;
   bottom: 0;
   display: flex;
   flex-direction: row-reverse;
-  border-radius: 4px;
   background-color: white;
-  box-shadow: 0 1px 0px 1px rgb(0 0 0 / 10%);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-right: 0;
 }
 
 .arlas-map-action-items {
-  height: 29px;
+  height: 27px;
   padding: 3px 2px 3px 3px;
   cursor: pointer;
+  border-right: 1px solid rgba(0,0,0,0.12);
 }
 
 .arlas-map-action-items:hover {
@@ -257,45 +261,68 @@
 
 .arlas-map-settings {
   position: absolute;
-  top: 70px;
+  top: 192px;
   right: 38px;
-  z-index: 1;
+  z-index: 2;
 }
 
+.hide-timeline{
+  display: none;
+}
 
 .app-container-reduce .arlas-map-settings {
-  right: 487px;
+  right: 457px;
+}
+
+::ng-deep.basemap-container {
+  border-radius: unset !important;
+}
+
+::ng-deep.basemap-container .basemap {
+  border-radius: unset !important;
+}
+
+::ng-deep.basemap-container .basemap .image .name {
+  border-radius: unset !important;
+}
+
+::ng-deep.basemap-container .basemap .image img {
+  border-radius: unset !important;
 }
 
 .arlas-map ::ng-deep.basemap-container {
-  top: 70px !important;
+
+  top: 152px !important;
   right: 72px !important;
   z-index: 1;
 }
+
 .app-container-reduce ::ng-deep.basemap-container {
-  top: 70px !important;
-  right: 520px !important;
+
+  top: 152px !important;
+  right: 493px !important;
 }
+
 .app-container-with-list ::ng-deep.basemap-container {
-  right: 220px !important;
-  top: 70px !important;
+
+  right: 192px !important;
+  top: 152px !important;
 }
 
 .app-container-with-list .arlas-map-settings {
-  right: 187px;
+  right: 157px;
 }
 
 .arlas-map-settings-container {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
   background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .arlas-map-settings-items {
   height: 29px;
-  padding: 3px 2px 3px 3px;
+  padding: 3px 2px 3px 3px !important;
   cursor: pointer;
 }
 
@@ -322,6 +349,27 @@
 .main_content {
   width: 100%;
   height: 100vh;
+}
+
+.topbar {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: white;
+  z-index: 1;
+  height: 41px;
+  color: #666;
+  font-weight: 300;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+::ng-deep.arlas-timeline--timelines{
+  box-shadow: none!important;
+  padding: 0 !important;
 }
 
 .app-container-reduce ::ng-deep.arlas-timeline--tools {
@@ -351,11 +399,15 @@
   /* 150px for list and 14px for margin left and right */
 }
 
+.app-container-with-list .topbar {
+  width: calc(100% - 150px);
+}
+
 .app-container-with-list ::ng-deep.bookmark-shortcut {
   right: 161px;
 }
 
-.result-list-tab-group ::ng-deep .mat-tab-label{
+.result-list-tab-group ::ng-deep .mat-tab-label {
   min-width: 60px;
 }
 

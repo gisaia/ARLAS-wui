@@ -117,3 +117,12 @@
   width: 18px;
   font-size: 18px !important;
 }
+
+.resultgrid__title-highlight-{
+  padding: 0 !important;
+  padding-right: 5px !important;
+}
+
+.resultgrid__img{
+  height: 84% !important;
+}

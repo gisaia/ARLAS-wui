@@ -66,7 +66,6 @@
 .arlas-timeline-toolkit .arlas-timeline--tools{
   padding: 0 0 0 0 !important;
   bottom: 130px !important;
-  border-radius: 4px 4px 0 0;
   overflow: hidden !important;
 }
 
@@ -255,4 +254,22 @@
 
 .owl-dt-container-buttons{
   color: #FF4081;
+}
+
+.arlas-timeline-toggle{
+  position: absolute;
+  bottom: 0px;
+  right: 50%;
+  z-index: 1;
+  padding: 4px 5px 0px;
+  max-width: 62px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+.arlas-timeline-toggle.open {
+  bottom: 130px;
 }

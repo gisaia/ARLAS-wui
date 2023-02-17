@@ -36,6 +36,7 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
+  AnalyticsTabs,
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
@@ -110,7 +111,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public shouldCloseMapMenu = true;
 
   public menuState: MenuState;
-  public analyticsOpen = true;
+  public analyticsOpen = false;
   public searchOpen = true;
   public mapId = 'mapgl';
 
@@ -128,6 +129,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public showZoomToData = false;
   public showIndicators = false;
+  public showTimeline = false;
   public onSideNavChange: boolean;
 
   public defaultBaseMap;
@@ -157,6 +159,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
   public apploading = true;
+
+  public darkMode = false;
+  public tabs: AnalyticsTabs[] = new Array();
+
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
@@ -280,6 +286,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
       const allAnalytics = this.configService.getValue('arlas.web.analytics');
+      const webConfig = this.configService.getValue('arlas.web');
+      if (webConfig !== undefined && webConfig.options !== undefined) {
+        if (!!webConfig.options.tabs) {
+          this.tabs = webConfig.options.tabs;
+        }
+      }
       this.analytics = !!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : [];
       /** Retrieve displayable resultlists */
       const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
@@ -447,6 +459,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
+    this.mapglComponent.legendOpen = false;
     this.mapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
@@ -497,6 +510,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
       });
     }
+
     this.cdr.detectChanges();
   }
 
@@ -982,6 +996,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     queryParams['ao'] = this.analyticsOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     this.adjustMapOffset();
+  }
+
+  public toggleTimeline() {
+    this.showTimeline = !this.showTimeline;
+    this.adjustTimelineSize();
   }
 
   public closeMapMenu() {

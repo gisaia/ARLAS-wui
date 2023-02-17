@@ -1,8 +1,10 @@
 <div class="menu_container" [class.hide-label]="!isLabelDisplayed">
   <div>
-    <div class="logo">
+    <div class="logo" (click)="changeMode()">
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" />
     </div>
+
+    <mat-divider></mat-divider>
     <div>
       <div>
         <mat-nav-list>
@@ -11,8 +13,20 @@
               <mat-icon>apps</mat-icon>
             </button>
           </mat-list-item>
+
+          <mat-divider *ngIf="persistenceService.isAvailable"></mat-divider>
+          <mat-list-item (click)="searchToggle.next(true)">
+            <button mat-icon-button>
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-list-item>
+            <mat-list-item [matTooltip]="tab.name" *ngFor="let tab of this.tabs">
+              <button mat-icon-button>
+                <mat-icon>{{tab.icon}}</mat-icon>
+              </button>
+            </mat-list-item>
+
         </mat-nav-list>
-        <mat-divider></mat-divider>
       </div>
 
     </div>
