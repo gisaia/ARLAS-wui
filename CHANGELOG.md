@@ -1,5 +1,31 @@
 # Change Log
 
+## [v23.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.2.0) (2023-02-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0-alpha.2...v23.2.0)
+
+**Fixed bugs:**
+
+- Issues with the WUI [\#463](https://github.com/gisaia/ARLAS-wui/issues/463)
+
+## [v23.2.0-alpha.2](https://github.com/gisaia/ARLAS-WUI/tree/v23.2.0-alpha.2) (2023-02-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.1.0...v23.2.0-alpha.2)
+
+**Fixed bugs:**
+
+- \[BOOKMARKS\] the action of clicking on DELETE \(BIN\) does not remove the bookmark [\#574](https://github.com/gisaia/ARLAS-wui/issues/574)
+- Deleting a polygon via the "draw" menu does not delete the filter [\#569](https://github.com/gisaia/ARLAS-wui/issues/569)
+- The bookmarks do not show up anymore in the top right corner. [\#566](https://github.com/gisaia/ARLAS-wui/issues/566)
+- Basemap selector disappear when mouse moving over the map cells [\#556](https://github.com/gisaia/ARLAS-wui/issues/556)
+- Inconsistency in the legend of clusters of the preview of the builder versus the WUI: Polygon becomes Fill [\#550](https://github.com/gisaia/ARLAS-wui/issues/550)
+- Deselecting the sort field of a data table does not fully clear the field [\#516](https://github.com/gisaia/ARLAS-wui/issues/516)
+- When mouse hover and loose focus on geo-filters button, the menu remains. [\#508](https://github.com/gisaia/ARLAS-wui/issues/508)
+
+**Miscellaneous:**
+
+- Add npm audit action [\#577](https://github.com/gisaia/ARLAS-wui/issues/577)
+
 ## [v23.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.1.0) (2022-11-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.4...v23.1.0)
@@ -7,6 +33,7 @@
 **Fixed bugs:**
 
 - Average metric is not displayed correctly on the map [\#567](https://github.com/gisaia/ARLAS-wui/issues/567)
+- The legend of layers does not display properly and flickers when ARLAS loads \(23.0.1\) [\#529](https://github.com/gisaia/ARLAS-wui/issues/529)
 
 ## [v23.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.4) (2022-11-21)
 
@@ -19,7 +46,6 @@
 **Fixed bugs:**
 
 - Labels dissapear by other layers  [\#560](https://github.com/gisaia/ARLAS-wui/issues/560)
-- Inconsistency in the legend of clusters of the preview of the builder versus the WUI: Polygon becomes Fill [\#550](https://github.com/gisaia/ARLAS-wui/issues/550)
 - It is not possible to import a `.geojson` file to import a polygon [\#532](https://github.com/gisaia/ARLAS-wui/issues/532)
 - Hovering over a data table feature on the map does not highlight the feature in the data table [\#518](https://github.com/gisaia/ARLAS-wui/issues/518)
 
