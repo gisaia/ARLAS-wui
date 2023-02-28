@@ -254,8 +254,8 @@ export class VisualizeService {
       map(h => {
         const geomData = getElementFromJsonObject(h.hits[0].data, geometryPath);
         const centerData = getElementFromJsonObject(h.hits[0].data, centroidPath);
-        const geojsonData = parse(geomData);
-        const geojsonCenter = parse(centerData);
+        const geojsonData = this.getGeojsonFromEsGeom(geomData);
+        const geojsonCenter = this.getGeojsonFromEsGeom(centerData);
         const box = bbox(geojsonData);
         const minX = box[0] - 0.1 / 100 * box[0];
         const minY = box[1] - 0.1 / 100 * box[1];
@@ -263,12 +263,25 @@ export class VisualizeService {
         const maxY = box[3] + 0.1 / 100 * box[3];
         return {
           bounds: [[minX, minY], [maxX, maxY]],
-          center: [geojsonCenter.lon, geojsonCenter.lat],
+          center: !!geojsonCenter.coordinates ? geojsonCenter.coordinates : [geojsonCenter.lon, geojsonCenter.lat],
           box: box
         };
       })
     );
   }
 
+  private getGeojsonFromEsGeom(geomData: string | String): any {
+    let geojsonData = geomData;
+    // Case geometryPath store WKT format
+    if (typeof geomData === 'string' || geomData instanceof String) {
+      geojsonData = parse(geomData);
+      // if wkt parse return null, the geometryPath store text point format lat,lon
+      if (geojsonData === null) {
+        const lat = geomData.split(',')[0];
+        const lon = geomData.split(',')[1];
+        geojsonData = parse(`POINT (${lon} ${lat})`);
+      }
+    }
+    return geojsonData;
+  }
 }
-
