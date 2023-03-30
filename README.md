@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/gisaia/ARLAS-wui.svg?branch=develop)](https://travis-ci.org/gisaia/ARLAS-wui)
+[![Lint / Build](https://github.com/gisaia/ARLAS-wui/actions/workflows/main.yml/badge.svg)](https://github.com/gisaia/ARLAS-wui/actions/workflows/main.yml)
+[![Trivy](https://github.com/gisaia/ARLAS-wui/actions/workflows/trivy.yml/badge.svg)](https://github.com/gisaia/ARLAS-wui/actions/workflows/trivy.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/gisaia/arlas-wui/badge)](https://www.codefactor.io/repository/github/gisaia/arlas-wui)
 
 # ARLAS-wui

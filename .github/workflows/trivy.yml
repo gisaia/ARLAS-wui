@@ -1,4 +1,4 @@
-name: Run Trivy
+name: Trivy
 
 on:
   pull_request:
