@@ -1,0 +1,20 @@
+name: Feature Request
+description: Propose a new feature for ARLAS
+labels: ['enhancement']
+
+body:
+  - type: textarea
+    id: description-current
+    attributes:
+      label: Description of the current behavior
+      description: Feel free to add screenshots to better describe the current behavior.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description-expected
+    attributes:
+      label: Description of the desired behavior
+      description: Feel free to add screenshots or mockup to better describe the feature request.
+    validations:
+      required: true

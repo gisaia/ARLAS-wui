@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://docs.arlas.io/introduction-developers/
+    about: Check out ARLAS documentation
+  - name: ARLAS.io SLACK
+    url: https://join.slack.com/t/arlas-io/shared_invite/zt-1r1fakasz-rcfSB~vH3pEN9uT1XWDprA
+    about: Our team and community is on Slack ready to discuss any questions that you may have. Join us!

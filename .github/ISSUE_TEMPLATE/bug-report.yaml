@@ -1,0 +1,82 @@
+name: Bug Report
+description: Report a bug in ARLAS
+labels: ['bug']
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the bug
+      description: Feel free to add screenshots to better explain the issue you are facing.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: bug
+    attributes:
+      label: What was the error message shown?
+      render: JavaScript
+  
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  
+  - type: textarea
+    id: config
+    attributes:
+      label: If the issue was noticed in the demo workspace, please specify the collection and the field. Otherwise, please link the 2 ARLAS config files.
+      description: ARLAS config files can be downloaded from the builder, through the dedicated button in the left panel.
+
+  - type: checkboxes
+    id: affected-components
+    attributes:
+      label: Which ARLAS component(s) are concerned by the bug?
+      options:
+        - label: Map
+        - label: Legend
+        - label: Tooltip
+        - label: Result list
+        - label: Timeline
+        - label: Widgets - General
+        - label: Widgets - Metric
+        - label: Widgets - Donut
+        - label: Widgets - Powerbar
+        - label: Widgets - Histogram
+        - label: Widgets - Swimlane
+        - label: Other
+    validations:
+      required: true
+  
+  - type: input
+    id: affected-components-other
+    attributes:
+      label: If you chose 'Other', please specify the part(s) of ARLAS concerned by the bug.
+  
+  - type: input
+    id: stack
+    attributes:
+      label: ARLAS version
+      description: The version is displayed when hovering the information icon at the bottom of the left menu.
+    validations:
+      required: true
+  
+  - type: checkboxes
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      options:
+        - label: Firefox
+        - label: Chrome
+        - label: Safari
+        - label: Microsoft Edge
+        - label: Other
+    validations:
+      required: true
+  
+  - type: input
+    id: browsers-other
+    attributes:
+      label: If you chose 'Other', please specify the browser(s) concerned by the bug.
