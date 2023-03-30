@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/gisaia/ARLAS-wui.svg?branch=develop)](https://travis-ci.org/gisaia/ARLAS-wui)
+[![CodeFactor](https://www.codefactor.io/repository/github/gisaia/arlas-wui/badge)](https://www.codefactor.io/repository/github/gisaia/arlas-wui)
 
 # ARLAS-wui
 
@@ -17,4 +18,4 @@ Read up on our guidelines for [contributing](https://github.com/gisaia/ARLAS-wui
 - Thanks to [BrowserStack](https://browserstack.com/) for their support of this open-source project.
 + If you aren't using the same browser and machine that we use to develop this open-source project, you can thank [BrowserStack](https://browserstack.com/) for their support.
 
-[![BrowserStack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/browserstack.svg)](https://www.browserstack.com/)
+[![BrowserStack](https://d2ogrdw2mh0rsl.cloudfront.net/production/images/static/header/header-logo.svg)](https://www.browserstack.com/)
