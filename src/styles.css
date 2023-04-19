@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '../node_modules/prismjs/themes/prism.css';
-@import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+@import "../node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 @import 'styles/timeline.css';
 @import 'styles/powerbars.css';
 @import 'styles/histogram.css';
