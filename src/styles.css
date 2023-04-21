@@ -271,6 +271,7 @@ div.hopscotch-bubble {
 
 div.hopscotch-bubble .hopscotch-bubble-close {
   cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.up {
