@@ -36,8 +36,7 @@
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
     "patch-package": "^6.4.7",
-    "web-animations-js": "^2.3.2",
-    "arlas-api": "23.0.7"
+    "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.10",
