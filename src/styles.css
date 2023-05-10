@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '../node_modules/prismjs/themes/prism.css';
-@import '../node_modules/@gisaia-team/ng-pick-datetime/assets/style/picker.min.css';
+@import "../node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 @import 'styles/timeline.css';
 @import 'styles/powerbars.css';
 @import 'styles/histogram.css';
@@ -192,6 +192,10 @@ button:focus {
   justify-content: space-evenly;
 }
 
+.analytics-board-panel-title{
+  flex-basis: auto;
+}
+
 .analytics-board-panel:hover .export-csv-button {
   display: block;
   position: absolute;
@@ -267,6 +271,7 @@ div.hopscotch-bubble {
 
 div.hopscotch-bubble .hopscotch-bubble-close {
   cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.up {

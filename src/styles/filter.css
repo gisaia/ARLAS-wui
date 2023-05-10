@@ -17,32 +17,47 @@
  * under the License.
  */
 
+
+
+.value-unit .unit {
+  font-weight: 200;
+  font-size: 1em;
+}
+
+.menu-chip {
+  color: white;
+}
+
+.menu-chip-button {
+  color: white;
+
+}
+
 .filter-chip {
   height: 30px;
+  padding-top: unset !important;
+  display: flex;
+  align-items: center;
 }
 
-
-.menu-chip{
+.filter-chip__label {
   color: white;
 }
 
-.menu-chip-button{
-  color: white;
-
-}
-
-.filter-chip__label{
-  color: white;
-}
-
-.filter-chip__icon_close{
+.filter-chip__icon_close {
   font-size: 12px !important;
   width: 12px !important;
   height: 12px !important;
+  float: unset;
+  margin-top: -10px;
 }
 
-.filter-chip__icon{
+.filter-chip__icon {
   font-size: 16px !important;
+  width: 18px !important;
+  height: 16px !important;
+  margin-left: 3px;
+  margin-right: 0px;
 }
 
 .filter-count {
@@ -52,12 +67,12 @@
   height: 30px;
 }
 
-.filter-chip__label{
-  vertical-align:middle;
+.filter-chip__label {
+  vertical-align: middle;
   margin-right: 5px;
   margin-left: 8px;
   margin-bottom: 10px;
-  font-size:1em;
+  font-size: 1em;
   height: 26px;
   float: left;
 }
