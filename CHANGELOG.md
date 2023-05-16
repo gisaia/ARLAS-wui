@@ -1,5 +1,32 @@
 # Change Log
 
+## [v24.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.0.0) (2023-05-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0...v24.0.0)
+
+**New stuff:**
+
+- \[LEGEND\] display 'Manual' and 'Generated' colors legend the same way [\#596](https://github.com/gisaia/ARLAS-wui/issues/596)
+- Add an indication for 'caridinality' metric, that the value is approximative [\#578](https://github.com/gisaia/ARLAS-wui/issues/578)
+
+**Fixed bugs:**
+
+- negative values on x-axis are rendered as NaN [\#594](https://github.com/gisaia/ARLAS-wui/issues/594)
+- \[LEGEND\] the ordering of the layer within a visualisation set does not always work [\#579](https://github.com/gisaia/ARLAS-wui/issues/579)
+- When loading the application many calls to arlas-server are duplicated or not needed [\#575](https://github.com/gisaia/ARLAS-wui/issues/575)
+- \[LEGEND\] Heatmap legend does not display proper counts [\#573](https://github.com/gisaia/ARLAS-wui/issues/573)
+- Visualisation service dont work if geometry is Geojson in es document [\#570](https://github.com/gisaia/ARLAS-wui/issues/570)
+- Detailed histogram does not adapt itself to the correct extend [\#557](https://github.com/gisaia/ARLAS-wui/issues/557)
+- When reaching the border of the map, trails don't go in the right direction but make a loop around the world [\#531](https://github.com/gisaia/ARLAS-wui/issues/531)
+- Legend : Labels of provided colors can generate entires with hex colors [\#510](https://github.com/gisaia/ARLAS-wui/issues/510)
+- Map legend : filters on data visibility are ignored in the legend [\#486](https://github.com/gisaia/ARLAS-wui/issues/486)
+- Filter on histogram miss extrem value [\#576](https://github.com/gisaia/ARLAS-wui/issues/576)
+
+**Miscellaneous:**
+
+- Upgrade shpjs version to fix vulnerability [\#597](https://github.com/gisaia/ARLAS-wui/issues/597)
+- remove cache from settings.yaml file [\#595](https://github.com/gisaia/ARLAS-wui/issues/595)
+
 ## [v23.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.2.0) (2023-02-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0-alpha.2...v23.2.0)

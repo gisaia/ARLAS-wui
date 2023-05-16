@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui",
-  "version": "23.3.0-dev",
+  "version": "24.0.0",
   "author": "gisaia",
   "license": "Apache-2.0",
   "scripts": {
@@ -72,6 +72,6 @@
     "portable-fetch": {
       "node-fetch": "3.3.0"
     },
-    "shpjs":"4.0.4"
+    "shpjs": "4.0.4"
   }
 }
