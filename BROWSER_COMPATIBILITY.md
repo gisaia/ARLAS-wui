@@ -1,10 +1,10 @@
 # Browser supported versions
 
-*Last update : 2021-12-01*
+*Last update : 2023-05-24*
 
 Browser | Supported version
 ------------ | -------------
-Chrome | 90+
-Edge | 90+
-Firefox | 87+
-Safari | 13.1+
+Chrome | 113+
+Edge | 113+
+Firefox | 113+
+Safari | 15.6+
