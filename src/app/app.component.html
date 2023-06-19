@@ -1,13 +1,18 @@
 <div>
+  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
+    <div left-menu class="logo">
+      <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
+    </div>
+    <div right-menu class="title">{{ appName }}</div>
+  </arlas-top-menu>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
         [isEmptyMode]="arlasStartUpService.emptyMode"></arlas-left-menu>
     </mat-sidenav>
-    <mat-sidenav-content style="margin-left: 67px;">
+    <mat-sidenav-content class="sidenav-content">
       <div class="main_content">
-
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
@@ -92,7 +97,7 @@
               </div>
               <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
                 *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
-                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
+                <arlas-result-list [rowItemList]="previewListContrib.data"
                   [fieldsList]="previewListContrib.fieldsList"
                   [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
                   [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
