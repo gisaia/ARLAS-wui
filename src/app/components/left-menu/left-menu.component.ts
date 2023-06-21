@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
@@ -7,7 +6,6 @@ import {
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AboutComponent } from '../about/about.component';
 
 interface Page {
   link: string;
@@ -37,7 +35,6 @@ export class LeftMenuComponent implements OnInit {
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
-  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
 
@@ -47,9 +44,6 @@ export class LeftMenuComponent implements OnInit {
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
-
-  public aboutFile: string;
-  public extraAboutText: string;
 
   public sideNavState = false;
   public linkText = false;
@@ -63,13 +57,11 @@ export class LeftMenuComponent implements OnInit {
   public isLabelDisplayed = false;
 
 
-  public constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
+  public constructor(private authentService: AuthentificationService, private translate: TranslateService,
     public persistenceService: PersistenceService, private configService: ArlasConfigService,
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService
   ) {
-    this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
-    this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
     this.window = window;
     this.reduce = this.translate.instant('reduce');
     this.expand = this.translate.instant('expand');
@@ -119,10 +111,6 @@ export class LeftMenuComponent implements OnInit {
     }
   }
 
-  public getUserInfos() {
-    this.dialog.open(UserInfosComponent);
-  }
-
   public expandMenu() {
     this.isLabelDisplayed = !this.isLabelDisplayed;
     setTimeout(() => {
@@ -134,10 +122,6 @@ export class LeftMenuComponent implements OnInit {
    * layers so that we choose only the displayed ones */
   public displayShare() {
     this.shareComponent.openDialog(this.layersVisibilityStatus);
-  }
-
-  public displayAbout() {
-    this.aboutcomponent.openDialog();
   }
 
   public replayTour() {

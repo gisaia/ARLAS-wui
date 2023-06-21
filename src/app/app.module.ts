@@ -48,7 +48,6 @@ import {
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArlasWuiComponent } from './app.component';
-import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
@@ -59,15 +58,11 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 
 @NgModule({
   declarations: [
-    AboutComponent,
-    AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent
   ],
   exports: [
-    AboutComponent,
-    AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent,
@@ -126,6 +121,6 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: []
 })
 export class ArlasWuiModule { }

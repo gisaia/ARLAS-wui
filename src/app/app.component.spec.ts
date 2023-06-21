@@ -33,13 +33,14 @@ import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule } from 'arlas-web-components';
 import {
+  AboutComponent,
+  AboutDialogComponent,
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
 } from 'arlas-wui-toolkit';
 import { ArlasWuiComponent } from './app.component';
 import { routing } from './app.routes';
-import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 
@@ -79,6 +80,14 @@ describe('AppComponent', () => {
         fixture = TestBed.createComponent(ArlasWuiComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+      }
+    });
+  }));
+
+  it('should create', (() => {
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        expect(component).toBeTruthy();
       }
     });
   }));

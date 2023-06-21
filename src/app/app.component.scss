@@ -17,6 +17,8 @@
  * under the License.
  */
 
+@import '../styles/variables.scss';
+
 .app-container {
   width: 100%;
   height: 100%;
@@ -319,9 +321,13 @@
   margin: 3px 0;
 }
 
+.sidenav-content {
+  margin-left: $left-menu-width;
+}
+
 .main_content {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - $top-menu-height);
 }
 
 .app-container-reduce ::ng-deep.arlas-timeline--tools {
@@ -372,4 +378,26 @@
 
 .result-list-tab-group ::ng-deep .mat-tab-label-content .name {
   flex: 5;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $left-menu-width;
+  height: $top-menu-height;
+  margin-top: 2px;
+  margin-left: 2px;
+
+  .img {
+    width: min($left-menu-width, $top-menu-height);
+  }
+}
+
+::ng-deep.top-menu {
+  height: $top-menu-height !important;
+}
+
+.title {
+  font-size: 18px;
 }

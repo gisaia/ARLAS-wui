@@ -11,6 +11,7 @@
 @import 'styles/resultlist.css';
 @import 'styles/map.css';
 @import 'styles/filter.css';
+@import 'styles/variables.scss';
 /* Material Icons */
 
 @font-face {
@@ -106,7 +107,7 @@ button:focus {
 
 
 .side-result-list-preview table.resultlist>tbody {
-  height: 100vh !important;
+  height: calc(100vh - $top-menu-height) !important;
 }
 
 .side-result-list-preview table.resultlist>thead {
