@@ -203,9 +203,11 @@
 
               </mat-basic-chip>
             </div>
-            <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips">
-              <arlas-filter [title]="appName" [collectionToDescription]="collectionToDescription"
-                [backgroundColor]="appNameBackgroundColor" [units]="appUnits" (zoomEvent)="zoomToData($event)">
+            <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips"
+              [class.arlas-filters-chips-open]="listOpen"
+              [class.arlas-filters-chips-open-no-grid]="resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
+              <arlas-filter [collectionToDescription]="collectionToDescription"
+                [units]="appUnits" (zoomEvent)="zoomToData($event)">
               </arlas-filter>
             </div>
 

@@ -189,12 +189,20 @@
 }
 
 .arlas-filters-chips {
-  position: absolute;
-  top: 6px;
-  left: 7px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
+  top: 12px;
+  width: fit-content;
+  margin: auto;
+}
+
+.arlas-filters-chips-open {
+  // Remove half of the open result list width
+  left: -225px;
+}
+
+.arlas-filters-chips-open-no-grid {
+  // Remove half of the preview list width
+  left: -75px;
 }
 
 .arlas-analytics--container {
