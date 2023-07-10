@@ -22,10 +22,6 @@
   src: local('Material Icons'), local('MaterialIcons-Regular'), url('./assets/fonts/material-icons.woff2') format('woff2')
 }
 
-*, ::after, ::before {
-  box-sizing: border-box;
-}
-
 body {
   width: 100%;
   height: 100%;
