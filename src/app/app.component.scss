@@ -121,14 +121,6 @@
   top: 43px;
 }
 
-.arlas-search {
-  padding: 8px 0 0 5px;
-  flex: 5;
-  background-color: white;
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-}
-
 .rotate-icon {
   transform: rotate(180deg);
 }
@@ -388,17 +380,23 @@
   flex: 5;
 }
 
-.logo {
+.top-left-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $left-menu-width;
   height: $top-menu-height;
-  margin-top: 2px;
-  margin-left: 2px;
 
   .img {
     width: min($left-menu-width, $top-menu-height);
+    margin: 0 calc(($left-menu-width - min($left-menu-width, $top-menu-height)) / 2);
+  }
+
+  .arlas-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding-left: 6px;
   }
 }
 
@@ -408,4 +406,8 @@
 
 .title {
   font-size: 18px;
+}
+
+::ng-deep.cdk-global-scrollblock {
+  overflow-y: hidden !important;
 }
