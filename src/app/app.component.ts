@@ -47,6 +47,7 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
+import { SharedWorkerBusService } from 'windows-communication-bus';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -182,7 +183,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sharedWorkerBusService: SharedWorkerBusService
   ) {
     this.menuState = {
       configs: false
@@ -275,6 +277,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
+    if (typeof SharedWorker !== 'undefined') {
+      this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {
+        'name': 'multi-fenetre-poc-ads'
+      }));
+    } else {
+      // Shared Workers are not supported in this environment.
+      // You should add a fallback so that your program still executes correctly.
+    }
     this.setAppTitle();
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
