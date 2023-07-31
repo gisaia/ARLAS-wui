@@ -35,19 +35,20 @@ import {
   ResultListContributor
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import { fromEntries } from 'arlas-web-core';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { SharedWorkerBusService } from 'windows-communication-bus';
+import { BroadcastPayload, SharedWorkerBusService } from 'windows-communication-bus';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -114,7 +115,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public analyticsOpen = true;
   public searchOpen = true;
   public mapId = 'mapgl';
-
+  private dontReMove = true;
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
@@ -163,7 +164,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-
+  private subscription = new Subscription();
   public constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
@@ -281,6 +282,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {
         'name': 'multi-fenetre-poc-ads'
       }));
+
     } else {
       // Shared Workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.
@@ -406,6 +408,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+          console.log(bounds);
           (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
@@ -474,6 +477,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.allowMapExtend) {
         this.mapEventListener.next(null);
       }
+      if (!this.dontReMove) {
+        this.sharedWorkerBusService.publishMessage({
+          name: 'mapMove',
+          data: (<mapboxgl.Map>this.mapglComponent.map).getBounds()
+        });
+      }
+      this.dontReMove = false;
     });
     this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel
@@ -508,6 +518,33 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
     this.cdr.detectChanges();
+    this.subscription.add(
+      this.collaborativeService.collaborationBus.subscribe((c) => {
+        if (c.id !== 'url') {
+          console.log('collaboration');
+          this.sharedWorkerBusService.publishMessage({
+            name: 'collaborations',
+            data: fromEntries(this.collaborativeService.collaborations)
+          });
+        }
+      })
+    );
+    this.subscription.add(
+      this.sharedWorkerBusService.payloadOfName('collaborations').subscribe((m: BroadcastPayload) => {
+        console.log(m.data['timeline']);
+        this.collaborativeService.setCollaborations(m.data);
+      })
+    );
+    this.subscription.add(
+      this.sharedWorkerBusService.payloadOfName('mapMove').subscribe((m: BroadcastPayload) => {
+        console.log(m.data);
+        this.dontReMove = true;
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds([
+          m.data._sw,
+          m.data._ne
+        ], { duration: 0 });
+      })
+    );
   }
 
   public onMapLoaded(isLoaded: boolean): void {
