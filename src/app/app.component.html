@@ -2,11 +2,18 @@
   <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
     <div left-menu class="top-left-menu">
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
-      <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search" 
-        [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42"></arlas-search>
+      <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
+        [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
+    </div>
+    <div middle-menu class="shortcut-list">
+      <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
+        <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
+          (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+      </ng-container>
     </div>
     <div right-menu class="title">{{ appName }}</div>
   </arlas-top-menu>
+
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"

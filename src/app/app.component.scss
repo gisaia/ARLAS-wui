@@ -18,6 +18,7 @@
  */
 
 @import '../styles/variables.scss';
+@import '../styles/app/sizes.scss';
 
 .app-container {
   width: 100%;
@@ -353,8 +354,7 @@
 }
 
 .app-container-with-list ::ng-deep.arlas-timeline--timelines {
-  width: calc(100% - 164px);
-  /* 150px for list and 14px for margin left and right */
+  width: calc(100% - $preview-result-list-width - 2 * $default-margin);
 }
 
 .app-container-with-list ::ng-deep.bookmark-shortcut {
@@ -395,7 +395,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 30px;
+    height: $filter-height;
     padding-left: 6px;
   }
 }
@@ -410,4 +410,53 @@
 
 ::ng-deep.cdk-global-scrollblock {
   overflow-y: hidden !important;
+}
+
+.shortcut-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: $default-font-size;
+  height: $filter-height;
+  z-index: 2;
+
+  .shortcut {
+    padding: 0 $sm-spacing;
+    height: fit-content;
+
+    // Tighten powerbars display
+    ::ng-deep.checkbox {
+      padding-bottom: 0;
+    }
+
+    // Manage shortcuts header height to fit them in top menu
+    ::ng-deep.title {
+      height: $filter-height;
+    }
+
+    // Position content of the shortcut below header
+    ::ng-deep.content {
+      top: 47px !important;
+    }
+
+    // Manage the scroll of the powerbars
+    ::ng-deep.powerbars--container {
+      max-height: 300px;
+    }
+
+    // Allow for no change in size in the shortcut title section when adding a filter
+    ::ng-deep.actions {
+      min-width: 49px;
+      justify-content: flex-end;
+    }
+
+    // Adjust brush tooltip position to tighten display
+    ::ng-deep.histogram__brush-tooltip__horizontal--left,
+    ::ng-deep.histogram__brush-tooltip__horizontal--right {
+      top: 92px !important;
+    }
+    ::ng-deep.histogram {
+      padding-bottom: 5px;
+    }
+  }
 }

@@ -17,8 +17,20 @@
  * under the License.
  */
 
-$top-menu-height: 40px;
-$left-menu-width: 48px;
-$filter-height: 30px;
+@use 'sass:math';
 
-$preview-result-list-width: 150px;
+/** SPACING around elements **/
+$default-spacing: 10px;
+$xs-spacing: math.div($default-spacing, 4);
+$sm-spacing: math.div($default-spacing, 2);
+$lg-spacing: $default-spacing * 2;
+
+$default-margin: $default-spacing;
+$xs-margin: $xs-spacing;
+$sm-margin: $sm-spacing;
+$lg-margin: $lg-spacing;
+
+/** Fonts sizes **/
+$xs-font-size: 10px;
+$sm-font-size: 12px;
+$default-font-size: 14px;

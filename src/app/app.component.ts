@@ -37,7 +37,7 @@ import {
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, FilterShortcutConfiguration, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
@@ -162,6 +162,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
+
+  /** Shortcuts */
+  public shortcuts: Array<FilterShortcutConfiguration>;
+  public shortcutOpen: number;
 
   public constructor(
     private configService: ArlasConfigService,
@@ -414,6 +418,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             }
           });
         });
+
+      this.shortcuts = this.arlasStartUpService.filtersShortcuts;
     }
 
 
@@ -534,7 +540,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const layer = this.mapglComponent.map.getLayer(l);
         if (ids && ids.length > 0) {
           if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-            layer.metadata.isScrollableLayer) {
+              // Tests value in camel and kebab case due to an unknown issue on other projects
+              (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
             this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
@@ -990,6 +997,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.isMapMenuOpen = false;
       }
     }, 100);
+  }
+
+  public onOpenShortcut(state: boolean, shortcutIdx: number) {
+    if (state) {
+      this.shortcutOpen = shortcutIdx;
+    } else {
+      this.shortcutOpen = -1;
+    }
   }
 
   private adjustMapOffset() {
