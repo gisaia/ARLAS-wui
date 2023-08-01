@@ -24,7 +24,6 @@ addEventListener('connect', (connectEvent: any) => {
         break;
     }
     if (broadcastedMessage.type === 'message' && broadcastedMessage.payload && broadcastedMessage.payload.name === 'collaborations') {
-      console.log(collaborations); 
       collaborations = broadcastedMessage.payload.data;
     }
   };

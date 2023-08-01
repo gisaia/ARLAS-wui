@@ -56,6 +56,11 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { CrossCollaborationsService } from './services/cross-tabs-communication/collaboration.service';
+import { CrossMapService } from './services/cross-tabs-communication/map.service';
+import { CrossResultlistService } from './services/cross-tabs-communication/resultlist.service';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
 
 @NgModule({
   declarations: [
@@ -119,11 +124,15 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ArlasTaggerModule
   ],
   providers: [
+    CrossCollaborationsService,
+    CrossMapService,
+    CrossResultlistService,
+    MapService,
+    ResultlistService,
     ContributorService,
     SidenavService,
     DynamicComponentService,
     VisualizeService
-
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -29,13 +29,9 @@ import {
   MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
 import {
-  AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode, HistogramContributor,
-  MapContributor,
-  ResultListContributor
+  AnalyticsContributor, ChipsSearchContributor, ElementIdentifier, FeatureRenderMode, MapContributor, ResultListContributor
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
-import { fromEntries } from 'arlas-web-core';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
@@ -48,14 +44,19 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { BroadcastPayload, SharedWorkerBusService } from 'windows-communication-bus';
+import { SharedWorkerBusService } from 'windows-communication-bus';
+import { CrossCollaborationsService } from './services/cross-tabs-communication/collaboration.service';
+import { CrossMapService } from './services/cross-tabs-communication/map.service';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
+import { CrossResultlistService } from './services/cross-tabs-communication/resultlist.service';
 
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class ArlasWuiComponent implements OnInit, AfterViewInit {
+export class ArlasWuiComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public version: string;
   @Output() public actionOnPopup = new Subject<{
     action: {
@@ -100,7 +101,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     isleaving: boolean;
     elementidentifier: ElementIdentifier;
   };
-  public featuresToSelect: Array<ElementIdentifier> = [];
   private allowMapExtend: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
   private mapEventListener = new Subject();
@@ -115,7 +115,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public analyticsOpen = true;
   public searchOpen = true;
   public mapId = 'mapgl';
-  private dontReMove = true;
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public offset = { north: 0, east: 0, south: -128, west: 465 };
 
@@ -164,7 +163,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  private subscription = new Subscription();
+  private hoverSubscription: Subscription;
   public constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
@@ -174,7 +173,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
-    private mapService: ArlasMapService,
+    private toolkitMapService: ArlasMapService,
+    private mapService: MapService,
+    private resultlistService: ResultlistService,
     private colorGenerator: ArlasColorGeneratorLoader,
     private sidenavService: SidenavService,
     private titleService: Title,
@@ -185,8 +186,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sharedWorkerBusService: SharedWorkerBusService
+    private sharedWorkerBusService: SharedWorkerBusService,
+    private crossCollaborationService: CrossCollaborationsService,
+    private crossMapService: CrossMapService,
+    private crossResultlistService: CrossResultlistService
   ) {
+    this.hoverSubscription = this.mapService.highlightFeature$.subscribe(f => this.featureToHightLight = f);
     this.menuState = {
       configs: false
     };
@@ -222,6 +227,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
+      this.mapService.setMapConfig(this.mapComponentConfig);
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
       this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
       this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
@@ -282,7 +288,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {
         'name': 'multi-fenetre-poc-ads'
       }));
-
     } else {
       // Shared Workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.
@@ -337,6 +342,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           this.resultlistContributors.push(v);
         }
       });
+      this.resultlistService.setContributors(this.resultlistContributors);
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
@@ -407,8 +413,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
+          this.resultlistService.setCollectionsDescription(this.collectionToDescription);
           const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          console.log(bounds);
           (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
@@ -460,7 +466,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.mapService.setMap(this.mapglComponent.map);
+    this.mapService.setMapComponent(this.mapglComponent);
+    this.toolkitMapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
@@ -470,20 +477,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.mapglComponent.map.on('movestart', (e) => {
       this.zoomStart = this.mapglComponent.map.getZoom();
     });
-    this.mapglComponent.map.on('moveend', (e) => {
+    this.mapglComponent.map.on('moveend', (e: mapboxgl.EventData) => {
       if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
         this.zoomChanged = true;
       }
       if (this.allowMapExtend) {
         this.mapEventListener.next(null);
       }
-      if (!this.dontReMove) {
-        this.sharedWorkerBusService.publishMessage({
-          name: 'mapMove',
-          data: (<mapboxgl.Map>this.mapglComponent.map).getBounds()
-        });
+      const map = <mapboxgl.Map>this.mapglComponent.map;
+      if (e.source !== 'crossMapService') {
+        this.crossMapService.propagateMoveend(map.getCenter(), map.getZoom());
       }
-      this.dontReMove = false;
     });
     this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel
@@ -518,33 +522,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
     this.cdr.detectChanges();
-    this.subscription.add(
-      this.collaborativeService.collaborationBus.subscribe((c) => {
-        if (c.id !== 'url') {
-          console.log('collaboration');
-          this.sharedWorkerBusService.publishMessage({
-            name: 'collaborations',
-            data: fromEntries(this.collaborativeService.collaborations)
-          });
-        }
-      })
-    );
-    this.subscription.add(
-      this.sharedWorkerBusService.payloadOfName('collaborations').subscribe((m: BroadcastPayload) => {
-        console.log(m.data['timeline']);
-        this.collaborativeService.setCollaborations(m.data);
-      })
-    );
-    this.subscription.add(
-      this.sharedWorkerBusService.payloadOfName('mapMove').subscribe((m: BroadcastPayload) => {
-        console.log(m.data);
-        this.dontReMove = true;
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds([
-          m.data._sw,
-          m.data._ne
-        ], { duration: 0 });
-      })
-    );
+    this.crossMapService.listenToExternalMoveend$(<mapboxgl.Map>this.mapglComponent.map);
   }
 
   public onMapLoaded(isLoaded: boolean): void {
@@ -673,7 +651,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.mapSettingsService.mapContributors = this.mapglContributors;
     }
     const centroidPath = this.collectionToDescription.get(collection).centroid_path;
-    this.mapService.zoomToData(collection, centroidPath, this.mapglComponent.map, 0.2);
+    this.toolkitMapService.zoomToData(collection, centroidPath, this.mapglComponent.map, 0.2);
   }
 
 
@@ -764,32 +742,16 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         break;
       case 'consultedItemEvent':
         if (!!mapContributor) {
-          const f = mapContributor.getFeatureToHightLight(event.data);
-          if (mapContributor) {
-            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-          }
-          this.featureToHightLight = f;
+          const id = event.data as ElementIdentifier;
+          this.featureToHightLight = this.mapService.getFeatureToHover(id, mapContributor);
+          this.crossMapService.propagateFeatureHover(id, mapContributor.identifier);
         }
         break;
       case 'selectedItemsEvent':
-        /** TODO : manage features to select when we have miltiple collections */
-        if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
-          const featuresToSelect = event.data.map(id => {
-            let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
-            if (mapContributor.isFlat) {
-              idFieldName = idFieldName.replace(/\./g, '_');
-            }
-            return {
-              idFieldName: idFieldName,
-              idValue: id
-            };
-          });
-          this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
-        } else {
-          if (!!this.mapglComponent) {
-            this.mapglComponent.selectFeaturesByCollection([], currentCollection);
-          }
-        }
+        const ids = event.data;
+        const idPath = this.collectionToDescription.get(currentCollection).id_path;
+        this.mapService.selectFeatures(idPath, ids, mapContributor);
+        this.crossMapService.propagateFeaturesSelection(idPath, ids, mapContributor.identifier);
         break;
       case 'actionOnItemEvent':
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
@@ -918,25 +880,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
 
-  public emitFeaturesOnOver(event) {
+  public emitFeaturesOnHover(event) {
     if (event.features) {
-      this.mapglComponent.map.getCanvas().style.cursor = 'pointer';
-      // Get feature by collection
-      this.resultlistContributors.forEach(c => {
-        const idFieldName = this.collectionToDescription.get(c.collection).id_path;
-        const highLightItems = event.features
-          .filter(f => f.layer.metadata.collection === c.collection)
-          .map(f => f.properties[idFieldName.replace(/\./g, '_')])
-          .filter(id => id !== undefined)
-          .map(id => id.toString());
-        c.setHighlightItems(highLightItems);
-      });
+      this.mapService.setCursor('pointer');
+      this.resultlistService.highlightItems(event.features);
     } else {
-      this.mapglComponent.map.getCanvas().style.cursor = '';
-      this.resultlistContributors.forEach(c => {
-        c.setHighlightItems([]);
-      });
+      this.mapService.setCursor('');
+      this.resultlistService.clearHighlightedItems();
     }
+    this.crossResultlistService.propagateItemsHighlight(event.features);
   }
 
   public emitFeaturesOnClic(event) {
@@ -1120,6 +1072,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
         break;
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.crossCollaborationService.terminate();
+    this.crossMapService.terminate();
+    this.hoverSubscription.unsubscribe();
+    this.sharedWorkerBusService.terminate();
   }
 }
 

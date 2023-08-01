@@ -72,11 +72,11 @@
                 [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
                 [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources"
-                [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
+                [featureToHightLight]="featureToHightLight"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
-                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
+                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnHover($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 (downloadSourceEmitter)="downloadLayerSource($event)"
                 [offset]="offset">
