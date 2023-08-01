@@ -286,7 +286,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnInit() {
     if (typeof SharedWorker !== 'undefined') {
       this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {
-        'name': 'multi-fenetre-poc-ads'
+        'name': 'multi-fenetre-poc'
       }));
     } else {
       // Shared Workers are not supported in this environment.
