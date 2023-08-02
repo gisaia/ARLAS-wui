@@ -485,9 +485,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapEventListener.next(null);
       }
       const map = <mapboxgl.Map>this.mapglComponent.map;
-      if (e.source !== 'crossMapService') {
-        this.crossMapService.propagateMoveend(map.getCenter(), map.getZoom());
-      }
+      this.crossMapService.propagateMoveend(map.getBounds());
+
     });
     this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel

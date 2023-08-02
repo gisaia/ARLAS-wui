@@ -39,14 +39,11 @@ export class CrossMapService {
 
   // ############# MOVEEND ###########################
   // emit moveend event of the map to other tabs when the moveend of this tab is triggered.
-  public propagateMoveend(center: mapboxgl.LngLat, zoom: number) {
+  public propagateMoveend(bounds: mapboxgl.LngLatBounds) {
     if (this.canPropagateMoveend) {
       this.sharedWorkerBusService.publishMessage({
         name: this.MOVE_MESSAGE,
-        data: {
-          center,
-          zoom
-        }
+        data: bounds
       });
     }
     this.allowMyMoveendPropagation();
@@ -57,10 +54,10 @@ export class CrossMapService {
       this.sharedWorkerBusService.payloadOfName(this.MOVE_MESSAGE).subscribe((m: BroadcastPayload) => {
         const move = m.data as Move;;
         this.forbidMyMoveendPropagation();
-        map.setCenter(move.center);
-        map.setZoom(move.zoom, {
-          source: 'crossMapService'
-        });
+        map.fitBounds([
+          m.data._sw,
+          m.data._ne
+        ], { duration: 0 });
       })
     );
   }
