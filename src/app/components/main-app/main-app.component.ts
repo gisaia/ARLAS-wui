@@ -33,8 +33,8 @@ import {
 import { Subject, timer, zip } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
-import { CrossCollaborationsService } from 'app/services/cross-tabs-communication/collaboration.service';
-import { CrossMapService } from 'app/services/cross-tabs-communication/map.service';
+import { CrossCollaborationsService } from 'app/services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from 'app/services/cross-tabs-communication/cross.map.service';
 import { ResultlistService } from 'app/services/resultlist.service';
 import { getParamValue } from 'app/tools/utils';
 import { SidenavService } from 'app/services/sidenav.service';

@@ -136,10 +136,7 @@
                 </arlas-filter>
               </div>
               <div class="arlas-analytics--container" *ngIf="analyticsOpen && !arlasStartUpService.emptyMode">
-                <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
-                  [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
-                  [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
-                  [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
+                <arlas-analytics [hiddenAnalyticsTabs]="hiddenAnalyticsTabs"></arlas-analytics>
               </div>
   
               <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"

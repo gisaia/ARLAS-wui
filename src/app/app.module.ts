@@ -73,7 +73,9 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    ArlasAnalyticsComponent
+    ArlasAnalyticsComponent,
+    MainAppComponent,
+    ArlasMapComponent
   ],
   exports: [
     AboutComponent,

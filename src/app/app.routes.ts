@@ -21,10 +21,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import { NgModule } from '@angular/core';
 import { MainAppComponent } from './components/main-app/main-app.component';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 
 export const ROUTES: Routes = [
   { path: '', component: MainAppComponent  },
-  { path: 'map', component: ArlasMapComponent }
+  { path: 'map', component: ArlasMapComponent },
+  { path: 'analytics', component: ArlasAnalyticsComponent }
+
 ];
 export const routing = RouterModule.forRoot(ROUTES);
 

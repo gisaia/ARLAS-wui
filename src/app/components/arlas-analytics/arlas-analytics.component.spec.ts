@@ -9,8 +9,7 @@ describe('ArlasAnalyticsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ArlasAnalyticsComponent ]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ArlasAnalyticsComponent);
     component = fixture.componentInstance;

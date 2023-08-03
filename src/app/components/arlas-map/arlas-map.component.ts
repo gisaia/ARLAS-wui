@@ -31,13 +31,13 @@ import mapboxgl from 'mapbox-gl';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CrossCollaborationsService } from 'app/services/cross-tabs-communication/collaboration.service';
-import { CrossMapService } from 'app/services/cross-tabs-communication/map.service';
+import { CrossCollaborationsService } from 'app/services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from 'app/services/cross-tabs-communication/cross.map.service';
 import { SharedWorkerBusService } from 'windows-communication-bus';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import { VisualizeService } from 'app/services/visualize.service';
 import { ResultlistService } from 'app/services/resultlist.service';
-import { CrossResultlistService } from 'app/services/cross-tabs-communication/resultlist.service';
+import { CrossResultlistService } from 'app/services/cross-tabs-communication/cross.resultlist.service';
 import { DynamicComponentService } from 'app/services/dynamicComponent.service';
 
 @Component({

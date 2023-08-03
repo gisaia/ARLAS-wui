@@ -1,67 +1,11 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Clustered products centers:1690877357728",
-      "type": "fill",
-      "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
-      "minzoom": 1,
-      "maxzoom": 23,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.7,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#cee897",
-          0.125,
-          "#9dc95b",
-          0.25,
-          "#4bc71e",
-          0.375,
-          "#1bc473",
-          0.5,
-          "#16ccc9",
-          0.625,
-          "#3619cf",
-          0.75,
-          "#9317d1",
-          0.875,
-          "#d11799",
-          1,
-          "#cf1919"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo",
-        "stroke": {
-          "color": "#fff",
-          "width": 0,
-          "opacity": 0
-        }
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:products:1690891662848",
+      "id": "arlas_id:Latest products:1677155839933",
       "type": "fill",
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "minzoom": 1,
-      "maxzoom": 23,
+      "minzoom": 0,
+      "maxzoom": 22,
       "layout": {
         "visibility": "visible"
       },
@@ -71,29 +15,29 @@
           "match",
           [
             "get",
-            "metadata_core_identity_collection"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
           "SENTINEL 2",
-          "#46cce4",
-          "CNES-PLEIADES",
-          "#b10a54",
-          "GEOSUD",
-          "#065918",
-          "SPOTWORLDHERITAGE",
-          "#c4e229",
-          "AIRBUS-SPOT",
-          "#35b95f",
-          "KALCNES",
-          "#2bffff",
-          "AIRBUS-PLEIADES",
-          "#ffff6d",
-          "IGN-PLEIADES",
-          "#ec25ec",
+          "#ff61ec",
           "PLEIADES",
           "#ec4040",
-          "Pleiades",
-          "#47ff23",
-          "#fff619"
+          "SPOT 6",
+          "#0087e9",
+          "SPOT 5",
+          "#0041ff",
+          "SPOT 4",
+          "#00b4ff",
+          "SPOT 7",
+          "#1102c6",
+          "TerraSAR-X 1",
+          "#5e5e5e",
+          "ALOS2",
+          "#00c926",
+          "SENTINEL 2A",
+          "#ff0094",
+          "DRONE",
+          "#ffe300",
+          "#9d9ca9"
         ]
       },
       "metadata": {
@@ -101,35 +45,11 @@
         "collection-display-name": "demo_eo",
         "stroke": {
           "color": [
-            "match",
-            [
-              "get",
-              "metadata_core_identity_collection"
-            ],
-            "SENTINEL 2",
-            "#46cce4",
-            "CNES-PLEIADES",
-            "#b10a54",
-            "GEOSUD",
-            "#065918",
-            "SPOTWORLDHERITAGE",
-            "#c4e229",
-            "AIRBUS-SPOT",
-            "#35b95f",
-            "KALCNES",
-            "#2bffff",
-            "AIRBUS-PLEIADES",
-            "#ffff6d",
-            "IGN-PLEIADES",
-            "#ec25ec",
-            "PLEIADES",
-            "#ec4040",
-            "Pleiades",
-            "#47ff23",
-            "#fff619"
+            "get",
+            "metadata_ObservationContext_processusUsed_platform_arlas__color"
           ],
-          "width": 2,
-          "opacity": 1
+          "width": 3,
+          "opacity": 0.7
         },
         "is-scrollable-layer": true
       },
@@ -141,176 +61,546 @@
       ]
     },
     {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-products:1690891662848",
-      "type": "line",
+      "id": "arlas_id:Products:1677155960359",
+      "type": "fill",
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": 0,
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform"
+          ],
+          "SENTINEL 2",
+          "#ff61ec",
+          "PLEIADES",
+          "#ec4040",
+          "SPOT 6",
+          "#0087e9",
+          "SPOT 5",
+          "#0041ff",
+          "SPOT 4",
+          "#00b4ff",
+          "SPOT 7",
+          "#1102c6",
+          "TerraSAR-X 1",
+          "#5e5e5e",
+          "ALOS2",
+          "#00c926",
+          "SENTINEL 2A",
+          "#ff0094",
+          "DRONE",
+          "#ffe300",
+          "#9d9ca9"
+        ]
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo",
+        "stroke": {
+          "color": [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform_arlas__color"
+          ],
+          "width": 0.5,
+          "opacity": 0.5
+        },
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Density of products:1677155972496",
+      "type": "circle",
+      "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 15,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          0.2,
+          0.02,
+          0.4,
+          0.04,
+          0.6,
+          0.06000000000000001,
+          0.8,
+          0.08,
+          1,
+          0.1
+        ],
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#fffa83",
+          0.45,
+          "#ffcc26",
+          0.9,
+          "#ff7700",
+          1,
+          "#ff5700"
+        ],
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          5,
+          0.2,
+          14,
+          0.4,
+          23,
+          0.6,
+          32,
+          0.8,
+          41,
+          1,
+          50
+        ],
+        "circle-stroke-width": 2,
+        "circle-stroke-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#fff500",
+          0.8,
+          "#ffa700",
+          1,
+          "#ff5418"
+        ],
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Product density grid:1677155981981",
+      "type": "fill",
+      "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 15,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          0.2,
+          0.04,
+          0.4,
+          0.08,
+          0.6,
+          0.12000000000000002,
+          0.8,
+          0.16,
+          1,
+          0.2
+        ],
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#ffffff",
+          0.1,
+          "#ffcc26",
+          0.35,
+          "#ff7700",
+          1,
+          "#ff5700"
+        ]
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo",
+        "stroke": {
+          "color": "#ffffff",
+          "width": 2,
+          "opacity": 0
+        }
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Number of products:1677155990578",
+      "type": "symbol",
+      "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 15,
+      "layout": {
+        "visibility": "visible",
+        "text-field": [
+          "get",
+          "count_:_arlas__short_format"
+        ],
+        "text-font": [
+          "Open Sans Bold",
+          "Arial Unicode MS Bold"
+        ],
+        "text-size": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          8,
+          0.2,
+          13.2,
+          0.4,
+          18.4,
+          0.6,
+          23.6,
+          0.8,
+          28.8,
+          1,
+          34
+        ],
+        "text-rotate": 0,
+        "text-allow-overlap": true,
+        "text-anchor": "center",
+        "symbol-placement": "point"
+      },
+      "paint": {
+        "text-color": "#ffffff",
+        "text-opacity": 1,
+        "text-halo-color": "#000",
+        "text-halo-width": 1.3,
+        "text-halo-blur": 2,
+        "text-translate": [
+          0,
+          0
+        ]
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Heatmap:1689091401394",
+      "type": "heatmap",
+      "source": "cluster-_centroid_wkt-Medium-tile-cell_center-demo_eo",
+      "minzoom": 1,
       "maxzoom": 23,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "heatmap-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "heatmap-density"
+          ],
+          0,
+          "rgba(0, 0, 0, 0)",
+          1e-12,
+          "#cee897",
+          0.05,
+          "#9dc95b",
+          0.1,
+          "#4bc71e",
+          0.15,
+          "#1bc473",
+          0.2,
+          "#16ccc9",
+          0.25,
+          "#3619cf",
+          0.3,
+          "#9317d1",
+          0.6,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "heatmap-opacity": 0.3,
+        "heatmap-intensity": 3,
+        "heatmap-weight": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          1,
+          1
+        ],
+        "heatmap-radius": 77
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "source": "feature-_geometry_wkt-window-demo_eo",
+      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
+      "type": "line",
+      "maxzoom": 22,
       "filter": [
         "all",
         [
           "all"
         ]
       ],
-      "minzoom": 1,
+      "minzoom": 0,
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "line-color": [
-          "match",
-          [
-            "get",
-            "metadata_core_identity_collection"
-          ],
-          "SENTINEL 2",
-          "#46cce4",
-          "CNES-PLEIADES",
-          "#b10a54",
-          "GEOSUD",
-          "#065918",
-          "SPOTWORLDHERITAGE",
-          "#c4e229",
-          "AIRBUS-SPOT",
-          "#35b95f",
-          "KALCNES",
-          "#2bffff",
-          "AIRBUS-PLEIADES",
-          "#ffff6d",
-          "IGN-PLEIADES",
-          "#ec25ec",
-          "PLEIADES",
-          "#ec4040",
-          "Pleiades",
-          "#47ff23",
-          "#fff619"
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
         ],
-        "line-opacity": 1,
-        "line-width": 14
+        "line-opacity": 0.7,
+        "line-width": 15
+      }
+    },
+    {
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
+      "type": "line",
+      "maxzoom": 22,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": [
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
+        ],
+        "line-opacity": 0.5,
+        "line-width": 12.5
       }
     },
     {
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-products:1690891662848",
+      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
       "type": "line",
-      "maxzoom": 23,
+      "maxzoom": 22,
       "filter": [
         "all",
         [
           "all"
         ]
       ],
-      "minzoom": 1,
+      "minzoom": 0,
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "line-color": [
-          "match",
-          [
-            "get",
-            "metadata_core_identity_collection"
-          ],
-          "SENTINEL 2",
-          "#46cce4",
-          "CNES-PLEIADES",
-          "#b10a54",
-          "GEOSUD",
-          "#065918",
-          "SPOTWORLDHERITAGE",
-          "#c4e229",
-          "AIRBUS-SPOT",
-          "#35b95f",
-          "KALCNES",
-          "#2bffff",
-          "AIRBUS-PLEIADES",
-          "#ffff6d",
-          "IGN-PLEIADES",
-          "#ec25ec",
-          "PLEIADES",
-          "#ec4040",
-          "Pleiades",
-          "#47ff23",
-          "#fff619"
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
         ],
-        "line-opacity": 1,
-        "line-width": 14
+        "line-opacity": 0.7,
+        "line-width": 15
+      }
+    },
+    {
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
+      "type": "line",
+      "maxzoom": 22,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": [
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
+        ],
+        "line-opacity": 0.5,
+        "line-width": 12.5
+      }
+    },
+    {
+      "source": "feature-_geometry_wkt-window-demo_eo",
+      "id": "arlas-fill_stroke-Latest products:1677155839933",
+      "type": "line",
+      "maxzoom": 22,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
+        ],
+        "line-opacity": 0.7,
+        "line-width": 3
+      }
+    },
+    {
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "id": "arlas-fill_stroke-Products:1677155960359",
+      "type": "line",
+      "maxzoom": 22,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "get",
+          "metadata_ObservationContext_processusUsed_platform_arlas__color"
+        ],
+        "line-opacity": 0.5,
+        "line-width": 0.5
       }
     },
     {
       "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
-      "id": "arlas-fill_stroke-Clustered products centers:1690877357728",
+      "id": "arlas-fill_stroke-Product density grid:1677155981981",
       "type": "line",
-      "maxzoom": 23,
+      "maxzoom": 15,
       "filter": [
         "all",
         [
           "all"
         ]
       ],
-      "minzoom": 1,
+      "minzoom": 0,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "#fff",
+        "line-color": "#ffffff",
         "line-opacity": 0,
-        "line-width": 0
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-fill_stroke-products:1690891662848",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 1,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "metadata_core_identity_collection"
-          ],
-          "SENTINEL 2",
-          "#46cce4",
-          "CNES-PLEIADES",
-          "#b10a54",
-          "GEOSUD",
-          "#065918",
-          "SPOTWORLDHERITAGE",
-          "#c4e229",
-          "AIRBUS-SPOT",
-          "#35b95f",
-          "KALCNES",
-          "#2bffff",
-          "AIRBUS-PLEIADES",
-          "#ffff6d",
-          "IGN-PLEIADES",
-          "#ec25ec",
-          "PLEIADES",
-          "#ec4040",
-          "Pleiades",
-          "#47ff23",
-          "#fff619"
-        ],
-        "line-opacity": 1,
         "line-width": 2
       }
     },
     {
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "scrollable_arlas_id:products:1690891662848",
+      "id": "scrollable_arlas_id:Latest products:1677155839933",
       "type": "fill",
-      "maxzoom": 23,
-      "minzoom": 1,
+      "maxzoom": 22,
+      "minzoom": 0,
       "metadata": {
         "collection": "demo_eo",
         "collection-display-name": "demo_eo",
@@ -331,40 +621,48 @@
           "match",
           [
             "get",
-            "metadata_core_identity_collection"
+            "metadata_ObservationContext_processusUsed_platform"
           ],
           "SENTINEL 2",
-          "#46cce4",
-          "CNES-PLEIADES",
-          "#b10a54",
-          "GEOSUD",
-          "#065918",
-          "SPOTWORLDHERITAGE",
-          "#c4e229",
-          "AIRBUS-SPOT",
-          "#35b95f",
-          "KALCNES",
-          "#2bffff",
-          "AIRBUS-PLEIADES",
-          "#ffff6d",
-          "IGN-PLEIADES",
-          "#ec25ec",
+          "#ff61ec",
           "PLEIADES",
           "#ec4040",
-          "Pleiades",
-          "#47ff23",
-          "#fff619"
+          "SPOT 6",
+          "#0087e9",
+          "SPOT 5",
+          "#0041ff",
+          "SPOT 4",
+          "#00b4ff",
+          "SPOT 7",
+          "#1102c6",
+          "TerraSAR-X 1",
+          "#5e5e5e",
+          "ALOS2",
+          "#00c926",
+          "SENTINEL 2A",
+          "#ff0094",
+          "DRONE",
+          "#ffe300",
+          "#9d9ca9"
         ]
       }
     }
   ],
   "external-event-layers": [
     {
-      "id": "arlas-hover-arlas-fill_stroke-products:1690891662848",
+      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
       "on": "hover"
     },
     {
-      "id": "arlas-select-arlas-fill_stroke-products:1690891662848",
+      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
       "on": "select"
     }
   ]
