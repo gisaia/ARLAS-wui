@@ -21,12 +21,13 @@ import { ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfig
 import { SharedWorkerBusService } from 'windows-communication-bus';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { zip } from 'rxjs';
-import { ResultlistService } from './services/resultlist.service';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import {
   ResultListContributor, MapContributor
 } from 'arlas-web-contributors';
 import { ContributorService } from './services/contributors.service';
+import { ResultlistService } from './services/resultlist.service';
+
 
 @Component({
   selector: 'arlas-wui-root',
