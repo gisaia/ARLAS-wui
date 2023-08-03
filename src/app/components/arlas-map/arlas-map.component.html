@@ -1,4 +1,3 @@
-<arlas-tool-root *ngIf="standAlone"></arlas-tool-root>
 <div class="map-container">
     <arlas-mapgl-settings #mapSettings 
         (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
@@ -25,11 +24,11 @@
             (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
             <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Add bbox' | translate}}"
                 matTooltipPosition="below">
-                <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
+                <mat-icon svgIcon="bbox" (click)="this.mapComponent.addGeoBox();"></mat-icon>
             </div>
             <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                 matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
-                <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
+                <mat-icon svgIcon="draw_polygon" (click)="this.mapComponent.switchToDrawMode();"></mat-icon>
             </div>
             <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                 matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
@@ -37,11 +36,11 @@
             </div>
             <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                 matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
-                <mat-icon (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
+                <mat-icon (click)="this.mapComponent.switchToEditMode();">edit</mat-icon>
             </div>
             <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                 matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
-                <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
+                <mat-icon svgIcon="remove_polygon" (click)="this.mapComponent.removeAois();"></mat-icon>
             </div>
         </div>
     </div>
@@ -65,4 +64,6 @@
         (onFeatureClic)="emitFeaturesOnClic($event)" (downloadSourceEmitter)="downloadLayerSource($event)"
         [offset]="offset">
     </arlas-mapgl>
+    <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
+    [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapComponent"></arlas-mapgl-import>
 </div>

@@ -20,9 +20,10 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, 
 import { MapService } from 'app/services/map.service';
 import { getParamValue } from 'app/tools/utils';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService } from 'arlas-wui-toolkit';
-import { MapglComponent, MapglSettingsComponent, BasemapStyle, GeoQuery } from 'arlas-web-components';
+import { MapglComponent, MapglSettingsComponent, BasemapStyle, GeoQuery, ResultDetailedItemComponent, Item,
+  SCROLLABLE_ARLAS_ID, MapglImportComponent } from 'arlas-web-components';
 import { Observable, Subject, Subscription, debounceTime, fromEvent, merge, mergeMap, of } from 'rxjs';
-import { MapContributor, ElementIdentifier, FeatureRenderMode } from 'arlas-web-contributors';
+import { MapContributor, ElementIdentifier, FeatureRenderMode, ResultListContributor } from 'arlas-web-contributors';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ContributorService } from 'app/services/contributors.service';
@@ -35,6 +36,9 @@ import { CrossMapService } from 'app/services/cross-tabs-communication/map.servi
 import { SharedWorkerBusService } from 'windows-communication-bus';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import { VisualizeService } from 'app/services/visualize.service';
+import { ResultlistService } from 'app/services/resultlist.service';
+import { CrossResultlistService } from 'app/services/cross-tabs-communication/resultlist.service';
+import { DynamicComponentService } from 'app/services/dynamicComponent.service';
 
 @Component({
   selector: 'arlas-map',
@@ -76,8 +80,8 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
+  public resultlistContributors: Array<ResultListContributor> = new Array();
 
-  public standAlone = false;
   private mapExtendTimer: number;
   private allowMapExtend: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
@@ -85,9 +89,11 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
   private hoverSubscription: Subscription;
 
   @Input() public analyticsOpen = false;
-
+  @Input() public hiddenResultlistTabs;
+  @Input() public actionOnPopup: any;
   @ViewChild('map', { static: false }) public mapComponent: MapglComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
 
   public constructor(private configService: ArlasConfigService,
     private mapService: MapService,
@@ -102,13 +108,15 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
     public visualizeService: VisualizeService,
     private mapSettingsService: ArlasMapSettings,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private sharedWorkerBusService: SharedWorkerBusService,
     private crossCollaborationService: CrossCollaborationsService,
     private crossMapService: CrossMapService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private resultlistService: ResultlistService,
+    private crossResultlistService: CrossResultlistService,
+    private dynamicComponentService: DynamicComponentService,
+    private router: Router
   ) {
-    console.log('ARLASMP');
     this.hoverSubscription = this.mapService.highlightFeature$.subscribe(f => this.featureToHightLight = f);
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** resize the map */
@@ -144,11 +152,9 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnInit(): void {
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
-
       /** Prepare map data */
       this.mapglContributors = this.contributorService.getMapContributors();
       this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
-      console.log(this.mapglContributors);
       this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
         this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
       this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
@@ -230,7 +236,7 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      this.router.navigate(['.'], { replaceUrl: true, queryParams: queryParams, relativeTo: this.activatedRoute });
     });
     this.crossMapService.listenToExternalMoveend$(<mapboxgl.Map>this.mapComponent.map);
     this.cdr.detectChanges();
@@ -398,12 +404,131 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public emitFeaturesOnHover(event) {
-
+    if (event.features) {
+      this.mapService.setCursor('pointer');
+      this.resultlistService.highlightItems(event.features);
+    } else {
+      this.mapService.setCursor('');
+      this.resultlistService.clearHighlightedItems();
+    }
+    this.crossResultlistService.propagateItemsHighlight(event.features);
   }
-  public emitFeaturesOnClic(event) {
 
+  public emitFeaturesOnClic(event) {
+    if (event.features) {
+      const feature = event.features[0];
+      const resultListContributor = this.resultlistContributors
+        .filter(c => feature.layer.metadata.collection ===
+          c.collection && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
+      if (!!resultListContributor) {
+        const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
+        const id = feature.properties[idFieldName.replace(/\./g, '_')];
+        resultListContributor.detailedDataRetriever.getData(id).subscribe(
+          data => {
+            const rowItem = new Item([], new Map());
+            rowItem.identifier = id;
+            resultListContributor.detailedDataRetriever.getActions(rowItem).subscribe(ac => rowItem.actions = ac);
+            const detail = new Array<{
+              group: string;
+              details: Array<{
+                key: string;
+                value: string;
+              }>;
+            }>();
+            data.details.forEach((k, v) => {
+              const details = new Array<{
+                key: string;
+                value: string;
+              }>();
+              k.forEach((value, key) => {
+                details.push(
+                  { key, value }
+                );
+              });
+              detail.push({
+                group: v,
+                details: details
+              });
+            });
+            rowItem.itemDetailedData = detail;
+            const popupContent = this.dynamicComponentService.injectComponent(
+              ResultDetailedItemComponent,
+              x => {
+                x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName;
+              });
+            if (!!this.popup) {
+              this.popup.remove();
+            }
+            this.popup = new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat(event.point)
+              .setDOMContent(popupContent);
+            this.popup.addTo(this.mapComponent.map);
+          }
+        );
+      }
+    }
   }
   public onMove(event) {
-
+    // Update data only when the collections info are presents
+    if (this.resultlistService.collectionToDescription.size > 0) {
+      /** Change map extend in the url */
+      const bounds = (<mapboxgl.Map>this.mapComponent.map).getBounds();
+      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const visibileVisus = this.mapComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams['vs'] = visibileVisus;
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      localStorage.setItem('currentExtent', JSON.stringify(bounds));
+      const ratioToAutoSort = 0.1;
+      this.centerLatLng['lat'] = event.centerWithOffset[1];
+      this.centerLatLng['lng'] = event.centerWithOffset[0];
+      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
+        this.recalculateExtend = true;
+      }
+      const newMapExtent = event.extendWithOffset;
+      const newMapExtentRaw = event.rawExtendWithOffset;
+      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
+      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
+      if (this.recalculateExtend) {
+        this.resultlistContributors
+          .forEach(c => {
+            const centroidPath = this.resultlistService.collectionToDescription.get(c.collection).centroid_path;
+            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
+            if (!!mapContrib) {
+              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            } else {
+              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
+            }
+            this.collaborativeService.registry.set(c.identifier, c);
+          });
+        this.resultlistContributors.forEach(c => {
+          if (this.resultlistService.isGeoSortActivated.get(c.identifier)) {
+            c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
+          } else {
+            c.sortColumn(this.resultlistService.sortOutput.get(c.identifier), true);
+          }
+        });
+        this.mapglContributors.forEach(c => {
+          if (!!this.resultlistContributors) {
+            const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
+            if (!!resultlistContrbutor) {
+              if (this.resultlistService.isGeoSortActivated.get(c.identifier)) {
+                c.searchSort = resultlistContrbutor.geoOrderSort;
+              } else {
+                c.searchSort = resultlistContrbutor.sort;
+              }
+              this.collaborativeService.registry.set(c.identifier, c);
+            }
+          }
+          this.clearWindowData(c);
+        });
+        this.zoomChanged = false;
+      }
+      event.extendForTest = newMapExtent;
+      event.rawExtendForTest = newMapExtentRaw;
+      this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
+      this.recalculateExtend = false;
+    }
   }
 }
