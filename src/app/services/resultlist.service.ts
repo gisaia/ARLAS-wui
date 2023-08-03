@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { CollectionReferenceParameters } from 'arlas-api';
-
+import {
+  SortEnum
+} from 'arlas-web-components';
 @Injectable()
 export class ResultlistService {
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
+  public isGeoSortActivated = new Map<string, boolean>();
+  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
 
 
   public setContributors(resultlistContributors: Array<ResultListContributor>) {

@@ -44,7 +44,7 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader
+  PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArlasWuiComponent } from './app.component';
@@ -61,6 +61,9 @@ import { CrossMapService } from './services/cross-tabs-communication/map.service
 import { CrossResultlistService } from './services/cross-tabs-communication/resultlist.service';
 import { MapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
+import { AppRoutingModule } from './app.routes';
+import { MainAppComponent } from './components/main-app/main-app.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,9 @@ import { ResultlistService } from './services/resultlist.service';
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ArlasMapComponent,
+    MainAppComponent
   ],
   exports: [
     AboutComponent,
@@ -78,6 +83,7 @@ import { ResultlistService } from './services/resultlist.service';
     ConfigsListComponent,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MapglImportModule,
@@ -104,7 +110,6 @@ import { ResultlistService } from './services/resultlist.service';
     MatListModule,
     MatSidenavModule,
     HistogramModule,
-    ToolkitRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({

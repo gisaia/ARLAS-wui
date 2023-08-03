@@ -23,8 +23,7 @@ authentication:
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
 ticketing_key:
 tab_name: "ARLAS Wui"
-persistence:
-  url: 'http://localhost:19997/arlas-persistence-server'
+
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
