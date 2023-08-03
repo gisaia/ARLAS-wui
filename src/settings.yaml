@@ -23,7 +23,6 @@ authentication:
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
 ticketing_key:
 tab_name: "ARLAS Wui"
-
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000

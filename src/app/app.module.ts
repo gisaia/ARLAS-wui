@@ -56,14 +56,15 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { CrossCollaborationsService } from './services/cross-tabs-communication/collaboration.service';
-import { CrossMapService } from './services/cross-tabs-communication/map.service';
-import { CrossResultlistService } from './services/cross-tabs-communication/resultlist.service';
+import { CrossCollaborationsService } from './services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from './services/cross-tabs-communication/cross.map.service';
+import { CrossResultlistService } from './services/cross-tabs-communication/cross.resultlist.service';
 import { MapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import { AppRoutingModule } from './app.routes';
 import { MainAppComponent } from './components/main-app/main-app.component';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 
 @NgModule({
   declarations: [
@@ -72,8 +73,9 @@ import { MainAppComponent } from './components/main-app/main-app.component';
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    ArlasMapComponent,
-    MainAppComponent
+    ArlasAnalyticsComponent,
+    MainAppComponent,
+    ArlasMapComponent
   ],
   exports: [
     AboutComponent,

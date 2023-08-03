@@ -9,8 +9,7 @@ describe('ArlasMapComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ArlasMapComponent ]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ArlasMapComponent);
     component = fixture.componentInstance;
