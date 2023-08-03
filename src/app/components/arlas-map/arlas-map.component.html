@@ -1,0 +1,68 @@
+<arlas-tool-root *ngIf="standAlone"></arlas-tool-root>
+<div class="map-container">
+    <arlas-mapgl-settings #mapSettings 
+        (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
+    </arlas-mapgl-settings>
+    <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode">
+        <div class="arlas-map-settings-container">
+            <div class="arlas-map-settings-items" style="padding:4px 3px 3px 4px" [matTooltipPosition]="'left'"
+                matTooltip="{{'Map Settings' | translate}}">
+                <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
+            </div>
+            <div class="arlas-map-settings-items" style="border-top: 1px solid #ddd;" [matTooltipPosition]="'left'"
+                matTooltip="{{'Basemaps' | translate}}">
+                <mat-icon style="width:22px;height:22px"
+                    (click)="mapComponent?.showBasemapSwitcher()">public</mat-icon>
+            </div>
+            <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below"
+                (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false"
+                (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()" class="arlas-map-settings-items"
+                style="border-top: 1px solid #ddd;padding-top:1px;">
+                <mat-icon>image_search</mat-icon>
+            </div>
+        </div>
+        <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false"
+            (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+            <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Add bbox' | translate}}"
+                matTooltipPosition="below">
+                <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
+            </div>
+            <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
+                matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
+                <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
+            </div>
+            <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
+                matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
+                <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
+            </div>
+            <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
+                matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
+                <mat-icon (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
+            </div>
+            <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
+                matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
+                <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
+            </div>
+        </div>
+    </div>
+    <arlas-mapgl [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+        [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
+        [defaultBasemapStyle]="defaultBaseMap" [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
+        (visualisations)="changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
+        [basemapStyles]="mapComponentConfig?.basemapStyles" [margePanForLoad]="mapComponentConfig?.margePanForLoad"
+        [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
+        [drawData]="geojsondraw" [initCenter]="mapComponentConfig?.initCenter" [initZoom]="mapComponentConfig?.initZoom"
+        [minZoom]="mapComponentConfig?.minZoom" [maxZoom]="mapComponentConfig?.maxZoom"
+        [displayScale]="mapComponentConfig?.displayScale"
+        [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
+        [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
+        [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
+        [mapSources]="mapComponentConfig?.mapSources" [featureToHightLight]="featureToHightLight"
+        [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
+        [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+        (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
+        (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnHover($event)"
+        (onFeatureClic)="emitFeaturesOnClic($event)" (downloadSourceEmitter)="downloadLayerSource($event)"
+        [offset]="offset">
+    </arlas-mapgl>
+</div>

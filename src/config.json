@@ -8,49 +8,17 @@
           "name": "Map demo_eo",
           "collection": "demo_eo",
           "geo_query_op": "Intersects",
-          "geo_query_field": "_geometry_wkt",
+          "geo_query_field": "_centroid_wkt",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Latest products:1632208939421",
-              "name": "Latest products",
-              "source": "feature-_geometry_wkt-window-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "window"
-            },
-            {
-              "id": "arlas_id:Products:1632232665171",
-              "name": "Products",
-              "source": "feature-_geometry_wkt-wide-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 500,
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Product density:1632378581078",
-              "name": "Product density",
-              "source": "cluster-_centroid_wkt-Coarse-tile-cell-demo_eo",
+              "id": "arlas_id:Clustered products centers:1690877357728",
+              "name": "Clustered products centers",
+              "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
               "minzoom": 1,
-              "maxzoom": 15,
+              "maxzoom": 23,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -59,18 +27,31 @@
                   "field": "",
                   "metric": "count",
                   "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
                 }
               ],
               "agg_geo_field": "_centroid_wkt",
               "aggType": "tile",
-              "granularity": "Coarse",
-              "minfeatures": 500,
+              "granularity": "Medium",
+              "minfeatures": 5000,
               "aggregated_geometry": "cell"
+            },
+            {
+              "id": "arlas_id:products:1690891662848",
+              "name": "products",
+              "source": "feature-_geometry_wkt-window-demo_eo",
+              "minzoom": 1,
+              "maxzoom": 23,
+              "include_fields": [
+                "metadata.core.identity.collection",
+                "metadata.core.identity.collection"
+              ],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "returned_geometry": "_geometry_wkt",
+              "render_mode": "window"
             }
           ]
         },
@@ -98,191 +79,53 @@
               "type": "datehistogram",
               "field": "metadata.ObservationContext.phenomenonTime.begin"
             }
-          ],
-          "additionalCollections": []
+          ]
         },
         {
-          "identifier": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
-          "name": "DATA",
-          "title": "DATA",
+          "identifier": "demo_eo-metadata.core.identity.identifier-100-Collection-Date-",
+          "name": "Products list",
+          "title": "Products list",
           "collection": "demo_eo",
           "icon": "table_chart",
           "type": "resultlist",
-          "search_size": 40,
+          "search_size": 100,
           "fieldsConfiguration": {
             "idFieldName": "metadata.core.identity.identifier",
-            "thumbnailFieldName": "metadata.core.graphics.thumbnail",
-            "imageFieldName": "metadata.core.graphics.quicklook",
             "titleFieldNames": [
               {
-                "fieldPath": "_keywords.platform",
+                "fieldPath": "",
                 "process": ""
               }
             ],
             "tooltipFieldNames": [
               {
-                "fieldPath": "metadata.ObservationContext.processusUsed.platform",
+                "fieldPath": "",
                 "process": ""
               }
             ],
             "icon": "fiber_manual_record",
-            "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
-            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
-            "urlImageTemplate": "{metadata.core.graphics.quicklook}"
+            "iconColorFieldName": ""
           },
           "columns": [
             {
-              "columnName": "Sensor",
-              "fieldName": "metadata.ObservationContext.processusUsed.platform",
+              "columnName": "Collection",
+              "fieldName": "metadata.core.identity.collection",
               "dataType": "",
               "process": "",
-              "useColorService": true
+              "useColorService": false,
+              "sort": ""
             },
             {
               "columnName": "Date",
-              "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
+              "fieldName": "_keywords.realtime",
               "dataType": "",
-              "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
-              "useColorService": false
-            },
-            {
-              "columnName": "Cloud coverage",
-              "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-              "dataType": "%",
               "process": "",
-              "useColorService": false
-            },
-            {
-              "columnName": "Incidence angle",
-              "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-              "dataType": "°",
-              "process": "(result !== undefined && result !== null) ? result.toString().split('.')[0].concat((result.toString().split('.')[1] !== undefined && result.toString().split('.')[1] !== null) ? '.'+result.toString().split('.')[1].substring(0, 4) : '') : ''",
-              "useColorService": false
+              "useColorService": false,
+              "sort": ""
             }
           ],
-          "details": [
-            {
-              "name": "Toponymy",
-              "order": 1,
-              "fields": [
-                {
-                  "path": "_keywords.country",
-                  "label": "Country",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.state",
-                  "label": "State",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.region",
-                  "label": "Region",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.city",
-                  "label": "City",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Identification",
-              "order": 2,
-              "fields": [
-                {
-                  "path": "metadata.core.identity.identifier",
-                  "label": "Identifier",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.core.identity.parentIdentifier",
-                  "label": "ParentIdentifier",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.core.identity.collection",
-                  "label": "Plateform",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Technical Information",
-              "order": 3,
-              "fields": [
-                {
-                  "path": "_resolution",
-                  "label": "Resolution",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-                  "label": "Incidence angle",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                  "label": "Cloud coverage",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
-                  "label": "Snow coverage",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
-                  "label": "Wate coverage",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Product and processing levels",
-              "order": 4,
-              "fields": [
-                {
-                  "path": "metadata.core.description.processingLevel",
-                  "label": "Product level",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.Discipline",
-                  "label": "Discipline",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Acquisition mode",
-              "order": 5,
-              "fields": [
-                {
-                  "path": "metadata.ObservationContext.processusUsed.platform",
-                  "label": "Sensor",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
-                  "label": "Sensor mode",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.instrument",
-                  "label": "Instrument",
-                  "process": ""
-                }
-              ]
-            }
-          ],
-          "includeMetadata": [
-            "_keywords.platform",
-            "metadata.ObservationContext.processusUsed.platform",
-            "metadata.core.graphics.thumbnail",
-            "metadata.core.graphics.quicklook"
-          ]
+          "details": [],
+          "includeMetadata": []
         },
         {
           "type": "detailedhistogram",
@@ -300,94 +143,7 @@
             }
           ],
           "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.02,
-          "additionalCollections": []
-        },
-        {
-          "identifier": "demo_eo-_keywords.city-10-Count",
-          "name": "City",
-          "title": "City",
-          "collection": "demo_eo",
-          "icon": "language",
-          "type": "tree",
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "_keywords.city",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_keywords.country-10-Count",
-          "name": "Country",
-          "title": "Country",
-          "collection": "demo_eo",
-          "icon": "language",
-          "type": "tree",
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "_keywords.country",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-          "name": "Sensor",
-          "title": "Sensor",
-          "collection": "demo_eo",
-          "icon": "photo_camera",
-          "type": "tree",
-          "aggregationmodels": [
-            {
-              "field": "_sensorType",
-              "size": 10,
-              "type": "term"
-            },
-            {
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 10,
-              "type": "term"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
-          "name": "Sensor",
-          "title": "Sensor",
-          "collection": "demo_eo",
-          "icon": "photo_camera",
-          "type": "tree",
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 6
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-          "name": "Cloud Coverage",
-          "title": "Cloud Coverage",
-          "collection": "demo_eo",
-          "icon": "cloud_queue",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
-            }
-          ]
+          "selectionExtentPercentage": 0.02
         }
       ],
       "components": {
@@ -432,25 +188,19 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Streets-dark",
-              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              "name": "Basic",
+              "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+              "image": "https://cloud.maptiler.com/static/img/maps/basic.png"
             },
             "basemapStyles": [
               {
                 "name": "Basic",
-                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4"
-              },
-              {
-                "name": "Streets-dark",
-                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
-              },
-              {
-                "name": "Streets-light",
-                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/basic.png"
               }
             ],
-            "margePanForLoad": 0,
-            "margePanForTest": 0,
+            "margePanForLoad": 5,
+            "margePanForTest": 5,
             "initZoom": 2,
             "initCenter": [
               0,
@@ -458,33 +208,28 @@
             ],
             "displayScale": true,
             "displayCurrentCoordinates": false,
-            "idFeatureField": "metadata.core.identity.identifier",
+            "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
               "events": {
                 "zoomOnClick": [],
                 "emitOnClick": [
-                  "arlas_id:Latest products:1632208939421"
+                  "arlas_id:products:1690891662848",
+                  "scrollable_arlas_id:products:1690891662848"
                 ],
                 "onHover": [
-                  "arlas_id:Latest products:1632208939421"
+                  "arlas_id:products:1690891662848",
+                  "scrollable_arlas_id:products:1690891662848"
                 ]
               },
               "externalEventLayers": []
             },
             "visualisations_sets": [
               {
-                "name": "Latest products",
+                "name": "All layers",
                 "layers": [
-                  "arlas_id:Latest products:1632208939421"
-                ],
-                "enabled": true
-              },
-              {
-                "name": "All products",
-                "layers": [
-                  "arlas_id:Product density:1632378581078",
-                  "arlas_id:Products:1632232665171"
+                  "arlas_id:Clustered products centers:1690877357728",
+                  "arlas_id:products:1690891662848"
                 ],
                 "enabled": true
               }
@@ -493,33 +238,36 @@
         },
         "resultlists": [
           {
-            "contributorId": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
+            "contributorId": "demo_eo-metadata.core.identity.identifier-100-Collection-Date-",
             "componentType": "resultlist",
             "input": {
-              "id": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
+              "id": "demo_eo-metadata.core.identity.identifier-100-Collection-Date-",
               "tableWidth": 445,
               "globalActionsList": [],
-              "searchSize": 40,
+              "searchSize": 100,
               "nLastLines": 3,
               "detailedGridHeight": 300,
               "nbGridColumns": 3,
-              "defautMode": "list",
               "displayFilters": false,
-              "hasGridMode": true,
-              "visualisationLink": "{_services_WMS_0_url}",
+              "hasGridMode": false,
+              "defautMode": "list",
+              "visualisationLink": "",
+              "downloadLink": "",
               "isBodyHidden": false,
-              "isGeoSortActived": true,
+              "isGeoSortActived": false,
               "isAutoGeoSortActived": null,
               "selectedItemsEvent": null,
               "consultedItemEvent": null,
               "actionOnItemEvent": null,
               "globalActionEvent": 300,
               "useColorService": true,
-              "cellBackgroundStyle": "filled",
               "options": {
                 "showActionsOnhover": "true",
                 "showDetailIconName": "keyboard_arrow_down",
-                "hideDetailIconName": "keyboard_arrow_up"
+                "hideDetailIconName": "keyboard_arrow_up",
+                "icon": "short_text",
+                "showName": true,
+                "showIcon": true
               }
             }
           }
@@ -571,221 +319,52 @@
         },
         "download": {}
       },
-      "analytics": [
-        {
-          "groupId": "Filter-0",
-          "title": "Geonames",
-          "tab": "Filter",
-          "icon": "language",
-          "components": [
-            {
-              "contributorId": "demo_eo-_keywords.city-10-Count",
-              "showExportCsv": "",
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "City",
-                "powerbarTitle": "City",
-                "displayFilter": false,
-                "useColorService": false,
-                "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
-              }
-            },
-            {
-              "contributorId": "demo_eo-_keywords.country-10-Count",
-              "showExportCsv": "",
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "Country",
-                "powerbarTitle": "Country",
-                "displayFilter": false,
-                "useColorService": false,
-                "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "Filter-1",
-          "title": "Collection",
-          "tab": "Filter",
-          "icon": "photo_camera",
-          "components": [
-            {
-              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-              "componentType": "donut",
-              "showExportCsv": "",
-              "input": {
-                "id": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-                "customizedCssClass": "arlas-donuts-analytics",
-                "diameter": 170,
-                "containerWidth": 223,
-                "multiselectable": true,
-                "opacity": 0.4
-              }
-            },
-            {
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
-              "showExportCsv": "",
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "Sensor",
-                "powerbarTitle": "Sensor",
-                "displayFilter": true,
-                "useColorService": true,
-                "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "Filter-2",
-          "title": "Cloud Coverage",
-          "tab": "Filter",
-          "icon": "cloud_queue",
-          "components": [
-            {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Cloud Coverage",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": ""
-            }
-          ]
-        }
-      ],
+      "analytics": [],
       "colorGenerator": {
         "keysToColors": [
+          [
+            "SENTINEL 2",
+            "#46cce4"
+          ],
+          [
+            "CNES-PLEIADES",
+            "#b10a54"
+          ],
+          [
+            "GEOSUD",
+            "#065918"
+          ],
+          [
+            "SPOTWORLDHERITAGE",
+            "#c4e229"
+          ],
+          [
+            "AIRBUS-SPOT",
+            "#35b95f"
+          ],
+          [
+            "KALCNES",
+            "#2bffff"
+          ],
+          [
+            "AIRBUS-PLEIADES",
+            "#ffff6d"
+          ],
+          [
+            "IGN-PLEIADES",
+            "#ec25ec"
+          ],
           [
             "PLEIADES",
             "#ec4040"
           ],
           [
-            "SENTINEL 2",
-            "#ff61ec"
-          ],
-          [
-            "SPOT5",
-            "#ecff4b"
-          ],
-          [
-            "SPOT6",
-            "#19ff88"
-          ],
-          [
-            "SPOT4",
-            "#7d4eff"
-          ],
-          [
-            "PLEIADES 1A",
-            "#9bc419"
-          ],
-          [
-            "SPOT 7",
-            "#1102c6"
-          ],
-          [
-            "PLEIADES 1B",
-            "#ff834b"
-          ],
-          [
-            "SPOT1",
-            "#691a3a"
-          ],
-          [
-            "SPOT 6",
-            "#2900ff"
+            "Pleiades",
+            "#47ff23"
           ],
           [
             "OTHER",
-            "#9d9ca9"
-          ],
-          [
-            "s2A",
-            "#e6ff95"
-          ],
-          [
-            "s2B",
-            "#ff73ff"
-          ],
-          [
-            "PLEIADES-1A",
-            "#8a1959"
-          ],
-          [
-            "PLEIADES-1B",
-            "#d4ff97"
-          ],
-          [
-            "spot5",
-            "#ffff43"
-          ],
-          [
-            "spot4",
-            "#9c46ff"
-          ],
-          [
-            "spot1",
-            "#7a1938"
-          ],
-          [
-            "SPOT 5",
-            "#0041ff"
-          ],
-          [
-            "SPOT 4",
-            "#00b4ff"
-          ],
-          [
-            "TerraSAR-X 1",
-            "#5e5e5e"
-          ],
-          [
-            "ALOS2",
-            "#00c926"
-          ],
-          [
-            "SENTINEL 2A",
-            "#ff0094"
-          ],
-          [
-            "DRONE",
-            "#ffe300"
+            "#fff619"
           ]
         ]
       },
@@ -797,12 +376,13 @@
           "show": true,
           "color": "accent",
           "diameter": 50
-        }
+        },
+        "tabs": []
       },
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:81/server",
+      "url": "http://localhost:81/server/",
       "max_age_cache": 120,
       "collection": {
         "name": "demo_eo"
@@ -819,7 +399,13 @@
           }
         },
         "name": "ARLAS",
-        "unit": "",
+        "units": [
+          {
+            "collection": "demo_eo",
+            "unit": "demo_eo",
+            "ignored": false
+          }
+        ],
         "name_background_color": "#FF4081"
       }
     }

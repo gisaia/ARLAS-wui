@@ -61,6 +61,7 @@ import { CrossMapService } from './services/cross-tabs-communication/map.service
 import { CrossResultlistService } from './services/cross-tabs-communication/resultlist.service';
 import { MapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ResultlistService } from './services/resultlist.service';
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ArlasMapComponent
   ],
   exports: [
     AboutComponent,
