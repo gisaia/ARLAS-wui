@@ -27,6 +27,7 @@ import {
 } from 'arlas-web-contributors';
 import { ContributorService } from './services/contributors.service';
 import { ResultlistService } from './services/resultlist.service';
+import { CrossCollaborationsService } from './services/cross-tabs-communication/cross.collaboration.service';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class ArlasWuiComponent implements OnInit {
     public arlasStartUpService: ArlasStartupService,
     private colorGenerator: ArlasColorGeneratorLoader,
     private contributorService: ContributorService,
+    private crossCollaborativeService: CrossCollaborationsService
   ) {
 
   }
