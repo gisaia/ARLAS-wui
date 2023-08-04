@@ -65,6 +65,7 @@ import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import { AppRoutingModule } from './app.routes';
 import { MainAppComponent } from './components/main-app/main-app.component';
 import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
+import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ConfigsListComponent,
     ArlasAnalyticsComponent,
     MainAppComponent,
-    ArlasMapComponent
+    ArlasMapComponent,
+    ArlasListComponent
   ],
   exports: [
     AboutComponent,

@@ -23,11 +23,12 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { zip } from 'rxjs';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import {
-  ResultListContributor, MapContributor
+  ResultListContributor
 } from 'arlas-web-contributors';
 import { ContributorService } from './services/contributors.service';
 import { ResultlistService } from './services/resultlist.service';
 import { CrossCollaborationsService } from './services/cross-tabs-communication/cross.collaboration.service';
+import { MapService } from './services/map.service';
 
 
 @Component({
@@ -49,8 +50,10 @@ export class ArlasWuiComponent implements OnInit {
     private resultlistService: ResultlistService,
     public arlasStartUpService: ArlasStartupService,
     private colorGenerator: ArlasColorGeneratorLoader,
+    private mapService: MapService,
     private contributorService: ContributorService,
-    private crossCollaborativeService: CrossCollaborationsService
+    // Dont remove it, usefull to dialog between browser
+    private crossCollaborationsService: CrossCollaborationsService
   ) {
 
   }
@@ -80,7 +83,23 @@ export class ArlasWuiComponent implements OnInit {
         this.resultlistContributors.push(v);
       }
     });
-    this.resultlistService.setContributors(this.resultlistContributors);
+    this.resultlistService.setContributors(this.resultlistContributors, resultListsConfig);
+    const mapContributors = [];
+    this.contributorService.getMapContributors().forEach(mapContrib => {
+      mapContrib.colorGenerator = this.colorGenerator;
+      if (!!this.resultlistContributors) {
+        const resultlistContrbutor: ResultListContributor = this.resultlistContributors
+          .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
+        if (!!resultlistContrbutor) {
+          mapContrib.searchSize = resultlistContrbutor.pageSize;
+          mapContrib.searchSort = resultlistContrbutor.sort;
+        } else {
+          mapContrib.searchSize = 50;
+        }
+      }
+      mapContributors.push(mapContrib);
+    });
+    this.mapService.setContributors(mapContributors);
     this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
     zip(...this.collections.map(c => this.collaborativeService.describe(c)))
       .subscribe(cdrs => {
@@ -95,19 +114,6 @@ export class ArlasWuiComponent implements OnInit {
         if (this.resultlistContributors.length > 0) {
           this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
         }
-        this.contributorService.getMapContributors().forEach(mapContrib => {
-          mapContrib.colorGenerator = this.colorGenerator;
-          if (!!this.resultlistContributors) {
-            const resultlistContrbutor: ResultListContributor = this.resultlistContributors
-              .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
-            if (!!resultlistContrbutor) {
-              mapContrib.searchSize = resultlistContrbutor.pageSize;
-              mapContrib.searchSort = resultlistContrbutor.sort;
-            } else {
-              mapContrib.searchSize = 50;
-            }
-          }
-        });
       });
   }
 }

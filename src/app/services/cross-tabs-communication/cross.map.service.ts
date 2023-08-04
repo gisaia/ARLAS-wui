@@ -109,7 +109,7 @@ export class CrossMapService {
         const fs = m.data as CrossFeatureHover;
         const mapContributor = this.collaborativeService.registry.get(fs.mapContributorId) as MapContributor;
         const featureToHover = this.mapService.getFeatureToHover(fs.id, mapContributor);
-        this.mapService.hoverFeature(featureToHover);
+        this.mapService.featureToHightLight = featureToHover;
       })
     );
   }
