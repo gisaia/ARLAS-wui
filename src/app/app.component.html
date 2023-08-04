@@ -79,7 +79,7 @@
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 (downloadSourceEmitter)="downloadLayerSource($event)"
-                [offset]="offset">
+                [offset]="offset" (editLayerStyleEvent)="onEditLayerStyle($event)">
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"

@@ -37,7 +37,7 @@ import {
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, LayerStyleManagerService, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
@@ -182,7 +182,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private layerStyleManager: LayerStyleManagerService
   ) {
     this.menuState = {
       configs: false
@@ -498,6 +499,29 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
     this.cdr.detectChanges();
+  }
+
+  /**
+   * Mocks the interaction that a user could have to edit a map layer style to test the component
+   */
+  public onEditLayerStyle(event): void {
+    console.log(event);
+    const layerStyle = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).find(l => l.id === event);
+    const layerData = (this.mapglComponent.map as mapboxgl.Map).queryRenderedFeatures(undefined, { layers: [event] });
+    console.log(layerData);
+    this.layerStyleManager.openLayerStyleEditComponent({
+      layer: layerData[0].source,
+      layerData: {type: 'FeatureCollection', features: layerData.map(f => ({type: 'Feature', geometry: f.geometry, properties: f.properties}))},
+      layerStyle: layerStyle
+    }).subscribe((layerStyle: mapboxgl.AnyLayer) => {
+      console.log('closing');
+      if (layerStyle) {
+        console.log(layerStyle);
+        // Remove previous layer to put new one
+        (this.mapglComponent.map as mapboxgl.Map).removeLayer(event);
+        (this.mapglComponent.map as mapboxgl.Map).addLayer(layerStyle);
+      }
+    });
   }
 
   public onMapLoaded(isLoaded: boolean): void {
