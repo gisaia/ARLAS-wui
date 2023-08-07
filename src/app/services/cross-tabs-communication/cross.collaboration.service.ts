@@ -39,6 +39,8 @@ export class CrossCollaborationsService {
   }
 
   public terminate() {
-    this.subscription.unsubscribe();
+    if(!!this.subscription){
+      this.subscription.unsubscribe();
+    }
   }
 }

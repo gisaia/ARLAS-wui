@@ -116,7 +116,8 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
     private resultlistService: ResultlistService,
     private crossResultlistService: CrossResultlistService,
     private dynamicComponentService: DynamicComponentService,
-    private router: Router
+    private router: Router,
+    public translateService: TranslateService
   ) {
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** resize the map */
@@ -125,21 +126,28 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mapComponent.map.resize();
         });
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      this.mapService.setMapConfig(this.mapComponentConfig);
-      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
-        {
+      if (!!this.mapComponentConfig) {
+        this.mapService.setMapConfig(this.mapComponentConfig);
+        this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
+          {
+            styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
+            name: 'Positron'
+          };
+        const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
+        this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
+        this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
+        this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
+        /** init from url */
+        const queryParamVisibleVisualisations = getParamValue('vs');
+        if (queryParamVisibleVisualisations) {
+          const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
+          this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+        }
+      } else {
+        this.defaultBaseMap = {
           styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
           name: 'Positron'
         };
-      const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
-      this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
-      this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
-      this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
-      /** init from url */
-      const queryParamVisibleVisualisations = getParamValue('vs');
-      if (queryParamVisibleVisualisations) {
-        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
-        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       }
     } else {
       this.defaultBaseMap = {
@@ -214,36 +222,39 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.mapService.setMapComponent(this.mapComponent);
-    this.toolkitMapService.setMap(this.mapComponent.map);
-    this.visualizeService.setMap(this.mapComponent.map);
-    if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-      this.mapBounds = null;
+    if (!!this.mapComponent.map) {
+      this.mapService.setMapComponent(this.mapComponent);
+      this.toolkitMapService.setMap(this.mapComponent.map);
+      this.visualizeService.setMap(this.mapComponent.map);
+      if (this.mapBounds && this.allowMapExtend) {
+        (<mapboxgl.Map>this.mapComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        this.mapBounds = null;
+      }
+      this.mapComponent.map.on('movestart', (e) => {
+        this.zoomStart = this.mapComponent.map.getZoom();
+      });
+      this.mapComponent.map.on('moveend', (e: mapboxgl.EventData) => {
+        if (Math.abs(this.mapComponent.map.getZoom() - this.zoomStart) > 1) {
+          this.zoomChanged = true;
+        }
+        if (this.allowMapExtend) {
+          this.mapEventListener.next(null);
+        }
+        const map = <mapboxgl.Map>this.mapComponent.map;
+        this.crossMapService.propagateMoveend(map.getBounds());
+      });
+      this.adjustMapOffset();
+      this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+        /** Change map extend in the url */
+        const bounds = (<mapboxgl.Map>this.mapComponent.map).getBounds();
+        const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+        queryParams[this.MAP_EXTEND_PARAM] = extend;
+        this.router.navigate(['.'], { replaceUrl: true, queryParams: queryParams, relativeTo: this.activatedRoute });
+      });
+      this.crossMapService.listenToExternalMoveend$(<mapboxgl.Map>this.mapComponent.map);
+      this.cdr.detectChanges();
     }
-    this.mapComponent.map.on('movestart', (e) => {
-      this.zoomStart = this.mapComponent.map.getZoom();
-    });
-    this.mapComponent.map.on('moveend', (e: mapboxgl.EventData) => {
-      if (Math.abs(this.mapComponent.map.getZoom() - this.zoomStart) > 1) {
-        this.zoomChanged = true;
-      }
-      if (this.allowMapExtend) {
-        this.mapEventListener.next(null);
-      }
-      const map = <mapboxgl.Map>this.mapComponent.map;
-      this.crossMapService.propagateMoveend(map.getBounds());
-    });
-    this.adjustMapOffset();
-    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate(['.'], { replaceUrl: true, queryParams: queryParams, relativeTo: this.activatedRoute });
-    });
-    this.crossMapService.listenToExternalMoveend$(<mapboxgl.Map>this.mapComponent.map);
     this.cdr.detectChanges();
 
   }

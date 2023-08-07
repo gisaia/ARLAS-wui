@@ -5,7 +5,7 @@ FROM node:16.19.0 as builder
 
 COPY ./package.json  ./
 COPY ./package-lock.json  ./
-COPY ./libs/windows-communication-bus-0.0.6.tgz ./libs/
+COPY ./libs/windows-communication-bus-0.0.8.tgz ./libs/
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
@@ -23,7 +23,7 @@ RUN export NODE_OPTIONS=--max_old_space_size=8192 && $(npm bin)/ng build --confi
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.23.4-alpine
+FROM nginx:1.25.1-alpine3.17-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}

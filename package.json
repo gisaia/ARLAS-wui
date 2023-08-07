@@ -37,7 +37,7 @@
     "ngx-markdown": "14.0.1",
     "patch-package": "^6.4.7",
     "web-animations-js": "^2.3.2",
-    "windows-communication-bus": "./libs/windows-communication-bus-0.0.6.tgz"
+    "windows-communication-bus": "./libs/windows-communication-bus-0.0.8.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.10",

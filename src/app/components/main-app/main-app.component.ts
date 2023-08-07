@@ -171,8 +171,8 @@ export class MainAppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.setAppTitle();
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
+      this.setAppTitle();
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
       const allAnalytics = this.configService.getValue('arlas.web.analytics') as Array<any>;
@@ -191,7 +191,7 @@ export class MainAppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     // Keep the last displayed list as preview when closing the right panel
-    if (!!this.arlasListComponent.tabsList) {
+    if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
       this.arlasListComponent.tabsList.selectedIndexChange.subscribe(index => {
         this.resultlistService.previewListContrib = this.resultlistService.resultlistContributors[index];
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -216,10 +216,12 @@ export class MainAppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setAppTitle() {
-    const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
-      this.arlasSettingsService.settings['tab_name'] : '';
-    this.titleService.setTitle(prefixTitle === '' ? this.appName :
-      prefixTitle.concat(' - ').concat(this.appName));
+    if (!!this.arlasSettingsService.settings) {
+      const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
+        this.arlasSettingsService.settings['tab_name'] : '';
+      this.titleService.setTitle(prefixTitle === '' ? this.appName :
+        prefixTitle.concat(' - ').concat(this.appName));
+    }
   }
 
 
