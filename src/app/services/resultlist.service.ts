@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ResultListContributor, MapContributor, ElementIdentifier } from 'arlas-web-contributors';
 import { CollectionReferenceParameters } from 'arlas-api';
-import {
-  SortEnum, CellBackgroundStyleEnum, Item
-} from 'arlas-web-components';
+import { SortEnum, CellBackgroundStyleEnum, Item, Column, PageQuery } from 'arlas-web-components';
 import { getParamValue, isElementInViewport } from 'app/tools/utils';
 import { VisualizeService } from './visualize.service';
 import { Subject } from 'rxjs';
 import { MapService } from './map.service';
 import { CrossMapService } from './cross-tabs-communication/cross.map.service';
-import {
-  Column, PageQuery
-} from 'arlas-web-components';
 @Injectable()
 export class ResultlistService {
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -151,68 +146,82 @@ export class ResultlistService {
       case 'geoSortEvent':
         break;
       case 'geoAutoSortEvent':
-        this.onActiveOnGeosort(event.data, resultListContributor, mapContributor,
-          this.mapService.centerLatLng.lat, this.mapService.centerLatLng.lng);
+        this.onActiveOnGeosort(event.data, resultListContributor.identifier);
         break;
     }
     this.actionOnList.next(event);
   }
-  public onActiveOnGeosort(data, resultListContributor: ResultListContributor, mapContributor: MapContributor, lat, lng): void {
-    this.isGeoSortActivated.set(resultListContributor.identifier, data);
-    if (data) {
-      /** Apply geosort in list */
-      resultListContributor.geoSort(lat, lng, true);
-      this.sortOutput.delete(resultListContributor.identifier);
-      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
-      /** Apply geosort in map (for simple mode) */
-      this.mapService.clearWindowData(mapContributor);
-      mapContributor.searchSort = resultListContributor.geoOrderSort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      mapContributor.drawGeoSearch(0, true);
-    } else {
-      const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
-      this.sortOutput.set(resultListContributor.identifier,
-        { fieldName: idFieldName, sortDirection: SortEnum.none });
-      /** Sort the list by the selected column and the id field name */
-      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
-      mapContributor.searchSort = resultListContributor.sort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      this.mapService.clearWindowData(mapContributor);
-      mapContributor.drawGeoSearch(0, true);
+  public onActiveOnGeosort(enabled: boolean, listContributorId: string): void {
+    this.isGeoSortActivated.set(listContributorId, enabled);
+    const resultListContributor = this.getContributorById(listContributorId);
+    if (!!resultListContributor) {
+      const mapContributor = this.mapService.getContributorByCollection(resultListContributor.collection);
+      if (enabled) {
+        const lat = this.mapService.centerLatLng.lat;
+        const lng = this.mapService.centerLatLng.lng;
+        /** Apply geosort in list */
+        resultListContributor.geoSort(lat, lng, true);
+        this.sortOutput.delete(listContributorId);
+        // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
+        /** Apply geosort in map (for simple mode) */
+        if (mapContributor) {
+          this.mapService.clearWindowData(mapContributor);
+          mapContributor.searchSort = resultListContributor.geoOrderSort;
+          mapContributor.searchSize = resultListContributor.pageSize;
+          mapContributor.drawGeoSearch(0, true);
+        }
+      } else {
+        const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
+        this.sortOutput.set(resultListContributor.identifier, { fieldName: idFieldName, sortDirection: SortEnum.none });
+        /** Sort the list by the selected column and the id field name */
+        resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
+        if (mapContributor) {
+          mapContributor.searchSort = resultListContributor.sort;
+          mapContributor.searchSize = resultListContributor.pageSize;
+          this.mapService.clearWindowData(mapContributor);
+          mapContributor.drawGeoSearch(0, true);
+        }
+      }
     }
+
   }
   /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
   public sortColumnEvent(contributorId: string, sortOutput: Column) {
-    const resultlistContributor = this.rightListContributors.find(r => r.identifier === contributorId);
-    this.isGeoSortActivated.set(contributorId, false);
-    /** Save the sorted column */
-    this.sortOutput.set(contributorId, sortOutput);
-    /** Sort the list by the selected column and the id field name */
-    resultlistContributor.sortColumn(sortOutput, true);
-    /** set mapcontritbutor sort */
-    let sortOrder = null;
-    if (sortOutput.sortDirection.toString() === '0') {
-      sortOrder = '';
-    } else if (sortOutput.sortDirection.toString() === '1') {
-      sortOrder = '-';
-    }
-    let sort = '';
-    if (sortOrder !== null) {
-      sort = sortOrder + sortOutput.fieldName;
+    if (this.rightListContributors) {
+      const resultlistContributor = this.rightListContributors.find(r => r.identifier === contributorId);
+      this.isGeoSortActivated.set(contributorId, false);
+      /** Save the sorted column */
+      this.sortOutput.set(contributorId, sortOutput);
+      /** Sort the list by the selected column and the id field name */
+      resultlistContributor.sortColumn(sortOutput, true);
+      /** set mapcontritbutor sort */
+      let sortOrder = null;
+      if (sortOutput.sortDirection.toString() === '0') {
+        sortOrder = '';
+      } else if (sortOutput.sortDirection.toString() === '1') {
+        sortOrder = '-';
+      }
+      let sort = '';
+      if (sortOrder !== null) {
+        sort = sortOrder + sortOutput.fieldName;
+      }
+
+      if (this.mapService.mapContributors) {
+        this.mapService.mapContributors
+          .filter(c => c.collection === resultlistContributor.collection)
+          .forEach(c => {
+            // Could have some problems if we put 2 lists with the same collection and different sort ?
+            c.searchSort = resultlistContributor.sort;
+            c.searchSize = resultlistContributor.getConfigValue('search_size');
+            /** Redraw features with setted sort in case of window mode */
+            /** Remove old features */
+            this.mapService.clearWindowData(c);
+            /** Set new features */
+            c.drawGeoSearch(0, true);
+          });
+      }
     }
 
-    this.mapService.mapContributors
-      .filter(c => c.collection === resultlistContributor.collection)
-      .forEach(c => {
-        // Could have some problems if we put 2 lists with the same collection and different sort ?
-        c.searchSort = resultlistContributor.sort;
-        c.searchSize = resultlistContributor.getConfigValue('search_size');
-        /** Redraw features with setted sort in case of window mode */
-        /** Remove old features */
-        this.mapService.clearWindowData(c);
-        /** Set new features */
-        c.drawGeoSearch(0, true);
-      });
   }
 
   /**
@@ -254,5 +263,13 @@ export class ResultlistService {
         this.mapService.updateMapStyle(visibleItems, collection);
       }, 200);
     }
+  }
+
+  private getContributorById(identifier): ResultListContributor {
+    let resultListContributor: ResultListContributor;
+    if (this.rightListContributors) {
+      resultListContributor = this.rightListContributors.find(c => c.identifier === identifier);
+    }
+    return resultListContributor;
   }
 }

@@ -4,6 +4,9 @@ import { ContributorService } from 'app/services/contributors.service';
 import { MapService } from 'app/services/map.service';
 import { ResultlistService } from 'app/services/resultlist.service';
 import { ModeEnum } from 'arlas-web-components';
+import { ResultListContributor } from 'arlas-web-contributors';
+import { Column, PageQuery } from 'arlas-web-components';
+import { CrossResultlistService } from 'app/services/cross-tabs-communication/cross.resultlist.service';
 @Component({
   selector: 'arlas-list',
   templateUrl: './arlas-list.component.html',
@@ -16,8 +19,10 @@ export class ArlasListComponent implements OnInit {
   @Input() public tableWidth = 900;
 
 
-  public constructor(public resultlistService: ResultlistService,
-    private mapService: MapService) { }
+  public constructor(
+    public resultlistService: ResultlistService,
+    private mapService: MapService,
+    private crossResultlistService: CrossResultlistService) { }
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
 
   public ngOnInit(): void {
@@ -45,6 +50,17 @@ export class ArlasListComponent implements OnInit {
     setTimeout(() => {
       this.resultlistService.updateVisibleItems();
     }, 100);
+  }
+
+  public sortColumn(listContributor: ResultListContributor, column: Column) {
+    console.log(column);
+    this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'sortColumnEvent', data: column });
+    this.crossResultlistService.propagateSortingColumn(listContributor.identifier, column);
+  }
+
+  public geoSort(listContributor: ResultListContributor, enabled: boolean) {
+    this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'sortColumnEvent', data: enabled });
+    this.crossResultlistService.propagateGeoSort(listContributor.identifier, enabled);
   }
 
 

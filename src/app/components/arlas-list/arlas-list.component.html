@@ -33,7 +33,7 @@
         [colorsSaturationWeight]="resultlistService.resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
         [keysToColors]="resultlistService.resultListConfigPerContId.get(list.identifier)?.keysToColors"
         [isDetailledGridOpen]="resultlistService.resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
-        (sortColumnEvent)="resultlistService.getBoardEvents({ origin: list.identifier, event: 'sortColumnEvent', data: $event })"
+        (sortColumnEvent)="sortColumn(list, $event)"
         [currentSortedColumn]="resultlistService.sortOutput.get(list.identifier)"
         [isGeoSortActivated]="resultlistService.isGeoSortActivated.get(list.identifier)"
         (setFiltersEvent)="list.setFilters($event)"
