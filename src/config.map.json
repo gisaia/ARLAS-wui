@@ -10,7 +10,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0,
+        "fill-opacity": 0.1,
         "fill-color": [
           "match",
           [
@@ -616,7 +616,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0,
+        "fill-opacity": 0.1,
         "fill-color": [
           "match",
           [

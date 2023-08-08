@@ -199,9 +199,8 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.actionOnPopup.subscribe(data => {
         const collection = data.action.collection;
-        const mapContributor = this.mapService.mapContributors.filter(m => m.collection === collection)[0];
         const listContributor = this.resultlistService.resultlistContributors.filter(m => m.collection === collection)[0];
-        this.resultlistService.actionOnItemEvent(data, mapContributor, listContributor, collection);
+        this.resultlistService.actionOnItemEvent(data, listContributor.identifier, collection);
       });
     }
     // eslint-disable-next-line max-len
@@ -453,23 +452,9 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
       const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
       const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
       if (this.recalculateExtend) {
-        this.resultlistService.resultlistContributors
-          .forEach(c => {
-            const centroidPath = this.resultlistService.collectionToDescription.get(c.collection).centroid_path;
-            const mapContrib = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
-            if (!!mapContrib) {
-              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
-            } else {
-              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
-            }
-          });
-        this.resultlistService.resultlistContributors.forEach(c => {
-          if (this.resultlistService.isGeoSortActivated.get(c.identifier)) {
-            c.geoSort(this.mapService.centerLatLng.lat, this.mapService.centerLatLng.lng, true);
-          } else {
-            c.sortColumn(this.resultlistService.sortOutput.get(c.identifier), true);
-          }
-        });
+        this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
+        this.crossMapService.propagateMoveend(pwithinRaw, pwithin);
+
         this.mapService.mapContributors.forEach(c => {
           if (!!this.resultlistService.resultlistContributors) {
             const resultlistContrbutor = this.resultlistService.resultlistContributors.find(v => v.collection === c.collection);
