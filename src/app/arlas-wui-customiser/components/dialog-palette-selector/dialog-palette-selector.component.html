@@ -1,0 +1,76 @@
+<div *ngIf="!this.selectedPalette">
+    <h1 mat-dialog-title>{{ 'Select a template palette' | translate}}</h1>
+    <div mat-dialog-content>
+        <div *ngFor="let palette of defaultPalettes; let i = index" class="palette-selector" mat-button>
+            <div *ngFor="let propColor of palette" class="color" [ngStyle]="{'background-color': propColor.value}"
+                (click)="selectPalette(i)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedPalette">
+    <h1 mat-dialog-title>{{ 'Customize the palette' | translate}}</h1>
+    <div mat-dialog-content>
+        <div class="palette-gradient"
+            [ngStyle]="{'background': selectedPalette.length > 1 ? 'linear-gradient(to right, ' + getSelectedPaletteGradients() + ')' : selectedPalette[0].value}">
+            <div class="parent-gradient-buttons">
+                <button mat-mini-fab mat-icon-button (click)="reverse()"
+                    matTooltip="{{ 'Reverse the colors order' | translate}}">
+                    <mat-icon>swap_horiz</mat-icon>
+                </button>
+                <button mat-mini-fab mat-icon-button (click)="resetProportions()"
+                    matTooltip="{{ 'Reset the colors midpoints' | translate}}">
+                    <mat-icon>settings_backup_restore</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)" class="color-panel-list">
+            <div *ngFor="let propColor of selectedPalette; let i = index" cdkDrag>
+                <div class="color-panel">
+                    <div class="color">
+                        <arlas-color-picker-wrapper [value]="propColor.value"
+                            (setValue)="selectedPalette[i].value = $event">
+                        </arlas-color-picker-wrapper>
+                        <arlas-color-picker-wrapper *cdkDragPreview [value]="propColor.value">
+                        </arlas-color-picker-wrapper>
+                    </div>
+                    <div class="color-buttons">
+                        <button mat-mini-fab cdkDragHandle matTooltip="{{ 'Reorder this color' | translate}}">
+                            <mat-icon>open_with</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="add(i)" matTooltip="{{ 'Add new color' | translate}}">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="remove(i)" *ngIf="selectedPalette.length > 2"
+                            matTooltip="{{ 'Remove color' | translate}}">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                        <mat-slider [min]="data.min" [max]="data.max" [step]="(data.max - data.min) / 20" thumbLabel
+                            [(ngModel)]="selectedPalette[i].proportion"
+                            matTooltip="{{ 'Change color midpoint' | translate}}"></mat-slider>
+                    </div>
+                </div>
+                <div *cdkDragPlaceholder class="color-panel">
+                    <div class="color">
+                        <arlas-color-picker-wrapper [value]="propColor.value"
+                            (setValue)="selectedPalette[i].value = $event">
+                        </arlas-color-picker-wrapper>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions class="action-buttons-palette">
+    <div>
+        <button mat-button>{{ 'Cancel' | translate}}</button>
+        <button mat-button (click)="selectedPalette = null"
+            *ngIf="selectedPalette">{{ 'Back to templates' | translate}}</button>
+    </div>
+    <div>
+        <button mat-button color="primary" mat-raise *ngIf="selectedPalette" [mat-dialog-close]="selectedPalette"
+            [disabled]="!isValid()">{{ 'Save' | translate}}</button>
+    </div>
+</div>

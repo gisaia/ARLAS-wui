@@ -1,0 +1,16 @@
+<!-- Stepper with the 3 forms that can be defined in an utils file -->
+<mat-stepper [linear]="true" #styleStepper>
+    <mat-step [stepControl]="geometryForm">
+        <ng-template matStepLabel>{{ 'Shape' | translate }}</ng-template>
+        <div class="title">{{ 'Shape' | translate }}</div>
+        <arlas-config-form [form]="geometryForm | control:'shape'" [formType]="'select'"></arlas-config-form>
+    </mat-step>
+    <mat-step [stepControl]="fillForm">
+        <ng-template matStepLabel>{{ 'Geometry fill' | translate }}</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="strokeForm">
+        <ng-template matStepLabel>{{ 'Geometry stroke' | translate }}</ng-template>
+    </mat-step>
+</mat-stepper>
+<!-- Start with just one form and have an init method based on content of paint, similar to the builder -->
+<!-- Method to transform the form into the paint of the map layer ? -->

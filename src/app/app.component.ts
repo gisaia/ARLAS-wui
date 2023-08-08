@@ -37,7 +37,7 @@ import {
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, LayerStyleManagerService, TimelineComponent
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
@@ -47,6 +47,7 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
+import { LayerStyleManagerService } from './arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
 
 @Component({
   selector: 'arlas-wui-root',

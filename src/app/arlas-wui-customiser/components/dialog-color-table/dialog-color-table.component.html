@@ -1,0 +1,66 @@
+<div mat-dialog-content>
+
+    <form [formGroup]="keywordColorsForm" autocomplete="off">
+        <mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="add-keyword">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="add-header">
+                        <mat-form-field class="add-input">
+                            <input type="text" placeholder="{{'Add keyword' | translate}}" matInput [matAutocomplete]="auto"
+                                [formControl]="newKeywordCtrl">
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of newKeywordValues | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <button class="add-button" mat-button mat-stroked-button color="primary" (click)="addKeyword()"
+                            [disabled]="!newKeywordCtrl.value || alreadyHasNewKeyword()">{{ 'Add' | translate}}</button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="keyword">
+                <mat-header-cell *matHeaderCellDef>
+                    <mat-form-field>
+                        <mat-label>{{ 'Keyword' | translate}}</mat-label>
+                        <input matInput [(ngModel)]="filter" (ngModelChange)="applyFilter()"
+                            [ngModelOptions]="{standalone: true}">
+                        <button mat-button *ngIf="filter" matSuffix mat-icon-button (click)="filter=''; applyFilter()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="column-keyword"> {{element.get('keyword').value}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="color">
+                <mat-header-cell *matHeaderCellDef>{{ 'Color' | translate}} </mat-header-cell>
+                <mat-cell *matCellDef="let element;let i = index;" [formGroup]="element" class="column-color">
+                    <arlas-color-picker-wrapper [value]="element.get('color').value"
+                        (setValue)="element.get('color').patchValue($event)">
+                    </arlas-color-picker-wrapper>
+                    <button type="button" mat-icon-button (click)="remove(i)" matTooltip="{{ 'Remove row' | translate}}"
+                        class="remove-button">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button type="button" mat-icon-button (click)="reset(element)" matTooltip="{{ 'Reset color' | translate}}">
+                        <mat-icon>settings_backup_restore</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="['add-keyword']; sticky: true"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">{{ 'Cancel' | translate}}</button>
+    <button mat-button [mat-dialog-close]="keywordColorsForm.value" mat-raised-button color="primary">{{ 'Validate' | translate}}</button>
+</div>

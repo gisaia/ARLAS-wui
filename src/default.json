@@ -1,0 +1,691 @@
+{
+    "global": {
+        "serverUrl": "http://localhost:81/server",
+        "unmanagedFields": {
+            "appName": "ARLAS",
+            "appUnit": "",
+            "appNameBackgroundColor": "#FF4081"
+        }
+    },
+    "map": {
+        "global": {
+            "geographicalOperator": "intersects",
+            "margePanForLoad": 5,
+            "margePanForTest": 5,
+            "initZoom": 2,
+            "allowMapExtend": true,
+            "initCenterLat": 0,
+            "initCenterLon": 0,
+            "displayScale": true,
+            "displayCurrentCoordinates": false,
+            "unmanagedFields": {
+                "icon": "check_box_outline_blank",
+                "nbVerticesLimit": 100,
+                "mapLayers": {
+                    "events": {
+                        "zoomOnClick": [],
+                        "emitOnClick": [],
+                        "onHover": []
+                    }
+                }
+            }
+        },
+        "basemap": {
+            "default": "Positron"
+        },
+        "layer": {
+            "featuresFg": {
+                "geometryStep": {
+                    "geometry": "",
+                    "granularity": "Coarse"
+                },
+                "visibilityStep": {
+                    "visible": true,
+                    "zoomMin": 1,
+                    "zoomMax": 23,
+                    "featuresMax": 5000,
+                    "featuresMin": 5000,
+                    "renderMode": "wide"
+                },
+                "styleStep": {
+                    "geometryType": "fill",
+                    "lineType": "solid",
+                    "opacity": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1
+                    },
+                    "colorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#abcdef"
+                    },
+                    "radiusFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1.5
+                    },
+                    "strokeColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#fff"
+                    },
+                    "strokeWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "strokeOpacityFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "widthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 2
+                    },
+                    "labelContentFg": {
+                        "propertySource": "Fix input",
+                        "propertyFixInput": "→"
+                    },
+                    "labelSizeFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 12
+                    },
+                    "labelRotationFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloBlurFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#000"
+                    },
+                    "labelOverlapFg": true,
+                    "labelOffsetFg": {
+                        "dx": "0",
+                        "dy": "0"
+                    },
+                    "labelPlacementCtrl": "point",
+                    "labelAlignmentCtrl": "center"
+                }
+            },
+            "featureMetricFg": {
+                "geometryStep": {
+                    "geometry": "",
+                    "granularity": "Medium"
+                },
+                "visibilityStep": {
+                    "visible": true,
+                    "zoomMin": 1,
+                    "zoomMax": 23,
+                    "featuresMax": 5000
+                },
+                "styleStep": {
+                    "geometryType": "fill",
+                    "lineType": "solid",
+                    "opacity": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1
+                    },
+                    "colorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#abcdef"
+                    },
+                    "radiusFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1.5
+                    },
+                    "strokeColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#fff"
+                    },
+                    "strokeWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "strokeOpacityFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "widthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 2
+                    },
+                    "labelSizeFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 12
+                    },
+                    "labelRotationFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloBlurFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#000"
+                    },
+                    "labelContentFg": {
+                        "propertySource": "Fix input",
+                        "propertyFixInput": "→"
+                    },
+                    "labelOverlapFg": true,
+                    "labelOffsetFg": {
+                        "dx": "0",
+                        "dy": "0"
+                    },
+                    "labelPlacementCtrl": "point",
+                    "labelAlignmentCtrl": "center"
+                }
+            },
+            "clusterFg": {
+                "geometryStep": {
+                    "geometry": "",
+                    "granularity": "Medium",
+                    "clusterGeometryType": "aggregated_geometry",
+                    "aggregatedGeometry": "cell",
+                    "aggType": "tile"
+                },
+                "visibilityStep": {
+                    "visible": true,
+                    "zoomMin": 1,
+                    "zoomMax": 23,
+                    "featuresMin": 5000
+                },
+                "styleStep": {
+                    "geometryType": "fill",
+                    "lineType": "solid",
+                    "opacity": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 0.7
+                    },
+                    "colorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#abcdef"
+                    },
+                    "radiusFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1.5
+                    },
+                    "strokeColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#fff"
+                    },
+                    "strokeWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "strokeOpacityFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "weightFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1
+                    },
+                    "intensityFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 1
+                    },
+                    "labelSizeFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": 12
+                    },
+                    "labelRotationFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloBlurFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloWidthFg": {
+                        "propertySource": "Fix slider",
+                        "propertyFixSlider": "0"
+                    },
+                    "labelHaloColorFg": {
+                        "propertySource": "Fix color",
+                        "propertyFixColor": "#000"
+                    },
+                    "labelContentFg": {
+                        "propertySource": "Fix input",
+                        "propertyFixInput": "→"
+                    },
+                    "labelOverlapFg": true,
+                    "labelOffsetFg": {
+                        "dx": "0",
+                        "dy": "0"
+                    },
+                    "labelPlacementCtrl": "point",
+                    "labelAlignmentCtrl": "center"
+                }
+            }
+        }
+    },
+    "search": {
+        "global": {
+            "name": "Search...",
+            "searchField": "internal.fulltext",
+            "autocompleteField": "internal.autocomplete",
+            "autocompleteSize": 10,
+            "unmanagedFields": {
+                "icon": "search"
+            }
+        }
+    },
+    "lookAndFeel": {
+        "global": {
+            "dragAndDrop": true,
+            "indicators": true,
+            "spinner": true,
+            "spinnerColor": "accent",
+            "spinnerDiameter": 50,
+            "zoomToData": true
+        }
+    },
+    "timeline": {
+        "global": {
+            "useDetailedTimeline": true,
+            "useUtc": true,
+            "tabsContainer": {
+                "dataStep": {
+                    "timeline": {
+                        "aggregation": {
+                            "aggregationBucketOrInterval": "bucket",
+                            "aggregationBucketsNumber": 50,
+                            "aggregationIntervalUnit": "hour",
+                            "aggregationIntervalSize": 1
+                        }
+                    },
+                    "detailedTimeline": {
+                        "bucketsNumber": 50
+                    }
+                },
+                "renderStep": {
+                    "timeline": {
+                        "chartTitle": "Timeline",
+                        "chartType": "bars",
+                        "dateFormat": "%b %d %Y  %H:%M",
+                        "isMultiselectable": true
+                    },
+                    "detailedTimeline": {
+                        "chartTitle": "Detailed timeline",
+                        "chartType": "bars",
+                        "dateFormat": "%b %d %Y  %H:%M",
+                        "selectionExtentPercent": 2
+                    }
+                }
+            },
+            "unmanagedFields": {
+                "dataStep": {
+                    "timeline": {
+                        "name": "Timeline",
+                        "icon": "watch_later",
+                        "isOneDimension": false
+                    },
+                    "detailedTimeline": {
+                        "name": "Timeline",
+                        "icon": "watch_later",
+                        "isOneDimension": false
+                    }
+                },
+                "renderStep": {
+                    "timeline": {
+                        "xTicks": 9,
+                        "yTicks": 2,
+                        "xLabels": 9,
+                        "yLabels": 2,
+                        "xUnit": "",
+                        "yUnit": "",
+                        "chartXLabel": "",
+                        "shortYLabels": false,
+                        "customizedCssClass": "arlas-timeline",
+                        "chartHeight": 128,
+                        "brushHandlesHeightWeight": 0.8,
+                        "isHistogramSelectable": true,
+                        "chartWidth": null,
+                        "xAxisPosition": "bottom",
+                        "yAxisStartsFromZero": true,
+                        "descriptionPosition": "top",
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "showHorizontalLines": false,
+                        "isSmoothedCurve": true,
+                        "barWeight": 0.8,
+                        "topOffsetRemoveInterval": 10
+                    },
+                    "detailedTimeline": {
+                        "xTicks": 5,
+                        "yTicks": 2,
+                        "xLabels": 5,
+                        "yLabels": 2,
+                        "xUnit": "",
+                        "yUnit": "",
+                        "chartXLabel": "",
+                        "shortYLabels": false,
+                        "customizedCssClass": "arlas-detailed-timeline",
+                        "chartHeight": 60,
+                        "multiselectable": false,
+                        "brushHandlesHeightWeight": 0.8,
+                        "isHistogramSelectable": true,
+                        "chartWidth": null,
+                        "xAxisPosition": "top",
+                        "yAxisStartsFromZero": true,
+                        "descriptionPosition": "bottom",
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "showHorizontalLines": false,
+                        "isSmoothedCurve": true,
+                        "barWeight": 0.8
+                    }
+                }
+            }
+        }
+    },
+    "resultlists": {
+        "dataStep": {
+            "searchSize": 100
+        },
+        "renderStep": {
+            "cellBackgroundStyle": "filled"
+        }
+    },
+    "analytics": {
+        "tabs": {
+            "default": "Default",
+            "new": "New tab"
+        },
+        "groups": {
+            "new": "New group"
+        },
+        "widgets": {
+            "histogram": {
+                "dataStep": {
+                    "aggregation": {
+                        "aggregationBucketOrInterval": "bucket",
+                        "aggregationBucketsNumber": 50,
+                        "aggregationIntervalUnit": "hour",
+                        "aggregationIntervalSize": 1
+                    },
+                    "useUtc": true,
+                    "metric": {
+                        "metricCollectFunction": "Count"
+                    }
+                },
+                "renderStep": {
+                    "multiselectable": true,
+                    "chartType": "bars",
+                    "showHorizontalLines": true,
+                    "ticksDateFormat": "%b %d %Y  %H:%M"
+                },
+                "unmanagedFields": {
+                    "dataStep": {
+                        "isOneDimension": false
+                    },
+                    "renderStep": {
+                        "showExportCsv": true,
+                        "isHistogramSelectable": true,
+                        "topOffsetRemoveInterval": 40,
+                        "leftOffsetRemoveInterval": 18,
+                        "brushHandlesHeightWeight": 0.8,
+                        "yAxisStartsFromZero": true,
+                        "xAxisPosition": "bottom",
+                        "descriptionPosition": "bottom",
+                        "xTicks": 4,
+                        "yTicks": 1,
+                        "xLabels": 4,
+                        "yLabels": 4,
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "xUnit": "",
+                        "yUnit": "",
+                        "chartXLabel": "",
+                        "shortYLabels": false,
+                        "barWeight": 0.8,
+                        "isSmoothedCurve": false
+                    }
+                }
+            },
+            "swimlane": {
+                "dataStep": {
+                    "termAggregation": {
+                        "termAggregationSize": 5
+                    },
+                    "aggregation": {
+                        "aggregationBucketsNumber": 50
+                    },
+                    "metric": {
+                        "metricCollectFunction": "Count"
+                    },
+                    "useUtc": true
+                },
+                "renderStep": {
+                    "swimlaneMode": "fixedHeight",
+                    "paletteColors": [
+                        330,
+                        170
+                    ]
+                },
+                "unmanagedFields": {
+                    "renderStep": {
+                        "showExportCsv": true,
+                        "isHistogramSelectable": true,
+                        "topOffsetRemoveInterval": 40,
+                        "leftOffsetRemoveInterval": 18,
+                        "brushHandlesHeightWeight": 0.8,
+                        "yAxisStartsFromZero": true,
+                        "xAxisPosition": "bottom",
+                        "descriptionPosition": "bottom",
+                        "xTicks": 4,
+                        "yTicks": 1,
+                        "xLabels": 4,
+                        "yLabels": 4,
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "xUnit": "",
+                        "yUnit": "",
+                        "chartXLabel": "",
+                        "shortYLabels": false,
+                        "barWeight": 0.8,
+                        "swimLaneLabelsWidth": 100,
+                        "swimlaneHeight": 20,
+                        "swimlaneBorderRadius": 3
+                    }
+                }
+            },
+            "metric": {
+                "renderStep": {
+                    "valuePrecision": 1
+                },
+                "unmanagedFields": {
+                    "renderStep": {
+                        "customizedCssClass": "power"
+                    }
+                }
+            },
+            "donut": {
+                "unmanagedFields": {
+                    "renderStep": {
+                        "customizedCssClass": "arlas-donuts-analytics",
+                        "diameter": 150
+                    }
+                },
+                "renderStep": {
+                    "opacity": 0.4,
+                    "multiselectable": true
+                }
+            },
+            "powerbar": {
+                "dataStep": {
+                    "aggregationSize": 10,
+                    "operator": "Eq",
+                    "metric": {
+                        "metricCollectFunction": "Count"
+                    }
+                },
+                "renderStep": {
+                    "scrollable": true,
+                    "allowOperatorChange": true,
+                    "showExportCsv": true,
+                    "displayFilter": true
+                }
+            },
+            "resultlist": {
+                "dataStep": {
+                    "searchSize": 100
+                },
+                "renderStep": {
+                    "cellBackgroundStyle": "filled"
+                },
+                "unmanagedFields": {
+                    "dataStep": {},
+                    "renderStep": {
+                        "tableWidth": 445,
+                        "globalActionsList": [],
+                        "nLastLines": 3,
+                        "detailedGridHeight": 300,
+                        "nbGridColumns": 3,
+                        "isBodyHidden": false,
+                        "isGeoSortEnabled": true,
+                        "selectedItemsEvent": null,
+                        "consultedItemEvent": null,
+                        "actionOnItemEvent": null,
+                        "globalActionEvent": null
+                    }
+                }
+            }
+        }
+    },
+    "sideModules": {
+        "global": {
+            "useShare": true,
+            "useDownload": true,
+            "useTagger": false,
+            "cache": {
+                "maxAgeCache": 120
+            },
+            "share": {
+                "maxForFeature": 5000,
+                "maxForTopology": 5000
+            },
+            "tagger": {
+                "serverUrl": "http://tagger.com",
+                "collection": "demo_ais-danmark"
+            },
+            "unmanagedFields": {
+                "sortExcludedTypes": [
+                    "TEXT",
+                    "GEO_POINT"
+                ],
+                "download": {
+                    "authType": "basic"
+                }
+            }
+        }
+    },
+    "config": {
+        "aggregationTermSize": 10,
+        "palettes": [
+            [
+                "#eecf6d",
+                "#d5ac4e",
+                "#8b6220",
+                "#720e07",
+                "#45050c"
+            ],
+            [
+                "#53d9e8",
+                "#29AFFB",
+                "#2874FA",
+                "#3b69fa",
+                "#eb79fc",
+                "#ef586c"
+            ],
+            [
+                "#cee897",
+                "#9dc95b",
+                "#4bc71e",
+                "#1bc473",
+                "#16ccc9",
+                "#3619cf",
+                "#9317d1",
+                "#d11799",
+                "#cf1919"
+            ]
+        ],
+        "colorPickerPresets": [
+            "#fff",
+            "#000",
+            "#2889e9",
+            "#e920e9",
+            "#fff500",
+            "rgb(236,64,64)"
+        ],
+        "huePalettes": [
+            [
+                100,
+                200
+            ],
+            [
+                330,
+                170
+            ],
+            "red",
+            "green",
+            "black"
+        ],
+        "otherColor": "#9d9ca9",
+        "opacityMin": 0,
+        "opacityMax": 1,
+        "opacityStep": 0.1,
+        "strokeOpacityMin": 0,
+        "strokeOpacityMax": 1,
+        "strokeOpacityStep": 0.1,
+        "strokeWidthMin": 0,
+        "strokeWidthMax": 10,
+        "strokeWidthStep": 0.5,
+        "widthMin": 0,
+        "widthMax": 15,
+        "widthStep": 0.5,
+        "weightMin": 0,
+        "weightMax": 100,
+        "weightStep": 1,
+        "radiusMin": 0,
+        "radiusMax": 200,
+        "radiusStep": 1,
+        "intensityMin": 0,
+        "intensityMax": 10,
+        "intensityStep": 0.5,
+        "labelSizeMin": 1,
+        "labelSizeMax": 50,
+        "labelSizeStep": 1,
+        "labelRotationMin": 0,
+        "labelRotationMax": 360,
+        "labelRotationStep": 5,
+        "labelHaloWidthMin": 0,
+        "labelHaloWidthMax": 5,
+        "labelHaloWidthStep": 0.1,
+        "labelHaloBlurMin": 0,
+        "labelHaloBlurMax": 5,
+        "labelHaloBlurStep": 0.1,
+        "swimlaneZeroColor": "#D6D6D6",
+        "swimlaneNanColor": "#D6D6D6",
+        "swimlaneRepresentation": "global"
+    }
+}

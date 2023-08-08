@@ -1,0 +1,102 @@
+/*
+Licensed to Gisaïa under one or more contributor
+license agreements. See the NOTICE.txt file distributed with
+this work for additional information regarding copyright
+ownership. Gisaïa licenses this file to you under
+the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/
+h1 {
+  text-align: center;
+}
+
+%palette {
+  height: 100px;
+  display: flex;
+  align-items: stretch;
+  margin: 20px 0px;
+  width: 100%;
+
+  .color {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.palette-selector {
+  @extend %palette;
+  &:hover {
+    box-shadow: 10px 10px 5px grey;
+    border-radius: 20px 20px 20px 20px;
+    cursor: pointer;
+  }
+
+  .color {
+    &:first-child {
+      border-radius: 20px 0px 0px 20px;
+    }
+
+    &:last-child {
+      border-radius: 0px 20px 20px 0px;
+    }
+  }
+}
+
+.palette-gradient {
+  @extend %palette;
+
+  margin-top: 40px;
+  position: relative;
+
+  .parent-gradient-buttons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    button {
+      margin: 10px;
+    }
+  }
+}
+
+.color-panel-list {
+  margin: 10px 0px;
+
+  .color-panel {
+    display: flex;
+    height: 60px;
+
+    .color {
+      flex: 1;
+      input.ngx-color-picker {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+        border: 0;
+      }
+    }
+
+    .color-buttons {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+}
+
+.action-buttons-palette {
+  display: flex;
+  justify-content: space-between;
+}

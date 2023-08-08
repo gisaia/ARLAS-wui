@@ -1,0 +1,28 @@
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  .text {
+    font-weight: bold;
+  }
+
+  .close {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba(242, 242, 242, 0.3);
+    }
+  }
+}
+
+.content {
+  display: flex;
+  max-height: initial;
+
+  .map-container {
+    width: 35vw;
+    height: 80vh;
+  }
+}

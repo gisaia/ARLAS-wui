@@ -18,7 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -37,6 +37,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -56,6 +58,19 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { LayerStyleManagerService } from './arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
+import { MapglLayerStyleComponent } from './arlas-wui-customiser/components/mapgl-layer-style/mapgl-layer-style.component';
+import { MapglLayerStyleEditComponent } from './arlas-wui-customiser/components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
+import { ConfigFormComponent } from './arlas-wui-customiser/components/config-form/config-form.component';
+import { ControlPipe } from './arlas-wui-customiser/pipes/control.pipe';
+import { DialogPaletteSelectorComponent } from './arlas-wui-customiser/components/dialog-palette-selector/dialog-palette-selector.component';
+import { DialogColorTableComponent } from './arlas-wui-customiser/components/dialog-color-table/dialog-color-table.component';
+import { DefaultValuesService } from './arlas-wui-customiser/services/default-values/default-values.service';
+
+export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
+  const load = () => defaultValuesService.load('default.json?' + Date.now());
+  return load;
+}
 
 @NgModule({
   declarations: [
@@ -63,7 +78,13 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    MapglLayerStyleComponent,
+    MapglLayerStyleEditComponent,
+    ConfigFormComponent,
+    ControlPipe,
+    DialogPaletteSelectorComponent,
+    DialogColorTableComponent
   ],
   exports: [
     AboutComponent,
@@ -71,6 +92,11 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ArlasWuiComponent,
     LeftMenuComponent,
     ConfigsListComponent,
+    MapglLayerStyleComponent,
+    MapglLayerStyleEditComponent,
+    ControlPipe,
+    DialogPaletteSelectorComponent,
+    DialogColorTableComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +116,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatTooltipModule,
     MatTabsModule,
     MatProgressBarModule,
+    MatStepperModule,
+    MatSelectModule,
     MarkdownModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
@@ -122,8 +150,14 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService
-
+    VisualizeService,
+    LayerStyleManagerService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadServiceFactory,
+      deps: [DefaultValuesService],
+      multi: true
+    },
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]

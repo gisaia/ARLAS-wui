@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "default values for ARLAS-wui-builder",
+    "description": "",
+    "type": "object",
+    "$id": "defaultvalues.schema.json",
+    "properties": {
+        "global": {
+            "description": "Global Default values",
+            "type": "object"
+        },
+        "map": {
+            "description": "Map default values",
+            "type": "object"
+        }
+    },
+    "required": [
+        "global",
+        "map"
+    ]
+}

@@ -27,6 +27,7 @@
               "src/favicon.ico",
               "src/config.json",
               "src/config.map.json",
+              "src/default.json",
               "src/settings.yaml",
               "src/silent-refresh.html"
             ],
