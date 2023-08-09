@@ -1,6 +1,30 @@
 # Change Log
 
-## [v24.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.0.0) (2023-05-10)
+## [v24.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.1.0) (2023-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.5...v24.1.0)
+
+**New stuff:**
+
+- Add menu bar at the top of application [\#608](https://github.com/gisaia/ARLAS-wui/issues/608)
+
+**Fixed bugs:**
+
+- tinycolor2  has published a new version lately that breaks arlas-wui install [\#585](https://github.com/gisaia/ARLAS-wui/issues/585)
+
+**Miscellaneous:**
+
+- Timeline selection is based on timezone [\#512](https://github.com/gisaia/ARLAS-wui/issues/512)
+
+## [v23.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.5) (2023-06-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.0.0...v23.0.5)
+
+**Miscellaneous:**
+
+- Upgrade angular to v14 in front stack [\#580](https://github.com/gisaia/ARLAS-wui/issues/580)
+
+## [v24.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.0.0) (2023-05-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0...v24.0.0)
 
