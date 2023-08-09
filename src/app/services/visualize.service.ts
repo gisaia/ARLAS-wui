@@ -179,7 +179,6 @@ export class VisualizeService {
   }
 
   public addcrossToRemove(lat, lng, id) {
-    console.log(CROSS_LAYER_PREFIX + id);
     this.map.addSource(CROSS_LAYER_PREFIX + id, {
       'type': 'geojson',
       'data': {

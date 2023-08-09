@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
-  DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
+  DownloadComponent, LinkSettings, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -61,7 +61,6 @@ export class LeftMenuComponent implements OnInit {
   public reduce: string;
   public expand: string;
   public isLabelDisplayed = false;
-
 
   public constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
     public persistenceService: PersistenceService, private configService: ArlasConfigService,

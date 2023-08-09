@@ -3,11 +3,9 @@ import { Subscription, debounceTime } from 'rxjs';
 import { BroadcastPayload, SharedWorkerBusService } from 'windows-communication-bus';
 import { ResultlistService } from '../resultlist.service';
 import { Column, Action, ElementIdentifier } from 'arlas-web-components';
+import { CrossSort } from './tools/tools';
 
-export interface CrossSort {
-  listContributorId: string;
-  column: Column;
-}
+
 
 export interface CrossGeoSort {
   listContributorId: string;
@@ -23,7 +21,7 @@ export interface CrossAction {
 export class CrossResultlistService {
   private subscription = new Subscription();
   private HIGHLIGHT_ITEMS_MESSAGE = 'highlight-items';
-  private SORT_COLUMN_MESSAGE = 'sort-columns';
+  public SORT_COLUMN_MESSAGE = 'sort-columns';
   private GEO_SORT_MESSAGE = 'geo-sort';
   private ACTION_MESSAGE = 'action';
   public constructor(private sharedWorkerBusService: SharedWorkerBusService, private resultlistService: ResultlistService) {

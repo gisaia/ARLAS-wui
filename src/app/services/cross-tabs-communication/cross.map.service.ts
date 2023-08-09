@@ -35,7 +35,7 @@ export interface CrossPagination {
 @Injectable()
 export class CrossMapService {
   private subscription = new Subscription();
-  private MOVE_MESSAGE = 'map-moveend';
+  public MOVE_MESSAGE = 'map-moveend';
   private FEATURES_SELECTION_MESSAGE = 'features-selection';
   private FEATURE_HOVER_MESSAGE = 'feature-hover';
   private LIST_SCROLL_MAP_RESTYLE_MESSAGE = 'list-scroll-map-restyle';

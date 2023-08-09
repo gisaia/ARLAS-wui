@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { SharedWorkerBusService } from 'windows-communication-bus';
 import { CollectionReferenceParameters } from 'arlas-api';
@@ -57,6 +57,12 @@ export class ArlasWuiComponent implements OnInit {
   ) {
 
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  public unloadHandler(event: Event) {
+    this.sharedWorkerBusService.terminate();
+  }
+
   public ngOnInit(): void {
     if (typeof SharedWorker !== 'undefined') {
       this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {

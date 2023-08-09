@@ -240,7 +240,6 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mapEventListener.next(null);
         }
         const map = <mapboxgl.Map>this.mapComponent.map;
-        this.crossMapService.propagateMoveend(map.getBounds());
       });
       this.adjustMapOffset();
       this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
@@ -251,7 +250,6 @@ export class ArlasMapComponent implements OnInit, AfterViewInit, OnDestroy {
         queryParams[this.MAP_EXTEND_PARAM] = extend;
         this.router.navigate(['.'], { replaceUrl: true, queryParams: queryParams, relativeTo: this.activatedRoute });
       });
-      this.crossMapService.listenToExternalMoveend$(<mapboxgl.Map>this.mapComponent.map);
       this.cdr.detectChanges();
     }
     this.cdr.detectChanges();
