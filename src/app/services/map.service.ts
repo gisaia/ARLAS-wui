@@ -119,4 +119,20 @@ export class MapService {
     ]);
     return filters;
   }
+
+  public getContributorByCollection(collection: string): MapContributor {
+    let mapContributor: MapContributor;
+    if (this.mapContributors) {
+      mapContributor = this.mapContributors.find(mc => mc.collection === collection);
+    }
+    return mapContributor;
+  }
+
+  public getContributorById(identifier: string): MapContributor {
+    let mapContributor: MapContributor;
+    if (this.mapContributors) {
+      mapContributor = this.mapContributors.find(mc => mc.identifier === identifier);
+    }
+    return mapContributor;
+  }
 }

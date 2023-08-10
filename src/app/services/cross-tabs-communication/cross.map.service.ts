@@ -1,83 +1,87 @@
 import { Injectable } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { BroadcastPayload, SharedWorkerBusService } from 'windows-communication-bus';
 import { MapContributor, ElementIdentifier } from 'arlas-web-contributors';
 import { MapService } from '../map.service';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { ResultlistService } from '../resultlist.service';
+import { PageQuery } from 'arlas-web-components';
 
-export interface Move {
-  center: mapboxgl.LngLat;
-  zoom: number;
+export interface CrossMove {
+  pwithinraw: string;
+  pwithin: string;
 }
 export interface CrossFeaturesSelection {
   idPath: string;
   ids: string[] | number[];
-  mapContributorId: string;
+  collection: string;
 }
 
 export interface CrossFeatureHover {
   id: ElementIdentifier;
-  mapContributorId: string;
+  collection: string;
+}
+
+export interface ListScrollItems {
+  items: string[];
+  collection: string;
+}
+
+export interface CrossPagination {
+  listContributorId: string;
+  pageQuery: PageQuery;
 }
 
 @Injectable()
 export class CrossMapService {
   private subscription = new Subscription();
-  private MOVE_MESSAGE = 'map-moveend';
+  public MOVE_MESSAGE = 'map-moveend';
   private FEATURES_SELECTION_MESSAGE = 'features-selection';
   private FEATURE_HOVER_MESSAGE = 'feature-hover';
-  private canPropagateMoveend = false;
-
+  private LIST_SCROLL_MAP_RESTYLE_MESSAGE = 'list-scroll-map-restyle';
+  private PAGINATE_MAP_MESSAGE = 'paginate-map';
   public constructor(
     private sharedWorkerBusService: SharedWorkerBusService,
     private mapService: MapService,
+    private resultlistService: ResultlistService,
     public collaborativeService: ArlasCollaborativesearchService) {
     this.listenToExternalFeaturesSelection$();
     this.listenToExternalFeatureHover$();
+    this.listenToExternalMoveend$();
+    this.listenToExternalScrollMapRestyle$();
+    this.listenToExternalPaginate$();
   }
 
   // ############# MOVEEND ###########################
   // emit moveend event of the map to other tabs when the moveend of this tab is triggered.
-  public propagateMoveend(bounds: mapboxgl.LngLatBounds) {
-    if (this.canPropagateMoveend) {
-      this.sharedWorkerBusService.publishMessage({
-        name: this.MOVE_MESSAGE,
-        data: bounds
-      });
-    }
-    this.allowMyMoveendPropagation();
+  public propagateMoveend(pwithinraw, pwithin) {
+    this.sharedWorkerBusService.publishMessage({
+      name: this.MOVE_MESSAGE,
+      data: {
+        pwithinraw,
+        pwithin
+      }
+    });
   }
 
-  public listenToExternalMoveend$(map: mapboxgl.Map) {
+  public listenToExternalMoveend$() {
     this.subscription.add(
       this.sharedWorkerBusService.payloadOfName(this.MOVE_MESSAGE).subscribe((m: BroadcastPayload) => {
-        const move = m.data as Move;;
-        this.forbidMyMoveendPropagation();
-        map.fitBounds([
-          m.data._sw,
-          m.data._ne
-        ], { duration: 0 });
+        const move = m.data as CrossMove;
+        this.resultlistService.applyMapExtent(move.pwithinraw, move.pwithin);
       })
     );
   }
 
-  public allowMyMoveendPropagation() {
-    this.canPropagateMoveend = true;
-  }
-
-  public forbidMyMoveendPropagation() {
-    this.canPropagateMoveend = false;
-  }
 
   // ############# FEATURES SELECTION ###########################
-  public propagateFeaturesSelection(idPath: string, ids: string[] | number[], mapContributorId: string) {
+  public propagateFeaturesSelection(idPath: string, ids: string[] | number[], collection: string) {
     this.sharedWorkerBusService.publishMessage({
       name: this.FEATURES_SELECTION_MESSAGE,
       data: {
         idPath,
         ids,
-        mapContributorId
+        collection
       }
     });
   }
@@ -86,19 +90,21 @@ export class CrossMapService {
     this.subscription.add(
       this.sharedWorkerBusService.payloadOfName(this.FEATURES_SELECTION_MESSAGE).subscribe((m: BroadcastPayload) => {
         const fs = m.data as CrossFeaturesSelection;
-        const mapContributor = this.collaborativeService.registry.get(fs.mapContributorId) as MapContributor;
-        this.mapService.selectFeatures(fs.idPath, fs.ids, mapContributor);
+        const mapContributor = this.mapService.getContributorByCollection(fs.collection);
+        if (mapContributor) {
+          this.mapService.selectFeatures(fs.idPath, fs.ids, mapContributor);
+        }
       })
     );
   }
 
   // ############# FEATURE HOVER ###########################
-  public propagateFeatureHover(id: ElementIdentifier, mapContributorId: string) {
+  public propagateFeatureHover(id: ElementIdentifier, collection: string) {
     this.sharedWorkerBusService.publishMessage({
       name: this.FEATURE_HOVER_MESSAGE,
       data: {
         id,
-        mapContributorId
+        collection
       }
     });
   }
@@ -107,12 +113,55 @@ export class CrossMapService {
     this.subscription.add(
       this.sharedWorkerBusService.payloadOfName(this.FEATURE_HOVER_MESSAGE).subscribe((m: BroadcastPayload) => {
         const fs = m.data as CrossFeatureHover;
-        const mapContributor = this.collaborativeService.registry.get(fs.mapContributorId) as MapContributor;
-        const featureToHover = this.mapService.getFeatureToHover(fs.id, mapContributor);
-        this.mapService.featureToHightLight = featureToHover;
+        const mapContributor = this.mapService.getContributorByCollection(fs.collection) as MapContributor;
+        if (mapContributor) {
+          const featureToHover = this.mapService.getFeatureToHover(fs.id, mapContributor);
+          this.mapService.featureToHightLight = featureToHover;
+        }
       })
     );
   }
+
+  // ############# SCROLL RESTYLING ###########################
+  public propagateScrollMapRestyle(items: string[], collection) {
+    this.sharedWorkerBusService.publishMessage({
+      name: this.LIST_SCROLL_MAP_RESTYLE_MESSAGE,
+      data: {
+        items,
+        collection
+      }
+    });
+  }
+
+  public listenToExternalScrollMapRestyle$() {
+    this.subscription.add(
+      this.sharedWorkerBusService.payloadOfName(this.LIST_SCROLL_MAP_RESTYLE_MESSAGE).subscribe((m: BroadcastPayload) => {
+        const data = m.data as ListScrollItems;
+        this.mapService.updateMapStyle(data.items, data.collection);
+      })
+    );
+  }
+
+  // ############# PAGINATE ###########################
+  public propagatePaginate(listContributorId: string, pageQuery: PageQuery) {
+    this.sharedWorkerBusService.publishMessage({
+      name: this.PAGINATE_MAP_MESSAGE,
+      data: {
+        listContributorId,
+        pageQuery
+      }
+    });
+  }
+
+  public listenToExternalPaginate$() {
+    this.subscription.add(
+      this.sharedWorkerBusService.payloadOfName(this.PAGINATE_MAP_MESSAGE).subscribe((m: BroadcastPayload) => {
+        const data = m.data as CrossPagination;
+        this.resultlistService.paginate(data.listContributorId, data.pageQuery);
+      })
+    );
+  }
+
 
   public terminate() {
     this.subscription.unsubscribe();

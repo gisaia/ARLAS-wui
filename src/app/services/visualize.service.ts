@@ -127,33 +127,34 @@ export class VisualizeService {
   }
 
   public addWMTS(urlWmts, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
-    if (this.map.getLayer('wmts-layer-' + id)) {
-      this.map.removeLayer('wmts-layer-' + id);
-    }
-    if (this.map.getSource('wmts-source-' + id)) {
-      this.map.removeSource('wmts-source-' + id);
-    }
-    this.map.addSource('wmts-source-' + id, {
-      type: 'raster',
-      tiles: [urlWmts],
-      bounds: bounds,
-      maxzoom: maxZoom,
-      tileSize: 256
-    });
-    this.map.addLayer({
-      'id': 'wmts-layer-' + id,
-      'type': 'raster',
-      'source': 'wmts-source-' + id,
-      'paint': {},
-      'layout': {
-        'visibility': 'visible'
+    if (this.map) {
+      if (this.map.getLayer('wmts-layer-' + id)) {
+        this.map.removeLayer('wmts-layer-' + id);
       }
-    }, beforeId);
-    if (id !== 'external') {
-      this.isWMTSOnMap = true;
+      if (this.map.getSource('wmts-source-' + id)) {
+        this.map.removeSource('wmts-source-' + id);
+      }
+      this.map.addSource('wmts-source-' + id, {
+        type: 'raster',
+        tiles: [urlWmts],
+        bounds: bounds,
+        maxzoom: maxZoom,
+        tileSize: 256
+      });
+      this.map.addLayer({
+        'id': 'wmts-layer-' + id,
+        'type': 'raster',
+        'source': 'wmts-source-' + id,
+        'paint': {},
+        'layout': {
+          'visibility': 'visible'
+        }
+      }, beforeId);
+      if (id !== 'external') {
+        this.isWMTSOnMap = true;
+      }
+      this.addcrossToRemove(bounds[2], bounds[3], id);
     }
-
-    this.addcrossToRemove(bounds[2], bounds[3], id);
   }
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
