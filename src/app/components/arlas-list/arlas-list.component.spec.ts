@@ -6,6 +6,7 @@ import { CrossMapService } from 'app/services/cross-tabs-communication/cross.map
 import { MapService } from 'app/services/map.service';
 import { ArlasToolkitSharedModule, ArlasToolKitModule } from 'arlas-wui-toolkit';
 import { VisualizeService } from 'app/services/visualize.service';
+import { CrossResultlistService } from 'app/services/cross-tabs-communication/cross.resultlist.service';
 
 describe('ArlasListComponent', () => {
   let component: ArlasListComponent;
@@ -15,7 +16,7 @@ describe('ArlasListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ArlasListComponent],
       imports: [ArlasToolkitSharedModule, ArlasToolKitModule],
-      providers: [ResultlistService, CrossMapService, MapService, VisualizeService]
+      providers: [ResultlistService, CrossMapService, MapService, VisualizeService, CrossResultlistService]
     })
       .compileComponents();
     fixture = TestBed.createComponent(ArlasListComponent);

@@ -31,13 +31,13 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "~24.1.5",
+    "arlas-wui-toolkit": "~24.1.6",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
     "patch-package": "^6.4.7",
     "web-animations-js": "^2.3.2",
-    "windows-communication-bus": "./libs/windows-communication-bus-0.0.8.tgz"
+    "windows-communication-bus": "./libs/windows-communication-bus-1.0.0.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.10",
