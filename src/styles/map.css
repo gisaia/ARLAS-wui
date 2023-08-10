@@ -56,3 +56,87 @@
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
   margin: 5px 7px 0 0 !important;
 }
+
+.arlas-map-action {
+  position: absolute;
+  top: 195px;
+  right: 7px;
+  z-index: 1;
+}
+
+.app-container-reduce .arlas-map-action {
+  right: 457px;
+}
+
+.app-container-with-list .arlas-map-action {
+  right: 157px;
+}
+
+.arlas-map-action-container {
+  position: absolute;
+  right: 30px;
+  bottom: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 0px 1px rgb(0 0 0 / 10%);
+}
+
+.arlas-map-action-items {
+  height: 29px;
+  padding: 3px 2px 3px 3px;
+  cursor: pointer;
+}
+
+.arlas-map-action-items:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.arlas-map-settings {
+  position: absolute;
+  top: 70px;
+  right: 38px;
+  z-index: 1;
+}
+
+
+.app-container-reduce .arlas-map-settings {
+  right: 487px;
+}
+
+.arlas-map ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 72px !important;
+  z-index: 1;
+}
+.app-container-reduce ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 520px !important;
+}
+.app-container-with-list ::ng-deep.basemap-container {
+  right: 220px !important;
+  top: 70px !important;
+}
+
+.app-container-with-list .arlas-map-settings {
+  right: 187px;
+}
+
+.arlas-map-settings-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.arlas-map-settings-items {
+  height: 29px;
+  padding: 3px 2px 3px 3px;
+  cursor: pointer;
+}
+
+.arlas-map-settings-items:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}

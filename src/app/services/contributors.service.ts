@@ -104,9 +104,10 @@ export class ContributorService {
   }
 
   private getContributorConfig(contributorIdentifier: string) {
-    return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue(this.CONTRIBUTORS_PATH).find(
-      contrib => (contrib.identifier === contributorIdentifier)
-    );
+    return this.arlasStartupService.emptyMode || !this.configService.getValue(this.CONTRIBUTORS_PATH)
+      ? undefined : this.configService.getValue(this.CONTRIBUTORS_PATH).find(
+        contrib => (contrib.identifier === contributorIdentifier)
+      );
   }
 
   private getMapContributorConfigs() {

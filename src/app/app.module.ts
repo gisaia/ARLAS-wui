@@ -44,7 +44,7 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader
+  PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArlasWuiComponent } from './app.component';
@@ -56,6 +56,16 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { CrossCollaborationsService } from './services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from './services/cross-tabs-communication/cross.map.service';
+import { CrossResultlistService } from './services/cross-tabs-communication/cross.resultlist.service';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
+import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
+import { AppRoutingModule } from './app.routes';
+import { MainAppComponent } from './components/main-app/main-app.component';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
+import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +73,11 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    ArlasAnalyticsComponent,
+    MainAppComponent,
+    ArlasMapComponent,
+    ArlasListComponent
   ],
   exports: [
     AboutComponent,
@@ -73,6 +87,7 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ConfigsListComponent,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MapglImportModule,
@@ -99,7 +114,6 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatListModule,
     MatSidenavModule,
     HistogramModule,
-    ToolkitRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({
@@ -119,11 +133,15 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ArlasTaggerModule
   ],
   providers: [
+    CrossCollaborationsService,
+    CrossMapService,
+    CrossResultlistService,
+    MapService,
+    ResultlistService,
     ContributorService,
     SidenavService,
     DynamicComponentService,
     VisualizeService
-
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]

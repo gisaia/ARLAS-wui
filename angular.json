@@ -39,7 +39,8 @@
             ],
             "scripts": [
               "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "development": {
@@ -125,7 +126,8 @@
               "src/config.map.json",
               "src/settings.yaml",
               "src/silent-refresh.html"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         },
         "lint": {

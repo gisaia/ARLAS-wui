@@ -1,0 +1,51 @@
+<mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
+  <mat-tab *ngFor="let list of resultlistService.rightListContributors">
+    <ng-template mat-tab-label>
+      <mat-icon class="icon" *ngIf="resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
+      [matTooltip]="list.name"
+      [matTooltipDisabled]="resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.showName
+      && resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.showIcon">
+        {{resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.icon}}
+      </mat-icon>
+      <span class="name"
+        *ngIf="resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.showName === undefined || resultlistService.resultListConfigPerContId.get(list.identifier)?.options?.showName">
+        {{list.name | translate}}
+      </span>
+    </ng-template>
+    <div class="left_resultlist_wrapper">
+      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
+        [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
+        [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
+        [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
+        [nbGridColumns]="nbGridColumns" [tableWidth]="tableWidth"
+        [defautMode]="resultlistService.resultListConfigPerContId.get(list.identifier)?.defautMode"
+        [selectedGridItem]="resultlistService.resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
+        [fetchState]="list.fetchState"
+        (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
+        (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
+        [globalActionsList]="resultlistService.resultListConfigPerContId.get(list.identifier)?.globalActionsList"
+        [isGeoSortEnabled]="resultlistService.resultListConfigPerContId.get(list.identifier)?.isGeoSortActived"
+        [options]="resultlistService.resultListConfigPerContId.get(list.identifier)?.options"
+        [displayFilters]="resultlistService.resultListConfigPerContId.get(list.identifier)?.displayFilters"
+        (thumbnailFitEvent)="resultlistService.resultListConfigPerContId.get(list.identifier).fitThumbnail = $event"
+        [useColorService]="resultlistService.resultListConfigPerContId.get(list.identifier)?.useColorService"
+        [cellBackgroundStyle]="resultlistService.resultListConfigPerContId.get(list.identifier)?.cellBackgroundStyle"
+        [colorsSaturationWeight]="resultlistService.resultListConfigPerContId.get(list.identifier)?.colorsSaturationWeight"
+        [keysToColors]="resultlistService.resultListConfigPerContId.get(list.identifier)?.keysToColors"
+        [isDetailledGridOpen]="resultlistService.resultListConfigPerContId.get(list.identifier)?.isDetailledGridOpen"
+        (sortColumnEvent)="sortColumn(list, $event)"
+        [currentSortedColumn]="resultlistService.sortOutput.get(list.identifier)"
+        [isGeoSortActivated]="resultlistService.isGeoSortActivated.get(list.identifier)"
+        (setFiltersEvent)="list.setFilters($event)"
+        (paginationEvent)="paginate(list, $event)"
+        (geoSortEvent)="resultlistService.getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
+        (geoAutoSortEvent)="geoSort(list, $event)"
+        (selectedItemsEvent)="selectItems(list, $event)"
+        (consultedItemEvent)="consultItem(list, $event)"
+        (actionOnItemEvent)="applyActionOnItem(list, $event)"
+        (globalActionEvent)="resultlistService.getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })"
+        (changeResultMode)="changeListResultMode($event,list.identifier)">
+      </arlas-result-list>
+    </div>
+  </mat-tab>
+</mat-tab-group>

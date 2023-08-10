@@ -23,8 +23,9 @@ authentication:
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
 ticketing_key:
 tab_name: "ARLAS Wui"
-persistence:
-  url: 'http://localhost:19997/arlas-persistence-server'
+links: [ { "icon": "layers", "name": Map, "url": "http://localhost:4200/map" },
+         { "icon": "list_alt", "name": List, "url": "http://localhost:4200/list" },
+         { "icon": "bar_chart", "name": Analytics, "url": "http://localhost:4200/analytics" } ]
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000

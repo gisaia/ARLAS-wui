@@ -1,0 +1,28 @@
+.result-list-tab-group ::ng-deep .mat-tab-label{
+    min-width: 60px;
+  }
+  
+  .result-list-tab-group ::ng-deep .mat-tab-label-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0 10px;
+  }
+  
+  .result-list-tab-group ::ng-deep .mat-tab-label-content .icon {
+    flex: 1;
+  }
+  
+  .result-list-tab-group ::ng-deep .mat-tab-label-content .name {
+    flex: 5;
+  }
+
+  .left_resultlist_wrapper {
+    height: calc(100vh - 50px);
+    overflow: hidden;
+  }
+  
+  .one-tab .left_resultlist_wrapper {
+    height: 100vh;
+    overflow: hidden;
+  }
