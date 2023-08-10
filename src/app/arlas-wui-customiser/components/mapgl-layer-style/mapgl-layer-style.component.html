@@ -3,10 +3,12 @@
     <mat-step [stepControl]="geometryForm">
         <ng-template matStepLabel>{{ 'Shape' | translate }}</ng-template>
         <div class="title">{{ 'Shape' | translate }}</div>
-        <arlas-config-form [form]="geometryForm | control:'shape'" [formType]="'select'"></arlas-config-form>
+        <arlas-config-form [form]="geometryForm.customControls.shape"></arlas-config-form>
     </mat-step>
     <mat-step [stepControl]="fillForm">
         <ng-template matStepLabel>{{ 'Geometry fill' | translate }}</ng-template>
+        <arlas-config-form [form]="fillForm.customControls.opacity"></arlas-config-form>
+        <arlas-config-form [form]="fillForm.customControls.color"></arlas-config-form>
     </mat-step>
     <mat-step [stepControl]="strokeForm">
         <ng-template matStepLabel>{{ 'Geometry stroke' | translate }}</ng-template>

@@ -25,7 +25,7 @@ import { DefaultConfig, DefaultValuesService } from '../default-values/default-v
 import { CollectionConfigFormGroup } from '../../models/collection-config-form';
 import {
   ButtonFormControl, ButtonToggleFormControl, ColorFormControl, ColorPreviewFormControl,
-  ConfigFormControl, ConfigFormGroup, HiddenFormControl, InputFormControl, OrderedSelectFormControl, SelectFormControl,
+  ConfigFormControl, ConfigFormGroup, FORM_TYPE, HiddenFormControl, InputFormControl, OrderedSelectFormControl, SelectFormControl,
   SliderFormControl, SlideToggleFormControl
 } from '../../models/config-form';
 import { COUNT_OR_METRIC, PROPERTY_SELECTOR_SOURCE, PROPERTY_TYPE } from './models';
@@ -37,7 +37,7 @@ import { DialogColorTableComponent } from '../../components/dialog-color-table/d
 import { valuesToOptions } from '../../utils/tools';
 import { DialogPaletteSelectorComponent } from '../../components/dialog-palette-selector/dialog-palette-selector.component';
 import { DialogPaletteSelectorData } from '../../components/dialog-palette-selector/model';
-import { GEOMETRY_TYPE } from '../../models/geometry';
+import { GEOMETRY_TYPE } from '../../models/layer-enums';
 import { CollectionService, METRIC_TYPES } from '../collection-service/collection.service';
 import { CollectionField } from '../collection-service/models';
 import { toAllButGeoOptionsObs, toKeywordOptionsObs, toNumericOrDateOptionsObs, toTextOrKeywordOptionsObs } from '../collection-service/tools';
@@ -57,7 +57,7 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
     description?: string,
     geometryTypeControl?: () => SelectFormControl
   ) {
-    console.log(defaultConfig);
+
     super(
       collection,
       {
@@ -864,6 +864,8 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
               || this.customControls.propertySource.value === PROPERTY_SELECTOR_SOURCE.heatmap_density)
         })
       });
+
+    this._formType = FORM_TYPE.PROPERTY;
   }
 
   public customControls = {

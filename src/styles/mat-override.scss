@@ -1,0 +1,71 @@
+/*
+Licensed to Gisaïa under one or more contributor
+license agreements. See the NOTICE.txt file distributed with
+this work for additional information regarding copyright
+ownership. Gisaïa licenses this file to you under
+the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/
+@import "./arlas-wui-theme.scss";
+
+.mat-slider-horizontal,
+.mat-slider-vertical {
+    // force mat-slider labels to be always displayed & to be on the slider itself, not above it
+    .mat-slider-thumb-label {
+        transform: rotate(45deg) !important;
+        top: -16px !important;
+        border-radius: 50% !important;
+        height: 34px;
+        width: 34px;
+        display: flex;
+    }
+
+    .mat-slider-thumb {
+        transform: scale(0) !important;
+    }
+
+    .mat-slider-thumb-label-text {
+        opacity: 1 !important;
+    }
+}
+
+// .mat-slider-disabled .mat-slider-thumb-label {
+//     display: flex !important;
+//     border: 1px solid rgba(0, 0, 0, 0.38) !important;
+//     .mat-slider-thumb-label-text {
+//         color: rgba(0, 0, 0, 0.38) !important;
+//     }
+// }
+
+// // force mat-slider background when set to min value
+// .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
+//     background-color: mat-color($arlas-app-accent);
+// }
+
+// .mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb-label {
+//     background-color: mat-color($arlas-app-accent);
+// }
+
+// .mat-slider-thumb-label {
+//     background-color: white !important;
+//     border: 1px solid rgba(0, 0, 0, 0.87) !important;
+// }
+
+// .mat-slider-thumb-label-text {
+//     opacity: 1 !important;
+//     color: black !important;
+// }
+
+// .mat-dialog-container {
+//     max-height: unset !important;
+// }

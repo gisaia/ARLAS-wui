@@ -1,13 +1,43 @@
-<ng-container *ngIf="formType === 'select'">
-  <mat-form-field appearance="fill">
+<ng-container *ngIf="formType === FORM_TYPE.SELECT">
+  <mat-form-field appearance="outline">
     <mat-label>{{ form.label | translate}}</mat-label>
     <mat-select [formControl]="form" [required]="!form.optional">
       <mat-option *ngIf="form.optional"></mat-option>
       <mat-option *ngFor="let opt of form.syncOptions" [value]="opt.value"
         [ngClass]="'option-color-' + opt.value" [matTooltip]="opt.label | translate"
         [disabled]="opt.enabled === false">
+        <!-- TODO: Add back the dependency triggers ? -->
         {{opt.label | translate}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="formType === FORM_TYPE.SLIDER">
+  <mat-label>{{ form.label | translate }}</mat-label>
+  <mat-slider thumbLabem [formControl]="form" [min]="form.min" [max]="form.max"
+    [step]="form.step"></mat-slider>
+</ng-container>
+
+<ng-container *ngIf="formType === FORM_TYPE.PROPERTY">
+  <div>
+    <arlas-config-form [form]="form.customControls.propertySource"></arlas-config-form>
+    <arlas-config-form *ngIf="form.customControls.propertyFixSlider.enabled" [form]="form.customControls.propertyFixSlider"></arlas-config-form>
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl.enabled" [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl"></arlas-config-form>
+  </div>
+  <div>
+    <!-- Normalise toggle -->
+  </div>
+  <div>
+    <!-- Normalise by key toggle -->
+    <!-- Normalisation key field -->
+  </div>
+  <div>
+    <!-- Min value -->
+    <!-- Max value -->
+  </div>
+  <div>
+    <!-- Start value -->
+    <!-- End value -->
+  </div>
 </ng-container>

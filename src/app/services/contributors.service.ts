@@ -109,7 +109,7 @@ export class ContributorService {
     );
   }
 
-  private getMapContributorConfigs() {
+  public getMapContributorConfigs() {
     return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue('arlas')['web']['contributors'].filter(
       contrib => (contrib.type === 'map')
     );

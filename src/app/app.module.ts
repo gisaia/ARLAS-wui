@@ -39,6 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -126,6 +127,7 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MatTableModule,
     MatListModule,
     MatSidenavModule,
+    MatSliderModule,
     HistogramModule,
     ToolkitRoutingModule,
     ArlasToolkitSharedModule,

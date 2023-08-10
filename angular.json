@@ -33,6 +33,7 @@
             ],
             "styles": [
               "src/styles/arlas-wui-theme.scss",
+              "src/styles/mat-override.scss",
               "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -114,6 +115,7 @@
             ],
             "styles": [
               "src/styles/arlas-wui-theme.scss",
+              "src/styles/mat-override.scss",
               "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",

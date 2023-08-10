@@ -510,8 +510,23 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const layerStyle = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).find(l => l.id === event);
     const layerData = (this.mapglComponent.map as mapboxgl.Map).queryRenderedFeatures(undefined, { layers: [event] });
     console.log(layerData);
+
+    let layersSources = [];
+    let collection;
+    this.contributorService.getMapContributorConfigs().forEach(mapContrib => {
+      layersSources = layersSources.concat(mapContrib.layers_sources);
+      if (!collection) {
+        const layerContributor = mapContrib.layers_sources.find(ls => ls.id === layerData[0].source);
+        if (!!layerContributor) {
+          collection = mapContrib.collection;
+        }
+      }
+    });
+    console.log(layersSources);
+    const layerSource = Object.assign({}, layersSources.find(s => s.id === layerStyle.id));
+
     this.layerStyleManager.openLayerStyleEditComponent({
-      layer: layerData[0].source,
+      layerSource: layerSource,
       layerData: {type: 'FeatureCollection', features: layerData.map(f => ({type: 'Feature', geometry: f.geometry, properties: f.properties}))},
       layerStyle: layerStyle
     }).subscribe((layerStyle: mapboxgl.AnyLayer) => {

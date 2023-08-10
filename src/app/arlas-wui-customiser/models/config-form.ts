@@ -39,6 +39,14 @@ import { ComputeConfig } from 'arlas-web-contributors';
 
 export type FormGroupElement = ConfigFormControl | ConfigFormGroup | FormArray;
 
+export enum FORM_TYPE {
+  GROUP = 'group',
+  ARRAY = 'array',
+  SELECT = 'select',
+  SLIDER = 'slider',
+  PROPERTY = 'property'
+}
+
 export interface SelectOption {
   value: any;
   label: any;
@@ -57,6 +65,8 @@ export abstract class ConfigFormControl extends FormControl {
   public isChild = false;
   // an initial value is used by app-reset-on-change, when resetting a form control (instead of a "default.json" value)
   public initialValue: any;
+
+  protected _formType: FORM_TYPE;
 
   public constructor(
     formState: any,
@@ -124,6 +134,9 @@ export abstract class ConfigFormControl extends FormControl {
     }
   }
 
+  public get formType() {
+    return this._formType;
+  }
 }
 
 export interface ControlOptionalParams {
@@ -190,6 +203,8 @@ export class ConfigFormGroup extends FormGroup<{[key: string]: FormGroupElement;
   public tabName: string;
 
   public hide = false;
+
+  protected _formType = FORM_TYPE.GROUP;
 
   public constructor(
     controls: {
@@ -280,6 +295,10 @@ export class ConfigFormGroup extends FormGroup<{[key: string]: FormGroupElement;
       // enabled, probably because of the cascading update
       this.disable({ emitEvent: false });
     }
+  }
+
+  public get formType() {
+    return this._formType;
   }
 }
 
@@ -378,6 +397,7 @@ export class SelectFormControl extends ConfigFormControl {
       label,
       description,
       optionalParams);
+    this._formType = FORM_TYPE.SELECT;
 
     if (options instanceof Observable) {
       options.subscribe(opts => {
@@ -878,6 +898,7 @@ export class SliderFormControl extends ConfigFormControl {
     optionalParams?: ControlOptionalParams) {
 
     super(formState, label, description, optionalParams);
+    this._formType = FORM_TYPE.SLIDER;
   }
 
   public checkLessThan(newValue: number) {
@@ -1032,4 +1053,9 @@ export class TextareaFormControl extends ConfigFormControl {
   ) {
     super(formState, label, description, optionalParams);
   }
+}
+
+export interface NormalizationFieldConfig {
+  on: string;
+  per: string;
 }

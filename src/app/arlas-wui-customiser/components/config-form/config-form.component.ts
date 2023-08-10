@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfigFormControl } from 'app/arlas-wui-customiser/models/config-form';
+import { FormArray } from '@angular/forms';
+import { FORM_TYPE, FormGroupElement } from 'app/arlas-wui-customiser/models/config-form';
 
 @Component({
   selector: 'arlas-config-form',
@@ -8,12 +9,19 @@ import { ConfigFormControl } from 'app/arlas-wui-customiser/models/config-form';
 })
 export class ConfigFormComponent implements OnInit {
 
-  @Input() public form: ConfigFormControl;
-  @Input() public formType: string;
+  @Input() public form: FormGroupElement;
+  public formType: string;
+
+  public FORM_TYPE = FORM_TYPE;
 
   public constructor() { }
 
   public ngOnInit(): void {
+    if (this.form instanceof FormArray) {
+      this.formType = FORM_TYPE.ARRAY;
+    } else {
+      this.formType = this.form.formType;
+    }
   }
 
 }
