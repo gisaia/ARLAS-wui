@@ -44,7 +44,6 @@ export class ConfigsListComponent implements OnInit {
 
   public constructor(
     private persistenceService: PersistenceService,
-    private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
     private arlasSettingsService: ArlasSettingsService
   ) {
     this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
@@ -82,7 +81,7 @@ export class ConfigsListComponent implements OnInit {
               const config: Configuration = {
                 id: d.id,
                 name: d.doc_key,
-                color: this.arlasColorGeneratorLoader.getColor(d.id.concat(d.doc_key))
+                color: undefined
               };
               this.configurations.push(config);
             });

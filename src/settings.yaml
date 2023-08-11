@@ -25,6 +25,7 @@ ticketing_key:
 tab_name: "ARLAS Wui"
 persistence:
   url: 'http://localhost:19997/arlas-persistence-server'
+  use_local_config: true
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000

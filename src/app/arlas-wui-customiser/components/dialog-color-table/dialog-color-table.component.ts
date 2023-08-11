@@ -25,7 +25,7 @@ import { CollectionService } from '../../services/collection-service/collection.
 import { from, Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { DialogColorTableData } from './models';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
+import { ArlasColorService } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-dialog-color-table',
@@ -45,7 +45,7 @@ export class DialogColorTableComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogColorTableComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogColorTableData,
     private formBuilder: FormBuilder,
-    private colorService: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private collectionService: CollectionService
   ) { }
 

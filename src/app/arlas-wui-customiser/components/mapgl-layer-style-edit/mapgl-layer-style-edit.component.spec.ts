@@ -8,9 +8,9 @@ describe('MapglLayerStyleEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapglLayerStyleEditComponent ]
+      declarations: [MapglLayerStyleEditComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(MapglLayerStyleEditComponent);
     component = fixture.componentInstance;

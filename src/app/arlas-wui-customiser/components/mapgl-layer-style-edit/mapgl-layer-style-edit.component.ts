@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import mapboxgl from 'mapbox-gl';
 import { MapglLayerStyleComponent } from '../mapgl-layer-style/mapgl-layer-style.component';
 import { LAYER_MODE } from 'app/arlas-wui-customiser/models/layer-enums';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
+import { ArlasColorService } from 'arlas-web-components';
 
 const GEOJSON_SOURCE_TYPE = 'geojson';
 
@@ -27,7 +27,7 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private dialog: MatDialogRef<MapglLayerStyleEditComponent>,
-    private colorService: ArlasColorGeneratorLoader
+    private colorService: ArlasColorService
   ) { }
 
   public ngOnInit(): void {

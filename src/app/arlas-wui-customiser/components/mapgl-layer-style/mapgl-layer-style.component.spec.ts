@@ -8,7 +8,7 @@ describe('LayerStyleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LayerStyleComponent ]
+      declarations: [LayerStyleComponent]
     })
       .compileComponents();
 

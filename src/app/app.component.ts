@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, ArlasColorService
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -174,7 +174,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
@@ -403,7 +403,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
           this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorGenerator;
+            mapContrib.colorGenerator = this.colorService.colorGenerator;
             if (!!this.resultlistContributors) {
               const resultlistContrbutor: ResultListContributor = this.resultlistContributors
                 .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
@@ -574,7 +574,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const layer = this.mapglComponent.map.getLayer(l);
         if (ids && ids.length > 0) {
           if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-            layer.metadata.isScrollableLayer) {
+            (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
             this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
@@ -1030,6 +1030,43 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.isMapMenuOpen = false;
       }
     }, 100);
+  }
+
+  public changeColor() {
+    (this.colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor('PLEIADES', '#61ff90');
+    // Force redraw map
+    this.adjustMapOffset();
+  }
+
+  public changeColumns() {
+    this.rightListContributors[0].fieldsList = [
+
+      {
+        'columnName': 'Couverture',
+        'fieldName': 'metadata.ObservationContext.eo.opt.cloudCoverPercentage',
+        'dataType': '%',
+        'useColorService': false,
+      },
+      {
+        'columnName': 'Capteur 2',
+        'fieldName': 'metadata.ObservationContext.processusUsed.platform',
+        'dataType': '',
+        'useColorService': true,
+      },
+      {
+        'columnName': "Angle d'incidence",
+        'fieldName': 'metadata.ObservationContext.eo.acquisition.incidenceAngle',
+        'dataType': '°',
+        'useColorService': false,
+      }
+
+    ];
+    this.adjustMapOffset();
+
+  }
+
+  public changeCellBackground() {
+
   }
 
   private adjustMapOffset() {

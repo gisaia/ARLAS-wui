@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConfigFormControl, ConfigFormGroup } from '../../models/config-form';
 import { GEOMETRY_TYPE, LAYER_MODE, LINE_TYPE, LINE_TYPE_VALUES, MAP_LAYER_TYPE, NORMALIZED } from '../../models/layer-enums';
@@ -11,8 +12,8 @@ import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LayerSourceConfig, ColorConfig, getSourceName } from 'arlas-web-contributors';
 import { PROPERTY_SELECTOR_SOURCE, ProportionedValues } from 'app/arlas-wui-customiser/services/property-selector-form-builder/models';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { KeywordColor, OTHER_KEYWORD } from '../dialog-color-table/models';
+import { ArlasColorService } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-mapgl-layer-style',
@@ -228,7 +229,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
     return layerSource;
   }
 
-  public getLayerPaint(mode: LAYER_MODE, colorService: ArlasColorGeneratorLoader, taggableFields?: Set<string>): Paint {
+  public getLayerPaint(mode: LAYER_MODE, colorService: ArlasColorService, taggableFields?: Set<string>): Paint {
     const paint: Paint = {};
     // const color = this.getMapProperty(this.fillForm.customControls.colorFg, mode, colorService, taggableFields);
     const opacity = this.getMapProperty(this.fillForm.customControls.opacity.value, mode, colorService, taggableFields);
@@ -241,6 +242,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
       case GEOMETRY_TYPE.line: {
         paint['line-opacity'] = opacity;
         paint['line-color'] = this.layerStyle.paint['line-color']; // color
+        // eslint-disable-next-line max-len
         paint['line-width'] = this.layerStyle.paint['line-width']; // this.getMapProperty(modeValues.styleStep.widthFg, mode, colorService, taggableFields);
         paint['line-dasharray'] = this.layerStyle.paint['line-dasharray'];
         // const lineType = modeValues.styleStep.lineType;
@@ -285,7 +287,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   }
 
   // fgValues has to be the values of the customControls of a PropertySelector
-  public getMapProperty(fgValues: any, mode: LAYER_MODE, colorService: ArlasColorGeneratorLoader, taggableFields?: Set<string>) {
+  public getMapProperty(fgValues: any, mode: LAYER_MODE, colorService: ArlasColorService, taggableFields?: Set<string>) {
     console.log(fgValues);
     switch (fgValues.propertySource) {
       case PROPERTY_SELECTOR_SOURCE.fix_color:
