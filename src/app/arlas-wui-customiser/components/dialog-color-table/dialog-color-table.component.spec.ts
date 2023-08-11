@@ -4,7 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MockComponent } from 'ng-mocks';
 import { ColorPickerWrapperComponent } from '../color-picker-wrapper/color-picker-wrapper.component';
 import { CollectionService } from '../../services/collection-service/collection.service';
-import { ArlasCollaborativesearchService, ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { ArlasColorService } from 'arlas-web-components';
 
 describe('DialogColorTableComponent', () => {
   let spectator: Spectator<DialogColorTableComponent>;
@@ -29,7 +30,7 @@ describe('DialogColorTableComponent', () => {
     mocks: [
       MatDialogRef,
       ArlasCollaborativesearchService,
-      ArlasColorGeneratorLoader,
+      ArlasColorService,
       CollectionService,
     ]
   });

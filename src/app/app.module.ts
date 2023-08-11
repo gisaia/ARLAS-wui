@@ -45,6 +45,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
+  ArlasColorGeneratorLoader,
+  ArlasConfigService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
@@ -72,7 +74,6 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
   return load;
 }
-
 @NgModule({
   declarations: [
     AboutComponent,
@@ -160,6 +161,9 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
       deps: [DefaultValuesService],
       multi: true
     },
+    VisualizeService
+
+
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]

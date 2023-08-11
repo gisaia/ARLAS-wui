@@ -31,7 +31,6 @@ import {
 import { COUNT_OR_METRIC, PROPERTY_SELECTOR_SOURCE, PROPERTY_TYPE } from './models';
 import { Observable } from 'rxjs';
 import { CollectionReferenceDescriptionProperty } from 'arlas-api';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { DialogColorTableData, KeywordColor } from '../../components/dialog-color-table/models';
 import { DialogColorTableComponent } from '../../components/dialog-color-table/dialog-color-table.component';
 import { valuesToOptions } from '../../utils/tools';
@@ -41,13 +40,15 @@ import { GEOMETRY_TYPE } from '../../models/layer-enums';
 import { CollectionService, METRIC_TYPES } from '../collection-service/collection.service';
 import { CollectionField } from '../collection-service/models';
 import { toAllButGeoOptionsObs, toKeywordOptionsObs, toNumericOrDateOptionsObs, toTextOrKeywordOptionsObs } from '../collection-service/tools';
+import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 
 export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
   public constructor(
     defaultConfig: DefaultConfig,
     dialog: MatDialog,
     collectionService: CollectionService,
-    colorService: ArlasColorGeneratorLoader,
+    colorService: ArlasColorService,
     collection: string,
     collectionFieldsObs: Observable<Array<CollectionField>>,
     private propertyType: PROPERTY_TYPE,
@@ -405,7 +406,7 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
                   this.customControls.propertyManualFg.propertyManualValuesCtrl.clear();
                   result.forEach((kc: KeywordColor) => {
                     /** after closing the dialog, save the [keyword, color] list in the Arlas color service */
-                    colorService.updateKeywordColor(kc.keyword, kc.color);
+                    (colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor(kc.keyword, kc.color);
                     this.addToColorManualValuesCtrl(kc);
                   });
                 }
@@ -983,7 +984,7 @@ export class PropertySelectorFormBuilderService {
     private defaultValuesService: DefaultValuesService,
     private dialog: MatDialog,
     private collectionService: CollectionService,
-    private colorService: ArlasColorGeneratorLoader
+    private colorService: ArlasColorService
   ) { }
 
   public build(

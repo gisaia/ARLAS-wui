@@ -1,7 +1,7 @@
 import { PropertySelectorFormBuilderService } from './property-selector-form-builder.service';
 import { SpectatorService, createServiceFactory, mockProvider } from '@ngneat/spectator';
 import { CollectionService } from '../collection-service/collection.service';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
+import { ArlasColorService } from 'arlas-web-components';
 
 describe('PropertySelectorFormBuilderService', () => {
   let spectator: SpectatorService<PropertySelectorFormBuilderService>;
@@ -10,7 +10,7 @@ describe('PropertySelectorFormBuilderService', () => {
     service: PropertySelectorFormBuilderService,
     providers: [
       mockProvider(CollectionService),
-      mockProvider(ArlasColorGeneratorLoader),
+      mockProvider(ArlasColorService),
     ]
   });
 

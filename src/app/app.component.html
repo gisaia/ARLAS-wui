@@ -7,6 +7,9 @@
     </mat-sidenav>
     <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">
+        <button  class="changeColor" (click)="changeColor()">CHANGE COLOR</button>
+        <button  class="changeColumns" (click)="changeColumns()">CHANGE COLUMNS</button>
+        <button  class="changeCellBackground" (click)="changeCellBackground()">CHANGE CELL background</button>
 
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
@@ -92,7 +95,7 @@
               </div>
               <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
                 *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
-                <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
+             <arlas-result-list style="height:100%" [rowItemList]="previewListContrib.data"
                   [fieldsList]="previewListContrib.fieldsList"
                   [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
                   [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
@@ -137,7 +140,7 @@
                       </span>
                     </ng-template>
                     <div class="left_resultlist_wrapper">
-                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
+                    <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
                         [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"

@@ -373,3 +373,19 @@
 .result-list-tab-group ::ng-deep .mat-tab-label-content .name {
   flex: 5;
 }
+
+.changeColor{
+  position: absolute;
+  z-index: 10000;
+  left: 50%;
+}
+.changeColumns{
+  position: absolute;
+  z-index: 10000;
+  left: 75%;
+}
+.changeCellBackground{
+  position: absolute;
+  z-index: 10000;
+  left: 25%;
+}
