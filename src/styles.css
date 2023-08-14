@@ -140,10 +140,6 @@ button:focus {
   height: 0;
 }
 
-.mat-dialog-container {
-  max-height: 85vh !important;
-}
-
 .share-option-check .mat-pseudo-checkbox {
   display: none !important;
 }

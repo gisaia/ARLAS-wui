@@ -102,10 +102,11 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
     console.log(layerValues);
     this.geometryForm.customControls.shape.setValue(layerValues.geometryType);
 
-    this.setPropertySelectorValues(this.fillForm.customControls.opacity, layerValues.opacity);
+    this.fillForm.customControls.opacity.patchValue(layerValues.opacity);
+    this.fillForm.customControls.color.patchValue(layerValues.colorFg);
+    this.fillForm.customControls.color.populateManualColorValuesFromArray(layerValues.colorFg.propertyManualFg.propertyManualValuesCtrl);
+
     console.log(this.fillForm.customControls.color);
-    console.log(layerValues.colorFg);
-    this.setPropertySelectorValues(this.fillForm.customControls.color, layerValues.colorFg);
   }
 
   public ngOnDestroy(): void {
@@ -113,30 +114,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   }
 
   private resetOnGeometryTypeChange() {
-    // Create a subscribe of the valueChanges of the geometryType control to reinit the others
-  }
-
-  /**
-   * Sets the values of a PropertySelectorFormGroup
-   * @param propertySelector The form control to initialize
-   * @param values The values of the form controls of a PropertySelectorFormGroup
-   */
-  private setPropertySelectorValues(propertySelector: PropertySelectorFormGroup, values: any) {
-    // TODO: create an interface/class for the custom controls of PropertySelectorFormGroup to give that as an argument
-    Object.keys(values).forEach(k => {
-      // PropertySelector form controls are on multiple levels, some directly accessible through customControls
-      if (!!propertySelector.customControls) {
-        if ((propertySelector.customControls as Object)[k] instanceof ConfigFormControl) {
-          (propertySelector.customControls as Object)[k].setValue(values[k]);
-        } else {
-          this.setPropertySelectorValues((propertySelector.customControls as Object)[k], values[k]);
-        }
-      } else if ((propertySelector as Object)[k] instanceof ConfigFormControl) {
-        (propertySelector as Object)[k].setValue(values[k]);
-      } else {
-        console.log('What');
-      }
-    });
+    // TODO: Create a subscribe of the valueChanges of the geometryType control to reinit the others
   }
 
   /**
@@ -177,10 +155,10 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   }
 
   public exportLayerStyleConfig(layerSource: LayerSourceConfig, layerMode: LAYER_MODE, collection: string) {
-    // this.declareFieldsToLayerSource(layerSource, modeValues.styleStep.colorFg, layerMode);
+    this.declareFieldsToLayerSource(layerSource, this.fillForm.customControls.color.value, layerMode);
 
     if (!!this.fillForm.customControls.opacity) {
-      this.declareFieldsToLayerSource(layerSource, this.fillForm.customControls.opacity, layerMode);
+      this.declareFieldsToLayerSource(layerSource, this.fillForm.customControls.opacity.value, layerMode);
     }
 
     // if (!!modeValues.styleStep.widthFg) {
@@ -226,23 +204,24 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
     // }
 
     layerSource.source = getSourceName(layerSource) + '-' + collection;
+    // Avoid duplicates
+    layerSource.include_fields = new Array(...(new Set(layerSource.include_fields)));
     return layerSource;
   }
 
   public getLayerPaint(mode: LAYER_MODE, colorService: ArlasColorService, taggableFields?: Set<string>): Paint {
     const paint: Paint = {};
-    // const color = this.getMapProperty(this.fillForm.customControls.colorFg, mode, colorService, taggableFields);
+    const color = this.getMapProperty(this.fillForm.customControls.color.value, mode, colorService, taggableFields);
     const opacity = this.getMapProperty(this.fillForm.customControls.opacity.value, mode, colorService, taggableFields);
     switch (this.geometryForm.customControls.shape.value) {
       case GEOMETRY_TYPE.fill: {
         paint['fill-opacity'] = opacity;
-        paint['fill-color'] = this.layerStyle.paint['fill-color']; // color;
+        paint['fill-color'] = color;
         break;
       }
       case GEOMETRY_TYPE.line: {
         paint['line-opacity'] = opacity;
-        paint['line-color'] = this.layerStyle.paint['line-color']; // color
-        // eslint-disable-next-line max-len
+        paint['line-color'] = color;
         paint['line-width'] = this.layerStyle.paint['line-width']; // this.getMapProperty(modeValues.styleStep.widthFg, mode, colorService, taggableFields);
         paint['line-dasharray'] = this.layerStyle.paint['line-dasharray'];
         // const lineType = modeValues.styleStep.lineType;
@@ -255,7 +234,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
       }
       case GEOMETRY_TYPE.circle: {
         paint['circle-opacity'] = opacity;
-        paint['circle-color'] = this.layerStyle.paint['circle-color']; // color;
+        paint['circle-color'] = color;
         paint['circle-radius'] = this.layerStyle.paint['circle-radius']; // this.getMapProperty(modeValues.styleStep.radiusFg, mode, colorService, taggableFields);
         paint['circle-stroke-width'] = this.layerStyle.paint['circle-stroke-width']; // this.getMapProperty(modeValues.styleStep.strokeWidthFg, mode, colorService, taggableFields);
         // TODO: add below two attributes to Paint interface
@@ -265,7 +244,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
         break;
       }
       case GEOMETRY_TYPE.heatmap: {
-        paint['heatmap-color'] = this.layerStyle.paint['heatmap-color']; // color;
+        paint['heatmap-color'] = color;
         paint['heatmap-opacity'] = opacity;
         paint['heatmap-intensity'] = this.layerStyle.paint['heatmap-intensity']; // this.getMapProperty(modeValues.styleStep.intensityFg, mode, colorService, taggableFields);
         paint['heatmap-weight'] = this.layerStyle.paint['heatmap-weight']; // this.getMapProperty(modeValues.styleStep.weightFg, mode, colorService, taggableFields);
@@ -273,13 +252,12 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
         break;
       }
       case GEOMETRY_TYPE.label: {
-        paint['text-color'] = this.layerStyle.paint['text-color']; // color;
+        paint['text-color'] = color;
         paint['text-opacity'] = opacity;
         paint['text-halo-color'] = this.layerStyle.paint['text-halo-color']; // this.getMapProperty(modeValues.styleStep.labelHaloColorFg, mode, colorService, taggableFields);
         paint['text-halo-width'] = this.layerStyle.paint['text-halo-width']; // this.getMapProperty(modeValues.styleStep.labelHaloWidthFg, mode, colorService, taggableFields);
         paint['text-halo-blur'] = this.layerStyle.paint['text-halo-blur']; // this.getMapProperty(modeValues.styleStep.labelHaloBlurFg, mode, colorService, taggableFields);
         paint['text-translate'] = this.layerStyle.paint['text-translate']; // [+modeValues.styleStep.labelOffsetFg.dx, +modeValues.styleStep.labelOffsetFg.dy];
-
         break;
       }
     }
@@ -499,6 +477,7 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
         const interpolatedValues = layerValues.propertyInterpolatedFg;
         if (mode === LAYER_MODE.features) {
           if (interpolatedValues.propertyInterpolatedNormalizeCtrl) {
+            console.log('normalisation field');
             layerSource.normalization_fields.push(
               {
                 on: interpolatedValues.propertyInterpolatedFieldCtrl,

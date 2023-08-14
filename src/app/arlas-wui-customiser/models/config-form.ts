@@ -44,7 +44,11 @@ export enum FORM_TYPE {
   ARRAY = 'array',
   SELECT = 'select',
   SLIDER = 'slider',
-  PROPERTY = 'property'
+  PROPERTY = 'property',
+  COLOR_PICK = 'color_pick',
+  TOGGLE = 'toggle',
+  INPUT = 'input',
+  BUTTON = 'button'
 }
 
 export interface SelectOption {
@@ -342,8 +346,8 @@ export class SlideToggleFormControl extends ConfigFormControl {
     description: string,
     optionalParams?: ControlOptionalParams
   ) {
-
     super(formState, label, description, { ...optionalParams, ... { optional: true } });
+    this._formType = FORM_TYPE.TOGGLE;
   }
 }
 
@@ -965,6 +969,7 @@ export class InputFormControl extends ConfigFormControl {
     public ensureLessThan?: () => ConfigFormControl,
     public ensureGeaterThan?: () => ConfigFormControl) {
     super(formState, label, description, optionalParams);
+    this._formType = FORM_TYPE.INPUT;
   }
 
   public checkLessThan(newValue: number) {
@@ -998,6 +1003,15 @@ export class IconFormControl extends ConfigFormControl {
 }
 
 export class ColorFormControl extends ConfigFormControl {
+  public constructor(
+    formState: any,
+    label: string,
+    description: string,
+    optionalParams: ControlOptionalParams = {}
+  ) {
+    super(formState, label, description, optionalParams);
+    this._formType = FORM_TYPE.COLOR_PICK;
+  }
 }
 
 /**
@@ -1039,6 +1053,7 @@ export class ButtonFormControl extends ConfigFormControl {
     public disabledButtonMessage?: string,
     optionalParams?: ControlOptionalParams) {
     super(formState, label, description, optionalParams || { optional: true });
+    this._formType = FORM_TYPE.BUTTON;
   }
 }
 

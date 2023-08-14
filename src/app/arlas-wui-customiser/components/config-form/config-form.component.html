@@ -3,9 +3,8 @@
     <mat-label>{{ form.label | translate}}</mat-label>
     <mat-select [formControl]="form" [required]="!form.optional">
       <mat-option *ngIf="form.optional"></mat-option>
-      <mat-option *ngFor="let opt of form.syncOptions" [value]="opt.value"
-        [ngClass]="'option-color-' + opt.value" [matTooltip]="opt.label | translate"
-        [disabled]="opt.enabled === false">
+      <mat-option *ngFor="let opt of form.syncOptions" [value]="opt.value" [ngClass]="'option-color-' + opt.value"
+        [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
         <!-- TODO: Add back the dependency triggers ? -->
         {{opt.label | translate}}
       </mat-option>
@@ -14,30 +13,105 @@
 </ng-container>
 
 <ng-container *ngIf="formType === FORM_TYPE.SLIDER">
-  <mat-label>{{ form.label | translate }}</mat-label>
-  <mat-slider thumbLabem [formControl]="form" [min]="form.min" [max]="form.max"
-    [step]="form.step"></mat-slider>
+  <mat-label class="label">{{ form.label | translate }}</mat-label>
+  <mat-slider thumbLabem [formControl]="form" [min]="form.min" [max]="form.max" [step]="form.step"></mat-slider>
 </ng-container>
 
-<ng-container *ngIf="formType === FORM_TYPE.PROPERTY">
-  <div>
-    <arlas-config-form [form]="form.customControls.propertySource"></arlas-config-form>
-    <arlas-config-form *ngIf="form.customControls.propertyFixSlider.enabled" [form]="form.customControls.propertyFixSlider"></arlas-config-form>
-    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl.enabled" [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl"></arlas-config-form>
-  </div>
-  <div>
-    <!-- Normalise toggle -->
-  </div>
-  <div>
-    <!-- Normalise by key toggle -->
-    <!-- Normalisation key field -->
-  </div>
-  <div>
-    <!-- Min value -->
-    <!-- Max value -->
-  </div>
-  <div>
-    <!-- Start value -->
-    <!-- End value -->
-  </div>
+<ng-container *ngIf="formType === FORM_TYPE.COLOR_PICK">
+  <div [class.control-error]="form.touched && form.invalid">
+    {{ form.label | translate}} {{ form.optional ? '' : '*' }}</div>
+  <arlas-color-picker-wrapper [value]="form.value" (setValue)="form.setValue($event)">
+  </arlas-color-picker-wrapper>
 </ng-container>
+
+<ng-container *ngIf="formType === FORM_TYPE.TOGGLE">
+  <mat-slide-toggle [formControl]="form" labelPosition="before">
+    <ng-container>{{ form.label | translate}}</ng-container>
+  </mat-slide-toggle>
+</ng-container>
+
+<ng-container *ngIf="formType === FORM_TYPE.INPUT">
+  <mat-form-field>
+    <mat-label>{{ form.label | translate}}</mat-label>
+    <input matInput [formControl]="form" [type]="form.inputType" [required]="!form.optional">
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="formType === FORM_TYPE.BUTTON">
+  <button type="button" mat-stroked-button color="primary" (click)="form.callback(form)"
+    [disabled]="form.disabledButton">
+    {{form.label | translate}}
+  </button>
+</ng-container>
+
+<div *ngIf="formType === FORM_TYPE.PROPERTY" class="property-selector">
+  <div class="property-group">
+    <arlas-config-form [form]="form.customControls.propertySource"></arlas-config-form>
+    <!-- Fix slider -->
+    <arlas-config-form *ngIf="form.customControls.propertyFixSlider.enabled"
+      [form]="form.customControls.propertyFixSlider"></arlas-config-form>
+    <!-- Fix color -->
+    <arlas-config-form *ngIf="form.customControls.propertyFixColor.enabled"
+      [form]="form.customControls.propertyFixColor"></arlas-config-form>
+    <!-- Interpolation field -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedFieldCtrl"></arlas-config-form>
+  </div>
+  <!-- Interpolation -->
+  <div class="property-group"
+    *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeCtrl.enabled">
+    <!-- Normalise -->
+    <arlas-config-form
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeCtrl"></arlas-config-form>
+  </div>
+  <div class="property-group"
+    *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeByKeyCtrl.enabled || form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeLocalFieldCtrl.enabled">
+    <!-- Normalise by key toggle -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeByKeyCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeByKeyCtrl"></arlas-config-form>
+    <!-- Normalisation key field -->
+    <arlas-config-form
+      *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeLocalFieldCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeLocalFieldCtrl"></arlas-config-form>
+  </div>
+  <div class="property-group"
+    *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinFieldValueCtrl.enabled || form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxFieldValueCtrl.enabled">
+    <!-- Min value -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinFieldValueCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinFieldValueCtrl"></arlas-config-form>
+    <!-- Max value -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxFieldValueCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxFieldValueCtrl"></arlas-config-form>
+  </div>
+  <div class="property-group"
+    *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinValueCtrl.enabled || form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxValueCtrl.enabled">
+    <!-- Start value -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinValueCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedMinValueCtrl"></arlas-config-form>
+    <!-- End value -->
+    <arlas-config-form *ngIf="form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxValueCtrl.enabled"
+      [form]="form.customControls.propertyInterpolatedFg.propertyInterpolatedMaxValueCtrl"></arlas-config-form>
+  </div>
+  <!-- Provided -->
+  <div class="property-group"
+    *ngIf="form.customControls.propertyProvidedColorFieldCtrl.enabled || form.customControls.propertyProvidedColorLabelCtrl.enabled">
+    <!-- Color field -->
+    <arlas-config-form *ngIf="form.customControls.propertyProvidedColorFieldCtrl.enabled"
+      [form]="form.customControls.propertyProvidedColorFieldCtrl"></arlas-config-form>
+    <!-- Color label -->
+    <arlas-config-form *ngIf="form.customControls.propertyProvidedColorLabelCtrl.enabled"
+      [form]="form.customControls.propertyProvidedColorLabelCtrl"></arlas-config-form>
+  </div>
+  <!-- Manual -->
+  <div class="property-group"
+    *ngIf="form.customControls.propertyManualFg.propertyManualFieldCtrl.enabled || form.customControls.propertyManualFg.propertyManualButton.enabled">
+    <!-- Color field -->
+    <arlas-config-form *ngIf="form.customControls.propertyManualFg.propertyManualFieldCtrl.enabled"
+      [form]="form.customControls.propertyManualFg.propertyManualFieldCtrl"></arlas-config-form>
+    <!-- Color values -->
+    <!-- Button that will open the dialog to pick the color for field's keys -->
+    <arlas-config-form *ngIf="form.customControls.propertyManualFg.propertyManualButton.enabled"
+      [form]="form.customControls.propertyManualFg.propertyManualButton"></arlas-config-form>
+  </div>
+  <!-- TODO: Fields for color picking (generated and provided) -->
+</div>

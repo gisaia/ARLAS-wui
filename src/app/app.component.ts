@@ -529,13 +529,38 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       layerSource: layerSource,
       layerData: {type: 'FeatureCollection', features: layerData.map(f => ({type: 'Feature', geometry: f.geometry, properties: f.properties}))},
       layerStyle: layerStyle
-    }).subscribe((layerStyle: mapboxgl.AnyLayer) => {
+    }).subscribe((value: any) => {
+      const editedLyerStyle = value.style;
+      const editedLayerSource = value.source;
       console.log('closing');
-      if (layerStyle) {
-        console.log(layerStyle);
+      if (editedLyerStyle && editedLayerSource) {
+        console.log(editedLyerStyle);
         // Remove previous layer to put new one
         (this.mapglComponent.map as mapboxgl.Map).removeLayer(event);
-        (this.mapglComponent.map as mapboxgl.Map).addLayer(layerStyle);
+        (this.mapglComponent.map as mapboxgl.Map).addLayer(editedLyerStyle);
+
+        // Add the new source
+        console.log(editedLayerSource);
+        console.log(editedLyerStyle);
+        console.log(this.mapglContributors);
+        // Find the right contributor
+        console.log(collection);
+        const cont = this.mapglContributors[0];
+        console.log(Object.assign({}, cont.featureLayerSourcesIndex));
+        cont.featureLayerSourcesIndex = cont.getFeatureLayersIndex([...cont.getConfigValue(cont.LAYERS_SOURCES_KEY), editedLayerSource]);
+        console.log(cont.featureLayerSourcesIndex);
+        // (this.mapglComponent.map as mapboxgl.Map).removeSource(layerSource.id);
+        // (this.mapglComponent.map as mapboxgl.Map).addSource(layerSource.id, layerSource);
+
+        // Update the color service values based on manual colors
+        const keyColor = (editedLyerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
+        for (let i = 0; i < keyColor.length / 2; i++) {
+          (this.colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor(keyColor[2 * i], keyColor[2 * i + 1]);
+        }
+        this.adjustMapOffset();
+        // TODO: edit the style that is in the legend
+        const idx = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).findIndex(l => l.id === event);
+        this.mapComponentConfig.mapLayers.layers[idx] = editedLyerStyle;
       }
     });
   }

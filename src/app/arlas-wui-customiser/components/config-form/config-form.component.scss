@@ -1,0 +1,18 @@
+.property-selector {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 6px;
+
+    .property-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        // Height of an input
+        height: 67px;
+    }
+}
+
+.label {
+    margin-right: 20px;
+}

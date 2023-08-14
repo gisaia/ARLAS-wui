@@ -9,9 +9,8 @@
     <!-- Left part with a map -->
     <div id="{{id}}" class="map-container"></div>
     <!-- Right part with a stepper proposing different forms -->
-    <div>
+    <div class="editor">
       <arlas-mapgl-layer-style #styleEditor [layerStyle]="layerStyle" [layerSource]="data.layerSource"></arlas-mapgl-layer-style>
-      <button mat-button (click)="editLayerStyle()">Change layer opacity</button>
-      <button mat-button (click)="validate()" cdkFocusInitial>{{ 'Validate' | translate }}</button>
+      <button mat-button (click)="validate()" cdkFocusInitial class="validate">{{ 'Validate' | translate }}</button>
     </div>
 </div>

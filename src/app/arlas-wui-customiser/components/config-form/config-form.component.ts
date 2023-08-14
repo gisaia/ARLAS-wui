@@ -21,6 +21,7 @@ export class ConfigFormComponent implements OnInit {
       this.formType = FORM_TYPE.ARRAY;
     } else {
       this.formType = this.form.formType;
+      console.log(this.formType);
     }
   }
 

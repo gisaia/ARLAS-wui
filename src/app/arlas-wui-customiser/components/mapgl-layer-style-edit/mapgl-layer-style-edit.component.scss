@@ -1,6 +1,7 @@
 .title {
   display: flex;
   justify-content: space-between;
+  margin: 0 0 10px;
 
   .text {
     font-weight: bold;
@@ -24,5 +25,16 @@
   .map-container {
     width: 35vw;
     height: 80vh;
+  }
+
+  .editor {
+    width: 65vw;
+    height: 80vh;
+
+    .validate {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+    }
   }
 }

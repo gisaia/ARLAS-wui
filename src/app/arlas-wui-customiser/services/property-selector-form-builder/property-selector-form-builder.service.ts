@@ -867,6 +867,7 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
       });
 
     this._formType = FORM_TYPE.PROPERTY;
+    this.withTitle(propertyName.charAt(0).toUpperCase() + propertyName.slice(1));
   }
 
   public customControls = {
@@ -973,6 +974,14 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
     this.customControls.propertyManualFg.propertyManualValuesCtrl.push(keywordColorGrp);
   }
 
+  /**
+   * In the case of a Color PropertySelectorFormGroup, populates the form array that allows manual selection
+   * @param manualValues List of key/colors to populate the manual color form with
+   */
+  public populateManualColorValuesFromArray(manualValues: Array<[string, string]>) {
+    (manualValues || [] as Array<KeywordColor>)
+      .forEach(kc => this.addToColorManualValuesCtrl(kc));
+  }
 }
 
 @Injectable({

@@ -66,15 +66,11 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
   }
 
   public validate() {
-    const editedLayerSource = this.styleComponent.exportLayerStyleConfig(this.data.layerSource, LAYER_MODE.features, 'demo_eo');
+    const layerSource = this.styleComponent.exportLayerStyleConfig(this.data.layerSource, LAYER_MODE.features, 'demo_eo');
     const paint = this.styleComponent.getLayerPaint(LAYER_MODE.features, this.colorService);
     this.layerStyle.paint = paint;
     console.log(this.layerStyle.paint);
-    this.dialog.close(this.layerStyle);
-  }
-
-  public editLayerStyle() {
-    this.layerStyle.paint['fill-opacity'] = 1;
+    this.dialog.close({style: this.layerStyle, source: layerSource});
   }
 
   private addLayer(layer: mapboxgl.Layer): void {

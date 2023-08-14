@@ -39,33 +39,6 @@ under the License.
     }
 }
 
-// .mat-slider-disabled .mat-slider-thumb-label {
-//     display: flex !important;
-//     border: 1px solid rgba(0, 0, 0, 0.38) !important;
-//     .mat-slider-thumb-label-text {
-//         color: rgba(0, 0, 0, 0.38) !important;
-//     }
-// }
-
-// // force mat-slider background when set to min value
-// .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
-//     background-color: mat-color($arlas-app-accent);
-// }
-
-// .mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb-label {
-//     background-color: mat-color($arlas-app-accent);
-// }
-
-// .mat-slider-thumb-label {
-//     background-color: white !important;
-//     border: 1px solid rgba(0, 0, 0, 0.87) !important;
-// }
-
-// .mat-slider-thumb-label-text {
-//     opacity: 1 !important;
-//     color: black !important;
-// }
-
-// .mat-dialog-container {
-//     max-height: unset !important;
-// }
+.mat-form-field-wrapper {
+    padding-bottom: 0;
+}

@@ -69,6 +69,9 @@ import { ControlPipe } from './arlas-wui-customiser/pipes/control.pipe';
 import { DialogPaletteSelectorComponent } from './arlas-wui-customiser/components/dialog-palette-selector/dialog-palette-selector.component';
 import { DialogColorTableComponent } from './arlas-wui-customiser/components/dialog-color-table/dialog-color-table.component';
 import { DefaultValuesService } from './arlas-wui-customiser/services/default-values/default-values.service';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerWrapperComponent } from './arlas-wui-customiser/components/color-picker-wrapper/color-picker-wrapper.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
@@ -86,7 +89,8 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     ConfigFormComponent,
     ControlPipe,
     DialogPaletteSelectorComponent,
-    DialogColorTableComponent
+    DialogColorTableComponent,
+    ColorPickerWrapperComponent,
   ],
   exports: [
     AboutComponent,
@@ -98,13 +102,15 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MapglLayerStyleEditComponent,
     ControlPipe,
     DialogPaletteSelectorComponent,
-    DialogColorTableComponent
+    DialogColorTableComponent,
+    ColorPickerWrapperComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MapglImportModule,
     MapglSettingsModule,
+    ColorPickerModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -120,6 +126,7 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MatProgressBarModule,
     MatStepperModule,
     MatSelectModule,
+    MatSlideToggleModule,
     MarkdownModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
