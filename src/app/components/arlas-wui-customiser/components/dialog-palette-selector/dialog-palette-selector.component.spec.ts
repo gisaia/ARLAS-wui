@@ -1,31 +1,70 @@
-import { Spectator, createComponentFactory, mockProvider } from '@ngneat/spectator';
 import { DialogPaletteSelectorComponent } from './dialog-palette-selector.component';
-import { MockComponent } from 'ng-mocks';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ColorPickerWrapperComponent } from '../color-picker-wrapper/color-picker-wrapper.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { CollectionService } from '../../services/collection-service/collection.service';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
+
+export class MatDialogRefMock {
+  public updateSize() {
+
+  }
+}
 
 describe('DialogPaletteSelectorComponent', () => {
-  let spectator: Spectator<DialogPaletteSelectorComponent>;
+  let component: DialogPaletteSelectorComponent;
+  let fixture: ComponentFixture<DialogPaletteSelectorComponent>;
 
-  const createComponent = createComponentFactory({
-    component: DialogPaletteSelectorComponent,
-    providers: [
-      mockProvider(MatDialogRef),
-      { provide: MAT_DIALOG_DATA, useValue: { defaultPalettes: [], selectedPalette: '' } }
-    ],
-    entryComponents: [
-      DialogPaletteSelectorComponent
-    ],
-    declarations: [
-      MockComponent(ColorPickerWrapperComponent)
-    ]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
+        }),
+        MatCheckboxModule
+      ],
+      declarations: [
+        DialogPaletteSelectorComponent
+
+      ],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useClass: MatDialogRefMock
+        },
+        {
+          provide: MAT_DIALOG_DATA, useValue:
+            { defaultPalettes: [], selectedPalette: '' }
+        },
+
+        CollectionService,
+        ArlasCollaborativesearchService
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    fixture = TestBed.createComponent(DialogPaletteSelectorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
+
+
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });
+
+
+

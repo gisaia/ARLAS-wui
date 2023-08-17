@@ -1,41 +1,55 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Spectator, createComponentFactory, mockProvider } from '@ngneat/spectator';
 
-import { FiltersComponent, ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
-import { MockComponent } from 'ng-mocks';
-import { ColorPickerWrapperComponent } from '../color-picker-wrapper/color-picker-wrapper.component';
 import { ConfigFormControlComponent } from './config-form-control.component';
 import { CollectionService } from '../../services/collection-service/collection.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ArlasColorService } from 'arlas-web-components';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule} from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { SlideToggleFormControl } from '../../models/config-form';
-
-
 describe('ConfigFormControlComponent', () => {
-  let spectator: Spectator<ConfigFormControlComponent>;
+  let component: ConfigFormControlComponent;
+  let fixture: ComponentFixture<ConfigFormControlComponent>;
 
-  const createComponent = createComponentFactory({
-    component: ConfigFormControlComponent,
-    imports: [
-      MatCheckboxModule
-    ],
-    declarations: [
-      MockComponent(ColorPickerWrapperComponent),
-      MockComponent(FiltersComponent),
-    ],
-    providers: [
-      mockProvider(ArlasColorGeneratorLoader),
-      mockProvider(CollectionService)
-    ]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
+        }),
+        MatCheckboxModule
+      ],
+      declarations: [
+        ConfigFormControlComponent
+
+      ],
+      providers: [
+        CollectionService,
+        ArlasCollaborativesearchService,
+        ArlasColorService
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        control: new SlideToggleFormControl('', '', '')
-      }
-    });
+    fixture = TestBed.createComponent(ConfigFormControlComponent);
+    component = fixture.componentInstance;
+    component.control = new SlideToggleFormControl('', '', '');
+    fixture.detectChanges();
   });
 
+
+
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

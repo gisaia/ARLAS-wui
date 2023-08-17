@@ -98,11 +98,11 @@ export class DefaultValuesService {
     this.config = config;
   }
 
-  public getOptionalValue(keyPath: string) {
+  public getOptionalValue(keyPath: string): any {
     return getObject(this.config, 'root.' + keyPath);
   }
 
-  public getValue(keyPath: string) {
+  public getValue(keyPath: string): any {
     return this.getOptionalValue(keyPath).value;
   }
 

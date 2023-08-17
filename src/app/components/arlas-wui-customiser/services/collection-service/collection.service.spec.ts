@@ -1,23 +1,34 @@
 import { CollectionService } from './collection.service';
 import { SpectatorService, createServiceFactory, mockProvider } from '@ngneat/spectator';
 import { DefaultValuesService } from '../default-values/default-values.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+
 
 describe('CollectionService', () => {
-  let spectator: SpectatorService<CollectionService>;
-  const createService = createServiceFactory({
-    service: CollectionService,
-    mocks: [
-      ArlasCollaborativesearchService,
-      DefaultValuesService,
-      TranslateService
-    ]
+  let service: CollectionService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports:[
+        HttpClientModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+      ],
+      providers: [
+        ArlasCollaborativesearchService,
+        DefaultValuesService,
+        TranslateService]
+    });
+    service = TestBed.inject(CollectionService);
   });
 
-  beforeEach(() => spectator = createService());
-
-  it('should be defined', () => {
-    expect(spectator.service).toBeDefined();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });
+
+

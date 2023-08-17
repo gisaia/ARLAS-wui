@@ -72,7 +72,7 @@ export class EditResultlistColumnsComponent implements OnInit, AfterViewInit {
   }
 
   public get columns() {
-    return this.control.controls as Array<ResultlistColumnFormGroup>;
+    return this.control?.controls as Array<ResultlistColumnFormGroup>;
   }
 
   public drop(event: CdkDragDrop<any[]>) {

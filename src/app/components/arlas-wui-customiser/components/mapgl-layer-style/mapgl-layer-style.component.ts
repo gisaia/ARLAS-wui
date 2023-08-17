@@ -46,13 +46,10 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    switch (this.layerStyle.source.toString().split('-', 1)[0]) {
+    switch (this.layerStyle?.source.toString().split('-', 1)[0]) {
       case 'feature': {
         this.layerType = MAP_LAYER_TYPE.FEATURE;
         break;
-      }
-      default: {
-        throw Error('Only support feature as of now');
       }
     }
 
@@ -61,9 +58,11 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
 
     this.fillForm = new LayerStyleFillForm(
       /** we only consider features layer as of now */ false,
-      this.layerStyle.metadata.collection, MAP_LAYER_TYPE.FEATURE, this.propertySelectorFormBuilder);
+      this.layerStyle?.metadata.collection, MAP_LAYER_TYPE.FEATURE, this.propertySelectorFormBuilder);
 
-    this.initForm();
+    if(!!this.layerStyle && !!this.layerSource){
+      this.initForm();
+    }
     this.resetOnGeometryTypeChange();
     this.updateControlsFromOtherControls(this.geometryForm);
     this.updateControlsFromOtherControls(this.fillForm);

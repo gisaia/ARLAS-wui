@@ -5,6 +5,11 @@ FROM node:16.19.0 as builder
 
 COPY ./package.json  ./
 COPY ./package-lock.json  ./
+COPY ./libs/arlas-web-components-24.1.4-cust.tgz ./libs/
+COPY ./libs/arlas-web-contributors-24.1.4-cust.tgz ./libs/
+COPY ./libs/arlas-wui-toolkit-24.1.7-cust.tgz ./libs/
+
+
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 

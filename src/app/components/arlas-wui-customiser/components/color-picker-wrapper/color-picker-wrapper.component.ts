@@ -46,7 +46,7 @@ export class ColorPickerWrapperComponent implements OnInit, OnDestroy {
   }
 
   public getColorPresets() {
-    return this.defaultValuService.getDefaultConfig().colorPickerPresets;
+    return this.defaultValuService.getDefaultConfig()?.colorPickerPresets;
   }
 
 }

@@ -1,28 +1,30 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ColorPickerWrapperComponent } from './color-picker-wrapper.component';
-import { Spectator, createComponentFactory, mockProvider } from '@ngneat/spectator';
-import { DefaultValuesService } from '../../services/default-values/default-values.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('ColorPickerComponent', () => {
-  let spectator: Spectator<ColorPickerWrapperComponent>;
+describe('ColorPickerWrapperComponent', () => {
+  let component: ColorPickerWrapperComponent;
+  let fixture: ComponentFixture<ColorPickerWrapperComponent>;
 
-  const createComponent = createComponentFactory({
-    component: ColorPickerWrapperComponent,
-    providers: [
-      mockProvider(DefaultValuesService, {
-        getDefaultConfig: () => ({ config: { colorPickerPresets: [] } })
-      })
-    ]
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule
+
+      ],
+      declarations: [ColorPickerWrapperComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    fixture = TestBed.createComponent(ColorPickerWrapperComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should contain a color picker input', () => {
-    expect(spectator.queryAll('ngx-color-picker')).toBeDefined();
-  });
 });

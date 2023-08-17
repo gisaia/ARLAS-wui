@@ -1,15 +1,23 @@
+import { HttpClientModule } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 import { DefaultValuesService } from './default-values.service';
-import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
+
 
 describe('DefaultValuesService', () => {
-  let spectator: SpectatorService<DefaultValuesService>;
-  const createService = createServiceFactory({
-    service: DefaultValuesService
+  let service: DefaultValuesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports:[
+        HttpClientModule,
+
+      ],
+      providers: []
+    });
+    service = TestBed.inject(DefaultValuesService);
   });
 
-  beforeEach(() => spectator = createService());
-
-  it('should be defined', () => {
-    expect(spectator.service).toBeDefined();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });

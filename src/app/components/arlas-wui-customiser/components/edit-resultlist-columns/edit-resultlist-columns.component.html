@@ -1,6 +1,6 @@
 <div class="columns-wrapper">
-    <table #columnTable mat-table [dataSource]="this.control.controls" class="columns" cdkDropList
-        [cdkDropListData]="this.control.controls" (cdkDropListDropped)="drop($event)"
+    <table #columnTable mat-table [dataSource]="this.control?.controls" class="columns" cdkDropList
+        [cdkDropListData]="this.control?.controls" (cdkDropListDropped)="drop($event)"
         [cdkDropListDisabled]="dragDisabled" [cdkDropListLockAxis]="'y'">
 
         <ng-container matColumnDef="action">
@@ -17,7 +17,7 @@
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>{{'Column name' | translate}}</th>
             <td class="name" mat-cell *matCellDef="let column">
-                <arlas-config-form-control [showLabel]="false" [control]="column.controls.columnName">
+                <arlas-config-form-control [showLabel]="false" [control]="column?.controls.columnName">
                 </arlas-config-form-control>
             </td>
         </ng-container>
@@ -52,7 +52,7 @@
     </table>
 </div>
 
-<mat-error *ngIf="control.touched && control?.hasError('required')">{{'At least one column is required' | translate}}
+<mat-error *ngIf="control?.touched && control?.hasError('required')">{{'At least one column is required' | translate}}
 </mat-error>
 <div class="button-wrapper">
     <button mat-stroked-button color="primary" (click)="addColumn(collection)"
