@@ -698,7 +698,8 @@ export class PropertySelectorFormGroup extends CollectionConfigFormGroup {
                 this.customControls.propertyInterpolatedFg.propertyInterpolatedMinValueCtrl,
                 this.customControls.propertyInterpolatedFg.propertyInterpolatedMaxValueCtrl,
                 this.customControls.propertyInterpolatedFg.propertyInterpolatedCountOrMetricCtrl,
-                this.customControls.propertyInterpolatedFg.propertyInterpolatedCountNormalizeCtrl
+                this.customControls.propertyInterpolatedFg.propertyInterpolatedCountNormalizeCtrl,
+                this.customControls.propertyInterpolatedFg.propertyInterpolatedNormalizeCtrl
               ],
               onDependencyChange: (control) => {
                 // if propertyType is not color => create interpolation values from the min and max

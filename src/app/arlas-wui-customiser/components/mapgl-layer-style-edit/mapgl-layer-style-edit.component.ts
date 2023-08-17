@@ -31,7 +31,6 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
   ) { }
 
   public ngOnInit(): void {
-    console.log(this.data);
     this.layerStyle = Object.assign({}, this.data.layerStyle);
   }
 
@@ -69,12 +68,15 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
     const layerSource = this.styleComponent.exportLayerStyleConfig(this.data.layerSource, LAYER_MODE.features, 'demo_eo');
     const paint = this.styleComponent.getLayerPaint(LAYER_MODE.features, this.colorService);
     this.layerStyle.paint = paint;
-    console.log(this.layerStyle.paint);
     this.dialog.close({style: this.layerStyle, source: layerSource});
   }
 
   private addLayer(layer: mapboxgl.Layer): void {
     /** Add the layer if it is not already added */
+    if (layer.paint['fill-opacity'] instanceof Array) {
+      // Might have to be extended to other fields
+      (layer.paint['fill-opacity'] as Array<any>).pop();
+    }
     if (this.map.getLayer(layer.id) === undefined) {
       if (this.firstDrawLayer && this.firstDrawLayer.length > 0) {
         /** draw layers must be on the top of the layers */

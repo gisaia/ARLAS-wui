@@ -484,7 +484,6 @@ export class MapImportService {
     // const manualValues = (((values || {}).colorFg || {}).propertyManualFg || {}).propertyManualValuesCtrl as Array<KeywordColor>;
     // (manualValues || []).forEach(kc =>
     //   typeFg.colorFg.addToColorManualValuesCtrl(kc));
-    console.log(values);
     return values;
   }
 

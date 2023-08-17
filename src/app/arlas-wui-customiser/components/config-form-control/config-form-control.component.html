@@ -1,0 +1,443 @@
+<div *ngIf="isSlideToggle(); let typedControl" class="slider-toggle-form-control">
+    <mat-slide-toggle [formControl]="typedControl" labelPosition="before"
+        [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+        [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        <ng-container *ngIf="showLabel">{{ typedControl.label | translate}}</ng-container>
+    </mat-slide-toggle>
+</div>
+
+<div *ngIf="isButtonToggle(); let typedControl" class="button-form-control">
+    <mat-button-toggle-group [formControl]="typedControl"
+        [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+        [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        <mat-button-toggle *ngFor="let opt of typedControl.options" [value]="opt.value">{{ opt.label | translate}}
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+
+<div *ngIf="isRadioButton(); let typedControl" class="radio-form-control">
+    <mat-radio-group [formControl]="typedControl"
+        [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+        [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        <mat-radio-button class="radio-button" *ngFor="let opt of typedControl.options" [value]="opt.value">{{ opt.label | translate}} </mat-radio-button>
+    </mat-radio-group>
+</div>
+
+<div *ngIf="isSlider(); let typedControl" class="slider-form-control">
+    <mat-label [class.control-error]="typedControl.touched && typedControl.invalid">{{ typedControl.label | translate}}
+        {{typedControl.optional ? '' : '*'}}</mat-label>
+    <mat-slider thumbLabel [formControl]="typedControl" [min]="typedControl.min" [max]="typedControl.max"
+        [step]="typedControl.step" (input)="typedControl.ensureLessThan ? typedControl.checkLessThan($event.value) : null;
+        typedControl.ensureGeaterThan ? typedControl.checkGreaterThan($event.value) : null">
+    </mat-slider>
+    <mat-card *ngIf="typedControl.hasWarning" class="empty_visulisation">
+        {{ typedControl.warningMessage | translate}}
+    </mat-card>
+</div>
+
+<div *ngIf="isSelect(); let typedControl" class="select-form-control">
+    <mat-form-field>
+        <mat-label>{{ typedControl.label | translate}}</mat-label>
+        <mat-select [formControl]="typedControl" [required]="!typedControl.optional"
+            [arlasAlertOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? 'Warning, changing this field\'s value will reset some other fields' : null"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+            <mat-option *ngIf="typedControl.optional"></mat-option>
+            <mat-option *ngFor="let opt of typedControl.syncOptions" [value]="opt.value"
+                [ngClass]="'option-color-' + opt.value" [matTooltip]="opt.label | translate"
+                [disabled]="opt.enabled === false">
+                {{opt.label | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div *ngIf="isMultipleSelect(); let typedControl" class="multi-select-form-control">
+    <div class="box-search" *ngIf="typedControl.searchable">
+        <input #searchInput type="text" [ngClass]="'pl-1'" (input)="debouncer.next(searchInput.value)"
+            placeholder="{{'Search...' | translate}}" />
+        <div class="box-search-icon" (click)="searchInput.value = ''; debouncer.next('')">
+            <button mat-icon-button class="search-button">
+                <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div style="max-height: 250px; overflow-y: auto;">
+        <mat-checkbox class="multiply-selected" [matTooltip]="opt.value" (change)="onchangeMulitpleSelection($event)"
+            [checked]="true" *ngFor="let opt of typedControl.selectedMultipleItems;" [value]="opt"
+            [style.borderLeftColor]="opt.color">
+            <span class="label">{{opt.value | translate}}</span>
+            <span class="detail">{{opt.detail | translate }}</span>
+        </mat-checkbox>
+        <ng-container *ngFor="let opt of typedControl.syncOptions; trackBy: trackByFn">
+            <mat-checkbox [matTooltip]="opt.label | translate" class="multiply-to-select" [checked]="false"
+                *ngIf="!typedControl.savedItems.has(opt.value)" (change)="onchangeMulitpleSelection($event)"
+                [value]="opt" [style.borderLeftColor]="opt.color">
+
+                <span class="label">{{opt.label | translate}}</span>
+                <span class="detail">{{opt.detail | translate }}</span>
+
+            </mat-checkbox>
+        </ng-container>
+        <mat-select style="display: none;" [formControl]="typedControl" [required]="!typedControl.optional"
+            [(ngModel)]="typedControl.selectedMultipleItems"
+            [arlasAlertOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? 'Warning, changing this field\'s value will reset some other fields' : null"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        </mat-select>
+    </div>
+
+</div>
+
+
+
+<div *ngIf="isHuePalette(); let typedControl" class="control-hue-palette">
+    <mat-form-field>
+        <mat-label>{{ typedControl.label | translate}}</mat-label>
+        <mat-select [formControl]="typedControl" [required]="!typedControl.optional"
+            [ngStyle]="{'backgroundImage': typedControl.value ? 'linear-gradient(to left, ' + typedControl.getCurrentOption().label + ')' : null}">
+            <mat-option *ngIf="typedControl.optional"></mat-option>
+            <mat-option *ngFor="let opt of typedControl.syncOptions" [value]="opt.value"
+                [ngStyle]="{'backgroundImage': 'linear-gradient(to left, ' + opt.label + ')'}"
+                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div *ngIf="isAutocomplete(); let typedControl" class="autocomplete-input-form-control">
+    <mat-form-field>
+        <mat-label *ngIf="showLabel">{{ typedControl.label | translate}}</mat-label>
+        <input type="text" matInput [formControl]="typedControl" [matAutocomplete]="auto" #autocompleteInput
+            [required]="!typedControl.optional"
+            [arlasAlertOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? 'Warning, changing this field\'s value will reset some other fields' : null"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        <button mat-button *ngIf="typedControl.value" matSuffix mat-icon-button
+            (click)="clearAutoComplete($event, autocompleteInput, typedControl)">
+            <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngIf="typedControl.optional"></mat-option>
+            <mat-option *ngFor="let opt of typedControl.filteredOptions" [value]="opt.value"
+                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                {{opt.label | translate}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+
+<div *ngIf="isTypedAutocomplete(); let typedControl" class="typed-autocomplete-input-form-control">
+    <mat-form-field>
+        <mat-label *ngIf="showLabel">{{ typedControl.label | translate}}</mat-label>
+        <input type="text" matInput [formControl]="typedControl" [matAutocomplete]="autotyped" #typedAutocompleteInput
+            [required]="!typedControl.optional"
+            [arlasAlertOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? 'Warning, changing this field\'s value will reset some other fields' : null"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+        <button mat-button *ngIf="typedControl.value" matSuffix mat-icon-button
+            (click)="clearAutoComplete($event, typedAutocompleteInput, typedControl)">
+            <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete autoActiveFirstOption #autotyped="matAutocomplete" [displayWith]="displayWith">
+            <mat-option *ngIf="typedControl.optional"></mat-option>
+            <mat-option *ngFor="let opt of typedControl.filteredOptions" [value]="{value: opt.value,  type: opt.type}"
+                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                {{opt.label | translate}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+
+<div *ngIf="isOrderedSelect(); let typedControl" class="order-select-form-control">
+    <div>
+        <input matInput [formControl]="typedControl" [hidden]="true" [required]="!typedControl.optional">
+        <mat-form-field>
+            <mat-label>{{ typedControl.label | translate}}</mat-label>
+            <mat-select #selectSort [required]="!typedControl.optional">
+                <mat-option *ngIf="typedControl.optional"></mat-option>
+                <mat-option *ngFor="let opt of typedControl.syncOptions" [value]="opt.value"
+                    [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                    {{opt.label | translate}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-radio-group [(ngModel)]="typedControl.sortDirection">
+            <mat-radio-button value="+">{{ 'ASC' | translate}}</mat-radio-button>
+            <mat-radio-button value="-">{{ 'DESC' | translate}}</mat-radio-button>
+        </mat-radio-group>
+        <button type="button" mat-stroked-button [disabled]="!typedControl.sortDirection || !selectSort.value"
+            (click)="typedControl.addSort(typedControl.sortDirection + selectSort.value, $event)">{{ 'Add' |
+            translate}}</button>
+        <mat-chip-list #chipSortList>
+            <mat-chip *ngFor="let sort of typedControl.sorts" [selectable]="false" [removable]="true"
+                (removed)="typedControl.removeSort(sort)">
+                {{sort}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    <mat-error *ngIf="typedControl.touched && typedControl.invalid && typedControl?.errors?.required">
+        {{ 'At least one ' | translate}} {{typedControl.label | lowercase | translate}} {{ 'is required' | translate}}
+    </mat-error>
+</div>
+
+<div *ngIf="isMetricWithFieldList(); let typedControl" class="metric-field-form-control">
+    <div>
+        <div class="action-container">
+            <div class="metric-toggle">
+                <mat-button-toggle-group [formControl]="typedControl.metricCtrl">
+                    <mat-button-toggle *ngFor="let opt of typedControl.METRICS" [value]="opt">
+                        {{opt | titlecase | translate}}
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div class="field-add-container">
+                <div class="field-container" *ngIf="typedControl.metricCtrl.value != 'count'">
+                    <mat-form-field>
+                        <mat-label>{{'metric field' | translate}}</mat-label>
+                        <input type="text" matInput [matAutocomplete]="auto"
+                            [formControl]="typedControl.fieldCtrl">
+
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let opt of typedControl.autocompleteFilteredFields" [value]="opt.value"
+                                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                                {{opt.label | translate}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="add-container" *ngIf="!typedControl.isUpdateState">
+                    <button type="button" mat-stroked-button
+                        [disabled]="typedControl.metricCtrl.invalid || typedControl.fieldCtrl.invalid || typedControl.arlasFilterCtrl.invalid"
+                        (click)="typedControl.addMetric()">{{ 'Add' | translate}}
+                    </button>
+                </div>
+                <div class="add-container" *ngIf="typedControl.isUpdateState">
+                    <button type="button" mat-stroked-button
+                        [disabled]="typedControl.metricCtrl.invalid || typedControl.fieldCtrl.invalid || typedControl.arlasFilterCtrl.invalid"
+                        (click)="typedControl.updateMetric()">{{ 'Update' | translate}}
+                    </button>
+                    <button type="button" mat-stroked-button (click)="typedControl.cancelUpdateMetric()">{{ 'Cancel' |
+                        translate}}
+                    </button>
+                </div>
+            </div>
+
+
+            <mat-accordion>
+                <mat-expansion-panel class="arlas-filter-expansion-panel" hideToggle
+                    (afterCollapse)="typedControl.afterCloseFilter()" (afterExpand)="typedControl.afterExpandFilter()">
+                    <mat-expansion-panel-header class="arlas-filter-expansion-panel-header">
+                        <mat-panel-title class="arlas-filter-expansion-panel-title">
+                            <div class="panel-chevron">
+                                <mat-icon *ngIf="typedControl.isPanelClose"> chevron_right</mat-icon>
+                                <mat-icon *ngIf="!typedControl.isPanelClose"> expand_more</mat-icon>
+                            </div>
+                            {{ 'metric filter' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="textarea-form-control metric-filter">
+                        <mat-form-field>
+                            <textarea matInput [formControl]="typedControl.arlasFilterCtrl"
+                                [required]="false"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="description">
+                        {{'arlas filter description' | translate}}
+                        <a target="_blank" href="https://docs.arlas.io/arlas-api-exploration/#f-parameter-syntax">{{'here' | translate}}</a>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+
+
+
+        </div>
+        <div class="chips-container">
+            <mat-chip-list #chipSortList>
+                <mat-chip *ngFor="let opt of typedControl.value;let indexOfelement=index;" class="filter-chip"
+                    (click)="typedControl.onClickFilterChip($event, opt,indexOfelement)" [selectable]="true"
+                    [removable]="true" (removed)="typedControl.removeMetric(opt,indexOfelement)"
+                    [matTooltip]="opt.filter | json">
+                    m[{{indexOfelement}}] : {{opt.field}} ({{opt.metric}}) ({{ (opt.filter | json) === '{}' ? ('no
+                    filter'| translate) : ('with filter'| translate) }})
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+    <mat-error *ngIf="typedControl.touched && typedControl.invalid && typedControl?.errors?.required">
+        {{ 'At least one ' | translate}} {{typedControl.label | lowercase | translate}} {{ 'is required' | translate}}
+    </mat-error>
+</div>
+
+<div *ngIf="isFieldWithSizeList(); let typedControl" class="metric-field-form-control">
+    <div>
+        <div class="action-container">
+            <div>
+                <mat-label>{{ 'donut size' | translate}}</mat-label>
+                <mat-slider thumbLabel [formControl]="typedControl.sizeCtrl" [min]="1" [max]="30" [step]="1">
+                </mat-slider>
+            </div>
+            <div class="field-add-container">
+                <div class="field-container">
+                    <mat-form-field>
+                        <mat-label>{{'donut field' | translate}}</mat-label>
+                        <input type="text" matInput [matAutocomplete]="auto"
+                            [formControl]="typedControl.fieldCtrl">
+
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let opt of typedControl.autocompleteFilteredFields" [value]="opt.value"
+                                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                                {{opt.label | translate}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="add-container">
+                    <button type="button" mat-stroked-button
+                        [disabled]="typedControl.sizeCtrl.invalid || typedControl.fieldCtrl.invalid"
+                        (click)="typedControl.add()">{{ 'Add' | translate}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="chips-container">
+            <mat-chip-list #chipSortList>
+                <mat-chip *ngFor="let opt of typedControl.value" [selectable]="false" [removable]="true"
+                    (removed)="typedControl.remove(opt)">
+                    {{opt.field}} ({{opt.size}})
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+    <mat-error *ngIf="typedControl.touched && typedControl.invalid && typedControl?.errors?.required">
+        {{ 'At least one ' | translate}} {{typedControl.label | lowercase | translate}} {{ 'is required' | translate}}
+    </mat-error>
+</div>
+
+
+<div *ngIf="isUrlTemplate(); let typedControl" class="url-field-form-control">
+    <div>
+        <div class="action-container">
+            <mat-form-field [style.width]="typedControl.width ? typedControl.width : 'unset' ">
+                <mat-label>{{ typedControl.label | translate}}</mat-label>
+                <input matInput [formControl]="typedControl" [type]="'text'" [required]="!typedControl.optional"
+                    [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+                    [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+            </mat-form-field>
+            <div class="field-insert-container">
+                <div class="field-container" *ngIf="!typedControl?.showInsertButton">
+                    <mat-form-field>
+                        <mat-label>{{'url field' | translate}}</mat-label>
+                        <input type="text" matInput [matAutocomplete]="auto"
+                            [formControl]="typedControl.fieldCtrl">
+
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let opt of typedControl.autocompleteFilteredFields" [value]="opt.value"
+                                [matTooltip]="opt.label | translate" [disabled]="opt.enabled === false">
+                                {{opt.label | translate}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="insert-container">
+                    <button type="button" mat-stroked-button *ngIf="typedControl?.showInsertButton"
+                        (click)="typedControl.showInsertButton = false">{{ 'Insert field to URL' | translate}}</button>
+                    <button type="button" mat-stroked-button *ngIf="!typedControl?.showInsertButton" class="insert"
+                        [disabled]="typedControl.fieldCtrl.invalid" (click)="typedControl.add()">{{ 'Insert' |
+                        translate}}</button>
+                    <button type="button" mat-stroked-button *ngIf="!typedControl?.showInsertButton"
+                        (click)="typedControl.showInsertButton = true">{{ 'Cancel' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-error *ngIf="typedControl.touched && typedControl.invalid && typedControl?.errors?.required">
+        {{ 'At least one ' | translate}} {{typedControl.label | lowercase | translate}} {{ 'is required' | translate}}
+    </mat-error>
+</div>
+
+<div *ngIf="isInput(); let typedControl" class="input-field-form-control">
+    <mat-form-field [style.width]="typedControl.width ? typedControl.width : 'unset' ">
+        <mat-label *ngIf="showLabel">{{ typedControl.label | translate}}</mat-label>
+        <input matInput [formControl]="typedControl" [type]="typedControl.inputType" [required]="!typedControl.optional"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null"
+            (change)="typedControl.ensureLessThan ? typedControl.checkLessThan(+$event.target.value) : null;
+        typedControl.ensureGeaterThan ? typedControl.checkGreaterThan(+$event.target.value) : null">
+    </mat-form-field>
+</div>
+
+<div *ngIf="isTitleInput(); let typedControl" class="title-field-form-control">
+    <mat-form-field>
+        <input matInput [formControl]="typedControl" [placeholder]="typedControl.label | translate"
+            [type]="typedControl.inputType" [required]="!typedControl.optional"
+            [arlasResetOnChange]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? defaultKey : null"
+            [dependants]="typedControl.resetDependantsOnChange && typedControl.dependantControls ? typedControl.dependantControls : null">
+    </mat-form-field>
+</div>
+
+<div *ngIf="isIcon(); let typedControl" class="icon-form-control">
+    <mat-form-field>
+        <mat-label *ngIf="showLabel">{{ typedControl.label | translate}}</mat-label>
+        <input matInput [formControl]="typedControl" type="text" [required]="!typedControl.optional">
+    </mat-form-field>
+    <mat-icon>{{ typedControl.value }}</mat-icon>
+</div>
+
+<div *ngIf="isColor(); let typedControl">
+    <div [class.control-error]="typedControl.touched && typedControl.invalid">
+        {{ typedControl.label | translate}} {{typedControl.optional ? '' : '*'}}</div>
+    <arlas-color-picker-wrapper [value]="typedControl.value" (setValue)="typedControl.setValue($event)">
+    </arlas-color-picker-wrapper>
+</div>
+
+<div *ngIf="colorPreviewControl" class="color-preview-form-control">
+    <mat-label *ngIf="colorPreviewControl.label">{{ colorPreviewControl.label | translate}}</mat-label>
+    <div class="color-preview"
+        [ngStyle]="{'background': colorPreviewControl.isMultiColors() ? 'linear-gradient(to right, ' + colorPreviewControl.getPaletteGradients() + ')' : colorPreviewControl.value}">
+    </div>
+</div>
+
+<div *ngIf="isHidden(); let typedControl">
+    <input [formControl]="typedControl" type="hidden" [required]="!typedControl.optional">
+    <span *ngIf="typedControl.touched && typedControl?.errors?.required && typedControl.label">
+        <mat-error>{{ typedControl.label | translate }} {{ 'is required' | translate }}</mat-error>
+    </span>
+</div>
+
+<div *ngIf="isButton(); let typedControl" class="button-form-control">
+    <button type="button" mat-stroked-button color="primary" (click)="typedControl.callback(typedControl)"
+        [disabled]="typedControl.disabledButton">
+        {{typedControl.label | translate}}
+    </button>
+    <div *ngIf="typedControl.disabledButton" class="disabled-button-message">
+        {{typedControl.disabledButtonMessage | translate}}</div>
+</div>
+
+<div *ngIf="isMapFilters(); let typedControl" class="mapfilter-form-control">
+    <arlas-layer-filters [layerFg]="parentFormGroup"></arlas-layer-filters>
+</div>
+
+<div *ngIf="isCollectionsUnits(); let typedControl" class="mapfilter-form-control">
+    <arlas-collections-units [unitsArray]="parentFormGroup"></arlas-collections-units>
+</div>
+
+<div *ngIf="isTextarea(); let typedControl" class="textarea-form-control">
+    <mat-form-field>
+        <mat-label *ngIf="showLabel">{{ typedControl.label | translate}}</mat-label>
+        <textarea matInput [formControl]="typedControl" [required]="!typedControl.optional"
+            [rows]="typedControl.nbRows"></textarea>
+    </mat-form-field>
+</div>
+
+
+<mat-error *ngIf="control.touched && control?.errors?.notNumeric">
+    {{control.label + (' should be an integer value' | translate)}}
+</mat-error>
+
+<mat-error *ngIf="control.touched && control?.errors?.pattern">
+    {{control.label + (' is not valid' | translate)}}
+</mat-error>

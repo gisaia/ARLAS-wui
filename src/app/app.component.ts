@@ -506,10 +506,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
    * Mocks the interaction that a user could have to edit a map layer style to test the component
    */
   public onEditLayerStyle(event): void {
-    console.log(event);
     const layerStyle = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).find(l => l.id === event);
     const layerData = (this.mapglComponent.map as mapboxgl.Map).queryRenderedFeatures(undefined, { layers: [event] });
-    console.log(layerData);
 
     let layersSources = [];
     let collection;
@@ -522,7 +520,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    console.log(layersSources);
     const layerSource = Object.assign({}, layersSources.find(s => s.id === layerStyle.id));
 
     this.layerStyleManager.openLayerStyleEditComponent({
@@ -530,37 +527,45 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       layerData: {type: 'FeatureCollection', features: layerData.map(f => ({type: 'Feature', geometry: f.geometry, properties: f.properties}))},
       layerStyle: layerStyle
     }).subscribe((value: any) => {
-      const editedLyerStyle = value.style;
+      const editedLayerStyle = value.style;
       const editedLayerSource = value.source;
-      console.log('closing');
-      if (editedLyerStyle && editedLayerSource) {
-        console.log(editedLyerStyle);
-        // Remove previous layer to put new one
-        (this.mapglComponent.map as mapboxgl.Map).removeLayer(event);
-        (this.mapglComponent.map as mapboxgl.Map).addLayer(editedLyerStyle);
+      if (editedLayerStyle && editedLayerSource) {
 
         // Add the new source
-        console.log(editedLayerSource);
-        console.log(editedLyerStyle);
-        console.log(this.mapglContributors);
+
         // Find the right contributor
-        console.log(collection);
+        // TODO: in case of multi collection find the one whose collection match
         const cont = this.mapglContributors[0];
-        console.log(Object.assign({}, cont.featureLayerSourcesIndex));
+        // Add the source to the map contributor sources
         cont.featureLayerSourcesIndex = cont.getFeatureLayersIndex([...cont.getConfigValue(cont.LAYERS_SOURCES_KEY), editedLayerSource]);
-        console.log(cont.featureLayerSourcesIndex);
+
+        // Add the source to the the map sources
         // (this.mapglComponent.map as mapboxgl.Map).removeSource(layerSource.id);
-        // (this.mapglComponent.map as mapboxgl.Map).addSource(layerSource.id, layerSource);
+        // (this.mapglComponent.map as mapboxgl.Map).addSource(editedLayerSource.id, editedLayerSource);
+
+        const idx = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).findIndex(l => l.id === event);
+        this.mapComponentConfig.mapLayers.layers[idx] = editedLayerStyle;
+
+        // Remove previous layer to put new one
+        (this.mapglComponent.map as mapboxgl.Map).removeLayer(event);
+        (this.mapglComponent.map as mapboxgl.Map).addLayer(editedLayerStyle);
+
+        this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
+          this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
+
+        cont.fetchData().subscribe(_ => {
+          cont.renderSearchSources(new Array(...cont.dataSources));
+        });
 
         // Update the color service values based on manual colors
-        const keyColor = (editedLyerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
+        const keyColor = (editedLayerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
         for (let i = 0; i < keyColor.length / 2; i++) {
           (this.colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor(keyColor[2 * i], keyColor[2 * i + 1]);
         }
-        this.adjustMapOffset();
-        // TODO: edit the style that is in the legend
-        const idx = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).findIndex(l => l.id === event);
-        this.mapComponentConfig.mapLayers.layers[idx] = editedLyerStyle;
+
+        // At this point, the layer style knows what it has to do, but the data is not there yet.
+        // So let's trigger the data fetching to bring back the data with the relevant fields, right ?
+        // this.adjustMapOffset();
       }
     });
   }

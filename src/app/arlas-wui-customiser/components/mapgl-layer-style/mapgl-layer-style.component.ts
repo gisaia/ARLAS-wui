@@ -105,8 +105,6 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
     this.fillForm.customControls.opacity.patchValue(layerValues.opacity);
     this.fillForm.customControls.color.patchValue(layerValues.colorFg);
     this.fillForm.customControls.color.populateManualColorValuesFromArray(layerValues.colorFg.propertyManualFg.propertyManualValuesCtrl);
-
-    console.log(this.fillForm.customControls.color);
   }
 
   public ngOnDestroy(): void {

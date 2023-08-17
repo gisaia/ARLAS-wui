@@ -1,0 +1,369 @@
+/*
+Licensed to Gisaïa under one or more contributor
+license agreements. See the NOTICE.txt file distributed with
+this work for additional information regarding copyright
+ownership. Gisaïa licenses this file to you under
+the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/
+
+@import "~@angular/material/theming";
+
+$primary-palette: mat-palette($mat-blue, 800);
+$accent-palette: mat-palette($mat-blue, 800);
+$warn-palette: mat-palette($mat-red);
+
+$config-element-description-background: mat-color($mat-grey, 50);
+$config-element-description-border-color: transparentize(mat-color($mat-blue, A700), 0.6);
+$config-element-description-text-color: transparentize(mat-color($mat-blue-grey, A700), 0.4);
+$error-color: mat-color($warn-palette);
+
+$primaryColor: mat-color($primary-palette);
+$accentColor: mat-color($accent-palette);
+
+$arlasColor: #f63366;
+
+@mixin group-title() {
+   font-weight: 300;
+   font-size: 24px;
+   line-height: 32px;
+   margin: 5px 10px;
+   padding-bottom: 3px;
+   
+}$accent-color: mat-color($accent-palette);
+$primary-color: mat-color($primary-palette);
+
+$accent-color-light: mat-color($accent-palette, 300);
+$primary-color-light: mat-color($primary-palette, 300);
+
+.description {
+  align-self: center;
+  width: fit-content;
+  font-size: 14px;
+  color: $config-element-description-text-color;
+  line-height: 1.6;
+  border-left: 0.2rem solid $config-element-description-border-color;
+  background-color: white;
+  border-radius: 4px;
+  display: inline-block;
+  white-space: pre-wrap;
+}
+
+.description:not(:empty) {
+  margin-left: 36px;
+  padding: 10px;
+}
+
+.control-error {
+  color: $error-color;
+}
+
+mat-option {
+  margin: 2px 0px;
+
+  &.mat-selected.option-color-primary {
+    background-color: $primary-color-light !important;
+    color: white !important;
+  }
+
+  &.mat-selected.option-color-accent {
+    background-color: $accent-color-light !important;
+    color: black !important;
+  }
+
+  &.option-color-primary {
+    background-color: $primary-color;
+    color: white;
+    &:hover {
+      background-color: $primary-color-light;
+    }
+  }
+
+  &.option-color-accent {
+    background-color: $accent-color;
+    color: black;
+    &:hover {
+      background-color: $accent-color-light;
+    }
+  }
+}
+
+.icon-form-control {
+  display: flex;
+  align-items: center;
+}
+
+.order-select-form-control {
+  mat-form-field {
+    width: fit-content;
+    &.sort-list {
+      width: 50%;
+    }
+  }
+
+  mat-radio-group {
+    padding: 0 5px;
+    mat-radio-button {
+      width: 80px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.metric-field-form-control {
+  .action-container {
+    .metric-toggle {
+    }
+    .field-add-container {
+      display: flex;
+
+      .field-container {
+        flex-grow: 5;
+
+        mat-form-field {
+          width: 90%;
+        }
+      }
+
+      .add-container {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .chips-container {
+    margin-top: 15px;
+  }
+}
+
+.url-field-form-control {
+  .action-container {
+    .mat-form-field {
+      display: block;
+    }
+    .field-insert-container {
+      display: flex;
+      .field-container {
+        margin-right: 10px;
+      }
+      .insert-container {
+        display: flex;
+        align-items: center;
+        .insert {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+.textarea-form-control {
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.metric-filter {
+  width: 45%;
+  ::ng-deep textarea {
+    height: 250px;
+  }
+}
+.mapfilter-form-control {
+  width: 100%;
+}
+
+.button-form-control {
+  button {
+    margin-left: 24px;
+  }
+
+  .disabled-button-message {
+    color: #666699;
+    font-size: 12px;
+    margin-left: 2px;
+  }
+}
+
+.color-preview-form-control {
+  margin: 10px 0px;
+  .color-preview {
+    width: 175px;
+    height: 35px;
+  }
+}
+
+.slider-toggle-form-control {
+  margin: 15px 0px;
+}
+
+.checkbox {
+  &::ng-deep .mat-checkbox-label {
+    font-size: 0.9em;
+  }
+}
+
+.empty_visulisation {
+  font-size: 0.9em;
+  font-style: italic;
+  color: #d3931b;
+  padding: 3px;
+}
+
+.box-search {
+  margin: 8px;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+}
+.box-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+.box-select-all {
+  width: 36px;
+  line-height: 33px;
+  color: #808080;
+  text-align: center;
+}
+.search-button {
+  width: 36px;
+  height: 36px;
+  line-height: 33px;
+  color: #808080;
+}
+.pl-1 {
+  padding-left: 1rem;
+}
+
+.multiply-selected {
+  border-bottom: 1px solid #d8e0e9;
+  border-left: 3px solid;
+  padding: 2px 5px;
+  background-color: #f4f5f7;
+  display: flex;
+  font-size: 0.85em;
+  height: 25px;
+  align-items: center;
+  background-color: #fff;
+
+  .detail {
+    float: right;
+    font-style: italic;
+  }
+
+  ::ng-deep label {
+    align-items: baseline;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  ::ng-deep .mat-checkbox-layout {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-checkbox-label {
+    width: 100%;
+  }
+}
+
+.multiply-to-select {
+  border-bottom: 1px solid #d8e0e9;
+  border-left: 3px solid;
+  padding: 2px 5px;
+  background-color: #f4f5f7;
+  display: flex;
+  font-size: 0.85em;
+  height: 25px;
+  align-items: center;
+  background-color: #f4f5f7;
+  &:hover {
+    background-color: #eee;
+  }
+
+  .detail {
+    float: right;
+    font-style: italic;
+  }
+
+  ::ng-deep label {
+    align-items: baseline;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  ::ng-deep .mat-checkbox-layout {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-checkbox-label {
+    width: 100%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 3px !important;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+.radio-button{
+  padding: 5px;
+}
+
+.arlas-filter-expansion-panel{
+  box-shadow: none;
+  ::ng-deep {
+    .mat-expansion-panel-body {
+      display: flex;
+    }
+  }
+}
+
+.arlas-filter-expansion-panel-header{
+  padding-left: 0px;
+  font-size: smaller;
+}
+.arlas-filter-expansion-panel-header:hover{
+  background: white !important;
+
+}
+
+.arlas-filter-expansion-panel .mat-expansion-panel-body{
+  padding: 0px !important;
+}
+
+.panel-chevron{
+  display: flex;
+}
+.arlas-filter-expansion-panel-title {
+  align-items: center;
+}
+.filter-chip{
+  cursor: pointer;
+}
