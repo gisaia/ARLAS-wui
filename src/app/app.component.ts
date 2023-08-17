@@ -572,9 +572,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
           this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
 
-        cont.fetchData().subscribe(_ => {
-          cont.renderSearchSources(new Array(...cont.dataSources));
-        });
+        cont.fetchData();
+        cont.renderSearchSources(new Array(...cont.dataSources));
 
         // Update the color service values based on manual colors
         const keyColor = (editedLayerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
