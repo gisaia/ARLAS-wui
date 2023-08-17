@@ -2,8 +2,8 @@ import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/co
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import mapboxgl from 'mapbox-gl';
 import { MapglLayerStyleComponent } from '../mapgl-layer-style/mapgl-layer-style.component';
-import { LAYER_MODE } from 'app/arlas-wui-customiser/models/layer-enums';
 import { ArlasColorService } from 'arlas-web-components';
+import { LAYER_MODE } from '../../models/layer-enums';
 
 const GEOJSON_SOURCE_TYPE = 'geojson';
 

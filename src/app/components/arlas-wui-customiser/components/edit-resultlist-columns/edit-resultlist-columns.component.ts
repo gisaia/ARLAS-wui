@@ -20,20 +20,17 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { CollectionConfigFormGroup } from 'app/arlas-wui-customiser/models/collection-config-form';
-import {
-  ButtonFormControl, InputFormControl, SelectFormControl,
-  SelectOption, SlideToggleFormControl
-} from 'app/arlas-wui-customiser/models/config-form';
-import { CollectionService } from 'app/arlas-wui-customiser/services/collection-service/collection.service';
-import { NUMERIC_OR_DATE_OR_KEYWORD, toOptionsObs } from 'app/arlas-wui-customiser/services/collection-service/tools';
-import { DefaultConfig, DefaultValuesService } from 'app/arlas-wui-customiser/services/default-values/default-values.service';
 import { ArlasColorService } from 'arlas-web-components';
 import { DialogColorTableComponent } from '../dialog-color-table/dialog-color-table.component';
 import { DialogColorTableData, KeywordColor } from '../dialog-color-table/models';
 import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
+import { CollectionConfigFormGroup } from '../../models/collection-config-form';
+import { SelectOption, InputFormControl, SelectFormControl, SlideToggleFormControl, ButtonFormControl } from '../../models/config-form';
+import { CollectionService } from '../../services/collection-service/collection.service';
+import { toOptionsObs, NUMERIC_OR_DATE_OR_KEYWORD } from '../../services/collection-service/tools';
+import { DefaultValuesService, DefaultConfig } from '../../services/default-values/default-values.service';
 @Component({
   selector: 'arlas-edit-resultlist-columns',
   templateUrl: './edit-resultlist-columns.component.html',

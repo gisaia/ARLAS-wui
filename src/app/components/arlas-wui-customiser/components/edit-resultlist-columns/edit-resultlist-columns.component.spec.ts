@@ -1,9 +1,8 @@
 import { EditResultlistColumnsComponent } from './edit-resultlist-columns.component';
-import { Spectator, createComponentFactory, mockProvider } from '@ngneat/spectator';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { MockComponent } from 'ng-mocks';
-import { ConfigFormControlComponent } from '@shared-components/config-form-control/config-form-control.component';
 import { FormArray } from '@angular/forms';
-import { ResultlistFormBuilderService } from '@analytics-config/services/resultlist-form-builder/resultlist-form-builder.service';
+import { ConfigFormControlComponent } from '../config-form-control/config-form-control.component';
 
 describe('EditResultlistColumnsComponent', () => {
   let spectator: Spectator<EditResultlistColumnsComponent>;
@@ -13,9 +12,6 @@ describe('EditResultlistColumnsComponent', () => {
     declarations: [
       MockComponent(ConfigFormControlComponent)
     ],
-    providers: [
-      mockProvider(ResultlistFormBuilderService)
-    ]
   });
 
   beforeEach(() => {

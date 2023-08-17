@@ -22,19 +22,18 @@ import {
   Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  ButtonFormControl, ButtonToggleFormControl, CollectionsUnitsControl,
-  ColorFormControl, ColorPreviewFormControl, ConfigFormControl, FieldWithSizeListFormControl,
-  HiddenFormControl, HuePaletteFormControl, IconFormControl, InputFormControl, MapFiltersControl, MetricWithFieldListFormControl,
-  MultipleSelectFormControl, OrderedSelectFormControl, RadioButtonFormControl, SelectFormControl, SlideToggleFormControl,
-  SliderFormControl,
-  TextareaFormControl, TitleInputFormControl, TypedSelectFormControl, UrlTemplateControl
-} from 'app/arlas-wui-customiser/models/config-form';
-import { CollectionService } from 'app/arlas-wui-customiser/services/collection-service/collection.service';
-import { ArlasColorGeneratorLoader } from 'arlas-wui-toolkit';
+
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ArlasColorService } from 'arlas-web-components';
+import {
+  ButtonFormControl, ButtonToggleFormControl, CollectionsUnitsControl, ColorFormControl,
+  ColorPreviewFormControl, ConfigFormControl, FieldWithSizeListFormControl,
+  HiddenFormControl, HuePaletteFormControl, IconFormControl, InputFormControl, MapFiltersControl, MetricWithFieldListFormControl,
+  MultipleSelectFormControl, OrderedSelectFormControl, RadioButtonFormControl, SelectFormControl, SlideToggleFormControl, SliderFormControl,
+  TextareaFormControl, TitleInputFormControl, TypedSelectFormControl, UrlTemplateControl
+} from '../../models/config-form';
+import { CollectionService } from '../../services/collection-service/collection.service';
 
 @Component({
   selector: 'arlas-config-form-control',

@@ -1,11 +1,13 @@
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { ConfigFormGroup, SelectFormControl } from 'app/arlas-wui-customiser/models/config-form';
-import { GEOMETRY_TYPE, MAP_LAYER_TYPE } from 'app/arlas-wui-customiser/models/layer-enums';
-import { PROPERTY_SELECTOR_SOURCE, PROPERTY_TYPE } from 'app/arlas-wui-customiser/services/property-selector-form-builder/models';
+import { SelectFormControl, ConfigFormGroup } from '../../models/config-form';
+import { MAP_LAYER_TYPE, GEOMETRY_TYPE } from '../../models/layer-enums';
+import { PROPERTY_TYPE, PROPERTY_SELECTOR_SOURCE } from '../../services/property-selector-form-builder/models';
 import {
-  PropertySelectorFormBuilderService, PropertySelectorFormGroup
-} from 'app/arlas-wui-customiser/services/property-selector-form-builder/property-selector-form-builder.service';
-import { valuesToOptions } from 'app/arlas-wui-customiser/utils/tools';
+  PropertySelectorFormGroup,
+  PropertySelectorFormBuilderService
+} from '../../services/property-selector-form-builder/property-selector-form-builder.service';
+import { valuesToOptions } from '../../utils/tools';
+
 
 export class GeometricFormControls {
   public shape: SelectFormControl;

@@ -1,19 +1,20 @@
 /* eslint-disable max-len */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConfigFormControl, ConfigFormGroup } from '../../models/config-form';
-import { GEOMETRY_TYPE, LAYER_MODE, LINE_TYPE, LINE_TYPE_VALUES, MAP_LAYER_TYPE, NORMALIZED } from '../../models/layer-enums';
+import { GEOMETRY_TYPE, LAYER_MODE, MAP_LAYER_TYPE, NORMALIZED } from '../../models/layer-enums';
 import {
-  PropertySelectorFormBuilderService, PropertySelectorFormGroup
+  PropertySelectorFormBuilderService
 } from '../../services/property-selector-form-builder/property-selector-form-builder.service';
-import { MapImportService } from 'app/arlas-wui-customiser/services/map-import/map-import.service';
-import { Layer, Paint } from 'app/arlas-wui-customiser/models/layer';
+
 import { LayerStyleFillForm, LayerStyleGeometricForm } from './mapgl-layer-style.utils';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LayerSourceConfig, ColorConfig, getSourceName } from 'arlas-web-contributors';
-import { PROPERTY_SELECTOR_SOURCE, ProportionedValues } from 'app/arlas-wui-customiser/services/property-selector-form-builder/models';
 import { KeywordColor, OTHER_KEYWORD } from '../dialog-color-table/models';
 import { ArlasColorService } from 'arlas-web-components';
+import { Layer, Paint } from '../../models/layer';
+import { MapImportService } from '../../services/map-import/map-import.service';
+import { PROPERTY_SELECTOR_SOURCE, ProportionedValues } from '../../services/property-selector-form-builder/models';
 
 @Component({
   selector: 'arlas-mapgl-layer-style',
@@ -99,12 +100,13 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
    */
   public initForm() {
     const layerValues = MapImportService.importLayerFg(this.layerStyle, this.layerSource, []);
-    console.log(layerValues);
     this.geometryForm.customControls.shape.setValue(layerValues.geometryType);
 
     this.fillForm.customControls.opacity.patchValue(layerValues.opacity);
     this.fillForm.customControls.color.patchValue(layerValues.colorFg);
-    this.fillForm.customControls.color.populateManualColorValuesFromArray(layerValues.colorFg.propertyManualFg.propertyManualValuesCtrl);
+    if(!!layerValues.colorFg.propertyManualFg){
+      this.fillForm.customControls.color.populateManualColorValuesFromArray(layerValues.colorFg.propertyManualFg.propertyManualValuesCtrl);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -264,7 +266,6 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
 
   // fgValues has to be the values of the customControls of a PropertySelector
   public getMapProperty(fgValues: any, mode: LAYER_MODE, colorService: ArlasColorService, taggableFields?: Set<string>) {
-    console.log(fgValues);
     switch (fgValues.propertySource) {
       case PROPERTY_SELECTOR_SOURCE.fix_color:
         return fgValues.propertyFixColor;
@@ -475,7 +476,6 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
         const interpolatedValues = layerValues.propertyInterpolatedFg;
         if (mode === LAYER_MODE.features) {
           if (interpolatedValues.propertyInterpolatedNormalizeCtrl) {
-            console.log('normalisation field');
             layerSource.normalization_fields.push(
               {
                 on: interpolatedValues.propertyInterpolatedFieldCtrl,

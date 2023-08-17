@@ -45,8 +45,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
-  ArlasColorGeneratorLoader,
-  ArlasConfigService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
@@ -61,17 +59,21 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { LayerStyleManagerService } from './arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
-import { MapglLayerStyleComponent } from './arlas-wui-customiser/components/mapgl-layer-style/mapgl-layer-style.component';
-import { MapglLayerStyleEditComponent } from './arlas-wui-customiser/components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
-import { ConfigFormComponent } from './arlas-wui-customiser/components/config-form/config-form.component';
-import { ControlPipe } from './arlas-wui-customiser/pipes/control.pipe';
-import { DialogPaletteSelectorComponent } from './arlas-wui-customiser/components/dialog-palette-selector/dialog-palette-selector.component';
-import { DialogColorTableComponent } from './arlas-wui-customiser/components/dialog-color-table/dialog-color-table.component';
-import { DefaultValuesService } from './arlas-wui-customiser/services/default-values/default-values.service';
+import { LayerStyleManagerService } from './components/arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
+import { MapglLayerStyleComponent } from './components/arlas-wui-customiser/components/mapgl-layer-style/mapgl-layer-style.component';
+/* eslint-disable max-len */
+import { MapglLayerStyleEditComponent } from './components/arlas-wui-customiser/components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
+import { ConfigFormComponent } from './components/arlas-wui-customiser/components/config-form/config-form.component';
+import { ControlPipe } from './components/arlas-wui-customiser/pipes/control.pipe';
+import { DialogPaletteSelectorComponent } from './components/arlas-wui-customiser/components/dialog-palette-selector/dialog-palette-selector.component';
+import { DialogColorTableComponent } from './components/arlas-wui-customiser/components/dialog-color-table/dialog-color-table.component';
+import { DefaultValuesService } from './components/arlas-wui-customiser/services/default-values/default-values.service';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { ColorPickerWrapperComponent } from './arlas-wui-customiser/components/color-picker-wrapper/color-picker-wrapper.component';
+import { ColorPickerWrapperComponent } from './components/arlas-wui-customiser/components/color-picker-wrapper/color-picker-wrapper.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { EditResultlistColumnsComponent } from './components/arlas-wui-customiser/components/edit-resultlist-columns/edit-resultlist-columns.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ConfigFormControlComponent } from './components/arlas-wui-customiser/components/config-form-control/config-form-control.component';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
@@ -88,9 +90,11 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MapglLayerStyleEditComponent,
     ConfigFormComponent,
     ControlPipe,
+    EditResultlistColumnsComponent,
     DialogPaletteSelectorComponent,
     DialogColorTableComponent,
     ColorPickerWrapperComponent,
+    ConfigFormControlComponent
   ],
   exports: [
     AboutComponent,
@@ -100,6 +104,7 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     ConfigsListComponent,
     MapglLayerStyleComponent,
     MapglLayerStyleEditComponent,
+    EditResultlistColumnsComponent,
     ControlPipe,
     DialogPaletteSelectorComponent,
     DialogColorTableComponent,
@@ -108,6 +113,7 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    DragDropModule,
     MapglImportModule,
     MapglSettingsModule,
     ColorPickerModule,
@@ -120,9 +126,11 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatIconModule,
     MatSnackBarModule,
     MatTooltipModule,
     MatTabsModule,
+    MatTableModule,
     MatProgressBarModule,
     MatStepperModule,
     MatSelectModule,
@@ -173,6 +181,6 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
 
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: [AboutDialogComponent, EditResultlistColumnsComponent]
 })
 export class ArlasWuiModule { }

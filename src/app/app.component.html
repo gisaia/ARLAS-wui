@@ -1,16 +1,12 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
+      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus" (editListEventEmitter)="updateListField()"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
         [isEmptyMode]="arlasStartUpService.emptyMode"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content style="margin-left: 67px;">
       <div class="main_content">
-        <button  class="changeColor" (click)="changeColor()">CHANGE COLOR</button>
-        <button  class="changeColumns" (click)="changeColumns()">CHANGE COLUMNS</button>
-        <button  class="changeCellBackground" (click)="changeCellBackground()">CHANGE CELL background</button>
-
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
