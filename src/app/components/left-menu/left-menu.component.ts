@@ -35,6 +35,7 @@ export class LeftMenuComponent implements OnInit {
   @Input() public isEmptyMode;
   @Input() public layersVisibilityStatus: Map<string, boolean> = new Map();
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
+  @Output() public editListEventEmitter: Subject<void> = new Subject();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
@@ -155,6 +156,10 @@ export class LeftMenuComponent implements OnInit {
 
   public displayTagManagement() {
     this.tagComponent.openManagement();
+  }
+
+  public editList(){
+    this.editListEventEmitter.next();
   }
 
 }

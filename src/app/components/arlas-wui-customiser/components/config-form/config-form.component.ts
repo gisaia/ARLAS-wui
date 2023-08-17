@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
-import { FORM_TYPE, FormGroupElement } from 'app/arlas-wui-customiser/models/config-form';
+import { FORM_TYPE, FormGroupElement } from 'app/components/arlas-wui-customiser/models/config-form';
 
 @Component({
   selector: 'arlas-config-form',

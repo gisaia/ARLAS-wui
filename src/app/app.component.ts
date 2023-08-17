@@ -47,7 +47,17 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { LayerStyleManagerService } from './arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
+import { LayerStyleManagerService } from './components/arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  EditResultlistColumnsComponent,
+  ResultlistColumnFormGroup
+} from './components/arlas-wui-customiser/components/edit-resultlist-columns/edit-resultlist-columns.component';
+import { NUMERIC_OR_DATE_OR_KEYWORD, toOptionsObs } from './components/arlas-wui-customiser/services/collection-service/tools';
+import { FormArray } from '@angular/forms';
+import { CollectionService } from './components/arlas-wui-customiser/services/collection-service/collection.service';
+import { DefaultValuesService } from 'app/components/arlas-wui-customiser/services/default-values/default-values.service';
+import { ConfigFormGroup } from './components/arlas-wui-customiser/models/config-form';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -184,7 +194,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private layerStyleManager: LayerStyleManagerService
+    private layerStyleManager: LayerStyleManagerService,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<EditResultlistColumnsComponent>,
+    private collectionService: CollectionService,
+    private defaultValuesService: DefaultValuesService
+
+
   ) {
     this.menuState = {
       configs: false
@@ -524,7 +540,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
     this.layerStyleManager.openLayerStyleEditComponent({
       layerSource: layerSource,
-      layerData: {type: 'FeatureCollection', features: layerData.map(f => ({type: 'Feature', geometry: f.geometry, properties: f.properties}))},
+      layerData: {
+        type: 'FeatureCollection',
+        features: layerData.map(f => ({ type: 'Feature', geometry: f.geometry, properties: f.properties }))
+      },
       layerStyle: layerStyle
     }).subscribe((value: any) => {
       const editedLayerStyle = value.style;
@@ -1091,12 +1110,67 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
 
     ];
-    this.adjustMapOffset();
+
 
   }
 
-  public changeCellBackground() {
+  public updateListField() {
+    this.dialogRef = this.dialog.open(EditResultlistColumnsComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.collection = this.mainCollection;
+    const controls = this.rightListContributors[0].fieldsList.map(c => {
+      const fieldObs = toOptionsObs(this.collectionService.getCollectionFields(this.mainCollection, NUMERIC_OR_DATE_OR_KEYWORD));
+      const column = new ResultlistColumnFormGroup(
+        fieldObs,
+        this.mainCollection,
+        new FormArray([]),
+        this.defaultValuesService.getDefaultConfig(),
+        this.dialog,
+        this.collectionService,
+        this.colorService);
+      [
+        {
+          value: c.columnName,
+          control: column.customControls.columnName
+        },
+        {
+          value: c.fieldName,
+          control: column.customControls.fieldName
+        },
+        {
+          value: c.dataType,
+          control: column.customControls.dataType
+        },
+        {
+          value: c.useColorService,
+          control: column.customControls.useColorService
+        },
+      ].filter(e => e.value !== null)
+        .forEach(element => element.control.setValue(element.value));
+      return column;
+    });
+    this.dialogRef.componentInstance.control = new FormArray(controls);
+    this.dialogRef.componentInstance.validateForm.subscribe(c => {
 
+      const newColumn = c.controls.map(c =>
+        ({
+          columnName: c.customControls.columnName.value,
+          useColorService: c.customControls.useColorService.value,
+          dataType: c.customControls.dataType.value,
+          fieldName: c.customControls.fieldName.value,
+        })
+      );
+      newColumn.map(nc => nc.fieldName).forEach(fc => {
+        if(!(this.rightListContributors[0].includesvalues as Array<string>).includes(fc)){
+          this.rightListContributors[0].includesvalues.push(fc);
+        }
+      });
+      ;
+      this.rightListContributors[0].fieldsList = newColumn;
+      this.adjustMapOffset();
+      this.dialogRef.close();
+    });
   }
 
   private adjustMapOffset() {

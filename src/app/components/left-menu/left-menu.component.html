@@ -22,6 +22,13 @@
       <arlas-tool-link></arlas-tool-link>
       <mat-divider *ngIf="shareComponentConfig || downloadComponentConfig || tagComponentConfig"></mat-divider>
       <mat-nav-list>
+        <mat-list-item  matTooltip="{{'Edit list content' | translate}}"
+        (click)="editList()">
+        <button mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-divider *ngIf="shareComponentConfig || downloadComponentConfig || tagComponentConfig"></mat-divider>
         <mat-list-item *ngIf="shareComponentConfig" matTooltip="{{'Share geographical data' | translate}}"
           (click)="displayShare()">
           <button mat-icon-button>
