@@ -1,18 +1,17 @@
 /* eslint-disable max-len */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConfigFormControl, ConfigFormGroup } from '../../models/config-form';
-import { GEOMETRY_TYPE, LAYER_MODE, MAP_LAYER_TYPE, NORMALIZED } from '../../models/layer-enums';
+import { GEOMETRY_TYPE, LAYER_MODE, LINE_TYPE, LINE_TYPE_VALUES, MAP_LAYER_TYPE, NORMALIZED } from '../../models/layer-enums';
 import {
   PropertySelectorFormBuilderService
 } from '../../services/property-selector-form-builder/property-selector-form-builder.service';
-
-import { LayerStyleFillForm, LayerStyleGeometricForm } from './mapgl-layer-style.utils';
+import { LayerStyleFillForm, LayerStyleGeometricForm, LayerStyleStrokeForm, LineStrokeFormControls } from './mapgl-layer-style.utils';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LayerSourceConfig, ColorConfig, getSourceName } from 'arlas-web-contributors';
 import { KeywordColor, OTHER_KEYWORD } from '../dialog-color-table/models';
 import { ArlasColorService } from 'arlas-web-components';
-import { Layer, Paint } from '../../models/layer';
+import { Layer, Layout, Paint, VISIBILITY } from '../../models/layer';
 import { MapImportService } from '../../services/map-import/map-import.service';
 import { PROPERTY_SELECTOR_SOURCE, ProportionedValues } from '../../services/property-selector-form-builder/models';
 
@@ -36,7 +35,11 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
 
   public geometryForm: LayerStyleGeometricForm;
   public fillForm: LayerStyleFillForm;
-  public strokeForm: ConfigFormGroup;
+  public strokeForm: LayerStyleStrokeForm;
+
+  public GEOMETRY_TYPE = GEOMETRY_TYPE;
+
+  public initialLayerValues: any;
 
   private toUnsubscribe: Array<Subscription> = new Array();
 
@@ -63,7 +66,11 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
       /** we only consider features layer as of now */ false,
       this.layerStyle.metadata.collection, MAP_LAYER_TYPE.FEATURE, this.propertySelectorFormBuilder);
 
-    this.initForm();
+    this.strokeForm = new LayerStyleStrokeForm();
+
+    this.initialLayerValues = MapImportService.importLayerFg(this.layerStyle, this.layerSource, []);
+
+    this.initForm(this.initialLayerValues);
     this.resetOnGeometryTypeChange();
     this.updateControlsFromOtherControls(this.geometryForm);
     this.updateControlsFromOtherControls(this.fillForm);
@@ -98,14 +105,22 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   /**
    * Retrieve information from the layer style to populate the form
    */
-  public initForm() {
-    const layerValues = MapImportService.importLayerFg(this.layerStyle, this.layerSource, []);
+  public initForm(layerValues: any) {
     this.geometryForm.customControls.shape.setValue(layerValues.geometryType);
 
     this.fillForm.customControls.opacity.patchValue(layerValues.opacity);
     this.fillForm.customControls.color.patchValue(layerValues.colorFg);
     if(!!layerValues.colorFg.propertyManualFg){
       this.fillForm.customControls.color.populateManualColorValuesFromArray(layerValues.colorFg.propertyManualFg.propertyManualValuesCtrl);
+    }
+
+    // This part of the function would have to be called every time the type of geometry is changed, in order to properly initialize it
+    // This replaces the internal logic of onDependency to make it more transparent
+    this.strokeForm.initForm(layerValues.geometryType, false, this.layerStyle.metadata.collection, this.propertySelectorFormBuilder);
+    switch (layerValues.geometryType) {
+      case GEOMETRY_TYPE.line: {
+        (this.strokeForm.customControls as LineStrokeFormControls).lineType.patchValue(layerValues.lineType);
+      }
     }
   }
 
@@ -114,7 +129,9 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
   }
 
   private resetOnGeometryTypeChange() {
-    // TODO: Create a subscribe of the valueChanges of the geometryType control to reinit the others
+    this.geometryForm.customControls.shape.valueChanges.subscribe(value => {
+      this.strokeForm.initForm(value, false, this.layerStyle.metadata.collection, this.propertySelectorFormBuilder);
+    });
   }
 
   /**
@@ -222,14 +239,13 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
       case GEOMETRY_TYPE.line: {
         paint['line-opacity'] = opacity;
         paint['line-color'] = color;
-        paint['line-width'] = this.layerStyle.paint['line-width']; // this.getMapProperty(modeValues.styleStep.widthFg, mode, colorService, taggableFields);
-        paint['line-dasharray'] = this.layerStyle.paint['line-dasharray'];
-        // const lineType = modeValues.styleStep.lineType;
-        // if (lineType !== LINE_TYPE.solid) {
-        //   paint['line-dasharray'] = LINE_TYPE_VALUES.get(lineType);
-        // } else {
-        //   delete paint['line-dasharray'];
-        // }
+        paint['line-width'] = this.layerStyle.paint['line-width'] || 1; // this.getMapProperty(modeValues.styleStep.widthFg, mode, colorService, taggableFields);
+        const lineType = (this.strokeForm.customControls as LineStrokeFormControls).lineType.value;
+        if (lineType !== LINE_TYPE.solid) {
+          paint['line-dasharray'] = LINE_TYPE_VALUES.get(lineType);
+        } else {
+          delete paint['line-dasharray'];
+        }
         break;
       }
       case GEOMETRY_TYPE.circle: {
@@ -262,6 +278,33 @@ export class MapglLayerStyleComponent implements OnInit, OnDestroy {
       }
     }
     return paint;
+  }
+
+  public getLayerType(): string {
+    return this.geometryForm.customControls.shape.value;
+  }
+
+  public getLayerLayout(visibility: string, mode, colorService: ArlasColorService, taggableFields?: Set<string>) {
+    const layout: Layout = {};
+    layout.visibility = visibility ? VISIBILITY.visible : VISIBILITY.none;
+    switch (this.geometryForm.customControls.shape.value) {
+      case GEOMETRY_TYPE.line: {
+        layout['line-cap'] = 'round';
+        layout['line-join'] = 'round';
+        break;
+      }
+      // case GEOMETRY_TYPE.label: {
+      //   layout['text-field'] = this.getMapProperty(modeValues.styleStep.labelContentFg, mode, colorService, taggableFields);
+      //   layout['text-font'] = ['Open Sans Bold', 'Arial Unicode MS Bold'];
+      //   layout['text-size'] = this.getMapProperty(modeValues.styleStep.labelSizeFg, mode, colorService, taggableFields);
+      //   layout['text-rotate'] = this.getMapProperty(modeValues.styleStep.labelRotationFg, mode, colorService, taggableFields);
+      //   layout['text-allow-overlap'] = modeValues.styleStep.labelOverlapFg;
+      //   layout['text-anchor'] = modeValues.styleStep.labelAlignmentCtrl;
+      //   layout['symbol-placement'] = modeValues.styleStep.labelPlacementCtrl;
+      //   break;
+      // }
+    }
+    return layout;
   }
 
   // fgValues has to be the values of the customControls of a PropertySelector

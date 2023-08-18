@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import mapboxgl from 'mapbox-gl';
 import { MapglLayerStyleComponent } from '../mapgl-layer-style/mapgl-layer-style.component';
 import { ArlasColorService } from 'arlas-web-components';
-import { LAYER_MODE } from '../../models/layer-enums';
+import { GEOMETRY_TYPE, LAYER_MODE } from '../../models/layer-enums';
 import { LayerEditConfig } from '../../services/layer-style-manager/layer-style-manager.service';
 
 
@@ -68,7 +68,14 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
   public validate() {
     const layerSource = this.styleComponent.exportLayerStyleConfig(this.data.layerSource, LAYER_MODE.features, 'demo_eo');
     const paint = this.styleComponent.getLayerPaint(LAYER_MODE.features, this.colorService);
+    const layout = this.styleComponent.getLayerLayout(this.layerStyle.layout.visibility, LAYER_MODE.features, this.colorService);
     this.layerStyle.paint = paint;
+    this.layerStyle.type = this.styleComponent.getLayerType();
+    this.layerStyle.layout = layout;
+    // Not sure it is needed
+    if (this.layerStyle.type !== GEOMETRY_TYPE.fill) {
+      delete this.layerStyle.metadata['stroke'];
+    }
     this.dialog.close({style: this.layerStyle, source: layerSource});
   }
 

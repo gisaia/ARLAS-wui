@@ -1,6 +1,6 @@
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { SelectFormControl, ConfigFormGroup } from '../../models/config-form';
-import { MAP_LAYER_TYPE, GEOMETRY_TYPE } from '../../models/layer-enums';
+import { LINE_TYPE, MAP_LAYER_TYPE, GEOMETRY_TYPE } from '../../models/layer-enums';
 import { PROPERTY_TYPE, PROPERTY_SELECTOR_SOURCE } from '../../services/property-selector-form-builder/models';
 import {
   PropertySelectorFormGroup,
@@ -77,3 +77,61 @@ export class LayerStyleFillForm extends ConfigFormGroup {
     this.customControls.color = this.controls['color'] as PropertySelectorFormGroup;
   }
 };
+
+export class StrokeFormControls {
+}
+
+// Utilisation de différentes subclass ? Une classe gérée partiellement
+// Discriminator en Angular ?
+export class LineStrokeFormControls extends StrokeFormControls{
+  public lineType: SelectFormControl;
+  public lineWidth: PropertySelectorFormGroup;
+}
+
+export class LayerStyleStrokeForm extends ConfigFormGroup {
+  public customControls: StrokeFormControls;
+
+  public constructor() {
+    super();
+    this.withTitle(marker('Stroke'));
+  }
+
+  public initForm(
+    geometryType: string,
+    isAggregated: boolean,
+    collection: string,
+    propertySelectorFormBuilder: PropertySelectorFormBuilderService
+  ) {
+    switch (geometryType) {
+      case GEOMETRY_TYPE.line: {
+        this.withControl('lineType', new SelectFormControl(
+          LINE_TYPE.solid,
+          marker('line type'),
+          marker('line type description'),
+          false,
+          [
+            { value: LINE_TYPE.solid, label: marker('Solid') + ' ( ━ ) ' },
+            { value: LINE_TYPE.dashed, label: marker('Dashed') + ' ( - - - )' },
+            { value: LINE_TYPE.dotted, label: marker('Dotted') + ' ( • • • )' },
+            { value: LINE_TYPE.mixed, label: marker('Mixed') + ' ( - • - )' }
+          ]));
+          // .withControl('lineWidth', this.propertySelectorFormBuilder.build(
+          //   PROPERTY_TYPE.number,
+          //   'width',
+          //   [
+          //     PROPERTY_SELECTOR_SOURCE.fix_slider, PROPERTY_SELECTOR_SOURCE.interpolated
+          //   ],
+          //   isAggregated,
+          //   collection,
+          //   marker('property width description')
+          // ));
+        this.customControls = new LineStrokeFormControls();
+        (this.customControls as LineStrokeFormControls).lineType = this.controls['lineType'] as SelectFormControl;
+        break;
+      }
+      default: {
+        console.error('Not implemented');
+      }
+    }
+  }
+}

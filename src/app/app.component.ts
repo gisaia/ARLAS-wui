@@ -582,7 +582,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         cont.fetchData();
 
         // Update the color service values based on manual colors
-        const keyColor = (editedLayerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
+        const keyColor = (editedLayerStyle.paint[editedLayerStyle.type + '-color'] as Array<any>).slice(2, -1);
         for (let i = 0; i < keyColor.length / 2; i++) {
           (this.colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor(keyColor[2 * i], keyColor[2 * i + 1]);
         }

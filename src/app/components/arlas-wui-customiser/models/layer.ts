@@ -1,3 +1,5 @@
+import { Visibility } from 'mapbox-gl';
+
 export interface Layer {
     id: string;
     type: string;
@@ -24,7 +26,7 @@ export interface FillStroke {
 }
 
 export interface Layout {
-    visibility?: string;
+    visibility?: Visibility;
     'line-cap'?: string;
     'line-join'?: string;
     'text-field'?: string;
@@ -66,4 +68,9 @@ export interface PaintColor {
     property: string;
     type: string;
     stops: Array<Array<string>>;
+}
+
+export enum VISIBILITY {
+    visible = 'visible',
+    none = 'none'
 }

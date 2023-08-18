@@ -11,7 +11,13 @@
         <div class="title">{{ 'Color' | translate }}</div>
         <arlas-config-form [form]="fillForm.customControls.color"></arlas-config-form>
     </mat-step>
-    <mat-step [stepControl]="strokeForm">
+    <mat-step [stepControl]="strokeForm" *ngIf="strokeForm.customControls">
         <ng-template matStepLabel>{{ 'Geometry stroke' | translate }}</ng-template>
+        <ng-container *ngIf="geometryForm.customControls.shape.value === GEOMETRY_TYPE.line">
+            <div class="title"> {{ 'Line Type' | translate }}</div>
+            <arlas-config-form [form]="strokeForm.customControls.lineType"></arlas-config-form>
+            <!-- <div class="title"> {{ 'Line Width' | translate }}</div>
+            <arlas-config-form [form]="strokeForm.customControls.lineWidth"></arlas-config-form> -->
+        </ng-container>
     </mat-step>
 </mat-stepper>
