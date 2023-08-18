@@ -4,8 +4,9 @@ import mapboxgl from 'mapbox-gl';
 import { MapglLayerStyleComponent } from '../mapgl-layer-style/mapgl-layer-style.component';
 import { ArlasColorService } from 'arlas-web-components';
 import { LAYER_MODE } from '../../models/layer-enums';
+import { LayerEditConfig } from '../../services/layer-style-manager/layer-style-manager.service';
 
-const GEOJSON_SOURCE_TYPE = 'geojson';
+
 
 @Component({
   selector: 'arlas-mapgl-layer-style-edit',
@@ -26,7 +27,7 @@ export class MapglLayerStyleEditComponent implements OnInit, AfterViewInit {
 
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data,
-    private dialog: MatDialogRef<MapglLayerStyleEditComponent>,
+    private dialog: MatDialogRef<MapglLayerStyleEditComponent, LayerEditConfig>,
     private colorService: ArlasColorService
   ) { }
 

@@ -30,9 +30,9 @@ import {
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode, HistogramContributor,
+  ElementIdentifier, FeatureRenderMode,
   MapContributor,
-  ResultListContributor
+  ResultListContributor, ColorConfig
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
@@ -57,7 +57,8 @@ import { NUMERIC_OR_DATE_OR_KEYWORD, toOptionsObs } from './components/arlas-wui
 import { FormArray } from '@angular/forms';
 import { CollectionService } from './components/arlas-wui-customiser/services/collection-service/collection.service';
 import { DefaultValuesService } from 'app/components/arlas-wui-customiser/services/default-values/default-values.service';
-import { ConfigFormGroup } from './components/arlas-wui-customiser/models/config-form';
+import { NormalizationFieldConfig } from './components/arlas-wui-customiser/models/config-form';
+import { LayerEditConfig } from './components/arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -545,45 +546,46 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         features: layerData.map(f => ({ type: 'Feature', geometry: f.geometry, properties: f.properties }))
       },
       layerStyle: layerStyle
-    }).subscribe((value: any) => {
-      const editedLayerStyle = value.style;
-      const editedLayerSource = value.source;
+    }).subscribe((editedLayerConfig: LayerEditConfig) => {
+      const editedLayerStyle = editedLayerConfig.style;
+      const editedLayerSource = editedLayerConfig.source;
       if (editedLayerStyle && editedLayerSource) {
+        // Find the collection's contributor
+        const cont = this.mapglContributors.find(c => c.collection === editedLayerStyle.metadata.collection);
 
-        // Add the new source
+        // Add the necessary fields to the source of the layer
+        const contributorLayerSource = cont.featureLayerSourcesIndex.get(editedLayerSource.source);
+        editedLayerSource.colors_from_fields.forEach((f: string) => {
+          contributorLayerSource.colorFields.add(f);
+        });
+        editedLayerSource.include_fields.forEach((f: string) => {
+          contributorLayerSource.includeFields.add(f);
+        });
+        editedLayerSource.normalization_fields.forEach((f: NormalizationFieldConfig) => {
+          // Is there a special behavior to have ? Like multiple normalisation fields possible ?
+          contributorLayerSource.normalizationFields.push(f);
+        });
+        editedLayerSource.provided_fields.forEach((f: ColorConfig) => {
+          contributorLayerSource.providedFields.push(f);
+        });
 
-        // Find the right contributor
-        // TODO: in case of multi collection find the one whose collection match
-        const cont = this.mapglContributors[0];
-        // Add the source to the map contributor sources
-        cont.featureLayerSourcesIndex = cont.getFeatureLayersIndex([...cont.getConfigValue(cont.LAYERS_SOURCES_KEY), editedLayerSource]);
-
-        // Add the source to the the map sources
-        // (this.mapglComponent.map as mapboxgl.Map).removeSource(layerSource.id);
-        // (this.mapglComponent.map as mapboxgl.Map).addSource(editedLayerSource.id, editedLayerSource);
-
-        const idx = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).findIndex(l => l.id === event);
+        // Edit map config
+        const idx = (this.mapComponentConfig.mapLayers.layers as Array<mapboxgl.AnyLayer>).findIndex(l => l.id === editedLayerStyle.id);
         this.mapComponentConfig.mapLayers.layers[idx] = editedLayerStyle;
 
-        // Remove previous layer to put new one
-        (this.mapglComponent.map as mapboxgl.Map).removeLayer(event);
-        (this.mapglComponent.map as mapboxgl.Map).addLayer(editedLayerStyle);
+        // Update mapboxgl layer style
+        (this.mapglComponent.map as mapboxgl.Map).removeLayer(editedLayerStyle.id);
+        (this.mapglComponent.map as mapboxgl.Map).addLayer(editedLayerStyle as mapboxgl.AnyLayer);
 
-        this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
-          this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
-
+        // Fetch data with new source
+        // Layers will be redrawn when the data is received
         cont.fetchData();
-        cont.renderSearchSources(new Array(...cont.dataSources));
 
         // Update the color service values based on manual colors
         const keyColor = (editedLayerStyle.paint['fill-color'] as Array<any>).slice(2, -1);
         for (let i = 0; i < keyColor.length / 2; i++) {
           (this.colorService.colorGenerator as ArlasColorGeneratorLoader).updateKeywordColor(keyColor[2 * i], keyColor[2 * i + 1]);
         }
-
-        // At this point, the layer style knows what it has to do, but the data is not there yet.
-        // So let's trigger the data fetching to bring back the data with the relevant fields, right ?
-        // this.adjustMapOffset();
       }
     });
   }
