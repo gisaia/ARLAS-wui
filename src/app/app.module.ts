@@ -64,7 +64,6 @@ import { MapglLayerStyleComponent } from './components/arlas-wui-customiser/comp
 /* eslint-disable max-len */
 import { MapglLayerStyleEditComponent } from './components/arlas-wui-customiser/components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
 import { ConfigFormComponent } from './components/arlas-wui-customiser/components/config-form/config-form.component';
-import { ControlPipe } from './components/arlas-wui-customiser/pipes/control.pipe';
 import { DialogPaletteSelectorComponent } from './components/arlas-wui-customiser/components/dialog-palette-selector/dialog-palette-selector.component';
 import { DialogColorTableComponent } from './components/arlas-wui-customiser/components/dialog-color-table/dialog-color-table.component';
 import { DefaultValuesService } from './components/arlas-wui-customiser/services/default-values/default-values.service';
@@ -89,7 +88,6 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MapglLayerStyleComponent,
     MapglLayerStyleEditComponent,
     ConfigFormComponent,
-    ControlPipe,
     EditResultlistColumnsComponent,
     DialogPaletteSelectorComponent,
     DialogColorTableComponent,
@@ -105,7 +103,6 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
     MapglLayerStyleComponent,
     MapglLayerStyleEditComponent,
     EditResultlistColumnsComponent,
-    ControlPipe,
     DialogPaletteSelectorComponent,
     DialogColorTableComponent,
     ColorPickerWrapperComponent,

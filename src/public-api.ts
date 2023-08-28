@@ -14,6 +14,5 @@ export { MapglLayerStyleComponent } from './app/components/arlas-wui-customiser/
 export { MapglLayerStyleEditComponent } from './app/components/arlas-wui-customiser/components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
 // eslint-disable-next-line max-len
 export { EditResultlistColumnsComponent } from './app/components/arlas-wui-customiser/components/edit-resultlist-columns/edit-resultlist-columns.component';
-export { ControlPipe } from './app/components/arlas-wui-customiser/pipes/control.pipe';
 // eslint-disable-next-line max-len
 export { ColorPickerWrapperComponent } from './app/components/arlas-wui-customiser/components/color-picker-wrapper/color-picker-wrapper.component';
