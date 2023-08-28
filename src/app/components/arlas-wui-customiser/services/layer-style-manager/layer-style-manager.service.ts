@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MapglLayerStyleEditComponent } from '../../components/mapgl-layer-style-edit/mapgl-layer-style-edit.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LayerSourceConfig } from 'arlas-web-contributors';
+
+export interface LayerEditConfig {
+  style: mapboxgl.Layer;
+  source: LayerSourceConfig;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayerStyleManagerService {
-  private editDialogRef: MatDialogRef<MapglLayerStyleEditComponent>;
+  private editDialogRef: MatDialogRef<MapglLayerStyleEditComponent, LayerEditConfig>;
 
   public constructor(
     private dialog: MatDialog
