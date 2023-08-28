@@ -47,6 +47,7 @@ import { fromEvent, merge, Subject, timer, zip, Observable, of } from 'rxjs';
 import { debounceTime, takeWhile, mergeMap } from 'rxjs/operators';
 import { MenuState } from '../left-menu/left-menu.component';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import { ArlasColorService } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -174,7 +175,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
@@ -402,7 +403,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
           this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorGenerator;
+            mapContrib.colorGenerator = this.colorService.colorGenerator;
             if (!!this.resultlistContributors) {
               const resultlistContrbutor: ResultListContributor = this.resultlistContributors
                 .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);

@@ -21,9 +21,11 @@ import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import {
-  ArlasColorGeneratorLoader, ArlasIamService, ArlasSettingsService, ArlasStartupService,
+  ArlasIamService, ArlasSettingsService, ArlasStartupService,
   AuthentificationService, PersistenceService
 } from 'arlas-wui-toolkit';
+import { ArlasColorService } from 'arlas-web-components';
+
 import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
@@ -54,7 +56,7 @@ export class ConfigsListComponent implements OnInit {
 
   public constructor(
     private persistenceService: PersistenceService,
-    private arlasColorGeneratorLoader: ArlasColorGeneratorLoader,
+    private arlasColorService: ArlasColorService,
     private arlasSettingsService: ArlasSettingsService,
     private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
@@ -123,7 +125,7 @@ export class ConfigsListComponent implements OnInit {
               const config: Configuration = {
                 id: d.id,
                 name: d.doc_key,
-                color: this.arlasColorGeneratorLoader.getColor(d.id.concat(d.doc_key))
+                color: this.arlasColorService.getColor(d.id.concat(d.doc_key))
               };
               this.configurations.push(config);
             });

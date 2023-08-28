@@ -39,6 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
@@ -48,6 +49,7 @@ import {
   PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
+import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
 import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
@@ -58,8 +60,6 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
