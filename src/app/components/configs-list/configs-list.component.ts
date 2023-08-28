@@ -20,7 +20,10 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import { ArlasColorGeneratorLoader, ArlasIamService, ArlasSettingsService, ArlasStartupService, AuthentificationService, PersistenceService } from 'arlas-wui-toolkit';
+import {
+  ArlasColorGeneratorLoader, ArlasIamService, ArlasSettingsService, ArlasStartupService,
+  AuthentificationService, PersistenceService
+} from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
