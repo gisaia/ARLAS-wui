@@ -118,7 +118,6 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     SidenavService,
     DynamicComponentService,
     VisualizeService
-
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

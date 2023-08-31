@@ -5,12 +5,18 @@
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
     </div>
-    <div middle-menu class="shortcut-list">
-      <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
+    <ng-container middle-menu>
+      <div *ngFor="let shortcut of shortcuts; let idx=index"  class="shortcut-list">
         <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
           (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-      </ng-container>
-    </div>
+      </div>
+
+      <div *ngIf="!arlasStartUpService.emptyMode && (shortcuts === undefined || shortcuts?.length === 0)" class="arlas-filters-chips-top">
+        <arlas-filter [collectionToDescription]="collectionToDescription"
+          [units]="appUnits" (zoomEvent)="zoomToData($event)">
+        </arlas-filter>
+      </div>
+    </ng-container>
     <div right-menu class="title">{{ appName }}</div>
   </arlas-top-menu>
 
@@ -18,7 +24,7 @@
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
-        [isEmptyMode]="arlasStartUpService.emptyMode"></arlas-left-menu>
+        [isEmptyMode]="arlasStartUpService.emptyMode" [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content">
       <div class="main_content">
@@ -27,8 +33,10 @@
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container" [class.app-container-reduce]="listOpen"
-            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
+          <div class="app-container" [class.app-container-reduce]="listOpen && analyticsService.activeTab === undefined"
+            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
+            [class.app-container-reduce-analytics]="listOpen && analyticsService.activeTab !== undefined"
+            [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
@@ -71,7 +79,17 @@
               </div>
             </div>
             <div class="arlas-map">
-              <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
+                matTooltip="{{'Close analytics board' | translate}}">
+                <mat-icon class="primary">keyboard_arrow_left</mat-icon>
+              </mat-basic-chip>
+              <div class="arlas-analytics--container" *ngIf="analyticsService.activeTab !== undefined && !arlasStartUpService.emptyMode">
+                <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
+                  (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
+                  [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
+                  [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
+              </div>
+              <arlas-mapgl [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -92,8 +110,7 @@
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
-                (downloadSourceEmitter)="downloadLayerSource($event)"
-                [offset]="offset">
+                (downloadSourceEmitter)="downloadLayerSource($event)">
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
@@ -184,38 +201,24 @@
                         (globalActionEvent)="getBoardEvents({ origin: list.identifier, event: 'globalActionEvent', data: $event })"
                         (changeResultMode)="changeListResultMode($event,list.identifier)">
                       </arlas-result-list>
-
                     </div>
                   </mat-tab>
                 </mat-tab-group>
               </div>
             </div>
 
+            <!-- TODO: what ? -->
             <div class="arlas-top-analytics">
               <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()"
                 matTooltip="{{'Refresh components' | translate}}">
                 <mat-icon>refresh</mat-icon>
               </span>
-              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="!this.analytics" (click)="toggleAnalytics()"
-                matTooltip="{{'Toggle analytics board' | translate}}">
-                <mat-icon class="primary" [class.arlas-analytics-rotate]="analyticsOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon>poll</mat-icon>
-
-              </mat-basic-chip>
             </div>
-            <div *ngIf="!arlasStartUpService.emptyMode" class="arlas-filters-chips"
-              [class.arlas-filters-chips-open]="listOpen"
-              [class.arlas-filters-chips-open-no-grid]="resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
+
+            <div *ngIf="!arlasStartUpService.emptyMode && shortcuts && shortcuts?.length > 0" class="arlas-filters-chips">
               <arlas-filter [collectionToDescription]="collectionToDescription"
                 [units]="appUnits" (zoomEvent)="zoomToData($event)">
               </arlas-filter>
-            </div>
-
-            <div class="arlas-analytics--container" *ngIf="analyticsOpen && !arlasStartUpService.emptyMode">
-              <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
-                [groups]="this.analytics" (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
-                [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
-                [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"

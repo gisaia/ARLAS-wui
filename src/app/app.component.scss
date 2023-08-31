@@ -42,8 +42,16 @@
   width: calc(100% - 450px);
 }
 
+.app-container-reduce-analytics ::ng-deep.map_container {
+  width: calc(100% - 450px - $analytics-board-width);
+}
+
 .app-container-with-list ::ng-deep.map_container {
   width: calc(100% - 150px);
+}
+
+.app-container-with-list-analytics ::ng-deep.map_container {
+  width: calc(100% - 150px - $analytics-board-width);
 }
 
 .side-result-list-toggle {
@@ -153,14 +161,14 @@
 }
 
 .arlas-analytics-toggle {
-  padding: 4px 5px 0px;
-  margin-left: 3px;
-  max-width: 62px;
+  position: absolute;
+  left: $analytics-board-width;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: $icon-size;
+  z-index: 1;
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  flex: 1;
 }
 
 .arlas-analytics-toggle:hover {
@@ -182,28 +190,28 @@
 }
 
 .arlas-filters-chips {
-  position: relative;
-  top: 12px;
-  width: fit-content;
-  margin: auto;
+  position: absolute;
+  top: $sm-margin;
+  left: calc((100vw - $left-menu-width) / 2);
+  transform: translate(-50%, 0);
+
+  // TODO: improve by removing the spaces to the left and right
+  ::ng-deep.mat-chip-list-wrapper {
+    margin: 0;
+    justify-content: center;
+  }
 }
 
-.arlas-filters-chips-open {
-  // Remove half of the open result list width
-  left: -225px;
-}
-
-.arlas-filters-chips-open-no-grid {
-  // Remove half of the preview list width
-  left: -75px;
+.arlas-filters-chips-top {
+  ::ng-deep.zoom {
+    position: relative;
+    bottom: 6px;
+  }
 }
 
 .arlas-analytics--container {
-  position: absolute;
-  left: 5px;
-  top: 78px;
-  width: 466px;
-  max-height: calc(100vh - 207px);
+  width: $analytics-board-width;
+  max-height: calc(100vh - $top-menu-height);
   overflow: auto;
 }
 
@@ -229,12 +237,103 @@
   z-index: 1;
 }
 
-.app-container-reduce .arlas-map-action {
-  right: 457px;
+.app-container-reduce {
+  ::ng-deep.arlas-timeline--timelines {
+    width: calc(100% - ($result-list-width + $sm-spacing * 2));
+  }
+
+  .arlas-filters-chips {
+    left: calc((100vw - ($left-menu-width + $result-list-width)) / 2);
+    max-width: calc((100vw - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
+  }
 }
 
-.app-container-with-list .arlas-map-action {
-  right: 157px;
+.app-container-reduce-analytics {
+  ::ng-deep.arlas-timeline--timelines {
+    width: calc(100% - ($result-list-width + $sm-spacing * 2 + $analytics-board-width));
+    left: calc($analytics-board-width + $sm-spacing) !important;
+  }
+
+  .arlas-filters-chips {
+    left: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2);
+    max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
+  }
+}
+
+.app-container-with-list {
+  ::ng-deep.arlas-timeline--timelines {
+    width: calc(100% - ($preview-result-list-width + 2 * $sm-margin));
+  }
+
+  .arlas-filters-chips {
+    left: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2);
+    max-width: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
+  }
+}
+
+.app-container-with-list-analytics {
+  ::ng-deep.arlas-timeline--timelines {
+    width: calc(100% - ($preview-result-list-width + 2 * $sm-margin + $analytics-board-width));
+    left: calc($analytics-board-width + $sm-spacing) !important;
+  }
+
+  .arlas-filters-chips {
+    left: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2);
+    max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
+  }
+}
+
+.app-container-reduce-analytics,
+.app-container-reduce {
+  .arlas-map-action {
+    right: calc($result-list-width + $sm-spacing);
+  }
+
+  .arlas-map-settings {
+    right: calc($result-list-width + $sm-spacing + $map-actions-size + $sm-spacing);
+  }
+
+  ::ng-deep.basemap-container {
+    top: 70px !important;
+    right: 520px !important;
+  }
+
+  ::ng-deep.arlas-timeline--tools {
+    right: calc($result-list-width + $sm-spacing);
+  }
+
+  ::ng-deep.bookmark-shortcut {
+    top: 30px;
+    right: calc($result-list-width + $sm-spacing);
+  }
+}
+
+.app-container-with-list-analytics,
+.app-container-with-list {
+  .arlas-map-action {
+    right: calc($preview-result-list-width + $sm-spacing);
+  }
+
+  .arlas-map-settings {
+    right: calc($preview-result-list-width + $sm-spacing + $map-actions-size + $sm-spacing);
+  }
+
+  ::ng-deep.basemap-container {
+    right: 220px !important;
+    top: 70px !important;
+  }
+
+  ::ng-deep.arlas-timeline--tools {
+    right: calc($preview-result-list-width + $sm-margin);
+  }
+
+  ::ng-deep.bookmark-shortcut {
+    right: calc($preview-result-list-width + $sm-spacing);
+  }
+}
+::ng-deep.arlas-timeline--timelines {
+  left: $sm-spacing !important;
+  box-sizing: border-box;
 }
 
 .arlas-map-action-container {
@@ -265,27 +364,10 @@
   z-index: 1;
 }
 
-
-.app-container-reduce .arlas-map-settings {
-  right: 487px;
-}
-
 .arlas-map ::ng-deep.basemap-container {
   top: 70px !important;
   right: 72px !important;
   z-index: 1;
-}
-.app-container-reduce ::ng-deep.basemap-container {
-  top: 70px !important;
-  right: 520px !important;
-}
-.app-container-with-list ::ng-deep.basemap-container {
-  right: 220px !important;
-  top: 70px !important;
-}
-
-.app-container-with-list .arlas-map-settings {
-  right: 187px;
 }
 
 .arlas-map-settings-container {
@@ -331,34 +413,8 @@
   height: calc(100vh - $top-menu-height);
 }
 
-.app-container-reduce ::ng-deep.arlas-timeline--tools {
-  right: 457px;
-}
-
-.app-container-reduce ::ng-deep.arlas-timeline--timelines {
-  width: calc(100% - 464px);
-  /* 450px for list and 14px for margin left and right */
-}
-
 ::ng-deep.bookmark-shortcut {
   top: 30px !important;
-}
-
-.app-container-reduce ::ng-deep.bookmark-shortcut {
-  top: 30px;
-  right: 461px;
-}
-
-.app-container-with-list ::ng-deep.arlas-timeline--tools {
-  right: 157px;
-}
-
-.app-container-with-list ::ng-deep.arlas-timeline--timelines {
-  width: calc(100% - $preview-result-list-width - 2 * $default-margin);
-}
-
-.app-container-with-list ::ng-deep.bookmark-shortcut {
-  right: 161px;
 }
 
 .result-list-tab-group ::ng-deep .mat-tab-label{

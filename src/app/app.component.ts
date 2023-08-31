@@ -36,7 +36,7 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
+  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService, AnalyticsService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, FilterShortcutConfiguration, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
@@ -110,12 +110,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public shouldCloseMapMenu = true;
 
   public menuState: MenuState;
-  public analyticsOpen = true;
   public searchOpen = true;
   public mapId = 'mapgl';
 
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
-  public offset = { north: 0, east: 0, south: -128, west: 465 };
 
   public listOpen = false;
   public selectedListTabIndex = 0;
@@ -186,7 +184,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public analyticsService: AnalyticsService
   ) {
     this.menuState = {
       configs: false
@@ -255,14 +254,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       }
 
-      const analyticOpenString = this.getParamValue('ao');
-      if (!!analyticOpenString) {
-        this.analyticsOpen = (analyticOpenString === 'true');
-      }
       const resultlistOpenString = this.getParamValue('ro');
       if (resultlistOpenString) {
         this.listOpen = (resultlistOpenString === 'true');
       }
+
+      let wasTabSelected = this.getParamValue('at') !== undefined;
+      this.analyticsService.tabChange.subscribe(tab => {
+        // If there is a change in the state of the analytics (open/close), resize
+        if (wasTabSelected !== (tab !== undefined)) {
+          this.adjustTimelineSize();
+          wasTabSelected = (tab !== undefined);
+        }
+      });
     } else {
       this.defaultBaseMap = {
         styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
@@ -283,8 +287,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
-      const allAnalytics = this.configService.getValue('arlas.web.analytics');
-      this.analytics = !!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : [];
+      const allAnalytics = this.arlasStartUpService.analytics;
+      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
       /** Retrieve displayable resultlists */
       const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
       const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
@@ -732,7 +736,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
         break;
       case 'selectedItemsEvent':
-        /** TODO : manage features to select when we have miltiple collections */
+        /** TODO : manage features to select when we have multiple collections */
         if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
           const featuresToSelect = event.data.map(id => {
             let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
@@ -983,12 +987,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
 
-  public toggleAnalytics() {
-    this.analyticsOpen = !this.analyticsOpen;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ao'] = this.analyticsOpen + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    this.adjustMapOffset();
+  public closeAnalytics() {
+    this.analyticsService.selectTab(undefined);
   }
 
   public closeMapMenu() {
@@ -1008,11 +1008,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   private adjustMapOffset() {
-    if (this.analyticsOpen) {
-      this.offset.west = 465;
-    } else {
-      this.offset.west = 0;
-    }
     this.recalculateExtend = true;
     this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
   }

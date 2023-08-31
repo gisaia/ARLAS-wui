@@ -8,6 +8,8 @@
     </mat-list-item>
   </mat-nav-list>
   <mat-divider></mat-divider>
+  <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
+  <mat-divider></mat-divider>
   <div class="action-list">
     <arlas-tool-link></arlas-tool-link>
     <mat-divider *ngIf="shareComponentConfig || downloadComponentConfig || tagComponentConfig"></mat-divider>
