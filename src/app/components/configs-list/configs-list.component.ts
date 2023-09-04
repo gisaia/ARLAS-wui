@@ -21,6 +21,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import {
+  ArlasAuthentificationService,
   ArlasIamService, ArlasSettingsService, ArlasStartupService,
   AuthentificationService, PersistenceService
 } from 'arlas-wui-toolkit';
@@ -60,25 +61,17 @@ export class ConfigsListComponent implements OnInit {
     private arlasSettingsService: ArlasSettingsService,
     private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
-    private arlasStartupService: ArlasStartupService
+    private arlasStartupService: ArlasStartupService,
+    private arlasAuthentService: ArlasAuthentificationService
   ) {
     this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
-    this.isAuthentActivated = !!this.authentService.authConfigValue && this.authentService.authConfigValue.use_authent;
-
-    const isOpenID = this.isAuthentActivated && this.arlasIamService.authConfigValue.auth_mode !== 'iam';
-    const isIam = this.isAuthentActivated && this.arlasIamService.authConfigValue.auth_mode === 'iam';
-    this.isAuthentActivated = isOpenID || isIam;
-    if (isOpenID) {
-      this.authentMode = 'openid';
-    }
-    if (isIam) {
-      this.authentMode = 'iam';
-    }
+    this.isAuthentActivated = !!this.arlasAuthentService.authConfigValue && !!this.arlasAuthentService.authConfigValue.use_authent;
+    this.authentMode = this.arlasAuthentService.authConfigValue.auth_mode;
   }
 
   public ngOnInit() {
 
-    if (this.arlasSettingsService.getSettings().authentication.auth_mode === 'iam') {
+    if (this.authentMode === 'iam') {
       this.arlasIamService.currentUserSubject.subscribe({
         next: (userSubject) => {
           if (!!userSubject) {

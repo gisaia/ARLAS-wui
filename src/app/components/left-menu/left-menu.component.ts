@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  ArlasAuthentificationService,
   ArlasConfigService, ArlasIamService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
@@ -73,24 +74,17 @@ export class LeftMenuComponent implements OnInit {
     private configService: ArlasConfigService,
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService,
-    private router: Router
+    private router: Router,
+    private arlasAuthentService: ArlasAuthentificationService
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
     this.window = window;
     this.reduce = this.translate.instant('reduce');
     this.expand = this.translate.instant('expand');
-    this.isAuthentActivated = !!this.authentService.authConfigValue && this.authentService.authConfigValue.use_authent;
+    this.isAuthentActivated = !!this.arlasAuthentService.authConfigValue && !!this.arlasAuthentService.authConfigValue.use_authent;
+    this.authentMode = this.arlasAuthentService.authConfigValue.auth_mode;
 
-    const isOpenID = this.isAuthentActivated && this.arlasIamService.authConfigValue.auth_mode !== 'iam';
-    const isIam = this.isAuthentActivated && this.arlasIamService.authConfigValue.auth_mode === 'iam';
-    this.isAuthentActivated = isOpenID || isIam;
-    if (isOpenID) {
-      this.authentMode = 'openid';
-    }
-    if (isIam) {
-      this.authentMode = 'iam';
-    }
     if (!this.isEmptyMode) {
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
