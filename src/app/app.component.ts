@@ -249,6 +249,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
+      this.userPreferencesService.isLoaded.subscribe(isLoaded => {
+        if (isLoaded) {
+          this.defaultBaseMap = this.userPreferencesService.userPreferences.map.basemap;
+        }
+      });
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
@@ -276,10 +281,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.listOpen = (resultlistOpenString === 'true');
       }
     } else {
-      this.defaultBaseMap = {
-        styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-        name: 'Positron'
-      };
+      this.defaultBaseMap = DEFAULT_BASEMAP;
     }
   }
 
@@ -802,8 +804,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }, 100);
   }
 
-  public reloadMapImages() {
+  public reloadMapImages(selectedBasemapStyle: BasemapStyle) {
     this.visualizeService.setMap(this.mapglComponent.map);
+    this.userPreferencesService.updateBasemap(selectedBasemapStyle);
   }
 
   public getBoardEvents(event: { origin: string; event: string; data?: any; }) {

@@ -144,7 +144,7 @@ export class UserPreferencesService {
   }
 
   private updateUserPreferences() {
-    if (this.isAuth) {
+    if (this.isAuth && this._userPreferences) {
       this.persistenceService.existByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey).subscribe({
         next: (e) => {
           if (e.exists) {
