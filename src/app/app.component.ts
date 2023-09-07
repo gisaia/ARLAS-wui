@@ -59,6 +59,8 @@ import { CollectionService } from './components/arlas-wui-customiser/services/co
 import { DefaultValuesService } from 'app/components/arlas-wui-customiser/services/default-values/default-values.service';
 import { NormalizationFieldConfig } from './components/arlas-wui-customiser/models/config-form';
 import { LayerEditConfig } from './components/arlas-wui-customiser/services/layer-style-manager/layer-style-manager.service';
+import { UserPreferencesService } from './services/user-preferences/user-preferences.service';
+import { DEFAULT_BASEMAP, setDefaultResultListColumnSort } from './tools/utils';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -199,9 +201,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<EditResultlistColumnsComponent>,
     private collectionService: CollectionService,
-    private defaultValuesService: DefaultValuesService
-
-
+    private defaultValuesService: DefaultValuesService,
+    private userPreferencesService: UserPreferencesService
   ) {
     this.menuState = {
       configs: false
@@ -247,11 +248,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
-        {
-          styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-          name: 'Positron'
-        };
+      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
@@ -345,20 +342,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
       });
       if (this.resultlistContributors.length > 0) {
-        this.rightListContributors = this.resultlistContributors
-          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
-          .map(rlcontrib => {
-            (rlcontrib as any).name = rlcontrib.getName();
-            const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
-            if (!!sortColumn) {
-              this.sortOutput.set(rlcontrib.identifier, {
-                columnName: sortColumn.columnName,
-                fieldName: sortColumn.fieldName,
-                sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
-              });
-            }
-            return rlcontrib;
-          });
+        this.rightListContributors = setDefaultResultListColumnSort(this.resultlistContributors, this.resultListsConfig, this.sortOutput);
 
         this.resultListsConfig.forEach(rlConf => {
           rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
@@ -399,6 +383,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
         if (extendValue) {
+          console.log('extent in url');
           const stringBounds = extendValue.split(',');
           if (stringBounds.length === 4) {
             this.mapBounds = new mapboxgl.LngLatBounds(
@@ -406,6 +391,20 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
             );
           }
+        } else {
+          // Method to get thing if auth and loaded ?
+          this.userPreferencesService.isLoaded.subscribe(isLoaded => {
+            if (isLoaded) {
+              console.log('Getting extent from configuration');
+              const stringBounds = this.userPreferencesService.userPreferences.map.extent.split(',');
+              if (stringBounds.length === 4) {
+                this.mapBounds = new mapboxgl.LngLatBounds(
+                  new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
+                  new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+                );
+              }
+            }
+          });
         }
       }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
@@ -472,6 +471,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (this.mapBounds && this.allowMapExtend) {
       (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
+    } else {
+      this.userPreferencesService.isLoaded.subscribe(isLoaded => {
+        if (isLoaded) {
+          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+          this.mapBounds = null;
+          console.log('Update after view init');
+        }
+      });
     }
     this.mapglComponent.map.on('movestart', (e) => {
       this.zoomStart = this.mapglComponent.map.getZoom();
@@ -498,14 +505,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    });
+    // Useless because this is done in the onMove method
+    // this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+    //   /** Change map extend in the url */
+    //   const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+    //   const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+    //   // Store in persistence service new extent
+    //   console.log('map event listener');
+    //   this.userPreferencesService.updateExtent(extent);
+
+    //   const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    //   queryParams[this.MAP_EXTEND_PARAM] = extent;
+    //   this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    // });
 
     if (!!this.previewListContrib) {
       timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
@@ -899,6 +911,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
+      // Update persistence
+      this.userPreferencesService.updateExtent(extend);
+      console.log('Update extent onMove');
+
       const ratioToAutoSort = 0.1;
       this.centerLatLng['lat'] = event.centerWithOffset[1];
       this.centerLatLng['lng'] = event.centerWithOffset[0];
