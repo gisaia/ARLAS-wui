@@ -276,6 +276,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (!!analyticOpenString) {
         this.analyticsOpen = (analyticOpenString === 'true');
       }
+
       const resultlistOpenString = this.getParamValue('ro');
       if (resultlistOpenString) {
         this.listOpen = (resultlistOpenString === 'true');
@@ -1059,10 +1060,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public toggleAnalytics() {
     this.analyticsOpen = !this.analyticsOpen;
+    this.userPreferencesService.updateAnalyticsOpen(this.analyticsOpen);
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ao'] = this.analyticsOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     this.adjustMapOffset();
+  }
+
+  public onAnalyticsTabChange(tab: string) {
+    this.userPreferencesService.updateAnalyticsTab(tab);
   }
 
   public closeMapMenu() {

@@ -210,6 +210,11 @@ export class UserPreferencesService {
     this.updateUserPreferences();
   }
 
+  public updateSelectedListTab(tab: string) {
+    this._userPreferences.list.tab = tab;
+    this.updateUserPreferences();
+  }
+
 
   public updateExtent(extent: string) {
     this._userPreferences.map.extent = extent;
@@ -222,9 +227,14 @@ export class UserPreferencesService {
     this.updateUserPreferences();
   }
 
-  public updateSelectedListTab(tab: string) {
-    this._userPreferences.list.tab = tab;
-    console.log(this._userPreferences.list);
+
+  public updateAnalyticsOpen(open: boolean) {
+    this._userPreferences.analytics.open = open;
+    this.updateUserPreferences();
+  }
+
+  public updateAnalyticsTab(tab: string) {
+    this._userPreferences.analytics.at = tab;
     this.updateUserPreferences();
   }
 
