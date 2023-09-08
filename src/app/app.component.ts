@@ -248,12 +248,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
-      this.userPreferencesService.isLoaded.subscribe(isLoaded => {
-        if (isLoaded) {
-          this.defaultBaseMap = this.userPreferencesService.userPreferences.map.basemap;
-        }
-      });
+
+      if (this.userPreferencesService.isLoaded) {
+        this.defaultBaseMap = this.userPreferencesService.userPreferences.map.basemap;
+      } else {
+        this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
+      }
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
@@ -383,30 +383,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
 
       if (this.allowMapExtend) {
-        const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
-        if (extendValue) {
-          console.log('extent in url');
-          const stringBounds = extendValue.split(',');
-          if (stringBounds.length === 4) {
-            this.mapBounds = new mapboxgl.LngLatBounds(
-              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
-            );
-          }
-        } else {
-          // Method to get thing if auth and loaded ?
-          this.userPreferencesService.isLoaded.subscribe(isLoaded => {
-            if (isLoaded) {
-              console.log('Getting extent from configuration');
-              const stringBounds = this.userPreferencesService.userPreferences.map.extent.split(',');
-              if (stringBounds.length === 4) {
-                this.mapBounds = new mapboxgl.LngLatBounds(
-                  new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-                  new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
-                );
-              }
-            }
-          });
+        const extentValue = this.getParamValue(this.MAP_EXTEND_PARAM);
+        if (extentValue) {
+          this.setMapBounds(extentValue);
         }
       }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
@@ -473,15 +452,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (this.mapBounds && this.allowMapExtend) {
       (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
-    } else {
-      this.userPreferencesService.isLoaded.subscribe(isLoaded => {
-        if (isLoaded) {
-          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-          this.mapBounds = null;
-          console.log('Update after view init');
-        }
-      });
     }
+
     this.mapglComponent.map.on('movestart', (e) => {
       this.zoomStart = this.mapglComponent.map.getZoom();
     });
@@ -905,17 +877,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onMove(event) {
     // Update data only when the collections info are presents
     if (this.collectionToDescription.size > 0) {
-      /** Change map extend in the url */
+      /** Change map extent in the url */
       const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams[this.MAP_EXTEND_PARAM] = extent;
       queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       // Update persistence
-      this.userPreferencesService.updateExtent(extend);
+      this.userPreferencesService.updateExtent(extent);
       console.log('Update extent onMove');
 
       const ratioToAutoSort = 0.1;
@@ -1275,6 +1247,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         break;
     }
   }
+
+  private setMapBounds(extentValue: string) {
+    const stringBounds = extentValue.split(',');
+    if (stringBounds.length === 4) {
+      this.mapBounds = new mapboxgl.LngLatBounds(
+        new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
+        new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+      );
+    }
+  }
 }
-
-

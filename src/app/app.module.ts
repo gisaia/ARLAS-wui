@@ -45,8 +45,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
-  ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
+  ArlasSettingsService, ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
+  AuthentificationService,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
@@ -73,11 +74,20 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EditResultlistColumnsComponent } from './components/arlas-wui-customiser/components/edit-resultlist-columns/edit-resultlist-columns.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfigFormControlComponent } from './components/arlas-wui-customiser/components/config-form-control/config-form-control.component';
+import { UserPreferencesService } from './services/user-preferences/user-preferences.service';
+import { firstValueFrom } from 'rxjs';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
   return load;
 }
+
+export function userPreferencesServiceFactory(userPreferencesService: UserPreferencesService, authService: AuthentificationService) {
+  const load = () => firstValueFrom(authService.isDoneLoading)
+    .then(() => userPreferencesService.load());
+  return load;
+}
+
 @NgModule({
   declarations: [
     AboutComponent,
@@ -171,6 +181,12 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
       provide: APP_INITIALIZER,
       useFactory: loadServiceFactory,
       deps: [DefaultValuesService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: userPreferencesServiceFactory,
+      deps: [UserPreferencesService, AuthentificationService, ArlasStartupService],
       multi: true
     },
     VisualizeService

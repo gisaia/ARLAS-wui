@@ -17,18 +17,19 @@
  * under the License.
  */
 
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ArlasConfigService, ArlasStartupService, AuthentificationService, CONFIG_ID_QUERY_PARAM, PersistenceService } from 'arlas-wui-toolkit';
 import { AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
   TimelineSettings, UserPreferencesSettings } from './models';
 import { BasemapStyle, ModeEnum } from 'arlas-web-components';
 import { DEFAULT_BASEMAP, ResultListSort, setDefaultResultListColumnSort } from 'app/tools/utils';
 import { ResultListContributor } from 'arlas-web-contributors';
+import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /** Value to suffix user preferences document's id in the persistence */
 export const PERSISTENCE_USER_PREFERENCE = 'user_preference';
 
-// Is it necessary to check if logged every time ?
 @Injectable({
   providedIn: 'root'
 })
@@ -41,50 +42,51 @@ export class UserPreferencesService {
   private isAuth: boolean;
   private listSort: Map<string, ResultListSort> = new Map();
 
-  public isLoaded: EventEmitter<boolean> = new EventEmitter();
+  public isLoaded: boolean;
 
   public constructor(
     private persistenceService: PersistenceService,
     private authService: AuthentificationService,
     private configService: ArlasConfigService,
     private arlasStartUpService: ArlasStartupService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
     // Does not work if we use local conf
     this.dashboardId = this.getParamValue(CONFIG_ID_QUERY_PARAM);
     this.userPreferencesKey = this.getUserPreferencesKey();
+  }
 
-    this.authService.isAuthenticated.subscribe({
-      next: (isAuth) => {
+  public load() {
+    const ret = firstValueFrom(this.authService.isAuthenticated)
+      .then((isAuth) => {
         this.isAuth = isAuth;
         if (this.isAuth) {
-          this.persistenceService.existByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey).subscribe({
-            next: (e) => {
+          return firstValueFrom(this.persistenceService.existByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey))
+            .then((e) => {
               if (e.exists) {
-                // this.persistenceService.delete(this.userPreferencesKey).subscribe();
-                this.persistenceService.getByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey).subscribe({
-                  next: (data) => {
+                return firstValueFrom(this.persistenceService.getByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey))
+                  .then((data) => {
                     this._userPreferences = JSON.parse(data.doc_value);
-                    console.log(this._userPreferences);
-                    console.log(new Date());
-                    this.isLoaded.next(true);
-                  }
-                });
+                    console.log('from peristence');
+                    return true;
+                  });
               } else {
-                console.log(window.location.href);
                 this._userPreferences = this.getDefaultUserPreferences();
-                console.log(this._userPreferences);
-                this.persistenceService.create(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey,
-                  JSON.stringify(this._userPreferences)).subscribe({
-                  next: (_) => {
-                    this.isLoaded.next(true);
-                  }
-                });
+                console.log('default');
+                // eslint-disable-next-line max-len
+                return firstValueFrom(this.persistenceService.create(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey, JSON.stringify(this._userPreferences)))
+                  .then(() => true);
               }
-            }
-          });
+            });
         } else {
-          this.isLoaded.next(false);
+          return false;
         }
+      });
+    return ret.then((isLoaded) => {
+      this.isLoaded = isLoaded;
+      if (isLoaded) {
+        this.updateUrl();
       }
     });
   }
@@ -141,6 +143,39 @@ export class UserPreferencesService {
     );
 
     return new UserPreferencesSettings(analytics, legend, list, map, timeline);
+  }
+
+  private updateUrl() {
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    // Analytics
+    if (!queryParams['ao']) {
+      queryParams['ao'] = this._userPreferences.analytics.open;
+    } else {
+      this._userPreferences.analytics.open = queryParams['ao'] === 'true';
+    }
+    if (!queryParams['at']) {
+      queryParams['at'] = this._userPreferences.analytics.at;
+    } else {
+      this._userPreferences.analytics.at = decodeURI(queryParams['at']);
+    }
+
+    // Legend
+    if (!queryParams['vs']) {
+      // Set vs
+    }
+
+    // List
+    if (!queryParams['ro']) {
+      // Set ro
+    }
+
+    // Map
+    if (!queryParams['extend']) {
+      queryParams['extend'] = this._userPreferences.map.extent;
+    } else {
+      this._userPreferences.map.extent = queryParams['extend'];
+    }
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   private updateUserPreferences() {
