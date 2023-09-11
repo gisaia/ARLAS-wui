@@ -160,6 +160,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     'features': []
   };
 
+  public isLegendOpen = true;
+  public layerDetailMap = new Map<string, Map<string, boolean>>();
+
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
@@ -251,8 +254,24 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       if (this.userPreferencesService.isLoaded) {
         this.defaultBaseMap = this.userPreferencesService.userPreferences.map.basemap;
+        this.isLegendOpen = this.userPreferencesService.userPreferences.legend.open;
+        Object.entries(this.userPreferencesService.userPreferences.legend.layersDetails).forEach(e => {
+          const map = new Map<string, boolean>();
+          Object.entries(e[1]).forEach(val => {
+            map.set(val[0], val[1]);
+          });
+          this.layerDetailMap.set(e[0], map);
+        });
+        const visibleVisuSet = new Set(this.userPreferencesService.userPreferences.legend.vs.split(';'));
+        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       } else {
         this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
+
+        const queryParamVisibleVisualisations = this.getParamValue('vs');
+        if (queryParamVisibleVisualisations) {
+          const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
+          this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+        }
       }
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
@@ -263,13 +282,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
-      }
-
-      /** init from url */
-      const queryParamVisibleVisualisations = this.getParamValue('vs');
-      if (queryParamVisibleVisualisations) {
-        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
-        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       }
 
       const analyticOpenString = this.getParamValue('ao');
@@ -284,6 +296,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     } else {
       this.defaultBaseMap = DEFAULT_BASEMAP;
     }
+  }
+
+  public onLayerDetailChange(event: {layer: string; vs: string; isOpen: boolean;}) {
+    this.userPreferencesService.updateLegendDetail(event.layer, event.vs, event.isOpen);
   }
 
   public downloadLayerSource(d) {
@@ -900,6 +916,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       // Update persistence
       this.userPreferencesService.updateExtent(extent);
+      this.userPreferencesService.updateVisualisationSets(visibileVisus);
       console.log('Update extent onMove');
 
       const ratioToAutoSort = 0.1;
@@ -960,9 +977,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
+    this.userPreferencesService.updateVisualisationSets(visibileVisus);
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
+  public onLegendOpenToggle(isOpen: boolean) {
+    this.isLegendOpen = isOpen;
+    this.userPreferencesService.updateLegendOpen(isOpen);
+  }
 
   public emitFeaturesOnOver(event) {
     if (event.features) {

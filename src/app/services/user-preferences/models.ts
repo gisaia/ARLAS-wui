@@ -34,9 +34,9 @@ export class ResultListSettings {
 export class LegendSettings {
   public constructor(
     public open: boolean,
-    /** Dictionnary of the visible layers legend (value) among the visible visualisation sets (key) */
-    public visibleLayers: Record<string, Array<string>>
-    // QUESTION: Should we remember the legend state if we close the whole legend, a vis set, ...
+    /** Dictionnary of whether a layer (key of nested map) of a visualisation set (key) is visible (value of nested map)*/
+    public layersDetails: Record<string, Record<string, boolean>>,
+    public vs: string
   ) {}
 }
 

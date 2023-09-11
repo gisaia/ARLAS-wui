@@ -104,18 +104,13 @@ export class UserPreferencesService {
       this.getParamValue('at')
     );
 
-    const vs = this.getParamValue('vs');
-    const visibleLayers = {};
-    if (vs) {
-      const vsKeys = new Set(vs.split(';').map(n => decodeURI(n)));
-      vsKeys.forEach(visualisationSet => {
-        visibleLayers[visualisationSet] = [];
-      });
-    }
+    const defaultVs = this.getParamValue('vs') !== null ? this.getParamValue('vs') :
+      this.configService.getValue('arlas.web.components.mapgl.input.visualisations_sets').filter(vs => vs.enabled).map(vs => vs.name).join(';');
     const legend = new LegendSettings(
       // Not configurable in URL or conf yet
       true,
-      visibleLayers
+      {},
+      defaultVs
     );
 
     const resultlistContributors = new Array<ResultListContributor>();
@@ -184,7 +179,9 @@ export class UserPreferencesService {
 
     // Legend
     if (!queryParams['vs']) {
-      // Set vs
+      queryParams['vs'] = this._userPreferences.legend.vs;
+    } else {
+      this._userPreferences.legend.vs = decodeURI(queryParams['vs']);
     }
 
     // List
@@ -265,6 +262,28 @@ export class UserPreferencesService {
 
   public updateAnalyticsTab(tab: string) {
     this._userPreferences.analytics.tab = tab;
+    this.updateUserPreferences();
+  }
+
+  public updateLegendOpen(isOpen: boolean) {
+    this._userPreferences.legend.open = isOpen;
+    this.updateUserPreferences();
+  }
+
+  public updateLegendDetail(layerName: string, vsName: string, isOpen: boolean) {
+    if (this._userPreferences.legend.layersDetails[vsName]) {
+      this._userPreferences.legend.layersDetails[vsName][layerName] = isOpen;
+    } else {
+      this._userPreferences.legend.layersDetails[vsName] = {[layerName]: isOpen};
+    }
+    this.updateUserPreferences();
+  }
+
+  /**
+   * @param concatenatedVs Concatenated names of the visualisation sets separated by ';'
+   */
+  public updateVisualisationSets(concatenatedVs: string) {
+    this._userPreferences.legend.vs = concatenatedVs;
     this.updateUserPreferences();
   }
 
