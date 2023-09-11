@@ -18,7 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasConfigService, ArlasStartupService, AuthentificationService, CONFIG_ID_QUERY_PARAM, PersistenceService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
+  AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService } from 'arlas-wui-toolkit';
 import { AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
   TimelineSettings, UserPreferencesSettings } from './models';
 import { BasemapStyle, ModeEnum } from 'arlas-web-components';
@@ -48,7 +49,8 @@ export class UserPreferencesService {
     private persistenceService: PersistenceService,
     private authService: AuthentificationService,
     private configService: ArlasConfigService,
-    private arlasStartUpService: ArlasStartupService,
+    private collaborativesearchService: ArlasCollaborativesearchService,
+    private settingsService: ArlasSettingsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
@@ -58,6 +60,10 @@ export class UserPreferencesService {
   }
 
   public load() {
+    if (!this.dashboardId) {
+      this.isLoaded = false;
+      return Promise.resolve();
+    }
     const ret = firstValueFrom(this.authService.isAuthenticated)
       .then((isAuth) => {
         this.isAuth = isAuth;
@@ -68,7 +74,7 @@ export class UserPreferencesService {
                 return firstValueFrom(this.persistenceService.getByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey))
                   .then((data) => {
                     this._userPreferences = JSON.parse(data.doc_value);
-                    console.log('from peristence');
+                    console.log('from persistence');
                     return true;
                   });
               } else {
@@ -87,6 +93,7 @@ export class UserPreferencesService {
       this.isLoaded = isLoaded;
       if (isLoaded) {
         this.updateUrl();
+        console.log(this._userPreferences);
       }
     });
   }
@@ -112,9 +119,16 @@ export class UserPreferencesService {
     );
 
     const resultlistContributors = new Array<ResultListContributor>();
-    this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
-      if (v instanceof ResultListContributor) {
-        resultlistContributors.push(v);
+    this.configService.getValue('arlas.web.contributors').forEach(contConfig => {
+      const contributorType = contConfig.type;
+      const contributorIdentifier = contConfig.identifier;
+      if (contributorType === 'resultlist') {
+        const contributor = ContributorBuilder.buildContributor(contributorType,
+          contributorIdentifier,
+          this.configService,
+          this.collaborativesearchService,
+          this.settingsService);
+        resultlistContributors.push(contributor);
       }
     });
     const resultlistConfigs = this.configService.getValue('arlas.web.components.resultlists');
@@ -218,12 +232,12 @@ export class UserPreferencesService {
 
   public updateExtent(extent: string) {
     this._userPreferences.map.extent = extent;
-    console.log(this._userPreferences.map.extent);
     this.updateUserPreferences();
   }
 
   public updateBasemap(basemap: BasemapStyle) {
     this._userPreferences.map.basemap = basemap;
+    console.log(this._userPreferences);
     this.updateUserPreferences();
   }
 

@@ -45,9 +45,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
-  ArlasSettingsService, ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule,
+  ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  AuthentificationService,
+  CUSTOM_LOAD,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
@@ -75,16 +75,14 @@ import { EditResultlistColumnsComponent } from './components/arlas-wui-customise
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfigFormControlComponent } from './components/arlas-wui-customiser/components/config-form-control/config-form-control.component';
 import { UserPreferencesService } from './services/user-preferences/user-preferences.service';
-import { firstValueFrom } from 'rxjs';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
   return load;
 }
 
-export function userPreferencesServiceFactory(userPreferencesService: UserPreferencesService, authService: AuthentificationService) {
-  const load = () => firstValueFrom(authService.isDoneLoading)
-    .then(() => userPreferencesService.load());
+export function loadUserPreferences(userPreferencesService: UserPreferencesService) {
+  const load = (data) => userPreferencesService.load().then(() => Promise.resolve(data));
   return load;
 }
 
@@ -184,14 +182,12 @@ export function userPreferencesServiceFactory(userPreferencesService: UserPrefer
       multi: true
     },
     {
-      provide: APP_INITIALIZER,
-      useFactory: userPreferencesServiceFactory,
-      deps: [UserPreferencesService, AuthentificationService, ArlasStartupService],
-      multi: true
+      provide: CUSTOM_LOAD,
+      useFactory: loadUserPreferences,
+      deps: [UserPreferencesService],
+      multi: false
     },
     VisualizeService
-
-
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent, EditResultlistColumnsComponent]

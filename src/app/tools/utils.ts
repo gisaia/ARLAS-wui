@@ -21,8 +21,9 @@ import { ResultListContributor } from 'arlas-web-contributors';
 import { SortEnum } from 'arlas-web-components';
 
 export const DEFAULT_BASEMAP = {
-  styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-  name: 'Positron'
+  'name': 'Dark Topo',
+  'styleFile': 'https://api.maptiler.com/maps/99521f88-ff7f-4c7b-b1dc-05a5a773b1f1/style.json?key=xIhbu1RwgdbxfZNmoXn4',
+  'image': 'https://api.maptiler.com/maps/99521f88-ff7f-4c7b-b1dc-05a5a773b1f1/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4'
 };
 
 // Should be in web components
