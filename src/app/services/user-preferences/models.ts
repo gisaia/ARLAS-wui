@@ -23,10 +23,11 @@ import { BasemapStyle, ModeEnum } from 'arlas-web-components';
 export class ResultListSettings {
   public constructor(
     public open: boolean,
-    public mode: ModeEnum,
-    public sort?: ResultListSort,
+    public mode: Record<string, ModeEnum>,
+    public sort: Record<string, ResultListSort>,
     /** Name of the tab selected if open */
-    public tab?: string
+    public tab: string
+    // TODO: add geosort
   ) {}
 }
 
@@ -43,7 +44,7 @@ export class AnalyticsSettings {
   public constructor(
     public open: boolean,
     /** Name of the tab selected if open */
-    public at?: string
+    public tab?: string
   ) {}
 }
 

@@ -346,10 +346,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = setDefaultResultListColumnSort(this.resultlistContributors, this.resultListsConfig, this.sortOutput);
+        // Override sort by default if user preferences
+        if (this.userPreferencesService.isLoaded) {
+          Object.entries(this.userPreferencesService.userPreferences.list.sort).forEach((e) => {
+            this.sortOutput.set(e[0], e[1]);
+          });
+        }
 
         this.resultListsConfig.forEach(rlConf => {
           rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
             CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+          if (this.userPreferencesService.isLoaded) {
+            rlConf.input.defautMode = ModeEnum[this.userPreferencesService.userPreferences.list.mode[rlConf.contributorId]];
+          }
           this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
         });
 
@@ -367,13 +376,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             }
           }
         });
+        // fix bug of list not setting right
         const selectedResultlistTab = this.getParamValue('rt');
-        const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
-        if (previewListContrib) {
-          this.previewListContrib = previewListContrib;
-        } else {
-          this.previewListContrib = this.rightListContributors[0];
-        }
+        const previewListContribIndex = this.rightListContributors.findIndex(r => r.getName() === decodeURI(selectedResultlistTab));
+        this.previewListContrib = this.rightListContributors[previewListContribIndex > 0 ? previewListContribIndex : 0];
+        this.selectedListTabIndex = previewListContribIndex;
       }
 
       this.actionOnPopup.subscribe(data => {
@@ -472,9 +479,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.tabsList.selectedIndexChange.subscribe(index => {
         this.previewListContrib = this.resultlistContributors[index];
 
+        // Update user preferences
+        this.userPreferencesService.updateSelectedListTab(this.previewListContrib.getName());
+
+        // Update url
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
         queryParams['rt'] = this.previewListContrib.getName();
         this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+
+        // Adjust interface
         this.adjustGrids();
         this.adjustTimelineSize();
       });
@@ -713,6 +726,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);
+    this.userPreferencesService.updateListSort(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
     resultlistContributor.sortColumn(sortOutput, true);
     /** set mapcontritbutor sort */
@@ -755,22 +769,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public clickOnTile(item: Item) {
-    this.tabsList.realignInkBar();
     const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
     config.defautMode = this.modeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
-    this.listOpen = !this.listOpen;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+
+    this.toggleList();
   }
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultListConfigPerContId.get(identifier);
     config.defautMode = mode;
+    this.userPreferencesService.updateListMode(identifier, mode);
     this.resultListConfigPerContId.set(identifier, config);
     setTimeout(() => {
       this.updateVisibleItems();
@@ -1031,6 +1042,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
+    this.userPreferencesService.updateListOpen(this.listOpen);
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ro'] = this.listOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });

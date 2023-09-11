@@ -133,19 +133,28 @@ export class UserPreferencesService {
     });
     const resultlistConfigs = this.configService.getValue('arlas.web.components.resultlists');
     setDefaultResultListColumnSort(resultlistContributors, resultlistConfigs, this.listSort);
-    const defaultTab = this.getParamValue('rt') !== null ? this.getParamValue('rt') : resultlistContributors[0].getName();
+    const defaultTab = this.getParamValue('rt') !== null ? this.getParamValue('rt') :
+      resultlistContributors.length > 0 ? resultlistContributors[0].getName() : '';
+    const listModeMap: Record<string, ModeEnum> = {};
+
+    if (resultlistConfigs) {
+      resultlistConfigs.forEach(c => {
+        listModeMap[c.contributorId] = c.input.defautMode;
+      });
+    }
+
     const list = new ResultListSettings(
       this.getParamValue('ro') === 'true',
       // Not configurable in URL or conf yet
-      ModeEnum.list,
+      listModeMap,
       // Not configurable in URL or conf yet
-      // So default value is first one
-      this.listSort.get(resultlistContributors[0].identifier),
+      Object.fromEntries(this.listSort),
       defaultTab
     );
 
     const mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-    const defaultBaseMap = !!mapComponentConfig.defaultBasemapStyle ? mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
+    const defaultBaseMap = (!!mapComponentConfig && !!mapComponentConfig.defaultBasemapStyle) ?
+      mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
     const map = new MapSettings(
       this.getParamValue('extend'),
       defaultBaseMap
@@ -168,9 +177,9 @@ export class UserPreferencesService {
       this._userPreferences.analytics.open = queryParams['ao'] === 'true';
     }
     if (!queryParams['at']) {
-      queryParams['at'] = this._userPreferences.analytics.at;
+      queryParams['at'] = this._userPreferences.analytics.tab;
     } else {
-      this._userPreferences.analytics.at = decodeURI(queryParams['at']);
+      this._userPreferences.analytics.tab = decodeURI(queryParams['at']);
     }
 
     // Legend
@@ -180,7 +189,14 @@ export class UserPreferencesService {
 
     // List
     if (!queryParams['ro']) {
-      // Set ro
+      queryParams['ro'] = this._userPreferences.list.open;
+    } else {
+      this._userPreferences.list.open = queryParams['ro'] === 'true';
+    }
+    if (!queryParams['rt']) {
+      queryParams['rt'] = this._userPreferences.list.tab;
+    } else {
+      this._userPreferences.list.tab = decodeURI(queryParams['rt']);
     }
 
     // Map
@@ -214,13 +230,13 @@ export class UserPreferencesService {
     this.updateUserPreferences();
   }
 
-  public updateListMode(mode: ModeEnum) {
-    this._userPreferences.list.mode = mode;
+  public updateListMode(listId: string, mode: ModeEnum) {
+    this._userPreferences.list.mode[listId] = mode;
     this.updateUserPreferences();
   }
 
-  public updateListSort(sort: ResultListSort) {
-    this._userPreferences.list.sort = sort;
+  public updateListSort(listId: string, sort: ResultListSort) {
+    this._userPreferences.list.sort[listId] = sort;
     this.updateUserPreferences();
   }
 
@@ -248,7 +264,7 @@ export class UserPreferencesService {
   }
 
   public updateAnalyticsTab(tab: string) {
-    this._userPreferences.analytics.at = tab;
+    this._userPreferences.analytics.tab = tab;
     this.updateUserPreferences();
   }
 
