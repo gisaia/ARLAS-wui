@@ -20,12 +20,38 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UserPreferencesService } from './user-preferences.service';
+import { ArlasCollaborativesearchService, AuthentificationService, GET_OPTIONS, getOptionsFactory } from 'arlas-wui-toolkit';
+import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('UserPreferencesService', () => {
   let service: UserPreferencesService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        OAuthModule.forRoot(),
+        HttpClientModule,
+        RouterTestingModule
+      ],
+      providers: [
+        {
+          provide: GET_OPTIONS,
+          useValue: getOptionsFactory,
+          deps: [AuthentificationService]
+        },
+        {
+          provide: ValidationHandler,
+          useClass: JwksValidationHandler
+        },
+        HttpClient,
+        ArlasCollaborativesearchService,
+      ]
+    });
     service = TestBed.inject(UserPreferencesService);
   });
 

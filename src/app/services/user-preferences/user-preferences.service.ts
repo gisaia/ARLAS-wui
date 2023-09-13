@@ -54,7 +54,6 @@ export class UserPreferencesService {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    // Does not work if we use local conf
     this.dashboardId = this.getParamValue(CONFIG_ID_QUERY_PARAM);
     this.userPreferencesKey = this.getUserPreferencesKey();
   }
@@ -99,9 +98,11 @@ export class UserPreferencesService {
   }
 
   private getDefaultUserPreferences(): UserPreferencesSettings {
+    const defaultAnalyticsTab = this.getParamValue('at') !== null ? this.getParamValue('at') :
+      this.configService.getValue('arlas.web.options.tabs') ? this.configService.getValue('arlas.web.options.tabs')[0].name : '';
     const analytics = new AnalyticsSettings(
       this.getParamValue('ao') === 'true',
-      this.getParamValue('at')
+      defaultAnalyticsTab
     );
 
     const defaultVs = this.getParamValue('vs') !== null ? this.getParamValue('vs') :
@@ -233,7 +234,8 @@ export class UserPreferencesService {
   }
 
   public updateListSort(listId: string, sort: ResultListSort) {
-    this._userPreferences.list.sort[listId] = sort;
+    // Add this decomposition of the ResultListSort, to avoid storing too much information
+    this._userPreferences.list.sort[listId] = {fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName};
     this.updateUserPreferences();
   }
 
