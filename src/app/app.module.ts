@@ -47,6 +47,7 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
+  CUSTOM_LOAD,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
@@ -73,11 +74,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EditResultlistColumnsComponent } from './components/arlas-wui-customiser/components/edit-resultlist-columns/edit-resultlist-columns.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfigFormControlComponent } from './components/arlas-wui-customiser/components/config-form-control/config-form-control.component';
+import { UserPreferencesService } from './services/user-preferences/user-preferences.service';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
   return load;
 }
+
+export function loadUserPreferences(userPreferencesService: UserPreferencesService) {
+  const load = (data) => userPreferencesService.load().then(() => Promise.resolve(data));
+  return load;
+}
+
 @NgModule({
   declarations: [
     AboutComponent,
@@ -173,9 +181,13 @@ export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
       deps: [DefaultValuesService],
       multi: true
     },
+    {
+      provide: CUSTOM_LOAD,
+      useFactory: loadUserPreferences,
+      deps: [UserPreferencesService],
+      multi: false
+    },
     VisualizeService
-
-
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent, EditResultlistColumnsComponent]

@@ -2,9 +2,9 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: false
-  force_connect: false
-  use_discovery: false
+  use_authent: true
+  force_connect: true
+  use_discovery: true
   issuer: https://arlas-cloud-dev.eu.auth0.com/
   client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
   redirect_uri: http://localhost:4200/callback
@@ -18,6 +18,7 @@ authentication:
   clear_hash_after_login: true
   disable_at_hash_check: false
   show_debug_information: true
+  login_url: https://arlas-cloud-dev.eu.auth0.com/v2/login
   logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
   storage: sessionstorage
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
@@ -25,7 +26,7 @@ ticketing_key:
 tab_name: "ARLAS Wui"
 persistence:
   url: 'http://localhost:19997/arlas-persistence-server'
-  use_local_config: true
+  use_local_config: false
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
