@@ -18,10 +18,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
-  AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService } from 'arlas-wui-toolkit';
-import { AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
-  TimelineSettings, UserPreferencesSettings } from './models';
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
+  AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService
+} from 'arlas-wui-toolkit';
+import {
+  AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
+  TimelineSettings, UserPreferencesSettings
+} from './models';
 import { BasemapStyle, ModeEnum } from 'arlas-web-components';
 import { DEFAULT_BASEMAP, ResultListSort, setDefaultResultListColumnSort } from 'app/tools/utils';
 import { ResultListContributor } from 'arlas-web-contributors';
@@ -99,7 +103,8 @@ export class UserPreferencesService {
 
   private getDefaultUserPreferences(): UserPreferencesSettings {
     const defaultAnalyticsTab = this.getParamValue('at') !== null ? this.getParamValue('at') :
-      this.configService.getValue('arlas.web.options.tabs') ? this.configService.getValue('arlas.web.options.tabs')[0].name : '';
+      !!this.configService.getValue('arlas.web.options.tabs') && this.configService.getValue('arlas.web.options.tabs').length > 0
+        ? this.configService.getValue('arlas.web.options.tabs')[0].name : '';
     const analytics = new AnalyticsSettings(
       this.getParamValue('ao') === 'true',
       defaultAnalyticsTab
@@ -235,7 +240,7 @@ export class UserPreferencesService {
 
   public updateListSort(listId: string, sort: ResultListSort) {
     // Add this decomposition of the ResultListSort, to avoid storing too much information
-    this._userPreferences.list.sort[listId] = {fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName};
+    this._userPreferences.list.sort[listId] = { fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName };
     this.updateUserPreferences();
   }
 
@@ -276,7 +281,7 @@ export class UserPreferencesService {
     if (this._userPreferences.legend.layersDetails[vsName]) {
       this._userPreferences.legend.layersDetails[vsName][layerName] = isOpen;
     } else {
-      this._userPreferences.legend.layersDetails[vsName] = {[layerName]: isOpen};
+      this._userPreferences.legend.layersDetails[vsName] = { [layerName]: isOpen };
     }
     this.updateUserPreferences();
   }

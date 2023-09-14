@@ -1,0 +1,23 @@
+.mat-column-detail {
+    width: 50px;
+}
+
+.actions .buttons {
+    width: 100%;
+
+
+}
+
+.actions .buttons .right {
+
+    float: right;
+}
+
+
+.table {
+    width: 100% !important;
+}
+
+.load-content {
+    width: 100% !important;
+}

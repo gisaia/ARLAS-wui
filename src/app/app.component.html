@@ -1,7 +1,7 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus" (editListEventEmitter)="updateListField()"
+      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus" (editListEventEmitter)="openListConfig()"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
         [isEmptyMode]="arlasStartUpService.emptyMode"></arlas-left-menu>
     </mat-sidenav>

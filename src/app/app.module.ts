@@ -48,6 +48,7 @@ import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
   CUSTOM_LOAD,
+  PaginatorI18n,
   PersistenceService, ToolkitRoutingModule, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
@@ -75,6 +76,12 @@ import { EditResultlistColumnsComponent } from './components/arlas-wui-customise
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfigFormControlComponent } from './components/arlas-wui-customiser/components/config-form-control/config-form-control.component';
 import { UserPreferencesService } from './services/user-preferences/user-preferences.service';
+import { CustomConfigListComponent } from './components/custom-config-manager/custom-config-list/custom-config-list.component';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { ActionModalComponent } from './components/custom-config-manager/action-modal/action-modal.component';
+import { ConfigMenuComponent } from './components/custom-config-manager/config-menu/config-menu.component';
+import { ShareConfigComponent } from './components/custom-config-manager/share-config/share-config.component';
+import { GetConfigListNamePipe } from './components/custom-config-manager/tools/get-config-list-name.pipe';
 
 export function loadServiceFactory(defaultValuesService: DefaultValuesService) {
   const load = () => defaultValuesService.load('default.json?' + Date.now());
@@ -100,7 +107,12 @@ export function loadUserPreferences(userPreferencesService: UserPreferencesServi
     DialogPaletteSelectorComponent,
     DialogColorTableComponent,
     ColorPickerWrapperComponent,
-    ConfigFormControlComponent
+    ConfigFormControlComponent,
+    CustomConfigListComponent,
+    ActionModalComponent,
+    ConfigMenuComponent,
+    ShareConfigComponent,
+    GetConfigListNamePipe
   ],
   exports: [
     AboutComponent,
@@ -136,6 +148,8 @@ export function loadUserPreferences(userPreferencesService: UserPreferencesServi
     MatTooltipModule,
     MatTabsModule,
     MatTableModule,
+    MatListModule,
+    MatPaginatorModule,
     MatProgressBarModule,
     MatStepperModule,
     MatSelectModule,
@@ -187,9 +201,14 @@ export function loadUserPreferences(userPreferencesService: UserPreferencesServi
       deps: [UserPreferencesService],
       multi: false
     },
+    {
+      provide: MatPaginatorIntl,
+      deps: [TranslateService],
+      useFactory: (translateService: TranslateService) => new PaginatorI18n(translateService)
+    },
     VisualizeService
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent, EditResultlistColumnsComponent]
+  entryComponents: [AboutDialogComponent, EditResultlistColumnsComponent, CustomConfigListComponent,ActionModalComponent]
 })
 export class ArlasWuiModule { }

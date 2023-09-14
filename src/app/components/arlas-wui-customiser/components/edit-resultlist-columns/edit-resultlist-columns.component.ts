@@ -31,6 +31,12 @@ import { SelectOption, InputFormControl, SelectFormControl, SlideToggleFormContr
 import { CollectionService } from '../../services/collection-service/collection.service';
 import { toOptionsObs, NUMERIC_OR_DATE_OR_KEYWORD } from '../../services/collection-service/tools';
 import { DefaultValuesService, DefaultConfig } from '../../services/default-values/default-values.service';
+
+
+export enum EditModeEnum{
+  CREATE,
+  UPDATE
+}
 @Component({
   selector: 'arlas-edit-resultlist-columns',
   templateUrl: './edit-resultlist-columns.component.html',
@@ -39,15 +45,19 @@ import { DefaultValuesService, DefaultConfig } from '../../services/default-valu
 export class EditResultlistColumnsComponent implements OnInit, AfterViewInit {
 
   @Input() public control: FormArray;
-  @Output() public validateForm: Subject<any> = new Subject<any>();
+  @Output() public applyStyle: Subject<any> = new Subject<any>();
+  @Output() public saveStyle: Subject<any> = new Subject<any>();
+  @Output() public updateStyle: Subject<any> = new Subject<any>();
 
   @Input() public collection: string;
+  @Input() public mode: EditModeEnum;
+
   @ViewChild('columnTable', { static: true }) public columnTable;
 
   public dragDisabled = true;
+  public modeEnum = EditModeEnum;
 
   public displayedColumns: string[] = ['action', 'name', 'field', 'unit', 'colorService'];
-
   public constructor(private colorService: ArlasColorService,
     private collectionService: CollectionService,
     private defaultValuesService: DefaultValuesService,
@@ -97,7 +107,16 @@ export class EditResultlistColumnsComponent implements OnInit, AfterViewInit {
       this.colorService);
   }
   public validate(control) {
-    this.validateForm.next(control);
+    this.applyStyle.next(control);
+  }
+
+  public update(control){
+    this.updateStyle.next(control);
+
+  }
+
+  public save(control) {
+    this.saveStyle.next(control);
   }
 }
 export class ResultlistColumnFormGroup extends CollectionConfigFormGroup {
