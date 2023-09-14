@@ -16,6 +16,13 @@
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
             <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
 
+            <div class="timeline-toggle"
+              [class.timeline-toggle-open]="isTimelineOpen"
+              (click)="toggleTimeline()">
+              <mat-icon *ngIf="!isTimelineOpen">keyboard_arrow_up</mat-icon>
+              <mat-icon *ngIf="isTimelineOpen">keyboard_arrow_down</mat-icon>
+            </div>
+
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
                 <div class="arlas-map-settings-items" style="padding:4px 3px 3px 4px" [matTooltipPosition]="'left'"
@@ -55,8 +62,8 @@
                 </div>
               </div>
             </div>
-            <div class="arlas-map">
-              <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+            <div class="arlas-map" [class.map-no-timeline]="!isTimelineOpen">
+              <arlas-mapgl [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -214,6 +221,7 @@
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+              [class.timeline-hidden]="!isTimelineOpen"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>

@@ -389,3 +389,33 @@
   z-index: 10000;
   left: 25%;
 }
+
+.timeline-toggle {
+  z-index: 2;
+  position: absolute;
+  left: 7px;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  width: 24px;
+  cursor: pointer;
+}
+
+.timeline-toggle-open {
+  bottom: 130px;
+}
+
+/* Move timeline elements when it is hidden */
+.timeline-hidden ::ng-deep.arlas-timeline--timelines {
+  height: 0px !important;
+  border: none !important;
+}
+.timeline-hidden ::ng-deep.arlas-timeline--tools {
+  bottom: 2px !important;
+}
+
+.map-no-timeline ::ng-deep.mapboxgl-ctrl-scale {
+  bottom: 25px !important;
+}
