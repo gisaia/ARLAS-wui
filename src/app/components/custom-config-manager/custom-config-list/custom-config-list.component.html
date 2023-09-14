@@ -1,0 +1,59 @@
+<div>
+    <h2 mat-dialog-title *ngIf="this.persistenceService.isAvailable">{{'Available liste style' | translate}}</h2>
+    <mat-dialog-content class="load-content">
+        <ng-container *ngIf="this.persistenceService.isAvailable">
+            <table mat-table class="table" [dataSource]="configurations">
+                <ng-container matColumnDef="default">
+                    <th mat-header-cell *matHeaderCellDef>{{'Default' | translate}}</th>
+                    <td mat-cell *matCellDef="let config">
+                        <button *ngIf="config.config.isDefault" mat-icon-button  aria-label="Current style">
+                            <mat-icon>star</mat-icon>
+                          </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="current">
+                    <th mat-header-cell *matHeaderCellDef>{{'Current' | translate}}</th>
+                    <td mat-cell *matCellDef="let config">
+                        <button *ngIf="config.config.id === customListService.currentListConfigId " mat-icon-button  aria-label="Current style">
+                            <mat-icon>check_box</mat-icon>
+                          </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>{{'Name' | translate}}</th>
+                    <td mat-cell *matCellDef="let config">{{config.name | getConfigListName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="creation">
+                    <th mat-header-cell *matHeaderCellDef>{{'Last update' | translate}}</th>
+                    <td mat-cell *matCellDef="let config">
+                        <ng-container *ngIf="config.last_update_date != 0">{{config.last_update_date | date:'short'}}
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="detail">
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let config">
+                        <arlas-config-menu matTooltip="{{'Menu' | translate}}" [zone]="'config.json'"
+                            [actions]="config?.actions"
+                            (actionExecutedEmitter)="afterAction($event)"></arlas-config-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let config; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageIndex]="this.configPageNumber" [pageSize]="this.configPageSize"
+                [length]="configurationsLength" [showFirstLastButtons]="true" (page)="pageChange($event)">
+            </mat-paginator>
+        </ng-container>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <div class="buttons" style="width: 100%;">
+            <button mat-stroked-button color="primary" (click)="create()">{{'New style' | translate}}</button>
+            <button mat-stroked-button color="primary" (click)="applyInitStyle()">{{'Apply initial style' | translate}}</button>
+
+        </div>
+    </mat-dialog-actions>
+</div>

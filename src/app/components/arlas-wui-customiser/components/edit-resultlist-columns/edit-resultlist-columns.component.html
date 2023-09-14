@@ -11,7 +11,7 @@
                     <button mat-icon-button (click)="deleteColumn(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
-                </div> 
+                </div>
             </td>
         </ng-container>
         <ng-container matColumnDef="name">
@@ -39,7 +39,8 @@
             <th class="color-service" mat-header-cell *matHeaderCellDef>{{'Colorize' | translate}}</th>
             <td class="color-service" mat-cell *matCellDef="let column">
                 <div class="color-service-wrapper">
-                    <arlas-config-form-control [showLabel]="false" [control]="column.controls.useColorService"></arlas-config-form-control>
+                    <arlas-config-form-control [showLabel]="false"
+                        [control]="column.controls.useColorService"></arlas-config-form-control>
                     <arlas-config-form-control *ngIf="column.controls.useColorService.value"
                         [control]="column.controls.keysToColorsButton"></arlas-config-form-control>
                 </div>
@@ -55,15 +56,28 @@
 <mat-error *ngIf="control?.touched && control?.hasError('required')">{{'At least one column is required' | translate}}
 </mat-error>
 <div class="button-wrapper">
-    <button mat-stroked-button color="primary" (click)="addColumn(collection)"
-        [matTooltip]="'Add a column' | translate" type="button">
+    <button mat-stroked-button color="primary" (click)="addColumn(collection)" [matTooltip]="'Add a column' | translate"
+        type="button">
         <mat-icon>add</mat-icon>
         {{'Add a column' | translate}}
     </button>
 </div>
 <div class="button-wrapper">
-    <button mat-stroked-button color="primary" (click)="validate(control)"
-        [matTooltip]="'Validate' | translate" type="button">
-        {{'Validate' | translate}}
+    <button mat-stroked-button color="primary" (click)="validate(control)" [matTooltip]="'Validate' | translate"
+        type="button">
+        {{'Apply' | translate}}
     </button>
+    <div *ngIf="mode===modeEnum.CREATE">
+        <button mat-stroked-button color="primary" (click)="save(control)" [matTooltip]="'Save' | translate"
+            type="button">
+            {{'Save' | translate}}
+        </button>
+    </div>
+    <div *ngIf="mode===modeEnum.UPDATE">
+        <button mat-stroked-button color="primary" (click)="update(control)" [matTooltip]="'Update' | translate"
+            type="button">
+            {{'Update' | translate}}
+        </button>
+    </div>
+
 </div>

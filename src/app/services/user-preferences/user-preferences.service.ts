@@ -18,10 +18,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
-  AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService } from 'arlas-wui-toolkit';
-import { AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
-  TimelineSettings, UserPreferencesSettings } from './models';
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
+  AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService
+} from 'arlas-wui-toolkit';
+import {
+  AnalyticsSettings, LegendSettings, MapSettings, ResultListSettings,
+  TimelineSettings, UserPreferencesSettings
+} from './models';
 import { BasemapStyle, ModeEnum } from 'arlas-web-components';
 import { DEFAULT_BASEMAP, ResultListSort, setDefaultResultListColumnSort } from 'app/tools/utils';
 import { ResultListContributor } from 'arlas-web-contributors';
@@ -54,7 +58,7 @@ export class UserPreferencesService {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.dashboardId = this.getParamValue(CONFIG_ID_QUERY_PARAM);
+    this.dashboardId = !!this.getParamValue(CONFIG_ID_QUERY_PARAM) ? this.getParamValue(CONFIG_ID_QUERY_PARAM) : 'local';
     this.userPreferencesKey = this.getUserPreferencesKey();
   }
 
@@ -73,12 +77,10 @@ export class UserPreferencesService {
                 return firstValueFrom(this.persistenceService.getByZoneKey(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey))
                   .then((data) => {
                     this._userPreferences = JSON.parse(data.doc_value);
-                    console.log('from persistence');
                     return true;
                   });
               } else {
                 this._userPreferences = this.getDefaultUserPreferences();
-                console.log('default');
                 // eslint-disable-next-line max-len
                 return firstValueFrom(this.persistenceService.create(PERSISTENCE_USER_PREFERENCE, this.userPreferencesKey, JSON.stringify(this._userPreferences)))
                   .then(() => true);
@@ -92,14 +94,14 @@ export class UserPreferencesService {
       this.isLoaded = isLoaded;
       if (isLoaded) {
         this.updateUrl();
-        console.log(this._userPreferences);
       }
     });
   }
 
   private getDefaultUserPreferences(): UserPreferencesSettings {
     const defaultAnalyticsTab = this.getParamValue('at') !== null ? this.getParamValue('at') :
-      this.configService.getValue('arlas.web.options.tabs') ? this.configService.getValue('arlas.web.options.tabs')[0].name : '';
+      !!this.configService.getValue('arlas.web.options.tabs') && this.configService.getValue('arlas.web.options.tabs').length > 0
+        ? this.configService.getValue('arlas.web.options.tabs')[0].name : '';
     const analytics = new AnalyticsSettings(
       this.getParamValue('ao') === 'true',
       defaultAnalyticsTab
@@ -167,6 +169,7 @@ export class UserPreferencesService {
   private updateUrl() {
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     // Analytics
+    queryParams[CONFIG_ID_QUERY_PARAM] = this.dashboardId;
     if (!queryParams['ao']) {
       queryParams['ao'] = this._userPreferences.analytics.open;
     } else {
@@ -235,7 +238,7 @@ export class UserPreferencesService {
 
   public updateListSort(listId: string, sort: ResultListSort) {
     // Add this decomposition of the ResultListSort, to avoid storing too much information
-    this._userPreferences.list.sort[listId] = {fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName};
+    this._userPreferences.list.sort[listId] = { fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName };
     this.updateUserPreferences();
   }
 
@@ -252,7 +255,6 @@ export class UserPreferencesService {
 
   public updateBasemap(basemap: BasemapStyle) {
     this._userPreferences.map.basemap = basemap;
-    console.log(this._userPreferences);
     this.updateUserPreferences();
   }
 
@@ -276,7 +278,7 @@ export class UserPreferencesService {
     if (this._userPreferences.legend.layersDetails[vsName]) {
       this._userPreferences.legend.layersDetails[vsName][layerName] = isOpen;
     } else {
-      this._userPreferences.legend.layersDetails[vsName] = {[layerName]: isOpen};
+      this._userPreferences.legend.layersDetails[vsName] = { [layerName]: isOpen };
     }
     this.updateUserPreferences();
   }
