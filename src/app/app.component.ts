@@ -163,6 +163,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public isLegendOpen = true;
   public layerDetailMap = new Map<string, Map<string, boolean>>();
 
+  public isTimelineOpen = true;
+
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
@@ -264,6 +266,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         });
         const visibleVisuSet = new Set(this.userPreferencesService.userPreferences.legend.vs.split(';'));
         this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+        this.isTimelineOpen = this.userPreferencesService.userPreferences.timeline.open;
       } else {
         this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle : DEFAULT_BASEMAP;
 
@@ -1103,6 +1106,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public onAnalyticsTabChange(tab: string) {
     this.userPreferencesService.updateAnalyticsTab(tab);
+  }
+
+  public toggleTimeline() {
+    this.isTimelineOpen = !this.isTimelineOpen;
+    this.userPreferencesService.updateTimelineOpen(this.isTimelineOpen);
   }
 
   public closeMapMenu() {

@@ -289,6 +289,11 @@ export class UserPreferencesService {
     this.updateUserPreferences();
   }
 
+  public updateTimelineOpen(isOpen: boolean) {
+    this._userPreferences.timeline.open = isOpen;
+    this.updateUserPreferences();
+  }
+
   public get userPreferences() {
     return this._userPreferences;
   }
