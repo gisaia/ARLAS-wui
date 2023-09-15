@@ -1,0 +1,28 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "download",
+  "desctiption": "Download one or several products",
+  "inputs": {
+    "format": {
+      "title": "format",
+      "desctiption": "format description",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "f1", "f2"
+        ]
+      }
+    },
+    "projection": {
+      "title": "projection",
+      "desctiption": "projection description",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "p1", "p2", "p3"
+        ]
+      }
+    }
+  }
+}

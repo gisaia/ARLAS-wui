@@ -47,6 +47,7 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
+import { DownloadService } from './services/download.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -182,7 +183,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private downloadService: DownloadService
   ) {
     this.menuState = {
       configs: false
@@ -447,6 +449,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
+    this.downloadService.describe().subscribe((param) => console.log(param));
     this.mapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;

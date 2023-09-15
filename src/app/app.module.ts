@@ -56,6 +56,7 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { DownloadService } from './services/download.service';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService
+    VisualizeService,
+    DownloadService
 
   ],
   bootstrap: [ArlasWuiComponent],
