@@ -61,6 +61,7 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
+import { DownloadService } from './services/download.service';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,9 @@ import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService
+    VisualizeService,
+    DownloadService
+
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []
