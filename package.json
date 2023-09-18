@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "./libs/arlas-wui-toolkit-24.1.7-save.tgz",
+    "arlas-wui-toolkit": "./libs/arlas-wui-toolkit-24.1.8-save.tgz",
     "hammerjs": "^2.0.8",
     "ngx-color-picker": "~13.0.0",
     "@gisaia-team/ngx-icon-picker": "13.0.0",
