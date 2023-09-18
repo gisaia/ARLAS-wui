@@ -4,25 +4,63 @@
   "title": "download",
   "desctiption": "Download one or several products",
   "inputs": {
-    "format": {
-      "title": "format",
-      "desctiption": "format description",
+    "mock_text": {
+      "title": "mock_text",
+      "desctiption": "mock_text description",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "mock_enum_single": {
+      "title": "mock_enum_single",
+      "desctiption": "mock_enum_single description",
       "schema": {
         "type": "string",
         "enum": [
-          "f1", "f2"
+          "f1",
+          "f2"
         ]
       }
     },
-    "projection": {
-      "title": "projection",
-      "desctiption": "projection description",
+    "mock_enum_multiple": {
+      "title": "mock_enum_multiple",
+      "desctiption": "mock_enum_multiple description",
       "schema": {
-        "type": "string",
-        "enum": [
-          "p1", "p2", "p3"
-        ]
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "p1",
+            "p2",
+            "p3"
+          ]
+        }
+      }
+    },
+    "mock_integer": {
+      "title": "mock_integer",
+      "desctiption": "mock_integer description",
+      "schema": {
+        "type": "number",
+        "format": "integer"
+      }
+    },
+    "mock_double": {
+      "title": "mock_double",
+      "desctiption": "mock_double description",
+      "schema": {
+        "type": "number",
+        "format": "double",
+        "/comment for SB": "If format is not set, consider it is double"
+      }
+    },
+    "mock_boolean": {
+      "title": "mock_boolean",
+      "desctiption": "mock_boolean description",
+      "schema": {
+        "type": "boolean"
       }
     }
+    
   }
 }
