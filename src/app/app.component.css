@@ -1,0 +1,381 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.bbox_generator {
+  position: absolute;
+  top: 150px;
+  right: 100px;
+}
+
+.arlas-progression {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.arlas-map {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.app-container-reduce ::ng-deep.map_container {
+  width: calc(100% - 450px);
+}
+
+.app-container-with-list ::ng-deep.map_container {
+  width: calc(100% - 150px);
+}
+
+.side-result-list-toggle {
+  z-index: 2;
+  position: absolute;
+  top: 50vh;
+  right: 150px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.side-result-list-toggle-open {
+  right: 450px;
+}
+
+.side-result-list-toggle-open-no-grid {
+  right: 0px;
+}
+
+.side-result-list-icon {
+  background-color: white;
+  height: 36px;
+  width: 20px;
+  padding: 6px 0 6px 3px;
+  cursor: pointer;
+  border-radius: 4px 0 0 4px;
+}
+
+.side-result-list-icon-open {
+  padding: 6px 0;
+}
+
+.side-result-list-preview {
+  width: 150px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  display: block;
+  background-color: white;
+}
+
+.side-result-list-preview-close {
+  display: none;
+}
+
+.side-result-list-preview .resultgrid__icon_check {
+  display: none;
+}
+
+.side-result-list {
+  width: 0;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  visibility: hidden;
+  background-color: white;
+  overflow: hidden;
+}
+
+.one-tab ::ng-deep.mat-tab-header{
+  display: none;
+}
+
+.side-result-list-open {
+  display: block;
+  width: 450px;
+  visibility: visible;
+}
+
+.arlas-top-analytics {
+  display: flex;
+  width: 462px;
+  position: absolute;
+  left: 7px;
+  top: 43px;
+}
+
+.arlas-search {
+  padding: 8px 0 0 5px;
+  flex: 5;
+  background-color: white;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
+.arlas-search-toggle {
+  border-radius: 4px;
+  padding: 4px 5px 0px;
+  background-color: white;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.arlas-search-toggle-corner {
+  border-radius: 4px 0 0 4px;
+}
+
+.left_resultlist_wrapper {
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.one-tab .left_resultlist_wrapper {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.arlas-search-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+.arlas-analytics-toggle {
+  padding: 4px 5px 0px;
+  margin-left: 3px;
+  max-width: 62px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  flex: 1;
+}
+
+.arlas-analytics-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+.arlas-analytics-refresh {
+  padding: 2px 5px 0px;
+  margin-left: 3px;
+  max-width: 34px;
+  background-color: white;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  flex: 1;
+}
+
+.arlas-analytics-rotate {
+  transform: rotate(180deg);
+}
+
+.arlas-filters-chips {
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arlas-analytics--container {
+  position: absolute;
+  left: 5px;
+  top: 78px;
+  width: 466px;
+  max-height: calc(100vh - 207px);
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
+  box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b1aeae;
+}
+
+.arlas-map-action {
+  position: absolute;
+  top: 195px;
+  right: 7px;
+  z-index: 1;
+}
+
+.app-container-reduce .arlas-map-action {
+  right: 457px;
+}
+
+.app-container-with-list .arlas-map-action {
+  right: 157px;
+}
+
+.arlas-map-action-container {
+  position: absolute;
+  right: 30px;
+  bottom: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 0px 1px rgb(0 0 0 / 10%);
+}
+
+.arlas-map-action-items {
+  height: 29px;
+  padding: 3px 2px 3px 3px;
+  cursor: pointer;
+}
+
+.arlas-map-action-items:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.arlas-map-settings {
+  position: absolute;
+  top: 70px;
+  right: 38px;
+  z-index: 1;
+}
+
+
+.app-container-reduce .arlas-map-settings {
+  right: 487px;
+}
+
+.arlas-map ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 72px !important;
+  z-index: 1;
+}
+.app-container-reduce ::ng-deep.basemap-container {
+  top: 70px !important;
+  right: 520px !important;
+}
+.app-container-with-list ::ng-deep.basemap-container {
+  right: 220px !important;
+  top: 70px !important;
+}
+
+.app-container-with-list .arlas-map-settings {
+  right: 187px;
+}
+
+.arlas-map-settings-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.arlas-map-settings-items {
+  height: 29px;
+  padding: 3px 2px 3px 3px;
+  cursor: pointer;
+}
+
+.arlas-map-settings-items:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.arlas-zoom-to-data {
+  margin: 0 4px;
+  background-color: #ff4081;
+  color: white;
+  min-width: 40px;
+  border-radius: 4px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.arlas-zoom-to-data-icon {
+  vertical-align: middle;
+  padding-left: 7px;
+  margin: 3px 0;
+}
+
+.main_content {
+  width: 100%;
+  height: 100vh;
+}
+
+.app-container-reduce ::ng-deep.arlas-timeline--tools {
+  right: 457px;
+}
+
+.app-container-reduce ::ng-deep.arlas-timeline--timelines {
+  width: calc(100% - 464px);
+  /* 450px for list and 14px for margin left and right */
+}
+
+::ng-deep.bookmark-shortcut {
+  top: 30px !important;
+}
+
+.app-container-reduce ::ng-deep.bookmark-shortcut {
+  top: 30px;
+  right: 461px;
+}
+
+.app-container-with-list ::ng-deep.arlas-timeline--tools {
+  right: 157px;
+}
+
+.app-container-with-list ::ng-deep.arlas-timeline--timelines {
+  width: calc(100% - 164px);
+  /* 150px for list and 14px for margin left and right */
+}
+
+.app-container-with-list ::ng-deep.bookmark-shortcut {
+  right: 161px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label{
+  min-width: 60px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0 10px;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content .icon {
+  flex: 1;
+}
+
+.result-list-tab-group ::ng-deep .mat-tab-label-content .name {
+  flex: 5;
+}

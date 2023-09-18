@@ -67,6 +67,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
+import { BboxGeneratorComponent } from './components/bbox-generator/bbox-generator.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    BboxGeneratorComponent
   ],
   exports: [
     AoiDimensionComponent,
@@ -115,6 +117,7 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
     MapglModule,
     MatTableModule,
     MatListModule,
+    MatSelectModule,
     MatSidenavModule,
     FormatNumberModule,
     HistogramModule,
