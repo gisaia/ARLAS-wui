@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, OnDestroy } from '@angular/core';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
   AuthentificationService, CONFIG_ID_QUERY_PARAM, ContributorBuilder, PersistenceService
@@ -29,7 +29,7 @@ import {
 import { BasemapStyle, ModeEnum } from 'arlas-web-components';
 import { DEFAULT_BASEMAP, ResultListSort, setDefaultResultListColumnSort } from 'app/tools/utils';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, debounceTime } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 /** Value to suffix user preferences document's id in the persistence */
@@ -38,14 +38,16 @@ export const PERSISTENCE_USER_PREFERENCE = 'user_preference';
 @Injectable({
   providedIn: 'root'
 })
-export class UserPreferencesService {
+export class UserPreferencesService implements OnDestroy {
 
   private _userPreferences: UserPreferencesSettings;
+  private UPDATE_DEBOUNCE_TIME = 1000;
 
   private dashboardId: string;
   private userPreferencesKey: string;
   private isAuth: boolean;
   private listSort: Map<string, ResultListSort> = new Map();
+  private isUpdateEmitter: EventEmitter<void> = new EventEmitter();
 
   public isLoaded: boolean;
 
@@ -60,6 +62,15 @@ export class UserPreferencesService {
   ) {
     this.dashboardId = !!this.getParamValue(CONFIG_ID_QUERY_PARAM) ? this.getParamValue(CONFIG_ID_QUERY_PARAM) : 'local';
     this.userPreferencesKey = this.getUserPreferencesKey();
+
+    this.isUpdateEmitter.pipe(debounceTime(this.UPDATE_DEBOUNCE_TIME)).subscribe(() => {
+      this.updateUserPreferences();
+    });
+  }
+
+  // On destroy, save the latest version of the configuration
+  public ngOnDestroy(): void {
+    this.updateUserPreferences();
   }
 
   public load() {
@@ -228,50 +239,50 @@ export class UserPreferencesService {
 
   public updateListOpen(isOpen: boolean) {
     this._userPreferences.list.open = isOpen;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateListMode(listId: string, mode: ModeEnum) {
     this._userPreferences.list.mode[listId] = mode;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateListSort(listId: string, sort: ResultListSort) {
     // Add this decomposition of the ResultListSort, to avoid storing too much information
     this._userPreferences.list.sort[listId] = { fieldName: sort.fieldName, sortDirection: sort.sortDirection, columnName: sort.columnName };
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateSelectedListTab(tab: string) {
     this._userPreferences.list.tab = tab;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
 
   public updateExtent(extent: string) {
     this._userPreferences.map.extent = extent;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateBasemap(basemap: BasemapStyle) {
     this._userPreferences.map.basemap = basemap;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
 
   public updateAnalyticsOpen(open: boolean) {
     this._userPreferences.analytics.open = open;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateAnalyticsTab(tab: string) {
     this._userPreferences.analytics.tab = tab;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateLegendOpen(isOpen: boolean) {
     this._userPreferences.legend.open = isOpen;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateLegendDetail(layerName: string, vsName: string, isOpen: boolean) {
@@ -280,7 +291,7 @@ export class UserPreferencesService {
     } else {
       this._userPreferences.legend.layersDetails[vsName] = { [layerName]: isOpen };
     }
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   /**
@@ -288,12 +299,12 @@ export class UserPreferencesService {
    */
   public updateVisualisationSets(concatenatedVs: string) {
     this._userPreferences.legend.vs = concatenatedVs;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public updateTimelineOpen(isOpen: boolean) {
     this._userPreferences.timeline.open = isOpen;
-    this.updateUserPreferences();
+    this.isUpdateEmitter.next();
   }
 
   public get userPreferences() {
