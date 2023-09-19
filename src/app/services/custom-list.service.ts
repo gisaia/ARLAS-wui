@@ -21,7 +21,7 @@ export interface CustomList {
     dataType: string;
     useColorService: boolean;
   }>;
-  keyToColors?: [string,string][];
+  keyToColors?: [string, string][];
 
 }
 
@@ -127,14 +127,16 @@ export class CustomListService {
         // Step 2: set default to false
         const configObj = JSON.parse(defaulConfig[0].doc_value);
         configObj.useAsDefault = false;
-        this.persistenceService.update(defaultConfigId, JSON.stringify(configObj), new Date(defaulConfig[0].last_update_date).getTime())
+        this.persistenceService.update(defaultConfigId, JSON.stringify(configObj), new Date(defaulConfig[0].last_update_date).getTime(),
+          defaulConfig[0].doc_key, defaulConfig[0].doc_readers, defaulConfig[0].doc_writers)
           .subscribe(() => { });
       }
       // Step 3: assign the new default style
       this.persistenceService.get(configId).subscribe(c => {
         const newConfigObj = JSON.parse(c.doc_value);
         newConfigObj.useAsDefault = true;
-        this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime())
+        this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime(), c.doc_key,
+          c.doc_readers, c.doc_writers)
           .subscribe(() => {
             this.refreshListConfig.next();
           });
@@ -142,11 +144,12 @@ export class CustomListService {
     });
   }
 
-  public removeAsDefault(configId){
+  public removeAsDefault(configId) {
     this.persistenceService.get(configId).subscribe(c => {
       const newConfigObj = JSON.parse(c.doc_value);
       newConfigObj.useAsDefault = false;
-      this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime())
+      this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime(), c.doc_key,
+        c.doc_readers, c.doc_writers)
         .subscribe(() => {
           this.refreshListConfig.next();
         });
@@ -191,7 +194,8 @@ export class CustomListService {
     this.persistenceService.get(configId).subscribe(c => {
       const newConfigObj = configToUpdate;
       newConfigObj.useAsDefault = isDefault;
-      this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime(), this.getFullName(name))
+      this.persistenceService.update(configId, JSON.stringify(newConfigObj),
+        new Date(c.last_update_date).getTime(), this.getFullName(name), c.doc_readers, c.doc_writers)
         .subscribe(() => {
           this.dialogRefEditListConfig.close();
           dialogRef.close();
@@ -208,7 +212,8 @@ export class CustomListService {
           const defaultConfigId = defaulConfig[0].id;
           const configObj = JSON.parse(defaulConfig[0].doc_value);
           configObj.useAsDefault = false;
-          return this.persistenceService.update(defaultConfigId, JSON.stringify(configObj), new Date(defaulConfig[0].last_update_date).getTime());
+          return this.persistenceService.update(defaultConfigId, JSON.stringify(configObj), new Date(defaulConfig[0].last_update_date).getTime(),
+            defaulConfig[0].doc_key, defaulConfig[0].doc_readers, defaulConfig[0].doc_writers);
         }
       } else {
         return of({});
@@ -309,7 +314,7 @@ export class CustomListService {
     const configToSave: CustomList = {
       useAsDefault: !!e ? e.useAsDefault : false,
       columns: newColumn,
-      keyToColors: keyToColorsValue.map( kc => [kc.keyword,kc.color])
+      keyToColors: keyToColorsValue.map(kc => [kc.keyword, kc.color])
     };
     return configToSave;
   }
