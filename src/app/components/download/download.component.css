@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  justify-content: space-evenly;
+  align-items: baseline;
+}
+
+.form .field {
+  width: 350px;
+}
+
+.buttons{
+  display: flex;
+  justify-content: end;
+}

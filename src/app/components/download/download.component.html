@@ -1,0 +1,60 @@
+<div mat-dialog-title>
+  {{'Download products' | translate}}
+</div>
+<div [formGroup]="formGroup!" class="form" mat-dialog-content>
+  <ng-container *ngFor="let field of controlsName;let fieldIndex=index">
+
+    <ng-container [ngSwitch]="inputs[fieldIndex] && inputs[fieldIndex].schema.type">
+      <!-- String case -->
+      <mat-form-field *ngSwitchCase="'string'" class="field" appearance="outline"
+        matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+        [matTooltipPosition]="'before'">
+        <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+        <input matInput type="text" class="data-cy-{{field}}" [formControlName]="field"
+          required="{{!!inputs[fieldIndex].schema.required}}">
+      </mat-form-field>
+      <!-- Integer case -->
+      <mat-form-field *ngSwitchCase="'number'" class="field" appearance="outline"
+        matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+        [matTooltipPosition]="'before'">
+        <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+        <input matInput type="number" class="data-cy-{{field}}" [formControlName]="field"
+          required="{{!!inputs[fieldIndex].schema.required}}">
+      </mat-form-field>
+      <!-- Enum case -->
+      <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
+        matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+        [matTooltipPosition]="'before'">
+        <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+        <mat-select [formControlName]="field" class="data-cy-{{field}}" required="{{!!inputs[fieldIndex].schema.required}}">
+          <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt">{{opt}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Boolean case -->
+      <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description}}"
+        [matTooltipShowDelay]="tooltipDelay" [matTooltipPosition]="'before'">
+        <mat-slide-toggle class="data-cy-{{field}}" [formControlName]="field">{{inputs[fieldIndex].title! |
+          translate}}</mat-slide-toggle>
+      </div>
+
+      <!-- Array case -->
+      <ng-container *ngSwitchCase="'array'" [ngSwitch]="inputs[fieldIndex].schema.items.type">
+        <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
+          matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+          [matTooltipPosition]="'before'">
+          <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+          <mat-select [formControlName]="field" class="data-cy-{{field}}" multiple
+            required="{{!!inputs[fieldIndex].schema.required}}">
+            <mat-option *ngFor="let opt of inputs[fieldIndex].schema.items.enum" [value]="opt">{{opt}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+    </ng-container>
+  </ng-container>
+</div>
+<div mat-dialog-actions class="buttons">
+  <button mat-stroked-button mat-dialog-close="true">{{'Cancel' | translate}}</button>
+  <button [color]="'primary'" mat-flat-button [disabled]="!formGroup.valid" (click)="submit()">{{'Download' | translate
+    }}</button>
+</div>

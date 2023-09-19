@@ -18,7 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -57,6 +57,9 @@ import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { DownloadService } from './services/download.service';
+import { DownloadComponent } from './components/download/download.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,8 @@ import { DownloadService } from './services/download.service';
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent
+    ConfigsListComponent,
+    DownloadComponent
   ],
   exports: [
     AboutComponent,
@@ -86,6 +90,8 @@ import { DownloadService } from './services/download.service';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     MatMenuModule,
     MatSnackBarModule,
     MatTooltipModule,
@@ -120,12 +126,11 @@ import { DownloadService } from './services/download.service';
     ArlasTaggerModule
   ],
   providers: [
+    DownloadService,
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService,
-    DownloadService
-
+    VisualizeService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: [AboutDialogComponent]

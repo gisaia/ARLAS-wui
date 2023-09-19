@@ -17,6 +17,7 @@
  * under the License.
  */
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -26,11 +27,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
+  SCROLLABLE_ARLAS_ID,
+  SortEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode, HistogramContributor,
+  ElementIdentifier, FeatureRenderMode,
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
@@ -40,14 +43,15 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { Observable, Subject, fromEvent, merge, of, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
+import { DownloadComponent } from './components/download/download.component';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
+import { DownloadService } from './services/download.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import { DownloadService } from './services/download.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -123,6 +127,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
 
+  /* Download */
+  private downloadDialogRef: MatDialogRef<DownloadComponent>;
+
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
@@ -184,7 +191,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private downloadService: DownloadService
+    private downloadService: DownloadService,
+    private dialog: MatDialog
   ) {
     this.menuState = {
       configs: false
@@ -261,6 +269,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (resultlistOpenString) {
         this.listOpen = (resultlistOpenString === 'true');
       }
+      this.downloadService.load().subscribe({
+        error: (err) => console.error(err)
+      });
     } else {
       this.defaultBaseMap = {
         styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
@@ -416,6 +427,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             }
           });
         });
+
     }
 
 
@@ -449,7 +461,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.downloadService.describe().subscribe((param) => console.log(param));
     this.mapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
@@ -730,7 +741,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       case 'selectedItemsEvent':
         /** TODO : manage features to select when we have miltiple collections */
         if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
-          const featuresToSelect = event.data.map(id => {
+          this.featuresToSelect = event.data.map(id => {
             let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
             if (mapContributor.isFlat) {
               idFieldName = idFieldName.replace(/\./g, '_');
@@ -740,7 +751,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               idValue: id
             };
           });
-          this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
+          this.mapglComponent.selectFeaturesByCollection(this.featuresToSelect, currentCollection);
         } else {
           if (!!this.mapglComponent) {
             this.mapglComponent.selectFeaturesByCollection([], currentCollection);
@@ -751,6 +762,20 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
+        if (event.data.id === 'download') {
+          this.downloadDialogRef = this.dialog.open(DownloadComponent, { maxWidth: '50vw' });
+          this.downloadDialogRef.afterClosed().subscribe({
+            next: (data) => {
+              if (!!data) {
+                this.downloadService.download(
+                  this.featuresToSelect.map(f => f.idValue),
+                  this.mapglComponent.getAllPolygon('wkt'),
+                  data.payload
+                );
+              }
+            }
+          });
+        }
         break;
       case 'geoSortEvent':
         break;

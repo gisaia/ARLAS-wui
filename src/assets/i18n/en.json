@@ -65,7 +65,7 @@
 	"Export": "Export data as CSV",
 	"Set geometries": "Set",
 	"Set geo-queries": "Set",
-	"Cancel": "Close",
+	"Cancel": "Cancel",
 	"within": "contains",
 	"intersects": "intersects",
 	"notwithin": "doesn't contain",
