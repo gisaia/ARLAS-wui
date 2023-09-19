@@ -193,6 +193,15 @@ else
   echo ${ARLAS_PERSISTENCE_URL} "is used for 'persistence.url'"
 fi
 
+## PERSISTENCE
+if [ -z "${ARLAS_PERMISSIONS_URL}" ]; then
+  ARLAS_PERMISSIONS_URL="''"
+  export ARLAS_PERMISSIONS_URL
+  echo "NO ARLAS-permission URL is specified."
+else
+  echo ${ARLAS_PERMISSIONS_URL} "is used for 'permission.url'"
+fi
+
 ## AUTHENTICATION
 ### ARLAS_USE_AUTHENT
 if [ -z "${ARLAS_USE_AUTHENT}" ]; then
@@ -498,6 +507,9 @@ envsubst '$ARLAS_WUI_APP_PATH' < /etc/nginx/conf.d/default.conf > /etc/nginx/con
 mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
 
 envsubst '$ARLAS_PERSISTENCE_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+envsubst '$ARLAS_PERMISSIONS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 envsubst '$ARLAS_TICKETING_KEY' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp

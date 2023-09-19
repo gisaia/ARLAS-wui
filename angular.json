@@ -76,6 +76,7 @@
                   "glob": "*.yaml"
                 },
                 "src/assets",
+                "src/default.json",
                 "src/silent-refresh.html",
                 "src/favicon.ico"
               ]
