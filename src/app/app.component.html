@@ -36,7 +36,9 @@
           <div class="app-container" [class.app-container-reduce]="listOpen && analyticsService.activeTab === undefined"
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
             [class.app-container-reduce-analytics]="listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined">
+            [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined"
+            [class.app-container-timeline-hidden]="!isTimelineOpen"
+            [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
@@ -212,9 +214,12 @@
               </arlas-filter>
             </div>
 
-            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+            <arlas-timeline #timeline *ngIf="timelineComponentConfig"
+              class="arlas-timeline-toolkit" [class.timeline-hidden]="!isTimelineOpen"
+              [isDisplayHistogram]="isTimelineOpen" (isDisplayHistogramChange)="toggleTimeline()"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-              [detailedTimelineComponent]="detailedTimelineComponentConfig">
+              [detailedTimelineComponent]="detailedTimelineComponentConfig"
+              [units]="appUnits">
             </arlas-timeline>
 
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"

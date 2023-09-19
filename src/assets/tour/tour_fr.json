@@ -28,7 +28,7 @@
     {
       "title": "Frise temporelle",
       "content": "Cet histogramme représente la distribution du nombres d'éléments dans le temps. <br> Vous pouvez filtrer la donnée en sélectionnant une ou plusieurs périodes: double-cliquez sur une période pour la sauvegarder, puis resélectionnez un nouvel intervalle.",
-      "target": ".arlas-timeline--timelines",
+      "target": ".arlas-timeline",
       "placement": "top",
       "arrowOffset": "center"
     },
@@ -36,7 +36,7 @@
       "title": "Raccourcis temporels",
       "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une prériode de temps précise",
       "target": ".arlas-timeline--timeshortcuts",
-      "placement": "left",
+      "placement": "top",
       "yOffset": -15
     },
     {

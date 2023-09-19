@@ -89,6 +89,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public mapComponentConfig: any;
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
+  /**
+   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
+   */
+  public isTimelineLegend = true;
+
   public resultListsConfig = [];
   public resultListConfigPerContId = new Map<string, any>();
 
@@ -142,6 +147,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     'type': 'FeatureCollection',
     'features': []
   };
+
+  public isTimelineOpen = true;
 
   public recalculateExtend = true;
   public zoomChanged = false;
@@ -257,6 +264,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.listOpen = (resultlistOpenString === 'true');
       }
 
+      const timelineOpenString = this.getParamValue('to');
+      if (timelineOpenString) {
+        this.isTimelineOpen = (this.getParamValue('to') === 'true');
+      }
+
       let wasTabSelected = this.getParamValue('at') !== undefined;
       this.analyticsService.tabChange.subscribe(tab => {
         // If there is a change in the state of the analytics (open/close), resize
@@ -264,6 +276,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           this.adjustTimelineSize();
           wasTabSelected = (tab !== undefined);
         }
+        this.updateTimelineLegendVisibility();
       });
     } else {
       this.defaultBaseMap = {
@@ -953,11 +966,23 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public toggleList() {
     this.tabsList.realignInkBar();
     this.listOpen = !this.listOpen;
+    this.updateTimelineLegendVisibility();
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ro'] = this.listOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     this.adjustGrids();
     this.adjustTimelineSize();
+  }
+
+  public toggleTimeline() {
+    this.isTimelineOpen = !this.isTimelineOpen;
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['to'] = this.isTimelineOpen + '';
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+  }
+
+  public updateTimelineLegendVisibility() {
+    this.isTimelineLegend = !(this.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   private adjustGrids() {

@@ -38,22 +38,6 @@
   height: 100%;
 }
 
-.app-container-reduce ::ng-deep.map_container {
-  width: calc(100% - 450px);
-}
-
-.app-container-reduce-analytics ::ng-deep.map_container {
-  width: calc(100% - 450px - $analytics-board-width);
-}
-
-.app-container-with-list ::ng-deep.map_container {
-  width: calc(100% - 150px);
-}
-
-.app-container-with-list-analytics ::ng-deep.map_container {
-  width: calc(100% - 150px - $analytics-board-width);
-}
-
 .side-result-list-toggle {
   z-index: 2;
   position: absolute;
@@ -220,18 +204,23 @@
 }
 
 .app-container-reduce {
-  ::ng-deep.arlas-timeline--timelines {
+  ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($result-list-width + $sm-spacing * 2));
+    left: $sm-spacing;
   }
 
   .arlas-filters-chips {
     left: calc((100vw - ($left-menu-width + $result-list-width)) / 2);
     max-width: calc((100vw - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
   }
+
+  ::ng-deep.map_container {
+    width: calc(100% - $result-list-width);
+  }
 }
 
 .app-container-reduce-analytics {
-  ::ng-deep.arlas-timeline--timelines {
+  ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($result-list-width + $sm-spacing * 2 + $analytics-board-width));
     left: calc($analytics-board-width + $sm-spacing) !important;
   }
@@ -240,21 +229,30 @@
     left: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2);
     max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
   }
+
+  ::ng-deep.map_container {
+    width: calc(100% - $result-list-width - $analytics-board-width);
+  }
 }
 
 .app-container-with-list {
-  ::ng-deep.arlas-timeline--timelines {
+  ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($preview-result-list-width + 2 * $sm-margin));
+    left: $sm-spacing;
   }
 
   .arlas-filters-chips {
     left: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2);
     max-width: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
   }
+
+  ::ng-deep.map_container {
+    width: calc(100% - $preview-result-list-width);
+  }
 }
 
 .app-container-with-list-analytics {
-  ::ng-deep.arlas-timeline--timelines {
+  ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($preview-result-list-width + 2 * $sm-margin + $analytics-board-width));
     left: calc($analytics-board-width + $sm-spacing) !important;
   }
@@ -262,6 +260,10 @@
   .arlas-filters-chips {
     left: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2);
     max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
+  }
+
+  ::ng-deep.map_container {
+    width: calc(100% - $preview-result-list-width - $analytics-board-width);
   }
 }
 
@@ -280,13 +282,13 @@
     right: 520px !important;
   }
 
-  ::ng-deep.arlas-timeline--tools {
-    right: calc($result-list-width + $sm-spacing);
-  }
-
   ::ng-deep.bookmark-shortcut {
     top: 30px;
     right: calc($result-list-width + $sm-spacing);
+  }
+
+  ::ng-deep.current-coordinate {
+    right: 570px;
   }
 }
 
@@ -305,17 +307,55 @@
     top: 70px !important;
   }
 
-  ::ng-deep.arlas-timeline--tools {
-    right: calc($preview-result-list-width + $sm-margin);
-  }
-
   ::ng-deep.bookmark-shortcut {
     right: calc($preview-result-list-width + $sm-spacing);
   }
+
+  ::ng-deep.current-coordinate {
+    right: 270px;
+  }
 }
-::ng-deep.arlas-timeline--timelines {
-  left: $sm-spacing !important;
-  box-sizing: border-box;
+
+.app-container-with-list,
+.app-container-reduce {
+  ::ng-deep.arlas-time-shortcuts--container {
+    left: calc($sm-spacing);
+  }
+}
+
+.app-container-with-list-analytics,
+.app-container-reduce-analytics {
+  ::ng-deep.arlas-time-shortcuts--container {
+    left: calc($analytics-board-width + $sm-spacing);
+  }
+}
+
+.app-container-timeline-hidden {
+  ::ng-deep.mapboxgl-ctrl-scale {
+    bottom: $sm-spacing;
+  }
+
+  ::ng-deep.current-coordinate {
+    bottom: $sm-spacing;
+  }
+
+  ::ng-deep.arlas-time-shortcuts--container {
+    bottom: 0;
+  }
+}
+
+.app-container-timeline-legend {
+  ::ng-deep.mapboxgl-ctrl-scale {
+    bottom: calc($timeline-with-legend-height + $sm-spacing - $map-scale-border-width);
+  }
+
+  ::ng-deep.current-coordinate {
+    bottom: calc($timeline-with-legend-height + $sm-spacing);
+  }
+
+  ::ng-deep.arlas-time-shortcuts--container {
+    bottom: $timeline-with-legend-height;
+  }
 }
 
 .arlas-map-action-container {

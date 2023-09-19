@@ -1,0 +1,221 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+@import 'variables.scss';
+@import 'app/sizes.scss';
+
+.arlas-timeline--container {
+  position: absolute;
+  bottom: 0;
+  left: $sm-spacing;
+  right: $sm-spacing;
+
+  .arlas-timeline {  
+    .histogram__description {
+      font-size: 1em;
+      font-weight: 300;
+      display: none;
+    }
+  
+    .histogram__description--display {
+      color: black;
+      padding-top: 5px;
+    }
+  
+    .histogram__description__title {
+      color: black;
+    }
+  
+    .histogram__description__startvalue--background,
+    .histogram__description__endvalue--background {
+      background-color: white;
+    }
+  }
+
+  .arlas-timeline,
+  .arlas-detailed-timeline {
+    .histogram__chart {
+      .context {
+        .brush {
+          .selection {
+            fill: #BDBDBD;
+            fill-opacity: 0.2;
+            stroke: none;
+          }
+        }
+      }
+    }
+
+    /** TIMELINE BARS**/
+    .histogram__chart--bar__currentselection,
+    .histogram__chart--bar__partlyselected,
+    .histogram__chart--bar__fullyselected {
+      fill: #FFF !important;
+      stroke: #a5a5a5 !important;
+      stroke-width: 0.4px;
+    }
+
+    .histogram__chart--bar {
+      fill: #FFF !important;
+      stroke: #b7b7b7 !important;
+      stroke-width: 0.4px;
+      stroke-opacity: 1;
+    }
+
+    /** TIMELINE HEADBANDS**/
+    .headband_currentselection,
+    .headband_currentselection_max,
+    .headband_partlyselected,
+    .headband_fullyselected {
+      fill: #2196F3 !important;
+      stroke: #2196F3 !important;
+      stroke-width: 0.4px !important;
+      height: 1.5px !important;
+    }
+
+    .headband_currentselection_max {
+      fill: rgb(201, 0, 100) !important;
+      stroke: rgb(201, 0, 100) !important;
+    }
+
+    .headband_notselected {
+      fill: #FFF !important;
+      stroke: #b7b7b7 !important;
+      stroke-width: 0 !important;
+      height: 0 !important;
+    }
+
+    .histogram__axis {
+      stroke: #bdbdbd;
+      stroke-width: 1px;
+    }
+
+    .histogram__brush--handles {
+      stroke: #78909C;
+      fill: white;
+    }
+  }
+
+  .arlas-detailed-timeline {
+    .histogram__description {
+      display: none;
+    }
+
+    .histogram__chart--current-selected--area {
+      fill: #2196F3;
+      fill-opacity: 1;
+      stroke: #2196F3;
+      stroke-width: 2px;
+      stroke-opacity: 5;
+    }
+
+    .histogram__chart--unselected--area {
+      fill: #EEEEEE;
+      fill-opacity: 1;
+      stroke: none;
+    }
+  }
+
+  .arlas-timeline,
+  .arlas-timeline-analytics {
+    .headband_currentselection,
+    .headband_partlyselected,
+    .headband_fullyselected {
+      height: 0;
+    }
+  }
+
+  .arlas-timeline,
+  .arlas-timeline-not-selectable {
+    .histogram__no-chart__key,
+    .histogram__no-chart__value {
+      font-family: "Roboto", "Helvetica Neue", sans-serif;
+      font-size: 0.9em;
+      font-weight: normal;
+      color: #757575;
+    }
+
+    .histogram__ticks {
+      stroke: #bdbdbd;
+      stroke-width: 1px;
+    }
+
+    .histogram__chart--current-selected--area {
+      fill: #2196F3;
+      fill-opacity: 1;
+      stroke: #2196F3;
+      stroke-width: 1px;
+      stroke-opacity: 1;
+    }
+
+    .histogram__chart--fixed-selected--area {
+      fill: #2196F3;
+      fill-opacity: 1;
+      stroke: none;
+    }
+  }
+
+  .arlas-detailed-timeline,
+  .arlas-timeline,
+  .arlas-timeline-not-selectable {
+    .tick {
+      text {
+        fill: #757575;
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+.arlas-timeline-toolkit {
+  .arlas-time-shortcuts--container {
+    padding: 0;
+    bottom: $timeline-height;
+    overflow: hidden;
+  }
+}
+
+.shortcut-remove-filter {
+  margin: 0 2px;
+}
+
+.shortcut-button span{
+  display: flex;
+  align-items: center;
+}
+
+/* Date Picker */
+
+.arlas-date-picker-input-from, .arlas-date-picker-input-to {
+  background-color: #FF4081;
+  color: white;
+  border: none;
+}
+
+.arlas-date-picker-label-from, .arlas-date-picker-label-to {
+  margin-bottom: 0;
+}
+
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+  background-color: #FF4081;
+}
+
+.owl-dt-container-buttons {
+  color: #FF4081;
+}
