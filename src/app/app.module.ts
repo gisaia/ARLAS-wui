@@ -94,8 +94,10 @@ export function loadUserPreferences(userPreferencesService: UserPreferencesServi
   const load = (data) => userPreferencesService.load()
     .then(() => lastValueFrom(customListService.getDefaultConfig()))
     .then((config) => {
-      customListService.currentListConfig = config[0];
-      customListService.currentListConfigId = config[1];
+      if(!!config){
+        customListService.currentListConfig = config[0];
+        customListService.currentListConfigId = config[1];
+      }
     });
   return load;
 }

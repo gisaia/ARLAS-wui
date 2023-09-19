@@ -63,7 +63,7 @@ export class UserPreferencesService {
   }
 
   public load() {
-    if (!this.dashboardId) {
+    if (!this.dashboardId && !this.settingsService.getPersistenceSettings().use_local_config) {
       this.isLoaded = false;
       return Promise.resolve();
     }
