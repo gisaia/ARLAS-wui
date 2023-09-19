@@ -312,6 +312,7 @@ export class UserPreferencesService {
   }
 
   private getUserPreferencesKey(): string {
-    return this.dashboardId + '_' + PERSISTENCE_USER_PREFERENCE;
+    const userId = this.authService.identityClaims ? this.authService.identityClaims['sub'] : 'anonymous';
+    return this.dashboardId + '_' + PERSISTENCE_USER_PREFERENCE + '_' + userId;
   }
 }
