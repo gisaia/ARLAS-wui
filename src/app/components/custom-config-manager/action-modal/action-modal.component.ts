@@ -21,9 +21,11 @@ import { Component, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { PersistenceService } from 'arlas-wui-toolkit';
-import { Subject } from 'rxjs';
-import { ConfigListAction, ConfigListActionEnum, CustomListService } from '../../../services/custom-list.service';
+import { Observable, Subject, map, mergeMap } from 'rxjs';
+import { ConfigListAction, ConfigListActionEnum } from '../../../services/custom-list.service';
 import { ActivatedRoute } from '@angular/router';
+import { DataWithLinks } from 'arlas-persistence-api';
+
 
 @Component({
   selector: 'arlas-action-modal',
@@ -52,7 +54,7 @@ export class ActionModalComponent {
   }
 
   public duplicate(newName: string, configId: string) {
-    this.persistenceService.duplicate('config_list', configId, this.getFullName(newName))
+    this.duplicateAndRemoveDefault('config_list', configId, this.getFullName(newName))
       .subscribe({
         next: () => {
           this.errorMessage = '';
@@ -119,6 +121,16 @@ export class ActionModalComponent {
     const configId = !!this.route.snapshot.queryParamMap.get('config_id') ? this.route.snapshot.queryParamMap.get('config_id') : 'local';
     const fullName = configId + '_' + 'config_list' + '_' + name;
     return fullName;
+  }
+  private duplicateAndRemoveDefault(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
+    return this.persistenceService.get(id).pipe(
+      map(data => {
+        const configObj = JSON.parse(data.doc_value);
+        configObj.useAsDefault = false;
+        return this.persistenceService.create(zone, newName ? newName : 'Copy of ' + data.doc_key, JSON.parse(configObj));
+      }),
+      mergeMap(a => a)
+    );
   }
 }
 
