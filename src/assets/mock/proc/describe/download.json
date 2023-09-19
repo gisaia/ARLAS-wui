@@ -2,18 +2,19 @@
   "id": "d-w",
   "version": "0.0.0",
   "title": "download",
-  "desctiption": "Download one or several products",
+  "description": "Download one or several products",
   "inputs": {
     "mock_text": {
       "title": "mock_text",
-      "desctiption": "mock_text description",
+      "description": "mock_text description",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "required": true
       }
     },
     "mock_enum_single": {
       "title": "mock_enum_single",
-      "desctiption": "mock_enum_single description",
+      "description": "mock_enum_single description",
       "schema": {
         "type": "string",
         "enum": [
@@ -24,7 +25,7 @@
     },
     "mock_enum_multiple": {
       "title": "mock_enum_multiple",
-      "desctiption": "mock_enum_multiple description",
+      "description": "mock_enum_multiple description",
       "schema": {
         "type": "array",
         "items": {
@@ -39,7 +40,7 @@
     },
     "mock_integer": {
       "title": "mock_integer",
-      "desctiption": "mock_integer description",
+      "description": "mock_integer description",
       "schema": {
         "type": "number",
         "format": "integer"
@@ -47,7 +48,7 @@
     },
     "mock_double": {
       "title": "mock_double",
-      "desctiption": "mock_double description",
+      "description": "mock_double description",
       "schema": {
         "type": "number",
         "format": "double",
@@ -56,11 +57,11 @@
     },
     "mock_boolean": {
       "title": "mock_boolean",
-      "desctiption": "mock_boolean description",
+      "description": "mock_boolean description",
       "schema": {
         "type": "boolean"
       }
     }
-    
+
   }
 }
