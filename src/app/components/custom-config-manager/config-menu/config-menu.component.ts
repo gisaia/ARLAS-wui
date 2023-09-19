@@ -70,6 +70,7 @@ export class ConfigMenuComponent implements OnInit {
         });
         break;
       }
+      case ConfigListActionEnum.REMOVE_AS_DEFAULT:
       case ConfigListActionEnum.SET_AS_DEFAULT:
       case ConfigListActionEnum.EDIT: {
         this.actionExecutedEmitter.next(action);

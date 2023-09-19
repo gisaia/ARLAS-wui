@@ -39,10 +39,16 @@
         <span>{{'Delete' | translate}}</span>
       </button>
     </div>
-    <div *ngIf="action.type === ConfigListActionEnum.SET_AS_DEFAULT">
+    <div *ngIf="action.type === ConfigListActionEnum.SET_AS_DEFAULT && action.displayed">
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>star</mat-icon>
         <span>{{'Define as default' | translate}}</span>
+      </button>
+    </div>
+    <div *ngIf="action.type === ConfigListActionEnum.REMOVE_AS_DEFAULT && action.displayed">
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>star_half</mat-icon>
+        <span>{{'Remove as default' | translate}}</span>
       </button>
     </div>
   </div>

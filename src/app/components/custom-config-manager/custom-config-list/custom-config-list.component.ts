@@ -47,7 +47,7 @@ export class CustomConfigListComponent implements OnInit {
 
 
   public configurations: Configuration[] = [];
-  public displayedColumns: string[] = ['current', 'id', 'creation', 'default','detail'];
+  public displayedColumns: string[] = ['current', 'id', 'creation', 'default', 'detail'];
   public configurationsLength = 0;
   public configPageNumber = 0;
   public configPageSize = 5;
@@ -78,7 +78,7 @@ export class CustomConfigListComponent implements OnInit {
 
   }
 
-  public applyInitStyle(){
+  public applyInitStyle() {
     this.customListService.currentListConfigId = undefined;
     const columns = this.customListService.initialListConfig.map(c => (
       {
@@ -93,7 +93,6 @@ export class CustomConfigListComponent implements OnInit {
       columns,
       keyToColors: this.customListService.initialKeyToColors
     };
-    console.log(initConfig);
     this.customListService.applyListStyle(initConfig);
   };
 
@@ -116,6 +115,9 @@ export class CustomConfigListComponent implements OnInit {
     }
     if (event.type === ConfigListActionEnum.SET_AS_DEFAULT) {
       this.customListService.setAsDefault(event.config.id);
+    }
+    if (event.type === ConfigListActionEnum.REMOVE_AS_DEFAULT) {
+      this.customListService.removeAsDefault(event.config.id);
     }
   }
 
@@ -200,7 +202,14 @@ export class CustomConfigListComponent implements OnInit {
     actions.push({
       config,
       type: ConfigListActionEnum.SET_AS_DEFAULT,
-      enabled: !JSON.parse(data.doc_value).useAsDefault
+      enabled: data.updatable,
+      displayed: !JSON.parse(data.doc_value).useAsDefault
+    });
+    actions.push({
+      config,
+      type: ConfigListActionEnum.REMOVE_AS_DEFAULT,
+      enabled: data.updatable,
+      displayed: JSON.parse(data.doc_value).useAsDefault
     });
 
     return {

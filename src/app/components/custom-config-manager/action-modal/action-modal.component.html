@@ -83,7 +83,7 @@
   </div>
 
 <div *ngIf="action.type === ConfigListActionEnum.SHARE">
-  <h2 mat-dialog-title>{{'Share dashboard' | translate}}</h2>
+  <h2 mat-dialog-title>{{'Share list style' | translate}}</h2>
   <div mat-dialog-content>
       <arlas-share-config [config]="action.config" (updateEmitter)="closeShare($event)" ></arlas-share-config>
   </div>

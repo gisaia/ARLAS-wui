@@ -28,6 +28,7 @@ export interface CustomList {
 export interface ConfigListAction {
   type: ConfigListActionEnum;
   enabled?: boolean;
+  displayed?: boolean;
   name?: string;
   url?: string;
   configIdParam?: string;
@@ -37,6 +38,7 @@ export interface ConfigListAction {
 export enum ConfigListActionEnum {
   VIEW,
   SET_AS_DEFAULT,
+  REMOVE_AS_DEFAULT,
   DELETE,
   EDIT,
   DUPLICATE,
@@ -137,6 +139,17 @@ export class CustomListService {
             this.refreshListConfig.next();
           });
       });
+    });
+  }
+
+  public removeAsDefault(configId){
+    this.persistenceService.get(configId).subscribe(c => {
+      const newConfigObj = JSON.parse(c.doc_value);
+      newConfigObj.useAsDefault = false;
+      this.persistenceService.update(configId, JSON.stringify(newConfigObj), new Date(c.last_update_date).getTime())
+        .subscribe(() => {
+          this.refreshListConfig.next();
+        });
     });
   }
 
