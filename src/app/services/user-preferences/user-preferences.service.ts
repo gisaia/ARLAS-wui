@@ -312,6 +312,6 @@ export class UserPreferencesService {
   }
 
   private getUserPreferencesKey(): string {
-    return this.dashboardId + '_' + PERSISTENCE_USER_PREFERENCE;
+    return this.dashboardId + '_' + PERSISTENCE_USER_PREFERENCE + '_' + this.authService.identityClaims['sub'];
   }
 }

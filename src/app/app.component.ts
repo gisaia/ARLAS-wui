@@ -532,7 +532,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     }
     this.customListService.mainCollection = this.mainCollection;
     this.customListService.initialKeyToColors = this.configService.getValue('arlas.web.colorGenerator.keysToColors');
-    console.log(this.colorService.colorGenerator.keysToColors);
     this.customListService.initialListConfig = this.rightListContributors[0].fieldsList;
     if(!!this.customListService.currentListConfig){
       this.customListService.applyListStyle(this.customListService.currentListConfig,this.customListService.currentListConfigId);
