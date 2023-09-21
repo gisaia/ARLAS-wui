@@ -764,8 +764,8 @@
               "id": "demo_eo-metadata.core.identity.identifier-150-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
               "tableWidth": 445,
               "globalActionsList": [{
-                "id": "download",
-                "label": "Download"
+                "id": "production",
+                "label": "Production"
               }],
               "searchSize": 150,
               "nLastLines": 3,
