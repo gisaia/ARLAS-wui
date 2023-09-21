@@ -1,19 +1,25 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DownloadService } from 'app/services/download.service';
-import { DownloadInput, DownloadSettingsInputs } from 'app/tools/download.interface';
+import { DownloadInput, DownloadSettings, DownloadSettingsInputs } from 'app/tools/download.interface';
 
 @Component({
   selector: 'arlas-download-product',
   templateUrl: './download.component.html',
-  styleUrls: ['./download.component.css']
+  styleUrls: ['./download.component.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+  }]
 })
 export class DownloadComponent implements OnInit {
   public formGroup: FormGroup = new FormGroup({});
   public controlsName: string[] = [];
   public inputs: DownloadInput[] = [];
+  public downloadSettings: DownloadSettings = {};
   public formInputs: DownloadSettingsInputs = {};
+  public nbProducts = 0;
 
   public tooltipDelay = 2000;
 
@@ -24,7 +30,8 @@ export class DownloadComponent implements OnInit {
 
   public ngOnInit(): void {
     const group: any = {};
-    this.formInputs = this.downloadService.getDownloadSettings().inputs;
+    this.downloadSettings = this.downloadService.getDownloadSettings();
+    this.formInputs = this.downloadSettings.inputs;
     Object.keys(this.formInputs).forEach(inputKey => {
       if (!!this.formInputs[inputKey].schema.enum) {
         this.formInputs[inputKey].schema.type = 'enum';

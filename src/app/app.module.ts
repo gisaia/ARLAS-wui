@@ -65,6 +65,7 @@ import { DownloadService } from './services/download.service';
 import { DownloadComponent } from './components/download/download.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSlideToggleModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTooltipModule,
     MatTabsModule,
     MatProgressBarModule,
