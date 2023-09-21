@@ -2,7 +2,7 @@ export interface DownloadSettings {
   id?: string;
   version?: string;
   title?: string;
-  desctiption?: string;
+  description?: string;
   inputs?: DownloadSettingsInputs;
 }
 
@@ -12,7 +12,7 @@ export interface DownloadSettingsInputs {
 
 export interface DownloadInput {
   title: string;
-  desctiption: string;
+  description: string;
   schema: {
     type: string;
     enum?: string[];

@@ -763,7 +763,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         break;
       case 'globalActionEvent':
         if (event.data.id === 'download') {
-          this.downloadDialogRef = this.dialog.open(DownloadComponent, { maxWidth: '50vw' });
+          this.downloadDialogRef = this.dialog.open(DownloadComponent, { minWidth: '520px', maxWidth: '60vw' });
+          this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
           this.downloadDialogRef.afterClosed().subscribe({
             next: (data) => {
               if (!!data) {
