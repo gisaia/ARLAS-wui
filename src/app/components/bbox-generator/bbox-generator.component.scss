@@ -25,5 +25,15 @@
                 margin-right: 5px;
             }
         }
+        .section {
+            display: flex;
+            flex-direction: column;
+            .coordinate {
+                width: 100%;
+                mat-form-field {
+                    width: 100%;
+                }
+            }
+        }
     }
 }
