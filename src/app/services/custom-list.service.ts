@@ -214,6 +214,8 @@ export class CustomListService {
           configObj.useAsDefault = false;
           return this.persistenceService.update(defaultConfigId, JSON.stringify(configObj), new Date(defaulConfig[0].last_update_date).getTime(),
             defaulConfig[0].doc_key, defaulConfig[0].doc_readers, defaulConfig[0].doc_writers);
+        } else {
+          return of({});
         }
       } else {
         return of({});
