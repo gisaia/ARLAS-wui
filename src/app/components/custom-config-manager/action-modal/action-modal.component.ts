@@ -96,6 +96,7 @@ export class ActionModalComponent {
   }
 
   public raiseError(err: any) {
+    console.log(err);
     switch (err.status) {
       case 401:
         this.errorMessage = marker('Unauthorized to create a custom configuration, you need to log in');
@@ -127,7 +128,7 @@ export class ActionModalComponent {
       map(data => {
         const configObj = JSON.parse(data.doc_value);
         configObj.useAsDefault = false;
-        return this.persistenceService.create(zone, newName ? newName : 'Copy of ' + data.doc_key, JSON.parse(configObj));
+        return this.persistenceService.create(zone, newName ? newName : 'Copy of ' + data.doc_key, JSON.stringify(configObj));
       }),
       mergeMap(a => a)
     );

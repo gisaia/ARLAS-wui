@@ -283,7 +283,7 @@ export class CustomListService {
       dialogRef.componentInstance.default = isDefault;
       dialogRef.componentInstance.updateConfig.subscribe(e => {
         const configToSave = this.getConfigFromControl(c, e);
-        this.update(configToSave, configId, configName, e.useAsDefault, dialogRef);
+        this.update(configToSave, configId, e.name, e.useAsDefault, dialogRef);
       });
     });
 
