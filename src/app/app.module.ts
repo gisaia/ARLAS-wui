@@ -68,8 +68,7 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
-    ConfigsListComponent,
-    ArlasWuiRootComponent
+    ConfigsListComponent
   ],
   exports: [
     AboutComponent,

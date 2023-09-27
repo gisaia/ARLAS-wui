@@ -108,7 +108,7 @@ export class LeftMenuComponent implements OnInit {
       });
     }
     if (this.authentMode === 'iam') {
-      this.arlasIamService.currentUserSubject.subscribe({
+      this.arlasIamService.tokenRefreshed$.subscribe({
         next: (data) => {
           if (!!data) {
             this.connected = true;

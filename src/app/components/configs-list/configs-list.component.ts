@@ -51,7 +51,7 @@ export class ConfigsListComponent implements OnInit {
   public isAuthentActivated;
   public authentMode = 'false';
   public orgs: UserOrgData[] = [];
-  public currentOrg: UserOrgData;
+  public currentOrg: string;
 
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
@@ -72,16 +72,23 @@ export class ConfigsListComponent implements OnInit {
   public ngOnInit() {
 
     if (this.authentMode === 'iam') {
-      this.arlasIamService.currentUserSubject.subscribe({
+      this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
           if (!!userSubject) {
             this.orgs = userSubject.user.organisations.map(org => {
               org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
               return org;
             });
+            if (this.arlasIamService.getOrganisation()) {
+              this.currentOrg = this.arlasIamService.getOrganisation();
+            } else {
+              this.currentOrg = this.orgs.length > 0 ? this.orgs[0].name : '';
+              this.arlasIamService.storeOrganisation(this.currentOrg);
+            }
           } else {
             this.orgs = [];
           }
+          this.configurations = [];
           this.getConfigList();
         }
       });
@@ -101,7 +108,7 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public switchConf(confId) {
-    window.location.search = '?config_id=' + confId + '&org=' + this.currentOrg.name;
+    window.location.search = '?config_id=' + confId;
   }
 
   /**
@@ -132,9 +139,9 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public changeOrg(org: UserOrgData) {
-    this.arlasStartupService.changeOrgHeader(org.name, this.arlasIamService.currentUserValue.accessToken);
+    this.arlasStartupService.changeOrgHeader(org.name, this.arlasIamService.getAccessToken());
     this.configurations = [];
-    this.currentOrg = org;
+    this.currentOrg = org.name;
     this.getConfigList();
   }
 }
