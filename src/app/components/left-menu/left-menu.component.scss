@@ -18,8 +18,23 @@
     display: none;
   }
 
-  .arlas-analytics-refresh {
-    align-self: center;
+  .arlas-analytics {
+    display: flex;
+    flex-direction: column;
+
+    .arlas-analytics-refresh {
+      align-self: center;
+    }
+  }
+
+  .action-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .action-menu-button {
+      align-self: center;
+    }
   }
 }
 
