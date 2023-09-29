@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  ArlasCollaborativesearchService,
   ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
@@ -57,10 +58,11 @@ export class LeftMenuComponent implements OnInit {
   public expand: string;
   public isLabelDisplayed = false;
 
+  public isRefreshAnalyticsButton: any;
 
   public constructor(private authentService: AuthentificationService, private translate: TranslateService,
     public persistenceService: PersistenceService, private configService: ArlasConfigService,
-    public walkthroughService: ArlasWalkthroughService,
+    public walkthroughService: ArlasWalkthroughService, private collaborativeService: ArlasCollaborativesearchService,
     public settings: ArlasSettingsService
   ) {
     this.window = window;
@@ -72,6 +74,7 @@ export class LeftMenuComponent implements OnInit {
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
       this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = this.settings.getTicketingKey() ? true : false;
+      this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
   }
 
@@ -142,4 +145,8 @@ export class LeftMenuComponent implements OnInit {
     this.tagComponent.openManagement();
   }
 
+  public refreshComponents() {
+    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
+    this.collaborativeService.setCollaborations(dataModel);
+  }
 }

@@ -77,7 +77,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
 
   public analytics: Array<any>;
-  public refreshButton: any;
   public dataType = DataType;
   public chartType = ChartType;
   public position = Position;
@@ -229,7 +228,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
 
-      this.refreshButton = this.configService.getValue('arlas-wui.web.app.refresh');
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
         {
@@ -621,11 +619,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }, (i) * (debounceDuration * 1.5));
     }
 
-  }
-
-  public refreshComponents() {
-    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
-    this.collaborativeService.setCollaborations(dataModel);
   }
 
   public setLyersVisibilityStatus(event) {

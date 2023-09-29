@@ -122,14 +122,6 @@
   visibility: visible;
 }
 
-.arlas-top-analytics {
-  display: flex;
-  width: 462px;
-  position: absolute;
-  left: 7px;
-  top: 43px;
-}
-
 .rotate-icon {
   transform: rotate(180deg);
 }
@@ -173,16 +165,6 @@
 
 .arlas-analytics-toggle:hover {
   background-color: #f5f5f5;
-}
-
-.arlas-analytics-refresh {
-  padding: 2px 5px 0px;
-  margin-left: 3px;
-  max-width: 34px;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  flex: 1;
 }
 
 .arlas-analytics-rotate {

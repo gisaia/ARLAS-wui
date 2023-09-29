@@ -207,14 +207,6 @@
               </div>
             </div>
 
-            <!-- TODO: what ? -->
-            <div class="arlas-top-analytics">
-              <span class="arlas-analytics-refresh" [hidden]="!this.refreshButton" (click)="refreshComponents()"
-                matTooltip="{{'Refresh components' | translate}}">
-                <mat-icon>refresh</mat-icon>
-              </span>
-            </div>
-
             <div *ngIf="!arlasStartUpService.emptyMode && shortcuts && shortcuts?.length > 0" class="arlas-filters-chips">
               <arlas-filter [collectionToDescription]="collectionToDescription"
                 [units]="appUnits" (zoomEvent)="zoomToData($event)">
