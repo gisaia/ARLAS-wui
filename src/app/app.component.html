@@ -37,7 +37,6 @@
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
             [class.app-container-reduce-analytics]="listOpen && analyticsService.activeTab !== undefined"
             [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined">
-            <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >

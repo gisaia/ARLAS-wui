@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ArlasCollaborativesearchService,
-  ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
+  ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService, AuthentificationService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
@@ -60,10 +60,15 @@ export class LeftMenuComponent implements OnInit {
 
   public isRefreshAnalyticsButton: any;
 
-  public constructor(private authentService: AuthentificationService, private translate: TranslateService,
-    public persistenceService: PersistenceService, private configService: ArlasConfigService,
-    public walkthroughService: ArlasWalkthroughService, private collaborativeService: ArlasCollaborativesearchService,
-    public settings: ArlasSettingsService
+  public constructor(
+    private authentService: AuthentificationService,
+    private translate: TranslateService,
+    public persistenceService: PersistenceService,
+    public walkthroughService: ArlasWalkthroughService,
+    public settings: ArlasSettingsService,
+    public arlasStartUpService: ArlasStartupService,
+    public collaborativeService: ArlasCollaborativesearchService,
+    public configService: ArlasConfigService
   ) {
     this.window = window;
     this.reduce = this.translate.instant('reduce');
