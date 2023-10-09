@@ -40,7 +40,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
+import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
+  ResultsModule, ColorGeneratorModule, ColorGeneratorLoader, AwcColorGeneratorLoader } from 'arlas-web-components';
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
@@ -116,7 +117,13 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
         deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
-    ArlasTaggerModule
+    ArlasTaggerModule,
+    ColorGeneratorModule.forRoot({
+      loader: {
+        provide: ColorGeneratorLoader,
+        useClass: AwcColorGeneratorLoader
+      }
+    })
   ],
   providers: [
     ContributorService,

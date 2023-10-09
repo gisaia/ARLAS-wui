@@ -1,167 +1,33 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Latest products:1632208939421",
-      "type": "fill",
-      "source": "feature-_geometry_wkt-window-demo_eo",
+      "id": "arlas_id:Satellite tracks:1696588200104",
+      "type": "fill-extrusion",
+      "source": "feature-wkt-wide-satellite_index",
       "minzoom": 0,
-      "maxzoom": 22,
+      "maxzoom": 23,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0.1,
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform"
-          ],
-          "PLEIADES",
-          "#ec4040",
-          "SPOT 6",
-          "#2900ff",
-          "SPOT 5",
-          "#0041ff",
-          "SPOT 4",
-          "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
-          "TerraSAR-X 1",
-          "#5e5e5e",
-          "ALOS2",
-          "#00c926",
-          "SENTINEL 2A",
-          "#ff0094",
-          "DRONE",
-          "#ffe300",
-          "#9d9ca9"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "stroke": {
-          "color": "#ffffff",
-          "width": 1,
-          "opacity": 1
-        }
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Products:1632232665171",
-      "type": "fill",
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "minzoom": 0,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.1,
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform"
-          ],
-          "PLEIADES",
-          "#ec4040",
-          "SPOT 6",
-          "#2900ff",
-          "SPOT 5",
-          "#0041ff",
-          "SPOT 4",
-          "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
-          "TerraSAR-X 1",
-          "#5e5e5e",
-          "ALOS2",
-          "#00c926",
-          "SENTINEL 2A",
-          "#ff0094",
-          "DRONE",
-          "#ffe300",
-          "#9d9ca9"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "stroke": {
-          "color": "#ffffff",
-          "width": 0,
-          "opacity": 0
-        }
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Product density:1632378581078",
-      "type": "fill",
-      "source": "cluster-_centroid_wkt-Coarse-tile-cell-demo_eo",
-      "minzoom": 1,
-      "maxzoom": 15,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          0.1,
-          0.2,
-          0.22,
-          0.4,
-          0.33999999999999997,
-          0.6,
-          0.45999999999999996,
-          0.8,
-          0.58,
-          1,
-          0.7
+        "fill-extrusion-color": [
+          "get",
+          "id_arlas__color"
         ],
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#7f7f7f",
-          0.25,
-          "#dfdfdf",
-          1,
-          "#ffffff"
+        "fill-extrusion-base": [
+          "get",
+          "start_altitude"
+        ],
+        "fill-extrusion-opacity": 0.5,
+        "fill-extrusion-height": [
+          "get",
+          "altitude"
         ]
       },
       "metadata": {
-        "collection": "demo_eo",
-        "stroke": {
-          "color": "#abcdef",
-          "width": 0,
-          "opacity": 1
-        }
+        "collection": "satellite_index",
+        "collection-display-name": "satellite_index",
+        "is-scrollable-layer": false
       },
       "filter": [
         "all",
@@ -171,126 +37,73 @@
       ]
     },
     {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1632208939421",
-      "type": "line",
-      "maxzoom": 22,
+      "id": "arlas-select-arlas_id:Satellite tracks:1696588200104",
+      "type": "fill-extrusion",
+      "source": "feature-wkt-wide-satellite_index",
       "minzoom": 0,
+      "maxzoom": 23,
       "layout": {
         "visibility": "none"
       },
       "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 1,
-        "line-width": 13
-      }
+        "fill-extrusion-color": [
+          "get",
+          "id_arlas__color"
+        ],
+        "fill-extrusion-base": 0.5,
+        "fill-extrusion-opacity": 0.5,
+        "fill-extrusion-height": 30
+      },
+      "metadata": {
+        "collection": "satellite_index",
+        "collection-display-name": "satellite_index",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
     },
     {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Products:1632232665171",
-      "type": "line",
-      "maxzoom": 22,
+      "id": "arlas-hover-arlas_id:Satellite tracks:1696588200104",
+      "type": "fill-extrusion",
+      "source": "feature-wkt-wide-satellite_index",
       "minzoom": 0,
+      "maxzoom": 23,
       "layout": {
         "visibility": "none"
       },
       "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 0,
-        "line-width": 12
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1632208939421",
-      "type": "line",
-      "maxzoom": 22,
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
+        "fill-extrusion-color": [
+          "get",
+          "id_arlas__color"
+        ],
+        "fill-extrusion-base": 0.5,
+        "fill-extrusion-opacity": 0.5,
+        "fill-extrusion-height": 30
       },
-      "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 1,
-        "line-width": 13
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Products:1632232665171",
-      "type": "line",
-      "maxzoom": 22,
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
+      "metadata": {
+        "collection": "satellite_index",
+        "collection-display-name": "satellite_index",
+        "is-scrollable-layer": false
       },
-      "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 0,
-        "line-width": 12
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-fill_stroke-Latest products:1632208939421",
-      "type": "line",
-      "maxzoom": 22,
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 1,
-        "line-width": 1
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-fill_stroke-Products:1632232665171",
-      "type": "line",
-      "maxzoom": 22,
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 0,
-        "line-width": 0
-      }
-    },
-    {
-      "source": "cluster-_centroid_wkt-Coarse-tile-cell-demo_eo",
-      "id": "arlas-fill_stroke-Product density:1632378581078",
-      "type": "line",
-      "maxzoom": 15,
-      "minzoom": 1,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#abcdef",
-        "line-opacity": 1,
-        "line-width": 0
-      }
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
     }
   ],
   "external-event-layers": [
     {
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1632208939421",
+      "id": "arlas-hover-arlas_id:Satellite tracks:1696588200104",
       "on": "hover"
     },
     {
-      "id": "arlas-hover-arlas-fill_stroke-Products:1632232665171",
-      "on": "hover"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1632208939421",
-      "on": "select"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Products:1632232665171",
+      "id": "arlas-select-arlas_id:Satellite tracks:1696588200104",
       "on": "select"
     }
   ]

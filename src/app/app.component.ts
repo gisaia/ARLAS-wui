@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, ArlasColorService
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -36,7 +36,7 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
+  ArlasCollaborativesearchService, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
@@ -47,6 +47,8 @@ import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
+import GeoJSONTerminator from '@webgeodatavore/geojson.terminator';
+
 
 @Component({
   selector: 'arlas-wui-root',
@@ -173,7 +175,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
@@ -401,7 +403,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
           this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorGenerator;
+            mapContrib.colorGenerator = this.colorService.colorGenerator;
             if (!!this.resultlistContributors) {
               const resultlistContrbutor: ResultListContributor = this.resultlistContributors
                 .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
@@ -503,11 +505,64 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onMapLoaded(isLoaded: boolean): void {
     /** wait until the map component loading is finished before fetching the data */
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
+      this.addDayAndNight();
+      this.addFog();
       this.mapglContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       });
+    }
+  }
+
+  public addFog() {
+    this.mapglComponent.map.setFog({
+      color: 'rgb(30, 30, 35)', // Lower atmosphere
+      'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
+      'horizon-blend': 0.01, // Atmosphere thickness (default 0.2 at low zooms)
+      'space-color': 'rgb(11, 11, 25)', // Background color
+      'star-intensity': 0.1 // Background star brightness (default 0.35 at low zoooms )
+    });
+  }
+
+  public addDayAndNight() {
+    // Add a night part on the globe
+    const date = new Date();
+
+    // https://unpkg.com/@webgeodatavore/geojson.terminator@1.0.0/GeoJSON.Terminator.js
+    const dayNightJson = new GeoJSONTerminator({
+      resolution: 2,
+      time: date
+    });
+
+    if (this.mapglComponent.map.getSource('night-source')) {
+      this.mapglComponent.map.getSource('night-source').setData(dayNightJson);
+    } else {
+      this.mapglComponent.map.addSource('night-source', {
+        'type': 'geojson',
+        'data': dayNightJson
+      });
+    }
+
+    if (!this.mapglComponent.map.getLayer('night-polygon-layer')) {
+      (this.mapglComponent.map as mapboxgl.Map).addLayer({
+        'id': 'night-polygon-layer',
+        'type': 'fill',
+        'source': 'night-source',
+        'layout': {},
+        'paint': {
+          'fill-color': '#000000',
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            0,
+            0.8,
+            8,
+            0.1
+          ],
+        }
+      }, 'arlas_id:Satellite tracks:1696588200104');
     }
   }
 

@@ -4,80 +4,37 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "demo_eo",
-          "name": "Map demo_eo",
-          "collection": "demo_eo",
+          "identifier": "satellite_index",
+          "name": "Map satellite_index",
+          "collection": "satellite_index",
           "geo_query_op": "Intersects",
-          "geo_query_field": "_geometry_wkt",
+          "geo_query_field": "wkt",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Latest products:1632208939421",
-              "name": "Latest products",
-              "source": "feature-_geometry_wkt-window-demo_eo",
+              "id": "arlas_id:Satellite tracks:1696588200104",
+              "name": "Satellite tracks",
+              "source": "feature-wkt-wide-satellite_index",
               "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "window"
-            },
-            {
-              "id": "arlas_id:Products:1632232665171",
-              "name": "Products",
-              "source": "feature-_geometry_wkt-wide-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 500,
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Product density:1632378581078",
-              "name": "Product density",
-              "source": "cluster-_centroid_wkt-Coarse-tile-cell-demo_eo",
-              "minzoom": 1,
-              "maxzoom": 15,
+              "maxzoom": 23,
               "include_fields": [],
-              "colors_from_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "id"
+              ],
               "provided_fields": [],
               "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                }
-              ],
-              "agg_geo_field": "_centroid_wkt",
-              "aggType": "tile",
-              "granularity": "Coarse",
-              "minfeatures": 500,
-              "aggregated_geometry": "cell"
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "wkt",
+              "render_mode": "wide"
             }
           ]
         },
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
-          "collection": "demo_eo",
+          "collection": "satellite_index",
           "search_field": "internal.fulltext",
           "name": "Search...",
           "icon": "search",
@@ -87,7 +44,7 @@
         {
           "type": "histogram",
           "identifier": "timeline",
-          "collection": "demo_eo",
+          "collection": "satellite_index",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -96,198 +53,14 @@
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "metadata.ObservationContext.phenomenonTime.begin"
+              "field": "timestamp"
             }
-          ],
-          "additionalCollections": []
-        },
-        {
-          "identifier": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
-          "name": "DATA",
-          "title": "DATA",
-          "collection": "demo_eo",
-          "icon": "table_chart",
-          "type": "resultlist",
-          "search_size": 40,
-          "fieldsConfiguration": {
-            "idFieldName": "metadata.core.identity.identifier",
-            "thumbnailFieldName": "metadata.core.graphics.thumbnail",
-            "imageFieldName": "metadata.core.graphics.quicklook",
-            "titleFieldNames": [
-              {
-                "fieldPath": "_keywords.platform",
-                "process": ""
-              }
-            ],
-            "tooltipFieldNames": [
-              {
-                "fieldPath": "metadata.ObservationContext.processusUsed.platform",
-                "process": ""
-              }
-            ],
-            "icon": "fiber_manual_record",
-            "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
-            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
-            "urlImageTemplate": "{metadata.core.graphics.quicklook}"
-          },
-          "columns": [
-            {
-              "columnName": "Sensor",
-              "fieldName": "metadata.ObservationContext.processusUsed.platform",
-              "dataType": "",
-              "process": "",
-              "useColorService": true
-            },
-            {
-              "columnName": "Date",
-              "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
-              "dataType": "",
-              "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
-              "useColorService": false
-            },
-            {
-              "columnName": "Cloud coverage",
-              "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-              "dataType": "%",
-              "process": "",
-              "useColorService": false
-            },
-            {
-              "columnName": "Incidence angle",
-              "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-              "dataType": "°",
-              "process": "(result !== undefined && result !== null) ? result.toString().split('.')[0].concat((result.toString().split('.')[1] !== undefined && result.toString().split('.')[1] !== null) ? '.'+result.toString().split('.')[1].substring(0, 4) : '') : ''",
-              "useColorService": false
-            }
-          ],
-          "details": [
-            {
-              "name": "Toponymy",
-              "order": 1,
-              "fields": [
-                {
-                  "path": "_keywords.country",
-                  "label": "Country",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.state",
-                  "label": "State",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.region",
-                  "label": "Region",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.city",
-                  "label": "City",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Identification",
-              "order": 2,
-              "fields": [
-                {
-                  "path": "metadata.core.identity.identifier",
-                  "label": "Identifier",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.core.identity.parentIdentifier",
-                  "label": "ParentIdentifier",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.core.identity.collection",
-                  "label": "Plateform",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Technical Information",
-              "order": 3,
-              "fields": [
-                {
-                  "path": "_resolution",
-                  "label": "Resolution",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-                  "label": "Incidence angle",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                  "label": "Cloud coverage",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
-                  "label": "Snow coverage",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
-                  "label": "Wate coverage",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Product and processing levels",
-              "order": 4,
-              "fields": [
-                {
-                  "path": "metadata.core.description.processingLevel",
-                  "label": "Product level",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.Discipline",
-                  "label": "Discipline",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Acquisition mode",
-              "order": 5,
-              "fields": [
-                {
-                  "path": "metadata.ObservationContext.processusUsed.platform",
-                  "label": "Sensor",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
-                  "label": "Sensor mode",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.instrument",
-                  "label": "Instrument",
-                  "process": ""
-                }
-              ]
-            }
-          ],
-          "includeMetadata": [
-            "_keywords.platform",
-            "metadata.ObservationContext.processusUsed.platform",
-            "metadata.core.graphics.thumbnail",
-            "metadata.core.graphics.quicklook"
           ]
         },
         {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
-          "collection": "demo_eo",
+          "collection": "satellite_index",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -296,87 +69,38 @@
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "metadata.ObservationContext.phenomenonTime.begin"
+              "field": "timestamp"
             }
           ],
           "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.02,
-          "additionalCollections": []
+          "selectionExtentPercentage": 0.02
         },
         {
-          "identifier": "demo_eo-_keywords.city-10-Count",
-          "name": "City",
-          "title": "City",
-          "collection": "demo_eo",
-          "icon": "language",
+          "identifier": "satellite_index-id-10-Count-desc-count",
+          "name": "Id",
+          "title": "Id",
+          "collection": "satellite_index",
+          "icon": "poll",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "_keywords.city",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_keywords.country-10-Count",
-          "name": "Country",
-          "title": "Country",
-          "collection": "demo_eo",
-          "icon": "language",
-          "type": "tree",
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "_keywords.country",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-          "name": "Sensor",
-          "title": "Sensor",
-          "collection": "demo_eo",
-          "icon": "photo_camera",
-          "type": "tree",
-          "aggregationmodels": [
-            {
-              "field": "_sensorType",
+              "field": "id",
               "size": 10,
-              "type": "term"
-            },
-            {
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 10,
-              "type": "term"
+              "order": "desc",
+              "on": "count"
             }
-          ]
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
-          "name": "Sensor",
-          "title": "Sensor",
-          "collection": "demo_eo",
-          "icon": "photo_camera",
-          "type": "tree",
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 6
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-          "name": "Cloud Coverage",
-          "title": "Cloud Coverage",
-          "collection": "demo_eo",
-          "icon": "cloud_queue",
+          "identifier": "satellite_index-inclinaison-numeric-bucket-Count--50",
+          "name": "Inclinaison",
+          "title": "Inclinaison",
+          "collection": "satellite_index",
+          "icon": "poll",
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
@@ -385,7 +109,25 @@
           "aggregationmodels": [
             {
               "type": "histogram",
-              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
+              "field": "inclinaison"
+            }
+          ]
+        },
+        {
+          "identifier": "satellite_index-period-numeric-bucket-Count--50",
+          "name": "Period",
+          "title": "Period",
+          "collection": "satellite_index",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "period"
             }
           ]
         }
@@ -432,25 +174,19 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Streets-dark",
-              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              "name": "Bright",
+              "styleFile": "http://localhost:81/styles/empty/style.json",
+              "image": null
             },
             "basemapStyles": [
               {
-                "name": "Basic",
-                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4"
-              },
-              {
-                "name": "Streets-dark",
-                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
-              },
-              {
-                "name": "Streets-light",
-                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "name": "Bright",
+                "styleFile": "http://localhost:81/styles/empty/style.json",
+                "image": null
               }
             ],
-            "margePanForLoad": 0,
-            "margePanForTest": 0,
+            "margePanForLoad": 5,
+            "margePanForTest": 5,
             "initZoom": 2,
             "initCenter": [
               0,
@@ -458,72 +194,28 @@
             ],
             "displayScale": true,
             "displayCurrentCoordinates": false,
-            "idFeatureField": "metadata.core.identity.identifier",
+            "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
               "events": {
                 "zoomOnClick": [],
-                "emitOnClick": [
-                  "arlas_id:Latest products:1632208939421"
-                ],
-                "onHover": [
-                  "arlas_id:Latest products:1632208939421"
-                ]
+                "emitOnClick": [],
+                "onHover": []
               },
               "externalEventLayers": []
             },
             "visualisations_sets": [
               {
-                "name": "Latest products",
+                "name": "Satellite",
                 "layers": [
-                  "arlas_id:Latest products:1632208939421"
-                ],
-                "enabled": true
-              },
-              {
-                "name": "All products",
-                "layers": [
-                  "arlas_id:Product density:1632378581078",
-                  "arlas_id:Products:1632232665171"
+                  "arlas_id:Satellite tracks:1696588200104"
                 ],
                 "enabled": true
               }
             ]
           }
         },
-        "resultlists": [
-          {
-            "contributorId": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
-            "componentType": "resultlist",
-            "input": {
-              "id": "demo_eo-metadata.core.identity.identifier-40-Sensor-Date-Cloud coverage-Incidence angle-Toponymy-Identification-Technical Information-Product and processing levels-Acquisition mode-",
-              "tableWidth": 445,
-              "globalActionsList": [],
-              "searchSize": 40,
-              "nLastLines": 3,
-              "detailedGridHeight": 300,
-              "nbGridColumns": 3,
-              "defautMode": "list",
-              "displayFilters": false,
-              "hasGridMode": true,
-              "visualisationLink": "{_services_WMS_0_url}",
-              "isBodyHidden": false,
-              "isGeoSortActived": true,
-              "isAutoGeoSortActived": null,
-              "selectedItemsEvent": null,
-              "consultedItemEvent": null,
-              "actionOnItemEvent": null,
-              "globalActionEvent": 300,
-              "useColorService": true,
-              "cellBackgroundStyle": "filled",
-              "options": {
-                "showActionsOnhover": "true",
-                "showDetailIconName": "keyboard_arrow_down",
-                "hideDetailIconName": "keyboard_arrow_up"
-              }
-            }
-          }
-        ],
+        "resultlists": [],
         "detailedTimeline": {
           "contributorId": "detailedTimeline",
           "componentType": "histogram",
@@ -573,86 +265,42 @@
       },
       "analytics": [
         {
-          "groupId": "Filter-0",
-          "title": "Geonames",
-          "tab": "Filter",
-          "icon": "language",
+          "groupId": "Orbits-0",
+          "title": "Tracks",
+          "tab": "Orbits",
+          "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_eo-_keywords.city-10-Count",
-              "showExportCsv": "",
+              "contributorId": "satellite_index-id-10-Count-desc-count",
+              "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "City",
-                "powerbarTitle": "City",
-                "displayFilter": false,
-                "useColorService": false,
-                "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
-              }
-            },
-            {
-              "contributorId": "demo_eo-_keywords.country-10-Count",
-              "showExportCsv": "",
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "Country",
-                "powerbarTitle": "Country",
-                "displayFilter": false,
-                "useColorService": false,
-                "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "Filter-1",
-          "title": "Collection",
-          "tab": "Filter",
-          "icon": "photo_camera",
-          "components": [
-            {
-              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-              "componentType": "donut",
-              "showExportCsv": "",
-              "input": {
-                "id": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-                "customizedCssClass": "arlas-donuts-analytics",
-                "diameter": 170,
-                "containerWidth": 223,
-                "multiselectable": true,
-                "opacity": 0.4
-              }
-            },
-            {
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
-              "showExportCsv": "",
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "Sensor",
-                "powerbarTitle": "Sensor",
+                "chartTitle": "Id",
+                "powerbarTitle": "Id",
                 "displayFilter": true,
-                "useColorService": true,
+                "scrollable": true,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
                 "useColorFromData": false,
                 "unit": "",
-                "chartWidth": 217
+                "chartWidth": 445
               }
             }
           ]
         },
         {
-          "groupId": "Filter-2",
-          "title": "Cloud Coverage",
-          "tab": "Filter",
-          "icon": "cloud_queue",
+          "groupId": "Orbits-1",
+          "title": "Trajectory",
+          "tab": "Orbits",
+          "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
+              "contributorId": "satellite_index-inclinaison-numeric-bucket-Count--50",
               "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
+                "id": "satellite_index-inclinaison-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -660,7 +308,44 @@
                 "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
                 "chartType": "bars",
-                "chartTitle": "Cloud Coverage",
+                "chartTitle": "Inclinaison",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "satellite_index-period-numeric-bucket-Count--50",
+              "input": {
+                "id": "satellite_index-period-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Period",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -692,100 +377,88 @@
       "colorGenerator": {
         "keysToColors": [
           [
-            "PLEIADES",
-            "#ec4040"
+            ",id,timestamp,wkt",
+            "#6fff68"
           ],
           [
-            "SENTINEL 2",
-            "#ff61ec"
+            "0,6629_129201_-5753_-4529_1628022833.6782188,1628022833.6782188,\"LINESTRING(-2722.9495736967756 48.77392124896951,-2716.0529372986784 51.713678460768634,-2708.2527932022736 54.16307630329551,-2699.573141760959 56.01365731170017,-2690.1751580245145 57.16239100903793,-2680.374226225511 57.53372665027312,-2670.590112757269 57.10103143245776,-2661.2379612582054 55.895229718274784,-2652.622115125397 53.99482469237593,-2644.8919467012847 51.503980283620365,-2638.062809777813 48.530849971699304,-2632.065736553283 45.17361524191507,-2626.793374662044 41.514722173001736,-2622.130015324036 37.6204671257847,-2617.966997165104 33.54305807495052,-2614.208637858027 29.323364478613662,-2610.773131764808 24.99352103224801,-2607.591189737595 20.57910417867649,-2604.603889279232 16.100855675256852,-2601.760414679771 11.576021474682452,-2599.015950330528 7.019395543243754,-2596.3297891384086 2.444152534583961,-2593.6636279301256 -2.137459269395676,-2590.9799848194043 -6.713504625791313,-2588.240660137118 -11.2717747997455,-2585.4051592376077 -15.799177620861114,-2582.428998332002 -20.2810516449678,-2579.261826906471 -24.700344925129617,-2575.8453349314327 -29.03658782265911,-2572.1109981327318 -33.264576698956155,-2567.9779057831615 -37.35267872488459,-2563.351313100709 -41.26068654988742,-2558.1233184836187 -44.93723846972424,-2552.1783377292018 -48.31706049320003,-2545.40770720958 -51.31881571306385,-2537.7386081227364 -53.84527342399517,-2529.1791076024906 -55.78861247287513,-2519.8684040178678 -57.04378804438553,-2510.101000188084 -57.52983348383375,-2500.287470066875 -57.21213329381863,-2490.8510582366594 -56.11353361423452,-2482.116535619243 -54.3069019818046,-2474.25546839461 -51.89417120431699,-2467.2996460652116 -48.98399337538722,-2461.1890829298445 -45.676505273011145,-2455.8196997533983 -42.05653022141116,-2451.0757511911565 -38.19259234303249,-2446.847031615237 -34.13875900205881,-2443.035857414902 -29.937360979511144,-2439.558479872005 -25.621643554509333,-2436.3439345491247 -21.218009696444508,-2433.3319495219944 -16.74780565266823,-2430.4706783281285 -12.22870967603084,-2427.7145643062054 -7.675812825789102,-2425.0224184796307 -3.1024772957015667,-2782.3556915674217 1.4789544876961491,-2779.6768784786427 6.056538460686423,-2776.9479779991534 10.618141637027149,-2774.1289260681565 15.150838653455466,-2771.1759229625854 19.640240287830437,-2768.0395852205156 24.069695739334914,-2764.662883317024 28.419299879958203,-2760.97890131235 32.66462402014027,-2756.9086256938385 36.77508046683619,-2752.3593302844047 40.71184413222793,-2747.2248195161305 44.425327450107154,-2741.389986139724 47.85241620939059,-2734.743778988126 50.91415232840355,-2727.205799495967 53.51541976776656,-2718.7692749286316 55.54930897053541,-2709.552001077674 56.90921280406451,-2699.826797623359 57.509232057865056,-2689.992800437435 57.30701287558822,-2680.4789328143 56.31715933425899,-2671.629246295951 54.60644687423053,-2663.637847653523 52.274100465942446,-2656.5540171366542 49.42895483936731,-2650.327759383855 46.17296690204503,-2644.858935719987 42.593322149472115,-2640.032110207951 38.76081377478834,-2635.7356691906134 34.73142622976767,-2631.8699519988427 30.54900689327232,-2628.349240453436 26.247958021943468,-2625.100850405243 21.855545885664107,-2622.0631131951714 17.393749758981063,-2619.1831073692915 12.880702380354188,-2616.414495544636 8.33180951321729,-2613.71557126743 3.7606354396776176,-2611.0475063158674 -0.8203705191729442,-2608.372740707803 -5.399243428267733,-2605.6534394491005 -9.96391366802116,-2602.8499346213744 -14.501608905593821,-2599.919072458132 -18.998195774119218,-2596.812393897333 -23.4374042451534,-2593.474103320119 -27.799867632285324,-2589.8388465527837 -32.061898545599455,-2585.829471914629 -36.193911520457824,-2581.355272845798 -40.15841126814271,-2576.311847038096 -43.90752618619938,-2570.584822640128 -47.380251427541,-2564.0613038081365 -50.499996624412105,-2722.9495736967756 48.77392124896951)\"",
+            "#e84119"
           ],
           [
-            "SPOT5",
-            "#ecff4b"
+            "1,8240_355916_4940_14096_1211007410.4724514,1211007410.4724514,\"LINESTRING(8197.820027492371 48.21850563454711,8203.845948907881 47.10898845424677,8209.579080156527 45.671909996179956,8214.983102354638 43.9391056951948,8220.04375155428 41.94400669936648,8224.764445927469 39.7195347407442,8229.16125206224 37.296684904752624,8233.258268828738 34.70373657415431,8237.08394367312 31.96594791110434,8240.668423410567 29.105576367565092,8244.04181808883 26.142092585144983,8247.233175754463 23.09249143799376,8250.26996630136 19.971637738218774,8253.177907477184 16.792610107113987,8255.981008748895 13.567024399715361,8258.70174684334 10.305329427684851,8261.361316513196 7.017074465189375,8263.979921494927 3.7111517644484233,8266.577085193088 0.3960192353196811,7909.1719700064095 -2.9200906524263837,7911.783699774299 -6.228969311396666,7914.43168249959 -9.522231264362198,7917.135930778445 -12.791107587755219,7919.917375292119 -16.026227092559964,7922.798161908879 -19.217379059969822,7925.801914583832 -22.35325209121843,7928.953933059644 -25.421145255228097,7932.281274743979 -28.40665093510582,7935.812642479372 -31.293314667224603,7939.57796366118 -34.06228735331857,7943.607503905208 -36.69200137923287,7947.930319945279 -39.157926144465996,7952.571844394659 -41.43249063847167,7957.550451100226 -43.485297340809026,7962.873033590325 -45.28378125980983,7968.52999549875 -46.79446705795305,7974.49059095824 -47.98491251150399,7980.700100238216 -48.82626956141859,7987.080518642268 -49.296154104086355,7993.535857749003 -49.38127296519381,7999.961716071435 -49.07915398064939,8006.257041669928 -48.39848191556324,8012.335007709384 -47.357938041995624,8018.130335342818 -45.98388870817976,8023.601938808802 -44.30754312438542,8028.7314483768805 -42.36220315232086,8033.519148287444 -40.181027684318394,8037.978969898826 -37.79547833245624,8042.133734328795 -35.234414906743964,8046.011263845734 -32.523706172582926,8049.641530888097 -29.68619688524306,8053.054754521363 -26.741891911112802,8056.280249975086 -23.708253829484807,8059.345825419656 -20.60054533552415,8062.2775508591185 -17.432175432383357,8065.099766445455 -14.215027808382683,8067.835237035973 -10.959762302118666,8070.505391298811 -7.676087878256829,8073.130606654437 -4.373009769392764,8075.730517140717 -1.0590556552390216,8078.32433158491 2.257513188319447,8080.931155703129 5.56849938594853,8083.570314949206 8.865569059902489,8086.261675672399 12.140046952731595,8089.025960553631 15.38270056776721,8091.885050080636 18.583507060060285,8094.862254260124 21.731397235609762,8097.982526665804 24.81397241790751,8101.272574718914 27.81719276642562,8104.760794143487 30.725040882354417,8108.476920934344 33.519173643414966,8112.451252643795 36.17858999431116,8116.713250219673 38.679364727008746,8121.289311622824 40.99452889990555,8126.199546602882 43.09421389434433,8131.453535127953 44.94620852116788,8137.045379347748 46.51708625630228,8142.948870474658 47.77401054679649,8149.114160730339 48.68718863426623,8155.467629977583 49.23271699115225,8161.9162363102505 49.39530911479934,8168.356347691109 49.170253799476484,8174.685299129808 48.564052856052335,8180.8126930728495 47.5935452575753,8186.6685807326185 46.28378114798163,8192.207045124342 44.66523224292685,8197.40544293591 42.77098127917187,8202.260720543174 40.63436234351661,8206.784482056406 38.28726789391011,8210.998114998913 35.75912313981754,8214.928702890436 33.07640658330327,8218.605968386073 30.262557970736257,8222.060194270689 27.338128501650804,8225.320939415638 24.3210622704603,8228.416341455097 21.227033755422667,8231.372823275933 18.069795490565284,8234.215062084842 14.861511047784681,8236.966120545007 11.613062191466678,8239.647672697298 8.334327436573952,8242.280281987183 5.034434015035069,8244.883705819206 1.7219877934527685,8197.820027492371 48.21850563454711)\"",
+            "#195e4c"
           ],
           [
-            "SPOT6",
-            "#19ff88"
+            "10,12292_613773_4308_14973_1174005180.210425,1174005180.210425,\"LINESTRING(8656.598718476753 36.43726480179785,8659.705149951802 37.61878009433141,8662.915384235872 38.70221419425947,8666.226811059789 39.68060955013018,8669.634632404464 40.54718058610158,8673.131688134043 41.295478694146695,8676.70837867345 41.91957390121676,8680.352714068591 42.414244070933535,8684.050510462655 42.77515961260598,8687.785740975898 42.999049778670816,8691.54102964739 43.08383635092943,8695.29825750626 43.028722236531266,8699.039232998175 42.83422620790656,8702.746368796108 42.50216024497236,8706.40330599298 42.03555179612937,8709.9954350683 41.43851871654606,8713.510278749696 40.716108732065344,8716.937721248383 39.87411743711424,8720.270087243322 38.91889895770944,8723.502089121837 37.85718181399338,8726.63067054874 36.695899785391056,8729.654778206172 35.44204437134877,8732.575092489209 34.10254231748247,8735.393743625787 32.68415902690808,8738.114033741533 31.193426689068804,8740.740179144956 29.636594660016037,8743.277081459892 28.01959893784022,8745.730131645678 26.348047361224335,8748.105047554385 24.627217273882597,8750.407743396943 22.86206271431815,8752.644228136834 21.057228607486785,8754.82052917727 19.21706988050546,8756.942637545115 17.345673852349854,8759.01647092613 15.446884631706329,8761.047851236559 13.524328586403536,8763.042493829533 11.58144022018023,8765.006005867037 9.621488011496654,8766.943891799481 7.647599940972439,8768.861564262954 5.662788566092147,8770.7643590181 3.669975601162517,8772.657552810859 1.672016033484748,8414.546383234268 -0.32827814136995714,8416.436069814543 -2.328114447253797,8418.33183563623 -4.324696578992756,8420.23892886243 -6.315201029422742,8422.162643498057 -8.296753545338785,8424.108338686472 -10.266405278810984,8426.081455721405 -12.221108525786585,8428.087531794159 -14.157691984089404,8430.13220927873 -16.07283552124705,8432.221239081959 -17.96304452356807,8434.360476253694 -19.824624007225733,8436.555865667984 -21.65365281642438,8438.813415164925 -23.445958420267402,8441.139153111368 -25.197093055809958,8443.539066943917 -26.902312255605842,8446.019018973619 -28.556557145940776,8448.58463566664 -30.154442302315548,8451.24116691737 -31.6902513860891,8453.993312688459 -33.15794322867134,8456.845016024727 -34.55117142317629,8459.799224073293 -35.863320746485385,8462.857622524883 -37.08756375628031,8466.020353854718 -38.2169405521911,8469.285735656495 -39.24446381354301,8472.65000163161 -40.16324970655671,8476.107093374507 -40.9666730391034,8479.648534527725 -41.6485422056439,8483.263418508985 -42.203286260994815,8486.938535400655 -42.62614333921661,8490.658652102631 -42.91333720227846,8494.406943202153 -43.06222761534551,8498.165550544152 -43.07142102013715,8501.91623085967 -42.94083080649566,8505.641037135892 -42.671681100855395,8509.322973986526 -42.26645368349707,8512.946571470202 -41.72878340957809,8516.498334550844 -41.06331231794399,8519.967043599589 -40.275515701066894,8523.343900926924 -39.37151445193599,8526.62253551943 -38.35788713619481,8529.798890397611 -37.241492946356544,8532.871023383344 -36.029313626134794,8535.838853054143 -34.72831922985956,8538.703878633592 -33.34535967941941,8541.468897179957 -31.887081777243658,8544.137735187687 -30.359869723734466,8546.71500571166 -28.76980623241357,8549.205897015658 -27.122650920287352,8551.615994805985 -25.423832631155353,8553.951137341 -23.678452587857397,8556.217300956481 -21.891295651118455,8558.420512599789 -20.066847402331323,8560.566785602161 -18.209315207872812,8562.66207494475 -16.322651828956673,8564.712248536278 -14.410580496252654,8566.72307140518 -12.476620666810488,8568.700200139087 -10.524113923641304,8570.649185328948 -8.556249670942258,8572.575480165082 -6.576090427396508,8574.484453671877 -4.586596633514227,8656.598718476753 36.43726480179785)\"",
+            "#1b83b7"
           ],
           [
-            "SPOT4",
-            "#7d4eff"
+            "11,17966_774180_-4641_16388_1451481198.9366648,1451481198.9366648,\"LINESTRING(9528.393148771556 -45.220747357638786,9530.906252826993 -44.77797021551712,9533.374218372575 -44.26960025874579,9535.79269709527 -43.69790334751466,9538.15811666366 -43.06531274166885,9540.467673815236 -42.37438769203273,9542.719306886063 -41.62777406359646,9544.911652007571 -40.82816800466606,9547.043987342833 -39.97828336663342,9549.116169541983 -39.08082328696496,9551.12856616026 -38.13845609209462,9553.08198719971 -37.15379546773259,9554.977618292372 -36.129384685191084,9556.816957405206 -35.06768456182108,9558.601756361802 -33.97106476613557,9560.333967970348 -32.84179804635047,9562.01569913345 -31.682056957001354,9563.649169993814 -30.49391267443526,9565.236678933483 -29.279335521659938,9566.78057308188 -28.040196860759202,9568.28322388665 -26.778272052558886,9569.74700724792 -25.495244225300556,9571.174287699461 -24.192708634568945,9572.567406129021 -22.872177434241788,9573.92867055616 -21.535084712019664,9575.26034952317 -20.182791672826475,9576.564667697217 -18.81659187904734,9577.84380332694 -17.43771647838759,9579.099887241084 -16.04733936841581,9580.33500311903 -14.646582261980566,9581.551188802203 -13.236519630063777,9582.750438450596 -11.818183508648827,9583.934705380098 -10.392568164206548,9585.105905443617 -8.960634618765907,9586.265920842747 -7.5233150405361,9587.416604276641 -6.081517009930664,9588.559783351751 -4.63612767382883,9589.697265189783 -3.18801780317242,9590.83084118241 -1.7380457706817656,9591.962291850014 -0.2870614666988759,9233.093391767998 1.1640898279800869,9234.225914528664 2.6145635928747892,9235.36163770887 4.063512222498935,9236.502347814065 5.510081165206952,9237.649845167836 6.953405026658179,9238.805948712485 8.392603618786485,9239.972500680655 9.826777935889261,9241.151371090302 11.255006040518202,9242.344462005065 12.676338843344718,9243.55371148949 14.08979576319243,9244.781097172825 15.49436025610783,9246.02863931647 16.888975205845853,9247.298403257866 18.272538172677017,9248.592501077814 19.643896503213995,9249.91309230836 21.001842311286474,9251.262383464647 22.34510734907781,9252.642626146502 23.672357799132467,9254.05611341438 24.982189031832128,9255.505174100637 26.27312038992272,9256.992164671963 27.543590082049153,9258.519458215022 28.791950291371858,9260.089430077307 30.01646263345361,9261.704439664158 31.215294129808523,9263.366807876297 32.38651389961286,9265.078789678017 33.52809081152102,9266.84254132385 34.637892379187946,9268.660081852326 35.713685226129414,9270.533248592172 36.753137485209386,9272.46364663175 37.7538235314978,9274.452592489431 38.7132314694764,9276.501052599362 39.628773800357706,9278.609577697212 40.49780167536647,9280.778234746427 41.31762308835978,9283.006538666896 42.08552526844898,9285.293386775707 42.79880139398467,9287.636999465429 43.45478155989682,9290.034871150536 44.05086769211893,9292.483735813643 44.58457182329146,9294.979551481045 45.05355683859528,9297.51750756316 45.455678493174744,9300.092058150734 45.7890272242907,9302.696983054071 46.05196806777511,9305.325476669195 46.24317687518461,9307.970262784764 46.36167104490074,9310.623731406458 46.406833144652566,9313.278091811975 46.3784261144605,9315.925534603617 46.27659917777622,9318.558394698986 46.10188411576466,9321.169307113047 45.85518212259513,9323.751348049913 45.53774199990601,9326.298155142997 45.151130911544804,9328.80402247135 44.69719926268885,9331.263967999512 44.178041465948574,9333.673773093149 43.595954406517926,9336.029995541174 42.95339533262509,9338.329958917619 42.25294070382208,9340.571722067276 41.49724726286129,9342.754032992068 40.68901629318197,9344.87627149949 39.83096171583452,9346.938384733821 38.925782392597206,9348.940819243597 37.97613875343814,9528.393148771556 -45.220747357638786)\"",
+            "#c41939"
           ],
           [
-            "PLEIADES 1A",
-            "#9bc419"
+            "12,16747_163889_3272_-2315_1464749719.3555105,1464749719.3555105,\"LINESTRING(-1373.5391576894463 -27.513192106681515,-1371.5048602109987 -26.814273471077467,-1369.499282258061 -26.07912799690836,-1367.5225191795587 -25.309347132586407,-1365.5744757895002 -24.5065310038381,-1363.6548806830197 -23.672280686988596,-1361.7633010371985 -22.808191470246616,-1359.8991575197765 -21.915847089940154,-1358.0617389888116 -20.996814909541577,-1356.250216726054 -20.052641994663023,-1354.4636580037372 -19.08485202665811,-1352.701038836863 -18.094942990574452,-1350.9612558197741 -17.08438556943972,-1349.24313698627 -16.05462217569007,-1347.545451666678 -15.00706655143743,-1345.866919343315 -13.94310387173163,-1344.206217528154 -12.864091288570137,-1342.561988703824 -11.77135885776361,-1340.9328463819895 -10.66621079556537,-1339.3173803423756 -9.549927016958778,-1337.7141611218801 -8.423764912464836,-1336.1217438269816 -7.288961325126055,-1334.5386713445591 -6.146734693824532,-1332.9634770267967 -4.998287333218306,-1331.3946869254664 -3.844807824272,-1329.830821649928 -2.6874734925780714,-1328.27039792194 -1.5274529543902469,-1326.7119298990935 -0.3659087125087987,-1325.1539303375173 0.7960002141376905,-1323.594911663611 1.9571156421791889,-1322.0333870240302 3.116277571049038,-1320.4678713830072 4.272321539914309,-1318.8968827363817 5.424076008771266,-1317.3189435123952 6.570359779051613,-1315.7325822303 7.709979470466103,-1314.1363354890627 8.84172707270733,-1312.5287503597342 9.964377593040314,-1310.9083872562292 11.076686823719921,-1309.273823360029 12.177389256572518,-1307.6236566744055 13.265196175937149,-1305.956510782762 14.338793965434887,-1304.2710403831463 15.396842668656397,-1302.5659376664084 16.437974848731482,-1300.8399395982387 17.460794796740316,-1299.0918361548283 18.463878143869024,-1297.320479547409 19.445771936881155,-1295.5247944518358 20.404995240591028,-1293.7037892349547 21.340040334247796,-1291.8565681392552 22.24937457067074,-1289.9823443508299 23.13144296716003,-1288.0804538328418 23.984671595138217,-1286.150369757809 24.80747183062032,-1284.1917173177796 25.598245519425188,-1282.2042886332688 26.35539109902203,-1280.1880574216898 27.0773107026309,-1278.1431930267859 27.762418250383362,-1276.070073355851 28.40914850692754,-1273.9692962256418 29.015967055037148,-1271.8416885856825 29.581381101109134,-1269.6883130742656 30.10395099185829,-1267.5104713727785 30.58230228341531,-1265.3097038623305 31.015138166198184,-1263.0877851559576 31.401252013511538,-1260.8467151810958 31.739539791242436,-1258.5887056192028 32.029012042767214,-1256.3161616683167 32.268805149648905,-1254.0316592730298 32.458191566922736,-1251.7379181552226 32.59658874317601,-1249.437771166332 32.68356646085457,-1247.1341306551462 32.718852370929326,-1244.829952691484 32.702335546854904,-1242.5282000943087 32.634067943281124,-1240.231805274262 32.514263712028274,-1237.9436339101803 32.34329639762954,-1235.6664504361743 32.1216941032449,-1233.4028862237587 31.850132781050764,-1231.1554112098179 31.5294278558556,-1228.926309556265 31.16052443399124,-1226.717659743494 30.74448637973174,-1224.531319309944 30.282484557884075,-1222.368914266488 29.775784544065353,-1220.2318330473345 29.22573409469685,-1218.1212247166234 28.6337506487505,-1216.0380010370627 28.001309105067246,-1213.9828419260025 27.32993008511351,-1211.956203775051 26.62116885381838,-1209.958330089296 25.876605032900397,-1207.9892639075274 25.097833203782248,-1206.048861490859 24.28645446233364,-1204.1368068086322 23.44406895637886,-1202.2526264025496 22.572269409847575,-1200.3957042680313 21.67263561495913,-1198.5652964519556 20.74672985593445,-1196.7605451251397 19.7960932142112,-1194.9804919437695 18.822242695618247,-1193.2240905649358 17.826669113963963,-1191.4902182265134 16.81083566247587,-1189.7776863403888 15.776177103957176,-1188.085250080522 14.724099511879116,-1186.4116169738015 13.655980497432555,-1184.7554545225955 12.573169861396034,-1373.5391576894463 -27.513192106681515)\"",
+            "#ffae3c"
           ],
           [
-            "SPOT 7",
-            "#1102c6"
+            "13,6579_785092_-112_10082_1345421926.6078305,1345421926.6078305,\"LINESTRING(5813.3763407586 -0.078112731500868,5818.596629551574 -0.18433874683465162,5823.8169829984045 -0.2888852902722268,5829.03743569648 -0.3907998075220448,5834.258018636598 -0.4891536586372949,5839.478758076224 -0.5830505636587684,5844.699674584361 -0.671634760851187,5849.920782292732 -0.7540988040409448,5855.142088380648 -0.8296909281694202,5860.363592812441 -0.8977219154130743,5865.585288337207 -0.9575713981169721,5870.807160751117 -1.008693539360008,5876.029189412949 -1.05062203722232,5881.251347994238 -1.0829744047447196,5886.47360543688 -1.1054554841227024,5891.69592708333 -1.1178601608081904,5896.918275938255 -1.120075250823506,5902.140614015544 -1.1120805426269533,5907.362903721552 -1.0939489831938207,5912.585109223981 -1.0658460064640867,5917.807197756423 -1.0280280108249407,5923.029140810942 -0.9808400007074499,5928.250915175201 -0.9247124155519864,5933.472503776376 -0.8601571772163619,5938.693896301232 -0.7877629942590423,5943.9150895699395 -0.7081899683412485,5949.136087650208 -0.6221635541911099,5954.3569017078125 -0.5304679301173706,5959.57754959919 -0.4339388409272916,5964.798055221068 -0.33345597929055576,5970.018447640937 -0.22993497511059974,5975.238760040026 -0.12431906534078387,5980.459028507208 -0.01757051894568654,5625.679290727557 0.08933810661052462,5630.899584613111 0.1954327998367735,5636.119946925413 0.299746942536372,5641.340411939714 0.4013300917801878,5646.561010199234 0.4992566187650896,5651.781767404654 0.5926341277449843,5657.002703479158 0.6806115797193523,5662.223831843066 0.762387047632636,5667.445158924529 0.8372150325089347,5672.666683924259 0.9044132732516563,5677.888398843056 0.9633689868036677,5683.11028877136 1.0135444800067837,5688.33233243049 1.0544820798228267,5693.554502946051 1.0858083345664014,5698.7767688254435 1.1072374454160419,5703.999095103934 1.1185738946576804,5709.221444617516 1.1197142447930613,5714.443779356097 1.1106480907166831,5719.666061847609 1.0914581555125797,5724.888256522445 1.0623195289191663,5730.110331008415 1.023498056022406,5735.332257308934 0.9753478921299683,5740.554012821475 0.9183082479222965,5745.775581159259 0.8528993567519921,5750.996952746319 0.7797177032675107,5756.218125164469 0.6994305592868736,5761.439103239721 0.6127698789792256,5766.659898865257 0.5205256108858113,5771.880530567589 0.4235384891074312,5777.101022831869 0.32269237010150287,5782.321405211031 0.2189061849825293,5787.541711251157 0.11312558002974675,5792.761977272166 0.0063143203059216405,5797.982241048011 -0.100554467086329,5803.202540434213 -0.20650713251105896,5808.422911992456 -0.3105783479228854,5813.643389662025 -0.4118198774324656,5818.864003526238 -0.5093091966223818,5824.0847787186085 -0.6021578839323315,5829.3057345084535 -0.689519708988688,5834.526883599256 -0.7705983448838759,5839.748231665393 -0.8446546341473721,5844.969777144265 -0.9110133415236935,5850.191511291592 -0.969069330709328,5855.413418498086 -1.0182931069155976,5860.635476856198 -1.058235672518759,5865.857658956449 -1.0885326491147909,5871.079932884467 -1.1089076259759802,5876.302263382458 -1.119174702149478,5881.524613132768 -1.1192401971629358,5886.746944116684 -1.1091035134081109,5891.969218998858 -1.0888571416428756,5897.191402486755 -1.0586858095569827,5902.413462615479 -1.0188647818526593,5907.635371911098 -0.969757328663262,5912.857108390023 -0.9118113872431454,5918.07865635812 -0.8455554495923677,5923.300006980542 -0.771593715929699,5928.521158601705 -0.6906005606146784,5933.742116803962 -0.6033143631839024,5938.962894203082 -0.5105307625696802,5944.183509988164 -0.41309539729297323,5949.403989222899 -0.31189619846773226,5954.62436193373 -0.20785530583568113,5959.844662018058 -0.10192067979492347,5605.064926012203 0.004942515476314897,5610.2851917637545 0.11176068113613703,5615.505497056454 0.2175606273540305,5813.3763407586 -0.078112731500868)\"",
+            "#3b2c19"
           ],
           [
-            "PLEIADES 1B",
-            "#ff834b"
+            "14,8593_644750_790_9881_1446882194.030974,1446882194.030974,\"LINESTRING(5598.088751029419 -7.90103776333248,5602.0676166210515 -7.8818067184274705,5606.045656828427 -7.820190270748821,5610.022023614516 -7.716536338824422,5613.995906620501 -7.571429310097284,5617.966551252457 -7.385685417547837,5621.93327533801 -7.160346374239808,5625.89548395078 -6.896671402658007,5629.85268206518 -6.5961278237190095,5633.804484777624 -6.260380390644481,5637.750624908344 -5.891279564886175,5641.690957876804 -5.490848934887412,5645.6254638195005 -5.0612719740421275,5649.554246988759 -4.604878322567178,5653.477532532699 -4.124129760257781,5657.395660808582 -3.621606014595453,5661.309079423547 -3.099990522888789,5665.218333228801 -2.56205623954458,5669.124052516116 -2.010651551632857,5673.026939680699 -1.4486863389540847,5676.927754623394 -0.8791181900161893,5680.8272991696 -0.30493876367895956,5684.726400783754 0.2708397314688515,5688.62589585822 0.8451979810508371,5692.526612854899 1.415122981319945,5696.429355577634 1.9776214800456475,5700.334886853723 2.5297334913451657,5704.2439129033155 3.0685459261331856,5708.1570686756 3.591206367034417,5712.074904429316 4.094936999167083,5715.997873830917 4.577048686769026,5719.92632383512 5.0349551609982415,5723.860486597834 5.466187257381065,5727.800473649084 5.8684071134694475,5731.746272522131 6.23942220962578,5735.69774599376 6.577199109917024,5739.654634039254 6.879876737362826,5743.61655854458 7.145778999715826,5747.5830307488795 7.373426569911319,5751.5534613148875 7.561547620446238,5755.5271728461385 7.709087314052655,5759.503414591583 7.815215864530317,5763.481379004314 7.879335001430749,5767.460219755734 7.901082699867949,5771.439070753488 7.880336070989156,5775.4170656739925 7.8172123480426965,5779.393357501023 7.7120679456364,5783.367137561495 7.565495613565428,5787.337653568678 7.378319749296706,5791.304226220042 7.151589972700054,5795.266263949688 6.886573101015254,5799.223275500394 6.584743689798344,5803.174880054096 6.247773325609932,5807.120814737802 5.877518867906529,5811.060939400718 5.476009840896153,5814.995238633985 5.04543517142225,5818.9238210739695 4.588129457055914,5822.84691609133 4.106558930636803,5826.7648680197135 3.603307264859645,5830.678128119437 3.081061334624614,5834.58724450313 2.542597027250147,5838.492850272908 1.9907651627256986,5842.395650133532 1.4284775592843157,5846.296405754735 0.8586932548706647,5850.195920160205 0.28440487355850724,5494.095021422093 -0.2913748915668787,5497.994545939863 -0.8656267204898499,5501.895321581778 -1.43533808265937,5505.798150967124 -1.9975166796944694,5509.703795167447 -2.549203963685668,5513.612958105671 -3.0874887723935553,5517.52627193191 -3.6095211096429805,5521.444283653463 -4.112526081620689,5525.367443292089 -4.5938179782188024,5529.29609383288 -5.050814463829402,5533.230463214062 -5.481050815078238,5537.1706585844 -5.8821941150598205,5541.116663023093 -6.252057286028835,5545.068334875471 -6.588612816654415,5549.025409806009 -6.890006017348509,5552.987505608818 -7.154567619305738,5556.954129746132 -7.380825521088805,5560.924689509604 -7.567515481989043,5564.89850462048 -7.713590564792256,5568.8748220065245 -7.818229142380348,5572.852832419884 -7.880841302717021,5576.831688495117 -7.901073514607867,5580.810523794062 -7.878811451096082,5584.788472347403 -7.814180906908871,5588.7646881839955 -7.707546789103908,5592.7383643395115 -7.559510203850143,5596.708750855583 -7.370903704906755,5600.675171318346 -7.142784808715917,5604.6370375384095 -6.876427915210977,5608.593862039835 -6.573314800935721,5612.545268099643 -6.235123870799957,5616.490997157704 -5.863718366193593,5620.4309134955365 -5.461133730186744,5624.365006158024 -5.029564325573635,5628.2933881613435 -4.571349689396847,5632.216293091323 -4.088960489456868,5598.088751029419 -7.90103776333248)\"",
+            "#ff9733"
           ],
           [
-            "SPOT1",
-            "#691a3a"
+            "15,9380_918909_1455_-14389_1368807609.071825,1368807609.071825,\"LINESTRING(-8072.624428017653 10.718003931848099,-8069.0355728032255 10.035608459378123,-8065.463376086208 9.309267227102168,-8061.907465055691 8.542394538786857,-8058.367186360057 7.738536680979969,-8054.8416241875275 6.90135242494802,-8051.3296217036905 6.034595157751935,-8047.829805162039 5.142096707320134,-8044.340610075651 4.227752844891062,-8040.86030892471 3.2955103764295037,-8037.38703996669 2.349355673462018,-8033.918836805945 1.3933044434087487,-8030.453658460734 0.43139249961026527,-8386.989419733374 -0.5323327387108051,-8383.524021739704 -1.49382030700234,-8380.05538248476 -2.449023618884647,-8376.581467381216 -3.3939085587046085,-8373.100319595243 -4.3244620447164275,-8369.610090071552 -5.23670135158656,-8366.109067037018 -6.126684459290221,-8362.59570471294 -6.99052166449883,-8359.068650883539 -7.824388649603433,-8355.526772877898 -8.62454115302902,-8351.96918143052 -9.387331322204142,-8348.39525180027 -10.109225757708833,-8344.804641457376 -10.786825174705228,-8341.197303603683 -11.4168855176667,-8337.573495781904 -11.996340269642896,-8333.933782864748 -12.522323601937819,-8330.279033801078 -12.992193919291832,-8326.610411637921 -13.403557275418086,-8322.92935653305 -13.754290070425695,-8319.237561717755 -14.04256040149521,-8315.536942651022 -14.266847426558835,-8311.829599908551 -14.425958121553691,-8308.11777665122 -14.519040866765126,-8304.40381179494 -14.545595385923198,-8300.690090233971 -14.505478679288936,-8296.978991632404 -14.39890673249982,-8293.272839379068 -14.226451937761823,-8289.573851291887 -13.989036322988136,-8285.884093559573 -13.687920837180732,-8282.205439230751 -13.324691076852655,-8278.539532319106 -12.901239950315059,-8274.887758309098 -12.419747858256448,-8271.251221543409 -11.882661017029108,-8267.63072967389 -11.292668565057127,-8264.02678508221 -10.652679074982641,-8260.43958294093 -9.965797048813402,-8256.869015400429 -9.235299906054365,-8253.314681256918 -8.46461589190801,-8249.775900381243 -7.657303240449207,-8246.251732162882 -6.817030832052028,-8242.740997240793 -5.947560490225802,-8239.242301843336 -5.0527309742845175,-8235.754064133493 -4.136443643682852,-8232.274542042996 -3.202649699105013,-8228.801862171375 -2.2553388453007086,-8225.33404941508 -1.2985291713493794,-8221.86905707211 -0.3362580051629645,-8218.404797233647 0.6274265299783663,-8214.939171322781 1.588473548868424,-8211.47010066917 2.5428373309589283,-8207.995557015942 3.486485446105548,-8204.51359284119 4.41540738015563,-8201.02237134147 5.325623947337342,-8197.520195870562 6.213197753886239,-8194.0055385559 7.074244945419495,-8190.477067731663 7.904948428595703,-8186.933673736509 8.701572705045681,-8183.374492532367 9.460480392207428,-8179.798926516182 10.178150431853448,-8176.206661828706 10.851197903821982,-8172.597681422781 11.47639527176067,-8168.972273148278 12.050694792654658,-8165.331032150683 12.571251726757142,-8161.674856972022 13.035447894519928,-8158.004938889843 13.440915048264971,-8154.322744231252 13.785557465037085,-8150.629989647871 14.067573129509055,-8146.928610622323 14.285472867257532,-8143.220723779684 14.438096812878175,-8139.508583877451 14.524627655722085,-8135.794536621109 14.544600197301156,-8132.0809686766825 14.497906874578621,-8128.370256406836 14.384799045720467,-8124.664714928867 14.205883990579297,-8120.966549074808 13.962117737036804,-8117.277807727303 13.654793975848575,-8113.6003428200465 13.285529461055301,-8109.9357740448195 12.856246402268965,-8106.285460020215 12.369152433522386,-8102.650476373121 11.826718787974283,-8099.031600886152 11.231657318486596,-8095.429305591985 10.586896983355594,-8091.843755464706 9.895560368693,-8088.27481317821 9.160940749845093,-8084.722049277076 8.386480110146245,-8081.18475703499 7.575748442536001,-8077.661971255063 6.732424563885869,-8074.152490287362 5.860278578138926,-8072.624428017653 10.718003931848099)\"",
+            "#ffdc3f"
           ],
           [
-            "SPOT 6",
-            "#2900ff"
+            "16,13992_505786_2300_-12397_1375451075.0845706,1375451075.0845706,\"LINESTRING(-6936.26716277822 13.564839059765813,-6934.0201962026995 12.725542128824765,-6931.789923034039 11.863009469287059,-6929.575481529139 10.979004723958015,-6927.375913315163 10.075292450130965,-6925.19017315077 9.153635628336865,-6923.017138388075 8.215793781679697,-6920.855618075125 7.263521656001632,-6918.704361664245 6.298568407910684,-6916.562067314225 5.322677245795949,-6914.427389793892 4.3375854680609525,-6912.298948011231 3.345024842655386,-6910.175332206098 2.3467222723350476,-6908.055110855689 1.3444006907187993,-6905.9368373507705 0.33978013496081494,-7263.819056507112 -0.6654210584270036,-7261.700310981111 -1.6694849874935518,-7259.579147661029 -2.670692901044486,-7257.454124105913 -3.6673239495590626,-7255.323815103054 -4.657654023451938,-7253.186819411691 -5.639954731736112,-7251.041766755584 -6.612492574773291,-7248.887325119814 -7.573528365538871,-7246.722208397685 -8.521316954559715,-7244.5451844215395 -9.454107314249521,-7242.355083396598 -10.370143038578684,-7240.150806739352 -11.267663313652248,-7237.93133630149 -12.144904413577523,-7235.695743936713 -13.000101773705353,-7233.44320134142 -13.831492689631258,-7231.172990071076 -14.637319684945872,-7228.884511603039 -15.415834583339782,-7226.577297284106 -16.165303311040823,-7224.251017968457 -16.884011443491932,-7221.905493120249 -17.570270495552908,-7219.540699126582 -18.222424937333006,-7217.156776543009 -18.838859898185913,-7214.754035977236 -19.41800949975401,-7212.332962309522 -19.95836573576192,-7209.8942169526645 -20.45848779226903,-7207.438637872226 -20.917011678236737,-7204.967237120288 -21.332660013672438,-7202.481195683996 -21.70425180253329,-7199.98185551343 -22.030712001330247,-7197.4707086702565 -22.311080683263693,-7194.949383626877 -22.544521592914695,-7192.419628841466 -22.7303298889404,-7189.883293832897 -22.867938882464795,-7187.3423080755165 -22.956925597069652,-7184.798658121509 -22.997015002139747,-7182.254363432543 -22.988082803957617,-7179.71145145765 -22.930156717055738,-7177.17193252711 -22.823416180196133,-7174.637775140172 -22.668190524955108,-7172.1108822072265 -22.464955648106457,-7169.59306876565 -22.21432927971293,-7167.08604162602 -21.917064975135105,-7164.591381325771 -21.57404498946286,-7162.110526675934 -21.186272216012824,-7159.644762089055 -20.75486138585753,-7157.195207778217 -20.281029732703704,-7154.762812823639 -19.766087327139363,-7152.348351018839 -19.21142727704314,-7149.952419336129 -18.61851597782562,-7147.575438793457 -17.98888357837876,-7145.2176574621935 -17.324114807462813,-7142.87915532842 -16.625840282067767,-7140.559850707519 -15.895728395261758,-7138.259507911983 -15.135477857242229,-7135.977745883113 -14.346810940606709,-7133.714047516678 -13.531467459918824,-7131.467769438186 -12.691199496915525,-7129.238152013226 -11.82776686644557,-7127.024329410359 -10.94293330454163,-7124.8253395667925 -10.038463348866838,-7122.64013393905 -9.116119872993137,-7120.467586951425 -8.177662229340454,-7118.306505083068 -7.2248449508622175,-7116.155635560053 -6.259416958409865,-7114.013674641224 -5.283121218847409,-7111.879275506085 -4.297694798128211,-7109.751055769555 -3.3048692534198714,-7107.627604662066 -2.306371308728713,-7105.507489924627 -1.3039237591217576,-7103.389264477113 -0.29924654939486,-7101.271472924486 0.7059420262515427,-7099.152657970044 1.7099240564013822,-7097.031366807178 2.710980729003915,-7094.906157561731 3.707391084792298,-7092.775605855671 4.697430860176613,-7090.638311559672 5.679371472689607,-7088.492905796925 6.651479202699817,-7086.338058253256 7.612014625849894,-7084.172484838937 8.559232351405536,-7081.994955735482 9.49138112225651,-7079.804303845915 10.406704332504837,-7077.599433649215 11.303441018183497,-7075.379330439063 12.179827375417831,-7073.143069903228 13.034098857993703,-7070.889827973432 13.864492902535835,-7068.618890846315 14.669252324028312,-6936.26716277822 13.564839059765813)\"",
+            "#6aff6f"
           ],
           [
             "OTHER",
-            "#9d9ca9"
+            "#fff619"
           ],
           [
-            "s2A",
-            "#e6ff95"
+            "10086_856535_-734_11604_965958627",
+            "#a448ff"
           ],
           [
-            "s2B",
-            "#ff73ff"
+            "10117_711967_-941_4045_1282388794",
+            "#ff89ff"
           ],
           [
-            "PLEIADES-1A",
-            "#8a1959"
+            "10449_745662_2146_-10799_1509344511",
+            "#e419d1"
           ],
           [
-            "PLEIADES-1B",
-            "#d4ff97"
+            "10628_837394_258_4083_1649784306",
+            "#ff7d2c"
           ],
           [
-            "spot5",
-            "#ffff43"
+            "10745_183070_1012_8399_940628924",
+            "#b2ff85"
           ],
           [
-            "spot4",
-            "#9c46ff"
+            "10929_261944_-1022_10778_1543198057",
+            "#19eeda"
           ],
           [
-            "spot1",
-            "#7a1938"
+            "10961_337291_-2350_5257_1170388849",
+            "#fbefff"
           ],
           [
-            "SPOT 5",
-            "#0041ff"
+            "11129_638757_544_-12158_1057453283",
+            "#48ff96"
           ],
           [
-            "SPOT 4",
-            "#00b4ff"
+            "11142_755673_-2520_-7784_1503157449",
+            "#302dba"
           ],
           [
-            "TerraSAR-X 1",
-            "#5e5e5e"
-          ],
-          [
-            "ALOS2",
-            "#00c926"
-          ],
-          [
-            "SENTINEL 2A",
-            "#ff0094"
-          ],
-          [
-            "DRONE",
-            "#ffe300"
+            "11158_322055_4309_-9893_1440296859",
+            "#ffcd5a"
           ]
         ]
       },
@@ -797,15 +470,23 @@
           "show": true,
           "color": "accent",
           "diameter": 50
-        }
+        },
+        "tabs": [
+          {
+            "name": "Orbits",
+            "icon": "short_text",
+            "showIcon": true,
+            "showName": true
+          }
+        ]
       },
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:81/server",
+      "url": "http://localhost:81/server/",
       "max_age_cache": 120,
       "collection": {
-        "name": "demo_eo"
+        "name": "satellite_index"
       }
     }
   },
@@ -819,7 +500,13 @@
           }
         },
         "name": "ARLAS",
-        "unit": "",
+        "units": [
+          {
+            "collection": "satellite_index",
+            "unit": "satellite_index",
+            "ignored": false
+          }
+        ],
         "name_background_color": "#FF4081"
       }
     }
