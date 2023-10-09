@@ -174,23 +174,29 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Bright",
-              "styleFile": "http://localhost:81/styles/empty/style.json",
-              "image": null
+              "name": "Streets-dark",
+              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
             },
             "basemapStyles": [
               {
-                "name": "Bright",
-                "styleFile": "http://localhost:81/styles/empty/style.json",
-                "image": null
+                "name": "Basic",
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-dark",
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-light",
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4"
               }
             ],
             "margePanForLoad": 5,
             "margePanForTest": 5,
-            "initZoom": 2,
+            "initZoom": 18,
             "initCenter": [
-              0,
-              0
+              11.403497922567288,
+              47.267647633660836
             ],
             "displayScale": true,
             "displayCurrentCoordinates": false,

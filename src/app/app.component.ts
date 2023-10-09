@@ -505,8 +505,32 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public onMapLoaded(isLoaded: boolean): void {
     /** wait until the map component loading is finished before fetching the data */
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
-      this.addDayAndNight();
-      this.addFog();
+      this.mapglComponent.map.addSource('dem', {
+        'type': 'raster-dem',
+        'tiles': ['https://tile.nextzen.org/tilezen/terrain/v1/256/terrarium/{z}/{x}/{y}.png?api_key=G3qTqtpBQOqMj3hxaBasXA'],
+        'tileSize': 256
+      });
+      // this.mapglComponent.map.addSource('mapbox-dem', {
+      //   'type': 'raster-dem',
+      //   'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      //   'tileSize': 512,
+      //   'maxzoom': 14
+      // });
+      // add the DEM source as a terrain layer with exaggerated height
+      this.mapglComponent.map.setTerrain({ 'source': 'dem', 'exaggeration': 2 });
+
+      this.mapglComponent.map.addSource('hillshadeSource', {
+        type: 'raster-dem',
+        url: 'https://api.maptiler.com/tiles/hillshade/tiles.json?key=xIhbu1RwgdbxfZNmoXn4',
+        tileSize: 256
+      });
+      (this.mapglComponent.map as mapboxgl.Map).addLayer({
+        id: 'hills',
+        type: 'hillshade',
+        source: 'hillshadeSource',
+        layout: {visibility: 'visible'},
+        paint: {'hillshade-shadow-color': '#473B24'}
+      });
       this.mapglContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
