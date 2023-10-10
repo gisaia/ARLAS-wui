@@ -79,12 +79,7 @@ export class ConfigsListComponent implements OnInit {
               org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
               return org;
             });
-            if (this.arlasIamService.getOrganisation()) {
-              this.currentOrg = this.arlasIamService.getOrganisation();
-            } else {
-              this.currentOrg = this.orgs.length > 0 ? this.orgs[0].name : '';
-              this.arlasIamService.storeOrganisation(this.currentOrg);
-            }
+            this.currentOrg = this.arlasIamService.getOrganisation();
           } else {
             this.orgs = [];
           }
@@ -108,7 +103,12 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public switchConf(confId) {
-    window.location.search = '?config_id=' + confId;
+    let url = '?config_id=' + confId;
+    const currentOrg = this.arlasIamService.getOrganisation();
+    if (!!currentOrg) {
+      url += '&org=' + currentOrg;
+    }
+    window.location.search = url;
   }
 
   /**
