@@ -17,10 +17,14 @@
  * under the License.
  */
 
+@import 'variables.scss';
+@import 'app/sizes.scss';
+
 .mapboxgl-ctrl-scale {
-  bottom: 155px !important;
+  bottom: calc($timeline-height + $sm-spacing);
   position: absolute !important;
-  right: -2px;
+  right: $sm-spacing;
+  margin: 0 !important;
 }
 
 .mapboxgl-ctrl-attrib {
@@ -55,4 +59,29 @@
 
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
   margin: 5px 7px 0 0 !important;
+}
+
+.arlas-map {
+  .current-coordinate {
+    position: absolute;
+    right: 120px;
+    bottom: calc($timeline-height + $sm-spacing);
+    background-color: white;
+    color: black;
+    font-size: smaller;
+    border-radius: 5px;
+    padding: 0 $sm-spacing;
+    // Height to match the height of the map scale
+    height: 22px;
+    display: flex;
+    align-items: center;
+
+    .lat {
+      width: 110px;
+    }
+
+    .lng {
+      width: 105px;
+    }
+  }
 }
