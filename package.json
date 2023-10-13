@@ -30,9 +30,11 @@
     "zone.js": "^0.11.4"
   },
   "dependencies": {
+    "@angular-builders/custom-webpack": "^14.1.0",
     "@ngx-translate/core": "14.0.0",
     "@webgeodatavore/geojson.terminator": "^1.0.2",
     "arlas-wui-toolkit": "~24.2.0",
+    "cesium": "^1.110.0",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
