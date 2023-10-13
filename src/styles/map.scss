@@ -21,22 +21,13 @@
 @import 'app/sizes.scss';
 
 .mapboxgl-ctrl-scale {
-  bottom: calc($timeline-height + $sm-spacing);
-  position: absolute !important;
+  position: absolute;
+  // Remove the width of the border to align with the coordinates
+  // This is due to the way the width is computed for the scale
+  bottom: calc($sm-spacing + $timeline-height - $map-scale-border-width);
   right: $sm-spacing;
   margin: 0 !important;
-}
-
-.mapboxgl-ctrl-attrib {
-  padding: 0 1px !important;
-  position: absolute;
-  right: 0;
-  bottom: calc(100vh - 20px) !important;
-  width: 240px;
-}
-
-.mapboxgl-ctrl-top-right {
-  top: 65px !important;
+  margin-bottom: $xs-margin !important;
 }
 
 .map__layers-list--container {
@@ -46,19 +37,70 @@
 }
 
 .map__visu-list--wrapper {
-  top: 165px !important
+  top: calc($sm-spacing + $map-attributions-height + $sm-spacing);
+  right: $sm-spacing;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+
+  .map_legend-button--wrapper {
+    width: $map-actions-width;
+    margin-bottom: $sm-spacing;
+
+    .map_legend-button-icon {
+      height: $map-actions-width;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .map__visu-list--container {
+    padding: 0;
+    box-shadow: none;
+
+    .map__visu-container {
+      margin: $xs-margin $sm-margin $xs-margin 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
 }
 
-.map__visu-list--wrapper .map_legend-button--wrapper {
-  width: 29px;
+.mapboxgl-ctrl-top-right {
+  top: $sm-spacing !important;
+  right: $sm-spacing !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  .mapboxgl-ctrl-group {
+    // Leave space to insert map layers button between attributions and map controls
+    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing) !important;
+    margin-right: 0 !important;
+    width: fit-content;
+  }
 }
 
-.map__visu-list--wrapper .map_legend-button-icon {
-  height: 29px !important;
-}
+.mapboxgl-compact {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: $map-attributions-height;
+  width: $map-attributions-height;
 
-.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
-  margin: 5px 7px 0 0 !important;
+  .mapboxgl-ctrl-attrib-button {
+    height: $map-attributions-height;
+    width: $map-attributions-height;
+    background-color: unset;
+    // Align info button inside container
+    top: -2px;
+    right: 2px;
+  }
 }
 
 .arlas-map {

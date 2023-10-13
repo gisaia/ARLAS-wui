@@ -171,6 +171,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public shortcuts: Array<FilterShortcutConfiguration>;
   public shortcutOpen: number;
 
+  public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
+
   public constructor(
     private configService: ArlasConfigService,
     public collaborativeService: ArlasCollaborativesearchService,
