@@ -157,6 +157,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
 
+  /**
+   * @Input : Angular
+   * @description Width in pixels of the preview result list
+   */
+  @Input() public previewListWidth = 100;
+
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
