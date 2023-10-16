@@ -10,7 +10,7 @@
 @import 'styles/donut.css';
 @import 'styles/resultlist.css';
 @import 'styles/map.scss';
-@import 'styles/filter.css';
+@import 'styles/filter.scss';
 @import 'styles/variables.scss';
 @import 'styles/app/sizes.scss';
 
@@ -30,7 +30,7 @@ body {
   min-height: 100%;
   overflow: hidden;
   margin: 0;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   font-size: 1rem;
   line-height: 1.5;
 }

@@ -17,25 +17,16 @@
  * under the License.
  */
 
-@use 'sass:math';
+@import 'variables.scss';
+@import 'app/sizes.scss';
 
-/** SPACING around elements **/
-$default-spacing: 10px;
-$xs-spacing: math.div($default-spacing, 4);
-$sm-spacing: math.div($default-spacing, 2);
-$lg-spacing: $default-spacing * 2;
+.count-container {
+  .value-unit .unit {
+    font-weight: 200;
+    font-size: $default-font-size;
+  }
 
-$default-margin: $default-spacing;
-$xs-margin: $xs-spacing;
-$sm-margin: $sm-spacing;
-$lg-margin: $lg-spacing;
-
-$sm-border: 2px;
-$xs-border: math.div($sm-border, 2);
-
-/** Fonts sizes **/
-$xs-font-size: 10px;
-$sm-font-size: 12px;
-$default-font-size: 14px;
-
-$icon-size: 24px;
+  .filter-chip {
+    height: calc($filter-height - $xs-border * 2);
+  }
+}

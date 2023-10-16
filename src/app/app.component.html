@@ -4,19 +4,14 @@
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
-    </div>
-    <ng-container middle-menu>
-      <div *ngFor="let shortcut of shortcuts; let idx=index"  class="shortcut-list">
-        <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
-          (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-      </div>
-
-      <div *ngIf="!arlasStartUpService.emptyMode && (shortcuts === undefined || shortcuts?.length === 0)" class="arlas-filters-chips-top">
+      <mat-divider vertical class="vertical-divider"></mat-divider>
+      <div class="arlas-filters-chips-top">
         <arlas-filter [collectionToDescription]="collectionToDescription"
           [units]="appUnits" (zoomEvent)="zoomToData($event)">
         </arlas-filter>
       </div>
-    </ng-container>
+    </div>
+
     <div right-menu class="title">{{ appName }}</div>
   </arlas-top-menu>
 
@@ -78,6 +73,13 @@
                   <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
                 </div>
               </div>
+            </div>
+
+            <div class="shortcut-list" *ngIf="shortcuts && shortcuts.length > 0 && analyticsService.activeTab === undefined">
+              <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
+                <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
+                  (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+              </ng-container>
             </div>
             <div class="arlas-map">
               <mat-basic-chip class="arlas-analytics-toggle" [hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
@@ -206,12 +208,6 @@
                   </mat-tab>
                 </mat-tab-group>
               </div>
-            </div>
-
-            <div *ngIf="!arlasStartUpService.emptyMode && shortcuts && shortcuts?.length > 0" class="arlas-filters-chips">
-              <arlas-filter [collectionToDescription]="collectionToDescription"
-                [units]="appUnits" (zoomEvent)="zoomToData($event)">
-              </arlas-filter>
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig"
