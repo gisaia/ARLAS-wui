@@ -277,7 +277,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.isTimelineOpen = (this.getParamValue('to') === 'true');
       }
 
-      let wasTabSelected = this.getParamValue('at') !== undefined;
+      let wasTabSelected = this.getParamValue('at') !== null;
       this.analyticsService.tabChange.subscribe(tab => {
         // If there is a change in the state of the analytics (open/close), resize
         if (wasTabSelected !== (tab !== undefined)) {
@@ -1009,7 +1009,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       }
       this.mapglComponent.map.resize();
       this.updateVisibleItems();
-    }, 100);
+    }, 0);
   }
 
 
