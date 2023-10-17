@@ -26,6 +26,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
+  ArlasColorService,
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
   MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
   SCROLLABLE_ARLAS_ID,
@@ -39,16 +40,16 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService,
+  CollectionUnit, ProcessComponent, ProcessService, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { Observable, Subject, fromEvent, merge, of, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
-import { DownloadComponent } from './components/download/download.component';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
-import { DownloadService } from './services/download.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
@@ -128,7 +129,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public rightListContributors: Array<ResultListContributor> = new Array();
 
   /* Download */
-  private downloadDialogRef: MatDialogRef<DownloadComponent>;
+  private downloadDialogRef: MatDialogRef<ProcessComponent>;
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
@@ -181,7 +182,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
@@ -191,8 +192,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private downloadService: DownloadService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private processService: ProcessService
   ) {
     this.menuState = {
       configs: false
@@ -269,9 +270,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       if (resultlistOpenString) {
         this.listOpen = (resultlistOpenString === 'true');
       }
-      this.downloadService.load().subscribe({
-        error: (err) => console.error(err)
-      });
     } else {
       this.defaultBaseMap = {
         styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
@@ -373,6 +371,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
           }
+          if (!!this.arlasSettingsService.getProcessSettings()) {
+            c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
+            this.resultListConfigPerContId.get(c.identifier).globalActionsList.push({'id': 'production','label': 'Production'});
+          }
         });
         const selectedResultlistTab = this.getParamValue('rt');
         const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
@@ -414,7 +416,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
           this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorGenerator;
+            mapContrib.colorGenerator = this.colorService.colorGenerator;
             if (!!this.resultlistContributors) {
               const resultlistContrbutor: ResultListContributor = this.resultlistContributors
                 .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
@@ -763,19 +765,40 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         break;
       case 'globalActionEvent':
         if (event.data.id === 'production') {
-          this.downloadDialogRef = this.dialog.open(DownloadComponent, { minWidth: '520px', maxWidth: '60vw' });
-          this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
-          this.downloadDialogRef.afterClosed().subscribe({
-            next: (data) => {
-              if (!!data) {
-                this.downloadService.download(
-                  this.featuresToSelect.map(f => f.idValue),
-                  this.mapglComponent.getAllPolygon('wkt'),
-                  data.payload
-                );
-              }
+
+          const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
+          this.processService.load().subscribe({
+            next: () => {
+
+              this.processService.getItemsDetail(
+                this.collectionToDescription.get(currentCollection).id_path,
+                idsItemSelected.map(i => i.idValue),
+                this.processService.getProcessDescription().additionalParameters?.parameters,
+                currentCollection
+              ).subscribe({
+                next: (item: any) => {
+                  this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                  this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
+                  this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                  this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                  this.downloadDialogRef.afterClosed().subscribe({
+                    next: (data) => {
+                      if (!!data) {
+                        this.processService.process(
+                          idsItemSelected.map(i => i.idValue),
+                          data.payload,
+                          currentCollection
+                        ).subscribe({
+                          next: (result) => console.log(result)
+                        });
+                      }
+                    }
+                  });
+                }
+              });
             }
           });
+
         }
         break;
       case 'geoSortEvent':
@@ -1100,6 +1123,38 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             });
           }
         }
+        break;
+      case 'production':
+        this.processService.load().subscribe({
+          next: () => {
+            this.processService.getItemsDetail(
+              this.collectionToDescription.get(collection).id_path,
+              [data.elementidentifier.idValue],
+              this.processService.getProcessDescription().additionalParameters?.parameters,
+              collection
+            ).subscribe({
+              next: (item: any) => {
+                this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                this.downloadDialogRef.componentInstance.nbProducts = 1;
+                this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                this.downloadDialogRef.afterClosed().subscribe({
+                  next: (dialogData) => {
+                    if (!!dialogData) {
+                      this.processService.process(
+                        [data.elementidentifier.idValue],
+                        dialogData.payload,
+                        collection
+                      ).subscribe({
+                        next: (result) => console.log(result)
+                      });
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
         break;
     }
   }

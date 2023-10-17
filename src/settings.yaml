@@ -27,5 +27,9 @@ tab_name: "ARLAS Wui"
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
-download:
-  url: 'assets/mock/proc/describe/download.json'
+process:
+  settings:
+    url: 'assets/mock/proc/describe/download_form.json'
+  url: 'https://arlas.crts-staff.local/aproc'
+
+

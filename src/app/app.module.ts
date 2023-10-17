@@ -56,8 +56,7 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { DownloadService } from './services/download.service';
-import { DownloadComponent } from './components/download/download.component';
+
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -68,8 +67,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     AboutDialogComponent,
     ArlasWuiComponent,
     LeftMenuComponent,
-    ConfigsListComponent,
-    DownloadComponent
+    ConfigsListComponent
   ],
   exports: [
     AboutComponent,
@@ -128,7 +126,6 @@ import { MatStepperModule } from '@angular/material/stepper';
     ArlasTaggerModule
   ],
   providers: [
-    DownloadService,
     ContributorService,
     SidenavService,
     DynamicComponentService,
