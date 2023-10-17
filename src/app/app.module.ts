@@ -61,8 +61,6 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
-import { DownloadService } from './services/download.service';
-import { DownloadComponent } from './components/download/download.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -75,8 +73,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer,
-    DownloadComponent
+    SquareKilometer
   ],
   exports: [
     AoiDimensionComponent,
@@ -140,7 +137,6 @@ import { MatStepperModule } from '@angular/material/stepper';
     LoginModule
   ],
   providers: [
-    DownloadService,
     ContributorService,
     SidenavService,
     DynamicComponentService,

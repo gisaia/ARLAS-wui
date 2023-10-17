@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -25,8 +26,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ArlasColorService, BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, AoiEdition
+  AoiEdition,
+  ArlasColorService,
+  CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
+  SCROLLABLE_ARLAS_ID,
+  SortEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -36,17 +41,22 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, AnalyticsService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, FilterShortcutConfiguration, TimelineComponent
+  AnalyticsService,
+  ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService,
+  CollectionUnit, FilterShortcutConfiguration,
+  ProcessComponent,
+  ProcessService,
+  TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
-import { MenuState } from '../left-menu/left-menu.component';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
 import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -123,6 +133,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
+
+  /* Process */
+  private downloadDialogRef: MatDialogRef<ProcessComponent>;
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
@@ -233,7 +246,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    private dialog: MatDialog,
+    private processService: ProcessService
   ) {
     this.menuState = {
       configs: false
@@ -426,6 +441,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
+          }
+          if (!!this.arlasSettingsService.getProcessSettings()) {
+            c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
+            this.resultListConfigPerContId.get(c.identifier).globalActionsList.push({ 'id': 'production', 'label': 'Production' });
           }
         });
         const selectedResultlistTab = this.getParamValue('rt');
@@ -623,8 +642,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         const layer = this.mapglComponent.map.getLayer(l);
         if (ids && ids.length > 0) {
           if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-              // Tests value in camel and kebab case due to an unknown issue on other projects
-              (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
+            // Tests value in camel and kebab case due to an unknown issue on other projects
+            (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
             this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
@@ -810,7 +829,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'selectedItemsEvent':
         /** TODO : manage features to select when we have multiple collections */
         if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
-          const featuresToSelect = event.data.map(id => {
+          this.featuresToSelect = event.data.map(id => {
             let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
             if (mapContributor.isFlat) {
               idFieldName = idFieldName.replace(/\./g, '_');
@@ -820,7 +839,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               idValue: id
             };
           });
-          this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
+          this.mapglComponent.selectFeaturesByCollection(this.featuresToSelect, currentCollection);
         } else {
           if (!!this.mapglComponent) {
             this.mapglComponent.selectFeaturesByCollection([], currentCollection);
@@ -831,6 +850,41 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
+        if (event.data.id === 'production') {
+          const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
+          this.processService.load().subscribe({
+            next: () => {
+
+              this.processService.getItemsDetail(
+                this.collectionToDescription.get(currentCollection).id_path,
+                idsItemSelected.map(i => i.idValue),
+                this.processService.getProcessDescription().additionalParameters?.parameters,
+                currentCollection
+              ).subscribe({
+                next: (item: any) => {
+                  this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                  this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
+                  this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                  this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                  this.downloadDialogRef.afterClosed().subscribe({
+                    next: (data) => {
+                      if (!!data) {
+                        this.processService.process(
+                          idsItemSelected.map(i => i.idValue),
+                          data.payload,
+                          currentCollection
+                        ).subscribe({
+                          next: (result) => console.log(result)
+                        });
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+
+        }
         break;
       case 'geoSortEvent':
         break;
@@ -1244,6 +1298,38 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           }
         }
+        break;
+      case 'production':
+        this.processService.load().subscribe({
+          next: () => {
+            this.processService.getItemsDetail(
+              this.collectionToDescription.get(collection).id_path,
+              [data.elementidentifier.idValue],
+              this.processService.getProcessDescription().additionalParameters?.parameters,
+              collection
+            ).subscribe({
+              next: (item: any) => {
+                this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                this.downloadDialogRef.componentInstance.nbProducts = 1;
+                this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                this.downloadDialogRef.afterClosed().subscribe({
+                  next: (dialogData) => {
+                    if (!!dialogData) {
+                      this.processService.process(
+                        [data.elementidentifier.idValue],
+                        dialogData.payload,
+                        collection
+                      ).subscribe({
+                        next: (result) => console.log(result)
+                      });
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
         break;
     }
   }

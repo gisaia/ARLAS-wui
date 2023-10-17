@@ -10,7 +10,7 @@
       "schema": {
         "type": "string",
         "enum": [
-          "GEOTIFF",
+          "Geotiff",
           "JPEG2000"
         ],
         "required": true
@@ -20,14 +20,32 @@
       "title": "Système de coordonées",
       "description": "Système de coordonées des produits téléchargés",
       "schema": {
-        "type": "string",
+        "type": "object",
         "enum": [
-          "WGS 84",
-          "Projection Lambert Maroc Zone I (Nord Maroc)",
-          "Projection Lambert Maroc Zone II (Sud Maroc)",
-          "Projection Lambert Maroc Zone III",
-          "Projection Lambert Maroc Zone IV",
-          "Projection UTM Zone 28"
+          {
+            "label": "WGS 84",
+            "value": "epsg:4326"
+          },
+          {
+            "label": "Projection Lambert Maroc Zone I (Nord Maroc)",
+            "value": "EPSG:18131"
+          },
+          {
+            "label": "Projection Lambert Maroc Zone II (Sud Maroc)",
+            "value": "EPSG:18132"
+          },
+          {
+            "label": "Projection Lambert Maroc Zone III",
+            "value": "EPSG:18134"
+          },
+          {
+            "label": "Projection Lambert Maroc Zone IV",
+            "value": "EPSG:18135"
+          },
+          {
+            "label": "Projection UTM Zone 28",
+            "value": "EPSG:32628"
+          }
         ]
       }
     },
