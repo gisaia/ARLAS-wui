@@ -41,32 +41,27 @@
 .side-result-list-toggle {
   z-index: 2;
   position: absolute;
-  top: 50vh;
-  right: 150px;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: $preview-result-list-width;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  .side-result-list-icon {
+    background-color: white;
+    cursor: pointer;
+    height: $icon-size;
+    width: $icon-size;
+  }
 }
 
 .side-result-list-toggle-open {
-  right: 450px;
+  right: $result-list-width;
 }
 
 .side-result-list-toggle-open-no-grid {
   right: 0px;
-}
-
-.side-result-list-icon {
-  background-color: white;
-  height: 36px;
-  width: 20px;
-  padding: 6px 0 6px 3px;
-  cursor: pointer;
-  border-radius: 4px 0 0 4px;
-}
-
-.side-result-list-icon-open {
-  padding: 6px 0;
 }
 
 .side-result-list-preview {
@@ -269,17 +264,13 @@
 
 .app-container-reduce-analytics,
 .app-container-reduce {
-  .arlas-map-action {
+  .arlas-map-action,
+  .arlas-map-settings {
     right: calc($result-list-width + $sm-spacing);
   }
 
-  .arlas-map-settings {
-    right: calc($result-list-width + $sm-spacing + $map-actions-size + $sm-spacing);
-  }
-
   ::ng-deep.basemap-container {
-    top: 70px !important;
-    right: 520px !important;
+    right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
   ::ng-deep.bookmark-shortcut {
@@ -294,17 +285,13 @@
 
 .app-container-with-list-analytics,
 .app-container-with-list {
-  .arlas-map-action {
+  .arlas-map-action,
+  .arlas-map-settings {
     right: calc($preview-result-list-width + $sm-spacing);
   }
 
-  .arlas-map-settings {
-    right: calc($preview-result-list-width + $sm-spacing + $map-actions-size + $sm-spacing);
-  }
-
   ::ng-deep.basemap-container {
-    right: 220px !important;
-    top: 70px !important;
+    right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
   ::ng-deep.bookmark-shortcut {
@@ -332,7 +319,7 @@
 
 .app-container-timeline-hidden {
   ::ng-deep.mapboxgl-ctrl-scale {
-    bottom: $sm-spacing;
+    bottom: calc($sm-spacing - $map-scale-border-width);
   }
 
   ::ng-deep.current-coordinate {
@@ -370,44 +357,54 @@
 }
 
 .arlas-map-action-items {
-  height: 29px;
-  padding: 3px 2px 3px 3px;
+  height: $map-actions-width;
+  width: $map-actions-width;
   cursor: pointer;
-}
+  display: flex;
+  align-items: center;
 
-.arlas-map-action-items:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .arlas-map-settings {
   position: absolute;
-  top: 70px;
-  right: 38px;
-  z-index: 1;
+  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing);
+  right: $sm-spacing;
+  z-index: 2;
+
+  .arlas-map-settings-container {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background-color: white;
+
+    .arlas-map-settings-items {
+      height: $map-actions-width;
+      width: $map-actions-width;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-top: 1px solid #ddd;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      &:first-child {
+        border-top: none !important;
+      }
+    }
+  }
 }
 
 .arlas-map ::ng-deep.basemap-container {
-  top: 70px !important;
-  right: 72px !important;
+  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing);
+  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
   z-index: 1;
-}
-
-.arlas-map-settings-container {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  background-color: white;
-}
-
-.arlas-map-settings-items {
-  height: 29px;
-  padding: 3px 2px 3px 3px;
-  cursor: pointer;
-}
-
-.arlas-map-settings-items:hover {
-  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .arlas-zoom-to-data {

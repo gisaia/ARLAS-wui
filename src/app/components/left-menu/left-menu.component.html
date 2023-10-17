@@ -1,13 +1,4 @@
 <div class="menu_container" [class.hide-label]="!isLabelDisplayed">
-  <mat-nav-list>
-    <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')"
-      [class.active-menu]="!!toggleStates.configs" matTooltip="{{'Switch dashboard' | translate}}">
-      <button mat-icon-button>
-        <mat-icon>apps</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-nav-list>
-  <mat-divider></mat-divider>
   <div class="arlas-analytics">
     <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
     <mat-divider></mat-divider>
@@ -22,6 +13,14 @@
   
   <div class="action-list">
     <mat-divider></mat-divider>
+    <mat-nav-list>
+      <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')"
+        [class.active-menu]="!!toggleStates.configs" matTooltip="{{'Switch dashboard' | translate}}">
+        <button mat-icon-button>
+          <mat-icon>apps</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
     <arlas-tool-link></arlas-tool-link>
     <button mat-icon-button [matMenuTriggerFor]="actionMenu" class="action-menu-button">
       <mat-icon>more_vert</mat-icon>

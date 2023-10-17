@@ -42,17 +42,17 @@
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
-                <div class="arlas-map-settings-items" style="padding:4px 3px 3px 4px" [matTooltipPosition]="'left'"
+                <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Map Settings' | translate}}">
                   <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
                 </div>
-                <div class="arlas-map-settings-items" style="border-top: 1px solid #ddd;" [matTooltipPosition]="'left'"
+                <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
                   matTooltip="{{'Basemaps' | translate}}" >
-                  <mat-icon style="width:22px;height:22px" (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+                  <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
                 <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false"
                   (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()"
-                  class="arlas-map-settings-items" style="border-top: 1px solid #ddd;padding-top:1px;">
+                  class="arlas-map-settings-items">
                   <mat-icon>image_search</mat-icon>
                 </div>
               </div>
@@ -107,7 +107,8 @@
                 [mapSources]="mapComponentConfig?.mapSources"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
-                [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+                [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
+                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
@@ -116,11 +117,10 @@
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
                 [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
-                <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
-                  (click)="toggleList()">
-                  <mat-icon *ngIf="!listOpen">arrow_back_ios</mat-icon>
-                  <mat-icon *ngIf="listOpen">arrow_forward_ios</mat-icon>
-                </div>
+                <div class="side-result-list-icon" (click)="toggleList()">
+                  <mat-icon *ngIf="!listOpen">keyboard_arrow_left</mat-icon>
+                  <mat-icon *ngIf="listOpen">keyboard_arrow_right</mat-icon>
+              </div>
               </div>
               <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
                 *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
