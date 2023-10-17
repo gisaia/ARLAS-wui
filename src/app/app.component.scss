@@ -105,18 +105,6 @@
   transform: rotate(180deg);
 }
 
-.arlas-search-toggle {
-  border-radius: 4px;
-  padding: 4px 5px 0px;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-}
-
-.arlas-search-toggle-corner {
-  border-radius: 4px 0 0 4px;
-}
-
 .left_resultlist_wrapper {
   height: calc(100vh - 50px);
   overflow: hidden;
@@ -125,10 +113,6 @@
 .one-tab .left_resultlist_wrapper {
   height: 100vh;
   overflow: hidden;
-}
-
-.arlas-search-toggle:hover {
-  background-color: #f5f5f5;
 }
 
 .arlas-analytics-toggle {
@@ -150,27 +134,7 @@
   transform: rotate(180deg);
 }
 
-.arlas-filters-chips {
-  position: absolute;
-  top: $sm-margin;
-  left: calc((100vw - $left-menu-width) / 2);
-  transform: translate(-50%, 0);
 
-  // TODO: improve by removing the spaces to the left and right
-  ::ng-deep.mat-chip-list-wrapper {
-    margin: 0;
-    justify-content: center;
-  }
-}
-
-.arlas-filters-chips-top {
-  padding-left: $default-spacing;
-
-  ::ng-deep.zoom {
-    position: relative;
-    bottom: 6px;
-  }
-}
 
 .arlas-analytics--container {
   width: $analytics-board-width;
@@ -474,11 +438,40 @@
     justify-content: center;
     height: $filter-height;
     padding-left: $sm-spacing;
+
+    ::ng-deep.search-text {
+      width: $search-width;
+    }
   }
 
   .vertical-divider {
     height: $filter-height;
     padding-left: $sm-spacing;
+  }
+
+  .arlas-filters-chips-top {
+    padding-left: $default-spacing;
+  
+    ::ng-deep.zoom {
+      position: relative;
+      bottom: 6px;
+    }
+  
+    ::ng-deep.extra-counts {
+      // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border
+      top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + $sm-spacing - $xs-border);
+      z-index: 2;
+    }
+
+    ::ng-deep.title,
+    ::ng-deep.separator {
+      z-index: 3
+    }
+
+    // Realign box when opened
+    ::ng-deep.extra-open {
+      margin-top: $sm-margin;
+    }
   }
 }
 

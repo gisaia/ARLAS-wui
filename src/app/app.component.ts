@@ -177,6 +177,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public shortcuts: Array<FilterShortcutConfiguration>;
   public shortcutOpen: number;
 
+  /**
+   * @description Space available to display the counts in the top bar
+   */
+  public availableSpaceCounts: number;
+  /**
+   * @description Spacing used in the WUI to separate elements
+   */
+  public spacing = 5;
+
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
 
   public constructor(
@@ -209,6 +218,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       fromEvent(window, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
           this.mapglComponent.map.resize();
+          this.resizeCollectionCounts();
         });
       /** trigger 'resize' event after toggling sidenav  */
       this.sidenavService.sideNavState.subscribe(res => {
@@ -462,7 +472,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.iconRegistry.addSvgIconLiteral('map_settings', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" viewBox="0 0 22 22" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 0.554688 1.101562 C 0.25 1.097656 0 1.34375 0 1.648438 L 0 17.113281 C 0 17.328125 0.125 17.523438 0.320312 17.613281 L 7.285156 20.847656 C 7.359375 20.882812 7.441406 20.902344 7.523438 20.898438 C 7.601562 20.898438 7.675781 20.882812 7.75 20.847656 L 14.484375 17.71875 L 21.21875 20.847656 C 21.582031 21.019531 22 20.75 22 20.351562 L 22 7.988281 L 20.898438 9.34375 L 20.898438 19.488281 L 14.8125 16.660156 L 14.769531 9.792969 L 14.113281 9.917969 L 14.152344 16.660156 L 7.84375 19.59375 L 7.761719 5.378906 L 11.335938 3.71875 L 12.074219 2.160156 L 7.515625 4.28125 L 0.78125 1.152344 C 0.710938 1.117188 0.632812 1.101562 0.554688 1.101562 Z M 1.101562 2.511719 L 7.101562 5.300781 L 7.183594 19.589844 L 1.101562 16.761719 Z M 1.101562 2.511719 "/><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 16.308594 0 C 16.171875 0 16.058594 0.109375 16.058594 0.246094 L 16.058594 1.632812 C 15.832031 1.699219 15.613281 1.792969 15.40625 1.90625 L 14.425781 0.925781 C 14.378906 0.878906 14.3125 0.851562 14.246094 0.851562 C 14.183594 0.851562 14.121094 0.878906 14.074219 0.925781 L 13.023438 1.976562 C 12.929688 2.070312 12.929688 2.226562 13.023438 2.324219 L 14.003906 3.304688 C 13.890625 3.511719 13.800781 3.730469 13.730469 3.960938 L 12.347656 3.960938 C 12.210938 3.960938 12.101562 4.070312 12.101562 4.207031 L 12.101562 5.691406 C 12.101562 5.828125 12.210938 5.941406 12.347656 5.941406 L 13.730469 5.941406 C 13.800781 6.167969 13.890625 6.386719 14.003906 6.59375 L 13.023438 7.574219 C 12.929688 7.671875 12.929688 7.828125 13.023438 7.925781 L 14.074219 8.976562 C 14.171875 9.070312 14.328125 9.070312 14.425781 8.976562 L 15.40625 7.996094 C 15.613281 8.109375 15.832031 8.199219 16.058594 8.269531 L 16.058594 9.652344 C 16.058594 9.789062 16.171875 9.898438 16.308594 9.898438 L 17.792969 9.898438 C 17.929688 9.898438 18.039062 9.789062 18.039062 9.652344 L 18.039062 8.269531 C 18.269531 8.199219 18.488281 8.109375 18.695312 7.996094 L 19.675781 8.976562 C 19.773438 9.070312 19.929688 9.070312 20.023438 8.976562 L 21.074219 7.925781 C 21.171875 7.828125 21.171875 7.671875 21.074219 7.574219 L 20.09375 6.59375 C 20.207031 6.386719 20.300781 6.167969 20.367188 5.941406 L 21.753906 5.941406 C 21.890625 5.941406 22 5.828125 22 5.691406 L 22 4.207031 C 22 4.070312 21.890625 3.960938 21.753906 3.960938 L 20.367188 3.960938 C 20.300781 3.730469 20.207031 3.511719 20.09375 3.304688 L 21.074219 2.324219 C 21.171875 2.226562 21.171875 2.070312 21.074219 1.976562 L 20.023438 0.925781 C 19.976562 0.878906 19.914062 0.851562 19.847656 0.851562 C 19.78125 0.851562 19.722656 0.878906 19.675781 0.925781 L 18.695312 1.90625 C 18.488281 1.792969 18.269531 1.699219 18.039062 1.632812 L 18.039062 0.246094 C 18.039062 0.109375 17.929688 0 17.792969 0 Z M 17.050781 3.21875 C 18.015625 3.21875 18.78125 3.984375 18.78125 4.949219 C 18.78125 5.917969 18.015625 6.683594 17.050781 6.683594 C 16.082031 6.683594 15.316406 5.917969 15.316406 4.949219 C 15.316406 3.984375 16.082031 3.21875 17.050781 3.21875 Z M 17.050781 3.21875 "/></g></svg>'));
   }
 
-
   public isElementInViewport(el) {
     if (el) {
       const rect = el.getBoundingClientRect();
@@ -476,6 +485,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
+    this.resizeCollectionCounts();
     this.mapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
@@ -991,6 +1001,16 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public updateTimelineLegendVisibility() {
     this.isTimelineLegend = !(this.listOpen && this.analyticsService.activeTab !== undefined);
+  }
+
+  /**
+   * Compute the space available between the divider after the search and the title of the application
+   */
+  private resizeCollectionCounts() {
+    // Add padding to the left of the divider and right of the title
+    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
+    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
+    this.availableSpaceCounts = end - start;
   }
 
   private adjustGrids() {

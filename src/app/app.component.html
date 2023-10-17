@@ -4,15 +4,16 @@
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
-      <mat-divider vertical class="vertical-divider"></mat-divider>
+      <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <div class="arlas-filters-chips-top">
         <arlas-filter [collectionToDescription]="collectionToDescription"
-          [units]="appUnits" (zoomEvent)="zoomToData($event)">
+          [units]="appUnits" (zoomEvent)="zoomToData($event)"
+          [availableSpace]="availableSpaceCounts" [spacing]="spacing">
         </arlas-filter>
       </div>
     </div>
 
-    <div right-menu class="title">{{ appName }}</div>
+    <div right-menu class="title" id="title">{{ appName }}</div>
   </arlas-top-menu>
 
   <mat-sidenav-container class="sidenav-container">
