@@ -82,7 +82,7 @@
               </ng-container>
             </div>
             <div class="arlas-map">
-              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
+              <mat-basic-chip class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
                 matTooltip="{{'Close analytics board' | translate}}">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
               </mat-basic-chip>

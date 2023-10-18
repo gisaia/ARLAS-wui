@@ -19,6 +19,7 @@
 
 @import 'variables.scss';
 @import 'app/sizes.scss';
+@import 'app/mixin.scss';
 
 .arlas-timeline--container {
   position: absolute;
@@ -189,6 +190,11 @@
     bottom: $timeline-height;
     overflow: hidden;
     position: absolute;
+
+    .arlas-timeline-toggle {
+      @include toggle();
+      align-items: center;
+    }
   }
 }
 

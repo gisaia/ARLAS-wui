@@ -29,9 +29,15 @@ $map-actions-length: 87px;
 $map-actions-width: 29px;
 $map-scale-border-width: 2px;
 $map-attributions-height: 20px;
+$map-scale-max-width: 100px;
+$map-scale-height: 22px;
 
 // Original size of 130px + sm-spacing
 $timeline-height: 135px;
 $timeline-with-legend-height: 165px;
+$timeline-tools-height: 30px;
 
 $search-width: 150px;
+
+// 24px for the icon and 2px for the xs-border
+$toggle-height: 26px;

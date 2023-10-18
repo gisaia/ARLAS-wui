@@ -19,6 +19,7 @@
 
 @import '../styles/variables.scss';
 @import '../styles/app/sizes.scss';
+@import '../styles/app/mixin.scss';
 
 .app-container {
   width: 100%;
@@ -43,10 +44,12 @@
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
-  right: $preview-result-list-width;
+  // Have same spacing between toggle and list as with toggle and timeline
+  right: calc($preview-result-list-width + ($timeline-tools-height - $toggle-height) / 2);
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @include toggle();
 
   .side-result-list-icon {
     background-color: white;
@@ -57,7 +60,8 @@
 }
 
 .side-result-list-toggle-open {
-  right: $result-list-width;
+  // Have same spacing between toggle and list as with toggle and timeline
+  right: calc($result-list-width + ($timeline-tools-height - $toggle-height) / 2);
 }
 
 .side-result-list-toggle-open-no-grid {
@@ -117,24 +121,25 @@
 
 .arlas-analytics-toggle {
   position: absolute;
-  left: $analytics-board-width;
-  top: 50%;
+  // Have same spacing between toggle and list as with toggle and timeline
+  left: calc($analytics-board-width + ($timeline-tools-height - $toggle-height) / 2);  top: 50%;
   transform: translate(0, -50%);
   height: $icon-size;
   z-index: 1;
   background-color: white;
   cursor: pointer;
+  @include toggle();
+  display: flex;
+  align-items: center;
 }
 
-.arlas-analytics-toggle:hover {
-  background-color: #f5f5f5;
+.toggle-hidden {
+  display: none;
 }
 
 .arlas-analytics-rotate {
   transform: rotate(180deg);
 }
-
-
 
 .arlas-analytics--container {
   width: $analytics-board-width;
@@ -239,13 +244,8 @@
     right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.bookmark-shortcut {
-    top: 30px;
-    right: calc($result-list-width + $sm-spacing);
-  }
-
   ::ng-deep.current-coordinate {
-    right: 570px;
+    right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
 }
 
@@ -260,12 +260,8 @@
     right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.bookmark-shortcut {
-    right: calc($preview-result-list-width + $sm-spacing);
-  }
-
   ::ng-deep.current-coordinate {
-    right: 270px;
+    right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
 }
 
@@ -343,8 +339,7 @@
   .arlas-map-settings-container {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+    @include box-border();
     background-color: white;
 
     .arlas-map-settings-items {

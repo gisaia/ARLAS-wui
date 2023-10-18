@@ -17,26 +17,17 @@
  * under the License.
  */
 
-@use 'sass:math';
+@import 'styles/app/colors.scss';
+@import 'styles/app/sizes.scss';
 
-/** SPACING around elements **/
-$default-spacing: 10px;
-$xs-spacing: math.div($default-spacing, 4);
-$sm-spacing: math.div($default-spacing, 2);
-$lg-spacing: $default-spacing * 2;
+@mixin box-border() {
+    border: $xs-border solid $border-color;
+    border-radius: $default-border-radius;
+}
 
-$default-margin: $default-spacing;
-$xs-margin: $xs-spacing;
-$sm-margin: $sm-spacing;
-$lg-margin: $lg-spacing;
-
-$sm-border: 2px;
-$xs-border: math.div($sm-border, 2);
-$default-border-radius: 4px;
-
-/** Fonts sizes **/
-$xs-font-size: 10px;
-$sm-font-size: 12px;
-$default-font-size: 14px;
-
-$icon-size: 24px;
+@mixin toggle() {
+    @include box-border();
+    height: $toggle-height;
+    width: $toggle-height;
+    box-sizing: border-box;
+}
