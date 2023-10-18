@@ -5,12 +5,11 @@
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
-      <div class="arlas-filters-chips-top">
-        <arlas-filter [collectionToDescription]="collectionToDescription"
-          [units]="appUnits" (zoomEvent)="zoomToData($event)"
-          [availableSpace]="availableSpaceCounts" [spacing]="spacing">
-        </arlas-filter>
-      </div>
+      <arlas-filter class="arlas-filters-chips-top"
+        [collectionToDescription]="collectionToDescription"
+        [units]="appUnits" (zoomEvent)="zoomToData($event)"
+        [availableSpace]="availableSpaceCounts" [spacing]="spacing">
+      </arlas-filter>
     </div>
 
     <div right-menu class="title" id="title">{{ appName }}</div>
@@ -176,7 +175,7 @@
                         [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
-                        [nbGridColumns]="3" [tableWidth]="450"
+                        [nbGridColumns]="resultListGridColumns" [tableWidth]="listWidth"
                         [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
                         [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
                         [fetchState]="list.fetchState"

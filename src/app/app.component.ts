@@ -161,7 +161,19 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
    * @Input : Angular
    * @description Width in pixels of the preview result list
    */
-  @Input() public previewListWidth = 100;
+  @Input() public previewListWidth = 125;
+
+  /**
+   * @Input : Angular
+   * @description Width in pixels of the result list
+   */
+  @Input() public listWidth = 500;
+
+  /**
+   * @Input : Angular
+   * @description Number of columns in the grid result list
+   */
+  @Input() public resultListGridColumns = 4;
 
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
