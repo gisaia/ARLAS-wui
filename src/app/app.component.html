@@ -156,8 +156,8 @@
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
                 [class.side-result-list-open]="listOpen">
-                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
-                  <mat-tab *ngFor="let list of rightListContributors">
+                <mat-tab-group [(selectedIndex)]="selectedListTabIndex" #tabsList class="result-list-tab-group">
+                  <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
                     <ng-template mat-tab-label>
                       <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
                       [matTooltip]="list.name"
@@ -171,7 +171,7 @@
                       </span>
                     </ng-template>
                     <div class="left_resultlist_wrapper">
-                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
+                      <arlas-result-list *ngIf="listOpen && listIdx === selectedListTabIndex" #resultsidenav [rowItemList]="list.data"
                         [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
