@@ -283,11 +283,13 @@
 
 .app-container-timeline-hidden {
   ::ng-deep.mapboxgl-ctrl-scale {
-    bottom: calc($sm-spacing - $map-scale-border-width);
+    // Center regarding to timeline tools
+    bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
   }
 
   ::ng-deep.current-coordinate {
-    bottom: $sm-spacing;
+    // Center regarding to timeline tools
+    bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
   }
 
   ::ng-deep.arlas-time-shortcuts--container {
@@ -297,11 +299,13 @@
 
 .app-container-timeline-legend {
   ::ng-deep.mapboxgl-ctrl-scale {
-    bottom: calc($timeline-with-legend-height + $sm-spacing - $map-scale-border-width);
+    // Center regarding to timeline tools
+    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
   }
 
   ::ng-deep.current-coordinate {
-    bottom: calc($timeline-with-legend-height + $sm-spacing);
+    // Center regarding to timeline tools
+    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
   }
 
   ::ng-deep.arlas-time-shortcuts--container {
