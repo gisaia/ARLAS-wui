@@ -456,7 +456,7 @@
   
     ::ng-deep.extra-counts {
       // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border
-      top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + $sm-spacing - $xs-border);
+      top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + 3px);
       z-index: 2;
     }
 
@@ -514,8 +514,8 @@
 
     // Position content of the shortcut below header
     ::ng-deep.content {
-      // The 3px come from the borders and lines that take 1 px each
-      top: calc($filter-height + $sm-spacing + 3px);
+      // The 2px come from the borders that take 1 px each
+      top: calc($filter-height + $sm-spacing + 2px);
     }
 
     // Manage the scroll of the powerbars
