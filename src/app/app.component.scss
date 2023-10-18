@@ -143,8 +143,10 @@
 
 .arlas-analytics--container {
   width: $analytics-board-width;
-  max-height: calc(100vh - $top-menu-height);
+  height: calc(100vh - $top-menu-height);
   overflow: auto;
+  border-right: $menu-border;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -468,6 +470,7 @@
 
 ::ng-deep.top-menu {
   height: $top-menu-height !important;
+  border-bottom: $menu-border;
 }
 
 .title {
