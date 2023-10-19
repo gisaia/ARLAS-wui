@@ -39,7 +39,7 @@ import {
   ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
-import * as mapboxgl from 'mapbox-gl';
+import * as maplibregl from 'maplibre-gl';
 import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
@@ -100,7 +100,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
   private allowMapExtend: boolean;
-  private mapBounds: mapboxgl.LngLatBounds;
+  private mapBounds: maplibregl.LngLatBounds;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
@@ -149,7 +149,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
-  public popup: mapboxgl.Popup;
+  public popup: maplibregl.Popup;
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
 
@@ -382,9 +382,9 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         if (extendValue) {
           const stringBounds = extendValue.split(',');
           if (stringBounds.length === 4) {
-            this.mapBounds = new mapboxgl.LngLatBounds(
-              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+            this.mapBounds = new maplibregl.LngLatBounds(
+              new maplibregl.LngLat(+stringBounds[0], +stringBounds[1]),
+              new maplibregl.LngLat(+stringBounds[2], +stringBounds[3])
             );
           }
         }
@@ -395,8 +395,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+          const bounds = (<maplibregl.Map>this.mapglComponent.map).getBounds();
+          (<maplibregl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
@@ -451,7 +451,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+      (<maplibregl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
       this.mapBounds = null;
     }
     this.mapglComponent.map.on('movestart', (e) => {
@@ -481,7 +481,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
     this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
       /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const bounds = (<maplibregl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       queryParams[this.MAP_EXTEND_PARAM] = extend;
@@ -534,7 +534,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         const layer = this.mapglComponent.map.getLayer(l);
         if (ids && ids.length > 0) {
           if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-            layer.metadata.isScrollableLayer) {
+            (layer.metadata as any).isScrollableLayer) {
             this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
@@ -544,12 +544,12 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           }
         } else {
           if (!!layer && layer.source.indexOf(collection) >= 0) {
-            this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
+            this.mapglComponent.map.setFilter(l,( this.mapglComponent.layersMap.get(l) as any).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
             if (!!strokeLayer) {
               this.mapglComponent.map.setFilter(strokeLayerId,
-                this.mapglComponent.layersMap.get(strokeLayerId).filter);
+                (this.mapglComponent.layersMap.get(strokeLayerId) as any).filter);
             }
           }
         }
@@ -801,7 +801,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     // Update data only when the collections info are presents
     if (this.collectionToDescription.size > 0) {
       /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const bounds = (<maplibregl.Map>this.mapglComponent.map).getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
@@ -936,7 +936,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             if (!!this.popup) {
               this.popup.remove();
             }
-            this.popup = new mapboxgl.Popup({ closeOnClick: false })
+            this.popup = new maplibregl.Popup({ closeOnClick: false })
               .setLngLat(event.point)
               .setDOMContent(popupContent);
             this.popup.addTo(this.mapglComponent.map);
@@ -1003,8 +1003,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
 
-  private getVisibleElementLayerFilter(l, ids) {
-    const lFilter = this.mapglComponent.layersMap.get(l).filter;
+  private getVisibleElementLayerFilter(l, ids): any {
+    const lFilter = (this.mapglComponent.layersMap.get(l) as any).filter;
     const filters = [];
     if (lFilter) {
       lFilter.forEach(f => {

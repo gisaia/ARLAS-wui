@@ -34,11 +34,11 @@
               "src/styles/arlas-wui-theme.scss",
               "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/maplibre-gl/dist/maplibre-gl.css",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
             ],
             "scripts": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.js"
+              "node_modules/maplibre-gl/dist/maplibre-gl.js"
             ]
           },
           "configurations": {
@@ -109,13 +109,13 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.js"
+              "node_modules/maplibre-gl/dist/maplibre-gl.js"
             ],
             "styles": [
               "src/styles/arlas-wui-theme.scss",
               "src/styles.css",
               "node_modules/iv-viewer/dist/iv-viewer.css",
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/maplibre-gl/dist/maplibre-gl.css",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
             ],
             "assets": [

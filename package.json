@@ -30,12 +30,16 @@
     "zone.js": "^0.11.4"
   },
   "dependencies": {
+    "@maplibre/maplibre-gl-style-spec": "^19.3.2",
     "@ngx-translate/core": "14.0.0",
+    "@turf/area": "^6.5.0",
+    "@turf/length": "^6.5.0",
     "arlas-wui-toolkit": "~24.1.6",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
     "patch-package": "^6.4.7",
+    "pmtiles": "^2.11.0",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
@@ -48,8 +52,8 @@
     "@angular/cli": "^14.2.10",
     "@angular/compiler-cli": "^14.2.12",
     "@angular/language-service": "^14.2.12",
-    "@gisaia/ngx-translate-extract": "8.2.0",
     "@biesbjerg/ngx-translate-extract-marker": "1.0.0",
+    "@gisaia/ngx-translate-extract": "8.2.0",
     "@types/jasmine": "~3.10.0",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "16.11.20",
@@ -63,6 +67,7 @@
     "karma-chrome-launcher": "~3.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "maplibre-gl": "^3.4.0",
     "node": "^16.3.0",
     "protractor": "~7.0.0",
     "ts-node": "~10.4.0",
