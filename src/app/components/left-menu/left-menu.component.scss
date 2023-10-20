@@ -1,58 +1,46 @@
+@import '../../../styles/variables.scss';
+
 .menu_container {
-    height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  mat-icon {
+    color: #666;
+  }
+
+  ::ng-deep .mat-list-item-content {
+    padding: calc(($left-menu-width - 40px ) / 2) !important;
+  }
+
+  &.hide-label span {
+    display: none;
+  }
+
+  .arlas-analytics {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    mat-icon {
-      color: #666;
-    }
-    .logo {
-      padding: 5px 0 0 3px;
-      display: flex;
-      align-items: center;
-      font-size: 1.5em;
-    }
 
-    .toggler {
-        display: flex;
-        justify-content: flex-end;
-        padding: 15px;
+    .arlas-analytics-refresh {
+      align-self: center;
     }
+  }
 
-    .action-list {
-        .disabled-item {
-            cursor: not-allowed;
-            color: rgba(0, 0, 0, 0.26);
-            button {
-                cursor: not-allowed;
-            }
-        }
+  .action-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-        .user_avatar {
-            vertical-align: middle;
-            height: 26px;
-        }
-        .user_name {
-            margin-left: 5px;
-        }
+    .action-menu-button {
+      align-self: center;
     }
-
-    ::ng-deep .mat-list-item-content{
-      padding: 0 13px !important;
-    }
-
-    mat-icon {
-        padding-right: 5px;
-    }
-
-    &.hide-label span {
-        display: none;
-    }
+  }
 }
 
 .active-menu {
   background-color: rgba(255, 64, 129, 0.1);
   mat-icon {
-    color: #FF4081;
+    color: #ff4081;
   }
 }

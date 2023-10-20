@@ -17,42 +17,4 @@
  * under the License.
  */
 
-.mapboxgl-ctrl-scale {
-  bottom: 155px !important;
-  position: absolute !important;
-  right: -2px;
-}
-
-.mapboxgl-ctrl-attrib {
-  padding: 0 1px !important;
-  position: absolute;
-  right: 0;
-  bottom: calc(100vh - 20px) !important;
-  width: 240px;
-}
-
-.mapboxgl-ctrl-top-right {
-  top: 65px !important;
-}
-
-.map__layers-list--container {
-  top: 50px !important;
-  border-radius: 4px;
-  right: 43px !important;
-}
-
-.map__visu-list--wrapper {
-  top: 165px !important
-}
-
-.map__visu-list--wrapper .map_legend-button--wrapper {
-  width: 29px;
-}
-
-.map__visu-list--wrapper .map_legend-button-icon {
-  height: 29px !important;
-}
-
-.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
-  margin: 5px 7px 0 0 !important;
-}
+$border-color: #a1a1a1;

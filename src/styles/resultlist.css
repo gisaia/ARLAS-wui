@@ -24,6 +24,7 @@
 
 .resultlist__tools__td{
   align-items: center !important;
+  box-sizing: border-box;
 }
 
 .analytics-board-content .group-item-title,

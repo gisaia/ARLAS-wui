@@ -45,7 +45,7 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  LoginModule,
+  LoginModule, ToolkitRoutingModule,
   PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
@@ -63,16 +63,12 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 
 @NgModule({
   declarations: [
-    AboutComponent,
-    AboutDialogComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent
   ],
   exports: [
-    AboutComponent,
-    AboutDialogComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
@@ -131,9 +127,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     SidenavService,
     DynamicComponentService,
     VisualizeService
-
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: []
 })
 export class ArlasWuiModule { }

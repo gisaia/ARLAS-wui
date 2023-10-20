@@ -28,7 +28,7 @@
     {
       "title": "Timeline filter",
       "content": "This histogram represents the distibution of number of elements over time. You can filter your data by selecting one or several periods: double click on one period to save it, then move the selection brush to define a new interval.",
-      "target": ".arlas-timeline--timelines",
+      "target": ".arlas-timeline",
       "placement": "top",
       "arrowOffset": "center"
     },
@@ -36,7 +36,7 @@
       "title": "Time shortcuts",
       "content": "A list of time shortcuts to filter data on a specific time range.",
       "target": ".arlas-timeline--timeshortcuts",
-      "placement": "left",
+      "placement": "top",
       "yOffset": -15
     },
     {
