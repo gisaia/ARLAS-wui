@@ -9,6 +9,7 @@
       <div class="main_content">
 
         <arlas-tool-root></arlas-tool-root>
+        <div id="cesium" class="globe"></div>
         <div *ngIf="arlasStartUpService.shouldRunApp">
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
@@ -57,7 +58,7 @@
               </div>
             </div>
             <div class="arlas-map">
-              <div #cesium></div>
+              
 
               <!-- <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"

@@ -31,7 +31,12 @@
               "src/config.json",
               "src/config.map.json",
               "src/settings.yaml",
-              "src/silent-refresh.html"
+              "src/silent-refresh.html",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/cesium/Build/Cesium/Assets/",
+                "output": "./assets/cesium/"
+              }
             ],
             "styles": [
               "src/styles/arlas-wui-theme.scss",
@@ -135,7 +140,12 @@
               "src/config.json",
               "src/config.map.json",
               "src/settings.yaml",
-              "src/silent-refresh.html"
+              "src/silent-refresh.html",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/cesium/Build/Cesium/Assets/",
+                "output": "./assets/cesium/"
+              }
             ]
           }
         },
