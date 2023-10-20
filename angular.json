@@ -34,8 +34,13 @@
               "src/silent-refresh.html",
               {
                 "glob": "**/*",
-                "input": "./node_modules/cesium/Build/Cesium/Assets/",
-                "output": "./assets/cesium/"
+                "input": "node_modules/cesium/Build/Cesium/Assets",
+                "output": "assets/cesium/Assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Widgets",
+                "output": "assets/cesium/Widgets"
               }
             ],
             "styles": [
