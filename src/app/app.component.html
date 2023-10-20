@@ -16,7 +16,7 @@
           </arlas-mapgl-settings>
           <div class="app-container" [class.app-container-reduce]="listOpen"
             [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
-            <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu>
+            <!-- <arlas-bookmark-menu *ngIf="!arlasStartUpService.emptyMode"></arlas-bookmark-menu> -->
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
@@ -60,7 +60,7 @@
             <div class="arlas-map">
               
 
-              <!-- <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+              <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -83,8 +83,8 @@
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 (downloadSourceEmitter)="downloadLayerSource($event)"
                 [offset]="offset">
-              </arlas-mapgl> -->
-              <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
+              </arlas-mapgl>
+              <!-- <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
                 [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
                 <div class="side-result-list-icon mat-elevation-z1" [class.side-result-list-icon-open]="listOpen"
@@ -122,7 +122,7 @@
                   (actionOnItemEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
                   (globalActionEvent)="getBoardEvents({ origin: previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
                 </arlas-result-list>
-              </div>
+              </div> -->
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
                 [class.side-result-list-open]="listOpen">
                 <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
@@ -214,10 +214,10 @@
                 [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
             </div>
 
-            <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
+            <!-- <arlas-timeline #timeline *ngIf="timelineComponentConfig" class="arlas-timeline-toolkit"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig">
-            </arlas-timeline>
+            </arlas-timeline> -->
 
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>

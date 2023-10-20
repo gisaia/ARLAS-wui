@@ -48,7 +48,7 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import GeoJSONTerminator from '@webgeodatavore/geojson.terminator';
-import { Cartesian3, Color, Ion, Viewer } from 'cesium';
+import { Cartesian3, Color, Ion, Viewer, EllipseGeometry, EllipseGraphics, DataSource } from 'cesium';
 
 
 @Component({
@@ -283,29 +283,14 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.setAppTitle();
     (window as any).CESIUM_BASE_URL = '/assets/cesium';
+    // eslint-disable-next-line max-len
+    Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYzhjYmMxYi0xODkzLTRhOTctYjUyOC0zYmRjZjM3MGZmNWIiLCJpZCI6MTcyODk1LCJpYXQiOjE2OTc3ODY1ODJ9.-ZjRdZ4_JDOQuJ3GNrDUkfvh3T5NCU_-XFvJf9VgsSE';
 
     this.viewer = new Viewer('cesium');
-    this.viewer.entities.add({
-      position: Cartesian3.fromDegrees(-75.59777, 40.03883),
-      point: {
-        color: Color.RED,
-        pixelSize: 16,
-      },
-    });
-    this.viewer.entities.add({
-      position: Cartesian3.fromDegrees(-80.5, 35.14),
-      point: {
-        color: Color.BLUE,
-        pixelSize: 16,
-      },
-    });
-    this.viewer.entities.add({
-      position: Cartesian3.fromDegrees(-80.12, 25.46),
-      point: {
-        color: Color.YELLOW,
-        pixelSize: 16,
-      },
-    });
+    this.viewer.resize();
+    this.viewer.canvas.width = window.innerWidth - 66;
+    this.viewer.canvas.height = window.innerHeight;
+
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
@@ -338,7 +323,16 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapLegendUpdater.next(legendData);
       });
 
+      // console.log(this.mapglContributors);
+      // this.mapglContributors.forEach(c => {
+      //   c.fetchData();
+      //   c.visibilityUpdater.subscribe(_ => {
+      //     console.log((c as any).featureDataPerSource);
+      //   });
+      // });
+
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
+      // Shouldnt it be a merge pipe ?
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
         this.geojsondraw = {
           'type': 'FeatureCollection',
@@ -346,6 +340,30 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
         };
       }));
+
+      let draw = false;
+      this.mapVisibilityUpdater.subscribe(update => {
+        console.log((this.mapglContributors[0] as any).featureDataPerSource);
+        const layerId = 'feature-wkt-wide-satellite_index';
+        const data = (this.mapglContributors[0] as any).featureDataPerSource.get(layerId);
+        if (data) {
+          this.viewer.entities.removeAll();
+          data.forEach(feature => {
+            const semiMinorAxis = 7000000.0;
+            const semiMajorAxis = 11000000.0;
+            const height = Math.random() * (semiMajorAxis - semiMinorAxis) + semiMinorAxis;
+            const positions = feature.geometry.coordinates.map(coords => Cartesian3.fromDegrees(coords[0], coords[1], height));
+            this.viewer.entities.add({
+              polyline: {
+                positions: positions,
+                width: 4,
+                material: Color.fromRandom()
+              }
+            });
+          });
+          draw = true;
+        }
+      });
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
       const ids = new Set(this.resultListsConfig.map(c => c.contributorId));
@@ -425,8 +443,8 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          // const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          // (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
@@ -477,24 +495,24 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // this.mapService.setMap(this.mapglComponent.map);
-    // this.visualizeService.setMap(this.mapglComponent.map);
+    this.mapService.setMap(this.mapglComponent.map);
+    this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
-    // if (this.mapBounds && this.allowMapExtend) {
-    //   (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-    //   this.mapBounds = null;
-    // }
-    // this.mapglComponent.map.on('movestart', (e) => {
-    //   this.zoomStart = this.mapglComponent.map.getZoom();
-    // });
-    // this.mapglComponent.map.on('moveend', (e) => {
-    //   if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-    //     this.zoomChanged = true;
-    //   }
-    //   if (this.allowMapExtend) {
-    //     this.mapEventListener.next(null);
-    //   }
-    // });
+    if (this.mapBounds && this.allowMapExtend) {
+      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+      this.mapBounds = null;
+    }
+    this.mapglComponent.map.on('movestart', (e) => {
+      this.zoomStart = this.mapglComponent.map.getZoom();
+    });
+    this.mapglComponent.map.on('moveend', (e) => {
+      if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+        this.zoomChanged = true;
+      }
+      if (this.allowMapExtend) {
+        this.mapEventListener.next(null);
+      }
+    });
     this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel
     if (!!this.tabsList) {
@@ -509,24 +527,24 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       });
     }
 
-    // this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-    //   /** Change map extend in the url */
-    //   const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-    //   const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-    //   const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    //   queryParams[this.MAP_EXTEND_PARAM] = extend;
-    //   this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    // });
+    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+      /** Change map extend in the url */
+      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    });
 
-    // if (!!this.previewListContrib) {
-    //   timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
-    //     if (this.previewListContrib.data.length > 0 &&
-    //       this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-    //       this.updateVisibleItems();
-    //       this.apploading = false;
-    //     }
-    //   });
-    // }
+    if (!!this.previewListContrib) {
+      timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
+        if (this.previewListContrib.data.length > 0 &&
+          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+          this.updateVisibleItems();
+          this.apploading = false;
+        }
+      });
+    }
     this.cdr.detectChanges();
   }
 
@@ -535,11 +553,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
       // this.addDayAndNight();
       // this.addFog();
-      // this.mapglContributors.forEach(mapglContributor => {
-      //   mapglContributor.updateData = true;
-      //   mapglContributor.fetchData(null);
-      //   mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
-      // });
+      this.mapglContributors.forEach(mapglContributor => {
+        mapglContributor.updateData = true;
+        mapglContributor.fetchData(null);
+        mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
+      });
     }
   }
 
@@ -820,11 +838,11 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
               idValue: id
             };
           });
-          // this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
+          this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
         } else {
-          // if (!!this.mapglComponent) {
-          //   this.mapglComponent.selectFeaturesByCollection([], currentCollection);
-          // }
+          if (!!this.mapglComponent) {
+            this.mapglComponent.selectFeaturesByCollection([], currentCollection);
+          }
         }
         break;
       case 'actionOnItemEvent':
@@ -882,67 +900,66 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
   public onMove(event) {
     // Update data only when the collections info are presents
-    // if (this.collectionToDescription.size > 0) {
-    //   /** Change map extend in the url */
-    //   const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-    //   const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-    //   const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    //   const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-    //   queryParams[this.MAP_EXTEND_PARAM] = extend;
-    //   queryParams['vs'] = visibileVisus;
-    //   this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    //   localStorage.setItem('currentExtent', JSON.stringify(bounds));
-    //   const ratioToAutoSort = 0.1;
-    //   this.centerLatLng['lat'] = event.centerWithOffset[1];
-    //   this.centerLatLng['lng'] = event.centerWithOffset[0];
-    //   if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
-    //     this.recalculateExtend = true;
-    //   }
-    //   const newMapExtent = event.extendWithOffset;
-    //   const newMapExtentRaw = event.rawExtendWithOffset;
-    //   const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
-    //   const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
-    //   if (this.recalculateExtend) {
-    //     this.resultlistContributors
-    //       .forEach(c => {
-    //         const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
-    //         const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
-    //         if (!!mapContrib) {
-    //           c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
-    //         } else {
-    //           MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
-    //         }
-    //         this.collaborativeService.registry.set(c.identifier, c);
-    //       });
-    //     this.resultlistContributors.forEach(c => {
-    //       if (this.isGeoSortActivated.get(c.identifier)) {
-    //         c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
-    //       } else {
-    //         c.sortColumn(this.sortOutput.get(c.identifier), true);
-    //       }
-    //     });
-    //     this.mapglContributors.forEach(c => {
-    //       if (!!this.resultlistContributors) {
-    //         const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
-    //         if (!!resultlistContrbutor) {
-    //           if (this.isGeoSortActivated.get(c.identifier)) {
-    //             c.searchSort = resultlistContrbutor.geoOrderSort;
-    //           } else {
-    //             c.searchSort = resultlistContrbutor.sort;
-    //           }
-    //           this.collaborativeService.registry.set(c.identifier, c);
-    //         }
-    //       }
-    //       this.clearWindowData(c);
-    //     });
-    //     this.zoomChanged = false;
-    //   }
-    //   event.extendForTest = newMapExtent;
-    //   event.rawExtendForTest = newMapExtentRaw;
-    //   this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
-    //   this.recalculateExtend = false;
-
-    // }
+    if (this.collectionToDescription.size > 0) {
+      /** Change map extend in the url */
+      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams['vs'] = visibileVisus;
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      localStorage.setItem('currentExtent', JSON.stringify(bounds));
+      const ratioToAutoSort = 0.1;
+      this.centerLatLng['lat'] = event.centerWithOffset[1];
+      this.centerLatLng['lng'] = event.centerWithOffset[0];
+      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
+        this.recalculateExtend = true;
+      }
+      const newMapExtent = event.extendWithOffset;
+      const newMapExtentRaw = event.rawExtendWithOffset;
+      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
+      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
+      if (this.recalculateExtend) {
+        this.resultlistContributors
+          .forEach(c => {
+            const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
+            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
+            if (!!mapContrib) {
+              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+            } else {
+              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
+            }
+            this.collaborativeService.registry.set(c.identifier, c);
+          });
+        this.resultlistContributors.forEach(c => {
+          if (this.isGeoSortActivated.get(c.identifier)) {
+            c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
+          } else {
+            c.sortColumn(this.sortOutput.get(c.identifier), true);
+          }
+        });
+        this.mapglContributors.forEach(c => {
+          if (!!this.resultlistContributors) {
+            const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
+            if (!!resultlistContrbutor) {
+              if (this.isGeoSortActivated.get(c.identifier)) {
+                c.searchSort = resultlistContrbutor.geoOrderSort;
+              } else {
+                c.searchSort = resultlistContrbutor.sort;
+              }
+              this.collaborativeService.registry.set(c.identifier, c);
+            }
+          }
+          this.clearWindowData(c);
+        });
+        this.zoomChanged = false;
+      }
+      event.extendForTest = newMapExtent;
+      event.rawExtendForTest = newMapExtentRaw;
+      this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
+      this.recalculateExtend = false;
+    }
   }
 
   public changeVisualisation(event) {
@@ -1082,7 +1099,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.offset.west = 0;
     }
     this.recalculateExtend = true;
-    // this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
   }
 
 

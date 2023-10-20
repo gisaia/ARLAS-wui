@@ -75,8 +75,6 @@
     "portable-fetch": {
       "node-fetch": "3.3.0"
     },
-    "shpjs": "4.0.4",
-    "mapbox-gl": "^2.15.0",
-    "@types/mapbox-gl": "^2.7.15"
+    "shpjs": "4.0.4"
   }
 }
