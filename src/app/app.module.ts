@@ -44,7 +44,7 @@ import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, R
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader
+  PersistenceService, ToolkitRoutingModule, WalkthroughLoader,
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArlasWuiComponent } from './app.component';

@@ -30,6 +30,11 @@ $xs-margin: $xs-spacing;
 $sm-margin: $sm-spacing;
 $lg-margin: $lg-spacing;
 
+$sm-border: 2px;
+$xs-border: math.div($sm-border, 2);
+$default-border-radius: 4px;
+$menu-border: solid 1px rgba(0, 0, 0, 0.12);
+
 /** Fonts sizes **/
 $xs-font-size: 10px;
 $sm-font-size: 12px;

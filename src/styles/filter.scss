@@ -17,27 +17,16 @@
  * under the License.
  */
 
-$top-menu-height: 40px;
-$left-menu-width: 48px;
-$filter-height: 30px;
+@import 'variables.scss';
+@import 'app/sizes.scss';
 
-$preview-result-list-width: 125px;
-$result-list-width: 500px;
-$analytics-board-width: 466px;
+.count-container {
+  .value-unit .unit {
+    font-weight: 200;
+    font-size: $default-font-size;
+  }
 
-$map-actions-length: 87px;
-$map-actions-width: 29px;
-$map-scale-border-width: 2px;
-$map-attributions-height: 20px;
-$map-scale-max-width: 100px;
-$map-scale-height: 22px;
-
-// Original size of 130px + sm-spacing
-$timeline-height: 135px;
-$timeline-with-legend-height: 165px;
-$timeline-tools-height: 30px;
-
-$search-width: 150px;
-
-// 24px for the icon and 2px for the xs-border
-$toggle-height: 26px;
+  .filter-chip {
+    height: calc($filter-height - $xs-border * 2);
+  }
+}

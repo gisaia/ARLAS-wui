@@ -19,6 +19,7 @@
 
 @import '../styles/variables.scss';
 @import '../styles/app/sizes.scss';
+@import '../styles/app/mixin.scss';
 
 .app-container {
   width: 100%;
@@ -43,10 +44,12 @@
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
-  right: $preview-result-list-width;
+  // Have same spacing between toggle and list as with toggle and timeline
+  right: calc($preview-result-list-width + ($timeline-tools-height - $toggle-height) / 2);
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @include toggle();
 
   .side-result-list-icon {
     background-color: white;
@@ -57,7 +60,8 @@
 }
 
 .side-result-list-toggle-open {
-  right: $result-list-width;
+  // Have same spacing between toggle and list as with toggle and timeline
+  right: calc($result-list-width + ($timeline-tools-height - $toggle-height) / 2);
 }
 
 .side-result-list-toggle-open-no-grid {
@@ -65,7 +69,7 @@
 }
 
 .side-result-list-preview {
-  width: 150px;
+  width: $preview-result-list-width;
   height: 100%;
   position: absolute;
   right: 0;
@@ -97,24 +101,12 @@
 
 .side-result-list-open {
   display: block;
-  width: 450px;
+  width: $result-list-width;
   visibility: visible;
 }
 
 .rotate-icon {
   transform: rotate(180deg);
-}
-
-.arlas-search-toggle {
-  border-radius: 4px;
-  padding: 4px 5px 0px;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-}
-
-.arlas-search-toggle-corner {
-  border-radius: 4px 0 0 4px;
 }
 
 .left_resultlist_wrapper {
@@ -127,53 +119,34 @@
   overflow: hidden;
 }
 
-.arlas-search-toggle:hover {
-  background-color: #f5f5f5;
-}
-
 .arlas-analytics-toggle {
   position: absolute;
-  left: $analytics-board-width;
-  top: 50%;
+  // Have same spacing between toggle and list as with toggle and timeline
+  left: calc($analytics-board-width + ($timeline-tools-height - $toggle-height) / 2);  top: 50%;
   transform: translate(0, -50%);
   height: $icon-size;
   z-index: 1;
   background-color: white;
   cursor: pointer;
+  @include toggle();
+  display: flex;
+  align-items: center;
 }
 
-.arlas-analytics-toggle:hover {
-  background-color: #f5f5f5;
+.toggle-hidden {
+  display: none;
 }
 
 .arlas-analytics-rotate {
   transform: rotate(180deg);
 }
 
-.arlas-filters-chips {
-  position: absolute;
-  top: $sm-margin;
-  left: calc((100vw - $left-menu-width) / 2);
-  transform: translate(-50%, 0);
-
-  // TODO: improve by removing the spaces to the left and right
-  ::ng-deep.mat-chip-list-wrapper {
-    margin: 0;
-    justify-content: center;
-  }
-}
-
-.arlas-filters-chips-top {
-  ::ng-deep.zoom {
-    position: relative;
-    bottom: 6px;
-  }
-}
-
 .arlas-analytics--container {
   width: $analytics-board-width;
-  max-height: calc(100vh - $top-menu-height);
+  height: calc(100vh - $top-menu-height);
   overflow: auto;
+  border-right: $menu-border;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -273,13 +246,8 @@
     right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.bookmark-shortcut {
-    top: 30px;
-    right: calc($result-list-width + $sm-spacing);
-  }
-
   ::ng-deep.current-coordinate {
-    right: 570px;
+    right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
 }
 
@@ -294,12 +262,8 @@
     right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.bookmark-shortcut {
-    right: calc($preview-result-list-width + $sm-spacing);
-  }
-
   ::ng-deep.current-coordinate {
-    right: 270px;
+    right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
 }
 
@@ -319,11 +283,13 @@
 
 .app-container-timeline-hidden {
   ::ng-deep.mapboxgl-ctrl-scale {
-    bottom: calc($sm-spacing - $map-scale-border-width);
+    // Center regarding to timeline tools
+    bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
   }
 
   ::ng-deep.current-coordinate {
-    bottom: $sm-spacing;
+    // Center regarding to timeline tools
+    bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
   }
 
   ::ng-deep.arlas-time-shortcuts--container {
@@ -333,11 +299,13 @@
 
 .app-container-timeline-legend {
   ::ng-deep.mapboxgl-ctrl-scale {
-    bottom: calc($timeline-with-legend-height + $sm-spacing - $map-scale-border-width);
+    // Center regarding to timeline tools
+    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
   }
 
   ::ng-deep.current-coordinate {
-    bottom: calc($timeline-with-legend-height + $sm-spacing);
+    // Center regarding to timeline tools
+    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
   }
 
   ::ng-deep.arlas-time-shortcuts--container {
@@ -377,8 +345,7 @@
   .arlas-map-settings-container {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+    @include box-border();
     background-color: white;
 
     .arlas-map-settings-items {
@@ -447,10 +414,6 @@
   gap: 0 10px;
 }
 
-.result-list-tab-group ::ng-deep .mat-tab-label-content .icon {
-  flex: 1;
-}
-
 .result-list-tab-group ::ng-deep .mat-tab-label-content .name {
   flex: 5;
 }
@@ -471,12 +434,47 @@
     align-items: center;
     justify-content: center;
     height: $filter-height;
-    padding-left: 6px;
+    padding-left: $sm-spacing;
+
+    ::ng-deep.search-text {
+      width: $search-width;
+    }
+  }
+
+  .vertical-divider {
+    height: $filter-height;
+    padding-left: $sm-spacing;
+  }
+
+  .arlas-filters-chips-top {
+    padding-left: $default-spacing;
+  
+    ::ng-deep.zoom {
+      position: relative;
+      bottom: 6px;
+    }
+  
+    ::ng-deep.extra-counts {
+      // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border
+      top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + 3px);
+      z-index: 2;
+    }
+
+    ::ng-deep.title,
+    ::ng-deep.separator {
+      z-index: 3
+    }
+
+    // Realign box when opened
+    ::ng-deep.extra-open {
+      margin-top: $sm-margin;
+    }
   }
 }
 
 ::ng-deep.top-menu {
   height: $top-menu-height !important;
+  border-bottom: $menu-border;
 }
 
 .title {
@@ -494,24 +492,30 @@
   font-size: $default-font-size;
   height: $filter-height;
   z-index: 2;
+  position: absolute;
+  top: $sm-spacing;
+  left: $sm-spacing;
 
   .shortcut {
-    padding: 0 $sm-spacing;
+    padding-left: $sm-spacing;
     height: fit-content;
 
-    // Tighten powerbars display
-    ::ng-deep.checkbox {
-      padding-bottom: 0;
+    &:first-child {
+      padding-left: 0;
     }
 
-    // Manage shortcuts header height to fit them in top menu
+    // Manage shortcuts header height to have uniform height with filter chips
     ::ng-deep.title {
       height: $filter-height;
+    }
+    ::ng-deep.open_title {
+      padding-bottom: calc($sm-spacing + 2px);
     }
 
     // Position content of the shortcut below header
     ::ng-deep.content {
-      top: 47px !important;
+      // The 2px come from the borders that take 1 px each
+      top: calc($filter-height + $sm-spacing + 2px);
     }
 
     // Manage the scroll of the powerbars
@@ -531,7 +535,8 @@
       top: 92px !important;
     }
     ::ng-deep.histogram {
-      padding-bottom: 5px;
+      // Leave enough space for the histogram tooltip
+      padding-bottom: 7px;
     }
   }
 }

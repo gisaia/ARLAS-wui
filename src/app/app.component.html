@@ -4,20 +4,15 @@
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
+      <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
+      <arlas-filter class="arlas-filters-chips-top"
+        [collectionToDescription]="collectionToDescription"
+        [units]="appUnits" (zoomEvent)="zoomToData($event)"
+        [availableSpace]="availableSpaceCounts" [spacing]="spacing">
+      </arlas-filter>
     </div>
-    <ng-container middle-menu>
-      <div *ngFor="let shortcut of shortcuts; let idx=index"  class="shortcut-list">
-        <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
-          (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-      </div>
 
-      <div *ngIf="!arlasStartUpService.emptyMode && (shortcuts === undefined || shortcuts?.length === 0)" class="arlas-filters-chips-top">
-        <arlas-filter [collectionToDescription]="collectionToDescription"
-          [units]="appUnits" (zoomEvent)="zoomToData($event)">
-        </arlas-filter>
-      </div>
-    </ng-container>
-    <div right-menu class="title">{{ appName }}</div>
+    <div right-menu class="title" id="title">{{ appName }}</div>
   </arlas-top-menu>
 
   <mat-sidenav-container class="sidenav-container">
@@ -79,8 +74,15 @@
                 </div>
               </div>
             </div>
+
+            <div class="shortcut-list" *ngIf="shortcuts && shortcuts.length > 0 && analyticsService.activeTab === undefined">
+              <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
+                <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
+                  (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+              </ng-container>
+            </div>
             <div class="arlas-map">
-              <mat-basic-chip class="arlas-analytics-toggle" [hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
+              <mat-basic-chip class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
                 matTooltip="{{'Close analytics board' | translate}}">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
               </mat-basic-chip>
@@ -130,7 +132,7 @@
                   [fieldsConfiguration]="previewListContrib.fieldsConfiguration"
                   [dropDownMapValues]="previewListContrib.dropDownMapValues"
                   [filtersMap]="previewListContrib.filtersMap" [highlightItems]="previewListContrib.highlightItems"
-                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="150" [defautMode]="1"
+                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="previewListWidth" [defautMode]="1"
                   [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
@@ -154,8 +156,8 @@
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
                 [class.side-result-list-open]="listOpen">
-                <mat-tab-group [selectedIndex]="selectedListTabIndex" #tabsList class="result-list-tab-group">
-                  <mat-tab *ngFor="let list of rightListContributors">
+                <mat-tab-group [(selectedIndex)]="selectedListTabIndex" #tabsList class="result-list-tab-group">
+                  <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
                     <ng-template mat-tab-label>
                       <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
                       [matTooltip]="list.name"
@@ -169,11 +171,11 @@
                       </span>
                     </ng-template>
                     <div class="left_resultlist_wrapper">
-                      <arlas-result-list *ngIf="listOpen" #resultsidenav [rowItemList]="list.data"
+                      <arlas-result-list *ngIf="listOpen && listIdx === selectedListTabIndex" #resultsidenav [rowItemList]="list.data"
                         [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"
-                        [nbGridColumns]="3" [tableWidth]="450"
+                        [nbGridColumns]="resultListGridColumns" [tableWidth]="listWidth"
                         [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
                         [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
                         [fetchState]="list.fetchState"
@@ -206,12 +208,6 @@
                   </mat-tab>
                 </mat-tab-group>
               </div>
-            </div>
-
-            <div *ngIf="!arlasStartUpService.emptyMode && shortcuts && shortcuts?.length > 0" class="arlas-filters-chips">
-              <arlas-filter [collectionToDescription]="collectionToDescription"
-                [units]="appUnits" (zoomEvent)="zoomToData($event)">
-              </arlas-filter>
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig"
