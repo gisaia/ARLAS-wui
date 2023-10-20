@@ -17,8 +17,8 @@
  * under the License.
  */
 
-@import 'styles/app/colors.scss';
-@import 'styles/app/sizes.scss';
+@import 'colors.scss';
+@import 'sizes.scss';
 
 @mixin box-border() {
     border: $xs-border solid $border-color;
