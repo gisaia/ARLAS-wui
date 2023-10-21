@@ -1,0 +1,798 @@
+[
+  {
+    "properties": {
+      "_isWMSEnabled": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "internal": {
+        "type": "OBJECT",
+        "properties": {
+          "autocomplete": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "fulltext": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          }
+        },
+        "taggable": false,
+        "indexed": true
+      },
+      "metadata": {
+        "type": "OBJECT",
+        "properties": {
+          "core": {
+            "type": "OBJECT",
+            "properties": {
+              "keywords": {
+                "type": "OBJECT",
+                "taggable": false,
+                "indexed": false
+              },
+              "temporalCoverage": {
+                "type": "OBJECT",
+                "properties": {
+                  "end": {
+                    "type": "DATE",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "begin": {
+                    "type": "DATE",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "identity": {
+                "type": "OBJECT",
+                "properties": {
+                  "lifecycle": {
+                    "type": "OBJECT",
+                    "properties": {
+                      "updateFrequency_en": {
+                        "type": "KEYWORD",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "created": {
+                        "type": "DATE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "updateFrequency": {
+                        "type": "KEYWORD",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "updateFrequency_fr": {
+                        "type": "KEYWORD",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "updated": {
+                        "type": "DATE",
+                        "taggable": false,
+                        "indexed": true
+                      }
+                    },
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "collection_fr": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "identifier": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "collection_en": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "parentIdentifier": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "collection": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "source": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "description": {
+                "type": "OBJECT",
+                "properties": {
+                  "processingLevel_fr": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "processingLevel": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "resourceTitle": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "resourceAbstract": {
+                    "type": "OBJECT",
+                    "taggable": false,
+                    "indexed": false
+                  },
+                  "processingLevel_en": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "productFormat": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "resourceType": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "locations": {
+                "type": "OBJECT",
+                "taggable": false,
+                "indexed": false
+              },
+              "availability": {
+                "type": "OBJECT",
+                "properties": {
+                  "archiveid": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "status": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "coordinateSystem": {
+                "type": "OBJECT",
+                "taggable": false,
+                "indexed": false
+              },
+              "graphics": {
+                "type": "OBJECT",
+                "properties": {
+                  "thumbnail": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "quicklook": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "contacts": {
+                "type": "OBJECT",
+                "properties": {
+                  "organisationName": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              }
+            },
+            "taggable": false,
+            "indexed": true
+          },
+          "ObservationContext": {
+            "type": "OBJECT",
+            "properties": {
+              "observedProperty_fr": {
+                "type": "KEYWORD",
+                "taggable": false,
+                "indexed": true
+              },
+              "observedProperty_en": {
+                "type": "KEYWORD",
+                "taggable": false,
+                "indexed": true
+              },
+              "observedProperty": {
+                "type": "KEYWORD",
+                "taggable": false,
+                "indexed": true
+              },
+              "phenomenonTime": {
+                "type": "OBJECT",
+                "properties": {
+                  "end": {
+                    "type": "DATE",
+                    "format": "yyyy-MM-dd HH:mm:ss||date_time_no_millis||date_time||date_hour_minute_second||date||epoch_millis",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "begin": {
+                    "type": "DATE",
+                    "format": "yyyy-MM-dd HH:mm:ss||date_time_no_millis||date_time||date_hour_minute_second||date||epoch_millis",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "eo": {
+                "type": "OBJECT",
+                "properties": {
+                  "opt": {
+                    "type": "OBJECT",
+                    "properties": {
+                      "cloudCoverPercentage": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "snowCoverPercentage": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "waterCoverPercentage": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      }
+                    },
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "acquisition": {
+                    "type": "OBJECT",
+                    "properties": {
+                      "incidenceAngle": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "bitPerValue": {
+                        "type": "LONG",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "incidenceAngleAcrossTrack": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "relativeOrbitNumber": {
+                        "type": "LONG",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "illuminationAzimuthAngle": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "incidenceAngleAlongTrack": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "illuminationElevationAngle": {
+                        "type": "DOUBLE",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "orbitNumber": {
+                        "type": "LONG",
+                        "taggable": false,
+                        "indexed": true
+                      }
+                    },
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              },
+              "processusUsed": {
+                "type": "OBJECT",
+                "properties": {
+                  "platform_fr": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "instrument": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "instrument_fr": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "platform_en": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "sensor": {
+                    "type": "OBJECT",
+                    "properties": {
+                      "mode": {
+                        "type": "KEYWORD",
+                        "taggable": false,
+                        "indexed": true
+                      },
+                      "resolution": {
+                        "type": "OBJECT",
+                        "taggable": false,
+                        "indexed": false
+                      }
+                    },
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "platform": {
+                    "type": "KEYWORD",
+                    "taggable": false,
+                    "indexed": true
+                  },
+                  "instrument_en": {
+                    "type": "TEXT",
+                    "taggable": false,
+                    "indexed": true
+                  }
+                },
+                "taggable": false,
+                "indexed": true
+              }
+            },
+            "taggable": false,
+            "indexed": true
+          },
+          "services": {
+            "type": "OBJECT",
+            "taggable": false,
+            "indexed": false
+          }
+        },
+        "taggable": false,
+        "indexed": true
+      },
+      "_isDataOnLine": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "harvestuuid": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "_sensorType_fr": {
+        "type": "KEYWORD",
+        "taggable": false,
+        "indexed": true
+      },
+      "_attachments": {
+        "type": "OBJECT",
+        "properties": {
+          "description_fr": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          },
+          "description_en": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          },
+          "description": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          },
+          "label": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          },
+          "url": {
+            "type": "TEXT",
+            "taggable": false,
+            "indexed": true
+          }
+        },
+        "taggable": false,
+        "indexed": true
+      },
+      "_isRadar": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "_sensorType": {
+        "type": "KEYWORD",
+        "taggable": false,
+        "indexed": true
+      },
+      "_centroid_wkt": {
+        "type": "GEO_POINT",
+        "taggable": false,
+        "indexed": true
+      },
+      "_textLocation": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "_isDownloadEnabled": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "_isVisuEnabled": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "_isOptique": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "_keywords": {
+        "type": "OBJECT",
+        "properties": {
+          "continent": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "country": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "city": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "year": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "theme_en": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "channel": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "dotcloudType": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "instrument": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "platform": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "sea": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "processingLevel": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "gulf": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "landuse": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "season": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "theme": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "bay": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "state": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "theme_fr": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "Discipline": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "day": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "productType": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "productMode": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "collection": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "strait": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "license": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "organisationName": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "dotcloudSubType": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "month": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "ocean": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "metadataVisibility": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "location": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "region": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          },
+          "sensorMode": {
+            "type": "KEYWORD",
+            "taggable": false,
+            "indexed": true
+          }
+        },
+        "taggable": false,
+        "indexed": true
+      },
+      "id": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "_sensorType_en": {
+        "type": "KEYWORD",
+        "taggable": false,
+        "indexed": true
+      },
+      "_geometry_wkt": {
+        "type": "GEO_SHAPE",
+        "taggable": false,
+        "indexed": true
+      },
+      "_isWMTSEnabled": {
+        "type": "BOOLEAN",
+        "taggable": false,
+        "indexed": true
+      },
+      "_services": {
+        "type": "OBJECT",
+        "taggable": false,
+        "indexed": false
+      },
+      "harvestername": {
+        "type": "KEYWORD",
+        "taggable": false,
+        "indexed": true
+      },
+      "tags": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "_duplicateCoordinates": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "catalogueType": {
+        "type": "TEXT",
+        "taggable": false,
+        "indexed": true
+      },
+      "harvestdate": {
+        "type": "DATE",
+        "taggable": false,
+        "indexed": true
+      },
+      "_resolution": {
+        "type": "DOUBLE",
+        "taggable": false,
+        "indexed": true
+      }
+    },
+    "collection_name": "demo_eo",
+    "params": {
+      "index_name": "demo_eo",
+      "id_path": "metadata.core.identity.identifier",
+      "geometry_path": "_geometry_wkt",
+      "centroid_path": "_centroid_wkt",
+      "timestamp_path": "metadata.ObservationContext.phenomenonTime.begin",
+      "update_max_hits": 2147483647,
+      "custom_params": {
+        "timestamp_format": "yyyy-MM-dd HH:mm:ss||date_time_no_millis||date_time||date_hour_minute_second||date||epoch_millis"
+      },
+      "inspire": {
+        "keywords": [
+          {
+            "value": "demo_eo"
+          }
+        ],
+        "languages": [
+          "eng"
+        ],
+        "inspire_uri": {
+          "code": "f9578597-b11e-4ec8-9717-5bd4406b0e60",
+          "namespace": "ARLAS.DEMO_EO"
+        },
+        "inspire_limitation_access": {
+          "access_constraints": "otherRestrictions",
+          "other_constraints": "no limitations apply",
+          "classification": "unclassified"
+        },
+        "inspire_use_conditions": "no conditions apply"
+      },
+      "dublin_core_element_name": {
+        "title": "",
+        "creator": "",
+        "subject": "",
+        "description": "",
+        "publisher": "",
+        "contributor": "",
+        "type": "",
+        "format": "",
+        "identifier": "f9578597-b11e-4ec8-9717-5bd4406b0e60",
+        "source": "",
+        "language": "",
+        "bbox": {
+          "north": 90.0,
+          "south": -90.0,
+          "east": 180.0,
+          "west": -180.0
+        },
+        "date": "2022-05-17T19:21:12",
+        "coverage": {
+          "coordinates": [
+            [
+              [
+                -180.0,
+                -90.0
+              ],
+              [
+                180.0,
+                -90.0
+              ],
+              [
+                180.0,
+                90.0
+              ],
+              [
+                -180.0,
+                90.0
+              ],
+              [
+                -180.0,
+                -90.0
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "coverage_centroid": "0.0,0.0"
+      },
+      "raster_tile_width": -1,
+      "raster_tile_height": -1
+    }
+  }
+]
