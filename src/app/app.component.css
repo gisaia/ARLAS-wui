@@ -378,3 +378,16 @@
 .result-list-tab-group ::ng-deep .mat-tab-label-content .name {
   flex: 5;
 }
+
+::ng-deep.cesium-baseLayerPicker-dropDown {
+  overflow-x: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+::ng-deep.cesium-baseLayerPicker-section {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}

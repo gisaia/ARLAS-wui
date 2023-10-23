@@ -58,32 +58,6 @@
               </div>
             </div>
             <div class="arlas-map">
-              
-
-              <arlas-mapgl  [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
-                [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
-                [defaultBasemapStyle]="defaultBaseMap"
-                [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
-                (visualisations)="changeVisualisation($event)" [icons]="mapComponentConfig?.icons"
-                [basemapStyles]="mapComponentConfig?.basemapStyles"
-                [margePanForLoad]="mapComponentConfig?.margePanForLoad"
-                [margePanForTest]="mapComponentConfig?.margePanForTest" [initCenter]="mapComponentConfig?.initCenter"
-                [drawData]="geojsondraw" [initCenter]="mapComponentConfig?.initCenter"
-                [initZoom]="mapComponentConfig?.initZoom" [minZoom]="mapComponentConfig?.minZoom"
-                [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
-                [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
-                [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
-                [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
-                [mapSources]="mapComponentConfig?.mapSources"
-                [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
-                [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
-                [drawButtonEnabled]="false" (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
-                (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
-                (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
-                (onFeatureClic)="emitFeaturesOnClic($event)"
-                (downloadSourceEmitter)="downloadLayerSource($event)"
-                [offset]="offset">
-              </arlas-mapgl>
               <!-- <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
                 [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">

@@ -200,7 +200,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       /** resize the map */
       fromEvent(window, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
-          this.mapglComponent.map.resize();
           this.viewer.canvas.width = window.innerWidth - 66;
           this.viewer.canvas.height = window.innerHeight;
           this.viewer.resize();
@@ -304,6 +303,13 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.onMoveCesium();
     });
 
+    // Once the Cesium globe is loaded, init the map with a dud onMove event
+    this.viewer.scene.globe.tileLoadProgressEvent.addEventListener(() => {
+      if (this.viewer.scene.globe.tilesLoaded) {
+        this.onMoveCesium();
+      }
+    });
+
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
@@ -346,11 +352,21 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         };
       }));
 
-      this.mapRedrawSources.pipe(debounceTime(100)).subscribe((redraws: Record<string, any>) => {
+      this.mapglContributors.forEach((c) => {
+        console.log(c.isSimpleModeAccumulative);
+      });
+
+      merge(...this.mapglContributors.map(c => c.endCollaborationEvent)).subscribe(end => {
+        console.log(end);
+      });
+
+      this.mapRedrawSources.subscribe((redraws: {source: string; data: Array<any>;}) => {
         console.log(redraws);
         const layerId = 'feature-wkt-wide-satellite_index';
         const data = (this.mapglContributors[0] as any).featureDataPerSource.get(layerId);
-        if (data) {
+        console.log(this.mapglContributors);
+        console.log((this.mapglContributors[0] as any).featureDataPerSource);
+        if (data && redraws.source === layerId) {
           console.log(data);
           this.viewer.entities.removeAll();
           data.forEach(feature => {
@@ -445,8 +461,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
@@ -497,24 +511,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.mapService.setMap(this.mapglComponent.map);
-    this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
-    if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-      this.mapBounds = null;
-    }
-    this.mapglComponent.map.on('movestart', (e) => {
-      this.zoomStart = this.mapglComponent.map.getZoom();
-    });
-    this.mapglComponent.map.on('moveend', (e) => {
-      if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-        this.zoomChanged = true;
-      }
-      if (this.allowMapExtend) {
-        this.mapEventListener.next(null);
-      }
-    });
     this.adjustMapOffset();
     // Keep the last displayed list as preview when closing the right panel
     if (!!this.tabsList) {
@@ -528,90 +525,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.adjustTimelineSize();
       });
     }
-
-    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    });
-
-    if (!!this.previewListContrib) {
-      timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
-        if (this.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-          this.updateVisibleItems();
-          this.apploading = false;
-        }
-      });
-    }
     this.cdr.detectChanges();
-  }
-
-  public onMapLoaded(isLoaded: boolean): void {
-    /** wait until the map component loading is finished before fetching the data */
-    if (isLoaded && !this.arlasStartUpService.emptyMode) {
-      // this.addDayAndNight();
-      // this.addFog();
-      this.mapglContributors.forEach(mapglContributor => {
-        mapglContributor.updateData = true;
-        mapglContributor.fetchData(null);
-        mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
-      });
-    }
-  }
-
-  public addFog() {
-    this.mapglComponent.map.setFog({
-      color: 'rgb(30, 30, 35)', // Lower atmosphere
-      'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
-      'horizon-blend': 0.01, // Atmosphere thickness (default 0.2 at low zooms)
-      'space-color': 'rgb(11, 11, 25)', // Background color
-      'star-intensity': 0.1 // Background star brightness (default 0.35 at low zoooms )
-    });
-  }
-
-  public addDayAndNight() {
-    // Add a night part on the globe
-    const date = new Date();
-
-    // https://unpkg.com/@webgeodatavore/geojson.terminator@1.0.0/GeoJSON.Terminator.js
-    const dayNightJson = new GeoJSONTerminator({
-      resolution: 2,
-      time: date
-    });
-
-    if (this.mapglComponent.map.getSource('night-source')) {
-      this.mapglComponent.map.getSource('night-source').setData(dayNightJson);
-    } else {
-      this.mapglComponent.map.addSource('night-source', {
-        'type': 'geojson',
-        'data': dayNightJson
-      });
-    }
-
-    if (!this.mapglComponent.map.getLayer('night-polygon-layer')) {
-      (this.mapglComponent.map as mapboxgl.Map).addLayer({
-        'id': 'night-polygon-layer',
-        'type': 'fill',
-        'source': 'night-source',
-        'layout': {},
-        'paint': {
-          'fill-color': '#000000',
-          'fill-opacity': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0,
-            0.8,
-            8,
-            0.1
-          ],
-        }
-      }, 'arlas_id:Satellite tracks:1696588200104');
-    }
   }
 
   public setAppTitle() {
@@ -906,7 +820,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       const extend = this.rad2Deg(viewRect.west) + ',' + this.rad2Deg(viewRect.south) + ','
         + this.rad2Deg(viewRect.east) + ',' + this.rad2Deg(viewRect.north);
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+      const visibileVisus = this.mapComponentConfig?.visualisations_sets.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -914,8 +828,15 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
 
       let numExtend = extend.split(',').map(x => +x);
       numExtend = [numExtend[3], numExtend[0], numExtend[1], numExtend[2]];
+      const numExtendWithin = numExtend.map(v => v < 0 ? v + 5 : v - 5);
+
+      const visibleLayers = new Set<string>();
+      // TODO: only add visible layers based on rules ?
+      this.mapComponentConfig?.visualisations_sets.forEach(vs => {
+        vs.layers.forEach(l => visibleLayers.add(l));
+      });
       const event: OnMoveResult = {
-        zoom: 1,
+        zoom: 0.5,
         center: {
           lat: 0, lng: 0
         },
@@ -924,79 +845,18 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         rawExtendForLoad: numExtend,
         rawExtendForTest: numExtend,
         extendForTest: numExtend,
-        visibleLayers: new Set(this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name))
+        visibleLayers: visibleLayers
       };
 
-      this.mapglContributors.forEach(contrib => contrib.onMove(event, true));
+      this.mapglContributors.forEach(contrib => {
+        contrib.updateData = true;
+        contrib.onMove(event, false);
+      });
     }
   }
 
   private rad2Deg(angle: number) {
     return angle / Math.PI * 180;
-  }
-
-  public onMove(event) {
-    // Update data only when the collections info are presents
-    if (this.collectionToDescription.size > 0) {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      queryParams['vs'] = visibileVisus;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-      localStorage.setItem('currentExtent', JSON.stringify(bounds));
-      const ratioToAutoSort = 0.1;
-      this.centerLatLng['lat'] = event.centerWithOffset[1];
-      this.centerLatLng['lng'] = event.centerWithOffset[0];
-      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
-        this.recalculateExtend = true;
-      }
-      const newMapExtent = event.extendWithOffset;
-      const newMapExtentRaw = event.rawExtendWithOffset;
-      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
-      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
-      if (this.recalculateExtend) {
-        this.resultlistContributors
-          .forEach(c => {
-            const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
-            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
-            if (!!mapContrib) {
-              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
-            } else {
-              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
-            }
-            this.collaborativeService.registry.set(c.identifier, c);
-          });
-        this.resultlistContributors.forEach(c => {
-          if (this.isGeoSortActivated.get(c.identifier)) {
-            c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
-          } else {
-            c.sortColumn(this.sortOutput.get(c.identifier), true);
-          }
-        });
-        this.mapglContributors.forEach(c => {
-          if (!!this.resultlistContributors) {
-            const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
-            if (!!resultlistContrbutor) {
-              if (this.isGeoSortActivated.get(c.identifier)) {
-                c.searchSort = resultlistContrbutor.geoOrderSort;
-              } else {
-                c.searchSort = resultlistContrbutor.sort;
-              }
-              this.collaborativeService.registry.set(c.identifier, c);
-            }
-          }
-          this.clearWindowData(c);
-        });
-        this.zoomChanged = false;
-      }
-      event.extendForTest = newMapExtent;
-      event.rawExtendForTest = newMapExtentRaw;
-      this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
-      this.recalculateExtend = false;
-    }
   }
 
   public changeVisualisation(event) {
@@ -1136,7 +996,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       this.offset.west = 0;
     }
     this.recalculateExtend = true;
-    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+    // this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
   }
 
 
