@@ -19,7 +19,7 @@
 
 .globe {
   width: 100vw;
-  height: calc(100vh - 150px);
+  height: 100vh;
 }
 
 .app-container {
@@ -262,7 +262,7 @@
 
 .arlas-map-settings {
   position: absolute;
-  top: 70px;
+  top: calc(100vh + 70px);
   right: 38px;
   z-index: 1;
 }

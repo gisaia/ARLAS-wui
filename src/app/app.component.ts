@@ -23,33 +23,36 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import GeoJSONTerminator from '@webgeodatavore/geojson.terminator';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
+  ArlasColorService,
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, ArlasColorService
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
+  SCROLLABLE_ARLAS_ID,
+  SortEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode, HistogramContributor,
+  ElementIdentifier, FeatureRenderMode,
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import { OnMoveResult } from 'arlas-web-contributors/models/models';
 import {
   ArlasCollaborativesearchService, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
+import { Cartesian3, Color, Ion, Viewer } from 'cesium';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { Observable, Subject, fromEvent, merge, of, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
-import GeoJSONTerminator from '@webgeodatavore/geojson.terminator';
-import { Cartesian3, Color, Ion, Viewer, EllipseGeometry, EllipseGraphics, DataSource } from 'cesium';
-
 
 @Component({
   selector: 'arlas-wui-root',
@@ -197,7 +200,10 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
       /** resize the map */
       fromEvent(window, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
-          // this.mapglComponent.map.resize();
+          this.mapglComponent.map.resize();
+          this.viewer.canvas.width = window.innerWidth - 66;
+          this.viewer.canvas.height = window.innerHeight;
+          this.viewer.resize();
         });
       /** trigger 'resize' event after toggling sidenav  */
       this.sidenavService.sideNavState.subscribe(res => {
@@ -286,10 +292,17 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     // eslint-disable-next-line max-len
     Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYzhjYmMxYi0xODkzLTRhOTctYjUyOC0zYmRjZjM3MGZmNWIiLCJpZCI6MTcyODk1LCJpYXQiOjE2OTc3ODY1ODJ9.-ZjRdZ4_JDOQuJ3GNrDUkfvh3T5NCU_-XFvJf9VgsSE';
 
-    this.viewer = new Viewer('cesium');
-    this.viewer.resize();
+    this.viewer = new Viewer('cesium', {
+      animation: false,
+      timeline: false
+    });
     this.viewer.canvas.width = window.innerWidth - 66;
     this.viewer.canvas.height = window.innerHeight;
+    this.viewer.resize();
+
+    this.viewer.camera.moveEnd.addEventListener(() => {
+      this.onMoveCesium();
+    });
 
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
@@ -323,14 +336,6 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         this.mapLegendUpdater.next(legendData);
       });
 
-      // console.log(this.mapglContributors);
-      // this.mapglContributors.forEach(c => {
-      //   c.fetchData();
-      //   c.visibilityUpdater.subscribe(_ => {
-      //     console.log((c as any).featureDataPerSource);
-      //   });
-      // });
-
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
       // Shouldnt it be a merge pipe ?
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
@@ -341,27 +346,24 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         };
       }));
 
-      let draw = false;
-      this.mapVisibilityUpdater.subscribe(update => {
-        console.log((this.mapglContributors[0] as any).featureDataPerSource);
+      this.mapRedrawSources.pipe(debounceTime(100)).subscribe((redraws: Record<string, any>) => {
+        console.log(redraws);
         const layerId = 'feature-wkt-wide-satellite_index';
         const data = (this.mapglContributors[0] as any).featureDataPerSource.get(layerId);
         if (data) {
+          console.log(data);
           this.viewer.entities.removeAll();
           data.forEach(feature => {
-            const semiMinorAxis = 7000000.0;
-            const semiMajorAxis = 11000000.0;
-            const height = Math.random() * (semiMajorAxis - semiMinorAxis) + semiMinorAxis;
-            const positions = feature.geometry.coordinates.map(coords => Cartesian3.fromDegrees(coords[0], coords[1], height));
+            const positions = feature.geometry.coordinates.map(
+              coords => Cartesian3.fromDegrees(coords[0], coords[1], feature.properties.altitude));
             this.viewer.entities.add({
               polyline: {
                 positions: positions,
                 width: 4,
-                material: Color.fromRandom()
+                material: Color.fromCssColorString(this.colorService.getColor(feature.properties.id) + 'f0')
               }
             });
           });
-          draw = true;
         }
       });
 
@@ -896,6 +898,41 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
         }
       }, (i) * ((debounceDuration + 100) * 1.5));
     }
+  }
+
+  public onMoveCesium() {
+    if (this.collectionToDescription.size > 0) {
+      const viewRect = this.viewer.camera.computeViewRectangle(this.viewer.scene.globe.ellipsoid);
+      const extend = this.rad2Deg(viewRect.west) + ',' + this.rad2Deg(viewRect.south) + ','
+        + this.rad2Deg(viewRect.east) + ',' + this.rad2Deg(viewRect.north);
+      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
+      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams['vs'] = visibileVisus;
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      localStorage.setItem('currentExtent', JSON.stringify(viewRect));
+
+      let numExtend = extend.split(',').map(x => +x);
+      numExtend = [numExtend[3], numExtend[0], numExtend[1], numExtend[2]];
+      const event: OnMoveResult = {
+        zoom: 1,
+        center: {
+          lat: 0, lng: 0
+        },
+        extend: numExtend,
+        extendForLoad: numExtend,
+        rawExtendForLoad: numExtend,
+        rawExtendForTest: numExtend,
+        extendForTest: numExtend,
+        visibleLayers: new Set(this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name))
+      };
+
+      this.mapglContributors.forEach(contrib => contrib.onMove(event, true));
+    }
+  }
+
+  private rad2Deg(angle: number) {
+    return angle / Math.PI * 180;
   }
 
   public onMove(event) {
