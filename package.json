@@ -75,6 +75,7 @@
     "portable-fetch": {
       "node-fetch": "3.3.0"
     },
-    "shpjs": "4.0.4"
+    "shpjs": "4.0.4",
+    "esbuild": "0.19.5"
   }
 }
