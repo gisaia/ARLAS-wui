@@ -2,15 +2,20 @@
 
 @import '../node_modules/prismjs/themes/prism.css';
 @import "../node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
-@import 'styles/timeline.css';
+@import 'styles/timeline.scss';
 @import 'styles/powerbars.css';
 @import 'styles/histogram.css';
 @import 'styles/hopscotch/hopscotch.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
 @import 'styles/resultlist.css';
-@import 'styles/map.css';
-@import 'styles/filter.css';
+@import 'styles/map.scss';
+@import 'styles/filter.scss';
+@import 'styles/variables.scss';
+@import 'styles/app/sizes.scss';
+@import 'styles/app/colors.scss';
+@import 'styles/app/mixin.scss';
+
 /* Material Icons */
 
 @font-face {
@@ -21,17 +26,13 @@
   src: local('Material Icons'), local('MaterialIcons-Regular'), url('./assets/fonts/material-icons.woff2') format('woff2')
 }
 
-*, ::after, ::before {
-  box-sizing: border-box;
-}
-
 body {
   width: 100%;
   height: 100%;
   min-height: 100%;
   overflow: hidden;
   margin: 0;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -106,7 +107,7 @@ button:focus {
 
 
 .side-result-list-preview table.resultlist>tbody {
-  height: 100vh !important;
+  height: calc(100vh - $top-menu-height) !important;
 }
 
 .side-result-list-preview table.resultlist>thead {
@@ -306,49 +307,6 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
   left: 5px !important;
 }
 
-.arlas-map .current-coordinate {
-  position: absolute;
-  right: 120px;
-  bottom: 165px;
-  background-color: white;
-  color: black;
-  font-size: smaller;
-  border-radius: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.arlas-map .current-coordinate {
-  position: absolute;
-  right: 120px;
-  bottom: 165px;
-  background-color: white;
-  color: black;
-  font-size: smaller;
-  border-radius: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.app-container-reduce .arlas-map .current-coordinate {
-  right: 570px;
-}
-.app-container-with-list .arlas-map .current-coordinate {
-  right: 270px;
-}
-
-.app-container-with-list .arlas-map-settings {
-  right: 187px;
-}
-
-.arlas-map .current-coordinate .lat {
-  width: 110px;
-}
-
-.arlas-map .current-coordinate .lng {
-  width: 105px;
-}
-
 .resultitem-list__actions {
   cursor: pointer;
 }
@@ -356,8 +314,6 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
 .resultitem-grid__actions {
   cursor: pointer;
 }
-
-
 
 .gif {
   background-color: #FF4081;
