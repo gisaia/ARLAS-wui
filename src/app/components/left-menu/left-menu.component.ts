@@ -3,13 +3,11 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService, AuthentificationService,
-  ArlasAuthentificationService,
-   ArlasIamService,
+  ArlasAuthentificationService, ArlasIamService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AboutComponent } from '../about/about.component';
 import { Router } from '@angular/router';
 
 interface Page {
@@ -66,16 +64,15 @@ export class LeftMenuComponent implements OnInit {
   public constructor(
     private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
-    private dialog: MatDialog,
     private translate: TranslateService,
     public persistenceService: PersistenceService,
-    private configService: ArlasConfigService,
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService,
     private router: Router,
     private arlasAuthentService: ArlasAuthentificationService,
     public collaborativeService: ArlasCollaborativesearchService,
-    public configService: ArlasConfigService
+    public configService: ArlasConfigService,
+    public arlasStartUpService: ArlasStartupService
   ) {
     this.window = window;
     this.reduce = this.translate.instant('reduce');
@@ -88,7 +85,6 @@ export class LeftMenuComponent implements OnInit {
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
       this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = this.settings.getTicketingKey() ? true : false;
-      this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
   }
 

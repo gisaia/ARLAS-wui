@@ -16,7 +16,6 @@ import { routing } from 'app/app.routes';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
 } from 'arlas-wui-toolkit';
-import { AboutComponent, AboutDialogComponent } from '../about/about.component';
 import { LeftMenuComponent } from '../left-menu/left-menu.component';
 
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule } from 'arlas-web-components';
@@ -39,7 +38,7 @@ describe('ArlasWuiRootComponent', () => {
         ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,
       ],
       declarations: [
-        ArlasWuiRootComponent, LeftMenuComponent, AboutComponent, AboutDialogComponent
+        ArlasWuiRootComponent, LeftMenuComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

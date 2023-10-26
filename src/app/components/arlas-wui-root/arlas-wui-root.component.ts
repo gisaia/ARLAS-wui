@@ -631,9 +631,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
-  public setBasemapStylesGroup(selectedBasemapStyle: BasemapStyle) {
-    this.mapglComponent.onChangeBasemapStyle(selectedBasemapStyle);
-  }
   /**
    * Applies the selected geo query
    */

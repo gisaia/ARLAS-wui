@@ -51,7 +51,6 @@ import {
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
-import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
 import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
