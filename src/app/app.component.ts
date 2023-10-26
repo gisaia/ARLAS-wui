@@ -26,7 +26,10 @@ import { Component, OnInit } from '@angular/core';
 export class ArlasWuiComponent implements OnInit {
 
   public ngOnInit(): void {
-    document.querySelector('.gif').remove();
+    const loadingGif = document.querySelector('.gif');
+    if (!!loadingGif) {
+      loadingGif.remove();
+    }
   }
 
 }

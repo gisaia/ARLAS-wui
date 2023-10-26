@@ -48,7 +48,7 @@ export class LeftMenuComponent implements OnInit {
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
-
+  public isRefreshAnalyticsButton: boolean;
   public sideNavState = false;
   public linkText = false;
   public connected;
@@ -85,6 +85,7 @@ export class LeftMenuComponent implements OnInit {
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
       this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = this.settings.getTicketingKey() ? true : false;
+      this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
   }
 

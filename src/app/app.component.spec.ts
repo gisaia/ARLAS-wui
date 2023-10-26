@@ -17,6 +17,33 @@
  * under the License.
  */
 
-describe('AppComponent', () => {
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ArlasWuiComponent } from './app.component';
 
+describe('ArlasWuiComponent', () => {
+  let component: ArlasWuiComponent;
+  let fixture: ComponentFixture<ArlasWuiComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+
+      ],
+      declarations: [
+      ],
+      providers: [
+      ]
+    }).compileComponents();
+
+  }));
+
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(ArlasWuiComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
