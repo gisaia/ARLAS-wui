@@ -12,7 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { routing } from 'app/app.routes';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
 } from 'arlas-wui-toolkit';
@@ -31,7 +30,7 @@ describe('ArlasWuiRootComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
-        FormsModule, MatChipsModule, MatTooltipModule, RouterModule, routing, HistogramModule,
+        FormsModule, MatChipsModule, MatTooltipModule, RouterModule, HistogramModule,
         MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MapglModule,

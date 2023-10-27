@@ -2,7 +2,7 @@
   <div class="arlas-analytics">
     <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
     <mat-divider></mat-divider>
-    <ng-container>
+    <ng-container *ngIf="isRefreshAnalyticsButton">
       <button mat-icon-button class="arlas-analytics-refresh" (click)="refreshComponents()"
         matTooltip="{{'Refresh components' | translate}}">
         <mat-icon>refresh</mat-icon>

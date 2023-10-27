@@ -202,7 +202,7 @@ export class LeftMenuComponent implements OnInit {
     context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
     context.fillStyle = '#999';
     context.fill();
-    context.font = '16px Arial';
+    context.font = '16px Roboto';
     context.fillStyle = '#eee';
 
     if (name && name !== '') {

@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "baseUrl": "src",
+    "baseUrl": "",
     "types": [
       "mapbox-gl",
       "geojson",
