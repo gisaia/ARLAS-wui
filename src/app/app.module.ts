@@ -39,15 +39,19 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader,
+  LoginModule,
+  PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
+import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
+import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
@@ -59,11 +63,13 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 @NgModule({
   declarations: [
     ArlasWuiComponent,
+    ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent
   ],
   exports: [
     ArlasWuiComponent,
+    ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
   ],
@@ -94,7 +100,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatListModule,
     MatSidenavModule,
     HistogramModule,
-    ToolkitRoutingModule,
+    RouterModule,
+    AppRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({
@@ -111,7 +118,8 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
         deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
-    ArlasTaggerModule
+    ArlasTaggerModule,
+    LoginModule
   ],
   providers: [
     ContributorService,

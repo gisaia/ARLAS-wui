@@ -3,10 +3,12 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService, AuthentificationService,
+  ArlasAuthentificationService, ArlasIamService,
   DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 interface Page {
   link: string;
@@ -46,11 +48,12 @@ export class LeftMenuComponent implements OnInit {
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
-
+  public isRefreshAnalyticsButton: boolean;
   public sideNavState = false;
   public linkText = false;
   public connected;
   public isAuthentActivated;
+  public authentMode = 'false';
   public pages: Page[] = [];
   public name: string;
   public avatar: string;
@@ -58,22 +61,25 @@ export class LeftMenuComponent implements OnInit {
   public expand: string;
   public isLabelDisplayed = false;
 
-  public isRefreshAnalyticsButton: any;
-
   public constructor(
     private authentService: AuthentificationService,
+    private arlasIamService: ArlasIamService,
     private translate: TranslateService,
     public persistenceService: PersistenceService,
     public walkthroughService: ArlasWalkthroughService,
     public settings: ArlasSettingsService,
-    public arlasStartUpService: ArlasStartupService,
+    private router: Router,
+    private arlasAuthentService: ArlasAuthentificationService,
     public collaborativeService: ArlasCollaborativesearchService,
-    public configService: ArlasConfigService
+    public configService: ArlasConfigService,
+    public arlasStartUpService: ArlasStartupService
   ) {
     this.window = window;
     this.reduce = this.translate.instant('reduce');
     this.expand = this.translate.instant('expand');
-    this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
+    this.isAuthentActivated = !!this.arlasAuthentService.authConfigValue && !!this.arlasAuthentService.authConfigValue.use_authent;
+    this.authentMode = this.arlasAuthentService.authConfigValue.auth_mode;
+
     if (!this.isEmptyMode) {
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
@@ -84,17 +90,37 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const claims = this.authentService.identityClaims as any;
-    this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
-      this.connected = isConnected;
-      if (isConnected) {
-        this.name = claims.nickname;
-        this.avatar = claims.picture;
-      } else {
-        this.name = '';
-        this.avatar = '';
-      }
-    });
+    if (this.authentMode === 'openid') {
+      const claims = this.authentService.identityClaims as any;
+      this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
+        this.connected = isConnected;
+        if (isConnected) {
+          this.name = claims.nickname;
+          this.avatar = claims.picture;
+        } else {
+          this.name = '';
+          this.avatar = '';
+        }
+      });
+    }
+    if (this.authentMode === 'iam') {
+      this.arlasIamService.tokenRefreshed$.subscribe({
+        next: (data) => {
+          if (!!data) {
+            this.connected = true;
+            this.name = data?.user.email;
+            this.avatar = this.getInitials(this.name);
+          } else {
+            this.connected = false;
+            this.name = '';
+            this.avatar = '';
+          }
+        },
+        error: () => {
+          this.connected = false;
+        }
+      });
+    }
 
     if (!this.version) {
       this.version = environment.VERSION;
@@ -113,10 +139,19 @@ export class LeftMenuComponent implements OnInit {
     this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
   }
   public connect() {
-    if (this.connected) {
-      this.authentService.logout();
-    } else {
-      this.authentService.login();
+    if (this.authentMode === 'openid') {
+      if (this.connected) {
+        this.authentService.logout();
+      } else {
+        this.authentService.login();
+      }
+    }
+    if (this.authentMode === 'iam') {
+      if (this.connected) {
+        this.arlasIamService.logout(['/']);
+      } else {
+        this.router.navigate(['login']);
+      }
     }
   }
 
@@ -148,6 +183,37 @@ export class LeftMenuComponent implements OnInit {
 
   public displayTagManagement() {
     this.tagComponent.openManagement();
+  }
+
+  public getInitials(name) {
+
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    canvas.width = 32;
+    canvas.height = 32;
+    document.body.appendChild(canvas);
+
+
+    const context = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 16;
+    context.beginPath();
+    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#999';
+    context.fill();
+    context.font = '16px Roboto';
+    context.fillStyle = '#eee';
+
+    if (name && name !== '') {
+      const first = name[0];
+      context.fillText(first.toUpperCase(), 10, 23);
+      const data = canvas.toDataURL();
+      document.body.removeChild(canvas);
+      return data;
+    } else {
+      return '';
+    }
   }
 
   public refreshComponents() {

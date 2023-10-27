@@ -1,8 +1,7 @@
 ########################################################
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
-authentication:
-  use_authent: false
+use_authent: false
   force_connect: false
   use_discovery: false
   issuer: https://arlas-cloud-dev.eu.auth0.com/
@@ -24,7 +23,3 @@ authentication:
 ticketing_key:
 tab_name: "ARLAS Wui"
 persistence:
-  url: 'http://localhost:19997/arlas-persistence-server'
-histogram:
-  max_buckets: 200
-  export_nb_buckets: 1000

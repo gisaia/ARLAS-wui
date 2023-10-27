@@ -165,11 +165,12 @@ npm cache clean --force
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} --tag gisaia/arlas-wui:latest .
+docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
 
 docker push gisaia/arlas-wui:${VERSION}
 if [ "${STAGE}" == "stable" ];
     then
+    docker build --build-arg version=${VERSION} --tag gisaia/arlas-wui:latest .
     docker push gisaia/arlas-wui:latest
 fi
 
@@ -183,7 +184,7 @@ if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
     echo "  -- tagged as ${STAGE}"
     npm publish --tag=${STAGE}
-else 
+else
     npm publish
 fi
 cd ../..

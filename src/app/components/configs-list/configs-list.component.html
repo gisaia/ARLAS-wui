@@ -6,14 +6,19 @@
   <div *ngIf="hubUrl" class="manage-config" (click)="navigate(hubUrl)">
     <button mat-stroked-button>{{'Manage dashboards' | translate}}</button>
   </div>
+  <nav *ngIf="orgs.length > 0" mat-tab-nav-bar animationDuration="400ms" mat-stretch-tabs class="dashboard-tabs">
+    <a mat-tab-link #matTab *ngFor="let org of orgs" (click)="changeOrg(org)">
+      {{ org.displayName }}
+    </a>
+  </nav>
   <div class="configs-list_container">
-    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading dashboards
-      ...' | translate}}</span>
+    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading dashboards...' | translate}}</span>
     <span *ngIf="listResolved && !retrieveData" class="loading">{{'Error while retrieving dashboards' |
       translate}}</span>
     <a (click)="switchConf(conf.id)" *ngFor="let conf of configurations" class="config"
       [style.borderLeftColor]="conf.color">
       {{conf.name}}
     </a>
+    <span class="empty_list" *ngIf="configurations.length === 0 && listResolved">No dashboard in this organisation</span>
   </div>
 </div>
