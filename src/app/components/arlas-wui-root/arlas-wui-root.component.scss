@@ -25,6 +25,10 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  ::ng-deep.arlas-time-shortcuts--container {
+    left: calc($sm-spacing);
+  }
 }
 
 .arlas-progression {
@@ -178,11 +182,6 @@
     left: $sm-spacing;
   }
 
-  .arlas-filters-chips {
-    left: calc((100vw - ($left-menu-width + $result-list-width)) / 2);
-    max-width: calc((100vw - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
-  }
-
   ::ng-deep.map_container {
     width: calc(100% - $result-list-width);
   }
@@ -192,11 +191,6 @@
   ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($result-list-width + $sm-spacing * 2 + $analytics-board-width));
     left: calc($analytics-board-width + $sm-spacing) !important;
-  }
-
-  .arlas-filters-chips {
-    left: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2);
-    max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $result-list-width)) / 2 - 2 * $lg-spacing);
   }
 
   ::ng-deep.map_container {
@@ -210,11 +204,6 @@
     left: $sm-spacing;
   }
 
-  .arlas-filters-chips {
-    left: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2);
-    max-width: calc((100vw - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
-  }
-
   ::ng-deep.map_container {
     width: calc(100% - $preview-result-list-width);
   }
@@ -224,11 +213,6 @@
   ::ng-deep.arlas-timeline--container {
     width: calc(100% - ($preview-result-list-width + 2 * $sm-margin + $analytics-board-width));
     left: calc($analytics-board-width + $sm-spacing) !important;
-  }
-
-  .arlas-filters-chips {
-    left: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2);
-    max-width: calc((100vw + $analytics-board-width - ($left-menu-width + $preview-result-list-width)) / 2 - 2 * $lg-spacing);
   }
 
   ::ng-deep.map_container {
@@ -270,17 +254,22 @@
   }
 }
 
-.app-container-with-list,
-.app-container-reduce {
+.app-container-with-list-analytics,
+.app-container-reduce-analytics,
+.app-container-analytics {
   ::ng-deep.arlas-time-shortcuts--container {
-    left: calc($sm-spacing);
+    left: calc($analytics-board-width + $sm-spacing);
   }
 }
 
-.app-container-with-list-analytics,
-.app-container-reduce-analytics {
-  ::ng-deep.arlas-time-shortcuts--container {
-    left: calc($analytics-board-width + $sm-spacing);
+.app-container-analytics {
+  ::ng-deep.arlas-timeline--container {
+    width: calc(100% - (2 * $sm-margin + $analytics-board-width));
+    left: calc($analytics-board-width + $sm-spacing) !important;
+  }
+
+  ::ng-deep.map_container {
+    width: calc(100% - $analytics-board-width);
   }
 }
 
