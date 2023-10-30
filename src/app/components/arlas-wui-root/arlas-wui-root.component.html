@@ -111,7 +111,9 @@
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
-                (onAoiChanged)="onChangeAoi($event)" (onMove)="onMove($event)"
+                (onAoiChanged)="onChangeAoi($event)" 
+                (onAoiEdit)="onAoiEdit($event)"
+                (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
@@ -225,10 +227,11 @@
               mode="indeterminate"></mat-progress-bar>
             <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
             </arlas-configs-list>
+            <div class="aoi-dimensions" *ngIf="aoiEdition && aoiEdition.show">
+              <arlas-aoi-dimensions [aoiEdition]="aoiEdition"></arlas-aoi-dimensions>
+            </div>
           </div>
-
         </div>
-
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

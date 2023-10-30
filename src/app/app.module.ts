@@ -41,7 +41,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
+import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule, FormatNumberModule } from 'arlas-web-components';
 import {
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
@@ -59,19 +59,27 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
 
 @NgModule({
   declarations: [
-    ArlasWuiComponent,
-    ArlasWuiRootComponent,
-    LeftMenuComponent,
-    ConfigsListComponent
-  ],
-  exports: [
+    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
+    RoundKilometer,
+    SquareKilometer
+  ],
+  exports: [
+    AoiDimensionComponent,
+    ArlasWuiComponent,
+    ArlasWuiRootComponent,
+    LeftMenuComponent,
+    ConfigsListComponent,
+    RoundKilometer,
+    SquareKilometer
   ],
   imports: [
     BrowserModule,
@@ -99,6 +107,7 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatTableModule,
     MatListModule,
     MatSidenavModule,
+    FormatNumberModule,
     HistogramModule,
     RouterModule,
     AppRoutingModule,

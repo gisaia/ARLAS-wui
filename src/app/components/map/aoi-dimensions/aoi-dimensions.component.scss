@@ -1,0 +1,81 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+ @import '../../../../styles/app/sizes.scss';
+ @import '../../../../styles/app/mixin.scss';
+
+.wrapper {
+    border-radius: 4px;
+    min-width: 215px;
+    background-color: white;
+    @include box-border();
+    padding: $sm-spacing;
+    .title_wrapper {
+        display: flex;
+        justify-content: space-between;
+        font-size: $default-font-size;
+        align-items: center;
+        margin-bottom: 5px;
+        mat-icon {
+            height: $default-font-size;
+            width: $default-font-size;
+            font-size: $default-font-size;
+        }
+        font-weight: bold;
+
+        .clear {
+            cursor: pointer;
+        }
+    }
+    .content {
+        .marged_line {
+            margin: $sm-spacing 0;
+        }
+        .line, .marged_line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: $sm-font-size;
+            .title {
+                .envelope {
+                    font-style: italic;
+                    font-weight: 100;
+                    font-size: $xs-font-size;
+                    margin-left: $sm-spacing;
+                    margin-right: calc(2 * $default-spacing);
+                }
+                font-weight: 600;
+            }
+            .dimension {
+                font-weight: 100;
+                .multiply {
+                    margin-right: $default-spacing;
+                    margin-left: $default-spacing;
+                }
+            }
+
+            .message {
+                color: rgb(143, 143, 143);
+                font-weight: 100;
+                font-size: 12px;
+                margin-left: calc(2 * $default-spacing);
+            }
+        }
+    }
+}
