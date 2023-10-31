@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -40,7 +40,7 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, FilterShortcutConfiguration, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Observable, of, Subject, timer, zip } from 'rxjs';
+import { fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { MenuState } from '../left-menu/left-menu.component';
 import { ContributorService } from '../../services/contributors.service';
@@ -53,7 +53,7 @@ import { VisualizeService } from '../../services/visualize.service';
   templateUrl: './arlas-wui-root.component.html',
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
-export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
+export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public version: string;
   @Output() public actionOnPopup = new Subject<{
     action: {
@@ -188,9 +188,20 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
 
   /** Shortcuts */
-  public shortcuts: Array<FilterShortcutConfiguration>;
+  public shortcuts = new Array<FilterShortcutConfiguration>();
+  public extraShortcuts = new Array<FilterShortcutConfiguration>();
   public shortcutOpen: number;
+  public isExtraShortcutsOpen = false;
+  public extraShortcutsFiltered = 0;
+  private onGoingSub: Subscription;
+  public shortcutWidth = 250;
+  /**
+   * @description Whether to exceptionally display the shortcuts for size computing
+   */
+  public showShortcuts = false;
+  public showMoreShortcutsWidth: number;
 
+  /** Collection counts */
   /**
    * @description Space available to display the counts in the top bar
    */
@@ -233,6 +244,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
         .subscribe((event: Event) => {
           this.mapglComponent.map.resize();
           this.resizeCollectionCounts();
+          this.adjustVisibleShortcuts();
         });
       /** trigger 'resize' event after toggling sidenav  */
       this.sidenavService.sideNavState.subscribe(res => {
@@ -316,6 +328,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
         name: 'Positron'
       };
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.onGoingSub.unsubscribe();
   }
 
   public downloadLayerSource(d) {
@@ -467,6 +483,25 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
         });
 
       this.shortcuts = this.arlasStartUpService.filtersShortcuts;
+
+      this.onGoingSub = this.collaborativeService.ongoingSubscribe.subscribe(
+        () => {
+          if (this.collaborativeService.totalSubscribe === 0) {
+            // Check for all contributor in the extra if there is a collab
+            this.extraShortcutsFiltered = 0;
+            this.extraShortcuts.map(conf => conf.component?.contributorId).forEach(
+              contribId => {
+                if (contribId) {
+                  const collaboration = this.collaborativeService.getCollaboration(contribId);
+                  if (collaboration) {
+                    this.extraShortcutsFiltered += 1;
+                  }
+                }
+              }
+            );
+          }
+        }
+      );
     }
 
 
@@ -500,6 +535,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.resizeCollectionCounts();
+    this.adjustVisibleShortcuts();
     this.mapService.setMap(this.mapglComponent.map);
     this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
@@ -1006,6 +1042,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
     this.adjustGrids();
     this.adjustTimelineSize();
+    this.adjustVisibleShortcuts();
   }
 
   public toggleTimeline() {
@@ -1064,9 +1101,73 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
   public onOpenShortcut(state: boolean, shortcutIdx: number) {
     if (state) {
       this.shortcutOpen = shortcutIdx;
+      // If open one of the visible shortcuts, hide the extra ones
+      if (this.shortcutOpen < this.shortcuts.length) {
+        this.isExtraShortcutsOpen = false;
+      }
     } else {
       this.shortcutOpen = -1;
     }
+  }
+
+  public toggleExtraShortcuts(): void {
+    this.isExtraShortcutsOpen = !this.isExtraShortcutsOpen;
+    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
+    // If the extra shortcuts are opened, and the open shortcut is the last visible one, close it for visibility reasons
+    if (this.isExtraShortcutsOpen && this.shortcutOpen === this.shortcuts.length - 1) {
+      this.shortcutOpen = -1;
+    }
+  }
+
+  /**
+   * Transfer shortcuts from the visible ones to the extra ones based on the space available in the window
+   */
+  private adjustVisibleShortcuts(): void {
+    // Change visibility of shortcuts by merging them together
+    if (!this.shortcuts) {
+      return;
+    }
+
+    this.shortcuts = [...this.shortcuts, ...this.extraShortcuts];
+    this.extraShortcuts = new Array();
+    this.showShortcuts = true;
+    this.cdr.detectChanges();
+
+    // The threshold is based on the window inner size and the available size for the shortcuts
+    // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
+    // with a minimum spacing equal to the one on the left.
+    const previewListOpen = !!this.previewListContrib && !this.listOpen
+      && this.resultListConfigPerContId.get(this.previewListContrib.identifier)?.hasGridMode;
+    const mapActionsAndLegendWidth = 270;
+    const leftMenuWidth = 48;
+    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
+    const threshold = window.innerWidth - leftMenuWidth - (this.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
+      - this.spacing - this.showMoreShortcutsWidth - this.spacing - mapActionsAndLegendWidth;
+
+    const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`).getBoundingClientRect().width);
+    let cumulativeWidth = 0;
+    let breakOffIndex = 0;
+
+    // Find the index of the first shortcut that does not fit
+    for (const width of widths) {
+      cumulativeWidth += width;
+      if (cumulativeWidth > threshold) {
+        break;
+      }
+      breakOffIndex++;
+    }
+
+    // Transfer extra shortcuts in the dedicated list
+    if (breakOffIndex !== this.shortcuts.length) {
+      this.extraShortcuts = this.shortcuts.splice(breakOffIndex, this.shortcuts.length - breakOffIndex);
+    }
+
+    // If the shortcut that was open got transfered, open the extra shortcuts
+    if (this.shortcutOpen >= this.shortcuts.length) {
+      this.isExtraShortcutsOpen = true;
+    }
+
+    this.showShortcuts = false;
   }
 
   private adjustMapOffset() {

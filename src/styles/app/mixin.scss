@@ -31,3 +31,14 @@
     width: $toggle-height;
     box-sizing: border-box;
 }
+
+@mixin tablet() {
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background-color: $tablet-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $sm-font-size;
+}

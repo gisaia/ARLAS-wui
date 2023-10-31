@@ -292,6 +292,10 @@
   ::ng-deep.arlas-time-shortcuts--container {
     bottom: 0;
   }
+
+  .extra-shortcuts-list {
+    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height);
+  }
 }
 
 .app-container-timeline-legend {
@@ -307,6 +311,10 @@
 
   ::ng-deep.arlas-time-shortcuts--container {
     bottom: $timeline-with-legend-height;
+  }
+
+  .extra-shortcuts-list {
+    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height - $timeline-with-legend-height);
   }
 }
 
@@ -482,7 +490,7 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: $title-font-size;
 }
 
 ::ng-deep.cdk-global-scrollblock {
@@ -543,6 +551,94 @@
     ::ng-deep.histogram {
       // Leave enough space for the histogram tooltip
       padding-bottom: 7px;
+    }
+  }
+
+  .extra-shortcuts {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: $sm-spacing;
+
+    .title {
+      cursor: pointer;
+      display: flex;
+      background-color: #fff;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 $sm-spacing;
+      // Due to box sizing on this element and not other filters, it is necessary to add the border width
+      height: calc($filter-height + 2 * $xs-border);
+      font-size: $default-font-size;
+      @include box-border();
+      background-color: $default-background-color;
+      // Necessary to maintain same alignement with extra shortcuts when open and closed
+      box-sizing: border-box;
+
+      .info {
+        display: flex;
+        justify-content: flex-end;
+        min-width: 50px;
+        padding-left: $sm-spacing;
+
+        .tablet {
+          @include tablet();
+        }
+
+        .chevron {
+          height: $icon-size;
+          width: $icon-size;
+        }
+      }
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .extra-shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    box-sizing: border-box;
+    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height - $timeline-height);
+    overflow-y: auto;
+    position: absolute;
+    top: calc($filter-height + 2 * $xs-border);
+
+    .shortcut {
+      padding-left: 0;
+      margin-top: $xs-margin;
+
+      ::ng-deep.container {
+        align-items: flex-end;
+        width: max-content;
+
+        // Powerbars container
+        ::ng-deep.container {
+          align-items: flex-start;
+          width: 100%;
+        }
+      }
+
+      ::ng-deep.open_title {
+        padding-bottom: 0;
+      }
+
+      ::ng-deep.separator {
+        display: none;
+      }
+
+      // Position content of the shortcut below header
+      ::ng-deep.content {
+        position: relative;
+        top: -$xs-border !important;
+        // Switch the unset corner since the display is mirrored
+        border-top-left-radius: $default-border-radius;
+        border-top-right-radius: unset;
+      }
     }
   }
 }
