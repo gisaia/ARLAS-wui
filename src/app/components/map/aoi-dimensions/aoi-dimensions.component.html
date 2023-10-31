@@ -1,0 +1,36 @@
+<div class="wrapper">
+    <div class="title_wrapper">
+        <label>{{'Current AOI' | translate}}</label>
+    </div>
+    <div class="content">
+        <div class="line">
+            <div class="title">
+                {{'Area' | translate}}
+            </div>
+            <div class="dimension" *ngIf="aoiEdition?.area > 0">
+                {{ aoiEdition?.area | squareKm | formatNumber}}  km²
+            </div>
+            <div class="message" *ngIf="aoiEdition?.area === 0">
+                {{ aoiEdition?.areaMessage}}
+            </div>
+        </div>
+        <div class="line marged_line">
+            <div class="title">
+                <span>{{'Width' | translate}}</span>
+                <span class="envelope">({{'envelope' | translate}})</span>
+            </div>
+            <div class="dimension">
+                <span>{{ aoiEdition?.envelope?.width | roundKm | formatNumber}} km</span>
+            </div>
+        </div>
+        <div class="line">
+            <div class="title">
+                <span>{{'Height' | translate}}</span>
+                <span class="envelope">({{'envelope' | translate}})</span>
+            </div>
+            <div class="dimension">
+                <span>{{ aoiEdition?.envelope?.height | roundKm | formatNumber}} km</span>
+            </div>
+        </div>
+    </div>
+</div>

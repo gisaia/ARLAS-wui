@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   ArlasColorService, BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, AoiEdition
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -154,6 +154,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
   public zoomChanged = false;
   public zoomStart: number;
   public popup: mapboxgl.Popup;
+  public aoiEdition: AoiEdition;
+
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
 
@@ -840,6 +842,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit {
         }
       }, (i) * ((debounceDuration + 100) * 1.5));
     }
+  }
+
+  public onAoiEdit(aoiEdit: AoiEdition) {
+    this.aoiEdition = aoiEdit;
   }
 
   public onMove(event) {

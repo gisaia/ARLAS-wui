@@ -227,7 +227,9 @@
   .arlas-map-settings {
     right: calc($result-list-width + $sm-spacing);
   }
-
+  .aoi-dimensions {
+    right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
+  }
   ::ng-deep.basemap-container {
     right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
@@ -243,6 +245,9 @@
   .arlas-map-action,
   .arlas-map-settings {
     right: calc($preview-result-list-width + $sm-spacing);
+  }
+  .aoi-dimensions {
+    right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
   }
 
   ::ng-deep.basemap-container {
@@ -391,6 +396,13 @@
   height: calc(100vh - $top-menu-height);
 }
 
+.aoi-dimensions {
+  position: absolute;
+  
+  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
+  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing + $map-actions-width);
+  z-index: 3
+}
 ::ng-deep.bookmark-shortcut {
   top: 30px !important;
 }
