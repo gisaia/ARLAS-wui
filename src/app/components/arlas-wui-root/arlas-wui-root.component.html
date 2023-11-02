@@ -76,11 +76,32 @@
               </div>
             </div>
 
-            <div class="shortcut-list" *ngIf="shortcuts && shortcuts.length > 0 && analyticsService.activeTab === undefined">
+            <div class="shortcut-list" *ngIf="showShortcuts || analyticsService.activeTab === undefined">
               <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
-                <arlas-filter-shortcut class="shortcut" [shortcut]="shortcut" [isOpen]="idx === shortcutOpen"
-                  (isOpenChange)="onOpenShortcut($event, idx)" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+                <arlas-filter-shortcut id="shortcut-{{idx}}" class="shortcut" [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
+                  [isOpen]="idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, idx)"
+                  [displayFilterFirstValue]="false"></arlas-filter-shortcut>
               </ng-container>
+              <div class="extra-shortcuts" *ngIf="showShortcuts || (extraShortcuts && extraShortcuts.length > 0)">
+                <section class="title" id="extra-shortcuts-title" (click)="toggleExtraShortcuts()" [style.width.px]="showMoreShortcutsWidth">
+                    <div class="text">{{ isExtraShortcutsOpen ? 'See less' : 'See more' | translate }}</div>
+                    <div class="info">
+                        <span class="tablet" *ngIf="extraShortcutsFiltered !== 0">
+                          {{ extraShortcutsFiltered }}
+                        </span>
+                        <mat-icon class="chevron">
+                            {{isExtraShortcutsOpen ? 'expand_less' : 'expand_more'}}
+                        </mat-icon>
+                    </div>
+                </section>
+                <section [class.hidden]="!isExtraShortcutsOpen" class="extra-shortcuts-list"  [style.transform]="'translate(calc(' + showMoreShortcutsWidth + 'px - 100%), 0)'">
+                    <div *ngFor="let shortcut of extraShortcuts; let idx=index" class="shortcut">
+                        <arlas-filter-shortcut [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
+                          [isOpen]="shortcuts.length + idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, shortcut.length + idx)"
+                          [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+                    </div>
+                </section>
+            </div>
             </div>
             <div class="arlas-map">
               <mat-basic-chip class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
