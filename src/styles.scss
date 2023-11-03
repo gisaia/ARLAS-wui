@@ -174,19 +174,26 @@ button:focus {
   left: calc(50vw - 100px) !important;
 }
 
+.arlas-analytics--container {
+  .arlas-metric-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $default-spacing;
+    box-sizing: border-box;
 
+    .arlas-metric-value {
+      font-weight: 400;
+      font-size: $metric-value-font-size;
+      padding: $sm-spacing 0;
+    }
 
-.arlas-analytics--container .arlas-metric-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-}
-
-.arlas-metric-value {
-  font-weight: 400;
-  font-size: 2em;
-  padding: 5px 0;
+    .arlas-metric-description {
+      font-size: $title-font-size;
+      font-weight: 100;
+      text-align: center;
+    }
+  }
 }
 
 .analytics-board-group {
@@ -219,12 +226,6 @@ button:focus {
 
 .bookmark-view {
   height: 34px;
-}
-
-.arlas-metric-description {
-  font-size: 1.5rem;
-  font-weight: 100;
-  text-align: center;
 }
 
 .tags-table-items {
