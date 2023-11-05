@@ -1,5 +1,5 @@
 <div class="menu_container" [class.hide-label]="!isLabelDisplayed">
-  <div class="arlas-analytics">
+  <div class="arlas-analytics" *ngIf="!isEmptyMode; else voidDiv">
     <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
     <mat-divider></mat-divider>
     <ng-container *ngIf="isRefreshAnalyticsButton">
@@ -10,7 +10,9 @@
       <mat-divider></mat-divider>
     </ng-container>
   </div>
-  
+  <ng-template #voidDiv>
+    <div></div>
+  </ng-template>
   <div class="action-list">
     <mat-divider></mat-divider>
     <mat-nav-list>
