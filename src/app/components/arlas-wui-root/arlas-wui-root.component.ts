@@ -444,7 +444,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           if (!!this.arlasSettingsService.getProcessSettings()) {
             c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
-            this.resultListConfigPerContId.get(c.identifier).globalActionsList.push({ 'id': 'production', 'label': 'Production' });
+            const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+            if (resultConfig) {
+              if (!resultConfig.globalActionsList) {
+                resultConfig.globalActionsList = [];
+              }
+              resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Production' });
+            }
           }
         });
         const selectedResultlistTab = this.getParamValue('rt');
