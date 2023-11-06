@@ -324,20 +324,26 @@
   bottom: 0;
   display: flex;
   flex-direction: row-reverse;
-  border-radius: 4px;
   background-color: white;
-  box-shadow: 0 1px 0px 1px rgb(0 0 0 / 10%);
-}
+  @include box-border();
 
-.arlas-map-action-items {
-  height: $map-actions-width;
-  width: $map-actions-width;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  .arlas-map-action-items {
+    height: $map-actions-width;
+    width: $map-actions-width;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: $xs-border solid #ddd;
+    color: black;
+  
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    &:first-child {
+      border-right: unset;
+    }
   }
 }
 
