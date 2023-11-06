@@ -266,7 +266,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onSideNavChange = res;
         window.dispatchEvent(new Event('resize'));
       });
-
       this.appName = !!this.configService.appName ? this.configService.appName :
         this.configService.getValue('arlas-wui.web.app.name') ?
           this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
@@ -346,7 +345,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.onGoingSub.unsubscribe();
+    if (this.onGoingSub) {
+      this.onGoingSub.unsubscribe();
+    }
   }
 
   public downloadLayerSource(d) {
@@ -559,64 +560,68 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.resizeCollectionCounts();
-    this.adjustVisibleShortcuts();
-    this.mapService.setMap(this.mapglComponent.map);
-    this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
-    if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-      this.mapBounds = null;
-    }
-    this.mapglComponent.map.on('movestart', (e) => {
-      this.zoomStart = this.mapglComponent.map.getZoom();
-    });
-    this.mapglComponent.map.on('moveend', (e) => {
-      if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-        this.zoomChanged = true;
-      }
-      if (this.allowMapExtend) {
-        this.mapEventListener.next(null);
-      }
-    });
-    this.adjustMapOffset();
-    // Keep the last displayed list as preview when closing the right panel
-    if (!!this.tabsList) {
-      this.tabsList.selectedIndexChange.subscribe(index => {
-        this.previewListContrib = this.resultlistContributors[index];
+    if (!this.arlasStartUpService.emptyMode) {
+      this.resizeCollectionCounts();
+      this.adjustVisibleShortcuts();
 
+      // Keep the last displayed list as preview when closing the right panel
+      if (!!this.tabsList) {
+        this.tabsList.selectedIndexChange.subscribe(index => {
+          this.previewListContrib = this.resultlistContributors[index];
+
+          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+          queryParams['rt'] = this.previewListContrib.getName();
+          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          this.adjustGrids();
+          this.adjustTimelineSize();
+        });
+      }
+
+      this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+        /** Change map extend in the url */
+        const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+        const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-        queryParams['rt'] = this.previewListContrib.getName();
+        queryParams[this.MAP_EXTEND_PARAM] = extend;
         this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-        this.adjustGrids();
-        this.adjustTimelineSize();
       });
-    }
 
-    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    });
-
-    if (!!this.previewListContrib) {
-      timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
-        if (this.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-          this.updateVisibleItems();
-          this.apploading = false;
-        }
-      });
+      if (!!this.previewListContrib) {
+        timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
+          if (this.previewListContrib.data.length > 0 &&
+            this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+            this.updateVisibleItems();
+            this.apploading = false;
+          }
+        });
+      }
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
   }
 
   public onMapLoaded(isLoaded: boolean): void {
     /** wait until the map component loading is finished before fetching the data */
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
+
+      this.mapService.setMap(this.mapglComponent.map);
+      this.visualizeService.setMap(this.mapglComponent.map);
+      if (this.mapBounds && this.allowMapExtend) {
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        this.mapBounds = null;
+      }
+      this.mapglComponent.map.on('movestart', (e) => {
+        this.zoomStart = this.mapglComponent.map.getZoom();
+      });
+      this.mapglComponent.map.on('moveend', (e) => {
+        if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+          this.zoomChanged = true;
+        }
+        if (this.allowMapExtend) {
+          this.mapEventListener.next(null);
+        }
+      });
+      this.adjustMapOffset();
       this.mapglContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
@@ -633,12 +638,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateVisibleItems() {
-    const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
-    setTimeout(() => {
-      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
-      this.updateMapStyle(visibleItems, this.previewListContrib.collection);
-    }, 500);
+    if (this.previewListContrib) {
+      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+      setTimeout(() => {
+        const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
+          .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
+        this.updateMapStyle(visibleItems, this.previewListContrib.collection);
+      }, 500);
+    }
   }
 
   public updateMapStyle(ids: Array<string | number>, collection: string) {
@@ -1337,6 +1344,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
         break;
+    }
+  }
+
+  public goToArlasHub() {
+    const hubUrl = this.arlasSettingsService.getArlasHubUrl();
+    if (!!hubUrl) {
+      window.open(hubUrl);
     }
   }
 }

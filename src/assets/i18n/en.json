@@ -92,5 +92,6 @@
 	"Types TEXT, GEO_POINT are excluded": "Types 'TEXT', 'GEO_POINT' are excluded",
 	"Area Of Interest": "Area of interest",
 	"Fill": "Polygon",
-	"Current AOI": "Current AOI"
+	"Current AOI": "Current AOI",
+	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration."
 }
