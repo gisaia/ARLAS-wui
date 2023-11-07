@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { } from '@angular/material';
@@ -43,8 +43,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule, FormatNumberModule } from 'arlas-web-components';
 import {
+  ArlasIamService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
+  AuthentificationService,
   LoginModule,
   PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
@@ -64,6 +66,7 @@ import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
+import { JwtInterceptor } from './tools/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -140,7 +143,13 @@ import { MatStepperModule } from '@angular/material/stepper';
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService
+    VisualizeService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
+      multi: true
+    }
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

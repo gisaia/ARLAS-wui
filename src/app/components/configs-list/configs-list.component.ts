@@ -61,12 +61,17 @@ export class ConfigsListComponent implements OnInit {
     private arlasSettingsService: ArlasSettingsService,
     private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
-    private arlasStartupService: ArlasStartupService,
-    private arlasAuthentService: ArlasAuthentificationService
+    private arlasStartupService: ArlasStartupService
   ) {
     this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
-    this.isAuthentActivated = !!this.arlasAuthentService.authConfigValue && !!this.arlasAuthentService.authConfigValue.use_authent;
-    this.authentMode = this.arlasAuthentService.authConfigValue.auth_mode;
+    const authSettings = this.arlasSettingsService.getAuthentSettings();
+    this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
+    if (this.isAuthentActivated) {
+      this.authentMode = authSettings.auth_mode;
+      if (!this.authentMode) {
+        this.authentMode = 'openid';
+      }
+    }
   }
 
   public ngOnInit() {

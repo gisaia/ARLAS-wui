@@ -4,7 +4,7 @@
 authentication:
   use_authent: true
   auth_mode: iam
-  url: http://localhost:1997/arlas-iam-server/
+  url: http://localhost:9997/arlas_iam_server
   force_connect: true
   threshold: 60000
   use_discovery: false
@@ -27,7 +27,7 @@ authentication:
   ticketing_key:
   tab_name: "ARLAS Wui"
 persistence:
-   url: 'http://localhost:1997/arlas-persistence-server/'
+  url: 'http://localhost:19997/arlas-persistence-server/'
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
