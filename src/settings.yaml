@@ -32,3 +32,7 @@ histogram:
   max_buckets: 200
   export_nb_buckets: 1000
 arlas_hub_url: http://localhost:81/hub
+process:
+  settings:
+    url: 'assets/mock/proc/describe/download.json'
+  url: 'https://arlas/processes/download/execution'

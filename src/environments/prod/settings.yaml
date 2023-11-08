@@ -40,3 +40,7 @@ tab_name:  ${ARLAS_TAB_NAME}
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}
+process:
+  settings:
+    url: ${ARLAS_PROCESS_SETTINGS_URL}
+  url: ${ARLAS_PROCESS_URL}
