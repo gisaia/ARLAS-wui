@@ -34,5 +34,5 @@ histogram:
 arlas_hub_url: http://localhost:81/hub
 process:
   settings:
-    url: 'assets/mock/proc/describe/download.json'
+    url: 'assets/processes/download.json'
   url: 'https://arlas/processes/download/execution'

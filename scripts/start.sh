@@ -167,9 +167,9 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process settings URL
 if [ -z "${ARLAS_PROCESS_SETTINGS_URL}" ]; then
-  ARLAS_PROCESS_SETTINGS_URL='assets/mock/process/describe/download.json'
+  ARLAS_PROCESS_SETTINGS_URL='assets/processes/download.json'
   export ARLAS_PROCESS_SETTINGS_URL
-  echo "No ARLAS_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/mock/process/describe/download.json'"
+  echo "No ARLAS_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/processes/download.json'"
 else
   echo ${ARLAS_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the process inputs."
 fi

@@ -55,7 +55,7 @@ If you don't mount a `settings.yaml` file to the container, nor serve it with `A
 
 |Environment variable| settings.yaml variable|Default|Description|
 |--------------------|---------------------------|-------|-----------|
-|ARLAS_PROCESS_SETTINGS_URL   | process.settings.url| assets/mock/proc/describe/download.json | URL to settings file that describes the Process inputs. |
+|ARLAS_PROCESS_SETTINGS_URL   | process.settings.url| assets/processes/download.json | URL to settings file that describes the Process inputs. |
 |ARLAS_PROCESS_URL   | process.url| - | URL to the backend endpoint that executes the Process. |
 
 ## ARLAS-wui assets
