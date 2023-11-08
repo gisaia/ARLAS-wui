@@ -443,7 +443,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
           }
-          if (!!this.arlasSettingsService.getProcessSettings()) {
+          const processSettings = this.arlasSettingsService.getProcessSettings();
+          if (!!processSettings && !!processSettings.url) {
             c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
             const resultConfig = this.resultListConfigPerContId.get(c.identifier);
             if (resultConfig) {
