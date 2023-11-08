@@ -165,6 +165,29 @@ envsubst '$ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS' < /usr/share/nginx/html/settings.
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 
+# Process settings URL
+if [ -z "${ARLAS_PROCESS_SETTINGS_URL}" ]; then
+  ARLAS_PROCESS_SETTINGS_URL='assets/mock/process/describe/download.json'
+  export ARLAS_PROCESS_SETTINGS_URL
+  echo "No ARLAS_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/mock/process/describe/download.json'"
+else
+  echo ${ARLAS_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the process inputs."
+fi
+envsubst '$ARLAS_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process settings URL
+if [ -z "${ARLAS_PROCESS_URL}" ]; then
+  ARLAS_PROCESS_URL=''
+  export ARLAS_PROCESS_URL
+  echo "No ARLAS_PROCESS_URL is specified."
+else
+  echo ${ARLAS_PROCESS_URL}  "is used as a backend endpoint to execute the process."
+fi
+envsubst '$ARLAS_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
   ARLAS_WUI_APP_PATH=""
