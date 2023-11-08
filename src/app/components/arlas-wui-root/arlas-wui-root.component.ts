@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -25,8 +26,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ArlasColorService, BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, AoiEdition
+  AoiEdition,
+  ArlasColorService,
+  CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
+  SCROLLABLE_ARLAS_ID,
+  SortEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
@@ -36,17 +41,22 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, AnalyticsService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, FilterShortcutConfiguration, TimelineComponent
+  AnalyticsService,
+  ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService,
+  CollectionUnit, FilterShortcutConfiguration,
+  ProcessComponent,
+  ProcessService,
+  TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
-import { MenuState } from '../left-menu/left-menu.component';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
 import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -123,6 +133,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
+
+  /* Process */
+  private downloadDialogRef: MatDialogRef<ProcessComponent>;
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
@@ -233,7 +246,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    private dialog: MatDialog,
+    private processService: ProcessService
   ) {
     this.menuState = {
       configs: false
@@ -251,7 +266,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onSideNavChange = res;
         window.dispatchEvent(new Event('resize'));
       });
-
       this.appName = !!this.configService.appName ? this.configService.appName :
         this.configService.getValue('arlas-wui.web.app.name') ?
           this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
@@ -331,7 +345,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.onGoingSub.unsubscribe();
+    if (this.onGoingSub) {
+      this.onGoingSub.unsubscribe();
+    }
   }
 
   public downloadLayerSource(d) {
@@ -425,6 +441,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+            }
+          }
+          if (!!this.arlasSettingsService.getProcessSettings()) {
+            c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
+            const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+            if (resultConfig) {
+              if (!resultConfig.globalActionsList) {
+                resultConfig.globalActionsList = [];
+              }
+              resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Production' });
             }
           }
         });
@@ -534,64 +560,68 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.resizeCollectionCounts();
-    this.adjustVisibleShortcuts();
-    this.mapService.setMap(this.mapglComponent.map);
-    this.visualizeService.setMap(this.mapglComponent.map);
     this.menuState.configs = this.arlasStartUpService.emptyMode;
-    if (this.mapBounds && this.allowMapExtend) {
-      (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-      this.mapBounds = null;
-    }
-    this.mapglComponent.map.on('movestart', (e) => {
-      this.zoomStart = this.mapglComponent.map.getZoom();
-    });
-    this.mapglComponent.map.on('moveend', (e) => {
-      if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-        this.zoomChanged = true;
-      }
-      if (this.allowMapExtend) {
-        this.mapEventListener.next(null);
-      }
-    });
-    this.adjustMapOffset();
-    // Keep the last displayed list as preview when closing the right panel
-    if (!!this.tabsList) {
-      this.tabsList.selectedIndexChange.subscribe(index => {
-        this.previewListContrib = this.resultlistContributors[index];
+    if (!this.arlasStartUpService.emptyMode) {
+      this.resizeCollectionCounts();
+      this.adjustVisibleShortcuts();
 
+      // Keep the last displayed list as preview when closing the right panel
+      if (!!this.tabsList) {
+        this.tabsList.selectedIndexChange.subscribe(index => {
+          this.previewListContrib = this.resultlistContributors[index];
+
+          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+          queryParams['rt'] = this.previewListContrib.getName();
+          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          this.adjustGrids();
+          this.adjustTimelineSize();
+        });
+      }
+
+      this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+        /** Change map extend in the url */
+        const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+        const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-        queryParams['rt'] = this.previewListContrib.getName();
+        queryParams[this.MAP_EXTEND_PARAM] = extend;
         this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-        this.adjustGrids();
-        this.adjustTimelineSize();
       });
-    }
 
-    this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-    });
-
-    if (!!this.previewListContrib) {
-      timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
-        if (this.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-          this.updateVisibleItems();
-          this.apploading = false;
-        }
-      });
+      if (!!this.previewListContrib) {
+        timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
+          if (this.previewListContrib.data.length > 0 &&
+            this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+            this.updateVisibleItems();
+            this.apploading = false;
+          }
+        });
+      }
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
   }
 
   public onMapLoaded(isLoaded: boolean): void {
     /** wait until the map component loading is finished before fetching the data */
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
+
+      this.mapService.setMap(this.mapglComponent.map);
+      this.visualizeService.setMap(this.mapglComponent.map);
+      if (this.mapBounds && this.allowMapExtend) {
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        this.mapBounds = null;
+      }
+      this.mapglComponent.map.on('movestart', (e) => {
+        this.zoomStart = this.mapglComponent.map.getZoom();
+      });
+      this.mapglComponent.map.on('moveend', (e) => {
+        if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+          this.zoomChanged = true;
+        }
+        if (this.allowMapExtend) {
+          this.mapEventListener.next(null);
+        }
+      });
+      this.adjustMapOffset();
       this.mapglContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
@@ -608,12 +638,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateVisibleItems() {
-    const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
-    setTimeout(() => {
-      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
-      this.updateMapStyle(visibleItems, this.previewListContrib.collection);
-    }, 500);
+    if (this.previewListContrib) {
+      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+      setTimeout(() => {
+        const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
+          .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
+        this.updateMapStyle(visibleItems, this.previewListContrib.collection);
+      }, 500);
+    }
   }
 
   public updateMapStyle(ids: Array<string | number>, collection: string) {
@@ -623,8 +655,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         const layer = this.mapglComponent.map.getLayer(l);
         if (ids && ids.length > 0) {
           if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-              // Tests value in camel and kebab case due to an unknown issue on other projects
-              (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
+            // Tests value in camel and kebab case due to an unknown issue on other projects
+            (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
             this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
@@ -810,7 +842,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'selectedItemsEvent':
         /** TODO : manage features to select when we have multiple collections */
         if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
-          const featuresToSelect = event.data.map(id => {
+          this.featuresToSelect = event.data.map(id => {
             let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
             if (mapContributor.isFlat) {
               idFieldName = idFieldName.replace(/\./g, '_');
@@ -820,7 +852,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               idValue: id
             };
           });
-          this.mapglComponent.selectFeaturesByCollection(featuresToSelect, currentCollection);
+          this.mapglComponent.selectFeaturesByCollection(this.featuresToSelect, currentCollection);
         } else {
           if (!!this.mapglComponent) {
             this.mapglComponent.selectFeaturesByCollection([], currentCollection);
@@ -831,6 +863,41 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
+        if (event.data.id === 'production') {
+          const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
+          this.processService.load().subscribe({
+            next: () => {
+
+              this.processService.getItemsDetail(
+                this.collectionToDescription.get(currentCollection).id_path,
+                idsItemSelected.map(i => i.idValue),
+                this.processService.getProcessDescription().additionalParameters?.parameters,
+                currentCollection
+              ).subscribe({
+                next: (item: any) => {
+                  this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                  this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
+                  this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                  this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                  this.downloadDialogRef.afterClosed().subscribe({
+                    next: (data) => {
+                      if (!!data) {
+                        this.processService.process(
+                          idsItemSelected.map(i => i.idValue),
+                          data.payload,
+                          currentCollection
+                        ).subscribe({
+                          next: (result) => console.log(result)
+                        });
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+
+        }
         break;
       case 'geoSortEvent':
         break;
@@ -1245,6 +1312,45 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
         break;
+      case 'production':
+        this.processService.load().subscribe({
+          next: () => {
+            this.processService.getItemsDetail(
+              this.collectionToDescription.get(collection).id_path,
+              [data.elementidentifier.idValue],
+              this.processService.getProcessDescription().additionalParameters?.parameters,
+              collection
+            ).subscribe({
+              next: (item: any) => {
+                this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+                this.downloadDialogRef.componentInstance.nbProducts = 1;
+                this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+                this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+                this.downloadDialogRef.afterClosed().subscribe({
+                  next: (dialogData) => {
+                    if (!!dialogData) {
+                      this.processService.process(
+                        [data.elementidentifier.idValue],
+                        dialogData.payload,
+                        collection
+                      ).subscribe({
+                        next: (result) => console.log(result)
+                      });
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
+        break;
+    }
+  }
+
+  public goToArlasHub() {
+    const hubUrl = this.arlasSettingsService.getArlasHubUrl();
+    if (!!hubUrl) {
+      window.open(hubUrl);
     }
   }
 }

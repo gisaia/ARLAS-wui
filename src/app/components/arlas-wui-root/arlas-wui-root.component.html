@@ -4,7 +4,7 @@
       <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
-      <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
+      <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <arlas-filter class="arlas-filters-chips-top"
         [collectionToDescription]="collectionToDescription"
         [units]="appUnits" (zoomEvent)="zoomToData($event)"
@@ -12,16 +12,23 @@
       </arlas-filter>
     </div>
 
-    <div right-menu class="title" id="title">{{ appName }}</div>
+    <div right-menu class="title" id="title">
+      <arlas-permissions-creator></arlas-permissions-creator>
+      <mat-divider vertical class="vertical-divider"></mat-divider>
+      {{appName}}
+    </div>
   </arlas-top-menu>
 
-  <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-container class="sidenav-container" >
+    
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
         [isEmptyMode]="arlasStartUpService.emptyMode" [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content">
+    <mat-sidenav-content class="sidenav-content" *ngIf="!arlasStartUpService.emptyMode; else emptyMode">
+      <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
+      </arlas-configs-list>
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
@@ -246,8 +253,7 @@
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
               mode="indeterminate"></mat-progress-bar>
-            <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
-            </arlas-configs-list>
+            
             <div class="aoi-dimensions" *ngIf="aoiEdition && aoiEdition.show">
               <arlas-aoi-dimensions [aoiEdition]="aoiEdition"></arlas-aoi-dimensions>
             </div>
@@ -255,5 +261,16 @@
         </div>
       </div>
     </mat-sidenav-content>
+    <ng-template #emptyMode>
+      <mat-sidenav-content class="sidenav-content">
+        <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
+        </arlas-configs-list>
+        <div class="empty_mode">
+          <div class="welcome">{{'Welcome to ARLAS-Exploration' | translate}}</div>
+          <img class="img" src="assets/logo-only.png" matTooltip="'ARLAS-wui'">
+          <div class="action" (click)="goToArlasHub()">{{'go to arlas hub' | translate}}</div>
+        </div>
+      </mat-sidenav-content>
+    </ng-template>
   </mat-sidenav-container>
 </div>
