@@ -53,10 +53,9 @@
                   matTooltip="{{'Basemaps' | translate}}" >
                   <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
-                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false"
-                  (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()"
-                  class="arlas-map-settings-items">
-                  <mat-icon>image_search</mat-icon>
+                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items"
+                  (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+                  <mat-icon>travel_explore</mat-icon>
                 </div>
               </div>
               <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
@@ -66,7 +65,7 @@
                 </div>
                 <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                   matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
-                  <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
+                  <mat-icon (click)="this.mapglComponent.switchToDrawMode();">draw</mat-icon>
                 </div>
                 <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                   matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
