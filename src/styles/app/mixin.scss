@@ -30,6 +30,8 @@
     height: $toggle-height;
     width: $toggle-height;
     box-sizing: border-box;
+    background-color: white;
+    cursor: pointer;
 }
 
 @mixin tablet() {
