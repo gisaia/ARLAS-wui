@@ -18,7 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -61,6 +61,9 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -94,8 +97,11 @@ import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTooltipModule,
     MatTabsModule,
     MatProgressBarModule,

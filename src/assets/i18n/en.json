@@ -14,6 +14,12 @@
 	"Manage dashboards": "Manage dashboards",
 	"Loading dashboards ...": "Loading dashboards ...",
 	"Error while retrieving dashboards": "Error while retrieving dashboards",
+	"Cancel": "Cancel",
+	"Next": "Next",
+	"Parameters": "Parameters",
+	"Previous": "Previous",
+	"Validate": "Validate",
+	"Summary": "Summary",
 	"Switch dashboard": "Switch dashboard",
 	"Share geographical data": "Share geographical data",
 	"Download data": "Download data",
@@ -65,7 +71,6 @@
 	"Export": "Export data as CSV",
 	"Set geometries": "Set",
 	"Set geo-queries": "Set",
-	"Cancel": "Close",
 	"within": "contains",
 	"intersects": "intersects",
 	"notwithin": "doesn't contain",
@@ -87,5 +92,6 @@
 	"Types TEXT, GEO_POINT are excluded": "Types 'TEXT', 'GEO_POINT' are excluded",
 	"Area Of Interest": "Area of interest",
 	"Fill": "Polygon",
-	"Current AOI": "Current AOI"
+	"Current AOI": "Current AOI",
+	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration."
 }
