@@ -176,7 +176,7 @@ fi
 envsubst '$ARLAS_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
-# Process settings URL
+# Process URL
 if [ -z "${ARLAS_PROCESS_URL}" ]; then
   ARLAS_PROCESS_URL=''
   export ARLAS_PROCESS_URL
