@@ -20,9 +20,9 @@
   </arlas-top-menu>
 
   <mat-sidenav-container class="sidenav-container" >
-    
+
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [version]="version" [layersVisibilityStatus]="layersVisibilityStatus"
+      <arlas-left-menu [layersVisibilityStatus]="layersVisibilityStatus"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
         [isEmptyMode]="arlasStartUpService.emptyMode" [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
@@ -138,7 +138,7 @@
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
-                (onAoiChanged)="onChangeAoi($event)" 
+                (onAoiChanged)="onChangeAoi($event)"
                 (onAoiEdit)="onAoiEdit($event)"
                 (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
@@ -252,7 +252,7 @@
               [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
               mode="indeterminate"></mat-progress-bar>
-            
+
             <div class="aoi-dimensions" *ngIf="aoiEdition && aoiEdition.show">
               <arlas-aoi-dimensions [aoiEdition]="aoiEdition"></arlas-aoi-dimensions>
             </div>
