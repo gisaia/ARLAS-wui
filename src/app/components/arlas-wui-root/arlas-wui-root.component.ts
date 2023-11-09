@@ -57,6 +57,7 @@ import { DynamicComponentService } from '../../services/dynamicComponent.service
 import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -358,6 +359,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
+
+    if (!this.version) {
+      this.version = environment.VERSION;
+    }
     this.setAppTitle();
     if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
       /** Retrieve displayable analytics */
@@ -445,13 +450,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           const processSettings = this.arlasSettingsService.getProcessSettings();
           if (!!processSettings && !!processSettings.url) {
-            c.addAction({ id: 'production', label: 'Production', cssClass: '', tooltip: 'Production' });
+            c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
             const resultConfig = this.resultListConfigPerContId.get(c.identifier);
             if (resultConfig) {
               if (!resultConfig.globalActionsList) {
                 resultConfig.globalActionsList = [];
               }
-              resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Production' });
+              resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
             }
           }
         });

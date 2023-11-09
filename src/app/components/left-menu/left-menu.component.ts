@@ -6,7 +6,6 @@ import {
   DownloadComponent, PersistenceService, ShareComponent, TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 interface Page {
   link: string;
@@ -24,8 +23,6 @@ export interface MenuState {
   styleUrls: ['./left-menu.component.scss']
 })
 export class LeftMenuComponent implements OnInit {
-
-  @Input() public version: string;
   @Input() public collections: string[];
 
   @Input() public toggleStates: MenuState = {
@@ -69,9 +66,6 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.version) {
-      this.version = environment.VERSION;
-    }
     if (!this.isEmptyMode) {
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
