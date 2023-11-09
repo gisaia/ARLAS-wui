@@ -54,13 +54,6 @@
   justify-content: center;
   flex-direction: column;
   @include toggle();
-
-  .side-result-list-icon {
-    background-color: white;
-    cursor: pointer;
-    height: $icon-size;
-    width: $icon-size;
-  }
 }
 
 .side-result-list-toggle-open {
@@ -129,10 +122,7 @@
   left: calc($analytics-board-width + ($timeline-tools-height - $toggle-height) / 2);
   top: 50%;
   transform: translate(0, -50%);
-  height: $icon-size;
   z-index: 1;
-  background-color: white;
-  cursor: pointer;
   @include toggle();
   display: flex;
   align-items: center;

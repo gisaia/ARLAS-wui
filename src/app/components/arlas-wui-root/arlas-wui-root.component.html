@@ -110,10 +110,10 @@
             </div>
             </div>
             <div class="arlas-map">
-              <mat-basic-chip class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
+              <div class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
                 matTooltip="{{'Close analytics board' | translate}}">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
-              </mat-basic-chip>
+              </div>
               <div class="arlas-analytics--container" *ngIf="analyticsService.activeTab !== undefined && !arlasStartUpService.emptyMode">
                 <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
                   (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
@@ -148,11 +148,9 @@
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="listOpen"
-                [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen">
-                <div class="side-result-list-icon" (click)="toggleList()">
-                  <mat-icon *ngIf="!listOpen">keyboard_arrow_left</mat-icon>
-                  <mat-icon *ngIf="listOpen">keyboard_arrow_right</mat-icon>
-              </div>
+                [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen"
+                (click)="toggleList()">
+                <mat-icon>{{ listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
               </div>
               <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
                 *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
