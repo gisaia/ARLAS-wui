@@ -187,6 +187,29 @@ fi
 envsubst '$ARLAS_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Process Status URL
+if [ -z "${ARLAS_PROCESS_STATUS_URL}" ]; then
+  ARLAS_PROCESS_STATUS_URL=''
+  export ARLAS_PROCESS_STATUS_URL
+  echo "No ARLAS_PROCESS_STATUS_URL is specified."
+else
+  echo ${ARLAS_PROCESS_STATUS_URL}  "is used as a backend endpoint to check the status of the process."
+fi
+envsubst '$ARLAS_PROCESS_STATUS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process maximum number of items allowed
+if [ -z "${ARLAS_PROCESS_MAX_ITEMS}" ]; then
+  ARLAS_PROCESS_MAX_ITEMS=''
+  export ARLAS_PROCESS_MAX_ITEMS
+  echo "No ARLAS_PROCESS_MAX_ITEMS is specified."
+else
+  echo ${ARLAS_PROCESS_MAX_ITEMS}  "is used for process.max_items."
+fi
+envsubst '$ARLAS_PROCESS_MAX_ITEMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
 
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
