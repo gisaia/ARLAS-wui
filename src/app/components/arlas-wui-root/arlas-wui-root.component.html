@@ -65,7 +65,7 @@
                 </div>
                 <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                   matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
-                  <mat-icon (click)="this.mapglComponent.switchToDrawMode();">draw</mat-icon>
+                  <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
                 </div>
                 <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
                   matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
