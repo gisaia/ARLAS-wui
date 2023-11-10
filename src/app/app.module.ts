@@ -41,7 +41,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule, FormatNumberModule } from 'arlas-web-components';
+import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
+  ResultsModule, FormatNumberModule, BboxGeneratorModule } from 'arlas-web-components';
 import {
   ArlasIamService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
@@ -77,8 +78,7 @@ import { BboxGeneratorComponent } from './components/bbox-generator/bbox-generat
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer,
-    BboxGeneratorComponent
+    SquareKilometer
   ],
   exports: [
     AoiDimensionComponent,
@@ -121,6 +121,7 @@ import { BboxGeneratorComponent } from './components/bbox-generator/bbox-generat
     MatSidenavModule,
     FormatNumberModule,
     HistogramModule,
+    BboxGeneratorModule,
     RouterModule,
     AppRoutingModule,
     ArlasToolkitSharedModule,

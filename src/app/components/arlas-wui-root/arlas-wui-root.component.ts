@@ -30,7 +30,7 @@ import {
   ArlasColorService,
   CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
   MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
-  SCROLLABLE_ARLAS_ID,
+  SCROLLABLE_ARLAS_ID, BboxGeneratorComponent,
   SortEnum
 } from 'arlas-web-components';
 import {
@@ -249,6 +249,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public analyticsService: AnalyticsService,
     private dialog: MatDialog,
+    private generateAoiDialog: MatDialog,
     private processService: ProcessService
   ) {
     this.menuState = {
@@ -343,6 +344,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         name: 'Positron'
       };
     }
+  }
+
+  public openAoiGenerator() {
+    this.generateAoiDialog.open(BboxGeneratorComponent, {
+      data: {
+        initCorner: {
+          lat: 32,
+          lng: -8
+        }
+      }
+    });
   }
 
   public ngOnDestroy(): void {
