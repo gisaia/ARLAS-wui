@@ -326,7 +326,9 @@
     justify-content: center;
     border-right: $xs-border solid #ddd;
     color: black;
-  
+    .generate-bbox {
+      
+    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
     }

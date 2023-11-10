@@ -2,7 +2,7 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: iam
   url: http://localhost:9997/arlas_iam_server
   force_connect: true

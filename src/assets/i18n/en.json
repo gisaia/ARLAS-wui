@@ -93,5 +93,6 @@
 	"Area Of Interest": "Area of interest",
 	"Fill": "Polygon",
 	"Current AOI": "Current AOI",
-	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration."
+	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration.",
+	"BBox from coordinates": "Generate a bbox"
 }
