@@ -98,5 +98,6 @@
 	"Height": "Hauteur",
 	"envelope": "enveloppe",
 	"All layers": "Toutes les couches",
-	"Welcome to ARLAS-Exploration": "Bienvenue sur ARLAS-Exploration."
+	"Welcome to ARLAS-Exploration": "Bienvenue sur ARLAS-Exploration.",
+	"BBox from coordinates": "Générer une bbox"
 }
