@@ -68,7 +68,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
-import { BboxGeneratorComponent } from './components/bbox-generator/bbox-generator.component';
 
 @NgModule({
   declarations: [
