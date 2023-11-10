@@ -33,6 +33,9 @@ histogram:
   export_nb_buckets: 1000
 arlas_hub_url: http://localhost:81/hub
 process:
+  url: 'https://arlas/processes/download/execution'
+  max_items: 15
   settings:
     url: 'assets/processes/download.json'
-  url: 'https://arlas/processes/download/execution'
+  status:
+    url: 'http://arlas/jobs'

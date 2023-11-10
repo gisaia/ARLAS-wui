@@ -883,38 +883,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'globalActionEvent':
         if (event.data.id === 'production') {
           const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
-          this.processService.load().subscribe({
-            next: () => {
-
-              this.processService.getItemsDetail(
-                this.collectionToDescription.get(currentCollection).id_path,
-                idsItemSelected.map(i => i.idValue),
-                this.processService.getProcessDescription().additionalParameters?.parameters,
-                currentCollection
-              ).subscribe({
-                next: (item: any) => {
-                  this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
-                  this.downloadDialogRef.componentInstance.nbProducts = this.featuresToSelect.length;
-                  this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
-                  this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
-                  this.downloadDialogRef.afterClosed().subscribe({
-                    next: (data) => {
-                      if (!!data) {
-                        this.processService.process(
-                          idsItemSelected.map(i => i.idValue),
-                          data.payload,
-                          currentCollection
-                        ).subscribe({
-                          next: (result) => console.log(result)
-                        });
-                      }
-                    }
-                  });
-                }
-              });
-            }
-          });
-
+          this.process(idsItemSelected.map(i => i.idValue), currentCollection);
         }
         break;
       case 'geoSortEvent':
@@ -1331,36 +1300,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         break;
       case 'production':
-        this.processService.load().subscribe({
-          next: () => {
-            this.processService.getItemsDetail(
-              this.collectionToDescription.get(collection).id_path,
-              [data.elementidentifier.idValue],
-              this.processService.getProcessDescription().additionalParameters?.parameters,
-              collection
-            ).subscribe({
-              next: (item: any) => {
-                this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
-                this.downloadDialogRef.componentInstance.nbProducts = 1;
-                this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
-                this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
-                this.downloadDialogRef.afterClosed().subscribe({
-                  next: (dialogData) => {
-                    if (!!dialogData) {
-                      this.processService.process(
-                        [data.elementidentifier.idValue],
-                        dialogData.payload,
-                        collection
-                      ).subscribe({
-                        next: (result) => console.log(result)
-                      });
-                    }
-                  }
-                });
-              }
-            });
-          }
-        });
+        this.process([data.elementidentifier.idValue], collection);
         break;
     }
   }
@@ -1369,6 +1309,40 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     const hubUrl = this.arlasSettingsService.getArlasHubUrl();
     if (!!hubUrl) {
       window.open(hubUrl);
+    }
+  }
+
+  private process(ids: string[], collection: string) {
+    const maxItems = this.arlasSettingsService.getProcessSettings().max_items;
+    if (ids.length <= maxItems) {
+      this.processService.load().subscribe({
+        next: () => {
+          this.processService.getItemsDetail(
+            this.collectionToDescription.get(collection).id_path,
+            ids,
+            this.processService.getProcessDescription().additionalParameters?.parameters,
+            collection
+          ).subscribe({
+            next: (item: any) => {
+              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+              this.downloadDialogRef.componentInstance.nbProducts = ids.length;
+              this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
+              this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
+              this.downloadDialogRef.componentInstance.ids = ids;
+              this.downloadDialogRef.componentInstance.collection = collection;
+            }
+          });
+        }
+      });
+    } else {
+      this.snackbar.open(
+        this.translate.instant('You have exceeded the number of products authorised for a single download') + ' (' + maxItems + ')', 'X',
+        {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000
+        }
+      );
     }
   }
 }
