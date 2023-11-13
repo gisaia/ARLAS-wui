@@ -4,7 +4,7 @@
     <mat-divider></mat-divider>
     <ng-container *ngIf="isRefreshAnalyticsButton">
       <button mat-icon-button class="arlas-analytics-refresh" (click)="refreshComponents()"
-        matTooltip="{{'Refresh components' | translate}}">
+        matTooltip="{{'Refresh components' | translate}}" matTooltipPosition="right">
         <mat-icon>refresh</mat-icon>
       </button>
       <mat-divider></mat-divider>
@@ -16,8 +16,8 @@
   <div class="action-list">
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')"
-        [class.active-menu]="!!toggleStates.configs" matTooltip="{{'Switch dashboard' | translate}}">
+      <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')" [class.active-menu]="!!toggleStates.configs"
+        matTooltip="{{'Switch dashboard' | translate}}" matTooltipPosition="right">
         <button mat-icon-button>
           <mat-icon>apps</mat-icon>
         </button>

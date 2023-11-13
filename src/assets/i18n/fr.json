@@ -1,4 +1,5 @@
 {
+	"ARLAS-wui": "ARLAS WUI",
 	"Map Settings": "Configuration de la carte",
 	"Basemaps": "Fonds cartographiques",
 	"Geo-filter tools": "Géo-filtres",
@@ -7,6 +8,7 @@
 	"Import polygon": "Importer un polygone",
 	"Edit drawings": "Editer les polygones et bbox",
 	"Remove drawings": "Effacer les polygones et bbox",
+	"BBox from coordinates": "Générer une bbox",
 	"See more": "Voir plus",
 	"Close analytics board": "Fermer le panneau",
 	"Welcome to ARLAS-Exploration": "Bienvenue sur ARLAS-Exploration.",
@@ -31,7 +33,7 @@
 	"Height": "Hauteur",
 	"Updating Geo-query of": "Chargement de la requête géographique de",
 	"Loading data of": "Chargement de la collection",
-	"You have exceeded the number of products authorised for a single download": "Vous avez dépasser le nombre de produits autorisés pour un téléchargement unique",
+	"You have exceeded the number of products authorised for a single download": "Vous avez dépassé le nombre de produits autorisés pour un téléchargement unique",
 	"reduce": "Réduire",
 	"expand": "Ouvrir",
 	"The visualisation is not available for this product.": "Ce produit n'est pas disponible à la visualisation.",
@@ -104,6 +106,5 @@
 	"Types TEXT, GEO_POINT are excluded": "Les types 'TEXT' et 'GEOPOINT' ne sont pas inclus",
 	"Area Of Interest": "Zone d'intérêt",
 	"Fill": "Polygone",
-	"All layers": "Toutes les couches",
-	"BBox from coordinates": "Générer une bbox"
+	"All layers": "Toutes les couches"
 }

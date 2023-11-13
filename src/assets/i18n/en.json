@@ -1,4 +1,5 @@
 {
+	"ARLAS-wui": "ARLAS WUI",
 	"Map Settings": "Map Settings",
 	"Basemaps": "Basemaps",
 	"Geo-filter tools": "Geo-filter tools",
@@ -7,6 +8,7 @@
 	"Import polygon": "Import polygon",
 	"Edit drawings": "Edit drawings",
 	"Remove drawings": "Remove drawings",
+	"BBox from coordinates": "Generate a bbox",
 	"See more": "See more",
 	"Close analytics board": "Close analytics board",
 	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration.",
@@ -103,6 +105,5 @@
 	"Double click to save this period": "Double click to save this period",
 	"Types TEXT, GEO_POINT are excluded": "Types 'TEXT', 'GEO_POINT' are excluded",
 	"Area Of Interest": "Area of interest",
-	"Fill": "Polygon",
-	"BBox from coordinates": "Generate a bbox"
+	"Fill": "Polygon"
 }
