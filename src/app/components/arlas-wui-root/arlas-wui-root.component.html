@@ -1,7 +1,7 @@
 <div>
   <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
     <div left-menu class="top-left-menu">
-      <img src="assets/logo-only.png" matTooltip="'ARLAS-wui'" class="img">
+      <img src="assets/logo-only.png" [matTooltip]="'ARLAS-wui' | translate" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
@@ -45,12 +45,10 @@
 
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
-                <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
-                  matTooltip="{{'Map Settings' | translate}}">
+                <div class="arlas-map-settings-items" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
                   <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
                 </div>
-                <div class="arlas-map-settings-items" [matTooltipPosition]="'left'"
-                  matTooltip="{{'Basemaps' | translate}}" >
+                <div class="arlas-map-settings-items" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
                   <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
                 <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items"
@@ -59,23 +57,22 @@
                 </div>
               </div>
               <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Add bbox' | translate}}" >
+                <div class="arlas-map-action-items" matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
                 </div>
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'"
-                  matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
+                <div class="arlas-map-action-items" matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
                 </div>
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Import polygon' | translate}}" >
+                <div class="arlas-map-action-items" matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
                 </div>
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Edit drawings' | translate}}" >
+                <div class="arlas-map-action-items" matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
                   <mat-icon (click)="this.mapglComponent.switchToEditMode();">edit</mat-icon>
                 </div>
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'Remove drawings' | translate}}">
+                <div class="arlas-map-action-items" matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="remove_polygon" (click)="this.mapglComponent.removeAois();"></mat-icon>
                 </div>
-                <div class="arlas-map-action-items" [matTooltipPosition]="'below'" matTooltip="{{'BBox from coordinates' | translate}}" >
+                <div class="arlas-map-action-items" matTooltip="{{'BBox from coordinates' | translate}}" matTooltipPosition="below">
                   <div class="generate-bbox" (click)="openAoiGenerator();">° ' "</div>
                 </div>
               </div>
@@ -110,7 +107,7 @@
             </div>
             <div class="arlas-map">
               <div class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
-                matTooltip="{{'Close analytics board' | translate}}">
+                matTooltip="{{'Close analytics board' | translate}}" matTooltipPosition="right">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
               </div>
               <div class="arlas-analytics--container" *ngIf="analyticsService.activeTab !== undefined && !arlasStartUpService.emptyMode">
@@ -187,13 +184,11 @@
                   <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
                     <ng-template mat-tab-label>
                       <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
-                      [matTooltip]="list.name"
-                      [matTooltipDisabled]="resultListConfigPerContId.get(list.identifier)?.options?.showName
-                      && resultListConfigPerContId.get(list.identifier)?.options?.showIcon">
+                        [matTooltip]="list.name" [matTooltipDisabled]="resultListConfigPerContId.get(list.identifier)?.options?.showName">
                         {{resultListConfigPerContId.get(list.identifier)?.options?.icon}}
                       </mat-icon>
                       <span class="name"
-                        *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showName === undefined || resultListConfigPerContId.get(list.identifier)?.options?.showName">
+                        *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showName !== false">
                         {{list.name | translate}}
                       </span>
                     </ng-template>
