@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ArlasIamService, ArlasSettingsService, AuthentificationService } from 'arlas-wui-toolkit';
 import { QUICKLOOK_HEADER } from 'arlas-web-components';
@@ -35,30 +30,23 @@ export class JwtInterceptor implements HttpInterceptor {
       authentMode = 'openid';
     }
 
+    // add authorization header with accessToken to Http request if logged
     if (authentMode === 'openid') {
       const hasValidAccessToken = this.authenticationService.hasValidAccessToken();
-      // add authorization header with accessToken to ALL Http request
       if (hasValidAccessToken) {
         request = request.clone({
           setHeaders: {
             Authorization: `Bearer ${this.authenticationService.accessToken}`,
           }
         });
-        return next.handle(request);
       }
     } else if (authentMode === 'iam') {
-      this.iamService.tokenRefreshed$.subscribe({
-        next: (data) => {
-          request = request.clone({
-            setHeaders: {
-              Authorization: `Bearer ${data.accessToken}`,
-            }
-          });
-          next.handle(request);
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.iamService.getAccessToken()}`,
         }
       });
-    } else {
-      return next.handle(request);
     }
+    return next.handle(request);
   }
 }
