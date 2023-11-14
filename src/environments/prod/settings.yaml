@@ -42,6 +42,7 @@ histogram:
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}
 process:
   url: ${ARLAS_PROCESS_URL}
+  check_url: ${ARLAS_PROCESS_CHECK_URL}
   max_items: ${ARLAS_PROCESS_MAX_ITEMS}
   settings:
     url: ${ARLAS_PROCESS_SETTINGS_URL}

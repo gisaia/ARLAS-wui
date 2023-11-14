@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -28,9 +28,10 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import {
   AoiEdition,
   ArlasColorService,
+  BboxGeneratorComponent,
   CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
   MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
-  SCROLLABLE_ARLAS_ID, BboxGeneratorComponent,
+  SCROLLABLE_ARLAS_ID,
   SortEnum
 } from 'arlas-web-components';
 import {
@@ -50,14 +51,14 @@ import {
   TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
+import { Observable, Subject, Subscription, fromEvent, merge, of, timer, zip } from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
 import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -460,18 +461,32 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
           }
-          const processSettings = this.arlasSettingsService.getProcessSettings();
-          if (!!processSettings && !!processSettings.url) {
-            c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
-            const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-            if (resultConfig) {
-              if (!resultConfig.globalActionsList) {
-                resultConfig.globalActionsList = [];
-              }
-              resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
-            }
-          }
+
         });
+
+        // Check if the user can access process endpoint
+        const processSettings = this.arlasSettingsService.getProcessSettings();
+        const externalNode = this.configService.getValue('arlas.web.externalNode');
+        if (
+          !!processSettings && !!processSettings.url
+          && !!externalNode && !!externalNode.download && externalNode.download === true
+        ) {
+          this.processService.check().subscribe({
+            next: () => {
+              this.resultlistContributors.forEach(c => {
+                c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
+                const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+                if (resultConfig) {
+                  if (!resultConfig.globalActionsList) {
+                    resultConfig.globalActionsList = [];
+                  }
+                  resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
+                }
+              });
+            }
+          });
+        }
+
         const selectedResultlistTab = this.getParamValue('rt');
         const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
         if (previewListContrib) {

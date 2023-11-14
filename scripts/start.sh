@@ -187,6 +187,17 @@ fi
 envsubst '$ARLAS_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Process CHECK URL
+if [ -z "${ARLAS_PROCESS_CHECK_URL}" ]; then
+  ARLAS_PROCESS_CHECK_URL=''
+  export ARLAS_PROCESS_CHECK_URL
+  echo "No ARLAS_PROCESS_CHECK_URL is specified."
+else
+  echo ${ARLAS_PROCESS_CHECK_URL}  "is used as a backend endpoint to check the process availability."
+fi
+envsubst '$ARLAS_PROCESS_CHECK_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 # Process Status URL
 if [ -z "${ARLAS_PROCESS_STATUS_URL}" ]; then
   ARLAS_PROCESS_STATUS_URL=''
