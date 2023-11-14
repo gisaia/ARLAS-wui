@@ -114,7 +114,7 @@
 }
 
 .arlas-map {
-  .current-coordinate {
+  .current-coordinate, .current-coordinate-edition {
     position: absolute;
     right: calc($map-scale-max-width + $default-spacing);
     bottom: calc($timeline-height + $sm-spacing);
@@ -135,6 +135,16 @@
 
     .lng {
       width: 105px;
+    }
+  }
+
+  .current-coordinate-edition {
+    height: unset;
+    z-index: 2;
+
+    ::ng-deep .mat-form-field-wrapper {
+      padding-bottom: $default-spacing !important;
+      padding-top: $default-spacing !important;
     }
   }
 }

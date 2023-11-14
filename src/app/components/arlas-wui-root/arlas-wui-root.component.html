@@ -254,8 +254,8 @@
     </mat-sidenav-content>
     <ng-template #emptyMode>
       <mat-sidenav-content class="sidenav-content">
-        <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
-        </arlas-configs-list>
+        <!-- <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
+        </arlas-configs-list> -->
         <div class="empty_mode">
           <div class="welcome">{{'Welcome to ARLAS-Exploration' | translate}}</div>
           <img class="img" src="assets/logo-only.png" matTooltip="'ARLAS-wui'">
