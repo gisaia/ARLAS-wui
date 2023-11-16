@@ -1200,14 +1200,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private adjustCoordinates(): void {
-    const timelineActionsBandWidth = 404;
+    const timelineToolsMaxWidth = 420;
     const scaleMaxWidth = 100;
+    const toggleButtonWidth = 24;
+    const smMargin = 5;
     const mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
     if (mapCanvas && mapCanvas.length > 0) {
       const bbox = mapCanvas[0].getBoundingClientRect();
       if (bbox) {
         const width = bbox.width;
-        this.coordinatesHaveSpace = (width - timelineActionsBandWidth - scaleMaxWidth - 20) > 230;
+        this.coordinatesHaveSpace = (width - timelineToolsMaxWidth - scaleMaxWidth - toggleButtonWidth - 3 * smMargin) > 230;
       }
     }
   }
