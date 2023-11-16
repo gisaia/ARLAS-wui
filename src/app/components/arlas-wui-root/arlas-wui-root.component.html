@@ -42,7 +42,6 @@
             [class.app-container-analytics]="(rightListContributors.length === 0 || (rightListContributors.length > 0 && !resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode)) && !listOpen && analyticsService.activeTab !== undefined"
             [class.app-container-timeline-hidden]="!isTimelineOpen"
             [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
-
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
                 <div class="arlas-map-settings-items" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
@@ -105,7 +104,7 @@
                 </section>
             </div>
             </div>
-            <div class="arlas-map">
+            <div class="arlas-map" [class.map-container-tight-coordinates]="!coordinatesHaveSpace">
               <div class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
                 matTooltip="{{'Close analytics board' | translate}}" matTooltipPosition="right">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>

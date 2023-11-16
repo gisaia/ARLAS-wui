@@ -79,7 +79,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }>();
   @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
-
+  public coordinatesHaveSpace = true;
   public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
   public chipsSearchContributor: ChipsSearchContributor;
@@ -263,6 +263,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mapglComponent.map.resize();
           this.resizeCollectionCounts();
           this.adjustVisibleShortcuts();
+          this.adjustCoordinates();
         });
       /** trigger 'resize' event after toggling sidenav  */
       this.sidenavService.sideNavState.subscribe(res => {
@@ -335,6 +336,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         // If there is a change in the state of the analytics (open/close), resize
         if (wasTabSelected !== (tab !== undefined)) {
           this.adjustTimelineSize();
+          setTimeout(() => {
+            this.adjustCoordinates();
+          }, 200);
           wasTabSelected = (tab !== undefined);
         }
         this.updateTimelineLegendVisibility();
@@ -597,7 +601,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.arlasStartUpService.emptyMode) {
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();
-
+      this.adjustCoordinates();
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.tabsList) {
         this.tabsList.selectedIndexChange.subscribe(index => {
@@ -655,6 +659,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
       this.adjustMapOffset();
+      this.adjustCoordinates();
       this.mapglContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
@@ -1112,6 +1117,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.adjustGrids();
     this.adjustTimelineSize();
     this.adjustVisibleShortcuts();
+    setTimeout(() => {
+      this.adjustCoordinates();
+    }, 200);
   }
 
   public toggleTimeline() {
@@ -1157,6 +1165,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public closeAnalytics() {
     this.analyticsService.selectTab(undefined);
+    setTimeout(() => {
+      this.adjustCoordinates();
+    }, 200);
   }
 
   public closeMapMenu() {
@@ -1185,6 +1196,21 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // If the extra shortcuts are opened, and the open shortcut is the last visible one, close it for visibility reasons
     if (this.isExtraShortcutsOpen && this.shortcutOpen === this.shortcuts.length - 1) {
       this.shortcutOpen = -1;
+    }
+  }
+
+  private adjustCoordinates(): void {
+    const timelineToolsMaxWidth = 420;
+    const scaleMaxWidth = 100;
+    const toggleButtonWidth = 24;
+    const smMargin = 5;
+    const mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
+    if (mapCanvas && mapCanvas.length > 0) {
+      const bbox = mapCanvas[0].getBoundingClientRect();
+      if (bbox) {
+        const width = bbox.width;
+        this.coordinatesHaveSpace = (width - timelineToolsMaxWidth - scaleMaxWidth - toggleButtonWidth - 3 * smMargin) > 230;
+      }
     }
   }
 
