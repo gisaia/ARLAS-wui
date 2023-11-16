@@ -26,5 +26,4 @@ export class SidenavService {
   public sideNavState: Subject<boolean> = new Subject();
 
   public constructor() { }
-
 }
