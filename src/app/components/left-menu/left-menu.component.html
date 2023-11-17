@@ -15,7 +15,7 @@
   </ng-template>
   <div class="action-list">
     <mat-divider></mat-divider>
-    <mat-nav-list>
+    <mat-nav-list *ngIf="showDashboardsList">
       <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')" [class.active-menu]="!!toggleStates.configs"
         matTooltip="{{'Switch dashboard' | translate}}" matTooltipPosition="right">
         <button mat-icon-button>
@@ -24,7 +24,7 @@
       </mat-list-item>
     </mat-nav-list>
     <arlas-tool-link></arlas-tool-link>
-    <button mat-icon-button [matMenuTriggerFor]="actionMenu" class="action-menu-button">
+    <button mat-icon-button [matMenuTriggerFor]="actionMenu" *ngIf="!arlasStartUpService.emptyMode" class="action-menu-button">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #actionMenu="matMenu">
