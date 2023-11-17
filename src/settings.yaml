@@ -32,6 +32,7 @@ histogram:
   max_buckets: 200
   export_nb_buckets: 1000
 arlas_hub_url: http://localhost:81/hub
+dashboards_shortcut: true
 process:
   url: 'https://arlas/processes/download/execution'
   max_items: 15

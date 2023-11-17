@@ -597,7 +597,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.menuState.configs = this.arlasStartUpService.emptyMode;
     if (!this.arlasStartUpService.emptyMode) {
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();

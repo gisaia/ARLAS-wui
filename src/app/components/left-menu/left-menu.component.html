@@ -15,7 +15,7 @@
   </ng-template>
   <div class="action-list">
     <mat-divider></mat-divider>
-    <mat-nav-list>
+    <mat-nav-list *ngIf="showDashboardsList">
       <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')" [class.active-menu]="!!toggleStates.configs"
         matTooltip="{{'Switch dashboard' | translate}}" matTooltipPosition="right">
         <button mat-icon-button>

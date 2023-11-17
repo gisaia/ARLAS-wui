@@ -37,6 +37,7 @@ arlas_hub_url: ${ARLAS_HUB_URL}
 links: ${ARLAS_STATIC_LINKS}
 ticketing_key: ${ARLAS_TICKETING_KEY}
 tab_name:  ${ARLAS_TAB_NAME}
+dashboards_shortcut: ${ARLAS_WUI_DASHBOARDS_SHORTCUT}
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}

@@ -548,6 +548,17 @@ fi
 envsubst '$ARLAS_IAM_SERVER_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+### Whether to show list of dashbords
+if [ -z "${ARLAS_WUI_DASHBOARDS_SHORTCUT}" ]; then
+  ARLAS_WUI_DASHBOARDS_SHORTCUT=false
+  export ARLAS_WUI_DASHBOARDS_SHORTCUT
+  echo "No dahsboard shortcut variable is set"
+else
+  echo ${ARLAS_WUI_DASHBOARDS_SHORTCUT} "is used for 'dashboards_shortcut'"
+fi
+envsubst '$ARLAS_WUI_DASHBOARDS_SHORTCUT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 ### Array of statics links
 if [ -z "${ARLAS_STATIC_LINKS}" ]; then
   ARLAS_STATIC_LINKS="[]"

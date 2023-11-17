@@ -57,6 +57,10 @@ If you don't mount a `settings.yaml` file to the container, nor serve it with `A
 |--------------------|---------------------------|-------|-----------|
 |ARLAS_PROCESS_SETTINGS_URL   | process.settings.url| assets/processes/download.json | URL to settings file that describes the Process inputs. |
 |ARLAS_PROCESS_URL   | process.url| - | URL to the backend endpoint that executes the Process. |
+|ARLAS_PROCESS_CHECK_URL | process.check_url | - | URL to an endpoint that enables to check if a user has the right to use the precess.|
+|ARLAS_PROCESS_STATUS_URL | process.status.url | - | URL to an endpoint that check the process on going status|
+|ARLAS_PROCESS_MAX_ITEMS | process.max_items | - | Maximum number of items that can be handled with one execution of the process.|
+|ARLAS_WUI_DASHBOARDS_SHORTCUT| dashboards_shortcut | false | Whether to display a shortcut component to switch between dashboards. To be used for dev purposes only. |
 
 ## ARLAS-wui assets
 
