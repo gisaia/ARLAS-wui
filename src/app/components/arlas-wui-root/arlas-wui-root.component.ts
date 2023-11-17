@@ -355,8 +355,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.generateAoiDialog.open(BboxGeneratorComponent, {
       data: {
         initCorner: {
-          lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
-          lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
+          lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
+          lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
         }
       }
     });
