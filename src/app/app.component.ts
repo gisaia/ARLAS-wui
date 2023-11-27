@@ -26,17 +26,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   BasemapStyle, CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID
+  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent, SortEnum, SCROLLABLE_ARLAS_ID, ArlasColorService
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode, HistogramContributor,
+  ElementIdentifier, FeatureRenderMode,
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasColorGeneratorLoader, ArlasConfigService,
+  ArlasCollaborativesearchService, ArlasConfigService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, CollectionUnit, TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
@@ -173,7 +173,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
-    private colorGenerator: ArlasColorGeneratorLoader,
+    private colorService: ArlasColorService,
     private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
@@ -401,7 +401,7 @@ export class ArlasWuiComponent implements OnInit, AfterViewInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
           this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorGenerator;
+            mapContrib.colorGenerator = this.colorService.colorGenerator;
             if (!!this.resultlistContributors) {
               const resultlistContrbutor: ResultListContributor = this.resultlistContributors
                 .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
