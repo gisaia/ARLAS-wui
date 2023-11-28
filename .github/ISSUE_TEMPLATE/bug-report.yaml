@@ -30,23 +30,24 @@ body:
       label: If the issue was noticed in the demo workspace, please specify the collection and the field. Otherwise, please link the 2 ARLAS config files.
       description: ARLAS config files can be downloaded from the builder, through the dedicated button in the left panel.
 
-  - type: checkboxes
+  - type: dropdown
     id: affected-components
     attributes:
       label: Which ARLAS component(s) are concerned by the bug?
+      multiple: true
       options:
-        - label: Map
-        - label: Legend
-        - label: Tooltip
-        - label: Result list
-        - label: Timeline
-        - label: Widgets - General
-        - label: Widgets - Metric
-        - label: Widgets - Donut
-        - label: Widgets - Powerbar
-        - label: Widgets - Histogram
-        - label: Widgets - Swimlane
-        - label: Other
+        - Map
+        - Legend
+        - Tooltip
+        - Result list
+        - Timeline
+        - Widgets - General
+        - Widgets - Metric
+        - Widgets - Donut
+        - Widgets - Powerbar
+        - Widgets - Histogram
+        - Widgets - Swimlane
+        - Other
     validations:
       required: true
   
@@ -63,16 +64,17 @@ body:
     validations:
       required: true
   
-  - type: checkboxes
+  - type: dropdown
     id: browsers
     attributes:
       label: What browsers are you seeing the problem on?
+      multiple: true
       options:
-        - label: Firefox
-        - label: Chrome
-        - label: Safari
-        - label: Microsoft Edge
-        - label: Other
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
     validations:
       required: true
   
