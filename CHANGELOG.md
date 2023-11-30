@@ -1,5 +1,73 @@
 # Change Log
 
+## [v24.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0) (2023-11-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.8...v24.2.0)
+
+**New stuff:**
+
+- Add an option of force\_connect in IAM mode [\#676](https://github.com/gisaia/ARLAS-wui/issues/676)
+
+**Fixed bugs:**
+
+- The timeline disappears when there is no data  [\#696](https://github.com/gisaia/ARLAS-wui/issues/696)
+
+## [v24.3.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.8) (2023-11-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.7...v24.3.0-beta.8)
+
+**Fixed bugs:**
+
+- Production buttons should not appear if the user has not the rights [\#695](https://github.com/gisaia/ARLAS-wui/issues/695)
+
+## [v24.3.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.7) (2023-11-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.6...v24.3.0-beta.7)
+
+## [v24.3.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.6) (2023-11-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.5...v24.3.0-beta.6)
+
+## [v24.3.0-beta.5](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.5) (2023-11-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.4...v24.3.0-beta.5)
+
+## [v24.3.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.4) (2023-11-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.3...v24.3.0-beta.4)
+
+**New stuff:**
+
+- Display results/status of the download process [\#671](https://github.com/gisaia/ARLAS-wui/issues/671)
+
+## [v24.3.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.3) (2023-11-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.2...v24.3.0-beta.3)
+
+## [v24.3.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.2) (2023-11-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.4...v24.3.0-beta.2)
+
+**New stuff:**
+
+- Create a permission based on current filters using IAM [\#664](https://github.com/gisaia/ARLAS-wui/issues/664)
+
+## [v24.2.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.4) (2023-10-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.3...v24.2.0-beta.4)
+
+## [v24.2.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.3) (2023-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.2-beta.2...v24.2.0-beta.3)
+
+## [v24.2.0-beta.2-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.2-beta.2) (2023-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.1...v24.2.0-beta.2-beta.2)
+
+## [v24.2.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.1) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.1.0...v24.2.0-beta.1)
+
 ## [v24.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.1.0) (2023-08-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.5...v24.1.0)
