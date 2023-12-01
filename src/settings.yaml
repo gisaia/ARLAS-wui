@@ -24,8 +24,8 @@ authentication:
   logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
   storage: sessionstorage
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
-  ticketing_key:
-  tab_name: "ARLAS Wui"
+ticketing_key:
+tab_name: "ARLAS Wui"
 persistence:
   url: 'http://localhost:19997/arlas-persistence-server/'
 histogram:
