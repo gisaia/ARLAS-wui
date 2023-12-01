@@ -176,7 +176,7 @@ docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${
 docker push gisaia/arlas-wui:${VERSION}
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
-    docker gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
+    docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
     docker push gisaia/arlas-wui:latest
 fi
 
