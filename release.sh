@@ -17,18 +17,20 @@ trap clean EXIT
 
 usage(){
 	echo "Usage: ./release.sh -rel=X [--no-tests]"
-  echo " -rel|--app-release   release arlas-app X version"
+    echo " -rel|--app-release   release arlas-app X version"
 	echo " -dev|--app-dev   development arlas-app version (-SNAPSHOT qualifier will be automatically added)"
-	echo " --no-tests           do not run integration tests"
-  echo " -s|--stage    Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
-  echo " -i|--stage_iteration=n, the released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"	echo " -ref_branch | --reference_branch  from which branch to start the release."
+	echo " --no-tests    Skip running integration tests"
+	echo " --not-latest  Doesn't tag the release version as the latest."
+    echo " -s|--stage    Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
+    echo " -i|--stage_iteration=n, the released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"	
  	echo " -ref_branch | --reference_branch  from which branch to start the release."
-  echo "    Add -ref_branch=develop for a new official release"
-  echo "    Add -ref_branch=x.x.x for a maintenance release"
+    echo "    Add -ref_branch=develop for a new official release"
+    echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
 }
 STAGE="stable"
 TESTS="YES"
+IS_LATEST_VERSION="YES"
 for i in "$@"
 do
 case $i in
@@ -42,6 +44,10 @@ case $i in
     ;;
     --no-tests)
     TESTS="NO"
+    shift # past argument with no value
+    ;;
+    --not-latest)
+    IS_LATEST_VERSION="NO"
     shift # past argument with no value
     ;;
     -ref_branch=*|--reference_branch=*)
@@ -168,9 +174,9 @@ echo "==> Docker"
 docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
 
 docker push gisaia/arlas-wui:${VERSION}
-if [ "${STAGE}" == "stable" ];
+if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
-    docker build --build-arg version=${VERSION} --tag gisaia/arlas-wui:latest .
+    docker gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
     docker push gisaia/arlas-wui:latest
 fi
 
