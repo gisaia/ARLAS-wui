@@ -28,6 +28,7 @@ import {
 import { ArlasColorService } from 'arlas-web-components';
 
 import { Subject } from 'rxjs';
+import { ArlasColorService } from 'arlas-web-components';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 

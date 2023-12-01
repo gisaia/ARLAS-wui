@@ -1,5 +1,25 @@
 # Change Log
 
+## [v24.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0) (2023-11-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.8...v24.2.0)
+
+**New stuff:**
+
+- Add an option of force\_connect in IAM mode [\#676](https://github.com/gisaia/ARLAS-wui/issues/676)
+
+**Fixed bugs:**
+
+- The timeline disappears when there is no data  [\#696](https://github.com/gisaia/ARLAS-wui/issues/696)
+
+## [v24.3.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.8) (2023-11-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.7...v24.3.0-beta.8)
+
+**Fixed bugs:**
+
+- Production buttons should not appear if the user has not the rights [\#695](https://github.com/gisaia/ARLAS-wui/issues/695)
+
 ## [v24.3.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.7) (2023-11-15)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.6...v24.3.0-beta.7)
