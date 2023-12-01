@@ -4,13 +4,13 @@
     {
       "title": "Welcome to ARLAS Exploration",
       "content": "Explore your data instantly through <br><br> - Geo-analytic view on the map (Heatmaps, Grids, ...) <br> - Timeline <br> - Different widgets (histograms, donuts, powernbars) to analyse diffent dimensions of the data.",
-      "target": ".home-chip--label",
+      "target": ".top-left-menu .img",
       "placement": "bottom"
     },
     {
       "title": "Global count",
       "content": "It indicates how many elements are explored.",
-      "target": "arlas-count",
+      "target": ".top-left-menu .chips--container",
       "placement": "bottom"
     },
     {
@@ -28,15 +28,15 @@
     {
       "title": "Timeline filter",
       "content": "This histogram represents the distibution of number of elements over time. You can filter your data by selecting one or several periods: double click on one period to save it, then move the selection brush to define a new interval.",
-      "target": ".arlas-timeline--timelines",
+      "target": ".arlas-timeline",
       "placement": "top",
       "arrowOffset": "center"
     },
     {
       "title": "Time shortcuts",
       "content": "A list of time shortcuts to filter data on a specific time range.",
-      "target": ".arlas-timeline--timeshortcuts",
-      "placement": "left",
+      "target": ".arlas-time-shortcuts--container",
+      "placement": "top",
       "yOffset": -15
     },
     {
@@ -61,7 +61,7 @@
       "title": "Filters and drawing tools",
       "content": "You can draw or remove a bbox/polygon or import it as KML, Geojson or Zipped Shapefile to filter data.",
       "placement": "left",
-      "target": ".arlas-map-action-container",
+      "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
       "yOffset": -15
     },
     {

@@ -16,3 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+@import 'colors.scss';
+@import 'sizes.scss';
+
+@mixin box-border() {
+    border: $xs-border solid $border-color;
+    border-radius: $default-border-radius;
+}
+
+@mixin toggle() {
+    @include box-border();
+    height: $toggle-height;
+    width: $toggle-height;
+    box-sizing: border-box;
+    background-color: white;
+    cursor: pointer;
+}
+
+@mixin tablet() {
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background-color: $tablet-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $sm-font-size;
+}

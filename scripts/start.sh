@@ -165,6 +165,63 @@ envsubst '$ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS' < /usr/share/nginx/html/settings.
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 
+# Process settings URL
+if [ -z "${ARLAS_PROCESS_SETTINGS_URL}" ]; then
+  ARLAS_PROCESS_SETTINGS_URL='assets/processes/download.json'
+  export ARLAS_PROCESS_SETTINGS_URL
+  echo "No ARLAS_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/processes/download.json'"
+else
+  echo ${ARLAS_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the process inputs."
+fi
+envsubst '$ARLAS_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process URL
+if [ -z "${ARLAS_PROCESS_URL}" ]; then
+  ARLAS_PROCESS_URL=''
+  export ARLAS_PROCESS_URL
+  echo "No ARLAS_PROCESS_URL is specified."
+else
+  echo ${ARLAS_PROCESS_URL}  "is used as a backend endpoint to execute the process."
+fi
+envsubst '$ARLAS_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process CHECK URL
+if [ -z "${ARLAS_PROCESS_CHECK_URL}" ]; then
+  ARLAS_PROCESS_CHECK_URL=''
+  export ARLAS_PROCESS_CHECK_URL
+  echo "No ARLAS_PROCESS_CHECK_URL is specified."
+else
+  echo ${ARLAS_PROCESS_CHECK_URL}  "is used as a backend endpoint to check the process availability."
+fi
+envsubst '$ARLAS_PROCESS_CHECK_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process Status URL
+if [ -z "${ARLAS_PROCESS_STATUS_URL}" ]; then
+  ARLAS_PROCESS_STATUS_URL=''
+  export ARLAS_PROCESS_STATUS_URL
+  echo "No ARLAS_PROCESS_STATUS_URL is specified."
+else
+  echo ${ARLAS_PROCESS_STATUS_URL}  "is used as a backend endpoint to check the status of the process."
+fi
+envsubst '$ARLAS_PROCESS_STATUS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process maximum number of items allowed
+if [ -z "${ARLAS_PROCESS_MAX_ITEMS}" ]; then
+  ARLAS_PROCESS_MAX_ITEMS=''
+  export ARLAS_PROCESS_MAX_ITEMS
+  echo "No ARLAS_PROCESS_MAX_ITEMS is specified."
+else
+  echo ${ARLAS_PROCESS_MAX_ITEMS}  "is used for process.max_items."
+fi
+envsubst '$ARLAS_PROCESS_MAX_ITEMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+
+
 # Set App base path
 if [ -z "${ARLAS_WUI_APP_PATH}" ]; then
   ARLAS_WUI_APP_PATH=""
@@ -458,6 +515,49 @@ fi
 envsubst '$ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+### ARLAS_AUTHENT_MODE
+if [ -z "${ARLAS_AUTHENT_MODE}" ]; then
+  ARLAS_AUTHENT_MODE='iam'
+  export ARLAS_AUTHENT_MODE
+  echo "Default auth.mod: 'iam' "
+else
+  echo ${ARLAS_AUTHENT_MODE} "is used for 'authentication.auth_mode'. Default value is 'iam'"
+fi
+envsubst '$ARLAS_AUTHENT_MODE' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+### THRESHOLD
+if [ -z "${ARLAS_AUTHENT_THRESHOLD}" ]; then
+  ARLAS_AUTHENT_THRESHOLD=60000
+  export ARLAS_AUTHENT_THRESHOLD
+  echo "Default threshold: 60000"
+else
+  echo ${ARLAS_AUTHENT_THRESHOLD} "is used for 'authentication.threshold'. Default value is '60000'"
+fi
+envsubst '$ARLAS_AUTHENT_THRESHOLD' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+### ARLAS_IAM_SERVER_URL
+if [ -z "${ARLAS_IAM_SERVER_URL}" ]; then
+  ARLAS_IAM_SERVER_URL="http://localhost:9997"
+  export ARLAS_IAM_SERVER_URL
+  echo "Default url : http://localhost:9997"
+else
+  echo ${ARLAS_IAM_SERVER_URL} "is used for 'authentication.url'."
+fi
+envsubst '$ARLAS_IAM_SERVER_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+### Whether to show list of dashbords
+if [ -z "${ARLAS_WUI_DASHBOARDS_SHORTCUT}" ]; then
+  ARLAS_WUI_DASHBOARDS_SHORTCUT=false
+  export ARLAS_WUI_DASHBOARDS_SHORTCUT
+  echo "No dahsboard shortcut variable is set"
+else
+  echo ${ARLAS_WUI_DASHBOARDS_SHORTCUT} "is used for 'dashboards_shortcut'"
+fi
+envsubst '$ARLAS_WUI_DASHBOARDS_SHORTCUT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 ### Array of statics links
 if [ -z "${ARLAS_STATIC_LINKS}" ]; then

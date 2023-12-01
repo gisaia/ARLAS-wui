@@ -4,13 +4,13 @@
     {
       "title": "Bienvenue à ARLAS Exploration",
       "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammess, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
-      "target": ".home-chip--label",
+      "target": ".top-left-menu .img",
       "placement": "bottom"
     },
     {
       "title": "Compte global",
       "content": "Indique le nombre d'éléments explorés.",
-      "target": "arlas-count",
+      "target": ".top-left-menu .chips--container",
       "placement": "bottom"
     },
     {
@@ -28,15 +28,15 @@
     {
       "title": "Frise temporelle",
       "content": "Cet histogramme représente la distribution du nombres d'éléments dans le temps. <br> Vous pouvez filtrer la donnée en sélectionnant une ou plusieurs périodes: double-cliquez sur une période pour la sauvegarder, puis resélectionnez un nouvel intervalle.",
-      "target": ".arlas-timeline--timelines",
+      "target": ".arlas-timeline",
       "placement": "top",
       "arrowOffset": "center"
     },
     {
       "title": "Raccourcis temporels",
       "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une prériode de temps précise",
-      "target": ".arlas-timeline--timeshortcuts",
-      "placement": "left",
+      "target": ".arlas-time-shortcuts--container",
+      "placement": "top",
       "yOffset": -15
     },
     {
@@ -61,7 +61,7 @@
       "title": "Outils de filtres géographiques",
       "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée.",
       "placement": "left",
-      "target": ".arlas-map-action-container",
+      "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
       "yOffset": -15
     },
     {

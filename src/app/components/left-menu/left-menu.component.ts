@@ -1,13 +1,11 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  ArlasConfigService, ArlasSettingsService, ArlasWalkthroughService, AuthentificationService,
-  DownloadComponent, PersistenceService, ShareComponent, TagComponent, UserInfosComponent
+  ArlasCollaborativesearchService,
+  ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService,
+  DownloadComponent, PersistenceService, ShareComponent, TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { AboutComponent } from '../about/about.component';
 
 interface Page {
   link: string;
@@ -25,8 +23,6 @@ export interface MenuState {
   styleUrls: ['./left-menu.component.scss']
 })
 export class LeftMenuComponent implements OnInit {
-
-  @Input() public version: string;
   @Input() public collections: string[];
 
   @Input() public toggleStates: MenuState = {
@@ -34,10 +30,10 @@ export class LeftMenuComponent implements OnInit {
   };
   @Input() public isEmptyMode;
   @Input() public layersVisibilityStatus: Map<string, boolean> = new Map();
+  @Input() public showIndicators: boolean;
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
-  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
 
@@ -47,57 +43,38 @@ export class LeftMenuComponent implements OnInit {
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
-
-  public aboutFile: string;
-  public extraAboutText: string;
-
+  public isRefreshAnalyticsButton: boolean;
   public sideNavState = false;
   public linkText = false;
-  public connected;
-  public isAuthentActivated;
   public pages: Page[] = [];
-  public name: string;
-  public avatar: string;
   public reduce: string;
   public expand: string;
   public isLabelDisplayed = false;
+  public showDashboardsList = false;
 
-
-  public constructor(private authentService: AuthentificationService, private dialog: MatDialog, private translate: TranslateService,
-    public persistenceService: PersistenceService, private configService: ArlasConfigService,
+  public constructor(
+    private translate: TranslateService,
+    public persistenceService: PersistenceService,
     public walkthroughService: ArlasWalkthroughService,
-    public settings: ArlasSettingsService
+    public settings: ArlasSettingsService,
+    public collaborativeService: ArlasCollaborativesearchService,
+    public configService: ArlasConfigService,
+    public arlasStartUpService: ArlasStartupService
   ) {
-    this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
-    this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
     this.window = window;
     this.reduce = this.translate.instant('reduce');
     this.expand = this.translate.instant('expand');
-    this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
+  }
+
+  public ngOnInit() {
     if (!this.isEmptyMode) {
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
       this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = this.settings.getTicketingKey() ? true : false;
+      this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
-  }
-
-  public ngOnInit() {
-    const claims = this.authentService.identityClaims as any;
-    this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
-      this.connected = isConnected;
-      if (isConnected) {
-        this.name = claims.nickname;
-        this.avatar = claims.picture;
-      } else {
-        this.name = '';
-        this.avatar = '';
-      }
-    });
-
-    if (!this.version) {
-      this.version = environment.VERSION;
-    }
+    this.showDashboardsList = (this.settings.settings as any).dashboards_shortcut;
   }
 
   /**
@@ -111,17 +88,6 @@ export class LeftMenuComponent implements OnInit {
     }
     this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
   }
-  public connect() {
-    if (this.connected) {
-      this.authentService.logout();
-    } else {
-      this.authentService.login();
-    }
-  }
-
-  public getUserInfos() {
-    this.dialog.open(UserInfosComponent);
-  }
 
   public expandMenu() {
     this.isLabelDisplayed = !this.isLabelDisplayed;
@@ -134,10 +100,6 @@ export class LeftMenuComponent implements OnInit {
    * layers so that we choose only the displayed ones */
   public displayShare() {
     this.shareComponent.openDialog(this.layersVisibilityStatus);
-  }
-
-  public displayAbout() {
-    this.aboutcomponent.openDialog();
   }
 
   public replayTour() {
@@ -157,4 +119,8 @@ export class LeftMenuComponent implements OnInit {
     this.tagComponent.openManagement();
   }
 
+  public refreshComponents() {
+    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
+    this.collaborativeService.setCollaborations(dataModel);
+  }
 }

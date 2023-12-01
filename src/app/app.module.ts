@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -39,16 +39,22 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule, ResultsModule } from 'arlas-web-components';
+import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
+  ResultsModule, FormatNumberModule, BboxGeneratorModule } from 'arlas-web-components';
 import {
+  ArlasIamService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
-  PersistenceService, ToolkitRoutingModule, WalkthroughLoader
+  AuthentificationService,
+  LoginModule,
+  PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
+import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
-import { AboutComponent, AboutDialogComponent } from './components/about/about.component';
+import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { ContributorService } from './services/contributors.service';
@@ -56,21 +62,31 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
+import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
+import { JwtInterceptor } from './tools/jwt.interceptor';
 
 @NgModule({
   declarations: [
-    AboutComponent,
-    AboutDialogComponent,
+    AoiDimensionComponent,
     ArlasWuiComponent,
-    LeftMenuComponent,
-    ConfigsListComponent
-  ],
-  exports: [
-    AboutComponent,
-    AboutDialogComponent,
-    ArlasWuiComponent,
+    ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
+    RoundKilometer,
+    SquareKilometer
+  ],
+  exports: [
+    AoiDimensionComponent,
+    ArlasWuiComponent,
+    ArlasWuiRootComponent,
+    LeftMenuComponent,
+    ConfigsListComponent,
+    RoundKilometer,
+    SquareKilometer
   ],
   imports: [
     BrowserModule,
@@ -85,8 +101,11 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTooltipModule,
     MatTabsModule,
     MatProgressBarModule,
@@ -97,9 +116,13 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
     MapglModule,
     MatTableModule,
     MatListModule,
+    MatSelectModule,
     MatSidenavModule,
+    FormatNumberModule,
     HistogramModule,
-    ToolkitRoutingModule,
+    BboxGeneratorModule,
+    RouterModule,
+    AppRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     TranslateModule.forRoot({
@@ -116,16 +139,22 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
         deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
       }
     }),
-    ArlasTaggerModule
+    ArlasTaggerModule,
+    LoginModule
   ],
   providers: [
     ContributorService,
     SidenavService,
     DynamicComponentService,
-    VisualizeService
-
+    VisualizeService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
+      multi: true
+    }
   ],
   bootstrap: [ArlasWuiComponent],
-  entryComponents: [AboutDialogComponent]
+  entryComponents: []
 })
 export class ArlasWuiModule { }

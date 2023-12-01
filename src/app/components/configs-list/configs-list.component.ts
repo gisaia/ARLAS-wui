@@ -18,8 +18,12 @@
  */
 
 import { Component, OnInit, Output } from '@angular/core';
+import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import { ArlasColorGeneratorLoader, ArlasSettingsService, PersistenceService } from 'arlas-wui-toolkit';
+import {
+  ArlasIamService, ArlasSettingsService, ArlasStartupService,
+  AuthentificationService, PersistenceService
+} from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 import { ArlasColorService } from 'arlas-web-components';
 
@@ -41,18 +45,54 @@ export class ConfigsListComponent implements OnInit {
   public hubUrl;
   public listResolved = false;
   public retrieveData = true;
+
+  public isAuthentActivated;
+  public authentMode = 'false';
+  public orgs: UserOrgData[] = [];
+  public currentOrg: string;
+
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   public constructor(
     private persistenceService: PersistenceService,
-    private colorService: ArlasColorService,
-    private arlasSettingsService: ArlasSettingsService
+    private arlasColorService: ArlasColorService,
+    private arlasSettingsService: ArlasSettingsService,
+    private authentService: AuthentificationService,
+    private arlasIamService: ArlasIamService,
+    private arlasStartupService: ArlasStartupService
   ) {
     this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
+    const authSettings = this.arlasSettingsService.getAuthentSettings();
+    this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
+    if (this.isAuthentActivated) {
+      this.authentMode = authSettings.auth_mode;
+      if (!this.authentMode) {
+        this.authentMode = 'openid';
+      }
+    }
   }
 
   public ngOnInit() {
-    this.getConfigList();
+
+    if (this.authentMode === 'iam') {
+      this.arlasIamService.tokenRefreshed$.subscribe({
+        next: (userSubject) => {
+          if (!!userSubject) {
+            this.orgs = userSubject.user.organisations.map(org => {
+              org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
+              return org;
+            });
+            this.currentOrg = this.arlasIamService.getOrganisation();
+          } else {
+            this.orgs = [];
+          }
+          this.configurations = [];
+          this.getConfigList();
+        }
+      });
+    } else {
+      this.getConfigList();
+    }
   }
 
   /**
@@ -66,7 +106,12 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public switchConf(confId) {
-    window.location.search = '?config_id=' + confId;
+    let url = '?config_id=' + confId;
+    const currentOrg = this.arlasIamService.getOrganisation();
+    if (!!currentOrg) {
+      url += '&org=' + currentOrg;
+    }
+    window.location.search = url;
   }
 
   /**
@@ -83,7 +128,7 @@ export class ConfigsListComponent implements OnInit {
               const config: Configuration = {
                 id: d.id,
                 name: d.doc_key,
-                color: (this.colorService.colorGenerator as ArlasColorGeneratorLoader).getColor(d.id.concat(d.doc_key))
+                color: this.arlasColorService.getColor(d.id.concat(d.doc_key))
               };
               this.configurations.push(config);
             });
@@ -94,5 +139,12 @@ export class ConfigsListComponent implements OnInit {
           this.retrieveData = false;
         }
       });
+  }
+
+  public changeOrg(org: UserOrgData) {
+    this.arlasStartupService.changeOrgHeader(org.name, this.arlasIamService.getAccessToken());
+    this.configurations = [];
+    this.currentOrg = org.name;
+    this.getConfigList();
   }
 }
