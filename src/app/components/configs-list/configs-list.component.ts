@@ -21,12 +21,9 @@ import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import {
-  ArlasAuthentificationService,
   ArlasIamService, ArlasSettingsService, ArlasStartupService,
   AuthentificationService, PersistenceService
 } from 'arlas-wui-toolkit';
-import { ArlasColorService } from 'arlas-web-components';
-
 import { Subject } from 'rxjs';
 import { ArlasColorService } from 'arlas-web-components';
 
