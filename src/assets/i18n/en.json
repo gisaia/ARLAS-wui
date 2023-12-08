@@ -105,5 +105,7 @@
 	"Double click to save this period": "Double click to save this period",
 	"Types TEXT, GEO_POINT are excluded": "Types 'TEXT', 'GEO_POINT' are excluded",
 	"Area Of Interest": "Area of interest",
-	"Fill": "Polygon"
+	"Fill": "Polygon",
+	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
+	"Draw at least 2 points.": "Draw at least 2 points."
 }

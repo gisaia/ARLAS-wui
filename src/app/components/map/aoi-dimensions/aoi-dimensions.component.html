@@ -11,7 +11,7 @@
                 {{ aoiEdition?.area | squareKm | formatNumber}}  km²
             </div>
             <div class="message" *ngIf="aoiEdition?.area === 0">
-                {{ aoiEdition?.areaMessage}}
+                {{ aoiEdition?.areaMessage | translate}}
             </div>
         </div>
         <div class="line marged_line">
