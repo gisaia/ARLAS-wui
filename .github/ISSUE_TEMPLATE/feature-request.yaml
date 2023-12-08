@@ -1,6 +1,7 @@
 name: Feature Request
 description: Propose a new feature for ARLAS
 labels: ['type:enhancement', 'type:question']
+assignees: ['MohamedHamouGisaia']
 
 body:
   - type: textarea
