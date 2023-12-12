@@ -1,12 +1,48 @@
 # Change Log
 
+## [v24.3.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-rc.2) (2023-12-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-rc.1...v24.3.0-rc.2)
+
 ## [v24.3.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-rc.1) (2023-12-01)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0...v24.3.0-rc.1)
 
+**New stuff:**
+
+- Config list should be displayed/hidden by configuration [\#714](https://github.com/gisaia/ARLAS-wui/issues/714)
+- Center the map to given lat/long [\#708](https://github.com/gisaia/ARLAS-wui/issues/708)
+- Draw polygon: move back to the previous icon [\#679](https://github.com/gisaia/ARLAS-wui/issues/679)
+- In the grid view, the circles are partially hidden [\#675](https://github.com/gisaia/ARLAS-wui/issues/675)
+- Generate the AOI from the coordinates in decimal or sexagesimal degrees [\#668](https://github.com/gisaia/ARLAS-wui/issues/668)
+- Add the possibility to switch to different apps of ARLAS by configuration [\#667](https://github.com/gisaia/ARLAS-wui/issues/667)
+- Move authentication buttons to top menu [\#666](https://github.com/gisaia/ARLAS-wui/issues/666)
+- Display bbox/polygons area and width/height [\#661](https://github.com/gisaia/ARLAS-wui/issues/661)
+- Generate a form base on geoprocess \_descibe input [\#659](https://github.com/gisaia/ARLAS-wui/issues/659)
+- Integrate bookmarks + download + tagger +  tour in a menu. [\#635](https://github.com/gisaia/ARLAS-wui/issues/635)
+- Open shortcut above timeline [\#615](https://github.com/gisaia/ARLAS-wui/issues/615)
+- Integrate timeline collection legend into the chart  [\#614](https://github.com/gisaia/ARLAS-wui/issues/614)
+- Move map attribution on the top right of the map [\#612](https://github.com/gisaia/ARLAS-wui/issues/612)
+- Move analytics tabs in left menu [\#611](https://github.com/gisaia/ARLAS-wui/issues/611)
+- Integrate search bar in top menu [\#610](https://github.com/gisaia/ARLAS-wui/issues/610)
+- Add a bar of shortcuts to apply filter on data [\#606](https://github.com/gisaia/ARLAS-wui/issues/606)
+- User informations Panel: layout is too spread out [\#564](https://github.com/gisaia/ARLAS-wui/issues/564)
+- Add a button hide/display the timeline [\#542](https://github.com/gisaia/ARLAS-wui/issues/542)
+
 **Fixed bugs:**
 
+- Initial coordinates of Bbox generator are inverted [\#712](https://github.com/gisaia/ARLAS-wui/issues/712)
+- Handle the absence of map attributions [\#711](https://github.com/gisaia/ARLAS-wui/issues/711)
+- View quicklook in fullscreen does not work [\#709](https://github.com/gisaia/ARLAS-wui/issues/709)
+- The default basemap is not taken into account [\#704](https://github.com/gisaia/ARLAS-wui/issues/704)
+- The map actions buttons are incorrectly displayed in case of absence of attributions [\#702](https://github.com/gisaia/ARLAS-wui/issues/702)
+- Selecting quicklooks doesn't clear the previously selected one [\#701](https://github.com/gisaia/ARLAS-wui/issues/701)
 - The selected features on the list are not reset if the filters change [\#700](https://github.com/gisaia/ARLAS-wui/issues/700)
+- Replay tutorial button shouldn't be displayed when no dashboard is explored [\#693](https://github.com/gisaia/ARLAS-wui/issues/693)
+- Incorrect tooltip on the login icon [\#691](https://github.com/gisaia/ARLAS-wui/issues/691)
+- Tooltip placement [\#689](https://github.com/gisaia/ARLAS-wui/issues/689)
+- ARLAS Version does not show up any more on the \(i\) [\#681](https://github.com/gisaia/ARLAS-wui/issues/681)
+- ARLAS WUI is not telling me to reconnect when session is over [\#680](https://github.com/gisaia/ARLAS-wui/issues/680)
 
 ## [v24.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0) (2023-11-30)
 
