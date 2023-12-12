@@ -37,5 +37,7 @@
 	"reduce": "reduce",
 	"expand": "expand",
 	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
-	"Remove visualisation": "Remove visualisation"
+	"Remove visualisation": "Remove visualisation",
+	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
+	"Draw at least 2 points.": "Draw at least 2 points."
 }
