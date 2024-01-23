@@ -1,233 +1,11 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Latest products:1677155839933",
+      "id": "arlas_id:Gathered birds positions:1663327558098",
       "type": "fill",
-      "source": "feature-_geometry_wkt-window-demo_eo",
+      "source": "cluster-track.location-Finest-geohash-cell-demo_birdtracking-movebank",
       "minzoom": 0,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0,
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform"
-          ],
-          "SENTINEL 2",
-          "#ff61ec",
-          "PLEIADES",
-          "#ec4040",
-          "SPOT 6",
-          "#0087e9",
-          "SPOT 5",
-          "#0041ff",
-          "SPOT 4",
-          "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
-          "TerraSAR-X 1",
-          "#5e5e5e",
-          "ALOS2",
-          "#00c926",
-          "SENTINEL 2A",
-          "#ff0094",
-          "DRONE",
-          "#ffe300",
-          "#9d9ca9"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo",
-        "stroke": {
-          "color": [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform_arlas__color"
-          ],
-          "width": 3,
-          "opacity": 0.7
-        },
-        "is-scrollable-layer": true
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Products:1677155960359",
-      "type": "fill",
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "minzoom": 0,
-      "maxzoom": 22,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0,
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform"
-          ],
-          "SENTINEL 2",
-          "#ff61ec",
-          "PLEIADES",
-          "#ec4040",
-          "SPOT 6",
-          "#0087e9",
-          "SPOT 5",
-          "#0041ff",
-          "SPOT 4",
-          "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
-          "TerraSAR-X 1",
-          "#5e5e5e",
-          "ALOS2",
-          "#00c926",
-          "SENTINEL 2A",
-          "#ff0094",
-          "DRONE",
-          "#ffe300",
-          "#9d9ca9"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo",
-        "stroke": {
-          "color": [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform_arlas__color"
-          ],
-          "width": 0.5,
-          "opacity": 0.5
-        },
-        "is-scrollable-layer": false
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Density of products:1677155972496",
-      "type": "circle",
-      "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
-      "minzoom": 0,
-      "maxzoom": 15,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "circle-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          0,
-          0.2,
-          0.02,
-          0.4,
-          0.04,
-          0.6,
-          0.06000000000000001,
-          0.8,
-          0.08,
-          1,
-          0.1
-        ],
-        "circle-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#fffa83",
-          0.45,
-          "#ffcc26",
-          0.9,
-          "#ff7700",
-          1,
-          "#ff5700"
-        ],
-        "circle-radius": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          5,
-          0.2,
-          14,
-          0.4,
-          23,
-          0.6,
-          32,
-          0.8,
-          41,
-          1,
-          50
-        ],
-        "circle-stroke-width": 2,
-        "circle-stroke-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#fff500",
-          0.8,
-          "#ffa700",
-          1,
-          "#ff5418"
-        ],
-        "circle-stroke-opacity": 1
-      },
-      "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo"
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Product density grid:1677155981981",
-      "type": "fill",
-      "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
-      "minzoom": 0,
-      "maxzoom": 15,
+      "maxzoom": 24,
       "layout": {
         "visibility": "visible"
       },
@@ -242,17 +20,17 @@
             "count_:normalized"
           ],
           0,
-          0,
           0.2,
-          0.04,
+          0.2,
+          0.32000000000000006,
           0.4,
-          0.08,
+          0.44000000000000006,
           0.6,
-          0.12000000000000002,
+          0.56,
           0.8,
-          0.16,
+          0.6800000000000002,
           1,
-          0.2
+          0.8
         ],
         "fill-color": [
           "interpolate",
@@ -264,21 +42,33 @@
             "count_:normalized"
           ],
           0,
-          "#ffffff",
+          "#cee897",
+          0.01,
+          "#9dc95b",
+          0.02,
+          "#4bc71e",
           0.1,
-          "#ffcc26",
-          0.35,
-          "#ff7700",
+          "#1bc473",
+          0.15,
+          "#16ccc9",
+          0.2,
+          "#167bc9",
+          0.25,
+          "#3619cf",
+          0.3,
+          "#9317d1",
+          0.6,
+          "#d11799",
           1,
-          "#ff5700"
+          "#cf1919"
         ]
       },
       "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo",
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank",
         "stroke": {
-          "color": "#ffffff",
-          "width": 2,
+          "color": "#abcdef",
+          "width": 1,
           "opacity": 0
         }
       },
@@ -290,22 +80,16 @@
       ]
     },
     {
-      "id": "arlas_id:Number of products:1677155990578",
-      "type": "symbol",
-      "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
+      "id": "arlas_id:Gathered birds positions circle:1706023503869",
+      "type": "circle",
+      "source": "cluster-track.location-Finest-geohash-cell_center-demo_birdtracking-movebank",
       "minzoom": 0,
-      "maxzoom": 15,
+      "maxzoom": 24,
       "layout": {
-        "visibility": "visible",
-        "text-field": [
-          "get",
-          "count_:_arlas__short_format"
-        ],
-        "text-font": [
-          "Open Sans Bold",
-          "Arial Unicode MS Bold"
-        ],
-        "text-size": [
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": [
           "interpolate",
           [
             "linear"
@@ -315,37 +99,78 @@
             "count_:normalized"
           ],
           0,
-          8,
           0.2,
-          13.2,
+          0.2,
+          0.32000000000000006,
           0.4,
-          18.4,
+          0.44000000000000006,
           0.6,
-          23.6,
+          0.56,
           0.8,
-          28.8,
+          0.6800000000000002,
           1,
-          34
+          1
         ],
-        "text-rotate": 0,
-        "text-allow-overlap": true,
-        "text-anchor": "center",
-        "symbol-placement": "point"
-      },
-      "paint": {
-        "text-color": "#ffffff",
-        "text-opacity": 1,
-        "text-halo-color": "#000",
-        "text-halo-width": 1.3,
-        "text-halo-blur": 2,
-        "text-translate": [
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
           0,
-          0
-        ]
+          "#cee897",
+          0.05,
+          "#9dc95b",
+          0.1,
+          "#4bc71e",
+          0.15,
+          "#1bc473",
+          0.2,
+          "#16ccc9",
+          0.25,
+          "#3619cf",
+          0.3,
+          "#9317d1",
+          0.6,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          ["zoom"],
+          1, 5,
+          5, 8,
+          7, 9,
+          10, 10
+        ],
+        "circle-blur": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 1,
+          0.2, 0.8,
+          0.4, 0.6,
+          0.6, 0.6
+        ],
+        "circle-stroke-width": 0,
+        "circle-stroke-color": "#fff",
+        "circle-stroke-opacity": 0
       },
       "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo"
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank"
       },
       "filter": [
         "all",
@@ -355,10 +180,10 @@
       ]
     },
     {
-      "id": "arlas_id:Heatmap:1689091401394",
+      "id": "arlas_id:Density of birds positions:1624986445203",
       "type": "heatmap",
-      "source": "cluster-_centroid_wkt-Medium-tile-cell_center-demo_eo",
-      "minzoom": 1,
+      "source": "cluster-track.location-Finest-geohash-centroid-demo_birdtracking-movebank",
+      "minzoom": 0,
       "maxzoom": 23,
       "layout": {
         "visibility": "visible"
@@ -388,13 +213,13 @@
           "#3619cf",
           0.3,
           "#9317d1",
-          0.6,
+          0.4,
           "#d11799",
           1,
           "#cf1919"
         ],
-        "heatmap-opacity": 0.3,
-        "heatmap-intensity": 3,
+        "heatmap-opacity": 0.7,
+        "heatmap-intensity": 1.5,
         "heatmap-weight": [
           "interpolate",
           [
@@ -407,21 +232,21 @@
           0,
           0,
           0.2,
-          0.2,
+          20,
           0.4,
-          0.4,
+          40,
           0.6,
-          0.6,
+          60,
           0.8,
-          0.8,
+          80,
           1,
-          1
+          100
         ],
-        "heatmap-radius": 77
+        "heatmap-radius": 12
       },
       "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo"
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank"
       },
       "filter": [
         "all",
@@ -431,106 +256,10 @@
       ]
     },
     {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
+      "source": "cluster-track.location-Finest-geohash-cell-demo_birdtracking-movebank",
+      "id": "arlas-fill_stroke-Gathered birds positions:1663327558098",
       "type": "line",
-      "maxzoom": 22,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.7,
-        "line-width": 15
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
-      "type": "line",
-      "maxzoom": 22,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 12.5
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
-      "type": "line",
-      "maxzoom": 22,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.7,
-        "line-width": 15
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
-      "type": "line",
-      "maxzoom": 22,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 12.5
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-fill_stroke-Latest products:1677155839933",
-      "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 24,
       "filter": [
         "all",
         [
@@ -542,128 +271,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.7,
-        "line-width": 3
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-fill_stroke-Products:1677155960359",
-      "type": "line",
-      "maxzoom": 22,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 0.5
-      }
-    },
-    {
-      "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
-      "id": "arlas-fill_stroke-Product density grid:1677155981981",
-      "type": "line",
-      "maxzoom": 15,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#ffffff",
+        "line-color": "#abcdef",
         "line-opacity": 0,
-        "line-width": 2
-      }
-    },
-    {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "scrollable_arlas_id:Latest products:1677155839933",
-      "type": "fill",
-      "maxzoom": 22,
-      "minzoom": 0,
-      "metadata": {
-        "collection": "demo_eo",
-        "collection-display-name": "demo_eo",
-        "is-scrollable-layer": false
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0,
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform"
-          ],
-          "SENTINEL 2",
-          "#ff61ec",
-          "PLEIADES",
-          "#ec4040",
-          "SPOT 6",
-          "#0087e9",
-          "SPOT 5",
-          "#0041ff",
-          "SPOT 4",
-          "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
-          "TerraSAR-X 1",
-          "#5e5e5e",
-          "ALOS2",
-          "#00c926",
-          "SENTINEL 2A",
-          "#ff0094",
-          "DRONE",
-          "#ffe300",
-          "#9d9ca9"
-        ]
+        "line-width": 1
       }
     }
   ],
-  "external-event-layers": [
-    {
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
-      "on": "hover"
-    },
-    {
-      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
-      "on": "hover"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
-      "on": "select"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
-      "on": "select"
-    }
-  ]
+  "external-event-layers": []
 }
