@@ -150,6 +150,95 @@
             "exponential", 0.5
           ],
           ["zoom"],
+          0, 40,
+          15, 100
+        ],
+        "circle-blur": 1,
+        "circle-stroke-color": "#fff",
+        "circle-stroke-opacity": 0
+      },
+      "metadata": {
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Gathered birds positions circle fine:1706109076450",
+      "type": "circle",
+      "source": "cluster-track.location-Fine-geohash-cell_center-demo_birdtracking-movebank",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "circle-sort-key": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 0,
+          0.2, 2,
+          0.4, 4,
+          0.6, 8
+        ]
+      },
+      "paint": {
+        "circle-opacity": [
+          "interpolate",
+          [
+            "exponential", 0.5
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 0.1,
+          0.5, 0.8,
+          1,1
+        ],
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.05,
+          "#9dc95b",
+          0.1,
+          "#4bc71e",
+          0.15,
+          "#1bc473",
+          0.2,
+          "#16ccc9",
+          0.25,
+          "#3619cf",
+          0.3,
+          "#9317d1",
+          0.6,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-radius": [
+          "interpolate",
+          [
+            "exponential", 0.5
+          ],
+          ["zoom"],
           0, 9,
           4, 15,
           6, 20
@@ -158,6 +247,184 @@
         "circle-stroke-color": "#fff",
         "circle-stroke-opacity": 0
       },
+      "metadata": {
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Gathered birds positions circle med:1706109086719",
+      "type": "circle",
+      "source": "cluster-track.location-Medium-geohash-cell_center-demo_birdtracking-movebank",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "circle-sort-key": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 0,
+          0.2, 2,
+          0.4, 4,
+          0.6, 8
+        ]
+      },
+      "paint":{
+      "circle-opacity":   [
+        "interpolate",
+        [
+          "exponential", 0.5
+        ],
+        [
+          "get",
+          "count_:normalized"
+        ],
+        0, 0.2,
+        0.5, 0.8,
+        1,1
+      ],
+    "circle-color": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0,
+      "#cee897",
+      0.05,
+      "#9dc95b",
+      0.1,
+      "#4bc71e",
+      0.15,
+      "#1bc473",
+      0.2,
+      "#16ccc9",
+      0.25,
+      "#3619cf",
+      0.3,
+      "#9317d1",
+      0.6,
+      "#d11799",
+      1,
+      "#cf1919"
+    ],
+    "circle-radius": [
+      "interpolate",
+      [
+        "exponential", 0.5
+      ],
+      ["zoom"],
+      0, 30,
+      15, 80
+    ],
+    "circle-blur": 1,
+    "circle-stroke-color": "#fff",
+    "circle-stroke-opacity": 0
+    },
+      "metadata": {
+        "collection": "demo_birdtracking-movebank",
+        "collection-display-name": "demo_birdtracking-movebank"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Gathered birds positions circle coarse:1706109107737",
+      "type": "circle",
+      "source": "cluster-track.location-Coarse-geohash-cell_center-demo_birdtracking-movebank",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "circle-sort-key": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 0,
+          0.2, 2,
+          0.4, 4,
+          0.6, 8
+        ]
+      },
+      "paint":{
+      "circle-opacity":  [
+        "interpolate",
+        [
+          "exponential", 0.5
+        ],
+        [
+          "get",
+          "count_:normalized"
+        ],
+        0, 0.1,
+        0.5, 0.8,
+        1,1
+      ],
+    "circle-color": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0,
+      "#cee897",
+      0.05,
+      "#9dc95b",
+      0.1,
+      "#4bc71e",
+      0.15,
+      "#1bc473",
+      0.2,
+      "#16ccc9",
+      0.25,
+      "#3619cf",
+      0.3,
+      "#9317d1",
+      0.6,
+      "#d11799",
+      1,
+      "#cf1919"
+    ],
+    "circle-radius": [
+      "interpolate",
+      [
+        "exponential", 0.5
+      ],
+      ["zoom"],
+      0, 80,
+      15, 100
+    ],
+    "circle-blur": 1,
+    "circle-stroke-color": "#fff",
+    "circle-stroke-opacity": 0
+    },
       "metadata": {
         "collection": "demo_birdtracking-movebank",
         "collection-display-name": "demo_birdtracking-movebank"

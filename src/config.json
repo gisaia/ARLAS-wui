@@ -70,6 +70,93 @@
               "aggregated_geometry": "cell_center"
             },
             {
+              "id": "arlas_id:Gathered birds positions circle fine:1706109076450",
+              "name": "Gathered birds positions circle fine",
+              "source": "cluster-track.location-Fine-geohash-cell_center-demo_birdtracking-movebank",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "track.location",
+              "aggType": "geohash",
+              "granularity": "Fine",
+              "minfeatures": 10000,
+              "aggregated_geometry": "cell_center"
+            },
+            {
+              "id": "arlas_id:Gathered birds positions circle med:1706109086719",
+              "name": "Gathered birds positions circle med",
+              "source": "cluster-track.location-Medium-geohash-cell_center-demo_birdtracking-movebank",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "track.location",
+              "aggType": "geohash",
+              "granularity": "Medium",
+              "minfeatures": 10000,
+              "aggregated_geometry": "cell_center"
+            },
+            {
+              "id": "arlas_id:Gathered birds positions circle coarse:1706109107737",
+              "name": "Gathered birds positions circle coarse",
+              "source": "cluster-track.location-Coarse-geohash-cell_center-demo_birdtracking-movebank",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "track.location",
+              "aggType": "geohash",
+              "granularity": "Coarse",
+              "minfeatures": 10000,
+              "aggregated_geometry": "cell_center"
+            },
+            {
               "id": "arlas_id:Density of birds positions:1624986445203",
               "name": "Density of birds positions",
               "source": "cluster-track.location-Finest-geohash-centroid-demo_birdtracking-movebank",
@@ -903,7 +990,29 @@
               {
                 "name": "distribution circle",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle:1706023503869"
+                  "arlas_id:Gathered birds positions circle:1706023503869",
+                  "arlas_id:Gathered birds positions circle coarse:1706109107737"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Circles coarse",
+                "layers": [
+                  "arlas_id:Gathered birds positions circle coarse:1706109107737"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Circle medium",
+                "layers": [
+                  "arlas_id:Gathered birds positions circle med:1706109086719"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Circle fine",
+                "layers": [
+                  "arlas_id:Gathered birds positions circle fine:1706109076450"
                 ],
                 "enabled": false
               }
@@ -945,7 +1054,7 @@
               }
             },
             "contributorId": "demo_birdtracking-movebank-id-100-Bird Identifier-Timestamp-Altitude (m)-Bird-Segment-Dynamics-",
-            "uuid": "205d966a-10b9-4efa-909f-e00a27757abe",
+            "uuid": "ae70d875-a1ff-4695-b50d-e96c991b1dfd",
             "usage": "analytics"
           }
         ],
@@ -1615,7 +1724,7 @@
                 }
               },
               "contributorId": "demo_birdtracking-movebank-id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
-              "uuid": "812963f2-2232-459e-b3f7-a3088acd1981",
+              "uuid": "5203e888-c8c0-4a16-9be0-cba129055ae4",
               "usage": "analytics"
             }
           ]
