@@ -86,10 +86,8 @@
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "circle-opacity": [
+        "visibility": "visible",
+        "circle-sort-key": [
           "interpolate",
           [
             "linear"
@@ -98,18 +96,25 @@
             "get",
             "count_:normalized"
           ],
-          0,
-          0.2,
-          0.2,
-          0.32000000000000006,
-          0.4,
-          0.44000000000000006,
-          0.6,
-          0.56,
-          0.8,
-          0.6800000000000002,
-          1,
-          1
+          0, 0,
+          0.2, 2,
+          0.4, 4,
+          0.6, 8
+        ]
+      },
+      "paint": {
+        "circle-opacity": [
+          "interpolate",
+          [
+            "exponential", 0.5
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0, 0.1,
+          0.5, 0.8,
+          1,1
         ],
         "circle-color": [
           "interpolate",
@@ -142,29 +147,14 @@
         "circle-radius": [
           "interpolate",
           [
-            "linear"
+            "exponential", 0.5
           ],
           ["zoom"],
-          1, 5,
-          5, 8,
-          7, 9,
-          10, 10
+          0, 9,
+          4, 15,
+          6, 20
         ],
-        "circle-blur": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0, 1,
-          0.2, 0.8,
-          0.4, 0.6,
-          0.6, 0.6
-        ],
-        "circle-stroke-width": 0,
+        "circle-blur": 1,
         "circle-stroke-color": "#fff",
         "circle-stroke-opacity": 0
       },
