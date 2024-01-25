@@ -990,8 +990,7 @@
               {
                 "name": "distribution circle",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle:1706023503869",
-                  "arlas_id:Gathered birds positions circle coarse:1706109107737"
+                  "arlas_id:Gathered birds positions circle:1706023503869"
                 ],
                 "enabled": false
               },

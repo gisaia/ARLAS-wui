@@ -597,6 +597,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
+    this.mapglComponent.onMove.subscribe(m => console.error(m.zoom));
     if (!this.arlasStartUpService.emptyMode) {
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();
