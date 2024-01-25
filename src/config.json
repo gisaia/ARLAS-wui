@@ -123,7 +123,7 @@
               ],
               "agg_geo_field": "track.location",
               "aggType": "geohash",
-              "granularity": "Medium",
+              "granularity": "Fine",
               "minfeatures": 10000,
               "aggregated_geometry": "cell_center"
             },
