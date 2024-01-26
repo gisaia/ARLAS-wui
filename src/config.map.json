@@ -106,7 +106,7 @@
         "circle-opacity": [
           "interpolate",
           [
-            "exponential", 0.5
+            "linear"
           ],
           [
             "get",
@@ -147,7 +147,7 @@
         "circle-radius": [
           "interpolate",
           [
-            "exponential", 0.5
+            "linear"
           ],
           ["zoom"],
           0, 9,
@@ -208,7 +208,7 @@
         "circle-opacity": [
           "interpolate",
           [
-            "exponential", 0.5
+            "linear"
           ],
           [
             "get",
@@ -307,7 +307,7 @@
       "circle-opacity":   [
         "interpolate",
         [
-          "exponential", 0.5
+          "linear"
         ],
         [
           "get",
@@ -405,13 +405,13 @@
       "circle-opacity":  [
         "interpolate",
         [
-          "exponential", 0.5
+          "linear"
         ],
         [
           "get",
           "count_:normalized"
         ],
-        0, 0.1,
+        0, 0.25,
         0.5, 0.8,
         1,1
       ],
@@ -449,15 +449,15 @@
         "linear"
       ],
       ["zoom"],
-      0, 80,
-      4, 200,
-      4.1, 90,
-      6, 200,
-      7, 250,
-      7.1, 150,
-      8, 250,
-      9, 300,
-      10, 350,
+      0, 30,
+      4, 80,
+      4.1, 50,
+      6, 150,
+      7, 200,
+      7.1, 120,
+      8, 180,
+      9, 220,
+      10, 300,
       10.1, 100,
       13, 400,
       13.1, 160,
