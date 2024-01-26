@@ -1,9 +1,9 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Gathered birds positions:1663327558098",
+      "id": "arlas_id:Grid:1679406178146",
       "type": "fill",
-      "source": "cluster-track.location-Finest-geohash-cell-demo_birdtracking-movebank",
+      "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell-demo_ais_flow",
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {
@@ -20,15 +20,15 @@
             "count_:normalized"
           ],
           0,
+          0.1,
           0.2,
-          0.2,
-          0.32000000000000006,
+          0.24000000000000002,
           0.4,
-          0.44000000000000006,
+          0.38,
           0.6,
-          0.56,
+          0.52,
           0.8,
-          0.6800000000000002,
+          0.66,
           1,
           0.8
         ],
@@ -43,29 +43,29 @@
           ],
           0,
           "#cee897",
-          0.01,
+          0.05,
           "#9dc95b",
-          0.02,
-          "#4bc71e",
           0.1,
-          "#1bc473",
+          "#4bc71e",
           0.15,
-          "#16ccc9",
+          "#1bc473",
           0.2,
-          "#167bc9",
+          "#16ccc9",
           0.25,
+          "#167bc9",
+          0.35,
           "#3619cf",
-          0.3,
+          0.55,
           "#9317d1",
-          0.6,
+          0.75,
           "#d11799",
           1,
           "#cf1919"
         ]
       },
       "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank",
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
         "stroke": {
           "color": "#abcdef",
           "width": 1,
@@ -80,9 +80,9 @@
       ]
     },
     {
-      "id": "arlas_id:Gathered birds positions circle:1706023503869",
+      "id": "arlas_id:heatmap-circle-finest:1706285438495",
       "type": "circle",
-      "source": "cluster-track.location-Finest-geohash-cell_center-demo_birdtracking-movebank",
+      "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {
@@ -113,8 +113,7 @@
             "count_:normalized"
           ],
           0, 0.2,
-          0.5, 0.8,
-          1,1
+          1,0.5
         ],
         "circle-color": [
           "interpolate",
@@ -127,52 +126,53 @@
           ],
           0,
           "#cee897",
-          0.05,
-          "#9dc95b",
           0.1,
-          "#4bc71e",
+          "#9dc95b",
           0.15,
-          "#1bc473",
+          "#4bc71e",
           0.2,
-          "#16ccc9",
+          "#1bc473",
           0.25,
+          "#16ccc9",
+          0.35,
           "#3619cf",
-          0.3,
+          0.55,
           "#9317d1",
-          0.6,
+          0.75,
           "#d11799",
           1,
           "#cf1919"
         ],
         "circle-radius": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          ["zoom"],
+      "interpolate",
+      [
+        "linear"
+      ],
+      ["zoom"],
           0, 9,
-          2.999, 25,
+          2.9999999999999, 25,
           3, 9,
-          4.999, 20,
-          5, 9,
-          7.999, 20,
-          8, 15,
-          10.999, 40,
-          11, 20,
-          13.999, 50,
-          14, 20,
-          16.999, 60,
-          17, 20,
-          19.999, 40,
-          20, 20
-        ],
+          4.9999999999999, 12,
+          5, 4,
+          7.9999999999999, 20,
+          8, 10,
+          10.9999999999999, 25,
+          11, 60,
+          13.9999999999999, 200,
+          14, 200,
+          16.9999999999999, 1000,
+          17, 1000,
+          19.9999999999999, 1500,
+          20, 2000
+    ],
         "circle-blur": 1,
+        "circle-stroke-width": 0,
         "circle-stroke-color": "#fff",
         "circle-stroke-opacity": 0
       },
       "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank"
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
       },
       "filter": [
         "all",
@@ -182,9 +182,9 @@
       ]
     },
     {
-      "id": "arlas_id:Gathered birds positions circle fine:1706109076450",
+      "id": "arlas_id:heatmap-circle-fine:1706285714366",
       "type": "circle",
-      "source": "cluster-track.location-Fine-geohash-cell_center-demo_birdtracking-movebank",
+      "source": "cluster-track.trail_geohashes_6-Fine-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {
@@ -205,7 +205,7 @@
         ]
       },
       "paint": {
-        "circle-opacity": [
+        "circle-opacity":[
           "interpolate",
           [
             "linear"
@@ -214,9 +214,8 @@
             "get",
             "count_:normalized"
           ],
-          0, 0.1,
-          0.5, 0.8,
-          1,1
+          0, 0.2,
+          1,0.4
         ],
         "circle-color": [
           "interpolate",
@@ -229,19 +228,19 @@
           ],
           0,
           "#cee897",
-          0.05,
+          0.125,
           "#9dc95b",
-          0.1,
-          "#4bc71e",
-          0.15,
-          "#1bc473",
-          0.2,
-          "#16ccc9",
           0.25,
-          "#3619cf",
+          "#4bc71e",
           0.3,
+          "#1bc473",
+          0.35,
+          "#16ccc9",
+          0.4,
+          "#3619cf",
+          0.55,
           "#9317d1",
-          0.6,
+          0.8,
           "#d11799",
           1,
           "#cf1919"
@@ -266,12 +265,13 @@
           17, 50
         ],
         "circle-blur": 1,
+        "circle-stroke-width": 0,
         "circle-stroke-color": "#fff",
         "circle-stroke-opacity": 0
       },
       "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank"
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
       },
       "filter": [
         "all",
@@ -281,9 +281,9 @@
       ]
     },
     {
-      "id": "arlas_id:Gathered birds positions circle med:1706109086719",
+      "id": "arlas_id:heatmap-circle-med:1706285724828",
       "type": "circle",
-      "source": "cluster-track.location-Medium-geohash-cell_center-demo_birdtracking-movebank",
+      "source": "cluster-track.trail_geohashes_6-Medium-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {
@@ -303,90 +303,8 @@
           0.6, 8
         ]
       },
-      "paint":{
-      "circle-opacity":   [
-        "interpolate",
-        [
-          "linear"
-        ],
-        [
-          "get",
-          "count_:normalized"
-        ],
-        0, 0.2,
-        0.5, 0.8,
-        1,1
-      ],
-    "circle-color": [
-      "interpolate",
-      [
-        "linear"
-      ],
-      [
-        "get",
-        "count_:normalized"
-      ],
-      0,
-      "#cee897",
-      0.05,
-      "#9dc95b",
-      0.1,
-      "#4bc71e",
-      0.15,
-      "#1bc473",
-      0.2,
-      "#16ccc9",
-      0.25,
-      "#3619cf",
-      0.3,
-      "#9317d1",
-      0.6,
-      "#d11799",
-      1,
-      "#cf1919"
-    ],
-    "circle-radius": [
-      "interpolate",
-      [
-        "linear"
-      ],
-      ["zoom"],
-      0, 50,
-      2.999, 110,
-      3, 30,
-      5.999, 140,
-      6, 40,
-      8.999, 200,
-      9, 50,
-      11.999, 300,
-      12, 100,
-      14.999, 300,
-      15, 350
-    ],
-    "circle-blur": 1,
-    "circle-stroke-color": "#fff",
-    "circle-stroke-opacity": 0
-    },
-      "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank"
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Gathered birds positions circle coarse:1706109107737",
-      "type": "circle",
-      "source": "cluster-track.location-Coarse-geohash-cell_center-demo_birdtracking-movebank",
-      "minzoom": 0,
-      "maxzoom": 24,
-      "layout": {
-        "visibility": "visible",
-        "circle-sort-key": [
+      "paint": {
+        "circle-opacity":  [
           "interpolate",
           [
             "linear"
@@ -395,81 +313,64 @@
             "get",
             "count_:normalized"
           ],
-          0, 0,
-          0.2, 2,
-          0.4, 4,
-          0.6, 8
-        ]
+          0, 0.2,
+          0.5, 0.5,
+          1,0.8
+        ],
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.125,
+          "#9dc95b",
+          0.25,
+          "#4bc71e",
+          0.3,
+          "#1bc473",
+          0.35,
+          "#16ccc9",
+          0.4,
+          "#3619cf",
+          0.55,
+          "#9317d1",
+          0.8,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          ["zoom"],
+          0, 50,
+          2.999, 110,
+          3, 30,
+          5.999, 140,
+          6, 40,
+          8.999, 200,
+          9, 50,
+          11.999, 300,
+          12, 100,
+          14.999, 300,
+          15, 350
+        ],
+        "circle-blur": 1,
+        "circle-stroke-width": 0,
+        "circle-stroke-color": "#fff",
+        "circle-stroke-opacity": 0
       },
-      "paint":{
-      "circle-opacity":  [
-        "interpolate",
-        [
-          "linear"
-        ],
-        [
-          "get",
-          "count_:normalized"
-        ],
-        0, 0.25,
-        0.5, 0.8,
-        1,1
-      ],
-    "circle-color": [
-      "interpolate",
-      [
-        "linear"
-      ],
-      [
-        "get",
-        "count_:normalized"
-      ],
-      0,
-      "#cee897",
-      0.05,
-      "#9dc95b",
-      0.1,
-      "#4bc71e",
-      0.15,
-      "#1bc473",
-      0.2,
-      "#16ccc9",
-      0.25,
-      "#3619cf",
-      0.3,
-      "#9317d1",
-      0.6,
-      "#d11799",
-      1,
-      "#cf1919"
-    ],
-    "circle-radius": [
-      "interpolate",
-      [
-        "linear"
-      ],
-      ["zoom"],
-      0, 30,
-      4, 80,
-      4.1, 50,
-      6, 150,
-      7, 200,
-      7.1, 120,
-      8, 180,
-      9, 220,
-      10, 300,
-      10.1, 100,
-      13, 400,
-      13.1, 160,
-      14, 300
-    ],
-    "circle-blur": 1,
-    "circle-stroke-color": "#fff",
-    "circle-stroke-opacity": 0
-    },
       "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank"
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
       },
       "filter": [
         "all",
@@ -479,11 +380,87 @@
       ]
     },
     {
-      "id": "arlas_id:Density of birds positions:1624986445203",
+      "id": "arlas_id:heatmap-circle-coarse:1706285731760",
+      "type": "circle",
+      "source": "cluster-track.trail_geohashes_6-Coarse-geohash-cell_center-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0.1,
+          0.2,
+          0.24000000000000002,
+          0.4,
+          0.38,
+          0.6,
+          0.52,
+          0.8,
+          0.66,
+          1,
+          0.8
+        ],
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.125,
+          "#9dc95b",
+          0.25,
+          "#4bc71e",
+          0.3,
+          "#1bc473",
+          0.35,
+          "#16ccc9",
+          0.4,
+          "#3619cf",
+          0.55,
+          "#9317d1",
+          0.8,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-radius": 1.5,
+        "circle-stroke-width": 0,
+        "circle-stroke-color": "#fff",
+        "circle-stroke-opacity": 0
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Heatmap:1616401381400",
       "type": "heatmap",
-      "source": "cluster-track.location-Finest-geohash-centroid-demo_birdtracking-movebank",
+      "source": "cluster-track.trail_geohashes_6-Finest-geohash-centroid-demo_ais_flow",
       "minzoom": 0,
-      "maxzoom": 23,
+      "maxzoom": 22,
       "layout": {
         "visibility": "visible"
       },
@@ -496,28 +473,31 @@
           [
             "heatmap-density"
           ],
-          0, "rgba(0, 0, 0, 0)",
-          1e-12, "#cee897",
-          0.05, "#9dc95b",
-          0.1, "#4bc71e",
-          0.15, "#1bc473",
-          0.2, "#16ccc9",
-          0.25, "#3619cf",
-          0.3, "#9317d1",
-          0.9, "#d11799",
-          1, "#cf1919"
+          0,
+          "rgba(0, 0, 0, 0)",
+          1e-12,
+          "#cee897",
+          0.05,
+          "#9dc95b",
+          0.1,
+          "#4bc71e",
+          0.15,
+          "#1bc473",
+          0.2,
+          "#16ccc9",
+          0.25,
+          "#2673cc",
+          0.35,
+          "#3619cf",
+          0.5,
+          "#9317d1",
+          0.7,
+          "#d11799",
+          1,
+          "#cf1919"
         ],
-        "heatmap-opacity": 0.7,
-        "heatmap-intensity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          ["zoom"
-          ],
-          0, 1,
-          10, 5
-        ],
+        "heatmap-opacity": 0.5,
+        "heatmap-intensity": 3,
         "heatmap-weight": [
           "interpolate",
           [
@@ -527,17 +507,24 @@
             "get",
             "count_:normalized"
           ],
-          0, 0,
-          0.1, 1,
-          0.2, 1,
-          0.5, 2,
-          0.9, 10
+          0,
+          0,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          1,
+          1
         ],
-        "heatmap-radius": 12
+        "heatmap-radius": 20
       },
       "metadata": {
-        "collection": "demo_birdtracking-movebank",
-        "collection-display-name": "demo_birdtracking-movebank"
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
       },
       "filter": [
         "all",
@@ -547,8 +534,1520 @@
       ]
     },
     {
-      "source": "cluster-track.location-Finest-geohash-cell-demo_birdtracking-movebank",
-      "id": "arlas-fill_stroke-Gathered birds positions:1663327558098",
+      "id": "arlas_id:Gathered departures:1625039098185",
+      "type": "circle",
+      "source": "cluster-course.departure.location-Fine-geohash-centroid-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": 0.8,
+        "circle-color": "#007c3c",
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          1,
+          0.2,
+          2.8,
+          0.4,
+          4.6,
+          0.6,
+          6.4,
+          0.8,
+          8.2,
+          1,
+          10
+        ],
+        "circle-stroke-width": 0.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Gathered arrivals:1625039122134",
+      "type": "circle",
+      "source": "cluster-course.arrival.location-Fine-geohash-centroid-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": 0.8,
+        "circle-color": "#e55e39",
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          1,
+          0.2,
+          2.8,
+          0.4,
+          4.6,
+          0.6,
+          6.4,
+          0.8,
+          8.2,
+          1,
+          10
+        ],
+        "circle-stroke-width": 0.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Trail (Ship type):1624974756322",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "object_ship_type_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          1,
+          0.2,
+          1.5,
+          0.4,
+          2,
+          0.6,
+          2.5,
+          0.8,
+          3,
+          1,
+          3.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Trail (Speed):1620285147150",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          0.2,
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.6,
+          0.49999999999999994,
+          0.8,
+          0.6,
+          1,
+          0.7
+        ],
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_dynamics_sensor_speed_nd"
+          ],
+          0,
+          "#53d9e8",
+          2.5,
+          "#29AFFB",
+          3.75,
+          "#2874FA",
+          7.5,
+          "#3b69fa",
+          12.5,
+          "#eb79fc",
+          25,
+          "#ef586c"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          1,
+          0.2,
+          1.5,
+          0.4,
+          2,
+          0.6,
+          2.5,
+          0.8,
+          3,
+          1,
+          3.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Trail (courses):1616401743276",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "course_id_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          1,
+          0.2,
+          1.5,
+          0.4,
+          2,
+          0.6,
+          2.5,
+          0.8,
+          3,
+          1,
+          3.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Courses departure stops:1616401381557",
+      "type": "circle",
+      "source": "feature-course.departure.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#007c3c",
+        "circle-radius": 4,
+        "circle-stroke-width": 0.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Courses arrival stops:1616401381574",
+      "type": "circle",
+      "source": "feature-course.arrival.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#e55e39",
+        "circle-radius": 4,
+        "circle-stroke-width": 0.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Trail (visibility):1616401756565",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_visibility_proportion:normalized"
+          ],
+          0,
+          "#cf1919",
+          0.125,
+          "#d11799",
+          0.25,
+          "#9317d1",
+          0.375,
+          "#3619cf",
+          0.5,
+          "#16ccc9",
+          0.625,
+          "#1bc473",
+          0.75,
+          "#4bc71e",
+          0.875,
+          "#9dc95b",
+          1,
+          "#cee897"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          1,
+          0.2,
+          1.5,
+          0.4,
+          2,
+          0.6,
+          2.5,
+          0.8,
+          3,
+          1,
+          3.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:Light heatmap:1616402502274",
+      "type": "heatmap",
+      "source": "cluster-track.location-Finest-geohash-centroid-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "heatmap-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "heatmap-density"
+          ],
+          0,
+          "rgba(0, 0, 0, 0)",
+          1e-12,
+          "#ace2e8",
+          0.05,
+          "#79bfe6",
+          0.2,
+          "#81a8ec",
+          0.35,
+          "#f1b3fa",
+          1,
+          "#eea3ad"
+        ],
+        "heatmap-opacity": 0.7,
+        "heatmap-intensity": 3,
+        "heatmap-weight": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          1,
+          1
+        ],
+        "heatmap-radius": 20
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow"
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas_id:GPS:1624973286083",
+      "type": "circle",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-opacity": 1,
+        "circle-color": "#d41f65",
+        "circle-radius": 2,
+        "circle-stroke-width": 0.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (Ship type):1624974756322",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "object_ship_type_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (Speed):1620285147150",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          0.2,
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.6,
+          0.49999999999999994,
+          0.8,
+          0.6,
+          1,
+          0.7
+        ],
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_dynamics_sensor_speed_nd"
+          ],
+          0,
+          "#53d9e8",
+          2.5,
+          "#29AFFB",
+          3.75,
+          "#2874FA",
+          7.5,
+          "#3b69fa",
+          12.5,
+          "#eb79fc",
+          25,
+          "#ef586c"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (courses):1616401743276",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "course_id_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Courses departure stops:1616401381557",
+      "type": "circle",
+      "source": "feature-course.departure.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#007c3c",
+        "circle-radius": 4,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Courses arrival stops:1616401381574",
+      "type": "circle",
+      "source": "feature-course.arrival.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#e55e39",
+        "circle-radius": 4,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (visibility):1616401756565",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_visibility_proportion:normalized"
+          ],
+          0,
+          "#cf1919",
+          0.125,
+          "#d11799",
+          0.25,
+          "#9317d1",
+          0.375,
+          "#3619cf",
+          0.5,
+          "#16ccc9",
+          0.625,
+          "#1bc473",
+          0.75,
+          "#4bc71e",
+          0.875,
+          "#9dc95b",
+          1,
+          "#cee897"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:GPS:1624973286083",
+      "type": "circle",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 1,
+        "circle-color": "#d41f65",
+        "circle-radius": 2,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (Ship type):1624974756322",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "object_ship_type_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (Speed):1620285147150",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          0.2,
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.6,
+          0.49999999999999994,
+          0.8,
+          0.6,
+          1,
+          0.7
+        ],
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_dynamics_sensor_speed_nd"
+          ],
+          0,
+          "#53d9e8",
+          2.5,
+          "#29AFFB",
+          3.75,
+          "#2874FA",
+          7.5,
+          "#3b69fa",
+          12.5,
+          "#eb79fc",
+          25,
+          "#ef586c"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_dynamics_sensor_speed_nd"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (courses):1616401743276",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "get",
+          "course_id_arlas__color"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Courses departure stops:1616401381557",
+      "type": "circle",
+      "source": "feature-course.departure.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#007c3c",
+        "circle-radius": 4,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Courses arrival stops:1616401381574",
+      "type": "circle",
+      "source": "feature-course.arrival.location-wide-demo_ais_flow",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 0.7,
+        "circle-color": "#e55e39",
+        "circle-radius": 4,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (visibility):1616401756565",
+      "type": "line",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_visibility_proportion:normalized"
+          ],
+          0,
+          "#cf1919",
+          0.125,
+          "#d11799",
+          0.25,
+          "#9317d1",
+          0.375,
+          "#3619cf",
+          0.5,
+          "#16ccc9",
+          0.625,
+          "#1bc473",
+          0.75,
+          "#4bc71e",
+          0.875,
+          "#9dc95b",
+          1,
+          "#cee897"
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "track_timestamps_center:normalized:course_id"
+          ],
+          0,
+          13,
+          0.2,
+          13.5,
+          0.4,
+          14,
+          0.6,
+          14.5,
+          0.8,
+          15,
+          1,
+          15.5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all",
+          [
+            "<",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_visibility_proportion:normalized"
+            ],
+            -1.7976931348623157e+308
+          ],
+          [
+            "<",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            1.7976931348623157e+308
+          ],
+          [
+            ">",
+            [
+              "get",
+              "track_timestamps_center:normalized:course_id"
+            ],
+            -1.7976931348623157e+308
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "arlas-hover-arlas_id:GPS:1624973286083",
+      "type": "circle",
+      "source": "feature-track.trail-wide-demo_ais_flow",
+      "minzoom": 1,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-opacity": 1,
+        "circle-color": "#d41f65",
+        "circle-radius": 2,
+        "circle-stroke-width": 12.5,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 1
+      },
+      "metadata": {
+        "collection": "demo_ais_flow",
+        "collection-display-name": "demo_ais_flow",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell-demo_ais_flow",
+      "id": "arlas-fill_stroke-Grid:1679406178146",
       "type": "line",
       "maxzoom": 24,
       "filter": [
@@ -568,5 +2067,62 @@
       }
     }
   ],
-  "external-event-layers": []
+  "external-event-layers": [
+    {
+      "id": "arlas-hover-arlas_id:Trail (Ship type):1624974756322",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (Speed):1620285147150",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (courses):1616401743276",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:Courses departure stops:1616401381557",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:Courses arrival stops:1616401381574",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:Trail (visibility):1616401756565",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-hover-arlas_id:GPS:1624973286083",
+      "on": "hover"
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (Ship type):1624974756322",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (Speed):1620285147150",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (courses):1616401743276",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:Courses departure stops:1616401381557",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:Courses arrival stops:1616401381574",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:Trail (visibility):1616401756565",
+      "on": "select"
+    },
+    {
+      "id": "arlas-select-arlas_id:GPS:1624973286083",
+      "on": "select"
+    }
+  ]
 }

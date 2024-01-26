@@ -4,17 +4,17 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "demo_birdtracking-movebank",
-          "name": "Map demo_birdtracking-movebank",
-          "collection": "demo_birdtracking-movebank",
+          "identifier": "demo_ais_flow",
+          "name": "Map demo_ais_flow",
+          "collection": "demo_ais_flow",
           "geo_query_op": "Intersects",
           "geo_query_field": "track.trail",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Gathered birds positions:1663327558098",
-              "name": "Gathered birds positions",
-              "source": "cluster-track.location-Finest-geohash-cell-demo_birdtracking-movebank",
+              "id": "arlas_id:Grid:1679406178146",
+              "name": "Grid",
+              "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell-demo_ais_flow",
               "minzoom": 0,
               "maxzoom": 24,
               "include_fields": [],
@@ -34,16 +34,16 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Finest",
               "minfeatures": 10000,
               "aggregated_geometry": "cell"
             },
             {
-              "id": "arlas_id:Gathered birds positions circle:1706023503869",
-              "name": "Gathered birds positions circle",
-              "source": "cluster-track.location-Finest-geohash-cell_center-demo_birdtracking-movebank",
+              "id": "arlas_id:heatmap-circle-finest:1706285438495",
+              "name": "heatmap-circle-finest",
+              "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell_center-demo_ais_flow",
               "minzoom": 0,
               "maxzoom": 24,
               "include_fields": [],
@@ -63,16 +63,16 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Finest",
-              "minfeatures": 10000,
+              "minfeatures": 100,
               "aggregated_geometry": "cell_center"
             },
             {
-              "id": "arlas_id:Gathered birds positions circle fine:1706109076450",
-              "name": "Gathered birds positions circle fine",
-              "source": "cluster-track.location-Fine-geohash-cell_center-demo_birdtracking-movebank",
+              "id": "arlas_id:heatmap-circle-fine:1706285714366",
+              "name": "heatmap-circle-fine",
+              "source": "cluster-track.trail_geohashes_6-Fine-geohash-cell_center-demo_ais_flow",
               "minzoom": 0,
               "maxzoom": 24,
               "include_fields": [],
@@ -92,16 +92,16 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Fine",
-              "minfeatures": 10000,
+              "minfeatures": 400,
               "aggregated_geometry": "cell_center"
             },
             {
-              "id": "arlas_id:Gathered birds positions circle med:1706109086719",
-              "name": "Gathered birds positions circle med",
-              "source": "cluster-track.location-Medium-geohash-cell_center-demo_birdtracking-movebank",
+              "id": "arlas_id:heatmap-circle-med:1706285724828",
+              "name": "heatmap-circle-med",
+              "source": "cluster-track.trail_geohashes_6-Medium-geohash-cell_center-demo_ais_flow",
               "minzoom": 0,
               "maxzoom": 24,
               "include_fields": [],
@@ -121,16 +121,16 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Medium",
-              "minfeatures": 10000,
+              "minfeatures": 200,
               "aggregated_geometry": "cell_center"
             },
             {
-              "id": "arlas_id:Gathered birds positions circle coarse:1706109107737",
-              "name": "Gathered birds positions circle coarse",
-              "source": "cluster-track.location-Coarse-geohash-cell_center-demo_birdtracking-movebank",
+              "id": "arlas_id:heatmap-circle-coarse:1706285731760",
+              "name": "heatmap-circle-coarse",
+              "source": "cluster-track.trail_geohashes_6-Coarse-geohash-cell_center-demo_ais_flow",
               "minzoom": 0,
               "maxzoom": 24,
               "include_fields": [],
@@ -150,18 +150,18 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Coarse",
-              "minfeatures": 10000,
+              "minfeatures": 300,
               "aggregated_geometry": "cell_center"
             },
             {
-              "id": "arlas_id:Density of birds positions:1624986445203",
-              "name": "Density of birds positions",
-              "source": "cluster-track.location-Finest-geohash-centroid-demo_birdtracking-movebank",
+              "id": "arlas_id:Heatmap:1616401381400",
+              "name": "Heatmap",
+              "source": "cluster-track.trail_geohashes_6-Finest-geohash-centroid-demo_ais_flow",
               "minzoom": 0,
-              "maxzoom": 23,
+              "maxzoom": 22,
               "include_fields": [],
               "short_form_fields": [],
               "colors_from_fields": [],
@@ -174,28 +174,245 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
+              "agg_geo_field": "track.trail_geohashes_6",
               "aggType": "geohash",
               "granularity": "Finest",
               "minfeatures": 10000,
               "aggregated_geometry": "centroid"
+            },
+            {
+              "id": "arlas_id:Gathered departures:1625039098185",
+              "name": "Gathered departures",
+              "source": "cluster-course.departure.location-Fine-geohash-centroid-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "course.departure.location",
+              "aggType": "geohash",
+              "granularity": "Fine",
+              "minfeatures": 10000,
+              "aggregated_geometry": "centroid"
+            },
+            {
+              "id": "arlas_id:Gathered arrivals:1625039122134",
+              "name": "Gathered arrivals",
+              "source": "cluster-course.arrival.location-Fine-geohash-centroid-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "course.arrival.location",
+              "aggType": "geohash",
+              "granularity": "Fine",
+              "minfeatures": 10000,
+              "aggregated_geometry": "centroid"
+            },
+            {
+              "id": "arlas_id:Trail (Ship type):1624974756322",
+              "name": "Trail (Ship type)",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "object.ship_type"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Trail (Speed):1620285147150",
+              "name": "Trail (Speed)",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [
+                "track.dynamics.sensor.speed_nd"
+              ],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                },
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Trail (courses):1616401743276",
+              "name": "Trail (courses)",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "course.id"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Courses departure stops:1616401381557",
+              "name": "Courses departure stops",
+              "source": "feature-course.departure.location-wide-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "course.departure.location",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Courses arrival stops:1616401381574",
+              "name": "Courses arrival stops",
+              "source": "feature-course.arrival.location-wide-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "course.arrival.location",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Trail (visibility):1616401756565",
+              "name": "Trail (visibility)",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 1,
+              "maxzoom": 22,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.visibility.proportion"
+                },
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Light heatmap:1616402502274",
+              "name": "Light heatmap",
+              "source": "cluster-track.location-Finest-geohash-centroid-demo_ais_flow",
+              "minzoom": 1,
+              "maxzoom": 22,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "track.location",
+              "aggType": "geohash",
+              "granularity": "Finest",
+              "minfeatures": 5000,
+              "aggregated_geometry": "centroid"
+            },
+            {
+              "id": "arlas_id:GPS:1624973286083",
+              "name": "GPS",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 1,
+              "maxzoom": 22,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
             }
           ]
         },
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
-          "collection": "demo_birdtracking-movebank",
+          "collection": "demo_ais_flow",
           "search_field": "internal.fulltext",
-          "name": "Search a bird",
+          "name": "Search a MMSI",
           "icon": "search",
-          "autocomplete_field": "internal.autocomplete",
-          "autocomplete_size": 20
+          "autocomplete_field": "object.id",
+          "autocomplete_size": 3
         },
         {
           "type": "histogram",
           "identifier": "timeline",
-          "collection": "demo_birdtracking-movebank",
+          "collection": "demo_ais_flow",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -209,141 +426,9 @@
           ]
         },
         {
-          "identifier": "demo_birdtracking-movebank-id-100-Bird Identifier-Timestamp-Altitude (m)-Bird-Segment-Dynamics-",
-          "name": "Bird tracks",
-          "title": "Bird tracks",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "table_chart",
-          "type": "resultlist",
-          "search_size": 100,
-          "fieldsConfiguration": {
-            "idFieldName": "id",
-            "titleFieldNames": [
-              {
-                "fieldPath": "",
-                "process": ""
-              }
-            ],
-            "tooltipFieldNames": [
-              {
-                "fieldPath": "",
-                "process": ""
-              }
-            ],
-            "iconColorFieldName": "",
-            "urlImageTemplates": []
-          },
-          "columns": [
-            {
-              "columnName": "Bird Identifier",
-              "fieldName": "object.id",
-              "dataType": "",
-              "process": "",
-              "useColorService": true,
-              "sort": ""
-            },
-            {
-              "columnName": "Timestamp",
-              "fieldName": "track.timestamps.end",
-              "dataType": "",
-              "process": "",
-              "useColorService": false,
-              "sort": ""
-            },
-            {
-              "columnName": "Altitude (m)",
-              "fieldName": "track.dynamics.sensor.height_above_ellipsoid",
-              "dataType": "",
-              "process": "",
-              "useColorService": false,
-              "sort": ""
-            }
-          ],
-          "details": [
-            {
-              "name": "Bird",
-              "order": 1,
-              "fields": [
-                {
-                  "path": "object.id",
-                  "label": "Bird identifier",
-                  "process": ""
-                },
-                {
-                  "path": "object.tag_id",
-                  "label": "Tag identifier",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Segment",
-              "order": 2,
-              "fields": [
-                {
-                  "path": "track.timestamps.start",
-                  "label": "Timestamp start",
-                  "process": ""
-                },
-                {
-                  "path": "track.timestamps.end",
-                  "label": "Timestamp end",
-                  "process": ""
-                },
-                {
-                  "path": "track.duration_s",
-                  "label": "Duration (s)",
-                  "process": ""
-                },
-                {
-                  "path": "track.nb_geopoints",
-                  "label": "Number of geo points",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Dynamics",
-              "order": 3,
-              "fields": [
-                {
-                  "path": "track.distance.gps.travelled_m",
-                  "label": "Travelled distance (m)",
-                  "process": ""
-                },
-                {
-                  "path": "track.dynamics.sensor.speed_ms",
-                  "label": "Sensor speed (m/s)",
-                  "process": ""
-                },
-                {
-                  "path": "track.dynamics.gps.speed_ms",
-                  "label": "Gps speed (m/s)",
-                  "process": ""
-                },
-                {
-                  "path": "track.dynamics.sensor.bearing",
-                  "label": "Sensor bearing (azi)",
-                  "process": ""
-                },
-                {
-                  "path": "track.dynamics.gps.bearing",
-                  "label": "Gps bearing (azi)",
-                  "process": ""
-                },
-                {
-                  "path": "track.dynamics.sensor.height_above_ellipsoid",
-                  "label": "Altitude (m)",
-                  "process": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
-          "collection": "demo_birdtracking-movebank",
+          "collection": "demo_ais_flow",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -356,13 +441,13 @@
             }
           ],
           "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.1
+          "selectionExtentPercentage": 0.02
         },
         {
-          "identifier": "demo_birdtracking-movebank-object.id-cardinality-0",
-          "name": "Number of birds",
-          "title": "Number of birds",
-          "collection": "demo_birdtracking-movebank",
+          "identifier": "demo_ais_flow-object.id-cardinality-0",
+          "name": "Number of vessels",
+          "title": "Number of vessels",
+          "collection": "demo_ais_flow",
           "icon": "functions",
           "type": "metric",
           "function": "m[0]",
@@ -374,13 +459,13 @@
           ]
         },
         {
-          "identifier": "demo_birdtracking-movebank-m[0]/1000track.distance.gps.travelled_m-sum-0",
+          "identifier": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
           "name": "Travelled distance",
           "title": "Travelled distance",
-          "collection": "demo_birdtracking-movebank",
+          "collection": "demo_ais_flow",
           "icon": "functions",
           "type": "metric",
-          "function": "m[0]/1000",
+          "function": "m[0]/1852",
           "metrics": [
             {
               "field": "track.distance.gps.travelled_m",
@@ -389,18 +474,52 @@
           ]
         },
         {
-          "identifier": "demo_birdtracking-movebank-object.id-10-Count-desc-count",
-          "name": "Biggest emitters",
-          "title": "Biggest emitters",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "local_offer",
+          "identifier": "demo_ais_flow-track.nb_geopoints-sum-0",
+          "name": "Nb Geopoints",
+          "title": "Nb Geopoints",
+          "collection": "demo_ais_flow",
+          "icon": "functions",
+          "type": "metric",
+          "function": "m[0]",
+          "metrics": [
+            {
+              "field": "track.nb_geopoints",
+              "metric": "sum"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-object.ship_type-8-object.cargo_type-undefined-",
+          "name": "Ship type",
+          "title": "Ship type",
+          "collection": "demo_ais_flow",
+          "icon": "directions_boat",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "object.ship_type",
+              "size": 8,
+              "type": "term"
+            },
+            {
+              "field": "object.cargo_type",
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-object.ship_type-6-Count-desc-count",
+          "name": "Ship type",
+          "title": "Ship type",
+          "collection": "demo_ais_flow",
+          "icon": "directions_boat",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "object.id",
-              "size": 10,
+              "field": "object.ship_type",
+              "size": 6,
               "order": "desc",
               "on": "count"
             }
@@ -409,221 +528,23 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_birdtracking-movebank-object.id-10-SUM-track.distance.gps.travelled_m-desc-count",
-          "name": "Biggest travellers",
-          "title": "Biggest travellers",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "local_offer",
-          "type": "tree",
-          "jsonpath": "$.metrics[0].value",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "object.id",
-              "size": 10,
-              "order": "desc",
-              "on": "count",
-              "metrics": [
-                {
-                  "collect_fct": "sum",
-                  "collect_field": "track.distance.gps.travelled_m"
-                }
-              ]
-            }
-          ],
-          "filterOperator": "Eq",
-          "allowOperatorChange": true
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this altitude",
-          "title": "Number of birds positions having this altitude",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "call_made",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "track.dynamics.sensor.height_above_ellipsoid"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-          "name": "Altitude average",
-          "title": "Altitude average",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "call_made",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.height_above_ellipsoid"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
-          "name": "Travelled distance",
-          "title": "Travelled distance",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "straighten",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "sum",
-                  "collect_field": "track.distance.gps.travelled_m"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.dynamics.sensor.bearing-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this bearing",
-          "title": "Number of birds positions having this bearing",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "explore",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "track.dynamics.sensor.bearing"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-          "name": "Bearing average",
-          "title": "Bearing average",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "explore",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.bearing"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this speed",
-          "title": "Number of birds positions having this speed",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "slow_motion_video",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "track.dynamics.sensor.speed_ms"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
-          "name": "Speed average",
-          "title": "Speed average",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "slow_motion_video",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.speed_ms"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.duration_s-numeric-bucket-Count--100",
-          "name": "Number of positions having this duration",
-          "title": "Number of positions having this duration",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "slow_motion_video",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 100,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "track.duration_s"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-Count--100tagging.tag1",
-          "name": "Migration status over time (Manual)",
-          "title": "Migration status over time (Manual)",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "compare_arrows",
+          "identifier": "demo_ais_flow-track.timestamps.center-time-bucket-Count--40object.ship_type",
+          "name": "Ship type",
+          "title": "Ship type",
+          "collection": "demo_ais_flow",
+          "icon": "directions_boat",
           "type": "swimlane",
-          "numberOfBuckets": 100,
+          "numberOfBuckets": 40,
           "swimlanes": [
             {
               "id": 1,
-              "name": "Migration status over time (Manual)",
+              "name": "Ship type",
               "xAxisField": "track.timestamps.center",
-              "termField": "tagging.tag1",
+              "termField": "object.ship_type",
               "aggregationmodels": [
                 {
                   "type": "term",
-                  "field": "tagging.tag1",
+                  "field": "object.ship_type",
                   "size": 5
                 },
                 {
@@ -637,17 +558,17 @@
           ]
         },
         {
-          "identifier": "demo_birdtracking-movebank-tagging.tag1-10-Count-desc-count",
-          "name": "Migration status (Manual)",
-          "title": "Migration status (Manual)",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "pan_tool",
+          "identifier": "demo_ais_flow-object.id-10-Count-desc-count",
+          "name": "MMSI",
+          "title": "MMSI",
+          "collection": "demo_ais_flow",
+          "icon": "fingerprint",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "tagging.tag1",
+              "field": "object.id",
               "size": 10,
               "order": "desc",
               "on": "count"
@@ -657,17 +578,17 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_birdtracking-movebank-tagging.tag2-10-Count-desc-count",
-          "name": "Predicted Migration status",
-          "title": "Predicted Migration status",
-          "collection": "demo_birdtracking-movebank",
-          "icon": "filter_1",
+          "identifier": "demo_ais_flow-object.name-10-Count-desc-count",
+          "name": "Ship name",
+          "title": "Ship name",
+          "collection": "demo_ais_flow",
+          "icon": "fingerprint",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "tagging.tag2",
+              "field": "object.name",
               "size": 10,
               "order": "desc",
               "on": "count"
@@ -677,15 +598,397 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_birdtracking-movebank-id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
+          "identifier": "demo_ais_flow-track.state.course_or_stop-10-Count-desc-count",
+          "name": "Course or Stop",
+          "title": "Course or Stop",
+          "collection": "demo_ais_flow",
+          "icon": "play_circle_outline",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "track.state.course_or_stop",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-track.state.course_status-10-Count-desc-count",
+          "name": "Course Status",
+          "title": "Course Status",
+          "collection": "demo_ais_flow",
+          "icon": "play_circle_outline",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "track.state.course_status",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-track.duration_s-numeric-bucket-Count--80",
+          "name": "Fragment duration",
+          "title": "Fragment duration",
+          "collection": "demo_ais_flow",
+          "icon": "access_time",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 80,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.duration_s"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.nb_geopoints-numeric-bucket-Count--80",
+          "name": "Nb Geopoints",
+          "title": "Nb Geopoints",
+          "collection": "demo_ais_flow",
+          "icon": "blur_on",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 80,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.nb_geopoints"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.dynamics.gps.speed_nd-numeric-bucket-Count--80",
+          "name": "Speed",
+          "title": "Speed",
+          "collection": "demo_ais_flow",
+          "icon": "network_check",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 80,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.dynamics.gps.speed_nd"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.timestamps.center-time-bucket-AVG-track.dynamics.gps.speed_nd-80",
+          "name": "gps speed over time",
+          "title": "gps speed over time",
+          "collection": "demo_ais_flow",
+          "icon": "network_check",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 80,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "track.dynamics.gps.speed_nd"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.distance.gps.travelled_m-numeric-bucket-Count--50",
+          "name": "Distance (m)",
+          "title": "Distance (m)",
+          "collection": "demo_ais_flow",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.distance.gps.travelled_m"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.timestamps.center-time-bucket-Count--50",
+          "name": "Distance over time",
+          "title": "Distance over time",
+          "collection": "demo_ais_flow",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.tempo_emission.main-10-",
+          "name": "Tempo",
+          "title": "Tempo",
+          "collection": "demo_ais_flow",
+          "icon": "access_alarms",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "track.tempo_emission.main",
+              "size": 10,
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.tempo_emission.main-10-Count-desc-count",
+          "name": "Tempo Legend",
+          "title": "Tempo Legend",
+          "collection": "demo_ais_flow",
+          "icon": "access_alarms",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "track.tempo_emission.main",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-track.timestamps.center-time-bucket-Count--20track.tempo_emission.main",
+          "name": "Tempo over time",
+          "title": "Tempo over time",
+          "collection": "demo_ais_flow",
+          "icon": "access_alarm",
+          "type": "swimlane",
+          "numberOfBuckets": 20,
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "Tempo over time",
+              "xAxisField": "track.timestamps.center",
+              "termField": "track.tempo_emission.main",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "track.tempo_emission.main",
+                  "size": 10
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "track.timestamps.center"
+                }
+              ],
+              "useUtc": true,
+              "jsonpath": "$.count"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-course.departure.address.country-10-Count-desc-count",
+          "name": "Departure Country",
+          "title": "Departure Country",
+          "collection": "demo_ais_flow",
+          "icon": "call_made",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "course.departure.address.country",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-course.departure.address.port-10-Count-desc-count",
+          "name": "Departure Port",
+          "title": "Departure Port",
+          "collection": "demo_ais_flow",
+          "icon": "call_made",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "course.departure.address.port",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-course.arrival.address.country-10-Count-desc-count",
+          "name": "Arrival Country",
+          "title": "Arrival Country",
+          "collection": "demo_ais_flow",
+          "icon": "call_received",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "course.arrival.address.country",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-course.arrival.address.port-10-Count-desc-count",
+          "name": "Arrival Port",
+          "title": "Arrival Port",
+          "collection": "demo_ais_flow",
+          "icon": "call_received",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "course.arrival.address.port",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-course.duration_s-numeric-bucket-Count--50",
+          "name": "Number of courses having this value",
+          "title": "Number of courses having this value",
+          "collection": "demo_ais_flow",
+          "icon": "watch_later",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "course.duration_s"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-course.distance.gps.travelled_m-numeric-bucket-Count--30",
+          "name": "Number of courses having this value",
+          "title": "Number of courses having this value",
+          "collection": "demo_ais_flow",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 30,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "course.distance.gps.travelled_m"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.timestamps.center-time-bucket-SUM-course.distance.gps.travelled_m-30",
+          "name": "Travelled distance",
+          "title": "Travelled distance",
+          "collection": "demo_ais_flow",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 30,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "course.distance.gps.travelled_m"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-course.id-10-Count-desc-count",
+          "name": "Course ID",
+          "title": "Course ID",
+          "collection": "demo_ais_flow",
+          "icon": "list",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "course.id",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-track.id-20-MMSI-Ship type-Ship Name-Fragment duration (s)-Course duration (h)-Timestamp start-Technical Information-Course Information-Course Origin-Course Destination-",
           "name": "Detail list",
           "title": "Detail list",
-          "collection": "demo_birdtracking-movebank",
+          "collection": "demo_ais_flow",
           "icon": "list",
           "type": "resultlist",
           "search_size": 20,
           "fieldsConfiguration": {
-            "idFieldName": "id",
+            "idFieldName": "track.id",
             "titleFieldNames": [
               {
                 "fieldPath": "",
@@ -703,7 +1006,7 @@
           },
           "columns": [
             {
-              "columnName": "Object Id",
+              "columnName": "MMSI",
               "fieldName": "object.id",
               "dataType": "",
               "process": "",
@@ -711,84 +1014,213 @@
               "sort": ""
             },
             {
-              "columnName": "Speed (m/s)",
-              "fieldName": "track.dynamics.sensor.speed_ms",
+              "columnName": "Ship type",
+              "fieldName": "object.ship_type",
               "dataType": "",
-              "process": "Math.round(result * 100) / 100",
+              "process": "",
               "useColorService": false,
               "sort": ""
             },
             {
-              "columnName": "Altitude (m)",
-              "fieldName": "track.dynamics.sensor.height_above_ellipsoid",
+              "columnName": "Ship Name",
+              "fieldName": "object.name",
               "dataType": "",
-              "process": "Math.round(result * 100) / 100",
+              "process": "",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Fragment duration (s)",
+              "fieldName": "track.duration_s",
+              "dataType": "",
+              "process": "result + ' s'",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Course duration (h)",
+              "fieldName": "course.duration_s",
+              "dataType": "",
+              "process": "Math.round(result/360)/10 + ' h'",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Timestamp start",
+              "fieldName": "track.timestamps.start",
+              "dataType": "",
+              "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
               "useColorService": false,
               "sort": ""
             }
           ],
           "details": [
             {
-              "name": "Bird",
+              "name": "Technical Information",
               "order": 1,
               "fields": [
                 {
-                  "path": "object.id",
-                  "label": "Id",
+                  "path": "object.name",
+                  "label": "Ship Name",
                   "process": ""
                 },
                 {
-                  "path": "object.tag_id",
-                  "label": "Tag Id",
+                  "path": "object.length",
+                  "label": "Ship length (m)",
+                  "process": "result + ' m'"
+                },
+                {
+                  "path": "object.imo",
+                  "label": "IMO",
+                  "process": ""
+                },
+                {
+                  "path": "object.mobile_type",
+                  "label": "Mobile Type",
+                  "process": ""
+                },
+                {
+                  "path": "object.source_type",
+                  "label": "Source Type",
                   "process": ""
                 }
               ]
             },
             {
-              "name": "Segment of trajectory",
+              "name": "Course Information",
               "order": 2,
               "fields": [
                 {
-                  "path": "track.timestamps.start",
-                  "label": "Start time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                  "path": "course.duration_s",
+                  "label": "Duration (min)",
+                  "process": "Math.round(result/60)"
                 },
                 {
-                  "path": "track.timestamps.center",
-                  "label": "Center time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-                },
-                {
-                  "path": "track.timestamps.end",
-                  "label": "End time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-                },
-                {
-                  "path": "track.duration_s",
-                  "label": "Duration (s)",
-                  "process": ""
-                },
-                {
-                  "path": "track.distance.gps.travelled_m",
-                  "label": "Distance (m)",
+                  "path": "course.distance.gps.travelled_m",
+                  "label": "Travelled Distance (m)",
                   "process": "Math.round(result)"
                 },
                 {
-                  "path": "track.dynamics.sensor.bearing",
-                  "label": "Bearing (sensor)",
-                  "process": "Math.round(result * 100) / 100"
+                  "path": "course.distance.gps.straight_line_m",
+                  "label": "Straight line Distance (m)",
+                  "process": "Math.round(result)"
                 },
                 {
-                  "path": "track.dynamics.sensor.horizontal_accuracy",
-                  "label": "Horizontal accuracy (sensor)",
-                  "process": "Math.round(result * 100) / 100"
-                },
-                {
-                  "path": "track.dynamics.sensor.speed_kmh",
-                  "label": "Speed (sensor, km/h)",
-                  "process": "Math.round(result * 100) / 100"
+                  "path": "course.distance.gps.straightness",
+                  "label": "Straightness",
+                  "process": "Math.round(result * 1000) / 1000"
                 }
               ]
+            },
+            {
+              "name": "Course Origin",
+              "order": 3,
+              "fields": [
+                {
+                  "path": "course.departure.timestamp",
+                  "label": "Departure timestamp",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "course.departure.location",
+                  "label": "Location",
+                  "process": "'Lat: ' + Math.round(result.split(',')[0] * 100) / 100 + ' ' + 'Lon: ' + Math.round(result.split(',')[1] * 100) / 100"
+                },
+                {
+                  "path": "course.departure.address.country",
+                  "label": "Country",
+                  "process": ""
+                },
+                {
+                  "path": "course.departure.address.country_code",
+                  "label": "Country code",
+                  "process": ""
+                },
+                {
+                  "path": "course.departure.address.state",
+                  "label": "State",
+                  "process": ""
+                },
+                {
+                  "path": "course.departure.address.county",
+                  "label": "County",
+                  "process": ""
+                },
+                {
+                  "path": "course.departure.address.city",
+                  "label": "City",
+                  "process": ""
+                },
+                {
+                  "path": "course.departure.address.postcode",
+                  "label": "Postcode",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Course Destination",
+              "order": 4,
+              "fields": [
+                {
+                  "path": "course.track.timestamps.end",
+                  "label": "Arrival timestamp",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "course.arrival.location",
+                  "label": "Location",
+                  "process": "'Lat: ' + Math.round(result.split(',')[0] * 100) / 100 + ' ' + 'Lon: ' + Math.round(result.split(',')[1] * 100) / 100"
+                },
+                {
+                  "path": "course.arrival.address.country",
+                  "label": "Country",
+                  "process": ""
+                },
+                {
+                  "path": "course.arrival.address.country_code",
+                  "label": "Country code",
+                  "process": ""
+                },
+                {
+                  "path": "course.arrival.address.state",
+                  "label": "State",
+                  "process": ""
+                },
+                {
+                  "path": "course.arrival.address.county",
+                  "label": "County",
+                  "process": ""
+                },
+                {
+                  "path": "course.arrival.address.city",
+                  "label": "City",
+                  "process": ""
+                },
+                {
+                  "path": "course.arrival.address.postcode",
+                  "label": "Postcode",
+                  "process": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-track.visibility.proportion-numeric-bucket-Count--50",
+          "name": "Distribution % of visibility",
+          "title": "Distribution % of visibility",
+          "collection": "demo_ais_flow",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.visibility.proportion"
             }
           ]
         }
@@ -804,10 +1236,7 @@
             "yTicks": 2,
             "xLabels": 9,
             "yLabels": 2,
-            "xUnit": "",
-            "yUnit": "",
-            "chartXLabel": "Date",
-            "chartTitle": "Number of fragments over time",
+            "chartTitle": "Number of AIS positions over time",
             "customizedCssClass": "arlas-timeline",
             "multiselectable": true,
             "brushHandlesHeightWeight": 1,
@@ -834,8 +1263,8 @@
           "allowMapExtend": true,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Positron",
-              "styleFile": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+              "name": "Voyager",
+              "styleFile": "https://api.maptiler.com/maps/voyager/style.json?key=xIhbu1RwgdbxfZNmoXn4",
               "image": null,
               "type": null
             },
@@ -889,12 +1318,6 @@
                 "type": null
               },
               {
-                "name": "Topographique",
-                "styleFile": "https://api.maptiler.com/maps/topographique/style.json?key=xIhbu1RwgdbxfZNmoXn4",
-                "image": null,
-                "type": null
-              },
-              {
                 "name": "Voyager",
                 "styleFile": "https://api.maptiler.com/maps/voyager/style.json?key=xIhbu1RwgdbxfZNmoXn4",
                 "image": null,
@@ -923,8 +1346,8 @@
             "margePanForTest": 2,
             "initZoom": 5,
             "initCenter": [
-              3,
-              48
+              9.667969,
+              55.627996
             ],
             "displayScale": true,
             "idFeatureField": "deprecated, to be removed",
@@ -939,124 +1362,109 @@
             },
             "visualisations_sets": [
               {
-                "name": "Distribution of birds positions",
+                "name": "Departures",
                 "layers": [
-                  "arlas_id:Gathered birds positions:1663327558098"
+                  "arlas_id:Gathered departures:1625039098185",
+                  "arlas_id:Courses departure stops:1616401381557"
                 ],
                 "enabled": true
               },
               {
-                "name": "Density of birds positions (visu)",
+                "name": "Arrivals",
                 "layers": [
-                  "arlas_id:Density of birds positions:1624986445203"
+                  "arlas_id:Gathered arrivals:1625039122134",
+                  "arlas_id:Courses arrival stops:1616401381574"
                 ],
-                "enabled": false
-              },
-              {
-                "name": "Birds identifiers",
-                "layers": [],
                 "enabled": true
               },
               {
-                "name": "Birds speed",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "Birds altitude",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "Migration status (Manual)",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "Predicted migration status",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "Locations",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "Raw locations",
-                "layers": [],
-                "enabled": false
-              },
-              {
-                "name": "distribution circle",
+                "name": "Speed",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle:1706023503869"
+                  "arlas_id:Trail (Speed):1620285147150"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Ship type",
+                "layers": [
+                  "arlas_id:Trail (Ship type):1624974756322"
                 ],
                 "enabled": false
               },
               {
-                "name": "Circles coarse",
+                "name": "Course",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle coarse:1706109107737"
+                  "arlas_id:Trail (courses):1616401743276"
                 ],
                 "enabled": false
               },
               {
-                "name": "Circle medium",
+                "name": "Visibility",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle med:1706109086719"
+                  "arlas_id:Trail (visibility):1616401756565"
                 ],
                 "enabled": false
               },
               {
-                "name": "Circle fine",
+                "name": "Boats courses distribution",
                 "layers": [
-                  "arlas_id:Gathered birds positions circle fine:1706109076450"
+                  "arlas_id:Grid:1679406178146"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Boats courses density",
+                "layers": [
+                  "arlas_id:Heatmap:1616401381400"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Light heatmap",
+                "layers": [
+                  "arlas_id:Light heatmap:1616402502274"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Raw location",
+                "layers": [
+                  "arlas_id:GPS:1624973286083"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "heatmap-circle-finest",
+                "layers": [
+                  "arlas_id:heatmap-circle-finest:1706285438495"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "heatmap-circle-fine",
+                "layers": [
+                  "arlas_id:heatmap-circle-fine:1706285714366"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "heatmap-circle-med",
+                "layers": [
+                  "arlas_id:heatmap-circle-med:1706285724828"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "heatmap-circle-big",
+                "layers": [
+                  "arlas_id:heatmap-circle-coarse:1706285731760"
                 ],
                 "enabled": false
               }
             ]
           }
         },
-        "resultlists": [
-          {
-            "componentType": "resultlist",
-            "input": {
-              "id": "demo_birdtracking-movebank-id-100-Bird Identifier-Timestamp-Altitude (m)-Bird-Segment-Dynamics-",
-              "tableWidth": 445,
-              "globalActionsList": [],
-              "searchSize": 100,
-              "nLastLines": 3,
-              "detailedGridHeight": 300,
-              "nbGridColumns": 3,
-              "displayFilters": false,
-              "hasGridMode": false,
-              "defautMode": "list",
-              "visualisationLink": "",
-              "downloadLink": "",
-              "isBodyHidden": false,
-              "isGeoSortActived": false,
-              "isAutoGeoSortActived": null,
-              "selectedItemsEvent": null,
-              "consultedItemEvent": null,
-              "actionOnItemEvent": null,
-              "globalActionEvent": 300,
-              "useColorService": true,
-              "cellBackgroundStyle": "filled",
-              "options": {
-                "showActionsOnhover": "true",
-                "showDetailIconName": "keyboard_arrow_down",
-                "hideDetailIconName": "keyboard_arrow_up",
-                "icon": "short_text",
-                "showName": true,
-                "showIcon": true
-              }
-            },
-            "contributorId": "demo_birdtracking-movebank-id-100-Bird Identifier-Timestamp-Altitude (m)-Bird-Segment-Dynamics-",
-            "uuid": "ae70d875-a1ff-4695-b50d-e96c991b1dfd",
-            "usage": "analytics"
-          }
-        ],
+        "resultlists": [],
         "detailedTimeline": {
           "contributorId": "detailedTimeline",
           "componentType": "histogram",
@@ -1067,10 +1475,7 @@
             "yTicks": 2,
             "xLabels": 5,
             "yLabels": 2,
-            "xUnit": "",
-            "yUnit": "",
-            "chartXLabel": "Date",
-            "chartTitle": "Number of fragments over time",
+            "chartTitle": "Detailed of AIS positions over time",
             "customizedCssClass": "arlas-detailed-timeline",
             "multiselectable": true,
             "brushHandlesHeightWeight": 1,
@@ -1106,9 +1511,9 @@
       },
       "analytics": [
         {
-          "groupId": "raw_data-0",
+          "groupId": "Fleet-0",
           "title": "Statistics",
-          "tab": "raw_data",
+          "tab": "Fleet",
           "icon": "functions",
           "components": [
             {
@@ -1117,12 +1522,11 @@
                 "customizedCssClass": "power",
                 "shortValue": false,
                 "valuePrecision": 0,
-                "chartWidth": 217,
-                "beforeValue": "Total number of",
-                "afterValue": "birds"
+                "chartWidth": 143,
+                "afterValue": "Vessels"
               },
-              "contributorId": "demo_birdtracking-movebank-object.id-cardinality-0",
-              "uuid": "3dff35cd-34f1-4b70-a84f-e27954c700b6",
+              "contributorId": "demo_ais_flow-object.id-cardinality-0",
+              "uuid": "4bea3ee5-a0d8-49d3-98bf-96a3c8b74afa",
               "usage": "analytics"
             },
             {
@@ -1131,48 +1535,55 @@
                 "customizedCssClass": "power",
                 "shortValue": false,
                 "valuePrecision": 0,
-                "chartWidth": 217,
-                "beforeValue": "Travelled distance of",
-                "afterValue": "km"
+                "chartWidth": 143,
+                "afterValue": "Nautic Miles"
               },
-              "contributorId": "demo_birdtracking-movebank-m[0]/1000track.distance.gps.travelled_m-sum-0",
-              "uuid": "5a9ba330-6fe0-452f-bf50-346d5ecc8d9d",
+              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
+              "uuid": "cba62913-127f-4b0c-a80a-88e8a595726e",
+              "usage": "analytics"
+            },
+            {
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": true,
+                "valuePrecision": 0,
+                "chartWidth": 143,
+                "afterValue": "Geopoints"
+              },
+              "contributorId": "demo_ais_flow-track.nb_geopoints-sum-0",
+              "uuid": "f8e15a36-6c0d-40c8-a7b0-d4ac3cbef09b",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "raw_data-1",
-          "title": "Birds identifiers",
-          "tab": "raw_data",
-          "icon": "local_offer",
+          "groupId": "Fleet-1",
+          "title": "Ship type",
+          "tab": "Fleet",
+          "icon": "directions_boat",
           "components": [
             {
-              "componentType": "powerbars",
+              "componentType": "donut",
+              "showExportCsv": true,
               "input": {
-                "chartTitle": "Biggest emitters",
-                "powerbarTitle": "Biggest emitters",
-                "displayFilter": true,
-                "scrollable": false,
-                "filterOperator": {
-                  "value": "Eq",
-                  "display": true
-                },
-                "useColorService": true,
-                "useColorFromData": false,
-                "unit": "Gps segments",
-                "chartWidth": 217
+                "id": "demo_ais_flow-object.ship_type-8-object.cargo_type-undefined-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.3
               },
-              "contributorId": "demo_birdtracking-movebank-object.id-10-Count-desc-count",
-              "uuid": "93486f43-3264-4915-b381-f59c9b72a444",
+              "contributorId": "demo_ais_flow-object.ship_type-8-object.cargo_type-undefined-",
+              "uuid": "91d6e259-c9b6-4da7-9ebd-d5f53e4cf71e",
               "usage": "analytics"
             },
             {
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Biggest travellers",
-                "powerbarTitle": "Biggest travellers",
+                "chartTitle": "Ship type",
+                "powerbarTitle": "Ship type",
                 "displayFilter": true,
                 "scrollable": false,
                 "filterOperator": {
@@ -1181,32 +1592,30 @@
                 },
                 "useColorService": true,
                 "useColorFromData": false,
-                "unit": "meters",
                 "chartWidth": 217
               },
-              "contributorId": "demo_birdtracking-movebank-object.id-10-SUM-track.distance.gps.travelled_m-desc-count",
-              "uuid": "1960e529-4b75-401e-8e71-15580a0dc248",
+              "contributorId": "demo_ais_flow-object.ship_type-6-Count-desc-count",
+              "uuid": "628044e0-d518-4e89-b0f4-f3e7ea098aea",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "raw_data-2",
-          "title": "Track altitude (m) distribution and average over time",
-          "tab": "raw_data",
-          "icon": "call_made",
+          "groupId": "Fleet-2",
+          "title": "Ship type over time",
+          "tab": "Fleet",
+          "icon": "directions_boat",
           "components": [
             {
               "input": {
-                "id": "demo_birdtracking-movebank-track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
+                "id": "demo_ais_flow-track.timestamps.center-time-bucket-Count--40object.ship_type",
                 "isHistogramSelectable": true,
-                "multiselectable": true,
+                "multiselectable": false,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 1,
                 "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of birds positions having this altitude",
+                "chartTitle": "Ship type",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -1215,9 +1624,659 @@
                 "yTicks": 1,
                 "xLabels": 4,
                 "yLabels": 4,
-                "xUnit": "m",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 100,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "fixedHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "global",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#333"
+                }
+              },
+              "componentType": "swimlane",
+              "showExportCsv": false,
+              "contributorId": "demo_ais_flow-track.timestamps.center-time-bucket-Count--40object.ship_type",
+              "uuid": "111be5d6-fd06-4fe2-8235-027cf165f8b4",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fleet-3",
+          "title": "Vessels identifiers",
+          "tab": "Fleet",
+          "icon": "fingerprint",
+          "components": [
+            {
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "MMSI",
+                "powerbarTitle": "MMSI",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-object.id-10-Count-desc-count",
+              "uuid": "d98d54e4-8a2b-4f58-b07b-15507e2402db",
+              "usage": "analytics"
+            },
+            {
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Ship name",
+                "powerbarTitle": "Ship name",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-object.name-10-Count-desc-count",
+              "uuid": "86d00074-ee45-4bbf-adac-df147f2a9190",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-0",
+          "title": "Movement State",
+          "tab": "Fragment",
+          "icon": "play_circle_outline",
+          "components": [
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Course or Stop",
+                "powerbarTitle": "Course or Stop",
+                "displayFilter": false,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-track.state.course_or_stop-10-Count-desc-count",
+              "uuid": "e2924ced-f9a3-4d2f-93e6-938f48b0917a",
+              "usage": "analytics"
+            },
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Course Status",
+                "powerbarTitle": "Course Status",
+                "displayFilter": false,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-track.state.course_status-10-Count-desc-count",
+              "uuid": "bb1bc0c4-5d11-4029-84c8-f459984d71ea",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-1",
+          "title": "Fragment duration",
+          "tab": "Fragment",
+          "icon": "access_time",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.duration_s-numeric-bucket-Count--80",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Fragment duration",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
                 "yUnit": "",
-                "chartXLabel": "Altitude",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.duration_s-numeric-bucket-Count--80",
+              "uuid": "39cdfc75-0eec-4936-84b7-060eb69451d4",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-2",
+          "title": "Number of Geopoints per fragment",
+          "tab": "Fragment",
+          "icon": "blur_on",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.nb_geopoints-numeric-bucket-Count--80",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Nb Geopoints",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.nb_geopoints-numeric-bucket-Count--80",
+              "uuid": "83850be8-8f68-48d3-9252-107ffd8f7314",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-3",
+          "title": "Speed (Knot)",
+          "tab": "Fragment",
+          "icon": "network_check",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.dynamics.gps.speed_nd-numeric-bucket-Count--80",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Speed",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.dynamics.gps.speed_nd-numeric-bucket-Count--80",
+              "uuid": "10f21c12-21f9-416f-9980-420d77fcd8f3",
+              "usage": "analytics"
+            },
+            {
+              "input": {
+                "id": "demo_ais_flow-track.timestamps.center-time-bucket-AVG-track.dynamics.gps.speed_nd-80",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "gps speed over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.timestamps.center-time-bucket-AVG-track.dynamics.gps.speed_nd-80",
+              "uuid": "38eabfa1-da11-4ccd-9d7e-12c204b991fe",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-4",
+          "title": "Traveled Distance (m)",
+          "tab": "Fragment",
+          "icon": "straighten",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.distance.gps.travelled_m-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Distance (m)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.distance.gps.travelled_m-numeric-bucket-Count--50",
+              "uuid": "37875b7c-de9b-4468-b8fc-366ee6c7daa4",
+              "usage": "analytics"
+            },
+            {
+              "input": {
+                "id": "demo_ais_flow-track.timestamps.center-time-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Distance over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.timestamps.center-time-bucket-Count--50",
+              "uuid": "49fd0ac6-c3b8-47b6-b2fd-4c046517adf3",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-5",
+          "title": "Tempo",
+          "tab": "Fragment",
+          "icon": "access_alarms",
+          "components": [
+            {
+              "componentType": "donut",
+              "showExportCsv": true,
+              "input": {
+                "id": "demo_ais_flow-track.tempo_emission.main-10-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.2
+              },
+              "contributorId": "demo_ais_flow-track.tempo_emission.main-10-",
+              "uuid": "b2ca87ed-98e4-495a-a0ba-ca77191b20bf",
+              "usage": "analytics"
+            },
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Tempo Legend",
+                "powerbarTitle": "Tempo Legend",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": true,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-track.tempo_emission.main-10-Count-desc-count",
+              "uuid": "dde95d93-e18b-4621-9e19-62103db91461",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Fragment-6",
+          "title": "Tempo over time",
+          "tab": "Fragment",
+          "icon": "access_alarm",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.timestamps.center-time-bucket-Count--20track.tempo_emission.main",
+                "isHistogramSelectable": true,
+                "multiselectable": false,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartTitle": "Tempo over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 100,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "fixedHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "global",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#D6D6D6"
+                }
+              },
+              "componentType": "swimlane",
+              "showExportCsv": false,
+              "contributorId": "demo_ais_flow-track.timestamps.center-time-bucket-Count--20track.tempo_emission.main",
+              "uuid": "fed347f6-07e5-4d7f-82a6-36e59cae336f",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Course-0",
+          "title": "Course Departure",
+          "tab": "Course",
+          "icon": "call_made",
+          "components": [
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Departure Country",
+                "powerbarTitle": "Departure Country",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-course.departure.address.country-10-Count-desc-count",
+              "uuid": "acd2d3c0-907b-4049-a545-3c8dd8ab55c9",
+              "usage": "analytics"
+            },
+            {
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Departure Port",
+                "powerbarTitle": "Departure Port",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-course.departure.address.port-10-Count-desc-count",
+              "uuid": "00dd8e96-a9d0-4b69-b5d7-62513e99e4bf",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Course-1",
+          "title": "Course Arrival",
+          "tab": "Course",
+          "icon": "call_received",
+          "components": [
+            {
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Arrival Country",
+                "powerbarTitle": "Arrival Country",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-course.arrival.address.country-10-Count-desc-count",
+              "uuid": "8a4e8465-c213-4181-bd81-0525b0befa78",
+              "usage": "analytics"
+            },
+            {
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Arrival Port",
+                "powerbarTitle": "Arrival Port",
+                "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "chartWidth": 217
+              },
+              "contributorId": "demo_ais_flow-course.arrival.address.port-10-Count-desc-count",
+              "uuid": "80fc93d8-0a8c-4ab5-8fb7-94a103a2ca88",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Course-2",
+          "title": "Course Duration (s)",
+          "tab": "Course",
+          "icon": "watch_later",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-course.duration_s-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of courses having this value",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "s",
+                "chartXLabel": "Course duration",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": true
+              },
+              "componentType": "histogram",
+              "contributorId": "demo_ais_flow-course.duration_s-numeric-bucket-Count--50",
+              "uuid": "a76be12a-f451-492a-97e7-c27b3248c9ee",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Course-3",
+          "title": "Course Traveled Distance (m)",
+          "tab": "Course",
+          "icon": "straighten",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-course.distance.gps.travelled_m-numeric-bucket-Count--30",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of courses having this value",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 2,
+                "yLabels": 4,
+                "xUnit": "m",
+                "chartXLabel": "Travelled distance",
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
@@ -1229,58 +2288,14 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
-              "uuid": "27569761-1a6f-4272-83e3-bf2c3267e5c5",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-course.distance.gps.travelled_m-numeric-bucket-Count--30",
+              "uuid": "f0ff8061-2576-4193-901a-fc0a397f98fd",
               "usage": "analytics"
             },
             {
               "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Altitude average",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "m",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-              "uuid": "db6652d7-3eb1-4e62-b1fd-2b7d90b31928",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-3",
-          "title": "Track travelled distance (m) over time",
-          "tab": "raw_data",
-          "icon": "straighten",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
+                "id": "demo_ais_flow-track.timestamps.center-time-bucket-SUM-course.distance.gps.travelled_m-30",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
@@ -1297,7 +2312,6 @@
                 "yTicks": 1,
                 "xLabels": 4,
                 "yLabels": 4,
-                "xUnit": "",
                 "yUnit": "m",
                 "chartXLabel": "Date",
                 "showXTicks": true,
@@ -1311,389 +2325,50 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
-              "uuid": "a8e960f9-10ee-40f3-9201-76114710446d",
+              "showExportCsv": true,
+              "contributorId": "demo_ais_flow-track.timestamps.center-time-bucket-SUM-course.distance.gps.travelled_m-30",
+              "uuid": "8729c8b9-2daa-4aba-9745-a7b87a22358f",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "raw_data-4",
-          "title": "Bearing (degree) distribution and average over time",
-          "tab": "raw_data",
-          "icon": "explore",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.dynamics.sensor.bearing-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of birds positions having this bearing",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "°",
-                "yUnit": "",
-                "chartXLabel": "Bearing",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.dynamics.sensor.bearing-numeric-bucket-Count--50",
-              "uuid": "d4c49eff-97f1-4178-bd31-cf641852cb30",
-              "usage": "analytics"
-            },
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Bearing average",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "°",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-              "uuid": "abb71fe1-1dda-4cd6-8156-924ee6624e76",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-5",
-          "title": "Speed distribution in m/s and average over time",
-          "tab": "raw_data",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of birds positions having this speed",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "m/s",
-                "yUnit": "",
-                "chartXLabel": "Speed",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-              "uuid": "80498846-06cb-4310-9768-9f725185588e",
-              "usage": "analytics"
-            },
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Speed average",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "m/s",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
-              "uuid": "e9b297b6-8263-49ea-8694-21cb02fff894",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-6",
-          "title": "Track Duration (seconds)",
-          "tab": "raw_data",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.duration_s-numeric-bucket-Count--100",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of positions having this duration",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "s",
-                "yUnit": "",
-                "chartXLabel": "Track duration",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "contributorId": "demo_birdtracking-movebank-track.duration_s-numeric-bucket-Count--100",
-              "uuid": "7b4226ae-4781-4819-9017-df743c6f68c4",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "ml_data-0",
-          "title": "Migration status over time (Manual)",
-          "tab": "ml_data",
-          "icon": "compare_arrows",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-Count--100tagging.tag1",
-                "isHistogramSelectable": true,
-                "multiselectable": false,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartTitle": "Migration status over time (Manual)",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 80,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "variableHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "column",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#333"
-                }
-              },
-              "componentType": "swimlane",
-              "showExportCsv": false,
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-Count--100tagging.tag1",
-              "uuid": "4da6860e-2c80-4426-b5be-bd9f8aaa3243",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "ml_data-1",
-          "title": "Migration status (Manual)",
-          "tab": "ml_data",
-          "icon": "pan_tool",
+          "groupId": "Course-4",
+          "title": "Course identifier",
+          "tab": "Course",
+          "icon": "list",
           "components": [
             {
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Migration status (Manual)",
-                "powerbarTitle": "Migration status (Manual)",
+                "chartTitle": "Course ID",
+                "powerbarTitle": "Course ID",
                 "displayFilter": true,
                 "scrollable": false,
                 "filterOperator": {
                   "value": "Eq",
                   "display": true
                 },
-                "useColorService": true,
+                "useColorService": false,
                 "useColorFromData": false,
                 "chartWidth": 445
               },
-              "contributorId": "demo_birdtracking-movebank-tagging.tag1-10-Count-desc-count",
-              "uuid": "f3c29e2f-48f8-42b3-a74b-3ff6550ee42f",
+              "contributorId": "demo_ais_flow-course.id-10-Count-desc-count",
+              "uuid": "ee7dc2a1-e0b2-49ac-bf8b-1937ee82b234",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "ml_data-2",
-          "title": "Predicted Migration over time",
-          "tab": "ml_data",
-          "icon": "compare_arrows",
-          "components": [
-            {
-              "input": {
-                "id": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-Count--100tagging.tag1",
-                "isHistogramSelectable": true,
-                "multiselectable": false,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartTitle": "Predicted Migration over time",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 80,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "variableHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "column",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#333"
-                }
-              },
-              "componentType": "swimlane",
-              "showExportCsv": false,
-              "contributorId": "demo_birdtracking-movebank-track.timestamps.center-time-bucket-Count--100tagging.tag1",
-              "uuid": "50d815ac-3024-4864-89c0-e0849d267b43",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "ml_data-3",
-          "title": "Predicted Migration status",
-          "tab": "ml_data",
-          "icon": "filter_1",
-          "components": [
-            {
-              "componentType": "powerbars",
-              "input": {
-                "chartTitle": "Predicted Migration status",
-                "powerbarTitle": "Predicted Migration status",
-                "displayFilter": true,
-                "scrollable": false,
-                "filterOperator": {
-                  "value": "Eq",
-                  "display": true
-                },
-                "useColorService": true,
-                "useColorFromData": false,
-                "chartWidth": 445
-              },
-              "contributorId": "demo_birdtracking-movebank-tagging.tag2-10-Count-desc-count",
-              "uuid": "e03a5df9-3b8e-44e6-b74b-2eb2f17751a7",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "resultlist-0",
-          "title": "Result List",
-          "tab": "resultlist",
+          "groupId": "Data Table-0",
+          "title": "Data Table",
+          "tab": "Data Table",
           "icon": "list",
           "components": [
             {
               "componentType": "resultlist",
               "input": {
-                "id": "demo_birdtracking-movebank-id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
+                "id": "demo_ais_flow-track.id-20-MMSI-Ship type-Ship Name-Fragment duration (s)-Course duration (h)-Timestamp start-Technical Information-Course Information-Course Origin-Course Destination-",
                 "tableWidth": 445,
                 "globalActionsList": [],
                 "searchSize": 20,
@@ -1707,7 +2382,7 @@
                 "downloadLink": "",
                 "isBodyHidden": false,
                 "isGeoSortActived": false,
-                "isAutoGeoSortActived": false,
+                "isAutoGeoSortActived": true,
                 "selectedItemsEvent": null,
                 "consultedItemEvent": null,
                 "actionOnItemEvent": null,
@@ -1722,8 +2397,55 @@
                   "showIcon": true
                 }
               },
-              "contributorId": "demo_birdtracking-movebank-id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
-              "uuid": "5203e888-c8c0-4a16-9be0-cba129055ae4",
+              "contributorId": "demo_ais_flow-track.id-20-MMSI-Ship type-Ship Name-Fragment duration (s)-Course duration (h)-Timestamp start-Technical Information-Course Information-Course Origin-Course Destination-",
+              "uuid": "533b9a3f-5bfb-43fa-9a7b-89aaa4896ded",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Visibility-0",
+          "title": "Visibility",
+          "tab": "Visibility",
+          "icon": "poll",
+          "components": [
+            {
+              "input": {
+                "id": "demo_ais_flow-track.visibility.proportion-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Distribution % of visibility",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_ais_flow-track.visibility.proportion-numeric-bucket-Count--50",
+              "uuid": "3455abb3-6e05-4d99-9aba-5693c32a5fc7",
               "usage": "analytics"
             }
           ]
@@ -1733,80 +2455,164 @@
       "colorGenerator": {
         "keysToColors": [
           [
-            "local",
-            "#F27F79"
+            "Tanker",
+            "#ff8ee8"
           ],
           [
-            "travel",
-            "#44a2aa"
+            "Fishing",
+            "#14bc15"
           ],
           [
-            "local_train",
-            "#F27F79"
+            "Tug",
+            "#f4df42"
           ],
           [
-            "travel_train",
-            "#44a2aa"
-          ],
-          [
-            "local_xgb",
-            "#fb554c"
-          ],
-          [
-            "travel_xgb",
-            "#0e89b7"
-          ],
-          [
-            "local_rf",
-            "#F27F79"
-          ],
-          [
-            "travel_rf",
-            "#44a2aa"
+            "SAR",
+            "#03c6ac"
           ],
           [
             "OTHER",
-            "#9d9ca9"
+            "#000000"
           ],
           [
-            "Redrunner + / DER AU057 (eobs 3339)",
-            "#6c64ff"
+            "Unknown",
+            "#c2c2c2"
           ],
           [
-            "Louis / DER AU050 (eobs 3264)",
-            "#4cffff"
+            "Other",
+            "#c2c2c2"
           ],
           [
-            "Sierit-chick + / DER AZ347 (eobs 4565)",
-            "#337dff"
+            "Undefined",
+            "#c2c2c2"
           ],
           [
-            "Sara / DER AU017 (eobs 3941)",
-            "#ffb47c"
+            "Category X",
+            "#eab738"
           ],
           [
-            "Niclas / DER AU053 (eobs 3341)",
-            "#62ff86"
+            "Category Y",
+            "#ead538"
           ],
           [
-            "Mirabell / DER AN910 (eobs 3907)",
-            "#afff57"
+            "Category Z",
+            "#ea8538"
           ],
           [
-            "Zozu / DER AL581 (eobs2541)",
-            "#ff5b72"
+            "Category OS",
+            "#ed29d5"
           ],
           [
-            "Nils + / DER AU058 (eobs 3335)",
-            "#19f450"
+            "Pilot",
+            "#e74b4b"
           ],
           [
-            "Sierit  / DER AN858 (eobs2561)",
-            "#4cfffa"
+            "HSC",
+            "#0086bd"
           ],
           [
-            "Angela / DER AY470 (eobs 4001)",
-            "#53ff77"
+            "Law enforcement",
+            "#00b4d3"
+          ],
+          [
+            "Military",
+            "#a625e0"
+          ],
+          [
+            "Cargo",
+            "#0099ff"
+          ],
+          [
+            "Passenger",
+            "#a5c176"
+          ],
+          [
+            "Dredging",
+            "#51a588"
+          ],
+          [
+            "Anti-pollution",
+            "#00f4d0"
+          ],
+          [
+            "Pleasure",
+            "#ad0084"
+          ],
+          [
+            "Towing",
+            "#d37700"
+          ],
+          [
+            "Towing long/wide",
+            "#d37700"
+          ],
+          [
+            "Sailing",
+            "#edc77b"
+          ],
+          [
+            "Under way using engine",
+            "#51a588"
+          ],
+          [
+            "Unknown value",
+            "#c2c2c2"
+          ],
+          [
+            "Engaged in fishing",
+            "#86d8f7"
+          ],
+          [
+            "Moored",
+            "#eab738"
+          ],
+          [
+            "Reserved for future amendment [HSC]",
+            "#0086bd"
+          ],
+          [
+            "Under way sailing",
+            "#ad0084"
+          ],
+          [
+            "tempo_10s",
+            "#f24848"
+          ],
+          [
+            "tempo_30s",
+            "#0099ff"
+          ],
+          [
+            "MOTION",
+            "#108f24"
+          ],
+          [
+            "PAUSE",
+            "#f13524"
+          ],
+          [
+            "tempo_irregular",
+            "#9c9a19"
+          ],
+          [
+            "tempo_3m",
+            "#ff701b"
+          ],
+          [
+            "tempo_3_3s",
+            "#d9ff19"
+          ],
+          [
+            "tempo_2s",
+            "#c71ec7"
+          ],
+          [
+            "test",
+            "#ff961c"
+          ],
+          [
+            "Non Fishing",
+            "#dc3131"
           ]
         ]
       },
@@ -1821,19 +2627,31 @@
         },
         "tabs": [
           {
-            "name": "raw_data",
+            "name": "Fleet",
             "icon": "short_text",
             "showIcon": true,
             "showName": true
           },
           {
-            "name": "ml_data",
+            "name": "Fragment",
             "icon": "short_text",
             "showIcon": true,
             "showName": true
           },
           {
-            "name": "resultlist",
+            "name": "Course",
+            "icon": "short_text",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Data Table",
+            "icon": "short_text",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Visibility",
             "icon": "short_text",
             "showIcon": true,
             "showName": true
@@ -1843,10 +2661,10 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:81/server",
+      "url": "http://localhost:81/server/",
       "max_age_cache": 120,
       "collection": {
-        "name": "demo_birdtracking-movebank"
+        "name": "demo_ais_flow"
       }
     }
   },
@@ -1855,14 +2673,14 @@
       "app": {
         "components": {
           "chipssearch": {
-            "name": "Search a bird",
+            "name": "Search a MMSI",
             "icon": "search"
           }
         },
         "units": [
           {
-            "collection": "demo_birdtracking-movebank",
-            "unit": "Bird locations",
+            "collection": "demo_ais_flow",
+            "unit": "fragments",
             "ignored": false
           }
         ]
