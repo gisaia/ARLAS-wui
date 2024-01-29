@@ -261,6 +261,191 @@ const cirlce_fines = {
   }
 }
 
-const cirlce_med = {};
+const cirlce_med = {
+  "id": "arlas_id:heatmap-circle-med:1706520870252",
+  "type": "circle",
+  "source": "cluster-track.trail_geohashes_6-Medium-geohash-cell_center-demo_ais_flow",
+  "minzoom": 0,
+  "maxzoom": 24,
+  "layout": {
+    "visibility": "visible",
+    "circle-sort-key": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0, 0,
+      0.2, 2,
+      0.4, 4,
+      0.6, 8
+    ]
+  },
+  "paint": {
+    "circle-opacity":  [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0, 0.2,
+      0.5, 0.5,
+      1,0.8
+    ],
+    "circle-color": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0,
+      "#cee897",
+      0.125,
+      "#9dc95b",
+      0.25,
+      "#4bc71e",
+      0.3,
+      "#1bc473",
+      0.35,
+      "#16ccc9",
+      0.4,
+      "#3619cf",
+      0.55,
+      "#9317d1",
+      0.8,
+      "#d11799",
+      1,
+      "#cf1919"
+    ],
+    "circle-radius": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      ["zoom"],
+      0, 50,
+      2.999999, 110,
+      3, 30,
+      5.999999, 180,
+      6, 40,
+      8.999999, 200,
+      9, 50,
+      11.999999, 360,
+      12, 70,
+      14.999999, 460,
+      15, 600,
+      17, 2000
+    ],
+    "circle-blur": 1,
+    "circle-stroke-width": 0,
+    "circle-stroke-color": "#fff",
+    "circle-stroke-opacity": 0
+  },
+  "metadata": {
+    "collection": "demo_ais_flow",
+    "collection-display-name": "demo_ais_flow"
+  },
+  "filter": [
+    "all",
+    [
+      "all"
+    ]
+  ]
+};
 
+
+const cirlce_coarse =  {
+  "id": "arlas_id:heatmap-circle-coarse:1706520877157",
+  "type": "circle",
+  "source": "cluster-track.trail_geohashes_6-Coarse-geohash-cell_center-demo_ais_flow",
+  "minzoom": 0,
+  "maxzoom": 24,
+  "layout": {
+    "visibility": "visible"
+  },
+  "paint": {
+    "circle-opacity": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0, 0.2,
+      0.5, 0.5,
+      1,0.8
+    ],
+    "circle-color": [
+      "interpolate",
+      [
+        "linear"
+      ],
+      [
+        "get",
+        "count_:normalized"
+      ],
+      0,
+      "#cee897",
+      0.125,
+      "#9dc95b",
+      0.25,
+      "#4bc71e",
+      0.3,
+      "#1bc473",
+      0.35,
+      "#16ccc9",
+      0.4,
+      "#3619cf",
+      0.55,
+      "#9317d1",
+      0.8,
+      "#d11799",
+      1,
+      "#cf1919"
+    ],
+    "circle-radius":  [
+      "interpolate",
+      [
+        "linear"
+      ],
+      ["zoom"],
+      0, 30,
+      3.999999, 250,
+      4, 50,
+      6.999999, 320,
+      7, 120,
+      9.999999, 480,
+      10, 120,
+      12.999999, 580,
+      13, 160,
+      14, 600,
+      17, 1000
+    ],
+    "circle-stroke-width": 0,
+    "circle-blur": 1,
+    "circle-stroke-color": "#fff",
+    "circle-stroke-opacity": 0
+  },
+  "metadata": {
+    "collection": "demo_ais_flow",
+    "collection-display-name": "demo_ais_flow"
+  },
+  "filter": [
+    "all",
+    [
+      "all"
+    ]
+  ]
+}
 
