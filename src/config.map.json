@@ -80,7 +80,7 @@
       ]
     },
     {
-      "id": "arlas_id:heatmap-circle-finest:1706285438495",
+      "id": "arlas_id:heatmap-circle-finest:1706520885741",
       "type": "circle",
       "source": "cluster-track.trail_geohashes_6-Finest-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
@@ -182,7 +182,7 @@
       ]
     },
     {
-      "id": "arlas_id:heatmap-circle-fine:1706285714366",
+      "id": "arlas_id:heatmap-circle-fine:1706519948388",
       "type": "circle",
       "source": "cluster-track.trail_geohashes_6-Fine-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
@@ -253,16 +253,16 @@
           ["zoom"],
           0, 10,
           1.999, 30,
-          4.999, 90,
+          4.999999, 90,
           5, 30,
-          7.999, 150,
+          7.999999, 120,
           8, 40,
-          10.499, 180,
-          10.5, 50,
-          13.999, 200,
-          14, 50,
-          16.999, 350,
-          17, 50
+          10.499999, 180,
+          10.5, 30,
+          13.999999, 210,
+          14, 300,
+          16.999999, 1000,
+          17, 2000
         ],
         "circle-blur": 1,
         "circle-stroke-width": 0,
@@ -281,7 +281,7 @@
       ]
     },
     {
-      "id": "arlas_id:heatmap-circle-med:1706285724828",
+      "id": "arlas_id:heatmap-circle-med:1706520870252",
       "type": "circle",
       "source": "cluster-track.trail_geohashes_6-Medium-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
@@ -380,7 +380,7 @@
       ]
     },
     {
-      "id": "arlas_id:heatmap-circle-coarse:1706285731760",
+      "id": "arlas_id:heatmap-circle-coarse:1706520877157",
       "type": "circle",
       "source": "cluster-track.trail_geohashes_6-Coarse-geohash-cell_center-demo_ais_flow",
       "minzoom": 0,
