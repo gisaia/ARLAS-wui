@@ -20,7 +20,10 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateService } from '@ngx-translate/core';
 import enComponents from 'arlas-web-components/assets/i18n/en.json';
 import frComponents from 'arlas-web-components/assets/i18n/fr.json';
-import { ArlasSettingsService, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED, PersistenceService, WalkthroughLoader } from 'arlas-wui-toolkit';
+import {
+  ArlasConfigService, ArlasSettingsService, CONFIG_ID_QUERY_PARAM,
+  NOT_CONFIGURED, PersistenceService, WalkthroughLoader
+} from 'arlas-wui-toolkit';
 import enToolkit from 'arlas-wui-toolkit/assets/i18n/en.json';
 import frToolkit from 'arlas-wui-toolkit/assets/i18n/fr.json';
 import { timeFormatDefaultLocale } from 'd3-time-format';
@@ -30,6 +33,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { DataWithLinks } from 'arlas-persistence-api';
 
 
 export class ArlasWalkthroughLoader implements WalkthroughLoader {
@@ -37,6 +41,7 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
     private http: HttpClient,
     private arlasSettings: ArlasSettingsService,
     private persistenceService: PersistenceService,
+    private configService: ArlasConfigService,
     private translateService: TranslateService) {
   }
   public loader(): Promise<any> {
@@ -50,14 +55,27 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     if (usePersistence && configurationId) {
       return this.persistenceService.get(configurationId)
-        .pipe(mergeMap(configDoc => this.persistenceService
-          .existByZoneKey('tour', configDoc.doc_key.concat('_').concat(lang))
-          .pipe(mergeMap(exist => exist.exists ? this.persistenceService
-            .getByZoneKey('tour', configDoc.doc_key.concat('_').concat(lang))
-            .pipe(map(tourDoc => JSON.parse(tourDoc.doc_value))) : localTour), catchError(() => localTour)))).toPromise();
+        .pipe(map(configDoc => this.getTour(lang, configDoc, localTour))).toPromise();
     } else {
       return localTour.toPromise();
     }
+
+  }
+
+  private getTour(lang: string, config: any, localTour: Observable<any>): Observable<DataWithLinks> {
+    const arlasConfig = this.configService.parse(config.doc_value);
+    if (this.configService.hasTours(arlasConfig) && this.configService.getTours(arlasConfig)[lang]) {
+      const toursId = this.configService.getTours(arlasConfig)[lang];
+      return this.persistenceService.exists(toursId).pipe(mergeMap((exist) => {
+        if (exist.exists) {
+          return this.persistenceService.get(toursId)
+            .pipe(map((tourDoc) => JSON.parse(tourDoc.doc_value)))
+            .pipe(catchError((err) => localTour));
+        }
+        return localTour;
+      }));
+    }
+    return localTour;
   }
 
 }
@@ -67,7 +85,8 @@ export class ArlasTranslateLoader implements TranslateLoader {
   public constructor(
     private http: HttpClient,
     private arlasSettings: ArlasSettingsService,
-    private persistenceService: PersistenceService
+    private persistenceService: PersistenceService,
+    private configService: ArlasConfigService
   ) { }
 
   public getTranslation(lang: string): Observable<any> {
@@ -85,11 +104,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
     if (usePersistence && configurationId) {
       const localI18nObs = this.http.get(localI18nAdress);
       const externalI18nObs = this.persistenceService.get(configurationId)
-        .pipe(mergeMap(configDoc => this.persistenceService
-          .existByZoneKey('i18n', configDoc.doc_key.concat('_').concat(lang))
-          .pipe(mergeMap(exist => exist.exists ? this.persistenceService
-            .getByZoneKey('i18n', configDoc.doc_key.concat('_').concat(lang))
-            .pipe(map(i18nDoc => i18nDoc.doc_value)) : of('{}')), catchError(e => of('{}')))));
+        .pipe(mergeMap(configDoc => this.getI18n(lang, configDoc, of('{}'))));
       return Observable.create(observer => {
         forkJoin([localI18nObs, externalI18nObs]).subscribe(
           results => {
@@ -135,5 +150,21 @@ export class ArlasTranslateLoader implements TranslateLoader {
         observer.complete(); // => Default language is already loaded
       }
     );
+  }
+
+  private getI18n(lang: string, config: any, localTour: Observable<any>): Observable<string> {
+    const arlasConfig = this.configService.parse(config.doc_value);
+    if (this.configService.hasI18n(arlasConfig) && this.configService.getI18n(arlasConfig)[lang]) {
+      const i18nId = this.configService.getI18n(arlasConfig)[lang];
+      return this.persistenceService.exists(i18nId).pipe(mergeMap((exist) => {
+        if (exist.exists) {
+          return this.persistenceService.get(i18nId)
+            .pipe(map((i18nDoc) => i18nDoc.doc_value))
+            .pipe(catchError((err) => localTour));
+        }
+        return localTour;
+      }));
+    }
+    return localTour;
   }
 }
