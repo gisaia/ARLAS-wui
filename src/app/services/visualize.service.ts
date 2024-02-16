@@ -28,7 +28,7 @@ import { ElementIdentifier } from 'arlas-web-contributors';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Popup } from 'mapbox-gl';
+import { Popup } from 'maplibre-gl';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { parse } from 'wellknown';

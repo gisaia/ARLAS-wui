@@ -692,21 +692,35 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Streets-dark",
-              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              "name": "Streets-light",
+              "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+              "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
             },
             "basemapStyles": [
               {
                 "name": "Basic",
-                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/basic.png"
+              },
+              {
+                "name": "Satellite Hybrid",
+                "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png"
               },
               {
                 "name": "Streets-dark",
-                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
               },
               {
                 "name": "Streets-light",
-                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-light - No label",
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
               }
             ],
             "margePanForLoad": 5,
@@ -1424,7 +1438,7 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:9994/arlas",
+      "url": "https://demo.cloud.arlas.io/arlas/server",
       "max_age_cache": 120,
       "collection": {
         "name": "demo_eo"

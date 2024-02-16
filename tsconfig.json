@@ -12,6 +12,8 @@
     "allowSyntheticDefaultImports":true,
     "experimentalDecorators": true,
     "resolveJsonModule":true,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
     "target": "es6",
     "types": [
       "node",

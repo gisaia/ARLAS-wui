@@ -4,11 +4,8 @@
 ########################################################
 authentication:
   use_authent: ${ARLAS_USE_AUTHENT}
-  auth_mode: ${ARLAS_AUTHENT_MODE}
   force_connect: ${ARLAS_AUTHENT_FORCE_CONNECT}
   use_discovery: ${ARLAS_AUTHENT_USE_DISCOVERY}
-  threshold: ${ARLAS_AUTHENT_THRESHOLD}
-  url: ${ARLAS_IAM_SERVER_URL}
   issuer: ${ARLAS_AUTHENT_ISSUER}
   client_id: ${ARLAS_AUTHENT_CLIENT_ID}
   redirect_uri: ${ARLAS_AUTHENT_REDIRECT_URI}
@@ -37,15 +34,6 @@ arlas_hub_url: ${ARLAS_HUB_URL}
 links: ${ARLAS_STATIC_LINKS}
 ticketing_key: ${ARLAS_TICKETING_KEY}
 tab_name:  ${ARLAS_TAB_NAME}
-dashboards_shortcut: ${ARLAS_WUI_DASHBOARDS_SHORTCUT}
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}
-process:
-  url: ${ARLAS_PROCESS_URL}
-  check_url: ${ARLAS_PROCESS_CHECK_URL}
-  max_items: ${ARLAS_PROCESS_MAX_ITEMS}
-  settings:
-    url: ${ARLAS_PROCESS_SETTINGS_URL}
-  status:
-    url: ${ARLAS_PROCESS_STATUS_URL}

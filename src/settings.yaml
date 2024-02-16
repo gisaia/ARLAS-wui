@@ -2,11 +2,8 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
-  auth_mode: iam
-  url: http://localhost:9997/arlas_iam_server
+  use_authent: false
   force_connect: false
-  threshold: 60000
   use_discovery: false
   issuer: https://arlas-cloud-dev.eu.auth0.com/
   client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
@@ -26,32 +23,6 @@ authentication:
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
 ticketing_key:
 tab_name: "ARLAS Wui"
-persistence:
-  url: 'http://localhost:19997/arlas-persistence-server/'
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
-arlas_hub_url: http://localhost:81/hub
-dashboards_shortcut: false
-process:
-  url: 'https://arlas/processes/download/execution'
-  max_items: 15
-  settings:
-    url: 'assets/processes/download.json'
-  status:
-    url: 'http://arlas/jobs'
-links:
-  - name: Explorer
-    icon: landscape
-    check_url: https://google.com
-  - name: ARLAS Builder
-    icon: build
-    check_url: http://localhost:9997/arlas_iam_server
-  - name: ARLAS Hub
-    icon: hub
-    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
-    url: https://demo.cloud.arlas.io/
-  - name: Fam
-    icon: satellite_alt
-    url: https://demo.cloud.arlas.io/
-    check_url: http://localhost:9997/arlas_iam_server
