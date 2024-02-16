@@ -23,7 +23,7 @@ RUN export NODE_OPTIONS=--max_old_space_size=8192 && $(npm bin)/ng build --confi
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.25.2-alpine
+FROM nginx:1.25.3-alpine3.18-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
