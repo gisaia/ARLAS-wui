@@ -1,5 +1,22 @@
 # Change Log
 
+## [v25.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.2) (2024-02-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.1...v25.0.0-beta.2)
+
+## [v24.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.1) (2024-02-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.1...v24.3.1)
+
+**New stuff:**
+
+- Pass custom headers to protomaps basemaps [\#739](https://github.com/gisaia/ARLAS-wui/issues/739)
+
+**Fixed bugs:**
+
+- Polygons cross the antimeridian whatever there orientation is [\#733](https://github.com/gisaia/ARLAS-wui/issues/733)
+- Dialogs are not displaying like before [\#723](https://github.com/gisaia/ARLAS-wui/issues/723)
+
 ## [v25.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.1) (2024-02-15)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0...v25.0.0-beta.1)
