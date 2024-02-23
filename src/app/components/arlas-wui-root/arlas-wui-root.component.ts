@@ -209,6 +209,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public isExtraShortcutsOpen = false;
   public extraShortcutsFiltered = 0;
   private onGoingSub: Subscription;
+  private activeSubscriptions: Subscription[] = [];
+
   public shortcutWidth = 250;
   /**
    * @description Whether to exceptionally display the shortcuts for size computing
@@ -266,10 +268,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.adjustCoordinates();
         });
       /** trigger 'resize' event after toggling sidenav  */
-      this.sidenavService.sideNavState.subscribe(res => {
+      const sidenavSub = this.sidenavService.sideNavState.subscribe(res => {
         this.onSideNavChange = res;
         window.dispatchEvent(new Event('resize'));
       });
+      this.activeSubscriptions.push(sidenavSub);
+
       this.appName = !!this.configService.appName ? this.configService.appName :
         this.configService.getValue('arlas-wui.web.app.name') ?
           this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
@@ -366,6 +370,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.onGoingSub) {
       this.onGoingSub.unsubscribe();
     }
+    this.activeSubscriptions.forEach(s => s.unsubscribe());
   }
 
   public downloadLayerSource(d) {
@@ -408,10 +413,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
           ));
       const legendData = new Map<string, Map<string, LegendData>>();
-      legendUpdaters.subscribe(lg => {
+      const legendUpdatersSub = legendUpdaters.subscribe(lg => {
         legendData.set(lg.collection, lg.legendData);
         this.mapLegendUpdater.next(legendData);
       });
+      this.activeSubscriptions.push(legendUpdatersSub);
 
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
@@ -453,15 +459,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.resultlistContributors.forEach(c => {
+          const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
           const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
-          if (!!mapcontributor) {
+          if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
             c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
           }
           if (!!this.resultListConfigPerContId.get(c.identifier)) {
-            if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink) {
+            if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
               c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
             }
-            if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink) {
+            if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
           }
@@ -475,20 +482,25 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           !!processSettings && !!processSettings.url
           && !!externalNode && !!externalNode.download && externalNode.download === true
         ) {
-          this.processService.check().subscribe({
+          const processSub = this.processService.check().subscribe({
             next: () => {
               this.resultlistContributors.forEach(c => {
-                c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
-                const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-                if (resultConfig) {
-                  if (!resultConfig.globalActionsList) {
-                    resultConfig.globalActionsList = [];
+                const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
+                if (!listActionsId.includes('production')) {
+                  c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
+                  const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+                  if (resultConfig) {
+                    if (!resultConfig.globalActionsList) {
+                      resultConfig.globalActionsList = [];
+                    }
+                    resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
                   }
-                  resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
                 }
+
               });
             }
           });
+          this.activeSubscriptions.push(processSub);
         }
 
         const selectedResultlistTab = this.getParamValue('rt');
@@ -500,12 +512,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
 
-      this.actionOnPopup.subscribe(data => {
+      const actionOnPopupSub = this.actionOnPopup.subscribe(data => {
         const collection = data.action.collection;
         const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
         const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
         this.actionOnItemEvent(data, mapContributor, listContributor, collection);
       });
+      this.activeSubscriptions.push(actionOnPopupSub);
 
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
@@ -520,13 +533,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
-      zip(...this.collections.map(c => this.collaborativeService.describe(c)))
+      const collectionDescribeSub = zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .subscribe(cdrs => {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+          const bounds = (<mapboxgl.Map>this.mapglComponent.map)?.getBounds();
+          if (!!bounds) {
+            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+          }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
@@ -544,6 +559,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
         });
+      this.activeSubscriptions.push(collectionDescribeSub);
 
       this.shortcuts = this.arlasStartUpService.filtersShortcuts;
 
@@ -603,7 +619,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.adjustCoordinates();
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.tabsList) {
-        this.tabsList.selectedIndexChange.subscribe(index => {
+        const tabListSub = this.tabsList.selectedIndexChange.subscribe(index => {
           this.previewListContrib = this.resultlistContributors[index];
 
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -612,9 +628,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.adjustGrids();
           this.adjustTimelineSize();
         });
+        this.activeSubscriptions.push(tabListSub);
       }
 
-      this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
+      const mapListenerSub = this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
         /** Change map extend in the url */
         const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
         const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
@@ -622,15 +639,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         queryParams[this.MAP_EXTEND_PARAM] = extend;
         this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       });
+      this.activeSubscriptions.push(mapListenerSub);
 
       if (!!this.previewListContrib) {
-        timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
+        const previewSub = timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
           if (this.previewListContrib.data.length > 0 &&
             this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
             this.updateVisibleItems();
             this.apploading = false;
           }
         });
+        this.activeSubscriptions.push(previewSub);
       }
       this.cdr.detectChanges();
     }
@@ -675,7 +694,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateVisibleItems() {
-    if (this.previewListContrib) {
+    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
       const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
       setTimeout(() => {
         const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
