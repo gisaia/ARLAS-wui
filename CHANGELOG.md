@@ -1,8 +1,29 @@
 # Change Log
 
+## [v24.3.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2) (2024-03-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.2...v24.3.2)
+
+**New stuff:**
+
+- use app name in toolbar logo tooltip instead of 'ARLAS-wui' [\#751](https://github.com/gisaia/ARLAS-wui/issues/751)
+
+## [v25.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.2) (2024-02-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.1...v25.0.0-beta.2)
+
 ## [v24.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.1) (2024-02-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.1...v24.3.1)
+
+**New stuff:**
+
+- Pass custom headers to protomaps basemaps [\#739](https://github.com/gisaia/ARLAS-wui/issues/739)
+
+**Fixed bugs:**
+
+- Polygons cross the antimeridian whatever there orientation is [\#733](https://github.com/gisaia/ARLAS-wui/issues/733)
+- Dialogs are not displaying like before [\#723](https://github.com/gisaia/ARLAS-wui/issues/723)
 
 ## [v25.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.1) (2024-02-15)
 
@@ -646,19 +667,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
-
 ## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
+
+## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
