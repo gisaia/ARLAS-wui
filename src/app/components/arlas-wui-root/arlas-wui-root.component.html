@@ -1,7 +1,7 @@
 <div>
   <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
     <div left-menu class="top-left-menu">
-      <img src="assets/logo-only.png" [matTooltip]="'ARLAS-wui' | translate" class="img">
+      <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
@@ -44,13 +44,13 @@
             [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
-                <div class="arlas-map-settings-items" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
+                <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
                   <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
                 </div>
-                <div class="arlas-map-settings-items" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
+                <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
                   <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
-                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items"
+                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item"
                   (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
                   <mat-icon>travel_explore</mat-icon>
                 </div>
