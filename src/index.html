@@ -1,23 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
+    <script blocking="render">
       var MIN_VERSION_BROWSER_SUPPORTED = [
         {
           name: 'safari',
-          version: '14.1',
+          version: 15,
         },
         {
           name: 'chrome',
-          version: '88',
+          version: 88,
         },
         {
           name: 'firefox',
-          version: '90',
+          version: 90,
         },
         {
           name: 'edge',
-          version: '87',
+          version: 87,
+        },
+        {
+          name: 'trident',
+          version: 12,
         }
       ];
 
@@ -26,15 +30,18 @@
         for (var i = 0; i < MIN_VERSION_BROWSER_SUPPORTED.length; i++) {
           var browser = MIN_VERSION_BROWSER_SUPPORTED[i];
           if (userAgent && userAgent.toLowerCase().indexOf(browser.name.toLowerCase()) !== -1) {
+
             var match = userAgent.toLowerCase().match(new RegExp(browser.name.toLowerCase() + '/(\\d+)'));
+            if( browser.name === 'safari'){
+              // Specific case for Safari where version number is defined after 'Version'
+              match = userAgent.toLowerCase().match(new RegExp('version/(\\d+)'));
+            }
             if (match) {
-              var version = parseFloat(match[1]);
+              var version = parseInt(match[1]);
               if (version < browser.version) {
                 return true;
               }
             }
-          } else {
-            return true;
           }
         }
         return false;
