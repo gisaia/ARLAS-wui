@@ -1,6 +1,53 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      var MIN_VERSION_BROWSER_SUPPORTED = [
+        {
+          name: 'safari',
+          version: '14.1',
+        },
+        {
+          name: 'chrome',
+          version: '88',
+        },
+        {
+          name: 'firefox',
+          version: '90',
+        },
+        {
+          name: 'edge',
+          version: '87',
+        }
+      ];
+
+      function isBrowserNotCompatible() {
+        var userAgent = navigator.userAgent;
+        for (var i = 0; i < MIN_VERSION_BROWSER_SUPPORTED.length; i++) {
+          var browser = MIN_VERSION_BROWSER_SUPPORTED[i];
+          if (userAgent && userAgent.toLowerCase().indexOf(browser.name.toLowerCase()) !== -1) {
+            var match = userAgent.toLowerCase().match(new RegExp(browser.name.toLowerCase() + '/(\\d+)'));
+            if (match) {
+              var version = parseFloat(match[1]);
+              if (version < browser.version) {
+                return true;
+              }
+            }
+          } else {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        if (isBrowserNotCompatible()) {
+          var myApp = document.getElementById('arlas-app');
+          myApp.style.display = 'none';
+          location.replace('assets/browser-compatibility/browser-compatibility.component.html');
+        }
+      });
+    </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=${ARLAS_GOOGLE_ANALYTICS_KEY}"></script>
     <script>
@@ -14,11 +61,14 @@
     <title>ARLAS</title>
     <base href="/">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <body>
-    <arlas-root></arlas-root>
-    <!-- End of gisaiasupport Zendesk Widget script -->
-    <img class="gif" src="assets/spinner.gif">
-  </body>
-</html>
-<link rel="stylesheet" type="text/css" href="assets/styles/custom-style.css"></head>
 
+    <body>
+      <arlas-root id="arlas-app"></arlas-root>
+      <!-- End of gisaiasupport Zendesk Widget script -->
+      <img class="gif" src="assets/spinner.gif" />
+    </body>
+
+
+    <link rel="stylesheet" type="text/css" href="assets/styles/custom-style.css">
+  </head>
+</html>
