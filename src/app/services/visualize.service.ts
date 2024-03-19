@@ -284,4 +284,8 @@ export class VisualizeService {
     }
     return geojsonData;
   }
+
+  public getBbox(geoJson: any){
+    return bbox(geoJson);
+  }
 }

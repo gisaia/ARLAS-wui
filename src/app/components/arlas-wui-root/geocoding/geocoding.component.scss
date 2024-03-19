@@ -1,0 +1,53 @@
+@import "styles/app/sizes.scss";
+
+:host {
+  position: absolute;
+  right: 42px;
+  top: 61px;
+  background: white;
+  width: 411px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  padding: $default-spacing;
+  border-radius: 5px;
+  box-shadow: 1px 1px 7px black;
+  border: 1px solid #ddd;
+
+  .geocode-header{
+    display: flex;
+    justify-content: end;
+  }
+
+  .geocode-content{
+    margin-top: $sm-spacing;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .geocode-input{
+    flex-basis: 60%;
+  }
+
+  .geocode-table-container{
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+
+  .table{
+    max-height: 200px;
+    width: 100%;
+    margin-top: $default-spacing;
+
+    ::ng-deep thead tr.mat-header-row {
+      height: 1px;
+    }
+  }
+
+  .no-result {
+    font-weight: bold;
+  }
+
+}
+
