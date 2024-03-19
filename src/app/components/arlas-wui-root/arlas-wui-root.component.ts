@@ -235,6 +235,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public constructor(
     private configService: ArlasConfigService,
+    protected settingsService: ArlasSettingsService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
     public arlasStartUpService: ArlasStartupService,
@@ -1409,6 +1410,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToLocation(event: GeocodingResult) {
+    console.error(this.settingsService.settings)
      let bbox = this.visualizeService.getBbox(event.geojson);
      this.mapglComponent.map.fitBounds(bbox as [number, number, number, number])
   }
