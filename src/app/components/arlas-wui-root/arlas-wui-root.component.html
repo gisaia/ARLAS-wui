@@ -48,7 +48,11 @@
                   <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
                 </div>
                 <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-                  <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+                  <mat-icon >public</mat-icon>
+                </div>
+                <div matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item">
+                  <mat-icon (click)="showGeocodingPopup.next(true) ">location_searching</mat-icon>
+                  <arlas-geocoding *ngIf="showGeocodingPopup | async" (close)="showGeocodingPopup.next(false)" (zoomToAdress)="goToLocation($event)"></arlas-geocoding>
                 </div>
                 <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item"
                   (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">

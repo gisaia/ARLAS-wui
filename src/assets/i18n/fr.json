@@ -1,6 +1,7 @@
 {
 	"ARLAS-wui": "ARLAS WUI",
 	"Map Settings": "Configuration de la carte",
+  "Search a place": "Chercher une place, une addresse",
 	"Basemaps": "Fonds cartographiques",
 	"Geo-filter tools": "Géo-filtres",
 	"Add bbox": "Ajouter bbox",
@@ -88,6 +89,7 @@
 	"intersects": "intersecte",
 	"notwithin": "ne contient pas",
 	"notintersects": "n'intersecte pas",
+  "No result": "Aucun resultat",
 	"Select the geometries to render": "Géométries affichées",
 	"Geometry to render": "Géométrie affichée",
 	"Draw a bbox or a polygon that": "Dessiner une bbox ou un polygone qui",

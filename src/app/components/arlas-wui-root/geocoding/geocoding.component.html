@@ -1,0 +1,23 @@
+<div class="geocode-header"><mat-icon (click)="closePopup()">close</mat-icon></div>
+  <div class="geocode-content">
+    <mat-form-field  class="geocode-input">
+      <mat-label>Type an address</mat-label>
+      <input (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
+    </mat-form-field>
+    <button mat-flat-button  color="primary" (click)="search()">{{'search' | translate }}</button>
+  </div>
+  <div  *ngIf="displayTable; else noResult" class="geocode-table-container">
+    <table class="table" mat-table [dataSource]="geocodingResult ">
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell (click)="onSearchLocation(element)" *matCellDef="let element">
+          {{element.display_name }}
+          <span *ngIf="element.addresstype"> - {{element.addresstype}}</span>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+<ng-template #noResult> <span *ngIf="hasDoneFirstSearch" class="no-result">{{'No result' | translate}}</span> </ng-template>
+

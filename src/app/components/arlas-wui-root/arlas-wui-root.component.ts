@@ -51,7 +51,7 @@ import {
   TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { Observable, Subject, Subscription, fromEvent, merge, of, timer, zip } from 'rxjs';
+import {Observable, Subject, Subscription, fromEvent, merge, of, timer, zip, BehaviorSubject} from 'rxjs';
 import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
@@ -59,6 +59,7 @@ import { DynamicComponentService } from '../../services/dynamicComponent.service
 import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
+import {GeocodingResult, GeoJson} from "../../services/geocoding.service";
 
 @Component({
   selector: 'arlas-wui-root',
@@ -170,6 +171,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public zoomStart: number;
   public popup: mapboxgl.Popup;
   public aoiEdition: AoiEdition;
+
+  protected showGeocodingPopup = new BehaviorSubject(false);
 
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
@@ -1403,6 +1406,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
     }
+  }
+
+  goToLocation(event: GeocodingResult) {
+     let bbox = this.visualizeService.getBbox(event.geojson);
+     this.mapglComponent.map.fitBounds(bbox as [number, number, number, number])
   }
 }
 

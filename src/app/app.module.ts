@@ -68,6 +68,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
+import { GeocodingComponent } from './components/arlas-wui-root/geocoding/geocoding.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -77,7 +79,8 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    GeocodingComponent
   ],
   exports: [
     AoiDimensionComponent,
@@ -140,7 +143,8 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
       }
     }),
     ArlasTaggerModule,
-    LoginModule
+    LoginModule,
+    MatPaginatorModule
   ],
   providers: [
     ContributorService,
