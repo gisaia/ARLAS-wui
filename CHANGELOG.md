@@ -1,5 +1,14 @@
 # Change Log
 
+## [v24.3.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.3) (2024-03-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2...v24.3.3)
+
+**New stuff:**
+
+- Check the browser compatibility on load [\#754](https://github.com/gisaia/ARLAS-wui/issues/754)
+- Upgrade typedoc version in order to be able to generate typescript documentation of v3-swagger apis [\#750](https://github.com/gisaia/ARLAS-wui/issues/750) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+
 ## [v24.3.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2) (2024-03-01)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.2...v24.3.2)
