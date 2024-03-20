@@ -27,7 +27,7 @@ authentication:
 ticketing_key:
 tab_name: "ARLAS Wui"
 persistence:
-  url: 'http://localhost:81/persist/'
+  url: 'http://localhost:19997/arlas-persistence-server/'
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
@@ -55,3 +55,6 @@ links:
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
     check_url: http://localhost:9997/arlas_iam_server
+geocoding:
+  find_place_url: "https://nominatim.openstreetmap.org/"
+  find_place_zoom_to: 11

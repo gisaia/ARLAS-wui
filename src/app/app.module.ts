@@ -69,7 +69,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
 import { GeocodingComponent } from './components/arlas-wui-root/geocoding/geocoding.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
