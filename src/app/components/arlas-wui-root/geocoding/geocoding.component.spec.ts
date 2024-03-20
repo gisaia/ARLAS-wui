@@ -10,7 +10,7 @@ describe('GeocodingComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ GeocodingComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(GeocodingComponent);
     component = fixture.componentInstance;

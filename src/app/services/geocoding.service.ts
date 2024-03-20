@@ -18,44 +18,44 @@
  */
 
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {ArlasSettingsService} from 'arlas-wui-toolkit';
 
-export  interface  GeocodingQueryParams {
-   q: string,
-  "accept-language": string,
-  format?: 'xml' | 'json' | 'jsonv2'| 'geojson' |'geocodejson',
-  limit?: number,
-  polygonOutput?: {type: 'polygon_geojson', value: 0 | 1}
+export interface GeocodingQueryParams {
+  q: string;
+  'accept-language': string;
+  format?: 'xml' | 'json' | 'jsonv2' | 'geojson' | 'geocodejson';
+  limit?: number;
+  polygonOutput?: { type: 'polygon_geojson'; value: 0 | 1; };
 }
 
-export  interface  GeocodingResult {
-  display_name: string,
-  lat: number,
-  lon: number,
-  boundingbox: number[],
-  addresstype: string,
+// attribute is in lowerCase to map nominatim output
+export interface GeocodingResult {
+  display_name: string;
+  lat: number;
+  lon: number;
+  boundingbox: number[];
+  addresstype: string;
   geojson: GeoJson;
 }
 
-export type GeoJson = {type: string ,"coordinates": any};
+export interface GeoJson { type: string; coordinates: any; }
 
-const API_URL = 'https://nominatim.openstreetmap.org/';
 @Injectable({providedIn: 'root'})
 export class GeocodingService {
-  public map;
-
-
-  public constructor(public http: HttpClient
-  ) { }
+  public constructor(
+    private http: HttpClient,
+    private arlasSettingsService: ArlasSettingsService
+  ) {
+  }
 
   public findLocations(geocodingQuery: GeocodingQueryParams): Observable<GeocodingResult[]> {
-    return this.request(this.buildSearchUrl(geocodingQuery))
+    return this.doRequest(this.buildSearchUrl(geocodingQuery))
       .pipe(map(result => {
-        console.log(result)
-        if(!result) {
+        if (!result) {
           return [];
         }
         return result;
@@ -63,14 +63,15 @@ export class GeocodingService {
   }
 
   private buildSearchUrl(query: GeocodingQueryParams): string {
-    let url = `${API_URL}/search?q=${query.q}&accept-language=${query["accept-language"]}`;
-    url+= `&limit=${query.limit ?? 20}`;
-    url+= `&format=${query.format ?? 'jsonv2'}`;
-    url+= (query.polygonOutput) ? `&${query.polygonOutput.type}=${query.polygonOutput.value}` : '&polygon_geojson=1';
-    return  url;
+    let url = `${this.arlasSettingsService.getGeocodingSettings().find_place_url}/search?q=${query.q}`;
+    url += `&accept-language=${query['accept-language']}`;
+    url += `&limit=${query.limit ?? 20}`;
+    url += `&format=${query.format ?? 'jsonv2'}`;
+    url += (query.polygonOutput) ? `&${query.polygonOutput.type}=${query.polygonOutput.value}` : '&polygon_geojson=1';
+    return url;
   }
 
-  private request(url: string): Observable<GeocodingResult[]> {
+  private doRequest(url: string): Observable<GeocodingResult[]> {
     return this.http.get<GeocodingResult[]>(url, {responseType: 'json'});
   }
 }

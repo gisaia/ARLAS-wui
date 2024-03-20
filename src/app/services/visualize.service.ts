@@ -17,22 +17,24 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {TranslateService} from '@ngx-translate/core';
 import bbox from '@turf/bbox';
-import { BBox } from '@turf/helpers';
-import { Expression, Filter, Hits, Search } from 'arlas-api';
-import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
-import { ElementIdentifier } from 'arlas-web-contributors';
-import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
-import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Popup } from 'mapbox-gl';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { parse } from 'wellknown';
+import {BBox} from '@turf/helpers';
+import {Expression, Filter, Search} from 'arlas-api';
+import {CROSS_LAYER_PREFIX} from 'arlas-web-components';
+import {ElementIdentifier} from 'arlas-web-contributors';
+import {getElementFromJsonObject} from 'arlas-web-contributors/utils/utils';
+import {projType} from 'arlas-web-core';
+import {ArlasCollaborativesearchService} from 'arlas-wui-toolkit';
+import {Popup} from 'mapbox-gl';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {parse} from 'wellknown';
+import {BBox2d} from '@turf/helpers/dist/js/lib/geojson';
 
+const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
 @Injectable()
 export class VisualizeService {
@@ -285,7 +287,52 @@ export class VisualizeService {
     return geojsonData;
   }
 
-  public getBbox(geoJson: any){
-    return bbox(geoJson);
+  public getBbox(geoJson: any): BBox2d {
+    return bbox(geoJson) as BBox2d;
+  }
+
+  public addGeocodingPreviewLayer(geoJson: any) {
+    const source = this.map.getSource(GEOCODING_PREVIEW_ID);
+    if(!source) {
+      this.map.addSource(GEOCODING_PREVIEW_ID, {
+        type: 'geojson',
+        data: geoJson
+      });
+    } else {
+      source.setData(geoJson);
+    }
+
+    const circlePaint = {
+      'circle-radius': 4,
+      'circle-stroke-width': 2,
+      'circle-color': '#3bb2d0',
+      'circle-stroke-color': '#3bb2d0'
+    };
+    const polygonPaint = {'fill-color':'#3bb2d0','fill-outline-color':'#3bb2d0','fill-opacity':0.1};
+
+    const type = (geoJson.type === 'Point') ? 'circle' : 'fill';
+    const paint =  (geoJson.type === 'Point') ? circlePaint : polygonPaint;
+
+    this.map.addLayer({
+      'id': GEOCODING_PREVIEW_ID,
+      'type': type,
+      'source': GEOCODING_PREVIEW_ID,
+      'paint':paint,
+      'layout': {
+        'visibility': 'visible'
+      }
+    });
+  }
+  public removeGeocodingPreviewLayer(){
+    if(this.map.getLayer(GEOCODING_PREVIEW_ID)) {
+      this.map.removeLayer(GEOCODING_PREVIEW_ID);
+    }
+  }
+
+  public handleGeojsonPreview(geojson: any){
+    this.addGeocodingPreviewLayer(geojson);
+    this.map.on('zoomend', () => {
+      this.removeGeocodingPreviewLayer();
+    });
   }
 }

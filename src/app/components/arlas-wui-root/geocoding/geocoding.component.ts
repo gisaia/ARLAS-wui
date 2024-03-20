@@ -1,8 +1,26 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {GeocodingQueryParams, GeocodingResult, GeocodingService} from "../../../services/geocoding.service";
-import {TranslateService} from "@ngx-translate/core";
-import {MatTableDataSource} from "@angular/material/table";
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the 'License'); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {GeocodingQueryParams, GeocodingResult, GeocodingService} from '../../../services/geocoding.service';
+import {TranslateService} from '@ngx-translate/core';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'arlas-geocoding',
@@ -10,42 +28,54 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./geocoding.component.scss']
 })
 export class GeocodingComponent implements OnInit, AfterViewInit {
-  @Output() close = new EventEmitter();
-  @Output() zoomToAdress = new EventEmitter();
+  @Output() private close = new EventEmitter();
+  @Output() private zoomToAddress = new EventEmitter();
+  protected displayedColumns: string[] = ['address'];
+  protected displayTable = false;
+  protected hasDoneFirstSearch = false;
+  @ViewChild('searchInput') private searchInput: ElementRef;
   protected geocodingResult: MatTableDataSource<any>;
   protected searchFormControl = new FormControl('');
-  displayedColumns: string[] = ['address'];
-  displayTable: boolean = false;
-  hasDoneFirstSearch = false;
-  protected total = 0;
+  private previousSearch: string;
 
-  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService) { }
+  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService) {
+  }
 
   public ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
-
+  public ngAfterViewInit(): void {
+    this.searchInput.nativeElement.focus();
   }
 
-  protected search(){
+  public closePopup(): void {
+    this.close.next(true);
+  }
+
+  public onSearchLocation($event: GeocodingResult): void {
+    this.zoomToAddress.next($event);
+  }
+
+  protected search(): void {
+    if(!this.searchFormControl.value || this.searchFormControl.value.length === 0) {
+      console.warn('no value', this.searchFormControl.value);
+      return;
+    }
+
+    if(!!this.previousSearch && (this.previousSearch.trim()  === this.searchFormControl.value.trim())) {
+      return;
+    }
+
+    this.displayTable = true;
+    this.previousSearch = this.searchFormControl.value;
     const geocodingSearch: GeocodingQueryParams = {
       q: this.searchFormControl.value,
-      "accept-language": this.translateService.currentLang
-    }
-   this.geocodingService.findLocations(geocodingSearch).subscribe( r => {
-     this.hasDoneFirstSearch = true;
-     this.displayTable = r && r.length > 0;
-     this.geocodingResult = new MatTableDataSource(r);
-     this.total = r.length;
-   });
-  }
-
-  closePopup() {
-    this.close.next(true)
-  }
-
-  onSearchLocation($event: GeocodingResult) {
-    this.zoomToAdress.next($event);
+      'accept-language': this.translateService.currentLang
+    };
+    this.geocodingService.findLocations(geocodingSearch).subscribe(r => {
+      this.hasDoneFirstSearch = true;
+      this.displayTable = r && r.length > 0;
+      this.geocodingResult = new MatTableDataSource(r);
+    });
   }
 }

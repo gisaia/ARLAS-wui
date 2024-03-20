@@ -48,15 +48,15 @@
                   <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
                 </div>
                 <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-                  <mat-icon >public</mat-icon>
-                </div>
-                <div matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item">
-                  <mat-icon (click)="showGeocodingPopup.next(true) ">location_searching</mat-icon>
-                  <arlas-geocoding *ngIf="(showGeocodingPopup | async) && settingsService.getSettings()" (close)="showGeocodingPopup.next(false)" (zoomToAdress)="goToLocation($event)"></arlas-geocoding>
+                  <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
                 <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item"
                   (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
                   <mat-icon>travel_explore</mat-icon>
+                </div>
+                <div *ngIf="enableGeocodingFeature" matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item">
+                  <mat-icon (click)="showGeocodingPopup.next(true) ">location_searching</mat-icon>
+                  <arlas-geocoding *ngIf="(showGeocodingPopup | async) && settingsService.getSettings()" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
                 </div>
               </div>
               <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">

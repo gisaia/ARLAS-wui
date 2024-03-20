@@ -16,50 +16,68 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTabGroup } from '@angular/material/tabs';
-import { DomSanitizer, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { CollectionReferenceParameters } from 'arlas-api';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatIconRegistry} from '@angular/material/icon';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatTabGroup} from '@angular/material/tabs';
+import {DomSanitizer, Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {CollectionReferenceParameters} from 'arlas-api';
 import {
   AoiEdition,
   ArlasColorService,
   BboxGeneratorComponent,
-  CellBackgroundStyleEnum, ChartType, Column, DataType, GeoQuery, Item, MapglComponent, MapglImportComponent,
-  MapglSettingsComponent, ModeEnum, PageQuery, Position, ResultDetailedItemComponent,
+  CellBackgroundStyleEnum,
+  ChartType,
+  Column,
+  DataType,
+  GeoQuery,
+  Item,
+  MapglComponent,
+  MapglImportComponent,
+  MapglSettingsComponent,
+  ModeEnum,
+  PageQuery,
+  Position,
+  ResultDetailedItemComponent,
   SCROLLABLE_ARLAS_ID,
   SortEnum
 } from 'arlas-web-components';
 import {
-  AnalyticsContributor, ChipsSearchContributor,
-  ElementIdentifier, FeatureRenderMode,
+  AnalyticsContributor,
+  ChipsSearchContributor,
+  ElementIdentifier,
+  FeatureRenderMode,
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
-import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import {LegendData} from 'arlas-web-contributors/contributors/MapContributor';
 import {
   AnalyticsService,
-  ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService,
-  CollectionUnit, FilterShortcutConfiguration,
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasMapService,
+  ArlasMapSettings,
+  ArlasSettingsService,
+  ArlasStartupService,
+  CollectionUnit,
+  FilterShortcutConfiguration,
   ProcessComponent,
   ProcessService,
   TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import {Observable, Subject, Subscription, fromEvent, merge, of, timer, zip, BehaviorSubject} from 'rxjs';
-import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { ContributorService } from '../../services/contributors.service';
-import { DynamicComponentService } from '../../services/dynamicComponent.service';
-import { SidenavService } from '../../services/sidenav.service';
-import { VisualizeService } from '../../services/visualize.service';
-import { MenuState } from '../left-menu/left-menu.component';
-import {GeocodingResult, GeoJson} from "../../services/geocoding.service";
+import {BehaviorSubject, fromEvent, merge, Observable, of, Subject, Subscription, timer, zip} from 'rxjs';
+import {debounceTime, mergeMap, takeWhile} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {ContributorService} from '../../services/contributors.service';
+import {DynamicComponentService} from '../../services/dynamicComponent.service';
+import {SidenavService} from '../../services/sidenav.service';
+import {VisualizeService} from '../../services/visualize.service';
+import {MenuState} from '../left-menu/left-menu.component';
+import {GeocodingResult} from '../../services/geocoding.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -116,42 +134,25 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     elementidentifier: ElementIdentifier;
   };
   public featuresToSelect: Array<ElementIdentifier> = [];
-  private allowMapExtend: boolean;
-  private mapBounds: mapboxgl.LngLatBounds;
-  private mapEventListener = new Subject();
-  private mapExtendTimer: number;
-  private MAP_EXTEND_PARAM = 'extend';
-
   public nbVerticesLimit = 50;
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
-
   public menuState: MenuState;
   public searchOpen = true;
   public mapId = 'mapgl';
-
-  public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
-
+  public centerLatLng: { lat: number; lng: number; } = {lat: 0, lng: 0};
   public listOpen = false;
   public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
-
-  /* Process */
-  private downloadDialogRef: MatDialogRef<ProcessComponent>;
-
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
-    = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
-
+    = {show: false, diameter: '60', color: 'accent', strokeWidth: 5};
   public showZoomToData = false;
   public showIndicators = false;
   public onSideNavChange: boolean;
-
   public defaultBaseMap;
-
   public mapDataSources;
-
   public mapRedrawSources;
   public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
   public mapVisibilityUpdater;
@@ -163,64 +164,50 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     'type': 'FeatureCollection',
     'features': []
   };
-
   public isTimelineOpen = true;
-
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
   public popup: mapboxgl.Popup;
   public aoiEdition: AoiEdition;
-
-  protected showGeocodingPopup = new BehaviorSubject(false);
-
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
-
   /**
    * @Input : Angular
    * @description Width in pixels of the preview result list
    */
   @Input() public previewListWidth = 125;
-
   /**
    * @Input : Angular
    * @description Width in pixels of the result list
    */
   @Input() public listWidth = 500;
-
   /**
    * @Input : Angular
    * @description Number of columns in the grid result list
    */
   @Input() public resultListGridColumns = 4;
-
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
   public apploading = true;
-  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
-  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
-  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
-  @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-
+  @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
+  @ViewChild('import', {static: false}) public mapImportComponent: MapglImportComponent;
+  @ViewChild('mapSettings', {static: false}) public mapSettings: MapglSettingsComponent;
+  @ViewChild('tabsList', {static: false}) public tabsList: MatTabGroup;
+  @ViewChild('timeline', {static: false}) public timelineComponent: TimelineComponent;
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
   public extraShortcuts = new Array<FilterShortcutConfiguration>();
   public shortcutOpen: number;
   public isExtraShortcutsOpen = false;
   public extraShortcutsFiltered = 0;
-  private onGoingSub: Subscription;
-  private activeSubscriptions: Subscription[] = [];
-
   public shortcutWidth = 250;
   /**
    * @description Whether to exceptionally display the shortcuts for size computing
    */
   public showShortcuts = false;
   public showMoreShortcutsWidth: number;
-
   /** Collection counts */
   /**
    * @description Space available to display the counts in the top bar
@@ -230,8 +217,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * @description Spacing used in the WUI to separate elements
    */
   public spacing = 5;
-
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
+  protected showGeocodingPopup = new BehaviorSubject(false);
+  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings().find_place_url;
+  private allowMapExtend: boolean;
+  private mapBounds: mapboxgl.LngLatBounds;
+  private mapEventListener = new Subject();
+  private mapExtendTimer: number;
+  private MAP_EXTEND_PARAM = 'extend';
+  /* Process */
+  private downloadDialogRef: MatDialogRef<ProcessComponent>;
+  private onGoingSub: Subscription;
+  private activeSubscriptions: Subscription[] = [];
 
   public constructor(
     private configService: ArlasConfigService,
@@ -414,7 +411,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
         merge(...this.mapglContributors
           .map(c => c.legendUpdater
-            .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
+            .pipe(mergeMap(m => of({collection: c.collection, legendData: m})))
           ));
       const legendData = new Map<string, Map<string, LegendData>>();
       const legendUpdatersSub = legendUpdaters.subscribe(lg => {
@@ -466,14 +463,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
           const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
           if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-            c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+            c.addAction({id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product'});
           }
           if (!!this.resultListConfigPerContId.get(c.identifier)) {
             if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-              c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+              c.addAction({id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map'});
             }
             if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-              c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
+              c.addAction({id: 'download', label: 'Download', cssClass: '', tooltip: 'Download'});
             }
           }
 
@@ -491,13 +488,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               this.resultlistContributors.forEach(c => {
                 const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
                 if (!listActionsId.includes('production')) {
-                  c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
+                  c.addAction({id: 'production', label: 'Download', cssClass: '', tooltip: 'Download'});
                   const resultConfig = this.resultListConfigPerContId.get(c.identifier);
                   if (resultConfig) {
                     if (!resultConfig.globalActionsList) {
                       resultConfig.globalActionsList = [];
                     }
-                    resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
+                    resultConfig.globalActionsList.push({'id': 'production', 'label': 'Download'});
                   }
                 }
 
@@ -544,7 +541,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           });
           const bounds = (<mapboxgl.Map>this.mapglComponent.map)?.getBounds();
           if (!!bounds) {
-            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, {duration: 0});
           }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
@@ -628,7 +625,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
           queryParams['rt'] = this.previewListContrib.getName();
-          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
           this.adjustGrids();
           this.adjustTimelineSize();
         });
@@ -641,7 +638,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
         queryParams[this.MAP_EXTEND_PARAM] = extend;
-        this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+        this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
       });
       this.activeSubscriptions.push(mapListenerSub);
 
@@ -666,7 +663,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
         this.mapBounds = null;
       }
       this.mapglComponent.map.on('movestart', (e) => {
@@ -862,7 +859,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listOpen = !this.listOpen;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
@@ -952,9 +949,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
       this.sortOutput.set(resultListContributor.identifier,
-        { fieldName: idFieldName, sortDirection: SortEnum.none });
+        {fieldName: idFieldName, sortDirection: SortEnum.none});
       /** Sort the list by the selected column and the id field name */
-      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
+      resultListContributor.sortColumn({fieldName: idFieldName, sortDirection: SortEnum.none}, true);
       mapContributor.searchSort = resultListContributor.sort;
       mapContributor.searchSize = resultListContributor.pageSize;
       this.clearWindowData(mapContributor);
@@ -990,7 +987,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+      this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       const ratioToAutoSort = 0.1;
       this.centerLatLng['lat'] = event.centerWithOffset[1];
@@ -1050,7 +1047,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
   }
 
 
@@ -1102,7 +1099,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               }>();
               k.forEach((value, key) => {
                 details.push(
-                  { key, value }
+                  {key, value}
                 );
               });
               detail.push({
@@ -1114,12 +1111,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             const popupContent = this.dynamicComponentService.injectComponent(
               ResultDetailedItemComponent,
               x => {
-                x.rowItem = rowItem; x.actionOnItemEvent = this.actionOnPopup; x.idFieldName = idFieldName;
+                x.rowItem = rowItem;
+                x.actionOnItemEvent = this.actionOnPopup;
+                x.idFieldName = idFieldName;
               });
             if (!!this.popup) {
               this.popup.remove();
             }
-            this.popup = new mapboxgl.Popup({ closeOnClick: false })
+            this.popup = new mapboxgl.Popup({closeOnClick: false})
               .setLngLat(event.point)
               .setDOMContent(popupContent);
             this.popup.addTo(this.mapglComponent.map);
@@ -1135,7 +1134,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateTimelineLegendVisibility();
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
     this.adjustGrids();
     this.adjustTimelineSize();
     this.adjustVisibleShortcuts();
@@ -1148,42 +1147,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isTimelineOpen = !this.isTimelineOpen;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['to'] = this.isTimelineOpen + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
   }
 
   public updateTimelineLegendVisibility() {
     this.isTimelineLegend = !(this.listOpen && this.analyticsService.activeTab !== undefined);
   }
-
-  /**
-   * Compute the space available between the divider after the search and the title of the application
-   */
-  private resizeCollectionCounts() {
-    // Add padding to the left of the divider and right of the title
-    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
-    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
-    this.availableSpaceCounts = end - start;
-  }
-
-  private adjustGrids() {
-    if (!this.listOpen) {
-      const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
-      config.isDetailledGridOpen = false;
-    } else {
-      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
-    }
-  }
-  private adjustTimelineSize() {
-    setTimeout(() => {
-      this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
-        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
-      }
-      this.mapglComponent.map.resize();
-      this.updateVisibleItems();
-    }, 0);
-  }
-
 
   public closeAnalytics() {
     this.analyticsService.selectTab(undefined);
@@ -1219,6 +1188,54 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isExtraShortcutsOpen && this.shortcutOpen === this.shortcuts.length - 1) {
       this.shortcutOpen = -1;
     }
+  }
+
+  public goToArlasHub() {
+    const hubUrl = this.arlasSettingsService.getArlasHubUrl();
+    if (!!hubUrl) {
+      window.open(hubUrl);
+    }
+  }
+
+  protected goToLocation(event: GeocodingResult) {
+    const bbox = this.visualizeService.getBbox(event.geojson);
+    this.visualizeService.handleGeojsonPreview(event.geojson);
+    if (event.geojson.type === 'Point') {
+      const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
+      this.mapglComponent.map.fitBounds(bbox, {maxZoom: zoom});
+    } else {
+      this.mapglComponent.map.fitBounds(bbox);
+    }
+  }
+
+  /**
+   * Compute the space available between the divider after the search and the title of the application
+   */
+  private resizeCollectionCounts() {
+    // Add padding to the left of the divider and right of the title
+    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
+    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
+    this.availableSpaceCounts = end - start;
+  }
+
+  private adjustGrids() {
+    if (!this.listOpen) {
+      const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
+      config.isDetailledGridOpen = false;
+    } else {
+      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
+    }
+  }
+
+  private adjustTimelineSize() {
+    setTimeout(() => {
+      this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+      }
+      this.mapglComponent.map.resize();
+      this.updateVisibleItems();
+    }, 0);
   }
 
   private adjustCoordinates(): void {
@@ -1292,7 +1309,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
   }
 
-
   private getVisibleElementLayerFilter(l, ids) {
     const lFilter = this.mapglComponent.layersMap.get(l).filter;
     const filters = [];
@@ -1314,14 +1330,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     return filters;
   }
 
-
   private clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
       .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
       .map(ls => ls.source)
       .forEach(source => contributor.clearData(source));
   }
-
 
   private getParamValue(param: string): string {
     let paramValue = null;
@@ -1333,6 +1347,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return paramValue;
   }
+
   private actionOnItemEvent(data, mapContributor, listContributor, collection) {
     switch (data.action.id) {
       case 'zoomToFeature':
@@ -1368,13 +1383,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public goToArlasHub() {
-    const hubUrl = this.arlasSettingsService.getArlasHubUrl();
-    if (!!hubUrl) {
-      window.open(hubUrl);
-    }
-  }
-
   private process(ids: string[], collection: string) {
     const maxItems = this.arlasSettingsService.getProcessSettings().max_items;
     if (ids.length <= maxItems) {
@@ -1387,7 +1395,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             collection
           ).subscribe({
             next: (item: any) => {
-              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+              this.downloadDialogRef = this.dialog.open(ProcessComponent, {minWidth: '520px', maxWidth: '60vw'});
               this.downloadDialogRef.componentInstance.nbProducts = ids.length;
               this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
               this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
@@ -1407,12 +1415,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
     }
-  }
-
-  goToLocation(event: GeocodingResult) {
-    console.error(this.settingsService.settings)
-     let bbox = this.visualizeService.getBbox(event.geojson);
-     this.mapglComponent.map.fitBounds(bbox as [number, number, number, number])
   }
 }
 

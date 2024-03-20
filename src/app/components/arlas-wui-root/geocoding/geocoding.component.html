@@ -2,7 +2,7 @@
   <div class="geocode-content">
     <mat-form-field  class="geocode-input">
       <mat-label>Type an address</mat-label>
-      <input (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
+      <input #searchInput (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
     </mat-form-field>
     <button mat-flat-button  color="primary" (click)="search()">{{'search' | translate }}</button>
   </div>
