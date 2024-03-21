@@ -18,9 +18,8 @@
  */
 
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -41,15 +40,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule } from 'arlas-web-components';
+import {
+  BboxGeneratorModule,
+  FormatNumberModule,
+  HistogramModule,
+  MapglImportModule,
+  MapglModule,
+  MapglSettingsModule,
+  ResultsModule
+} from 'arlas-web-components';
 import {
   ArlasIamService,
-  ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
-  ArlasToolkitSharedModule, ArlasWalkthroughModule,
+  ArlasSettingsService,
+  ArlasTaggerModule,
+  ArlasToolKitModule,
+  ArlasToolkitSharedModule,
+  ArlasWalkthroughModule,
   AuthentificationService,
   LoginModule,
-  PersistenceService, WalkthroughLoader
+  PersistenceService,
+  WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
@@ -69,7 +79,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
 import { GeocodingComponent } from './components/arlas-wui-root/geocoding/geocoding.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -143,8 +152,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       }
     }),
     ArlasTaggerModule,
-    LoginModule,
-    MatPaginatorModule
+    LoginModule
   ],
   providers: [
     ContributorService,
@@ -161,4 +169,5 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   bootstrap: [ArlasWuiComponent],
   entryComponents: []
 })
-export class ArlasWuiModule { }
+export class ArlasWuiModule {
+}
