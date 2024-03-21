@@ -2,7 +2,11 @@
 
 ## [v24.3.2-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.2) (2024-03-21)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.1...v24.3.2-beta.2)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.3...v24.3.2-beta.2)
+
+## [v24.3.2-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.3) (2024-03-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.1...v24.3.2-beta.3)
 
 ## [v24.3.2-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.1) (2024-03-21)
 
