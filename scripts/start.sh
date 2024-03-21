@@ -565,16 +565,16 @@ if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
   export ARLAS_GEOCODING_FIND_PLACE_URL
   echo "No url defined for geocoding"
 else
-  echo ${ARLAS_GEOCODING_FIND_PLACE_URL}  "is used as Google Analytics key "
+  echo ${ARLAS_GEOCODING_FIND_PLACE_URL}  "is used as url for geocoding "
 fi
 
-# Set geocoding url
+# Set zoom for point
 if [ -z "${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}" ]; then
   ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO=11
   export ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO
-  cho ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO} "is used as default geocoding zoom"
+  echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO} "is used as default geocoding zoom"
 else
-  echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}  "is used as Google Analytics key "
+  echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}  "is used as geocoding zoom"
 fi
 
 ### Array of statics links

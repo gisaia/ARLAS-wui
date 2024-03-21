@@ -1,4 +1,5 @@
 @import '../../../../styles/app/sizes.scss';
+@import '../../../../styles/app/colors.scss';
 
 :host {
   position: absolute;
@@ -11,8 +12,7 @@
   z-index: 100;
   padding: $default-spacing;
   border-radius: 5px;
-  box-shadow: 1px 1px 7px black;
-  border: 1px solid #ddd;
+  border: 1px solid $map-settings-border-color;
 
   .geocode-header{
     display: flex;

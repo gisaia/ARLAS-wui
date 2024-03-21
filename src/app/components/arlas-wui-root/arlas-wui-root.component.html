@@ -56,7 +56,7 @@
                 </div>
                 <div *ngIf="enableGeocodingFeature" matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item">
                   <mat-icon (click)="showGeocodingPopup.next(true) ">location_searching</mat-icon>
-                  <arlas-geocoding *ngIf="(showGeocodingPopup | async) && settingsService.getSettings()" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
+                  <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
                 </div>
               </div>
               <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">

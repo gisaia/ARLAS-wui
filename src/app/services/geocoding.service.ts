@@ -53,7 +53,7 @@ export class GeocodingService {
   }
 
   public findLocations(geocodingQuery: GeocodingQueryParams): Observable<GeocodingResult[]> {
-    return this.doRequest(this.buildSearchUrl(geocodingQuery))
+    return this.sendRequest(this.buildSearchUrl(geocodingQuery))
       .pipe(map(result => {
         if (!result) {
           return [];
@@ -71,7 +71,7 @@ export class GeocodingService {
     return url;
   }
 
-  private doRequest(url: string): Observable<GeocodingResult[]> {
+  private sendRequest(url: string): Observable<GeocodingResult[]> {
     return this.http.get<GeocodingResult[]>(url, {responseType: 'json'});
   }
 }

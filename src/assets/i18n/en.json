@@ -90,7 +90,7 @@
 	"intersects": "intersects",
 	"notwithin": "doesn't contain",
 	"notintersects": "doesn't intersect",
-	"No result": "No result",
+	"No results": "No results",
 	"Select the geometries to render": "Geometries to render",
 	"Geometry to render": "Geometry to render",
 	"Draw a bbox or a polygon that": "Draw a bbox or a polygon that",

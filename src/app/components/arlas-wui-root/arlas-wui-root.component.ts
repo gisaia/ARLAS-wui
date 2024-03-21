@@ -16,15 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {MatIconRegistry} from '@angular/material/icon';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {MatTabGroup} from '@angular/material/tabs';
-import {DomSanitizer, Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
-import {CollectionReferenceParameters} from 'arlas-api';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabGroup } from '@angular/material/tabs';
+import { DomSanitizer, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CollectionReferenceParameters } from 'arlas-api';
 import {
   AoiEdition,
   ArlasColorService,
@@ -53,7 +62,7 @@ import {
   MapContributor,
   ResultListContributor
 } from 'arlas-web-contributors';
-import {LegendData} from 'arlas-web-contributors/contributors/MapContributor';
+import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   AnalyticsService,
   ArlasCollaborativesearchService,
@@ -69,15 +78,15 @@ import {
   TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import {BehaviorSubject, fromEvent, merge, Observable, of, Subject, Subscription, timer, zip} from 'rxjs';
-import {debounceTime, mergeMap, takeWhile} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
-import {ContributorService} from '../../services/contributors.service';
-import {DynamicComponentService} from '../../services/dynamicComponent.service';
-import {SidenavService} from '../../services/sidenav.service';
-import {VisualizeService} from '../../services/visualize.service';
-import {MenuState} from '../left-menu/left-menu.component';
-import {GeocodingResult} from '../../services/geocoding.service';
+import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
+import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { ContributorService } from '../../services/contributors.service';
+import { DynamicComponentService } from '../../services/dynamicComponent.service';
+import { SidenavService } from '../../services/sidenav.service';
+import { VisualizeService } from '../../services/visualize.service';
+import { MenuState } from '../left-menu/left-menu.component';
+import { GeocodingResult } from '../../services/geocoding.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -229,7 +238,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   private downloadDialogRef: MatDialogRef<ProcessComponent>;
   private onGoingSub: Subscription;
   private activeSubscriptions: Subscription[] = [];
-
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,

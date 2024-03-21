@@ -41,13 +41,13 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
   @Output() private zoomToAddress = new EventEmitter();
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
-  protected hasDoneFirstSearch = false;
+  protected hasSearched = false;
   @ViewChild('searchInput') private searchInput: ElementRef;
   protected geocodingResult: MatTableDataSource<any>;
   protected searchFormControl = new FormControl('');
   private previousSearch: string;
 
-  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService, private cd: ChangeDetectorRef) {
+  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService, private cdr: ChangeDetectorRef) {
   }
 
   public ngOnInit(): void {
@@ -55,7 +55,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.searchInput.nativeElement.focus();
-    this.cd.detectChanges();
+    this.cdr.detectChanges();
   }
 
   public closePopup(): void {
@@ -83,7 +83,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       'accept-language': this.translateService.currentLang
     };
     this.geocodingService.findLocations(geocodingSearch).subscribe(r => {
-      this.hasDoneFirstSearch = true;
+      this.hasSearched = true;
       this.displayTable = r && r.length > 0;
       this.geocodingResult = new MatTableDataSource(r);
     });

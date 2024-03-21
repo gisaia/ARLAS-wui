@@ -1,10 +1,10 @@
-<div class="geocode-header"><mat-icon (click)="closePopup()">close</mat-icon></div>
+<div class="geocode-header"><mat-icon (click)="closePopup()">{{ 'close' | translate }}</mat-icon></div>
   <div class="geocode-content">
     <mat-form-field  class="geocode-input">
       <mat-label>Type an address</mat-label>
       <input #searchInput (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
     </mat-form-field>
-    <button mat-flat-button  color="primary" (click)="search()">{{'search' | translate }}</button>
+    <button mat-flat-button color="primary" (click)="search()">{{'Search' | translate }}</button>
   </div>
   <div  *ngIf="displayTable; else noResult" class="geocode-table-container">
     <table class="table" mat-table [dataSource]="geocodingResult ">
@@ -19,5 +19,5 @@
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
     </table>
   </div>
-<ng-template #noResult> <span *ngIf="hasDoneFirstSearch" class="no-result">{{'No result' | translate}}</span> </ng-template>
+<ng-template #noResult> <span *ngIf="hasSearched" class="no-result">{{'No results' | translate}}</span> </ng-template>
 
