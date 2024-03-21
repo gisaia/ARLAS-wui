@@ -16,7 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {GeocodingQueryParams, GeocodingResult, GeocodingService} from '../../../services/geocoding.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -38,7 +47,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
   protected searchFormControl = new FormControl('');
   private previousSearch: string;
 
-  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService) {
+  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService, private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit(): void {
@@ -46,6 +55,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.searchInput.nativeElement.focus();
+    this.cd.detectChanges();
   }
 
   public closePopup(): void {
