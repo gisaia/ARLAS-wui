@@ -16,7 +16,7 @@
 
   .geocode-header{
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
   }
 
   .geocode-content{
@@ -24,6 +24,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .title, .geocode-search{
+    font-weight: bold;
   }
 
   .geocode-input{
