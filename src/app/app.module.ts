@@ -41,9 +41,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule } from 'arlas-web-components';
 import {
+  HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
+  ResultsModule, FormatNumberModule, BboxGeneratorModule
+} from 'arlas-web-components';
+import {
+  ArlasConfigService,
   ArlasIamService,
   ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
   ArlasToolkitSharedModule, ArlasWalkthroughModule,
@@ -129,14 +132,14 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
       loader: {
         provide: TranslateLoader,
         useClass: ArlasTranslateLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService]
+        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService]
       }
     }),
     ArlasWalkthroughModule.forRoot({
       loader: {
         provide: WalkthroughLoader,
         useClass: ArlasWalkthroughLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
+        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService, TranslateService]
       }
     }),
     ArlasTaggerModule,
