@@ -26,10 +26,10 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {GeocodingQueryParams, GeocodingResult, GeocodingService} from '../../../services/geocoding.service';
-import {TranslateService} from '@ngx-translate/core';
-import {MatTableDataSource} from '@angular/material/table';
+import { FormControl } from '@angular/forms';
+import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../../services/geocoding.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'arlas-geocoding',
@@ -42,6 +42,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
   protected hasSearched = false;
+  protected loading = false;
   @ViewChild('searchInput') private searchInput: ElementRef;
   protected geocodingResult: MatTableDataSource<any>;
   protected searchFormControl = new FormControl('');
@@ -77,6 +78,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     }
 
     this.displayTable = true;
+    this.loading = true;
     this.previousSearch = this.searchFormControl.value;
     const geocodingSearch: GeocodingQueryParams = {
       q: this.searchFormControl.value,
@@ -84,6 +86,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     };
     this.geocodingService.findLocations(geocodingSearch).subscribe(r => {
       this.hasSearched = true;
+      this.loading= false;
       this.displayTable = r && r.length > 0;
       this.geocodingResult = new MatTableDataSource(r);
     });

@@ -6,6 +6,7 @@
     </mat-form-field>
     <button class="geocode-search" mat-button color="accent" (click)="search()">{{'Search' | translate }}</button>
   </div>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <div  *ngIf="displayTable; else noResult" class="geocode-table-container">
     <table class="table" mat-table [dataSource]="geocodingResult ">
       <ng-container matColumnDef="address">
