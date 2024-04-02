@@ -8,7 +8,7 @@
   </div>
   <nav *ngIf="orgs.length > 0" mat-tab-nav-bar animationDuration="400ms" mat-stretch-tabs class="dashboard-tabs">
     <a mat-tab-link #matTab *ngFor="let org of orgs" (click)="changeOrg(org)">
-      {{ org.display_name }}
+      {{ org.displayName }}
     </a>
   </nav>
   <div class="configs-list_container">

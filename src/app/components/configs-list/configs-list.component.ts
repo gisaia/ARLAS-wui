@@ -79,7 +79,7 @@ export class ConfigsListComponent implements OnInit {
         next: (userSubject) => {
           if (!!userSubject) {
             this.orgs = userSubject.user.organisations.map(org => {
-              org.display_name = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
+              org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
               return org;
             });
             this.currentOrg = this.arlasIamService.getOrganisation();
