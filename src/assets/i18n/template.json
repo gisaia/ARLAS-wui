@@ -1,5 +1,4 @@
 {
-	"ARLAS-wui": "ARLAS-wui",
 	"Map Settings": "Map Settings",
 	"Basemaps": "Basemaps",
 	"Geo-filter tools": "Geo-filter tools",
@@ -37,7 +36,5 @@
 	"reduce": "reduce",
 	"expand": "expand",
 	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
-	"Remove visualisation": "Remove visualisation",
-	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
-	"Draw at least 2 points.": "Draw at least 2 points."
+	"Remove visualisation": "Remove visualisation"
 }

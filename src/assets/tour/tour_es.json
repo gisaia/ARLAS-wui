@@ -1,0 +1,76 @@
+{
+    "id": "arlastour",
+    "steps": [
+      {
+        "title": "Bienvenido a ARLAS Exploration Ⓡ",
+        "content": "Explore grandes volúmenes de datos geoespaciales al instante gracias a <br><br> - una vista geoanalítica en el mapa (Heatmaps, Grids, ...);  <br> - una línea de tiempo; <br> - varios widgets (histogramas, gráficos de anillo, ...).",
+        "target": ".top-left-menu .img",
+        "placement": "bottom"
+      },
+      {
+        "title": "Recuento global",
+        "content": "Indica el número de elementos explorados.",
+        "target": ".top-left-menu .chips--container",
+        "placement": "bottom"
+      },
+      {
+        "title": "Barra de búsqueda",
+        "content": "Realize una búsqueda Fulltext para filtrar los datos",
+        "target": "arlas-search",
+        "placement": "bottom"
+      },
+      {
+        "title": "Panel Análisis y filtros",
+        "content": "Este panel le ofrece una visión global de los datos gracias a los varios widgets de análisis. <br> Puede utilizar estos widgets para filtrar los datos.",
+        "target": ".arlas-analytics--container",
+        "placement": "right"
+      },
+      {
+        "title": "Línea de tiempo",
+        "content": "Este histograma representa la distribución del número de elementos a lo largo del tiempo. <br> Puede filtrar los datos seleccionando uno o varios periodos: haga doble clic en un periodo para guardarlo y, a continuación, vuelva a seleccionar un nuevo intervalo.",
+        "target": ".arlas-timeline",
+        "placement": "top",
+        "arrowOffset": "center"
+      },
+      {
+        "title": "Accesos directos de tiempo",
+        "content": "Lista de accesos directos de tiempo para filtrar datos durante un periodo de tiempo específico",
+        "target": ".arlas-time-shortcuts--container",
+        "placement": "top",
+        "yOffset": -15
+      },
+      {
+        "title": "Configuración del mapa",
+        "content": " <strong>ACTION :</strong> Haga clic en el botón 'Configuración del mapa' (icono de lupa)",
+        "placement": "left",
+        "target": ".arlas-map-settings-container",
+        "yOffset": -15,
+        "showNextButton": false,
+        "nextOnTargetClick": true
+      },
+      {
+        "title": "Aplicar los cambios",
+        "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+        "target": ".apply-displayed-geometries",
+        "placement": "left",
+        "yOffset": -10,
+        "showNextButton": false,
+        "nextOnTargetClick": true
+      },
+      {
+        "title": "Outils de filtres géographiques",
+        "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée.",
+        "placement": "left",
+        "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
+        "yOffset": -15
+      },
+      {
+        "title": "Table de contenu & Légende des couches cartographiques",
+        "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
+        "placement": "left",
+        "target": ".map__visu-container",
+        "yOffset": -15
+      }
+    ]
+  }
+  

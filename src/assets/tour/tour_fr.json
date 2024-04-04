@@ -2,8 +2,8 @@
   "id": "arlastour",
   "steps": [
     {
-      "title": "Bienvenue à ARLAS Exploration",
-      "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammess, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
+      "title": "Bienvenue à ARLAS Exploration Ⓡ",
+      "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammes, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
       "target": ".top-left-menu .img",
       "placement": "bottom"
     },
@@ -34,7 +34,7 @@
     },
     {
       "title": "Raccourcis temporels",
-      "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une prériode de temps précise",
+      "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une période de temps précise",
       "target": ".arlas-time-shortcuts--container",
       "placement": "top",
       "yOffset": -15

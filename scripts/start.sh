@@ -80,6 +80,18 @@ else
   fetchI18nFRContent;
 fi
 
+
+fetchI18nESContent(){
+  echo "Download the fr.json file from \"${ARLAS_WUI_I18N_ES_URL}\" ..."
+  curl ${ARLAS_WUI_I18N_ES_URL} -o "/usr/share/nginx/html/assets/i18n/es.json" && echo "'ES language' file downloaded with success." || (echo "Failed to download the 'ES language' file."; exit 1)
+}
+
+if [ -z "${ARLAS_WUI_I18N_ES_URL}" ]; then
+  echo "The default 'ES language' file is used"
+else
+  fetchI18nESContent;
+fi
+
 if [ -z "${ARLAS_SERVER_URL}" ]; then
   ARLAS_SERVER_URL="http://demo.arlas.io/arlas/"
   export ARLAS_SERVER_URL

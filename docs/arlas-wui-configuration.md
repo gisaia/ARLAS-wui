@@ -93,6 +93,7 @@ Two environment variables are available to set a url to English and French trans
 | ------------------------------- | -----------------------------------  |
 | ARLAS_WUI_I18N_EN_URL	          | Url to English file to translate `arlas-wui` labels and tooltips. |
 | ARLAS_WUI_I18N_FR_URL	          | Url to French file to translate `arlas-wui` labels and tooltips. |
+| ARLAS_WUI_I18N_ES_URL	          | Url to Spanish file to translate `arlas-wui` labels and tooltips. |
 
 For instance, if the current directory of the host contains a `en.json` file, the container can be started as follow:
 

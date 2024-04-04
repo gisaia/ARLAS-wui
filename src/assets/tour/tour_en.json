@@ -2,7 +2,7 @@
   "id": "arlastour",
   "steps": [
     {
-      "title": "Welcome to ARLAS Exploration",
+      "title": "Welcome to ARLAS Exploration Ⓡ",
       "content": "Explore your data instantly through <br><br> - Geo-analytic view on the map (Heatmaps, Grids, ...) <br> - Timeline <br> - Different widgets (histograms, donuts, powernbars) to analyse diffent dimensions of the data.",
       "target": ".top-left-menu .img",
       "placement": "bottom"
