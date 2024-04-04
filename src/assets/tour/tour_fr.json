@@ -65,7 +65,7 @@
       "yOffset": -15
     },
     {
-      "title": "Table de contenu & Légende des couches cartographiques",
+      "title": "Légende des couches cartographiques",
       "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
       "placement": "left",
       "target": ".map__visu-container",
