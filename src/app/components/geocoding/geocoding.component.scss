@@ -1,5 +1,6 @@
-@import '../../../../styles/app/sizes.scss';
-@import '../../../../styles/app/colors.scss';
+@import "../../../styles/variables.scss";
+@import "../../../styles/app/sizes.scss";
+@import "../../../styles/app/mixin.scss";
 
 :host {
   position: absolute;
@@ -14,32 +15,33 @@
   border-radius: 5px;
   border: 1px solid $map-settings-border-color;
 
-  .geocode-header{
+  .geocode-header {
     display: flex;
     justify-content: space-between;
   }
 
-  .geocode-content{
+  .geocode-content {
     margin-top: $sm-spacing;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .title, .geocode-search{
+  .title,
+  .geocode-search {
     font-weight: bold;
   }
 
-  .geocode-input{
+  .geocode-input {
     flex-basis: 60%;
   }
 
-  .geocode-table-container{
+  .geocode-table-container {
     max-height: 150px;
     overflow-y: scroll;
   }
 
-  .table{
+  .table {
     max-height: 200px;
     width: 100%;
     margin-top: $default-spacing;
@@ -53,5 +55,8 @@
     font-weight: bold;
   }
 
+  .error {
+    font-size: $sm-font-size;
+    color: $errorColor;
+  }
 }
-

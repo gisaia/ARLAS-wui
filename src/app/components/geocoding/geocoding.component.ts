@@ -22,37 +22,39 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnInit,
   Output,
   ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../../services/geocoding.service';
-import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
+import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../services/geocoding.service';
 
 @Component({
   selector: 'arlas-geocoding',
   templateUrl: './geocoding.component.html',
   styleUrls: ['./geocoding.component.scss']
 })
-export class GeocodingComponent implements OnInit, AfterViewInit {
+export class GeocodingComponent implements AfterViewInit {
   @Output() private close = new EventEmitter();
   @Output() private zoomToAddress = new EventEmitter();
+  @ViewChild('searchInput') private searchInput: ElementRef;
+
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
   protected hasSearched = false;
+  protected isErrored = false;
   protected loading = false;
-  @ViewChild('searchInput') private searchInput: ElementRef;
   protected geocodingResult: MatTableDataSource<any>;
   protected searchFormControl = new FormControl('');
+
   private previousSearch: string;
 
-  public constructor(private geocodingService: GeocodingService, private translateService: TranslateService, private cdr: ChangeDetectorRef) {
-  }
-
-  public ngOnInit(): void {
-  }
+  public constructor(
+    private geocodingService: GeocodingService,
+    private translateService: TranslateService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   public ngAfterViewInit(): void {
     this.searchInput.nativeElement.focus();
@@ -68,12 +70,11 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
   }
 
   protected search(): void {
-    if(!this.searchFormControl.value || this.searchFormControl.value.length === 0) {
-      console.warn('no value', this.searchFormControl.value);
+    if (!this.searchFormControl.value || this.searchFormControl.value.length === 0) {
       return;
     }
 
-    if(!!this.previousSearch && (this.previousSearch.trim()  === this.searchFormControl.value.trim())) {
+    if (!!this.previousSearch && (this.previousSearch.trim() === this.searchFormControl.value.trim())) {
       return;
     }
 
@@ -84,11 +85,18 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       q: this.searchFormControl.value,
       'accept-language': this.translateService.currentLang
     };
-    this.geocodingService.findLocations(geocodingSearch).subscribe(r => {
-      this.hasSearched = true;
-      this.loading= false;
-      this.displayTable = r && r.length > 0;
-      this.geocodingResult = new MatTableDataSource(r);
+    this.geocodingService.findLocations(geocodingSearch).subscribe({
+      next: r => {
+        this.hasSearched = true;
+        this.loading = false;
+        this.displayTable = r && r.length > 0;
+        this.geocodingResult = new MatTableDataSource(r);
+      },
+      error: () => {
+        this.isErrored = true;
+        this.displayTable = false;
+        this.loading = false;
+      }
     });
   }
 }
