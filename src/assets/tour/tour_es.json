@@ -50,7 +50,7 @@
       },
       {
         "title": "Aplicar los cambios",
-        "content": "<br> - Elige cómo buscar datos geográficamente (pestaña Peticiones geográficas). <br><br>  <strong>ACTION :</strong> Haga clic para aplicar los cambios.",
+        "content": "<br> - Elige cómo buscar datos geográficamente (pestaña Peticiones geográficas). <br><br>  <strong>ACCIÓN :</strong> Haga clic para aplicar los cambios.",
         "target": ".apply-displayed-geometries",
         "placement": "left",
         "yOffset": -10,

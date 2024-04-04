@@ -19,7 +19,7 @@
 	"Error while retrieving dashboards": "Erreur pendant la récupération des dashboards",
 	"Find a place": "Rechercher un lieu",
 	"No results": "Pas de résultat",
-	"Unable to access find location service": "No se puede acceder al servicio de geocodificación",
+	"Unable to access find location service": "Impossible d'accéder au service de geocoding",
 	"Refresh components": "Rafraîchir les composants",
 	"Switch dashboard": "Changer de dashboard",
 	"Share geographical data": "Partager les données géographiques",

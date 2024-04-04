@@ -82,7 +82,7 @@ fi
 
 
 fetchI18nESContent(){
-  echo "Download the fr.json file from \"${ARLAS_WUI_I18N_ES_URL}\" ..."
+  echo "Download the es.json file from \"${ARLAS_WUI_I18N_ES_URL}\" ..."
   curl ${ARLAS_WUI_I18N_ES_URL} -o "/usr/share/nginx/html/assets/i18n/es.json" && echo "'ES language' file downloaded with success." || (echo "Failed to download the 'ES language' file."; exit 1)
 }
 
