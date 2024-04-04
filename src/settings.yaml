@@ -55,3 +55,6 @@ links:
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
     check_url: http://localhost:9997/arlas_iam_server
+geocoding:
+  find_place_url: "https://nominatim.openstreetmap.org/"
+  find_place_zoom_to: 11

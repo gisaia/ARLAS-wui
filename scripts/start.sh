@@ -559,6 +559,24 @@ fi
 envsubst '$ARLAS_WUI_DASHBOARDS_SHORTCUT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Set geocoding url
+if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
+  ARLAS_GEOCODING_FIND_PLACE_URL=""
+  export ARLAS_GEOCODING_FIND_PLACE_URL
+  echo "No url defined for geocoding"
+else
+  echo ${ARLAS_GEOCODING_FIND_PLACE_URL}  "is used as url for geocoding "
+fi
+
+# Set zoom for point
+if [ -z "${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}" ]; then
+  ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO=11
+  export ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO
+  echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO} "is used as default geocoding zoom"
+else
+  echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}  "is used as geocoding zoom"
+fi
+
 ### Array of statics links
 if [ -z "${ARLAS_STATIC_LINKS}" ]; then
   ARLAS_STATIC_LINKS="[]"

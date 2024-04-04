@@ -1,0 +1,62 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/app/sizes.scss";
+@import "../../../styles/app/mixin.scss";
+
+:host {
+  position: absolute;
+  right: 42px;
+  top: 61px;
+  background: white;
+  width: 411px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  padding: $default-spacing;
+  border-radius: 5px;
+  border: 1px solid $map-settings-border-color;
+
+  .geocode-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .geocode-content {
+    margin-top: $sm-spacing;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title,
+  .geocode-search {
+    font-weight: bold;
+  }
+
+  .geocode-input {
+    flex-basis: 60%;
+  }
+
+  .geocode-table-container {
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+
+  .table {
+    max-height: 200px;
+    width: 100%;
+    margin-top: $default-spacing;
+
+    ::ng-deep thead tr.mat-header-row {
+      height: 1px;
+    }
+  }
+
+  .no-result {
+    font-weight: bold;
+  }
+
+  .error {
+    font-size: $sm-font-size;
+    color: $errorColor;
+  }
+}

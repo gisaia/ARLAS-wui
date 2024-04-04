@@ -18,9 +18,8 @@
  */
 
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -32,8 +31,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -41,32 +43,41 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule } from 'arlas-web-components';
+import {
+  BboxGeneratorModule,
+  FormatNumberModule,
+  HistogramModule,
+  MapglImportModule,
+  MapglModule,
+  MapglSettingsModule,
+  ResultsModule
+} from 'arlas-web-components';
 import {
   ArlasIamService,
-  ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
-  ArlasToolkitSharedModule, ArlasWalkthroughModule,
+  ArlasSettingsService,
+  ArlasTaggerModule,
+  ArlasToolKitModule,
+  ArlasToolkitSharedModule,
+  ArlasWalkthroughModule,
   AuthentificationService,
   LoginModule,
-  PersistenceService, WalkthroughLoader
+  PersistenceService,
+  WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
 import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
+import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatStepperModule } from '@angular/material/stepper';
 import { JwtInterceptor } from './tools/jwt.interceptor';
 
 @NgModule({
@@ -77,7 +88,8 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    GeocodingComponent
   ],
   exports: [
     AoiDimensionComponent,
@@ -157,4 +169,5 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
   bootstrap: [ArlasWuiComponent],
   entryComponents: []
 })
-export class ArlasWuiModule { }
+export class ArlasWuiModule {
+}

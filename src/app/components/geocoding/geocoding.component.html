@@ -1,0 +1,27 @@
+<div class="geocode-header"><span class="title">{{ 'Find a place' | translate }}</span><mat-icon (click)="closePopup()">close</mat-icon></div>
+  <div class="geocode-content">
+    <mat-form-field  class="geocode-input">
+      <mat-label>Type an address</mat-label>
+      <input #searchInput (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
+    </mat-form-field>
+    <button class="geocode-search" mat-button color="accent" (click)="search()">{{'Search a place' | translate }}</button>
+  </div>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  <div  *ngIf="displayTable; else noResult" class="geocode-table-container">
+    <table class="table" mat-table [dataSource]="geocodingResult ">
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell (click)="onSearchLocation(element)" *matCellDef="let element">
+          {{element.display_name }}
+          <span *ngIf="element.addresstype"> - {{element.addresstype}}</span>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+<ng-template #noResult>
+  <span *ngIf="hasSearched" class="no-result">{{'No results' | translate}}</span>
+  <span *ngIf="isErrored" class="error">{{'Unable to access find location service' | translate}}</span>
+</ng-template>
+
