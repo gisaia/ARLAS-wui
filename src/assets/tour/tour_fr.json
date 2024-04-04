@@ -2,7 +2,7 @@
   "id": "arlastour",
   "steps": [
     {
-      "title": "Bienvenue à ARLAS Exploration Ⓡ",
+      "title": "Bienvenue à ARLAS Exploration",
       "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammes, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
       "target": ".top-left-menu .img",
       "placement": "bottom"
