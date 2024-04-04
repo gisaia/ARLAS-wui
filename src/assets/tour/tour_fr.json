@@ -3,7 +3,7 @@
   "steps": [
     {
       "title": "Bienvenue à ARLAS Exploration",
-      "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammess, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
+      "content": "Explorer de gros volumes de données géo-spaciales instantanément grâce à <br><br> - Une vue Géo-analytique sur la carte (Heatmaps, Grilles, ...) <br> - Une frise temporelle <br> - Différents widgets (histogrammes, diagrammes en anneau, ...) pour analyser la donnée sur plusieurs axes",
       "target": ".top-left-menu .img",
       "placement": "bottom"
     },
@@ -34,7 +34,7 @@
     },
     {
       "title": "Raccourcis temporels",
-      "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une prériode de temps précise",
+      "content": "Liste d'un ensemble de raccourcis temporels qui permettent de filtrer la donnée sur une période de temps précise",
       "target": ".arlas-time-shortcuts--container",
       "placement": "top",
       "yOffset": -15
@@ -50,7 +50,7 @@
     },
     {
       "title": "Appliquer les changements",
-      "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+      "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
       "target": ".apply-displayed-geometries",
       "placement": "left",
       "yOffset": -10,
@@ -65,7 +65,7 @@
       "yOffset": -15
     },
     {
-      "title": "Table de contenu & Légende des couches cartographiques",
+      "title": "Légende des couches cartographiques",
       "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
       "placement": "left",
       "target": ".map__visu-container",

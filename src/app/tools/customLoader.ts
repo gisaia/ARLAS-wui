@@ -20,12 +20,15 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateService } from '@ngx-translate/core';
 import enComponents from 'arlas-web-components/assets/i18n/en.json';
 import frComponents from 'arlas-web-components/assets/i18n/fr.json';
+import esComponents from 'arlas-web-components/assets/i18n/es.json';
 import { ArlasSettingsService, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED, PersistenceService, WalkthroughLoader } from 'arlas-wui-toolkit';
 import enToolkit from 'arlas-wui-toolkit/assets/i18n/en.json';
 import frToolkit from 'arlas-wui-toolkit/assets/i18n/fr.json';
+import esToolkit from 'arlas-wui-toolkit/assets/i18n/es.json';
 import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
+import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
@@ -81,6 +84,8 @@ export class ArlasTranslateLoader implements TranslateLoader {
       timeFormatDefaultLocale(frD3TimeLocal as any);
     } else if (lang === 'en') {
       timeFormatDefaultLocale(enD3TimeLocal as any);
+    } else if (lang === 'es') {
+      timeFormatDefaultLocale(esD3TimeLocal as any);
     }
     if (usePersistence && configurationId) {
       const localI18nObs = this.http.get(localI18nAdress);
@@ -101,6 +106,8 @@ export class ArlasTranslateLoader implements TranslateLoader {
               merged = { ...frComponents, ...frToolkit, ...localI18n, ...externalI18n as Object };
             } else if (lang === 'en') {
               merged = { ...enComponents, ...enToolkit, ...localI18n, ...externalI18n as Object };
+            } else if (lang === 'es') {
+              merged = { ...esComponents, ...esToolkit, ...localI18n, ...externalI18n as Object };
             }
             observer.next(merged);
             observer.complete();
@@ -126,6 +133,8 @@ export class ArlasTranslateLoader implements TranslateLoader {
           merged = { ...frComponents, ...frToolkit, ...res };
         } else if (lang === 'en') {
           merged = { ...enComponents, ...enToolkit, ...res };
+        } else if (lang === 'es') {
+          merged = { ...esComponents, ...esToolkit, ...res };
         }
         observer.next(merged);
         observer.complete();

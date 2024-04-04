@@ -50,7 +50,7 @@
     },
     {
       "title": "Apply change",
-      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> - Choose a basemap. <br><br> <strong>ACTION :</strong> Click to apply changes",
+      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> <strong>ACTION :</strong> Click to apply changes",
       "target": ".apply-displayed-geometries",
       "placement": "left",
       "yOffset": -10,
@@ -65,7 +65,7 @@
       "yOffset": -15
     },
     {
-      "title": "Table of Contents and Layers legend",
+      "title": "Layers legend",
       "content": "Layers are placed in different Visualisation sets that you can hide/display separately. <br><br> You can reorder Visualisation sets and the layers within by dragging and dropping them. <br><br> Each layer has its own legend that you can fold/unfold ",
       "placement": "left",
       "target": ".map__visu-container",
