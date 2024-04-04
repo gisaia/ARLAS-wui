@@ -41,7 +41,7 @@
       },
       {
         "title": "Configuración del mapa",
-        "content": " <strong>ACTION :</strong> Haga clic en el botón 'Configuración del mapa' (icono de lupa)",
+        "content": " <strong>ACCIÓN :</strong> Haga clic en el botón 'Configuración del mapa' (icono de lupa)",
         "placement": "left",
         "target": ".arlas-map-settings-container",
         "yOffset": -15,
@@ -50,7 +50,7 @@
       },
       {
         "title": "Aplicar los cambios",
-        "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+        "content": "<br> - Elige cómo buscar datos geográficamente (pestaña Peticiones geográficas). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
         "target": ".apply-displayed-geometries",
         "placement": "left",
         "yOffset": -10,
