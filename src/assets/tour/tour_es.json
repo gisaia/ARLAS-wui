@@ -50,7 +50,7 @@
       },
       {
         "title": "Aplicar los cambios",
-        "content": "<br> - Elige cómo buscar datos geográficamente (pestaña Peticiones geográficas). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+        "content": "<br> - Elige cómo buscar datos geográficamente (pestaña Peticiones geográficas). <br><br>  <strong>ACTION :</strong> Haga clic para aplicar los cambios.",
         "target": ".apply-displayed-geometries",
         "placement": "left",
         "yOffset": -10,
@@ -58,15 +58,15 @@
         "nextOnTargetClick": true
       },
       {
-        "title": "Outils de filtres géographiques",
-        "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée.",
+        "title": "Herramientas de filtros geográficos",
+        "content": "Puede dibujar un polígono/cuadro delimitador o importar un archivo KML, GeoJson o Shapefile comprimido para filtrar los datos geográficamente.",
         "placement": "left",
         "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
         "yOffset": -15
       },
       {
-        "title": "Table de contenu & Légende des couches cartographiques",
-        "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
+        "title": "Leyenda de las capas",
+        "content": "Las capas del mapa se colocan en diferentes cojuntos de visualización que puede mostrar/ocultar por separado. <br><br> Puede arrastrar y soltar los conjuntos de visualización y las capas del mapa para reordenarlos. <br><br> Cada capa del mapa tiene su propia leyenda desplegable.",
         "placement": "left",
         "target": ".map__visu-container",
         "yOffset": -15

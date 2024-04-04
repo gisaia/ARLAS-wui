@@ -50,7 +50,7 @@
     },
     {
       "title": "Appliquer les changements",
-      "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br> - Choisir un fond cartographique. <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
+      "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
       "target": ".apply-displayed-geometries",
       "placement": "left",
       "yOffset": -10,

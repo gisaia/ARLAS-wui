@@ -50,7 +50,7 @@
     },
     {
       "title": "Apply change",
-      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> - Choose a basemap. <br><br> <strong>ACTION :</strong> Click to apply changes",
+      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> <strong>ACTION :</strong> Click to apply changes",
       "target": ".apply-displayed-geometries",
       "placement": "left",
       "yOffset": -10,
