@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "^24.3.12",
+    "arlas-wui-toolkit": "^24.3.13",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
@@ -76,6 +76,9 @@
     "@babel/traverse": "~7.23.2",
     "angular-oauth2-oidc-jwks": {
       "jsrsasign": "^11.0.0"
+    },
+    "@angular-devkit/build-angular": {
+      "webpack-dev-middleware": "~5.3.4"
     }
   }
 }

@@ -104,5 +104,6 @@
 	"Fill": "Polígono",
 	"All layers": "Todas las capas",
 	"Start draging to draw a bbox.": "Empieze a dibujar un cuadro delimitador.",
-	"Draw at least 2 points.": "Dibuje al menos 2 vértices"
+	"Draw at least 2 points.": "Dibuje al menos 2 vértices",
+	"Type an address": "Introduzca un lugar, una dirección"
 }

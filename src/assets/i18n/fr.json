@@ -107,5 +107,7 @@
 	"Fill": "Polygone",
 	"All layers": "Toutes les couches",
 	"Start draging to draw a bbox.": "Commencez à dessiner une bbox.",
-	"Draw at least 2 points.": "Dessinez au moins 2 points."
+	"Draw at least 2 points.": "Dessinez au moins 2 points.",
+	"Type an address": "Saisir une adresse"
+
 }
