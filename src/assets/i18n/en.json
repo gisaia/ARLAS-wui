@@ -104,5 +104,7 @@
 	"Area Of Interest": "Area of interest",
 	"Fill": "Polygon",
 	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
-	"Draw at least 2 points.": "Draw at least 2 points."
+	"Draw at least 2 points.": "Draw at least 2 points.",
+	"Type an address": "Type an address"
+
 }
