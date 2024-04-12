@@ -1,5 +1,18 @@
 # Change Log
 
+## [v25.0.0-beta.11](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.11) (2024-04-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.7...v25.0.0-beta.11)
+
+**New stuff:**
+
+- Add spanish translation [\#764](https://github.com/gisaia/ARLAS-wui/issues/764)
+
+**Fixed bugs:**
+
+- Close button in build bbox with coordinates does not work [\#759](https://github.com/gisaia/ARLAS-wui/issues/759)
+- The cross button in the Generate bbox popup does not work [\#738](https://github.com/gisaia/ARLAS-wui/issues/738)
+
 ## [v24.3.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.7) (2024-04-05)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.6...v24.3.7)
