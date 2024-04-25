@@ -50,7 +50,7 @@
                 <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
                   <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
                 </div>
-                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="below" class="arlas-map-settings-items geo-filter-item"
+                <div matTooltip="{{'Geo-filter tools' | translate}}" matTooltipPosition="above" class="arlas-map-settings-items geo-filter-item"
                   (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
                   <mat-icon>travel_explore</mat-icon>
                 </div>
@@ -59,7 +59,7 @@
                   <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
                 </div>
               </div>
-              <div class="arlas-map-action-container" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+              <div class="arlas-map-action-container" [class.if-geocoding-button]="enableGeocodingFeature" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
                 <div class="arlas-map-action-items" matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="bbox" (click)="this.mapglComponent.addGeoBox();"></mat-icon>
                 </div>
