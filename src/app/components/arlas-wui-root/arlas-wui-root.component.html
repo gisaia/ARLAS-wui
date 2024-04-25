@@ -35,11 +35,11 @@
           <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
           </arlas-mapgl-settings>
-          <div class="app-container" [class.app-container-reduce]="listOpen && analyticsService.activeTab === undefined"
-            [class.app-container-with-list]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
-            [class.app-container-reduce-analytics]="listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined"
-            [class.app-container-analytics]="(rightListContributors.length === 0 || (rightListContributors.length > 0 && !resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode)) && !listOpen && analyticsService.activeTab !== undefined"
+          <div class="app-container" [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
+            [class.app-container-with-list]="rightListContributors.length > 0 && !resultlistService.listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
+            [class.app-container-reduce-analytics]="resultlistService.listOpen && analyticsService.activeTab !== undefined"
+            [class.app-container-with-list-analytics]="rightListContributors.length > 0 && !resultlistService.listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab !== undefined"
+            [class.app-container-analytics]="(rightListContributors.length === 0 || (rightListContributors.length > 0 && !resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode)) && !resultlistService.listOpen && analyticsService.activeTab !== undefined"
             [class.app-container-timeline-hidden]="!isTimelineOpen"
             [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
@@ -146,13 +146,13 @@
                 (downloadSourceEmitter)="downloadLayerSource($event)">
               </arlas-mapgl>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
-                [class.side-result-list-toggle-open]="listOpen"
-                [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !listOpen"
+                [class.side-result-list-toggle-open]="resultlistService.listOpen"
+                [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !resultlistService.listOpen"
                 (click)="toggleList()">
-                <mat-icon>{{ listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
+                <mat-icon>{{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
               </div>
-              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="listOpen"
-                *ngIf="!!previewListContrib && !listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
+              <div class="side-result-list-preview mat-elevation-z1" [class.side-result-list-preview-close]="resultlistService.listOpen"
+                *ngIf="!!previewListContrib && !resultlistService.listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode">
                 <arlas-result-list [rowItemList]="previewListContrib.data"
                   [fieldsList]="previewListContrib.fieldsList"
                   [detailedDataRetriever]="previewListContrib.detailedDataRetriever"
@@ -182,8 +182,8 @@
                 </arlas-result-list>
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
-                [class.side-result-list-open]="listOpen">
-                <mat-tab-group [(selectedIndex)]="selectedListTabIndex" #tabsList class="result-list-tab-group">
+                [class.side-result-list-open]="resultlistService.listOpen">
+                <mat-tab-group [selectedIndex]="resultlistService.selectedListTabIndex"#tabsList class="result-list-tab-group">
                   <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
                     <ng-template mat-tab-label>
                       <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
@@ -196,7 +196,7 @@
                       </span>
                     </ng-template>
                     <div class="left_resultlist_wrapper">
-                      <arlas-result-list *ngIf="listOpen && listIdx === selectedListTabIndex" #resultsidenav [rowItemList]="list.data"
+                      <arlas-result-list *ngIf="resultlistService.listOpen && listIdx === resultlistService.selectedListTabIndex" #resultsidenav [rowItemList]="list.data"
                         [fieldsList]="list.fieldsList" [detailedDataRetriever]="list.detailedDataRetriever"
                         [fieldsConfiguration]="list.fieldsConfiguration" [dropDownMapValues]="list.dropDownMapValues"
                         [filtersMap]="list.filtersMap" [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10"

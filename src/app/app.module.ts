@@ -56,6 +56,7 @@ import {
   ArlasToolkitSharedModule,
   ArlasWalkthroughModule,
   AuthentificationService,
+  JwtInterceptor,
   LoginModule,
   PersistenceService,
   WalkthroughLoader
@@ -74,7 +75,9 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { JwtInterceptor } from './tools/jwt.interceptor';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
+import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
+
 
 @NgModule({
   declarations: [
@@ -148,13 +151,18 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
       }
     }),
     ArlasTaggerModule,
-    LoginModule
+    LoginModule,
+    LazyLoadImageModule
   ],
   providers: [
     ContributorService,
     SidenavService,
     DynamicComponentService,
     VisualizeService,
+    {
+      provide: LAZYLOAD_IMAGE_HOOKS,
+      useClass: LazyLoadImageHooks
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

@@ -87,6 +87,7 @@ import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
 import { GeocodingResult } from '../../services/geocoding.service';
+import { ResultlistService } from 'app/services/resultlist.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -150,8 +151,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchOpen = true;
   public mapId = 'mapgl';
   public centerLatLng: { lat: number; lng: number; } = {lat: 0, lng: 0};
-  public listOpen = false;
-  public selectedListTabIndex = 0;
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
   /* Options */
@@ -262,7 +261,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     public analyticsService: AnalyticsService,
     private dialog: MatDialog,
     private generateAoiDialog: MatDialog,
-    private processService: ProcessService
+    private processService: ProcessService,
+    private resultlistService: ResultlistService
   ) {
     this.menuState = {
       configs: false
@@ -332,11 +332,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (queryParamVisibleVisualisations) {
         const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
         this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
-      }
-
-      const resultlistOpenString = this.getParamValue('ro');
-      if (resultlistOpenString) {
-        this.listOpen = (resultlistOpenString === 'true');
       }
 
       const timelineOpenString = this.getParamValue('to');
@@ -445,6 +440,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.resultlistContributors.push(v);
         }
       });
+      this.resultlistService.setContributors(this.resultlistContributors, this.resultListsConfig);
+
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
@@ -629,6 +626,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.tabsList) {
         const tabListSub = this.tabsList.selectedIndexChange.subscribe(index => {
+          this.resultlistService.selectedListTabIndex = index;
           this.previewListContrib = this.resultlistContributors[index];
 
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -864,10 +862,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
-    this.listOpen = !this.listOpen;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
+    this.resultlistService.toggleList();
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
@@ -1138,11 +1133,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public toggleList() {
     this.tabsList.realignInkBar();
-    this.listOpen = !this.listOpen;
+    this.resultlistService.toggleList();
     this.updateTimelineLegendVisibility();
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
     this.adjustGrids();
     this.adjustTimelineSize();
     this.adjustVisibleShortcuts();
@@ -1159,7 +1151,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateTimelineLegendVisibility() {
-    this.isTimelineLegend = !(this.listOpen && this.analyticsService.activeTab !== undefined);
+    this.isTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   public closeAnalytics() {
@@ -1227,11 +1219,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private adjustGrids() {
-    if (!this.listOpen) {
+    if (!this.resultlistService.listOpen) {
       const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
     } else {
-      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
+      this.resultlistService.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
     }
   }
 
@@ -1278,12 +1270,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // The threshold is based on the window inner size and the available size for the shortcuts
     // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
     // with a minimum spacing equal to the one on the left.
-    const previewListOpen = !!this.previewListContrib && !this.listOpen
+    const previewListOpen = !!this.previewListContrib && !this.resultlistService.listOpen
       && this.resultListConfigPerContId.get(this.previewListContrib.identifier)?.hasGridMode;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
     this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
-    const threshold = window.innerWidth - leftMenuWidth - (this.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
+    const threshold = window.innerWidth - leftMenuWidth
+      - (this.resultlistService.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
       - this.spacing - this.showMoreShortcutsWidth - this.spacing - mapActionsAndLegendWidth;
 
     const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`).getBoundingClientRect().width);
