@@ -283,9 +283,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.activeSubscriptions.push(sidenavSub);
 
-      this.appName = !!this.configService.appName ? this.configService.appName :
-        this.configService.getValue('arlas-wui.web.app.name') ?
-          this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
       this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
         this.configService.getValue('arlas-wui.web.app.units') : [];
