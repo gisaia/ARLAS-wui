@@ -27,14 +27,20 @@
   overflow: hidden;
 
   ::ng-deep.arlas-time-shortcuts--container {
-    left: calc($sm-spacing);
+    left: $sm-spacing;
+    padding: 0;
+  }
+
+  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    right: calc($sm-spacing + $map-scale-max-width + $default-spacing);
+    bottom: calc($timeline-height + $sm-spacing);
   }
 
   .map-container-tight-coordinates {
     ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
       right: $sm-spacing;
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
-      }
+    }
   }
 }
 
@@ -329,7 +335,7 @@
       bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
     }
   }
-  
+
 
   ::ng-deep.arlas-time-shortcuts--container {
     bottom: $timeline-with-legend-height;
@@ -359,9 +365,7 @@
     justify-content: center;
     border-right: $xs-border solid #ddd;
     color: black;
-    .generate-bbox {
-      
-    }
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
     }
@@ -441,7 +445,7 @@
 
 .aoi-dimensions {
   position: absolute;
-  
+
   right: calc($sm-spacing + $map-actions-width + $sm-spacing);
   top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing + $map-actions-width);
   z-index: 3
