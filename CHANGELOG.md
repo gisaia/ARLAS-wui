@@ -1,5 +1,18 @@
 # Change Log
 
+## [v25.0.0-beta.13](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.13) (2024-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0-beta.13)
+
+## [v24.3.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.8) (2024-04-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.12...v24.3.8)
+
+**Fixed bugs:**
+
+- Donut tooltip is wrongly rounded off [\#737](https://github.com/gisaia/ARLAS-wui/issues/737)
+- Shortcut filter window is systematically vertically too small [\#731](https://github.com/gisaia/ARLAS-wui/issues/731)
+
 ## [v25.0.0-beta.12](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.12) (2024-04-12)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.11...v25.0.0-beta.12)
