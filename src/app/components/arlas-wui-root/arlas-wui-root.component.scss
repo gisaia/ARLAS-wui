@@ -500,11 +500,6 @@
   .arlas-filters-chips-top {
     padding-left: $sm-spacing;
 
-    ::ng-deep.zoom {
-      position: relative;
-      bottom: 6px;
-    }
-
     ::ng-deep.extra-counts {
       // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border
       top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + 3px);

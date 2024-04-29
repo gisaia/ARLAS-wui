@@ -20,13 +20,14 @@ import { LeftMenuComponent } from '../left-menu/left-menu.component';
 import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule } from 'arlas-web-components';
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 import { ContributorService } from 'app/services/contributors.service';
+import { ResultlistService } from 'app/services/resultlist.service';
 
 describe('ArlasWuiRootComponent', () => {
   let component: ArlasWuiRootComponent;
   let fixture: ComponentFixture<ArlasWuiRootComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
@@ -44,13 +45,14 @@ describe('ArlasWuiRootComponent', () => {
         ArlasConfigService,
         ContributorService,
         ArlasStartupService,
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
+        ResultlistService
       ]
     }).compileComponents();
 
-  }));
+  });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     arlasStartupService = TestBed.get(ArlasStartupService);
     arlasStartupService.arlasIsUp.subscribe(isUp => {
       if (isUp) {
@@ -59,5 +61,5 @@ describe('ArlasWuiRootComponent', () => {
         fixture.detectChanges();
       }
     });
-  }));
+  });
 });
