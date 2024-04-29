@@ -27,14 +27,20 @@
   overflow: hidden;
 
   ::ng-deep.arlas-time-shortcuts--container {
-    left: calc($sm-spacing);
+    left: $sm-spacing;
+    padding: 0;
+  }
+
+  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    right: calc($sm-spacing + $map-scale-max-width + $default-spacing);
+    bottom: calc($timeline-height + $sm-spacing);
   }
 
   .map-container-tight-coordinates {
     ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
       right: $sm-spacing;
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
-      }
+    }
   }
 }
 
@@ -359,9 +365,7 @@
     justify-content: center;
     border-right: $xs-border solid #ddd;
     color: black;
-    .generate-bbox {
 
-    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
     }
@@ -494,7 +498,7 @@
   }
 
   .arlas-filters-chips-top {
-    padding-left: $default-spacing;
+    padding-left: $sm-spacing;
 
     ::ng-deep.extra-counts {
       // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border

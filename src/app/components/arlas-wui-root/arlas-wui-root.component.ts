@@ -283,9 +283,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.activeSubscriptions.push(sidenavSub);
 
-      this.appName = !!this.configService.appName ? this.configService.appName :
-        this.configService.getValue('arlas-wui.web.app.name') ?
-          this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
       this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
         this.configService.getValue('arlas-wui.web.app.units') : [];
@@ -1229,9 +1227,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private adjustTimelineSize() {
     setTimeout(() => {
-      this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
-        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+      if (this.timelineComponent.timelineHistogramComponent) {
+        this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+        if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+          this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+        }
       }
       this.mapglComponent.map.resize();
       this.updateVisibleItems();
