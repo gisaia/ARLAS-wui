@@ -1,7 +1,7 @@
 <div>
   <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
     <div left-menu class="top-left-menu">
-      <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img">
+      <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
       <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
@@ -15,7 +15,7 @@
     <div right-menu class="title" id="title">
       <arlas-permissions-creator></arlas-permissions-creator>
       <mat-divider vertical class="vertical-divider"></mat-divider>
-      {{appName}}
+      {{appName | translate}}
     </div>
   </arlas-top-menu>
 
@@ -261,7 +261,7 @@
         </arlas-configs-list>
         <div class="empty_mode">
           <div class="welcome">{{'Welcome to ARLAS-Exploration' | translate}}</div>
-          <img class="img" src="assets/logo-only.png" matTooltip="'ARLAS-wui'">
+          <img class="img" src="assets/logo-only.png" [matTooltip]="appName | translate" [alt]="'ARLAS-wui logo' | translate">
           <div class="action" (click)="goToArlasHub()">{{'go to arlas hub' | translate}}</div>
         </div>
       </mat-sidenav-content>
