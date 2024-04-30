@@ -236,7 +236,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Geocoding */
   protected showGeocodingPopup = new BehaviorSubject(false);
-  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings()?.find_place_url;
+  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings()?.enabled;
 
   /* Process */
   private downloadDialogRef: MatDialogRef<ProcessComponent>;
@@ -707,8 +707,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setAppTitle() {
-    const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
-      this.arlasSettingsService.settings['tab_name'] : '';
+    const prefixTitle = this.arlasSettingsService.settings.tab_name ?
+      this.arlasSettingsService.settings.tab_name : '';
     this.titleService.setTitle(prefixTitle === '' ? this.appName :
       prefixTitle.concat(' - ').concat(this.appName));
   }

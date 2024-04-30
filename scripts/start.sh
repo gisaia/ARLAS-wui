@@ -571,6 +571,17 @@ fi
 envsubst '$ARLAS_WUI_DASHBOARDS_SHORTCUT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Whether to enable geocoding
+if [ -z "${ARLAS_GEOCODING_ENABLED}" ]; then
+  ARLAS_GEOCODING_ENABLED=false
+  export ARLAS_GEOCODING_ENABLED
+  echo "Geocoding is disabled"
+else
+  echo "Geocoing is enabled: " ${ARLAS_GEOCODING_ENABLED}
+fi
+envsubst '$ARLAS_GEOCODING_ENABLED' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 # Set geocoding url
 if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
   ARLAS_GEOCODING_FIND_PLACE_URL=""
