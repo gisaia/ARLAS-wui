@@ -4,10 +4,11 @@
 
 :host {
   position: absolute;
-  right: 42px;
-  top: 61px;
+  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
+  top: calc(3 * $map-actions-width);
   background: white;
-  width: 411px;
+  width: 375px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   z-index: 100;
@@ -25,10 +26,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .geocode-search {
+      display: flex;
+      justify-content: center;
+      padding: 0 $default-spacing;
+      margin-left: $default-spacing
+    }
   }
 
-  .title,
-  .geocode-search {
+  .title {
     font-weight: bold;
   }
 
@@ -38,13 +45,20 @@
 
   .geocode-table-container {
     max-height: 150px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    margin-top: $sm-spacing;
+
+    .geocode-tip {
+      font-size: $sm-font-size;
+      color: grey;
+      font-style: italic;
+      margin-bottom: 2.5px;
+    }
   }
 
   .table {
     max-height: 200px;
     width: 100%;
-    margin-top: $default-spacing;
 
     ::ng-deep thead tr.mat-header-row {
       height: 1px;
@@ -58,5 +72,10 @@
   .error {
     font-size: $sm-font-size;
     color: $errorColor;
+  }
+
+  ::ng-deep td.mat-cell:last-of-type,
+  ::ng-deep td.mat-cell:first-of-type {
+    padding: 0;
   }
 }

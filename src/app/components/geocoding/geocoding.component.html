@@ -1,16 +1,33 @@
-<div class="geocode-header"><span class="title">{{ 'Find a place' | translate }}</span><mat-icon (click)="closePopup()">close</mat-icon></div>
-  <div class="geocode-content">
-    <mat-form-field  class="geocode-input">
-      <mat-label>{{'Type an address' | translate}}</mat-label>
-      <input #searchInput (keyup.enter)="search()" [formControl]="searchFormControl" matInput />
-    </mat-form-field>
-    <button class="geocode-search" mat-button color="accent" (click)="search()">{{'Search a place' | translate }}</button>
+<div class="geocode-header">
+  <span class="title">
+    {{ 'Find a place' | translate }}
+  </span>
+  <mat-icon (click)="closePopup()">
+    close
+  </mat-icon>
+</div>
+
+<div class="geocode-content">
+  <mat-form-field class="geocode-input">
+    <mat-label>{{'Type an address' | translate}}</mat-label>
+    <input matInput #searchInput (keyup.enter)="search()" [formControl]="searchFormControl"/>
+  </mat-form-field>
+  <button mat-stroked-button (click)="search()" class="geocode-search">
+    <mat-icon>
+      location_searching
+    </mat-icon>
+    {{'Search for place' | translate }}
+  </button>
+</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<ng-container *ngIf="displayTable; else noResult">
+  <div class="geocode-tip">
+    {{ 'Click on search result to zoom on it' | translate }}
   </div>
-  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-  <div  *ngIf="displayTable; else noResult" class="geocode-table-container">
-    <table class="table" mat-table [dataSource]="geocodingResult ">
+  <div class="geocode-table-container">
+    <table class="table" mat-table [dataSource]="geocodingResult">
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>  </th>
+        <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell (click)="onSearchLocation(element)" *matCellDef="let element">
           {{element.display_name }}
           <span *ngIf="element.addresstype"> - {{element.addresstype}}</span>
@@ -20,8 +37,10 @@
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
     </table>
   </div>
+</ng-container>
+
 <ng-template #noResult>
   <span *ngIf="hasSearched" class="no-result">{{'No results' | translate}}</span>
-  <span *ngIf="isErrored" class="error">{{'Unable to access find location service' | translate}}</span>
+  <span *ngIf="hasError" class="error">{{'Unable to access find location service' | translate}}</span>
 </ng-template>
 

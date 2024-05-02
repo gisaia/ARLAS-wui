@@ -20,6 +20,8 @@
 	"Error while retrieving dashboards": "Error while retrieving dashboards",
 	"Find a place": "Find a place",
 	"Type an address": "Type an address",
+	"Search for place": "Search for place",
+	"Click on search result to zoom on it": "Click on search result to zoom on it",
 	"No results": "No results",
 	"Unable to access find location service": "Unable to access find location service",
 	"Refresh components": "Refresh components",

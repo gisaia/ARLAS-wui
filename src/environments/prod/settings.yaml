@@ -50,5 +50,6 @@ process:
   status:
     url: ${ARLAS_PROCESS_STATUS_URL}
 geocoding:
+  enabled: ${ARLAS_GEOCODING_ENABLED}
   find_place_url: ${ARLAS_GEOCODING_FIND_PLACE_URL}
   find_place_zoom_to: ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}

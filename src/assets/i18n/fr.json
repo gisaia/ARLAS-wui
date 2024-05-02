@@ -20,6 +20,8 @@
 	"Error while retrieving dashboards": "Erreur pendant la récupération des dashboards",
 	"Find a place": "Rechercher un lieu",
 	"Type an address": "Saisir une adresse",
+	"Search for place": "Rechercher",
+	"Click on search result to zoom on it": "Cliquer sur le résultat pour zoomer dessus",
 	"No results": "Pas de résultat",
 	"Unable to access find location service": "Impossible d'accéder au service de geocoding",
 	"Refresh components": "Rafraîchir les composants",
