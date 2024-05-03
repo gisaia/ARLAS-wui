@@ -183,6 +183,7 @@
               </div>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list mat-elevation-z1" [class.one-tab]="rightListContributors.length === 1"
                 [class.side-result-list-open]="resultlistService.listOpen">
+                <mat-progress-bar *ngIf="resultlistIsExporting" class="arlas-progression" color="primary" mode="indeterminate" ></mat-progress-bar>
                 <mat-tab-group [selectedIndex]="resultlistService.selectedListTabIndex"#tabsList class="result-list-tab-group">
                   <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
                     <ng-template mat-tab-label>

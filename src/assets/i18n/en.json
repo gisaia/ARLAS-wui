@@ -41,6 +41,7 @@
 	"Updating Geo-query of": "Updating Geo-query of",
 	"Loading data of": "Loading collection",
 	"You have exceeded the number of products authorised for a single download": "You have exceeded the number of products authorised for a single download",
+	"An error occured exporting the list": "An error occured exporting the list",
 	"reduce": "Reduce",
 	"expand": "Expand",
 	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
@@ -108,5 +109,6 @@
 	"Area Of Interest": "Area of interest",
 	"Fill": "Polygon",
 	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
-	"Draw at least 2 points.": "Draw at least 2 points."
+	"Draw at least 2 points.": "Draw at least 2 points.",
+	"Export csv": "Export csv"
 }

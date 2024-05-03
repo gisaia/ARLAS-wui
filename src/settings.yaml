@@ -2,7 +2,7 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: iam
   url: http://localhost:9997/arlas_iam_server
   force_connect: false
@@ -25,11 +25,12 @@ authentication:
   storage: sessionstorage
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
 tab_name: "ARLAS Wui"
-persistence:
-  url: 'http://localhost:19997/arlas-persistence-server/'
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
+resultlist:
+  enable_export: true
+  export_size: 10000
 arlas_hub_url: http://localhost:81/hub
 dashboards_shortcut: true
 process:
