@@ -1,17 +1,5 @@
 # Change Log
 
-## [v25.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.15) (2024-05-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.14...v25.0.0-beta.15)
-
-## [v25.0.0-beta.14](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.14) (2024-05-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.13...v25.0.0-beta.14)
-
-## [v25.0.0-beta.13](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.13) (2024-04-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0-beta.13)
-
 ## [v24.3.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.8) (2024-04-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.12...v24.3.8)
