@@ -41,6 +41,7 @@
 	"Updating Geo-query of": "Chargement de la requête géographique de",
 	"Loading data of": "Chargement de la collection",
 	"You have exceeded the number of products authorised for a single download": "Vous avez dépassé le nombre de produits autorisés pour un téléchargement unique",
+	"An error occured exporting the list": "Une erreur s'est produite lors de l'exportation de la liste",
 	"reduce": "Réduire",
 	"expand": "Ouvrir",
 	"The visualisation is not available for this product.": "Ce produit n'est pas disponible à la visualisation.",
@@ -111,5 +112,6 @@
 	"Fill": "Polygone",
 	"All layers": "Toutes les couches",
 	"Start draging to draw a bbox.": "Commencez à dessiner une bbox.",
-	"Draw at least 2 points.": "Dessinez au moins 2 points."
+	"Draw at least 2 points.": "Dessinez au moins 2 points.",
+	"Export csv": "Export csv"
 }

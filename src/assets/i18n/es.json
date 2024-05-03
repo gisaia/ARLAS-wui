@@ -41,6 +41,7 @@
 	"Updating Geo-query of": "Carga de la petición geográfica de",
 	"Loading data of": "Carga de la collección",
 	"You have exceeded the number of products authorised for a single download": "Ha superado el número de productos autorizados para una sola descarga",
+	"An error occured exporting the list": "Se ha producido un error al exportar la lista",
 	"reduce": "Reducir",
 	"expand": "Abrir",
 	"The visualisation is not available for this product.": "Este producto no está disponible para su visualización.",
@@ -108,5 +109,6 @@
 	"Fill": "Polígono",
 	"All layers": "Todas las capas",
 	"Start draging to draw a bbox.": "Empieze a dibujar un cuadro delimitador.",
-	"Draw at least 2 points.": "Dibuje al menos 2 vértices"
+	"Draw at least 2 points.": "Dibuje al menos 2 vértices",
+	"Export csv": "Exportar a csv"
 }
