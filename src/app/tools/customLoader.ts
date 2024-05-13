@@ -58,7 +58,7 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     if (usePersistence && configurationId) {
       return this.persistenceService.get(configurationId)
-        .pipe(map(configDoc => this.getTour(lang, configDoc, localTour))).toPromise();
+        .pipe(mergeMap(configDoc => this.getTour(lang, configDoc, localTour))).toPromise();
     } else {
       return localTour.toPromise();
     }
@@ -71,6 +71,7 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
       const toursId = this.configService.getTours(arlasConfig)[lang];
       return this.persistenceService.exists(toursId).pipe(mergeMap((exist) => {
         if (exist.exists) {
+
           return this.persistenceService.get(toursId)
             .pipe(map((tourDoc) => JSON.parse(tourDoc.doc_value)))
             .pipe(catchError((err) => localTour));
