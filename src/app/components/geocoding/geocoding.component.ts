@@ -43,7 +43,7 @@ export class GeocodingComponent implements AfterViewInit {
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
   protected hasSearched = false;
-  protected isErrored = false;
+  protected hasError = false;
   protected loading = false;
   protected geocodingResult: MatTableDataSource<any>;
   protected searchFormControl = new FormControl('');
@@ -93,7 +93,7 @@ export class GeocodingComponent implements AfterViewInit {
         this.geocodingResult = new MatTableDataSource(r);
       },
       error: () => {
-        this.isErrored = true;
+        this.hasError = true;
         this.displayTable = false;
         this.loading = false;
       }

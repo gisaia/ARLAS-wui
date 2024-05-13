@@ -67,6 +67,7 @@ import {
   AnalyticsService,
   ArlasCollaborativesearchService,
   ArlasConfigService,
+  ArlasExportCsvService,
   ArlasMapService,
   ArlasMapSettings,
   ArlasSettingsService,
@@ -79,7 +80,7 @@ import {
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
-import { debounceTime, mergeMap, takeWhile } from 'rxjs/operators';
+import { debounceTime, finalize, mergeMap, takeUntil, takeWhile } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
@@ -87,6 +88,8 @@ import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
 import { GeocodingResult } from '../../services/geocoding.service';
+import { ResultlistService } from 'app/services/resultlist.service';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -136,6 +139,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resultListsConfig = [];
   public resultListConfigPerContId = new Map<string, any>();
+  public resultlistIsExporting = false;
 
   public fitbounds: Array<Array<number>> = [];
   public featureToHightLight: {
@@ -149,14 +153,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public menuState: MenuState;
   public searchOpen = true;
   public mapId = 'mapgl';
-  public centerLatLng: { lat: number; lng: number; } = {lat: 0, lng: 0};
-  public listOpen = false;
-  public selectedListTabIndex = 0;
+  public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public previewListContrib: ResultListContributor = null;
   public rightListContributors: Array<ResultListContributor> = new Array();
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
-    = {show: false, diameter: '60', color: 'accent', strokeWidth: 5};
+    = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
   public showZoomToData = false;
   public showIndicators = false;
   public onSideNavChange: boolean;
@@ -200,11 +202,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
   public apploading = true;
-  @ViewChild('map', {static: false}) public mapglComponent: MapglComponent;
-  @ViewChild('import', {static: false}) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', {static: false}) public mapSettings: MapglSettingsComponent;
-  @ViewChild('tabsList', {static: false}) public tabsList: MatTabGroup;
-  @ViewChild('timeline', {static: false}) public timelineComponent: TimelineComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
+  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
+  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+  @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
   public extraShortcuts = new Array<FilterShortcutConfiguration>();
@@ -217,6 +219,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   public showShortcuts = false;
   public showMoreShortcutsWidth: number;
+
   /** Collection counts */
   /**
    * @description Space available to display the counts in the top bar
@@ -226,18 +229,24 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * @description Spacing used in the WUI to separate elements
    */
   public spacing = 5;
+
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
-  protected showGeocodingPopup = new BehaviorSubject(false);
-  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings().find_place_url;
   private allowMapExtend: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
+
+  /** Geocoding */
+  protected showGeocodingPopup = new BehaviorSubject(false);
+  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings()?.enabled;
+
   /* Process */
   private downloadDialogRef: MatDialogRef<ProcessComponent>;
-  private onGoingSub: Subscription;
-  private activeSubscriptions: Subscription[] = [];
+
+  /** Destroy subscriptions */
+  private _onDestroy$ = new Subject<boolean>();
+
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
@@ -262,7 +271,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     public analyticsService: AnalyticsService,
     private dialog: MatDialog,
     private generateAoiDialog: MatDialog,
-    private processService: ProcessService
+    private processService: ProcessService,
+    private resultlistService: ResultlistService,
+    private exportService: ArlasExportCsvService
   ) {
     this.menuState = {
       configs: false
@@ -277,15 +288,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.adjustCoordinates();
         });
       /** trigger 'resize' event after toggling sidenav  */
-      const sidenavSub = this.sidenavService.sideNavState.subscribe(res => {
-        this.onSideNavChange = res;
-        window.dispatchEvent(new Event('resize'));
-      });
-      this.activeSubscriptions.push(sidenavSub);
+      this.sidenavService.sideNavState
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(res => {
+          this.onSideNavChange = res;
+          window.dispatchEvent(new Event('resize'));
+        });
 
-      this.appName = !!this.configService.appName ? this.configService.appName :
-        this.configService.getValue('arlas-wui.web.app.name') ?
-          this.configService.getValue('arlas-wui.web.app.name') : 'ARLAS';
+      this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
       this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
         this.configService.getValue('arlas-wui.web.app.units') : [];
@@ -334,11 +344,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       }
 
-      const resultlistOpenString = this.getParamValue('ro');
-      if (resultlistOpenString) {
-        this.listOpen = (resultlistOpenString === 'true');
-      }
-
       const timelineOpenString = this.getParamValue('to');
       if (timelineOpenString) {
         this.isTimelineOpen = (this.getParamValue('to') === 'true');
@@ -376,10 +381,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.onGoingSub) {
-      this.onGoingSub.unsubscribe();
-    }
-    this.activeSubscriptions.forEach(s => s.unsubscribe());
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   public downloadLayerSource(d) {
@@ -419,14 +422,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
         merge(...this.mapglContributors
           .map(c => c.legendUpdater
-            .pipe(mergeMap(m => of({collection: c.collection, legendData: m})))
+            .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
           ));
       const legendData = new Map<string, Map<string, LegendData>>();
-      const legendUpdatersSub = legendUpdaters.subscribe(lg => {
-        legendData.set(lg.collection, lg.legendData);
-        this.mapLegendUpdater.next(legendData);
-      });
-      this.activeSubscriptions.push(legendUpdatersSub);
+      legendUpdaters
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(lg => {
+          legendData.set(lg.collection, lg.legendData);
+          this.mapLegendUpdater.next(legendData);
+        });
 
       this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
       this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
@@ -445,6 +449,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.resultlistContributors.push(v);
         }
       });
+      this.resultlistService.setContributors(this.resultlistContributors, this.resultListsConfig);
+
       if (this.resultlistContributors.length > 0) {
         this.rightListContributors = this.resultlistContributors
           .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
@@ -471,18 +477,19 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
           const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
           if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-            c.addAction({id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product'});
+            c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
           }
           if (!!this.resultListConfigPerContId.get(c.identifier)) {
             if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-              c.addAction({id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map'});
+              c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
             }
             if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-              c.addAction({id: 'download', label: 'Download', cssClass: '', tooltip: 'Download'});
+              c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
           }
 
         });
+        this.declareResultlistExportCsv();
 
         // Check if the user can access process endpoint
         const processSettings = this.arlasSettingsService.getProcessSettings();
@@ -491,25 +498,26 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           !!processSettings && !!processSettings.url
           && !!externalNode && !!externalNode.download && externalNode.download === true
         ) {
-          const processSub = this.processService.check().subscribe({
-            next: () => {
-              this.resultlistContributors.forEach(c => {
-                const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-                if (!listActionsId.includes('production')) {
-                  c.addAction({id: 'production', label: 'Download', cssClass: '', tooltip: 'Download'});
-                  const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-                  if (resultConfig) {
-                    if (!resultConfig.globalActionsList) {
-                      resultConfig.globalActionsList = [];
+          this.processService.check()
+            .pipe(takeUntil(this._onDestroy$))
+            .subscribe({
+              next: () => {
+                this.resultlistContributors.forEach(c => {
+                  const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
+                  if (!listActionsId.includes('production')) {
+                    c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
+                    const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+                    if (resultConfig) {
+                      if (!resultConfig.globalActionsList) {
+                        resultConfig.globalActionsList = [];
+                      }
+                      resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
                     }
-                    resultConfig.globalActionsList.push({'id': 'production', 'label': 'Download'});
                   }
-                }
 
-              });
-            }
-          });
-          this.activeSubscriptions.push(processSub);
+                });
+              }
+            });
         }
 
         const selectedResultlistTab = this.getParamValue('rt');
@@ -521,13 +529,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
 
-      const actionOnPopupSub = this.actionOnPopup.subscribe(data => {
-        const collection = data.action.collection;
-        const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-        const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
-        this.actionOnItemEvent(data, mapContributor, listContributor, collection);
-      });
-      this.activeSubscriptions.push(actionOnPopupSub);
+      this.actionOnPopup
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(data => {
+          const collection = data.action.collection;
+          const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
+          const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
+          this.actionOnItemEvent(data, mapContributor, listContributor, collection);
+        });
 
       if (this.allowMapExtend) {
         const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
@@ -542,14 +551,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
-      const collectionDescribeSub = zip(...this.collections.map(c => this.collaborativeService.describe(c)))
+      zip(...this.collections.map(c => this.collaborativeService.describe(c)))
+        .pipe(takeUntil(this._onDestroy$))
         .subscribe(cdrs => {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           const bounds = (<mapboxgl.Map>this.mapglComponent.map)?.getBounds();
           if (!!bounds) {
-            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, {duration: 0});
+            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
           }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
@@ -568,12 +578,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
         });
-      this.activeSubscriptions.push(collectionDescribeSub);
 
       this.shortcuts = this.arlasStartUpService.filtersShortcuts;
 
-      this.onGoingSub = this.collaborativeService.ongoingSubscribe.subscribe(
-        () => {
+      this.collaborativeService.ongoingSubscribe
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(() => {
           if (this.collaborativeService.totalSubscribe === 0) {
             // Check for all contributor in the extra if there is a collab
             this.extraShortcutsFiltered = 0;
@@ -588,10 +598,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             );
           }
-        }
-      );
+        });
     }
-
 
     // eslint-disable-next-line max-len
     this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
@@ -621,6 +629,20 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public declareResultlistExportCsv() {
+    if (this.settingsService.isResultListExportEnabled()) {
+      this.resultlistContributors.forEach(c => {
+        const resultConfig = this.resultListConfigPerContId.get(c.identifier);
+        if (resultConfig) {
+          if (!resultConfig.globalActionsList) {
+            resultConfig.globalActionsList = [];
+          }
+          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': 'Export csv', 'alwaysEnabled': true });
+        }
+      });
+    }
+  }
+
   public ngAfterViewInit(): void {
     if (!this.arlasStartUpService.emptyMode) {
       this.resizeCollectionCounts();
@@ -628,37 +650,45 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.adjustCoordinates();
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.tabsList) {
-        const tabListSub = this.tabsList.selectedIndexChange.subscribe(index => {
-          this.previewListContrib = this.resultlistContributors[index];
+        this.tabsList.selectedIndexChange
+          .pipe(takeUntil(this._onDestroy$))
+          .subscribe(index => {
+            this.resultlistService.selectedListTabIndex = index;
+            this.previewListContrib = this.resultlistContributors[index];
 
-          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-          queryParams['rt'] = this.previewListContrib.getName();
-          this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
-          this.adjustGrids();
-          this.adjustTimelineSize();
-        });
-        this.activeSubscriptions.push(tabListSub);
+            const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+            queryParams['rt'] = this.previewListContrib.getName();
+            this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+            this.adjustGrids();
+            this.adjustTimelineSize();
+          });
       }
 
-      const mapListenerSub = this.mapEventListener.pipe(debounceTime(this.mapExtendTimer)).subscribe(() => {
-        /** Change map extend in the url */
-        const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-        const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-        queryParams[this.MAP_EXTEND_PARAM] = extend;
-        this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
-      });
-      this.activeSubscriptions.push(mapListenerSub);
+      this.mapEventListener
+        .pipe(
+          takeUntil(this._onDestroy$),
+          debounceTime(this.mapExtendTimer))
+        .subscribe(() => {
+          /** Change map extend in the url */
+          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+          const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+          queryParams[this.MAP_EXTEND_PARAM] = extend;
+          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+        });
 
       if (!!this.previewListContrib) {
-        const previewSub = timer(0, 200).pipe(takeWhile(() => this.apploading)).subscribe(() => {
-          if (this.previewListContrib.data.length > 0 &&
-            this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-            this.updateVisibleItems();
-            this.apploading = false;
-          }
-        });
-        this.activeSubscriptions.push(previewSub);
+        timer(0, 200)
+          .pipe(
+            takeUntil(this._onDestroy$),
+            takeWhile(() => this.apploading))
+          .subscribe(() => {
+            if (this.previewListContrib.data.length > 0 &&
+              this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+              this.updateVisibleItems();
+              this.apploading = false;
+            }
+          });
       }
       this.cdr.detectChanges();
     }
@@ -671,7 +701,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, {duration: 0});
+        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
       this.mapglComponent.map.on('movestart', (e) => {
@@ -696,8 +726,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setAppTitle() {
-    const prefixTitle = this.arlasSettingsService.settings['tab_name'] ?
-      this.arlasSettingsService.settings['tab_name'] : '';
+    const prefixTitle = this.arlasSettingsService.settings.tab_name ?
+      this.arlasSettingsService.settings.tab_name : '';
     this.titleService.setTitle(prefixTitle === '' ? this.appName :
       prefixTitle.concat(' - ').concat(this.appName));
   }
@@ -864,10 +894,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
-    this.listOpen = !this.listOpen;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
+    this.resultlistService.toggleList();
     setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
   }
 
@@ -931,6 +958,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.data.id === 'production') {
           const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
           this.process(idsItemSelected.map(i => i.idValue), currentCollection);
+        } else if (event.data.id === 'export_csv') {
+          this.resultlistIsExporting = true;
+          this.exportService.fetchResultlistData$(resultListContributor, undefined)
+            .pipe(finalize(() => this.resultlistIsExporting = false))
+            .subscribe({
+              next: (h) => this.exportService.exportResultlist(resultListContributor, h),
+              error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
+            });
         }
         break;
       case 'geoSortEvent':
@@ -957,9 +992,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
       this.sortOutput.set(resultListContributor.identifier,
-        {fieldName: idFieldName, sortDirection: SortEnum.none});
+        { fieldName: idFieldName, sortDirection: SortEnum.none });
       /** Sort the list by the selected column and the id field name */
-      resultListContributor.sortColumn({fieldName: idFieldName, sortDirection: SortEnum.none}, true);
+      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
       mapContributor.searchSort = resultListContributor.sort;
       mapContributor.searchSize = resultListContributor.pageSize;
       this.clearWindowData(mapContributor);
@@ -995,7 +1030,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTEND_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
-      this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
+      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
       const ratioToAutoSort = 0.1;
       this.centerLatLng['lat'] = event.centerWithOffset[1];
@@ -1055,7 +1090,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
 
@@ -1107,7 +1142,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               }>();
               k.forEach((value, key) => {
                 details.push(
-                  {key, value}
+                  { key, value }
                 );
               });
               detail.push({
@@ -1126,7 +1161,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!!this.popup) {
               this.popup.remove();
             }
-            this.popup = new mapboxgl.Popup({closeOnClick: false})
+            this.popup = new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat(event.point)
               .setDOMContent(popupContent);
             this.popup.addTo(this.mapglComponent.map);
@@ -1138,11 +1173,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public toggleList() {
     this.tabsList.realignInkBar();
-    this.listOpen = !this.listOpen;
+    this.resultlistService.toggleList();
     this.updateTimelineLegendVisibility();
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['ro'] = this.listOpen + '';
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
     this.adjustGrids();
     this.adjustTimelineSize();
     this.adjustVisibleShortcuts();
@@ -1155,11 +1187,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isTimelineOpen = !this.isTimelineOpen;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['to'] = this.isTimelineOpen + '';
-    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   public updateTimelineLegendVisibility() {
-    this.isTimelineLegend = !(this.listOpen && this.analyticsService.activeTab !== undefined);
+    this.isTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   public closeAnalytics() {
@@ -1210,7 +1242,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.visualizeService.handleGeojsonPreview(event.geojson);
     if (event.geojson.type === 'Point') {
       const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      this.mapglComponent.map.fitBounds(bbox, {maxZoom: zoom});
+      this.mapglComponent.map.fitBounds(bbox, { maxZoom: zoom });
     } else {
       this.mapglComponent.map.fitBounds(bbox);
     }
@@ -1227,19 +1259,21 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private adjustGrids() {
-    if (!this.listOpen) {
+    if (!this.resultlistService.listOpen) {
       const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
     } else {
-      this.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
+      this.resultlistService.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
     }
   }
 
   private adjustTimelineSize() {
     setTimeout(() => {
-      this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-      if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
-        this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+      if (this.timelineComponent.timelineHistogramComponent) {
+        this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+        if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+          this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
+        }
       }
       this.mapglComponent.map.resize();
       this.updateVisibleItems();
@@ -1278,12 +1312,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // The threshold is based on the window inner size and the available size for the shortcuts
     // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
     // with a minimum spacing equal to the one on the left.
-    const previewListOpen = !!this.previewListContrib && !this.listOpen
+    const previewListOpen = !!this.previewListContrib && !this.resultlistService.listOpen
       && this.resultListConfigPerContId.get(this.previewListContrib.identifier)?.hasGridMode;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
     this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
-    const threshold = window.innerWidth - leftMenuWidth - (this.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
+    const threshold = window.innerWidth - leftMenuWidth
+      - (this.resultlistService.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
       - this.spacing - this.showMoreShortcutsWidth - this.spacing - mapActionsAndLegendWidth;
 
     const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`).getBoundingClientRect().width);
@@ -1403,7 +1438,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             collection
           ).subscribe({
             next: (item: any) => {
-              this.downloadDialogRef = this.dialog.open(ProcessComponent, {minWidth: '520px', maxWidth: '60vw'});
+              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
               this.downloadDialogRef.componentInstance.nbProducts = ids.length;
               this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
               this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');

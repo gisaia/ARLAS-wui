@@ -28,7 +28,17 @@
               "src/config.json",
               "src/config.map.json",
               "src/settings.yaml",
-              "src/silent-refresh.html"
+              "src/silent-refresh.html",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/arlas-web-components/assets/resize",
+                "output": "/assets/resize/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/arlas-web-components/assets/rotate",
+                "output": "/assets/rotate/"
+              }
             ],
             "styles": [
               "src/styles/variables.scss",
@@ -76,7 +86,17 @@
                 },
                 "src/assets",
                 "src/silent-refresh.html",
-                "src/favicon.ico"
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/resize",
+                  "output": "/assets/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/rotate",
+                  "output": "/assets/rotate/"
+                }
               ]
             }
           }
@@ -125,7 +145,17 @@
               "src/config.json",
               "src/config.map.json",
               "src/settings.yaml",
-              "src/silent-refresh.html"
+              "src/silent-refresh.html",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/arlas-web-components/assets/resize",
+                "output": "/assets/resize/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/arlas-web-components/assets/rotate",
+                "output": "/assets/rotate/"
+              }
             ]
           }
         },

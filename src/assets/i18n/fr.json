@@ -12,12 +12,16 @@
 	"See more": "Voir plus",
 	"Close analytics board": "Fermer le panneau",
 	"Welcome to ARLAS-Exploration": "Bienvenue sur ARLAS-Exploration.",
+	"ARLAS-wui logo": "Logo de ARLAS-wui",
 	"go to arlas hub": "Accéder à ARLAS hub",
 	"Choose a dashboard to load": "Charger un dashboard",
 	"Manage dashboards": "Gérer les dashboards",
 	"Loading dashboards...": "Chargement des dashboards...",
 	"Error while retrieving dashboards": "Erreur pendant la récupération des dashboards",
 	"Find a place": "Rechercher un lieu",
+	"Type an address": "Saisir une adresse",
+	"Search for place": "Rechercher",
+	"Click on search result to zoom on it": "Cliquer sur le résultat pour zoomer dessus",
 	"No results": "Pas de résultat",
 	"Unable to access find location service": "Impossible d'accéder au service de geocoding",
 	"Refresh components": "Rafraîchir les composants",
@@ -37,6 +41,7 @@
 	"Updating Geo-query of": "Chargement de la requête géographique de",
 	"Loading data of": "Chargement de la collection",
 	"You have exceeded the number of products authorised for a single download": "Vous avez dépassé le nombre de produits autorisés pour un téléchargement unique",
+	"An error occured exporting the list": "Une erreur s'est produite lors de l'exportation de la liste",
 	"reduce": "Réduire",
 	"expand": "Ouvrir",
 	"The visualisation is not available for this product.": "Ce produit n'est pas disponible à la visualisation.",
@@ -108,6 +113,5 @@
 	"All layers": "Toutes les couches",
 	"Start draging to draw a bbox.": "Commencez à dessiner une bbox.",
 	"Draw at least 2 points.": "Dessinez au moins 2 points.",
-	"Type an address": "Saisir une adresse"
-
+	"Export csv": "Export csv"
 }

@@ -571,6 +571,17 @@ fi
 envsubst '$ARLAS_WUI_DASHBOARDS_SHORTCUT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Whether to enable geocoding
+if [ -z "${ARLAS_GEOCODING_ENABLED}" ]; then
+  ARLAS_GEOCODING_ENABLED=false
+  export ARLAS_GEOCODING_ENABLED
+  echo "Geocoding is disabled"
+else
+  echo "Geocoing is enabled: " ${ARLAS_GEOCODING_ENABLED}
+fi
+envsubst '$ARLAS_GEOCODING_ENABLED' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 # Set geocoding url
 if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
   ARLAS_GEOCODING_FIND_PLACE_URL=""
@@ -579,6 +590,8 @@ if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
 else
   echo ${ARLAS_GEOCODING_FIND_PLACE_URL}  "is used as url for geocoding "
 fi
+envsubst '$ARLAS_GEOCODING_FIND_PLACE_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Set zoom for point
 if [ -z "${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}" ]; then
@@ -588,6 +601,8 @@ if [ -z "${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}" ]; then
 else
   echo ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}  "is used as geocoding zoom"
 fi
+envsubst '$ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 ### Array of statics links
 if [ -z "${ARLAS_STATIC_LINKS}" ]; then

@@ -44,15 +44,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  BboxGeneratorModule,
-  FormatNumberModule,
-  HistogramModule,
-  MapglImportModule,
-  MapglModule,
-  MapglSettingsModule,
-  ResultsModule
+  HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
+  ResultsModule, FormatNumberModule, BboxGeneratorModule
 } from 'arlas-web-components';
 import {
+  ArlasConfigService,
   ArlasIamService,
   ArlasSettingsService,
   ArlasTaggerModule,
@@ -60,6 +56,7 @@ import {
   ArlasToolkitSharedModule,
   ArlasWalkthroughModule,
   AuthentificationService,
+  JwtInterceptor,
   LoginModule,
   PersistenceService,
   WalkthroughLoader
@@ -78,7 +75,9 @@ import { DynamicComponentService } from './services/dynamicComponent.service';
 import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { JwtInterceptor } from './tools/jwt.interceptor';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
+import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
+
 
 @NgModule({
   declarations: [
@@ -141,24 +140,29 @@ import { JwtInterceptor } from './tools/jwt.interceptor';
       loader: {
         provide: TranslateLoader,
         useClass: ArlasTranslateLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService]
+        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService]
       }
     }),
     ArlasWalkthroughModule.forRoot({
       loader: {
         provide: WalkthroughLoader,
         useClass: ArlasWalkthroughLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService, TranslateService]
+        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService, TranslateService]
       }
     }),
     ArlasTaggerModule,
-    LoginModule
+    LoginModule,
+    LazyLoadImageModule
   ],
   providers: [
     ContributorService,
     SidenavService,
     DynamicComponentService,
     VisualizeService,
+    {
+      provide: LAZYLOAD_IMAGE_HOOKS,
+      useClass: LazyLoadImageHooks
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

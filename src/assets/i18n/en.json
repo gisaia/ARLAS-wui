@@ -12,12 +12,16 @@
 	"See more": "See more",
 	"Close analytics board": "Close analytics board",
 	"Welcome to ARLAS-Exploration": "Welcome to ARLAS-Exploration.",
+	"ARLAS-wui logo": "ARLAS-wui logo",
 	"go to arlas hub": "go to arlas hub",
 	"Choose a dashboard to load": "Choose a dashboard to load",
 	"Manage dashboards": "Manage dashboards",
 	"Loading dashboards...": "Loading dashboards...",
 	"Error while retrieving dashboards": "Error while retrieving dashboards",
 	"Find a place": "Find a place",
+	"Type an address": "Type an address",
+	"Search for place": "Search",
+	"Click on search result to zoom on it": "Click on search result to zoom on it",
 	"No results": "No results",
 	"Unable to access find location service": "Unable to access find location service",
 	"Refresh components": "Refresh components",
@@ -37,6 +41,7 @@
 	"Updating Geo-query of": "Updating Geo-query of",
 	"Loading data of": "Loading collection",
 	"You have exceeded the number of products authorised for a single download": "You have exceeded the number of products authorised for a single download",
+	"An error occured exporting the list": "An error occured exporting the list",
 	"reduce": "Reduce",
 	"expand": "Expand",
 	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
@@ -105,6 +110,5 @@
 	"Fill": "Polygon",
 	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
 	"Draw at least 2 points.": "Draw at least 2 points.",
-	"Type an address": "Type an address"
-
+	"Export csv": "Export csv"
 }
