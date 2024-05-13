@@ -1,5 +1,47 @@
 # Change Log
 
+## [v25.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.1) (2024-05-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.16...v25.0.0-rc.1)
+
+**New stuff:**
+
+- Add a variable to activate/deactivate geocoding [\#773](https://github.com/gisaia/ARLAS-wui/issues/773)
+- Add an exprt-csv action to the resultlist [\#710](https://github.com/gisaia/ARLAS-wui/issues/710)
+
+**Fixed bugs:**
+
+- Avoid handling errors using statusText [\#785](https://github.com/gisaia/ARLAS-wui/issues/785)
+- It's impossible to access geo-filter tools  [\#777](https://github.com/gisaia/ARLAS-wui/issues/777)
+- When changing protomaps basemap, an error is thrown in the console [\#776](https://github.com/gisaia/ARLAS-wui/issues/776)
+- When timeline is hidden and we open the analytics board, errors are thrown in the console [\#775](https://github.com/gisaia/ARLAS-wui/issues/775)
+- When timeline is hidden, moving the map triggers errors in the console [\#774](https://github.com/gisaia/ARLAS-wui/issues/774)
+- ARLAS\_GEOCODING\_FIND\_PLACE\_URL value is not replaced at startup of the app [\#772](https://github.com/gisaia/ARLAS-wui/issues/772)
+- When viewing a dashboard, an error is thrown in console systematically [\#771](https://github.com/gisaia/ARLAS-wui/issues/771)
+- Logging out is not detected in other opened tabs [\#770](https://github.com/gisaia/ARLAS-wui/issues/770)
+- Detailed timelines are not displayed [\#756](https://github.com/gisaia/ARLAS-wui/issues/756)
+
+## [v25.0.0-beta.16](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.16) (2024-05-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.15...v25.0.0-beta.16)
+
+**Fixed bugs:**
+
+- While verifiying a new account, current account is not logged out [\#778](https://github.com/gisaia/ARLAS-wui/issues/778)
+- Powerbar download button no longer working when multiple powerbars in a group [\#753](https://github.com/gisaia/ARLAS-wui/issues/753)
+
+## [v25.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.15) (2024-05-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.14...v25.0.0-beta.15)
+
+## [v25.0.0-beta.14](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.14) (2024-05-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.13...v25.0.0-beta.14)
+
+## [v25.0.0-beta.13](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.13) (2024-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0-beta.13)
+
 ## [v24.3.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.8) (2024-04-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.12...v24.3.8)
