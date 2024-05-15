@@ -38,6 +38,9 @@ links: ${ARLAS_STATIC_LINKS}
 ticketing_key: ${ARLAS_TICKETING_KEY}
 tab_name:  ${ARLAS_TAB_NAME}
 dashboards_shortcut: ${ARLAS_WUI_DASHBOARDS_SHORTCUT}
+resultlist:
+  enable_export: ${RESULTLIST_ENABLE_EXPORT}
+  export_size: ${RESULTLIST_EXPORT_SIZE}
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}

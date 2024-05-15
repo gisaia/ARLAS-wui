@@ -153,6 +153,28 @@ fi
 envsubst '$ARLAS_TAB_NAME' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+# Enabling CSV export of resultlist
+if [ -z "${RESULTLIST_ENABLE_EXPORT}" ]; then
+  RESULTLIST_ENABLE_EXPORT=false
+  export RESULTLIST_ENABLE_EXPORT
+  echo "No RESULTLIST_ENABLE_EXPORT is specified. Defaults to false"
+else
+  echo "Enabling CSV export of resultlist:" ${RESULTLIST_ENABLE_EXPORT}
+fi
+envsubst '$RESULTLIST_ENABLE_EXPORT' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Size of resultlist's CSV export
+if [ -z "${RESULTLIST_EXPORT_SIZE}" ]; then
+  RESULTLIST_EXPORT_SIZE=1000
+  export RESULTLIST_EXPORT_SIZE
+  echo "No RESULTLIST_EXPORT_SIZE is specified. Defaults to 1000"
+else
+  echo "Resultlist's CSV export size:" ${RESULTLIST_EXPORT_SIZE}
+fi
+envsubst '$RESULTLIST_EXPORT_SIZE' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 # Set histograms max buckets
 if [ -z "${ARLAS_HISTOGRAMS_MAX_BUCKETS}" ]; then
   ARLAS_HISTOGRAMS_MAX_BUCKETS=200
