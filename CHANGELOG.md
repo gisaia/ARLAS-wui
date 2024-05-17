@@ -2,27 +2,7 @@
 
 ## [v25.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0) (2024-05-15)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-rc.5...v25.0.0)
-
-## [v25.0.0-rc.5](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.5) (2024-05-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-rc.4...v25.0.0-rc.5)
-
-## [v25.0.0-rc.4](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.4) (2024-05-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-rc.3...v25.0.0-rc.4)
-
-## [v25.0.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.3) (2024-05-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-rc.2...v25.0.0-rc.3)
-
-## [v25.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.2) (2024-05-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-rc.1...v25.0.0-rc.2)
-
-## [v25.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-rc.1) (2024-05-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.16...v25.0.0-rc.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0)
 
 **New stuff:**
 
@@ -32,6 +12,7 @@
 **Fixed bugs:**
 
 - Avoid handling errors using statusText [\#785](https://github.com/gisaia/ARLAS-wui/issues/785)
+- While verifiying a new account, current account is not logged out [\#778](https://github.com/gisaia/ARLAS-wui/issues/778)
 - It's impossible to access geo-filter tools  [\#777](https://github.com/gisaia/ARLAS-wui/issues/777)
 - When changing protomaps basemap, an error is thrown in the console [\#776](https://github.com/gisaia/ARLAS-wui/issues/776)
 - When timeline is hidden and we open the analytics board, errors are thrown in the console [\#775](https://github.com/gisaia/ARLAS-wui/issues/775)
@@ -40,44 +21,11 @@
 - When viewing a dashboard, an error is thrown in console systematically [\#771](https://github.com/gisaia/ARLAS-wui/issues/771)
 - Logging out is not detected in other opened tabs [\#770](https://github.com/gisaia/ARLAS-wui/issues/770)
 - Detailed timelines are not displayed [\#756](https://github.com/gisaia/ARLAS-wui/issues/756)
-
-## [v25.0.0-beta.16](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.16) (2024-05-03)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.15...v25.0.0-beta.16)
-
-**Fixed bugs:**
-
-- While verifiying a new account, current account is not logged out [\#778](https://github.com/gisaia/ARLAS-wui/issues/778)
 - Powerbar download button no longer working when multiple powerbars in a group [\#753](https://github.com/gisaia/ARLAS-wui/issues/753)
-
-## [v25.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.15) (2024-05-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.14...v25.0.0-beta.15)
-
-## [v25.0.0-beta.14](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.14) (2024-05-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.13...v25.0.0-beta.14)
-
-## [v25.0.0-beta.13](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.13) (2024-04-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0-beta.13)
 
 ## [v24.3.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.8) (2024-04-24)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.12...v24.3.8)
-
-**Fixed bugs:**
-
-- Donut tooltip is wrongly rounded off [\#737](https://github.com/gisaia/ARLAS-wui/issues/737)
-- Shortcut filter window is systematically vertically too small [\#731](https://github.com/gisaia/ARLAS-wui/issues/731)
-
-## [v25.0.0-beta.12](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.12) (2024-04-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.11...v25.0.0-beta.12)
-
-## [v25.0.0-beta.11](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.11) (2024-04-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.7...v25.0.0-beta.11)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.7...v24.3.8)
 
 **New stuff:**
 
@@ -87,6 +35,8 @@
 
 - Close button in build bbox with coordinates does not work [\#759](https://github.com/gisaia/ARLAS-wui/issues/759)
 - The cross button in the Generate bbox popup does not work [\#738](https://github.com/gisaia/ARLAS-wui/issues/738)
+- Donut tooltip is wrongly rounded off [\#737](https://github.com/gisaia/ARLAS-wui/issues/737)
+- Shortcut filter window is systematically vertically too small [\#731](https://github.com/gisaia/ARLAS-wui/issues/731)
 
 ## [v24.3.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.7) (2024-04-05)
 
@@ -102,35 +52,12 @@
 
 ## [v24.3.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.4) (2024-04-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.10...v24.3.4)
-
-**New stuff:**
-
-- Add find place function in the map control panel [\#758](https://github.com/gisaia/ARLAS-wui/issues/758)
-
-## [v25.0.0-beta.10](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.10) (2024-04-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.8...v25.0.0-beta.10)
-
-## [v25.0.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.8) (2024-03-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.7...v25.0.0-beta.8)
-
-## [v25.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.7) (2024-03-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.6...v25.0.0-beta.7)
-
-## [v25.0.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.6) (2024-03-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.3...v25.0.0-beta.6)
-
-## [v25.0.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.3) (2024-03-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.3...v25.0.0-beta.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.3...v24.3.4)
 
 **New stuff:**
 
 - \[openid\] add memory storage in oidc [\#763](https://github.com/gisaia/ARLAS-wui/issues/763)
+- Add find place function in the map control panel [\#758](https://github.com/gisaia/ARLAS-wui/issues/758)
 
 ## [v24.3.2-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.3) (2024-03-21)
 
@@ -155,19 +82,15 @@
 
 ## [v24.3.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2) (2024-03-01)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.2...v24.3.2)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.1...v24.3.2)
 
 **New stuff:**
 
 - use app name in toolbar logo tooltip instead of 'ARLAS-wui' [\#751](https://github.com/gisaia/ARLAS-wui/issues/751)
 
-## [v25.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.2) (2024-02-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.1...v25.0.0-beta.2)
-
 ## [v24.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.1) (2024-02-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0-beta.1...v24.3.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0...v24.3.1)
 
 **New stuff:**
 
@@ -177,10 +100,6 @@
 
 - Polygons cross the antimeridian whatever there orientation is [\#733](https://github.com/gisaia/ARLAS-wui/issues/733)
 - Dialogs are not displaying like before [\#723](https://github.com/gisaia/ARLAS-wui/issues/723)
-
-## [v25.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0-beta.1) (2024-02-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0...v25.0.0-beta.1)
 
 ## [v24.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0) (2023-12-20)
 
