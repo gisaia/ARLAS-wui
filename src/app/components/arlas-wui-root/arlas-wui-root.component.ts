@@ -74,6 +74,7 @@ import {
   ArlasStartupService,
   CollectionUnit,
   FilterShortcutConfiguration,
+  NOT_CONFIGURED,
   ProcessComponent,
   ProcessService,
   TimelineComponent
@@ -726,7 +727,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setAppTitle() {
-    const prefixTitle = this.arlasSettingsService.settings.tab_name ?
+    const prefixTitle = (!!this.arlasSettingsService.settings.tab_name && this.arlasSettingsService.settings.tab_name !== NOT_CONFIGURED) ?
       this.arlasSettingsService.settings.tab_name : '';
     this.titleService.setTitle(prefixTitle === '' ? this.appName :
       prefixTitle.concat(' - ').concat(this.appName));
