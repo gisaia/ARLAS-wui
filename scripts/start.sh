@@ -135,7 +135,7 @@ fi
 
 # Set zendesk key
 if [ -z "${ARLAS_TICKETING_KEY}" ]; then
-  ARLAS_TICKETING_KEY=""
+  ARLAS_TICKETING_KEY=NOT_CONFIGURED
   export ARLAS_TICKETING_KEY
   echo "No key defined for Zendesk ticketing"
 else
@@ -144,7 +144,7 @@ fi
 
 # Set Tab title name
 if [ -z "${ARLAS_TAB_NAME}" ]; then
-  ARLAS_TAB_NAME=""
+  ARLAS_TAB_NAME=NOT_CONFIGURED
   export ARLAS_TAB_NAME
   echo "No specific tab name for the app"
 else
@@ -212,7 +212,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process URL
 if [ -z "${ARLAS_PROCESS_URL}" ]; then
-  ARLAS_PROCESS_URL=''
+  ARLAS_PROCESS_URL=NOT_CONFIGURED
   export ARLAS_PROCESS_URL
   echo "No ARLAS_PROCESS_URL is specified."
 else
@@ -223,7 +223,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process CHECK URL
 if [ -z "${ARLAS_PROCESS_CHECK_URL}" ]; then
-  ARLAS_PROCESS_CHECK_URL=''
+  ARLAS_PROCESS_CHECK_URL=NOT_CONFIGURED
   export ARLAS_PROCESS_CHECK_URL
   echo "No ARLAS_PROCESS_CHECK_URL is specified."
 else
@@ -234,7 +234,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process Status URL
 if [ -z "${ARLAS_PROCESS_STATUS_URL}" ]; then
-  ARLAS_PROCESS_STATUS_URL=''
+  ARLAS_PROCESS_STATUS_URL=NOT_CONFIGURED
   export ARLAS_PROCESS_STATUS_URL
   echo "No ARLAS_PROCESS_STATUS_URL is specified."
 else
@@ -245,7 +245,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process maximum number of items allowed
 if [ -z "${ARLAS_PROCESS_MAX_ITEMS}" ]; then
-  ARLAS_PROCESS_MAX_ITEMS=''
+  ARLAS_PROCESS_MAX_ITEMS=100
   export ARLAS_PROCESS_MAX_ITEMS
   echo "No ARLAS_PROCESS_MAX_ITEMS is specified."
 else
@@ -277,7 +277,7 @@ fi
 
 ## PERSISTENCE
 if [ -z "${ARLAS_PERSISTENCE_URL}" ]; then
-  ARLAS_PERSISTENCE_URL="''"
+  ARLAS_PERSISTENCE_URL=NOT_CONFIGURED
   export ARLAS_PERSISTENCE_URL
   echo "NO ARLAS-persistence URL is specified. ARLAS-wui will load its own config.json file"
 else
@@ -606,7 +606,7 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Set geocoding url
 if [ -z "${ARLAS_GEOCODING_FIND_PLACE_URL}" ]; then
-  ARLAS_GEOCODING_FIND_PLACE_URL=""
+  ARLAS_GEOCODING_FIND_PLACE_URL=NOT_CONFIGURED
   export ARLAS_GEOCODING_FIND_PLACE_URL
   echo "No url defined for geocoding"
 else
