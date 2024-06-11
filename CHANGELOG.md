@@ -1,5 +1,28 @@
 # Change Log
 
+## [v25.0.1-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.1) (2024-06-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0...v25.0.1-beta.1)
+
+**New stuff:**
+
+- Close window in drop down selection for sorting results in result list [\#707](https://github.com/gisaia/ARLAS-wui/issues/707)
+
+**Fixed bugs:**
+
+- Incorrect message [\#796](https://github.com/gisaia/ARLAS-wui/issues/796)
+- Crop with geo filter is not active [\#790](https://github.com/gisaia/ARLAS-wui/issues/790)
+- Datepicker position seems off [\#736](https://github.com/gisaia/ARLAS-wui/issues/736)
+- Grid tablet tooltip disappeared in new ARLAS version [\#732](https://github.com/gisaia/ARLAS-wui/issues/732)
+- The filter shortcut preview values does not work on a multi-select [\#685](https://github.com/gisaia/ARLAS-wui/issues/685)
+- Network analytics layer is not displayed with temporal filter [\#648](https://github.com/gisaia/ARLAS-wui/issues/648)
+- Vulnerabilities [\#628](https://github.com/gisaia/ARLAS-wui/issues/628)
+- Colorisation of a column fails [\#588](https://github.com/gisaia/ARLAS-wui/issues/588)
+
+**Miscellaneous:**
+
+- Upgrade NGINX version [\#718](https://github.com/gisaia/ARLAS-wui/issues/718)
+
 ## [v25.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0) (2024-05-15)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0)
