@@ -582,6 +582,18 @@ fi
 envsubst '$ARLAS_IAM_SERVER_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+
+### ARLAS_AUTHENT_SIGN_UP_ENABLED
+if [ -z "${ARLAS_AUTHENT_SIGN_UP_ENABLED}" ]; then
+  ARLAS_AUTHENT_SIGN_UP_ENABLED=false
+  export ARLAS_AUTHENT_SIGN_UP_ENABLED
+  echo "No Authentication sign_up_enabled variable is set. Default value is 'false'"
+else
+  echo ${ARLAS_AUTHENT_SIGN_UP_ENABLED} "is used for 'authentication.sign_up_enabled'"
+fi
+envsubst '$ARLAS_AUTHENT_SIGN_UP_ENABLED' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 ### Whether to show list of dashbords
 if [ -z "${ARLAS_WUI_DASHBOARDS_SHORTCUT}" ]; then
   ARLAS_WUI_DASHBOARDS_SHORTCUT=false
