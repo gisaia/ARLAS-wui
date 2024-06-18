@@ -1,5 +1,18 @@
 # Change Log
 
+## [v25.0.1-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.2) (2024-06-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.1...v25.0.1-beta.2)
+
+**New stuff:**
+
+- Refresh tokens halfway its duration [\#802](https://github.com/gisaia/ARLAS-wui/issues/802)
+
+**Fixed bugs:**
+
+- \[Migration demo\] Bookmarks don't use persistence when logged in [\#815](https://github.com/gisaia/ARLAS-wui/issues/815)
+- \[Migration demo\] List of basemap thumbnails does'nt show anymore [\#814](https://github.com/gisaia/ARLAS-wui/issues/814)
+
 ## [v25.0.1-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.1) (2024-06-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0...v25.0.1-beta.1)
@@ -762,19 +775,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
-
 ## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
+
+## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
