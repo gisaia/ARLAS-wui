@@ -17,9 +17,9 @@
  * under the License.
  */
 
-@import '../../../styles/variables.scss';
-@import '../../../styles/app/sizes.scss';
-@import '../../../styles/app/mixin.scss';
+@import "../../../styles/variables.scss";
+@import "../../../styles/app/sizes.scss";
+@import "../../../styles/app/mixin.scss";
 
 .app-container {
   width: 100%;
@@ -31,13 +31,15 @@
     padding: 0;
   }
 
-  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+  ::ng-deep.current-coordinate,
+  ::ng-deep.current-coordinate-edition {
     right: calc($sm-spacing + $map-scale-max-width + $default-spacing);
     bottom: calc($timeline-height + $sm-spacing);
   }
 
   .map-container-tight-coordinates {
-    ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    ::ng-deep.current-coordinate,
+    ::ng-deep.current-coordinate-edition {
       right: $sm-spacing;
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
     }
@@ -185,7 +187,7 @@
     left: $sm-spacing;
   }
 
-  ::ng-deep.map_container {
+  ::ng-deep.map__container {
     width: calc(100% - $result-list-width);
   }
 }
@@ -196,7 +198,7 @@
     left: calc($analytics-board-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.map_container {
+  ::ng-deep.map__container {
     width: calc(100% - $result-list-width - $analytics-board-width);
   }
 }
@@ -207,7 +209,7 @@
     left: $sm-spacing;
   }
 
-  ::ng-deep.map_container {
+  ::ng-deep.map__container {
     width: calc(100% - $preview-result-list-width);
   }
 }
@@ -218,14 +220,13 @@
     left: calc($analytics-board-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.map_container {
+  ::ng-deep.map__container {
     width: calc(100% - $preview-result-list-width - $analytics-board-width);
   }
 }
 
 .app-container-reduce-analytics,
 .app-container-reduce {
-
   .arlas-map-action,
   .arlas-map-settings {
     right: calc($result-list-width + $sm-spacing);
@@ -237,11 +238,13 @@
     right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition{
+  ::ng-deep.current-coordinate,
+  ::ng-deep.current-coordinate-edition {
     right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
   .map-container-tight-coordinates {
-    ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    ::ng-deep.current-coordinate,
+    ::ng-deep.current-coordinate-edition {
       right: calc($result-list-width + $sm-spacing);
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
     }
@@ -250,7 +253,6 @@
 
 .app-container-with-list-analytics,
 .app-container-with-list {
-
   .arlas-map-action,
   .arlas-map-settings {
     right: calc($preview-result-list-width + $sm-spacing);
@@ -263,11 +265,13 @@
     right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+  ::ng-deep.current-coordinate,
+  ::ng-deep.current-coordinate-edition {
     right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
   .map-container-tight-coordinates {
-    ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    ::ng-deep.current-coordinate,
+    ::ng-deep.current-coordinate-edition {
       right: calc($preview-result-list-width + $sm-spacing);
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
     }
@@ -288,7 +292,7 @@
     left: calc($analytics-board-width + $sm-spacing) !important;
   }
 
-  ::ng-deep.map_container {
+  ::ng-deep.map__container {
     width: calc(100% - $analytics-board-width);
   }
 }
@@ -299,12 +303,14 @@
     bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
   }
 
-  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+  ::ng-deep.current-coordinate,
+  ::ng-deep.current-coordinate-edition {
     // Center regarding to timeline tools
     bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
   }
   .map-container-tight-coordinates {
-    ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    ::ng-deep.current-coordinate,
+    ::ng-deep.current-coordinate-edition {
       bottom: calc(($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
     }
   }
@@ -314,38 +320,49 @@
   }
 
   .extra-shortcuts-list {
-    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height);
+    max-height: calc(
+      100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing -
+        $timeline-tools-height
+    );
   }
 }
 
 .app-container-timeline-legend {
   ::ng-deep.mapboxgl-ctrl-scale {
     // Center regarding to timeline tools
-    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
+    bottom: calc(
+      $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width
+    );
   }
 
-  ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+  ::ng-deep.current-coordinate,
+  ::ng-deep.current-coordinate-edition {
     // Center regarding to timeline tools
     bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
   }
 
   .map-container-tight-coordinates {
-    ::ng-deep.current-coordinate, ::ng-deep.current-coordinate-edition {
+    ::ng-deep.current-coordinate,
+    ::ng-deep.current-coordinate-edition {
       // Center regarding to timeline tools
-      bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
+      bottom: calc(
+        $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height +
+          $sm-spacing
+      );
     }
   }
-
 
   ::ng-deep.arlas-time-shortcuts--container {
     bottom: $timeline-with-legend-height;
   }
 
   .extra-shortcuts-list {
-    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height - $timeline-with-legend-height);
+    max-height: calc(
+      100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing -
+        $timeline-tools-height - $timeline-with-legend-height
+    );
   }
 }
-
 
 .arlas-map-action-container {
   position: absolute;
@@ -376,13 +393,16 @@
   }
 }
 
-.if-geocoding-button{
+.if-geocoding-button {
   bottom: 30px;
 }
 
 .arlas-map-settings {
   position: absolute;
-  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing);
+  top: calc(
+    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+      $sm-spacing
+  );
   right: $sm-spacing;
   z-index: 2;
 
@@ -413,7 +433,10 @@
 }
 
 .arlas-map ::ng-deep.basemap-container {
-  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing);
+  top: calc(
+    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+      $sm-spacing
+  );
   right: calc($sm-spacing + $map-actions-width + $sm-spacing);
   z-index: 1;
 }
@@ -451,8 +474,11 @@
   position: absolute;
 
   right: calc($sm-spacing + $map-actions-width + $sm-spacing);
-  top: calc($sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length + $sm-spacing + $map-actions-width);
-  z-index: 3
+  top: calc(
+    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+      $sm-spacing + $map-actions-width
+  );
+  z-index: 3;
 }
 ::ng-deep.bookmark-shortcut {
   top: 30px !important;
@@ -512,7 +538,7 @@
 
     ::ng-deep.title,
     ::ng-deep.separator {
-      z-index: 3
+      z-index: 3;
     }
 
     // Realign box when opened
@@ -645,7 +671,10 @@
     flex-direction: column;
     align-items: flex-end;
     box-sizing: border-box;
-    max-height: calc(100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing - $timeline-tools-height - $timeline-height);
+    max-height: calc(
+      100vh - $top-menu-height - $sm-spacing - $filter-height - 2 * $xs-border - $xs-spacing - $sm-spacing -
+        $timeline-tools-height - $timeline-height
+    );
     overflow-y: auto;
     position: absolute;
     top: calc($filter-height + 2 * $xs-border);
@@ -683,7 +712,6 @@
       }
     }
   }
-
 }
 .empty_mode {
   display: flex;
@@ -704,5 +732,5 @@
     font-size: $sm-font-size;
     text-decoration: underline;
     cursor: pointer;
-}
+  }
 }
