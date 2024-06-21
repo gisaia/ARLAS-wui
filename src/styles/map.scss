@@ -17,9 +17,9 @@
  * under the License.
  */
 
-@import 'variables.scss';
-@import 'app/sizes.scss';
-@import 'app/mixin.scss';
+@import "variables.scss";
+@import "app/sizes.scss";
+@import "app/mixin.scss";
 
 .mapboxgl-ctrl-scale {
   position: absolute;
@@ -38,20 +38,23 @@
 }
 
 .main_content {
-  .map__visu-list--wrapper {
+  .map__visu-list {
     top: calc($sm-spacing + $map-attributions-height + $sm-spacing);
     right: $sm-spacing;
     flex-direction: row-reverse;
     align-items: flex-end;
 
-    .map_legend-button--wrapper {
+    .map__legend-button {
       width: $map-actions-width;
+      height: $map-actions-width;
       margin-bottom: $sm-spacing;
       @include box-border();
       box-shadow: none;
+      padding: 0;
 
-      .map_legend-button-icon {
+      .mat-icon {
         height: $map-actions-width;
+        width: $map-actions-width;
         padding: 0;
         display: flex;
         align-items: center;
@@ -60,15 +63,15 @@
     }
 
     .map__visu-list--container {
-      padding: 0;
       box-shadow: none;
-
-      .map__visu-container {
-        margin: $xs-margin $xs-margin $xs-margin 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px 0;
+      padding-top: 0;
+      .map__visu-item {
         @include box-border();
-
-        &:first-child {
-          margin-top: 0;
+        .map__visu-content {
+          overflow: hidden;
         }
       }
     }
@@ -116,7 +119,6 @@
 }
 
 .arlas-map {
-
   .current-coordinate,
   .current-coordinate-edition {
     position: absolute;
@@ -154,7 +156,6 @@
 }
 
 .map-container-tight-coordinates {
-
   ::ng-deep.current-coordinate,
   ::ng-deep.current-coordinate-edition {
     // Center regarding to timeline tools
