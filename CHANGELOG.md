@@ -1,5 +1,13 @@
 # Change Log
 
+## [v25.0.1-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.3) (2024-06-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.2...v25.0.1-beta.3)
+
+**Fixed bugs:**
+
+- Thumbnail fitters are always hidden [\#811](https://github.com/gisaia/ARLAS-wui/issues/811)
+
 ## [v25.0.1-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.2) (2024-06-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.1...v25.0.1-beta.2)
