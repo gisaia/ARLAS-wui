@@ -64,12 +64,10 @@
 
     .map__visu-list--container {
       box-shadow: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1px 0;
       padding-top: 0;
       .map__visu-item {
         @include box-border();
+        margin: 1px 1px 3px;
         .map__visu-content {
           overflow: hidden;
         }
