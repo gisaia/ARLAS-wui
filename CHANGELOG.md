@@ -1,11 +1,16 @@
 # Change Log
 
+## [v25.0.1-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.4) (2024-06-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.3...v25.0.1-beta.4)
+
 ## [v25.0.1-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.3) (2024-06-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.2...v25.0.1-beta.3)
 
 **Fixed bugs:**
 
+- \[Migration demo\] Map controls are positionned wrongly in the app [\#822](https://github.com/gisaia/ARLAS-wui/issues/822)
 - Thumbnail fitters are always hidden [\#811](https://github.com/gisaia/ARLAS-wui/issues/811)
 
 ## [v25.0.1-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.2) (2024-06-18)
@@ -783,19 +788,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
-
 ## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
