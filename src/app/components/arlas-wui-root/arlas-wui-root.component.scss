@@ -97,7 +97,7 @@
 
 .side-result-list {
   width: 0;
-  height: 100%;
+  height: calc(100vh - $top-menu-height);
   position: absolute;
   right: 0;
   visibility: hidden;
@@ -120,12 +120,12 @@
 }
 
 .left_resultlist_wrapper {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 50px - $top-menu-height);
   overflow: hidden;
 }
 
 .one-tab .left_resultlist_wrapper {
-  height: 100vh;
+  height: calc(100vh - $top-menu-height);
   overflow: hidden;
 }
 
