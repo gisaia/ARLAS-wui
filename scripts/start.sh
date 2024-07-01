@@ -472,6 +472,16 @@ fi
 envsubst '$ARLAS_AUTHENT_ENABLE_SESSION_CHECKS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
+### ARLAS_AUTHENT_SESSION_CHECKS_INTERVALL
+if [ -z "${ARLAS_AUTHENT_SESSION_CHECKS_INTERVALL}" ]; then
+  export ARLAS_AUTHENT_SESSION_CHECKS_INTERVALL=3000
+  echo "No Authentication session_checks_intervall variable is set. Default value is '3000'"
+else
+  echo ${ARLAS_AUTHENT_SESSION_CHECKS_INTERVALL} "is used for 'authentication.session_checks_intervall'"
+fi
+envsubst '$ARLAS_AUTHENT_SESSION_CHECKS_INTERVALL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
 ### ARLAS_AUTHENT_CLEAR_HASH
 if [ -z "${ARLAS_AUTHENT_CLEAR_HASH}" ]; then
   ARLAS_AUTHENT_CLEAR_HASH=false

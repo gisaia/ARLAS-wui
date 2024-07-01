@@ -18,6 +18,7 @@ authentication:
   silent_refresh_timeout: 10000
   timeout_factor: 0.75
   session_checks_enabled: true
+  session_checks_intervall: 3000
   clear_hash_after_login: true
   disable_at_hash_check: false
   show_debug_information: true
