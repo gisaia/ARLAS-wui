@@ -50,7 +50,7 @@ import {
   ModeEnum,
   PageQuery,
   Position,
-  ResultDetailedItemComponent,
+  ResultListComponent,
   SCROLLABLE_ARLAS_ID,
   SortEnum
 } from 'arlas-web-components';
@@ -180,8 +180,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
-  public popup: mapboxgl.Popup;
   public aoiEdition: AoiEdition;
+
+  private disableRecalculateExtend = false;
+  private currentClickedFeatureId: string = undefined;
+
   @Input() public hiddenAnalyticsTabs: string[] = [];
   @Input() public hiddenResultlistTabs: string[] = [];
   /**
@@ -208,6 +211,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
+  @ViewChild('resultsidenav', { static: false }) public resultListComponent: ResultListComponent;
+
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
   public extraShortcuts = new Array<FilterShortcutConfiguration>();
@@ -1043,7 +1048,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const newMapExtentRaw = event.rawExtendWithOffset;
       const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
       const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
-      if (this.recalculateExtend) {
+      if (this.recalculateExtend && !this.disableRecalculateExtend) {
         this.resultlistContributors
           .forEach(c => {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
@@ -1124,50 +1129,74 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!!resultListContributor) {
         const idFieldName = this.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
-        resultListContributor.detailedDataRetriever.getData(id).subscribe(
-          data => {
-            const rowItem = new Item([], new Map());
-            rowItem.identifier = id;
-            resultListContributor.detailedDataRetriever.getActions(rowItem).subscribe(ac => rowItem.actions = ac);
-            const detail = new Array<{
-              group: string;
-              details: Array<{
-                key: string;
-                value: string;
-              }>;
-            }>();
-            data.details.forEach((k, v) => {
-              const details = new Array<{
-                key: string;
-                value: string;
-              }>();
-              k.forEach((value, key) => {
-                details.push(
-                  { key, value }
-                );
-              });
-              detail.push({
-                group: v,
-                details: details
-              });
-            });
-            rowItem.itemDetailedData = detail;
-            const popupContent = this.dynamicComponentService.injectComponent(
-              ResultDetailedItemComponent,
-              x => {
-                x.rowItem = rowItem;
-                x.actionOnItemEvent = this.actionOnPopup;
-                x.idFieldName = idFieldName;
-              });
-            if (!!this.popup) {
-              this.popup.remove();
-            }
-            this.popup = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat(event.point)
-              .setDOMContent(popupContent);
-            this.popup.addTo(this.mapglComponent.map);
+        // Open the list panel if it's closed
+        this.disableRecalculateExtend = true;
+        if (!this.resultlistService.listOpen) {
+          this.toggleList();
+        }
+        // Select the good tab if we have several
+        // No tabs case
+        if (this.resultlistContributors.length === 1) {
+          this.waitFor(this.resultListComponent,() => this.openDetail(id));
+        } else {
+          this.waitFor(this.resultListComponent,() => {
+            // retrieve list
+            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
+            tab.click();
+            // Set Timeout to wait the new tab
+            setTimeout(() => this.openDetail(id), 250);
+            this.disableRecalculateExtend = false;
+          });
+        }
+      }
+    }
+  }
+
+  private openDetail(id: any) {
+    const isListMode = this.resultListComponent.resultMode === this.modeEnum.list;
+    if (isListMode) {
+      const detailListButton = document.getElementById('open-detail-' + id);
+      if (!!detailListButton) {
+        // close previous if exists
+        if (this.currentClickedFeatureId) {
+          const closeButtonElement = document.getElementById('close-detail-' + this.currentClickedFeatureId);
+          if (closeButtonElement) {
+            closeButtonElement.click();
           }
-        );
+        }
+        detailListButton.click();
+        this.currentClickedFeatureId = id;
+        this.disableRecalculateExtend = false;
+      }
+    } else {
+      const productTile = document.getElementById('grid-tile-' + id);
+      const isDetailledGridOpen = this.resultListComponent.isDetailledGridOpen;
+      if (!!productTile) {
+        productTile.click();
+        if (!isDetailledGridOpen) {
+          setTimeout(() => {
+            const detailGridButton = document.getElementById('show_details_gridmode_btn');
+            if (!!detailGridButton) {
+              detailGridButton.click();
+              this.disableRecalculateExtend = false;
+            }
+          }, 250);
+        } else {
+          // If image is displayed switch to detail data
+          const gridDivs = document.getElementsByClassName('resultgrid__img');
+          if (gridDivs.length > 0) {
+            const imgDiv = gridDivs[0].parentElement;
+            if (window.getComputedStyle(imgDiv).display === 'block') {
+              setTimeout(() => {
+                const detailGridButton = document.getElementById('show_details_gridmode_btn');
+                if (!!detailGridButton) {
+                  detailGridButton.click();
+                  this.disableRecalculateExtend = false;
+                }
+              }, 1);
+            }
+          }
+        }
       }
     }
   }
@@ -1459,6 +1488,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
     }
+  }
+
+  private waitFor(variable, callback) {
+    const interval = setInterval(() => {
+      if (variable !== undefined) {
+        clearInterval(interval);
+        callback();
+      }
+    }, 100);
   }
 }
 

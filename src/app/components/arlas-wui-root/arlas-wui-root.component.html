@@ -185,7 +185,7 @@
                 [class.side-result-list-open]="resultlistService.listOpen">
                 <mat-progress-bar *ngIf="resultlistIsExporting" class="arlas-progression" color="primary" mode="indeterminate" ></mat-progress-bar>
                 <mat-tab-group [selectedIndex]="resultlistService.selectedListTabIndex"#tabsList class="result-list-tab-group">
-                  <mat-tab *ngFor="let list of rightListContributors; let listIdx = index">
+                  <mat-tab *ngFor="let list of rightListContributors; let listIdx = index" [aria-label]="list.identifier">
                     <ng-template mat-tab-label>
                       <mat-icon class="icon" *ngIf="resultListConfigPerContId.get(list.identifier)?.options?.showIcon"
                         [matTooltip]="list.name" [matTooltipDisabled]="resultListConfigPerContId.get(list.identifier)?.options?.showName">
