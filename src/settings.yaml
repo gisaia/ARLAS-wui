@@ -28,6 +28,7 @@ tab_name: "ARLAS Wui"
 
 persistence:
   url: http://localhost:81/persist
+  use_local_config: true
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000

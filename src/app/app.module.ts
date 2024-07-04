@@ -72,7 +72,6 @@ import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimen
 import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
-import { SidenavService } from './services/sidenav.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
@@ -156,7 +155,6 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
   ],
   providers: [
     ContributorService,
-    SidenavService,
     DynamicComponentService,
     VisualizeService,
     {

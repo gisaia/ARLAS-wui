@@ -80,12 +80,11 @@ import {
   TimelineComponent
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, Subscription, timer, zip } from 'rxjs';
-import { debounceTime, finalize, mergeMap, takeUntil, takeWhile } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, zip } from 'rxjs';
+import { debounceTime, finalize, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
-import { SidenavService } from '../../services/sidenav.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -202,7 +201,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
-  public apploading = true;
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
@@ -260,7 +258,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private mapService: ArlasMapService,
     private colorService: ArlasColorService,
-    private sidenavService: SidenavService,
     private titleService: Title,
     private arlasSettingsService: ArlasSettingsService,
     private dynamicComponentService: DynamicComponentService,
@@ -286,14 +283,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mapglComponent.map.resize();
           this.resizeCollectionCounts();
           this.adjustVisibleShortcuts();
-          this.adjustCoordinates();
-        });
-      /** trigger 'resize' event after toggling sidenav  */
-      this.sidenavService.sideNavState
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(res => {
-          this.onSideNavChange = res;
-          window.dispatchEvent(new Event('resize'));
+          this.adjustComponentsSize();
         });
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
@@ -345,24 +335,19 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
       }
 
-      const timelineOpenString = this.getParamValue('to');
-      if (timelineOpenString) {
-        this.isTimelineOpen = (this.getParamValue('to') === 'true');
-      }
+      this.isTimelineOpen = this.getParamValue('to') === 'true';
 
       let wasTabSelected = this.getParamValue('at') !== null;
       this.analyticsService.tabChange.subscribe(tab => {
         // If there is a change in the state of the analytics (open/close), resize
         if (wasTabSelected !== (tab !== undefined)) {
-          this.adjustTimelineSize();
-          setTimeout(() => {
-            this.adjustCoordinates();
-          }, 200);
+          this.adjustComponentsSize();
           wasTabSelected = (tab !== undefined);
         }
         this.updateTimelineLegendVisibility();
       });
     } else {
+      // Update default basemap style ?
       this.defaultBaseMap = {
         styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
         name: 'Positron'
@@ -648,7 +633,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.arlasStartUpService.emptyMode) {
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();
-      this.adjustCoordinates();
+      this.adjustComponentsSize();
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.tabsList) {
         this.tabsList.selectedIndexChange
@@ -661,7 +646,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             queryParams['rt'] = this.previewListContrib.getName();
             this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
             this.adjustGrids();
-            this.adjustTimelineSize();
+            this.adjustComponentsSize();
           });
       }
 
@@ -678,19 +663,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
 
-      if (!!this.previewListContrib) {
-        timer(0, 200)
-          .pipe(
-            takeUntil(this._onDestroy$),
-            takeWhile(() => this.apploading))
-          .subscribe(() => {
-            if (this.previewListContrib.data.length > 0 &&
-              this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-              this.updateVisibleItems();
-              this.apploading = false;
-            }
-          });
-      }
       this.cdr.detectChanges();
     }
   }
@@ -723,6 +695,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         mapglContributor.fetchData(null);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       });
+
+      // If there is a list displayed, sync window layers' data
+      if (!!this.previewListContrib && this.previewListContrib.data.length > 0 &&
+          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+        this.updateVisibleItems();
+      }
     }
   }
 
@@ -733,14 +711,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       prefixTitle.concat(' - ').concat(this.appName));
   }
 
+  /**
+   * Update which elements from the list are visible on the map
+   */
   public updateVisibleItems() {
     if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
       const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
-      setTimeout(() => {
-        const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-          .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
-        this.updateMapStyle(visibleItems, this.previewListContrib.collection);
-      }, 500);
+      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
+        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
+      this.updateMapStyle(visibleItems, this.previewListContrib.collection);
     }
   }
 
@@ -905,7 +884,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resultListConfigPerContId.set(identifier, config);
     setTimeout(() => {
       this.updateVisibleItems();
-    }, 100);
+    }, 0);
   }
 
   public reloadMapImages() {
@@ -1177,11 +1156,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resultlistService.toggleList();
     this.updateTimelineLegendVisibility();
     this.adjustGrids();
-    this.adjustTimelineSize();
+    this.adjustComponentsSize();
     this.adjustVisibleShortcuts();
-    setTimeout(() => {
-      this.adjustCoordinates();
-    }, 200);
   }
 
   public toggleTimeline() {
@@ -1197,9 +1173,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public closeAnalytics() {
     this.analyticsService.selectTab(undefined);
-    setTimeout(() => {
-      this.adjustCoordinates();
-    }, 200);
   }
 
   public closeMapMenu() {
@@ -1268,7 +1241,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private adjustTimelineSize() {
+  /**
+   * Adjust ARLAS elements size:
+   * - Timeline
+   * - Map
+   * - Coordinates
+   *
+   * As well as which list elements are visible on the map
+   */
+  private adjustComponentsSize() {
     setTimeout(() => {
       if (this.timelineComponent.timelineHistogramComponent) {
         this.timelineComponent.timelineHistogramComponent.resizeHistogram();
@@ -1276,7 +1257,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
         }
       }
-      this.mapglComponent.map.resize();
+      this.mapglComponent.map?.resize();
+      this.adjustCoordinates();
+
       this.updateVisibleItems();
     }, 0);
   }
