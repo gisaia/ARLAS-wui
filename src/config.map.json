@@ -5,7 +5,7 @@
       "type": "fill",
       "source": "feature-_geometry_wkt-window-demo_eo",
       "minzoom": 0,
-      "maxzoom": 22,
+      "maxzoom": 23,
       "layout": {
         "visibility": "visible"
       },
@@ -65,7 +65,7 @@
       "type": "fill",
       "source": "feature-_geometry_wkt-wide-demo_eo",
       "minzoom": 0,
-      "maxzoom": 22,
+      "maxzoom": 23,
       "layout": {
         "visibility": "visible"
       },
@@ -434,7 +434,7 @@
       "source": "feature-_geometry_wkt-window-demo_eo",
       "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -458,7 +458,7 @@
       "source": "feature-_geometry_wkt-wide-demo_eo",
       "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -482,7 +482,7 @@
       "source": "feature-_geometry_wkt-window-demo_eo",
       "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -506,7 +506,7 @@
       "source": "feature-_geometry_wkt-wide-demo_eo",
       "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -530,7 +530,7 @@
       "source": "feature-_geometry_wkt-window-demo_eo",
       "id": "arlas-fill_stroke-Latest products:1677155839933",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -554,7 +554,7 @@
       "source": "feature-_geometry_wkt-wide-demo_eo",
       "id": "arlas-fill_stroke-Products:1677155960359",
       "type": "line",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "filter": [
         "all",
         [
@@ -599,7 +599,7 @@
       "source": "feature-_geometry_wkt-window-demo_eo",
       "id": "scrollable_arlas_id:Latest products:1677155839933",
       "type": "fill",
-      "maxzoom": 22,
+      "maxzoom": 23,
       "minzoom": 0,
       "metadata": {
         "collection": "demo_eo",

@@ -19,8 +19,7 @@
     </div>
   </arlas-top-menu>
 
-  <mat-sidenav-container class="sidenav-container" >
-
+  <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu [layersVisibilityStatus]="layersVisibilityStatus"
         (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"

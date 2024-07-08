@@ -16,7 +16,7 @@
               "name": "Latest products",
               "source": "feature-_geometry_wkt-window-demo_eo",
               "minzoom": 0,
-              "maxzoom": 22,
+              "maxzoom": 23,
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
@@ -35,7 +35,7 @@
               "name": "Products",
               "source": "feature-_geometry_wkt-wide-demo_eo",
               "minzoom": 0,
-              "maxzoom": 22,
+              "maxzoom": 23,
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
