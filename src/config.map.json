@@ -1,16 +1,16 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Latest products:1677155839933",
+      "id": "arlas_id:Latest products:1696925765098",
       "type": "fill",
       "source": "feature-_geometry_wkt-window-demo_eo",
       "minzoom": 0,
-      "maxzoom": 23,
+      "maxzoom": 22,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0,
+        "fill-opacity": 0.1,
         "fill-color": [
           "match",
           [
@@ -23,20 +23,20 @@
           "#ec4040",
           "SPOT 6",
           "#0087e9",
+          "SPOT 7",
+          "#1102c6",
           "SPOT 5",
           "#0041ff",
           "SPOT 4",
           "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
           "TerraSAR-X 1",
           "#5e5e5e",
+          "SPOT 1",
+          "#f941ff",
           "ALOS2",
           "#00c926",
           "SENTINEL 2A",
           "#ff0094",
-          "DRONE",
-          "#ffe300",
           "#9d9ca9"
         ]
       },
@@ -49,7 +49,7 @@
             "metadata_ObservationContext_processusUsed_platform_arlas__color"
           ],
           "width": 3,
-          "opacity": 0.7
+          "opacity": 0.8
         },
         "is-scrollable-layer": true
       },
@@ -61,17 +61,19 @@
       ]
     },
     {
-      "id": "arlas_id:Products:1677155960359",
-      "type": "fill",
+      "id": "arlas_id:Products:1696926758346",
+      "type": "line",
       "source": "feature-_geometry_wkt-wide-demo_eo",
       "minzoom": 0,
-      "maxzoom": 23,
+      "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
-        "fill-opacity": 0,
-        "fill-color": [
+        "line-opacity": 0.4,
+        "line-color": [
           "match",
           [
             "get",
@@ -83,34 +85,31 @@
           "#ec4040",
           "SPOT 6",
           "#0087e9",
+          "SPOT 7",
+          "#1102c6",
           "SPOT 5",
           "#0041ff",
           "SPOT 4",
           "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
           "TerraSAR-X 1",
           "#5e5e5e",
+          "SPOT 1",
+          "#f941ff",
           "ALOS2",
           "#00c926",
           "SENTINEL 2A",
           "#ff0094",
-          "DRONE",
-          "#ffe300",
           "#9d9ca9"
+        ],
+        "line-width": 0.5,
+        "line-dasharray": [
+          0.1,
+          5
         ]
       },
       "metadata": {
         "collection": "demo_eo",
         "collection-display-name": "demo_eo",
-        "stroke": {
-          "color": [
-            "get",
-            "metadata_ObservationContext_processusUsed_platform_arlas__color"
-          ],
-          "width": 0.5,
-          "opacity": 0.5
-        },
         "is-scrollable-layer": false
       },
       "filter": [
@@ -121,7 +120,7 @@
       ]
     },
     {
-      "id": "arlas_id:Density of products:1677155972496",
+      "id": "arlas_id:Density of products:1696925833059",
       "type": "circle",
       "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
       "minzoom": 0,
@@ -223,7 +222,7 @@
       ]
     },
     {
-      "id": "arlas_id:Product density grid:1677155981981",
+      "id": "arlas_id:Product density grid:1697197580589",
       "type": "fill",
       "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
       "minzoom": 0,
@@ -242,17 +241,17 @@
             "count_:normalized"
           ],
           0,
-          0,
+          0.1,
           0.2,
-          0.04,
+          0.16000000000000003,
           0.4,
-          0.08,
+          0.22000000000000003,
           0.6,
-          0.12000000000000002,
+          0.28,
           0.8,
-          0.16,
+          0.3400000000000001,
           1,
-          0.2
+          0.4
         ],
         "fill-color": [
           "interpolate",
@@ -355,9 +354,9 @@
       ]
     },
     {
-      "id": "arlas_id:Heatmap:1689091401394",
+      "id": "arlas_id:Heatmap:1697197287204",
       "type": "heatmap",
-      "source": "cluster-_centroid_wkt-Medium-tile-cell_center-demo_eo",
+      "source": "cluster-_centroid_wkt-Fine-tile-cell_center-demo_eo",
       "minzoom": 1,
       "maxzoom": 23,
       "layout": {
@@ -431,10 +430,67 @@
       ]
     },
     {
-      "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
+      "id": "arlas-select-arlas_id:Products:1696926758346",
       "type": "line",
-      "maxzoom": 23,
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.4,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform"
+          ],
+          "SENTINEL 2",
+          "#ff61ec",
+          "PLEIADES",
+          "#ec4040",
+          "SPOT 6",
+          "#0087e9",
+          "SPOT 7",
+          "#1102c6",
+          "SPOT 5",
+          "#0041ff",
+          "SPOT 4",
+          "#00b4ff",
+          "TerraSAR-X 1",
+          "#5e5e5e",
+          "SPOT 1",
+          "#f941ff",
+          "ALOS2",
+          "#00c926",
+          "SENTINEL 2A",
+          "#ff0094",
+          "#9d9ca9"
+        ],
+        "line-width": 12.5,
+        "line-dasharray": [
+          0.1,
+          5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "source": "feature-_geometry_wkt-window-demo_eo",
+      "id": "arlas-select-arlas-fill_stroke-Latest products:1696925765098",
+      "type": "line",
+      "maxzoom": 22,
       "filter": [
         "all",
         [
@@ -450,39 +506,72 @@
           "get",
           "metadata_ObservationContext_processusUsed_platform_arlas__color"
         ],
-        "line-opacity": 0.7,
+        "line-opacity": 0.8,
         "line-width": 15
       }
     },
     {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
+      "id": "arlas-hover-arlas_id:Products:1696926758346",
       "type": "line",
-      "maxzoom": 23,
+      "source": "feature-_geometry_wkt-wide-demo_eo",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.4,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "metadata_ObservationContext_processusUsed_platform"
+          ],
+          "SENTINEL 2",
+          "#ff61ec",
+          "PLEIADES",
+          "#ec4040",
+          "SPOT 6",
+          "#0087e9",
+          "SPOT 7",
+          "#1102c6",
+          "SPOT 5",
+          "#0041ff",
+          "SPOT 4",
+          "#00b4ff",
+          "TerraSAR-X 1",
+          "#5e5e5e",
+          "SPOT 1",
+          "#f941ff",
+          "ALOS2",
+          "#00c926",
+          "SENTINEL 2A",
+          "#ff0094",
+          "#9d9ca9"
+        ],
+        "line-width": 12.5,
+        "line-dasharray": [
+          0.1,
+          5
+        ]
+      },
+      "metadata": {
+        "collection": "demo_eo",
+        "collection-display-name": "demo_eo",
+        "is-scrollable-layer": false
+      },
       "filter": [
         "all",
         [
           "all"
         ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 12.5
-      }
+      ]
     },
     {
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
+      "id": "arlas-hover-arlas-fill_stroke-Latest products:1696925765098",
       "type": "line",
-      "maxzoom": 23,
+      "maxzoom": 22,
       "filter": [
         "all",
         [
@@ -498,39 +587,15 @@
           "get",
           "metadata_ObservationContext_processusUsed_platform_arlas__color"
         ],
-        "line-opacity": 0.7,
+        "line-opacity": 0.8,
         "line-width": 15
       }
     },
     {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 12.5
-      }
-    },
-    {
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "arlas-fill_stroke-Latest products:1677155839933",
+      "id": "arlas-fill_stroke-Latest products:1696925765098",
       "type": "line",
-      "maxzoom": 23,
+      "maxzoom": 22,
       "filter": [
         "all",
         [
@@ -546,37 +611,13 @@
           "get",
           "metadata_ObservationContext_processusUsed_platform_arlas__color"
         ],
-        "line-opacity": 0.7,
+        "line-opacity": 0.8,
         "line-width": 3
       }
     },
     {
-      "source": "feature-_geometry_wkt-wide-demo_eo",
-      "id": "arlas-fill_stroke-Products:1677155960359",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "metadata_ObservationContext_processusUsed_platform_arlas__color"
-        ],
-        "line-opacity": 0.5,
-        "line-width": 0.5
-      }
-    },
-    {
       "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
-      "id": "arlas-fill_stroke-Product density grid:1677155981981",
+      "id": "arlas-fill_stroke-Product density grid:1697197580589",
       "type": "line",
       "maxzoom": 15,
       "filter": [
@@ -597,9 +638,9 @@
     },
     {
       "source": "feature-_geometry_wkt-window-demo_eo",
-      "id": "scrollable_arlas_id:Latest products:1677155839933",
+      "id": "scrollable_arlas_id:Latest products:1696925765098",
       "type": "fill",
-      "maxzoom": 23,
+      "maxzoom": 22,
       "minzoom": 0,
       "metadata": {
         "collection": "demo_eo",
@@ -616,7 +657,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0,
+        "fill-opacity": 0.1,
         "fill-color": [
           "match",
           [
@@ -629,20 +670,20 @@
           "#ec4040",
           "SPOT 6",
           "#0087e9",
+          "SPOT 7",
+          "#1102c6",
           "SPOT 5",
           "#0041ff",
           "SPOT 4",
           "#00b4ff",
-          "SPOT 7",
-          "#1102c6",
           "TerraSAR-X 1",
           "#5e5e5e",
+          "SPOT 1",
+          "#f941ff",
           "ALOS2",
           "#00c926",
           "SENTINEL 2A",
           "#ff0094",
-          "DRONE",
-          "#ffe300",
           "#9d9ca9"
         ]
       }
@@ -650,19 +691,19 @@
   ],
   "external-event-layers": [
     {
-      "id": "arlas-hover-arlas-fill_stroke-Latest products:1677155839933",
+      "id": "arlas-hover-arlas_id:Products:1696926758346",
       "on": "hover"
     },
     {
-      "id": "arlas-hover-arlas-fill_stroke-Products:1677155960359",
+      "id": "arlas-hover-arlas-fill_stroke-Latest products:1696925765098",
       "on": "hover"
     },
     {
-      "id": "arlas-select-arlas-fill_stroke-Latest products:1677155839933",
+      "id": "arlas-select-arlas_id:Products:1696926758346",
       "on": "select"
     },
     {
-      "id": "arlas-select-arlas-fill_stroke-Products:1677155960359",
+      "id": "arlas-select-arlas-fill_stroke-Latest products:1696925765098",
       "on": "select"
     }
   ]

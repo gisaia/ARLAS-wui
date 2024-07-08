@@ -12,11 +12,11 @@
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Latest products:1677155839933",
+              "id": "arlas_id:Latest products:1696925765098",
               "name": "Latest products",
               "source": "feature-_geometry_wkt-window-demo_eo",
               "minzoom": 0,
-              "maxzoom": 23,
+              "maxzoom": 22,
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
@@ -31,27 +31,25 @@
               "render_mode": "window"
             },
             {
-              "id": "arlas_id:Products:1677155960359",
+              "id": "arlas_id:Products:1696926758346",
               "name": "Products",
               "source": "feature-_geometry_wkt-wide-demo_eo",
               "minzoom": 0,
-              "maxzoom": 23,
+              "maxzoom": 22,
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
               "short_form_fields": [],
-              "colors_from_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
+              "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
               "metrics": [],
-              "maxfeatures": 1000,
+              "maxfeatures": 5000,
               "returned_geometry": "_geometry_wkt",
               "render_mode": "wide"
             },
             {
-              "id": "arlas_id:Density of products:1677155972496",
+              "id": "arlas_id:Density of products:1696925833059",
               "name": "Density of products",
               "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
               "minzoom": 0,
@@ -86,11 +84,11 @@
               "agg_geo_field": "_centroid_wkt",
               "aggType": "tile",
               "granularity": "Coarse",
-              "minfeatures": 1000,
+              "minfeatures": 5000,
               "aggregated_geometry": "centroid"
             },
             {
-              "id": "arlas_id:Product density grid:1677155981981",
+              "id": "arlas_id:Product density grid:1697197580589",
               "name": "Product density grid",
               "source": "cluster-_centroid_wkt-Medium-tile-cell-demo_eo",
               "minzoom": 0,
@@ -149,9 +147,9 @@
               "aggregated_geometry": "centroid"
             },
             {
-              "id": "arlas_id:Heatmap:1689091401394",
+              "id": "arlas_id:Heatmap:1697197287204",
               "name": "Heatmap",
-              "source": "cluster-_centroid_wkt-Medium-tile-cell_center-demo_eo",
+              "source": "cluster-_centroid_wkt-Fine-tile-cell_center-demo_eo",
               "minzoom": 1,
               "maxzoom": 23,
               "include_fields": [],
@@ -168,7 +166,7 @@
               ],
               "agg_geo_field": "_centroid_wkt",
               "aggType": "tile",
-              "granularity": "Medium",
+              "granularity": "Fine",
               "minfeatures": 1000,
               "aggregated_geometry": "cell_center"
             }
@@ -202,13 +200,13 @@
           "additionalCollections": []
         },
         {
-          "identifier": "demo_eo-metadata.core.identity.identifier-150-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
+          "identifier": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
           "name": "DATA",
           "title": "DATA",
           "collection": "demo_eo",
           "icon": "table_chart",
           "type": "resultlist",
-          "search_size": 150,
+          "search_size": 80,
           "fieldsConfiguration": {
             "idFieldName": "metadata.core.identity.identifier",
             "titleFieldNames": [
@@ -223,10 +221,14 @@
                 "process": ""
               }
             ],
-            "icon": "fiber_manual_record",
             "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
             "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
-            "urlImageTemplate": "{metadata.core.graphics.quicklook}"
+            "urlImageTemplates": [
+              {
+                "url": "{metadata.core.graphics.quicklook}",
+                "description": ""
+              }
+            ]
           },
           "columns": [
             {
@@ -243,7 +245,7 @@
               "dataType": "",
               "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
               "useColorService": false,
-              "sort": ""
+              "sort": "desc"
             },
             {
               "columnName": "Couverture nuageuse",
@@ -374,11 +376,7 @@
               ]
             }
           ],
-          "includeMetadata": [
-            "metadata.ObservationContext.processusUsed.platform",
-            "{metadata.core.graphics.thumbnail}",
-            "{metadata.core.graphics.quicklook}"
-          ]
+          "includeMetadata": []
         },
         {
           "type": "detailedhistogram",
@@ -654,6 +652,7 @@
         "timeline": {
           "contributorId": "timeline",
           "componentType": "histogram",
+          "uuid": "",
           "input": {
             "id": "histogram-timeline",
             "xTicks": 9,
@@ -692,21 +691,41 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Streets-dark",
-              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              "name": "Streets-light",
+              "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+              "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+              "type": null
             },
             "basemapStyles": [
               {
                 "name": "Basic",
-                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/basic.png",
+                "type": null
+              },
+              {
+                "name": "Satellite Hybrid",
+                "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png",
+                "type": null
               },
               {
                 "name": "Streets-dark",
-                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+                "type": null
               },
               {
                 "name": "Streets-light",
-                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+                "type": null
+              },
+              {
+                "name": "Streets-light - No label",
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+                "type": null
               }
             ],
             "margePanForLoad": 5,
@@ -724,12 +743,12 @@
               "events": {
                 "zoomOnClick": [],
                 "emitOnClick": [
-                  "arlas_id:Latest products:1677155839933",
-                  "scrollable_arlas_id:Latest products:1677155839933"
+                  "arlas_id:Latest products:1696925765098",
+                  "scrollable_arlas_id:Latest products:1696925765098"
                 ],
                 "onHover": [
-                  "arlas_id:Latest products:1677155839933",
-                  "scrollable_arlas_id:Latest products:1677155839933"
+                  "arlas_id:Latest products:1696925765098",
+                  "scrollable_arlas_id:Latest products:1696925765098"
                 ]
               },
               "externalEventLayers": []
@@ -738,7 +757,7 @@
               {
                 "name": "Latest products",
                 "layers": [
-                  "arlas_id:Latest products:1677155839933"
+                  "arlas_id:Latest products:1696925765098"
                 ],
                 "enabled": true
               },
@@ -746,10 +765,8 @@
                 "name": "All products",
                 "layers": [
                   "arlas_id:Number of products:1677155990578",
-                  "arlas_id:Density of products:1677155972496",
-                  "arlas_id:Products:1677155960359",
-                  "arlas_id:Product density grid:1677155981981",
-                  "arlas_id:Heatmap:1689091401394"
+                  "arlas_id:Products:1696926758346",
+                  "arlas_id:Product density grid:1697197580589"
                 ],
                 "enabled": true
               }
@@ -758,13 +775,12 @@
         },
         "resultlists": [
           {
-            "contributorId": "demo_eo-metadata.core.identity.identifier-150-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
             "componentType": "resultlist",
             "input": {
-              "id": "demo_eo-metadata.core.identity.identifier-150-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
+              "id": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
               "tableWidth": 445,
               "globalActionsList": [],
-              "searchSize": 150,
+              "searchSize": 80,
               "nLastLines": 3,
               "detailedGridHeight": 300,
               "nbGridColumns": 3,
@@ -772,7 +788,7 @@
               "hasGridMode": true,
               "defautMode": "grid",
               "visualisationLink": "{_services_WMS_0_url}",
-              "downloadLink": "https://demo.cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
+              "downloadLink": "https://cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
               "isBodyHidden": false,
               "isGeoSortActived": true,
               "isAutoGeoSortActived": null,
@@ -790,12 +806,16 @@
                 "showName": true,
                 "showIcon": true
               }
-            }
+            },
+            "contributorId": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
+            "uuid": "9f0bd987-6cbd-42df-aed2-efccfce6bb5c",
+            "usage": "analytics"
           }
         ],
         "detailedTimeline": {
           "contributorId": "detailedTimeline",
           "componentType": "histogram",
+          "uuid": "",
           "input": {
             "id": "histogram-detailed-timeline",
             "xTicks": 5,
@@ -848,7 +868,6 @@
           "icon": "camera",
           "components": [
             {
-              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
               "componentType": "donut",
               "showExportCsv": false,
               "input": {
@@ -858,10 +877,12 @@
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
-              }
+              },
+              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+              "uuid": "e08c80a9-4979-4a29-8a9e-f8fb89e3fbf3",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
               "showExportCsv": false,
               "componentType": "powerbars",
               "input": {
@@ -877,7 +898,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
+              "uuid": "f7ae6c0f-ce87-496e-8861-66676dc6e280",
+              "usage": "analytics"
             }
           ]
         },
@@ -888,7 +912,6 @@
           "icon": "assistant_photo",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
               "input": {
                 "id": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
                 "isHistogramSelectable": true,
@@ -931,7 +954,10 @@
                 }
               },
               "componentType": "swimlane",
-              "showExportCsv": false
+              "showExportCsv": false,
+              "contributorId": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
+              "uuid": "123db10c-4820-4f3a-907e-4bcf7595085a",
+              "usage": "analytics"
             }
           ]
         },
@@ -942,7 +968,6 @@
           "icon": "add_location",
           "components": [
             {
-              "contributorId": "demo_eo-_keywords.country-10-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
@@ -958,10 +983,12 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_eo-_keywords.country-10-Count-desc-count",
+              "uuid": "a5cb8c78-c5a6-4af8-8803-82eb97aa13c5",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_eo-_keywords.city-10-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
@@ -977,7 +1004,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_eo-_keywords.city-10-Count-desc-count",
+              "uuid": "fd0d4347-4cd2-4edb-a98f-5ae9fae0342d",
+              "usage": "analytics"
             }
           ]
         },
@@ -988,7 +1018,6 @@
           "icon": "cloud_queue",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -1022,10 +1051,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": true
+              "showExportCsv": true,
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
+              "uuid": "bec69072-6e9b-49a3-baac-66b8597a7d85",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
               "input": {
                 "id": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
                 "isHistogramSelectable": true,
@@ -1060,7 +1091,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
+              "uuid": "738133aa-dee7-46bc-9671-55617b160963",
+              "usage": "analytics"
             }
           ]
         },
@@ -1071,7 +1105,6 @@
           "icon": "ac_unit",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -1105,10 +1138,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
+              "uuid": "3ae8b440-8f8f-45c1-8137-4c75c7b2ef94",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
                 "isHistogramSelectable": true,
@@ -1143,7 +1178,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
+              "uuid": "e4aeb25c-52c3-4e36-8b74-ae2e91e3cc3f",
+              "usage": "analytics"
             }
           ]
         },
@@ -1154,7 +1192,6 @@
           "icon": "brightness_5",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -1188,7 +1225,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": true
+              "showExportCsv": true,
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
+              "uuid": "b9d8b69f-cf34-4dcc-9602-1b5e2e5b3265",
+              "usage": "analytics"
             }
           ]
         },
@@ -1199,7 +1239,6 @@
           "icon": "call_missed_outgoing",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -1233,7 +1272,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": true
+              "showExportCsv": true,
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
+              "uuid": "2791576c-c207-4354-b070-5615ebb5cba1",
+              "usage": "analytics"
             }
           ]
         },
@@ -1244,7 +1286,6 @@
           "icon": "apps",
           "components": [
             {
-              "contributorId": "demo_eo-_resolution-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-_resolution-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -1278,11 +1319,15 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-_resolution-numeric-bucket-Count--50",
+              "uuid": "6630b480-8c03-4f39-8c87-a95d919499a4",
+              "usage": "analytics"
             }
           ]
         }
       ],
+      "filters_shortcuts": [],
       "colorGenerator": {
         "keysToColors": [
           [
@@ -1424,7 +1469,7 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:81/server",
+      "url": "https://cloud.arlas.io/arlas/server",
       "max_age_cache": 120,
       "collection": {
         "name": "demo_eo"
@@ -1463,5 +1508,6 @@
       "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.externalEventLayers",
       "replacer": "external-event-layers"
     }
-  ]
+  ],
+  "resources": {}
 }
