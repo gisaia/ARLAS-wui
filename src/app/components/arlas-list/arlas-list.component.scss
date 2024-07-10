@@ -1,0 +1,31 @@
+@import "../../../styles/variables.scss";
+
+.arlas-progression {
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.result-list-tab-group {
+    ::ng-deep .mat-tab-label {
+        min-width: 60px;
+    }
+
+    ::ng-deep .mat-tab-label-content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 0 10px;
+    }
+
+    ::ng-deep .mat-tab-label-content .name {
+        flex: 5;
+    }
+
+    .list__container {
+        height: calc(100vh - 50px - $top-menu-height);
+        overflow: hidden;
+    }
+}
+
+

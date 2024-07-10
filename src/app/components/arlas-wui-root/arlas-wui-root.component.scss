@@ -66,13 +66,7 @@
   }
 }
 
-.arlas-progression {
-  width: 100%;
-  position: absolute;
-  top: 0;
-}
-
-.side-result-list-toggle {
+.resultlist__toggle {
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -83,35 +77,31 @@
   justify-content: center;
   flex-direction: column;
   @include toggle();
+
+  &--open {
+    // Have same spacing between toggle and list as with toggle and timeline
+    right: calc($result-list-width + ($timeline-tools-height - $toggle-height) / 2);
+  }
+
+  &--no-grid {
+    right: 0;
+  }
 }
 
-.side-result-list-toggle-open {
-  // Have same spacing between toggle and list as with toggle and timeline
-  right: calc($result-list-width + ($timeline-tools-height - $toggle-height) / 2);
-}
-
-.side-result-list-toggle-open-no-grid {
-  right: 0px;
-}
-
-.side-result-list-preview {
+.resultlist__preview {
   width: $preview-result-list-width;
   height: 100%;
   position: absolute;
   right: 0;
   display: block;
   background-color: white;
+
+  &--closed {
+    display: none;
+  }
 }
 
-.side-result-list-preview-close {
-  display: none;
-}
-
-.side-result-list-preview .resultgrid__icon_check {
-  display: none;
-}
-
-.side-result-list {
+.resultlist__wrapper {
   width: 0;
   height: calc(100vh - $top-menu-height);
   position: absolute;
@@ -119,30 +109,26 @@
   visibility: hidden;
   background-color: white;
   overflow: hidden;
+
+  &--open {
+    display: block;
+    width: $result-list-width;
+    visibility: visible;
+  }
 }
 
-.one-tab ::ng-deep.mat-tab-header {
-  display: none;
-}
+.one-tab {
+  ::ng-deep.list__container {
+    height: calc(100vh - $top-menu-height) !important;
+  }
 
-.side-result-list-open {
-  display: block;
-  width: $result-list-width;
-  visibility: visible;
+  ::ng-deep.mat-tab-header {
+    display: none;
+  }
 }
 
 .rotate-icon {
   transform: rotate(180deg);
-}
-
-.left_resultlist_wrapper {
-  height: calc(100vh - 50px - $top-menu-height);
-  overflow: hidden;
-}
-
-.one-tab .left_resultlist_wrapper {
-  height: calc(100vh - $top-menu-height);
-  overflow: hidden;
 }
 
 .arlas-analytics-toggle {
@@ -241,53 +227,57 @@
 
 .app-container-reduce-analytics,
 .app-container-reduce {
-  ::ng-deep.arlas-map-action,
-  ::ng-deep.arlas-map-settings {
-    right: calc($result-list-width + $sm-spacing) !important;
-  }
-  ::ng-deep.aoi-dimensions {
-    right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
-  }
-  ::ng-deep.basemap-container {
-    right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
-  }
+  .arlas-map {
+    ::ng-deep.arlas-map-action,
+    ::ng-deep.arlas-map-settings {
+      right: calc($result-list-width + $sm-spacing) !important;
+    }
+    ::ng-deep.aoi-dimensions {
+      right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
+    }
+    ::ng-deep.basemap-container {
+      right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
+    }
 
-  ::ng-deep.current-coordinate,
-  ::ng-deep.current-coordinate-edition {
-    right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
-  }
-  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      right: calc($result-list-width + $sm-spacing) !important;
-      bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
+    }
+    &--tight {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        right: calc($result-list-width + $sm-spacing) !important;
+        bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      }
     }
   }
 }
 
 .app-container-with-list-analytics,
 .app-container-with-list {
-  ::ng-deep.arlas-map-action,
-  ::ng-deep.arlas-map-settings {
-    right: calc($preview-result-list-width + $sm-spacing) !important;
-  }
-  ::ng-deep.aoi-dimensions {
-    right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
-  }
+  .arlas-map {
+    ::ng-deep.arlas-map-action,
+    ::ng-deep.arlas-map-settings {
+      right: calc($preview-result-list-width + $sm-spacing) !important;
+    }
+    ::ng-deep.aoi-dimensions {
+      right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
+    }
 
-  ::ng-deep.basemap-container {
-    right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
-  }
+    ::ng-deep.basemap-container {
+      right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
+    }
 
-  ::ng-deep.current-coordinate,
-  ::ng-deep.current-coordinate-edition {
-    right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
-  }
-  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      right: calc($preview-result-list-width + $sm-spacing) !important;
-      bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
+    }
+    &--tight {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        right: calc($preview-result-list-width + $sm-spacing) !important;
+        bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      }
     }
   }
 }
@@ -312,21 +302,23 @@
 }
 
 .app-container-timeline-hidden {
-  ::ng-deep.mapboxgl-ctrl-scale {
-    // Center regarding to timeline tools
-    bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
-  }
+  .arlas-map {
+    ::ng-deep.mapboxgl-ctrl-scale {
+      // Center regarding to timeline tools
+      bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
+    }
 
-  ::ng-deep.current-coordinate,
-  ::ng-deep.current-coordinate-edition {
-    // Center regarding to timeline tools
-    bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
-  }
-
-  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      bottom: calc(($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
+      // Center regarding to timeline tools
+      bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
+    }
+
+    &--tight {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        bottom: calc(($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
+      }
     }
   }
 
@@ -343,27 +335,29 @@
 }
 
 .app-container-timeline-legend {
-  ::ng-deep.mapboxgl-ctrl-scale {
-    // Center regarding to timeline tools
-    bottom: calc(
-      $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width
-    );
-  }
+  .arlas-map {
+    ::ng-deep.mapboxgl-ctrl-scale {
+      // Center regarding to timeline tools
+      bottom: calc(
+        $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width
+      );
+    }
 
-  ::ng-deep.current-coordinate,
-  ::ng-deep.current-coordinate-edition {
-    // Center regarding to timeline tools
-    bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
-  }
-
-  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
       // Center regarding to timeline tools
-      bottom: calc(
-        $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height +
-          $sm-spacing
-      );
+      bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
+    }
+
+    &--tight {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        // Center regarding to timeline tools
+        bottom: calc(
+          $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height +
+            $sm-spacing
+        );
+      }
     }
   }
 
@@ -419,21 +413,6 @@
 }
 ::ng-deep.bookmark-shortcut {
   top: 30px !important;
-}
-
-.result-list-tab-group ::ng-deep .mat-tab-label {
-  min-width: 60px;
-}
-
-.result-list-tab-group ::ng-deep .mat-tab-label-content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 0 10px;
-}
-
-.result-list-tab-group ::ng-deep .mat-tab-label-content .name {
-  flex: 5;
 }
 
 .top-left-menu {
