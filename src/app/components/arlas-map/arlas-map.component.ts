@@ -273,11 +273,10 @@ export class ArlasMapComponent implements OnInit {
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       });
 
-      // TODO: add that back when the resultlist is in its own component
-      // if (!!this.previewListContrib && this.previewListContrib.data.length > 0 &&
-      // this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-      //   this.resultlistService.updateVisibleItems();
-      // }
+      if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
+          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+        this.resultlistService.updateVisibleItems();
+      }
     }
   }
 
