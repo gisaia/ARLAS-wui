@@ -21,9 +21,8 @@
 
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
-      <arlas-left-menu [layersVisibilityStatus]="arlasMapComponent?.layersVisibilityStatus"
-        (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState" [collections]="collections"
-        [isEmptyMode]="arlasStartupService.emptyMode" [showIndicators]="showIndicators"></arlas-left-menu>
+      <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
+        [collections]="collections" [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content" *ngIf="!arlasStartupService.emptyMode; else emptyMode">
       <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">

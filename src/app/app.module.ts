@@ -79,6 +79,8 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
 import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
 
 
 @NgModule({
@@ -102,7 +104,11 @@ import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    GeocodingComponent,
+    ArlasMapComponent,
+    ArlasListComponent,
+    GetResultlistConfigPipe
   ],
   imports: [
     BrowserModule,
@@ -161,9 +167,10 @@ import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
     GetValueModule
   ],
   providers: [
-    ContributorService,
     DynamicComponentService,
     VisualizeService,
+    MapService,
+    ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
       useClass: LazyLoadImageHooks
@@ -173,7 +180,8 @@ import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
       useClass: JwtInterceptor,
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
-    }
+    },
+    ContributorService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

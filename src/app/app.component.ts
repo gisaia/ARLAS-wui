@@ -18,13 +18,13 @@
  */
 import { Component, Input, OnInit } from '@angular/core';
 import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
-import { ResultlistService } from './services/resultlist.service';
-import { ContributorService } from 'public-api';
-import { MapService } from './services/map.service';
-import { ArlasColorService } from 'arlas-web-components';
 import { Subject, takeUntil, zip } from 'rxjs';
+import { ContributorService } from './services/contributors.service';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
 
 @Component({
   selector: 'arlas-root',
@@ -119,7 +119,4 @@ export class ArlasWuiComponent implements OnInit {
         });
     }
   }
-
 }
-
-

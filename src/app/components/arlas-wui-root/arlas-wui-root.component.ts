@@ -310,7 +310,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // TODO: move it to list with an added output ?
       // Keep the last displayed list as preview when closing the right panel
-      if (!!this.arlasListComponent.tabsList) {
+      if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
         this.arlasListComponent.tabsList.selectedIndexChange
           .pipe(takeUntil(this._onDestroy$))
           .subscribe(index => {
@@ -412,9 +412,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private resizeCollectionCounts() {
     // Add padding to the left of the divider and right of the title
-    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
-    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
-    this.availableSpaceCounts = end - start;
+    const start = document.getElementById('menuDivider')?.getBoundingClientRect().right + this.spacing;
+    const end = document.getElementById('title')?.getBoundingClientRect().left - this.spacing;
+    if (!!start && !!end) {
+      this.availableSpaceCounts = end - start;
+    }
   }
 
   private adjustGrids() {
