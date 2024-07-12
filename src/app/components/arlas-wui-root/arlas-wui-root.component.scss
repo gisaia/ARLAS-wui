@@ -151,10 +151,9 @@
   transform: rotate(180deg);
 }
 
-.arlas-analytics--container {
+.arlas-analytics--wrapper {
   width: $analytics-board-width;
   height: calc(100vh - $top-menu-height);
-  overflow: auto;
   border-right: $menu-border;
   box-sizing: border-box;
 }

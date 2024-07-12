@@ -20,7 +20,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { MapService } from './services/map.service';
@@ -36,7 +36,16 @@ export class ArlasWuiComponent implements OnInit {
   public collections = new Array<string>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public resultlistContributors: Array<ResultListContributor> = new Array();
+  /**
+   * @Input : Angular
+   * List of ResultList tabs to hide
+   */
   @Input() public hiddenResultlistTabs: string[] = [];
+  /**
+   * @Input : Angular
+   * List of Analytics tabs to hide
+   */
+  @Input() public hiddenAnalyticsTabs: string[] = [];
 
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
@@ -48,7 +57,8 @@ export class ArlasWuiComponent implements OnInit {
     private contributorService: ContributorService,
     private mapService: MapService,
     private colorService: ArlasColorService,
-    private collaborativeService: ArlasCollaborativesearchService
+    private collaborativeService: ArlasCollaborativesearchService,
+    private analyticsService: AnalyticsService
   ) { }
 
   public ngOnInit(): void {
@@ -117,6 +127,11 @@ export class ArlasWuiComponent implements OnInit {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
         });
+
+      /** Analytics */
+      const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
+      const allAnalytics = this.arlasStartupService.analytics;
+      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
     }
   }
 }

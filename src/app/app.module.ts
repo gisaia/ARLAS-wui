@@ -81,6 +81,7 @@ import { ArlasListComponent } from './components/arlas-list/arlas-list.component
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { MapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import { ResultlistService } from './services/resultlist.service';
     GeocodingComponent,
     ArlasMapComponent,
     ArlasListComponent,
-    GetResultlistConfigPipe
+    GetResultlistConfigPipe,
+    ArlasAnalyticsComponent
   ],
   exports: [
     AoiDimensionComponent,
