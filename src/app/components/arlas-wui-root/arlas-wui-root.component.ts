@@ -74,7 +74,16 @@ import { MenuState } from '../left-menu/left-menu.component';
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
 export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * @Input : Angular
+   * Current version of ARLAS WUI
+   */
   @Input() public version: string;
+
+  /**
+   * @Output : Angular
+   * TODO: what is the use of that ??
+   */
   @Output() public actionOnPopup = new Subject<{
     action: {
       id: string;
@@ -85,7 +94,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     elementidentifier: ElementIdentifier;
   }>();
-  @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
   public chipsSearchContributor: ChipsSearchContributor;
   public analyticsContributor: AnalyticsContributor;
@@ -99,7 +107,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public appUnits: CollectionUnit[];
   public appNameBackgroundColor: string;
 
-  // component config
+  // Component config
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
   /**
@@ -118,7 +126,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public mainCollection;
   public isTimelineOpen = true;
 
-  @Input() public hiddenAnalyticsTabs: string[] = [];
   /**
    * @Input : Angular
    * @description Width in pixels of the preview result list
@@ -134,7 +141,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * @description Number of columns in the grid result list
    */
   @Input() public resultListGridColumns = 4;
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
   public apploading = true;
 
@@ -251,19 +257,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-
     if (!this.version) {
       this.version = environment.VERSION;
     }
     this.setAppTitle();
-    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      /** Retrieve displayable analytics */
-      const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
-      const allAnalytics = this.arlasStartupService.analytics;
-      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
 
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
 
+      // TODO: move to map
       this.actionOnPopup
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(data => {
@@ -341,7 +343,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
-    const centroidPath = this.collectionToDescription.get(collection).centroid_path;
+    const centroidPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
     this.toolkitMapService.zoomToData(collection, centroidPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
 

@@ -6,7 +6,7 @@
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <arlas-filter class="arlas-filters-chips-top"
-        [collectionToDescription]="collectionToDescription"
+        [collectionToDescription]="resultlistService.collectionToDescription"
         [units]="appUnits" (zoomEvent)="zoomToData($event)"
         [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
@@ -87,11 +87,8 @@
                 matTooltip="{{'Close analytics board' | translate}}" matTooltipPosition="right">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
               </div>
-              <div class="arlas-analytics--container" *ngIf="analyticsService.activeTab !== undefined && !arlasStartupService.emptyMode">
-                <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
-                  (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
-                  [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
-                  [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
+              <div *ngIf="analyticsService.activeTab !== undefined" class="arlas-analytics--wrapper">
+                <arlas-analytics></arlas-analytics>
               </div>
 
               <arlas-map #arlasMap></arlas-map>

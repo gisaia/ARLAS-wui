@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -61,6 +61,9 @@ export class ResultlistService {
   public listOpen = false;
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
+  /**
+   * Event emitted when an action is performed on the list
+   */
   public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
   /* Process */
