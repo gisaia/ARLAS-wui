@@ -14,7 +14,6 @@
         {{list.name | translate}}
       </span>
     </ng-template>
-    <!-- TODO: change name of css class -->
     <div class="list__container">
       <arlas-result-list *ngIf="resultlistService.listOpen && listIdx === resultlistService.selectedListTabIndex"
         #resultList [rowItemList]="list.data" [fieldsList]="list.fieldsList"

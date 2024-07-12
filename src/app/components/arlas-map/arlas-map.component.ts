@@ -29,7 +29,9 @@ import { MapService } from 'app/services/map.service';
 import { ResultlistService } from 'app/services/resultlist.service';
 import { VisualizeService } from 'app/services/visualize.service';
 import {
-  AoiEdition, BboxGeneratorComponent, GeoQuery, MapglComponent, MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
+  AoiEdition,
+  BasemapStyle,
+  BboxGeneratorComponent, GeoQuery, MapglComponent, MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
 import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
@@ -40,7 +42,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil, takeWhile } from 'rxjs';
 
 // TODO: update with working one
-const DEFAULT_BASEMAP = {
+const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
   name: 'Positron'
 };
@@ -54,8 +56,7 @@ export class ArlasMapComponent implements OnInit {
   /** Map definition */
   public mapComponentConfig: any;
   public mapId = 'mapgl';
-  // TODO: add typing
-  public defaultBasemap;
+  public defaultBasemap: BasemapStyle;
   public mainMapContributor: MapContributor;
   public mainCollection: string;
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';

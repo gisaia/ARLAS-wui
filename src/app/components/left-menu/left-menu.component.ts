@@ -10,12 +10,6 @@ import {
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 
-interface Page {
-  link: string;
-  name: string;
-  icon: string;
-  disabled?: boolean;
-}
 export interface MenuState {
   configs?: boolean;
 }
@@ -26,35 +20,44 @@ export interface MenuState {
   styleUrls: ['./left-menu.component.scss']
 })
 export class LeftMenuComponent implements OnInit {
+  /**
+   * @Input : Angular
+   * List of collections displayed in the map
+   */
   @Input() public collections: string[];
 
+  /**
+   * @Input : Angular
+   * State of the left menu's buttons
+   */
   @Input() public toggleStates: MenuState = {
     configs: false
   };
+  /**
+   * @Input : Angular
+   * Whether to show the filter indicators on the Analytics Menu icons
+   */
   @Input() public showIndicators: boolean;
+  /**
+   * @Output : Angular
+   * Emits an event when the menu's buttons toggle state changes
+   */
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
 
-  public window;
   public zendeskActive = false;
 
+  // TODO: add typing
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
   public isRefreshAnalyticsButton: boolean;
-  public sideNavState = false;
-  public linkText = false;
-  public pages: Page[] = [];
-  public reduce: string;
-  public expand: string;
-  public isLabelDisplayed = false;
   public showDashboardsList = false;
 
   public constructor(
-    private translate: TranslateService,
     protected walkthroughService: ArlasWalkthroughService,
     private settings: ArlasSettingsService,
     private collaborativeService: ArlasCollaborativesearchService,
@@ -63,9 +66,6 @@ export class LeftMenuComponent implements OnInit {
     protected persistenceService: PersistenceService,
     private mapService: MapService
   ) {
-    this.window = window;
-    this.reduce = this.translate.instant('reduce');
-    this.expand = this.translate.instant('expand');
   }
 
   public ngOnInit() {
@@ -89,13 +89,6 @@ export class LeftMenuComponent implements OnInit {
       this.toggleStates.configs = false;
     }
     this.menuEventEmitter.next(Object.assign({}, this.toggleStates));
-  }
-
-  public expandMenu() {
-    this.isLabelDisplayed = !this.isLabelDisplayed;
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 100);
   }
 
   /** When opening the dialog of layers to share, we specify the visibility status of all

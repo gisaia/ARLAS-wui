@@ -1,6 +1,3 @@
-<div class="configs-list_all_app">
-
-</div>
 <div class="configs-list_wrapper">
   <h4 class="title">{{'Choose a dashboard to load' | translate}}</h4>
   <div *ngIf="hubUrl" class="manage-config" (click)="navigate(hubUrl)">
@@ -12,13 +9,18 @@
     </a>
   </nav>
   <div class="configs-list_container">
-    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">{{'Loading dashboards...' | translate}}</span>
-    <span *ngIf="listResolved && !retrieveData" class="loading">{{'Error while retrieving dashboards' |
-      translate}}</span>
+    <span *ngIf="configurations && configurations.length === 0 && !listResolved" class="loading">
+      {{'Loading dashboards...' | translate}}
+    </span>
+    <span *ngIf="listResolved && !retrieveData" class="loading">
+      {{'Error while retrieving dashboards' | translate}}
+    </span>
     <a (click)="switchConf(conf.id)" *ngFor="let conf of configurations" class="config"
       [style.borderLeftColor]="conf.color">
       {{conf.name}}
     </a>
-    <span class="empty_list" *ngIf="configurations.length === 0 && listResolved">No dashboard in this organisation</span>
+    <span class="empty_list" *ngIf="configurations.length === 0 && listResolved">
+      {{ 'No dashboard in this organisation' | translate }}
+    </span>
   </div>
 </div>

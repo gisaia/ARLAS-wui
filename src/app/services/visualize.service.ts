@@ -17,22 +17,22 @@
  * under the License.
  */
 
-import {Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {TranslateService} from '@ngx-translate/core';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import bbox from '@turf/bbox';
-import {BBox} from '@turf/helpers';
-import {Expression, Filter, Search} from 'arlas-api';
-import {CROSS_LAYER_PREFIX} from 'arlas-web-components';
-import {ElementIdentifier} from 'arlas-web-contributors';
-import {getElementFromJsonObject} from 'arlas-web-contributors/utils/utils';
-import {projType} from 'arlas-web-core';
-import {ArlasCollaborativesearchService} from 'arlas-wui-toolkit';
-import {Popup} from 'mapbox-gl';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {parse} from 'wellknown';
-import {BBox2d} from '@turf/helpers/dist/js/lib/geojson';
+import { BBox } from '@turf/helpers';
+import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
+import { Expression, Filter, Search } from 'arlas-api';
+import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
+import { ElementIdentifier } from 'arlas-web-contributors';
+import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
+import { projType } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { Popup } from 'mapbox-gl';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { parse } from 'wellknown';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
@@ -317,7 +317,7 @@ export class VisualizeService {
       'id': GEOCODING_PREVIEW_ID,
       'type': type,
       'source': GEOCODING_PREVIEW_ID,
-      'paint':paint,
+      'paint': paint,
       'layout': {
         'visibility': 'visible'
       }

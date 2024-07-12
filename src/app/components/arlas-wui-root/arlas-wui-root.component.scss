@@ -381,23 +381,6 @@
   z-index: 1;
 }
 
-// TODO: still useful ?
-.arlas-zoom-to-data {
-  margin: 0 4px;
-  background-color: #ff4081;
-  color: white;
-  min-width: 40px;
-  border-radius: 4px;
-  line-height: 28px;
-  cursor: pointer;
-}
-
-.arlas-zoom-to-data-icon {
-  vertical-align: middle;
-  padding-left: 7px;
-  margin: 3px 0;
-}
-
 .sidenav-content {
   margin-left: $left-menu-width;
 }
@@ -409,9 +392,6 @@
 .main_content {
   width: 100%;
   height: calc(100vh - $top-menu-height);
-}
-::ng-deep.bookmark-shortcut {
-  top: 30px !important;
 }
 
 .top-left-menu {
@@ -628,6 +608,7 @@
     }
   }
 }
+
 .empty_mode {
   display: flex;
   flex-direction: column;

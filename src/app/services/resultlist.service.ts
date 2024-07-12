@@ -278,8 +278,7 @@ export class ResultlistService {
       const lng = this.mapService.centerLatLng.lng;
       resultListContributor.geoSort(lat, lng, true);
       this.sortOutput.delete(resultListContributor.identifier);
-      // TODO: why commented
-      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
+
       /** Apply geosort in map (for simple mode) */
       this.mapService.clearWindowData(mapContributor);
       mapContributor.searchSort = resultListContributor.geoOrderSort;
@@ -364,7 +363,7 @@ export class ResultlistService {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
-  public actionOnItemEvent(data, mapContributor, listContributor, collection) {
+  public actionOnItemEvent(data, mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
@@ -441,19 +440,6 @@ export class ResultlistService {
     this.sortOutput.set(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
     resultlistContributor.sortColumn(sortOutput, true);
-
-    // TODO: why here when does nothing
-    /** set mapcontritbutor sort */
-    let sortOrder = null;
-    if (sortOutput.sortDirection.toString() === '0') {
-      sortOrder = '';
-    } else if (sortOutput.sortDirection.toString() === '1') {
-      sortOrder = '-';
-    }
-    let sort = '';
-    if (sortOrder !== null) {
-      sort = sortOrder + sortOutput.fieldName;
-    }
 
     this.mapService.mapContributors
       .filter(c => c.collection === resultlistContributor.collection)

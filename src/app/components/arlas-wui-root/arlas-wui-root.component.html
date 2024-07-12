@@ -30,7 +30,9 @@
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartupService.shouldRunApp">
-          <!-- TODO: Create pipe to have a clearer explanation or just add comments ? -->
+          <!-- reduce = list is open and analytics closed -->
+          <!-- with-list = list is closed but there is a preview and analytics closed -->
+          <!-- -analytics = analytics open in addition to previously mentionned state -->
           <div class="app-container"
             [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
             [class.app-container-with-list]="resultlistService.rightListContributors.length > 0
