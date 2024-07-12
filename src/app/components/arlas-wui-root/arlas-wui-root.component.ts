@@ -30,20 +30,13 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapService } from 'app/services/map.service';
 import { ResultlistService } from 'app/services/resultlist.service';
-import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ChartType,
-  DataType,
-  Position,
   Item,
   ModeEnum
 } from 'arlas-web-components';
 import {
-  AnalyticsContributor,
   ChipsSearchContributor,
-  ElementIdentifier,
-  MapContributor,
-  ResultListContributor
+  ElementIdentifier
 } from 'arlas-web-contributors';
 import {
   AnalyticsService,
@@ -59,7 +52,7 @@ import {
   NOT_CONFIGURED,
   TimelineComponent
 } from 'arlas-wui-toolkit';
-import { fromEvent, Subject, zip } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
@@ -80,6 +73,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public version: string;
 
+  // TODO: use correct structure of Action from web comp
   /**
    * @Output : Angular
    * TODO: what is the use of that ??
@@ -96,15 +90,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }>();
 
   public chipsSearchContributor: ChipsSearchContributor;
-  public analyticsContributor: AnalyticsContributor;
-
-  public analytics: Array<any>;
-  public dataType = DataType;
-  public chartType = ChartType;
-  public position = Position;
 
   public appName: string;
   public appUnits: CollectionUnit[];
+  // TODO: to add back to template ?
   public appNameBackgroundColor: string;
 
   // Component config
@@ -121,9 +110,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
+  // TODO: to add back ?
   public showZoomToData = false;
   public showIndicators = false;
-  public mainCollection;
   public isTimelineOpen = true;
 
   /**
@@ -142,7 +131,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public resultListGridColumns = 4;
   public collections: string[];
-  public apploading = true;
 
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
   @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
@@ -220,11 +208,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       /** end of retrocompatibility code */
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
-      this.analyticsContributor = this.arlasStartupService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
-
-      this.mainCollection = this.configService.getValue('arlas.server.collection.name');
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
@@ -270,7 +255,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(data => {
           const collection = data.action.collection;
-          const mapContributor = this.mapService.mapContributors.filter(m => m.collection === collection)[0];
+          const mapContributor = this.mapService.getContributorByCollection(collection);
           const listContributor = this.resultlistService.resultlistContributors.filter(m => m.collection === collection)[0];
           this.resultlistService.actionOnItemEvent(data, mapContributor, listContributor, collection);
         });
@@ -310,7 +295,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.adjustVisibleShortcuts();
       this.adjustComponentsSize();
 
-      // TODO: move it to list with an added output ?
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
         this.arlasListComponent.tabsList.selectedIndexChange

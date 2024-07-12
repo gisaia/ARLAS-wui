@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { AnalyticsContributor } from 'arlas-web-contributors';
 import { ResultlistService } from '../../services/resultlist.service';
@@ -9,6 +9,12 @@ import { ResultlistService } from '../../services/resultlist.service';
   styleUrls: ['./arlas-analytics.component.scss']
 })
 export class ArlasAnalyticsComponent implements OnInit {
+  /**
+   * @Input : Angular
+   * Whether to show the analytics menu inside of this component. Useful for multi-windows views
+   */
+  @Input() public showMenu = false;
+
   public analyticsContributor: AnalyticsContributor;
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; };
   public showIndicators = false;

@@ -26,6 +26,10 @@ import { AoiEdition } from 'arlas-web-components';
   styleUrls: ['./aoi-dimensions.component.scss']
 })
 export class AoiDimensionComponent implements OnInit, OnChanges {
+  /**
+   * @Input : Angular
+   * Current dimensions of the AOI being edited
+   */
   @Input() public aoiEdition: AoiEdition;
 
   public constructor() { }
