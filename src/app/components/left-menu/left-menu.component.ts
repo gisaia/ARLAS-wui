@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { MapService } from 'app/services/map.service';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService,
-  DownloadComponent, PersistenceService, ShareComponent, TagComponent
+  DownloadComponent,
+  PersistenceService,
+  ShareComponent, TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 
@@ -28,8 +31,6 @@ export class LeftMenuComponent implements OnInit {
   @Input() public toggleStates: MenuState = {
     configs: false
   };
-  @Input() public isEmptyMode;
-  @Input() public layersVisibilityStatus: Map<string, boolean> = new Map();
   @Input() public showIndicators: boolean;
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
@@ -54,12 +55,13 @@ export class LeftMenuComponent implements OnInit {
 
   public constructor(
     private translate: TranslateService,
-    public persistenceService: PersistenceService,
-    public walkthroughService: ArlasWalkthroughService,
-    public settings: ArlasSettingsService,
-    public collaborativeService: ArlasCollaborativesearchService,
-    public configService: ArlasConfigService,
-    public arlasStartUpService: ArlasStartupService
+    protected walkthroughService: ArlasWalkthroughService,
+    private settings: ArlasSettingsService,
+    private collaborativeService: ArlasCollaborativesearchService,
+    private configService: ArlasConfigService,
+    protected arlasStartupService: ArlasStartupService,
+    protected persistenceService: PersistenceService,
+    private mapService: MapService
   ) {
     this.window = window;
     this.reduce = this.translate.instant('reduce');
@@ -67,7 +69,7 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.isEmptyMode) {
+    if (!this.arlasStartupService.emptyMode) {
       this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
       this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
       this.tagComponentConfig = this.configService.getValue('arlas.tagger');
@@ -99,7 +101,7 @@ export class LeftMenuComponent implements OnInit {
   /** When opening the dialog of layers to share, we specify the visibility status of all
    * layers so that we choose only the displayed ones */
   public displayShare() {
-    this.shareComponent.openDialog(this.layersVisibilityStatus);
+    this.shareComponent.openDialog(this.mapService.mapComponent.visibilityStatus);
   }
 
   public replayTour() {
