@@ -6,8 +6,8 @@ export { ArlasWuiRootComponent } from './app/components/arlas-wui-root/arlas-wui
 export { ConfigsListComponent } from './app/components/configs-list/configs-list.component';
 export { GeocodingComponent } from './app/components/geocoding/geocoding.component';
 export { LeftMenuComponent } from './app/components/left-menu/left-menu.component';
-export { AoiDimensionComponent } from './app/components/map/aoi-dimensions/aoi-dimensions.component';
-export { RoundKilometer, SquareKilometer } from './app/components/map/aoi-dimensions/aoi-dimensions.pipes';
+export { AoiDimensionComponent } from './app/components/arlas-map/aoi-dimensions/aoi-dimensions.component';
+export { RoundKilometer, SquareKilometer } from './app/components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 export { GetResultlistConfigPipe } from './app/pipes/get-resultlist-config.pipe';
 export { ContributorService } from './app/services/contributors.service';
 export { GeocodingService } from './app/services/geocoding.service';

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { MapService } from 'app/services/map.service';
 import {
   ArlasCollaborativesearchService,

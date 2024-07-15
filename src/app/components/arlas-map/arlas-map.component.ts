@@ -24,10 +24,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { GeocodingResult } from 'app/services/geocoding.service';
-import { MapService } from 'app/services/map.service';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { VisualizeService } from 'app/services/visualize.service';
+import { GeocodingResult } from '@services/geocoding.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import {
   AoiEdition,
   BasemapStyle,

@@ -25,6 +25,14 @@
       "es2016",
       "dom"
     ],
-    "module": "esnext"
+    "module": "esnext",
+    "paths": {
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ]
+    }
   }
 }

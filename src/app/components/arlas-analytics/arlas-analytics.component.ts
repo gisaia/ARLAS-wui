@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ResultlistService } from '@services/resultlist.service';
 import { AnalyticsContributor } from 'arlas-web-contributors';
-import { ResultlistService } from '../../services/resultlist.service';
+import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
 @Component({
   selector: 'arlas-analytics',

@@ -16,8 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Injectable, Injector, ApplicationRef, ComponentFactoryResolver, ComponentRef, Type } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, Type } from '@angular/core';
 
+// TODO: is it still useful based on deprecation comment of ComponentFactoryResolver ?
 @Injectable()
 export class DynamicComponentService {
 

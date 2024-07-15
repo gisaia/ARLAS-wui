@@ -17,12 +17,14 @@
  * under the License.
  */
 
-import { Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
+import { MapService } from '@services/map.service';
+import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
@@ -35,8 +37,6 @@ import {
   getParamValue, ProcessComponent, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject } from 'rxjs';
-import { MapService } from './map.service';
-import { VisualizeService } from './visualize.service';
 
 
 @Injectable({
