@@ -71,7 +71,6 @@ import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 import { ContributorService } from './services/contributors.service';
-import { DynamicComponentService } from './services/dynamicComponent.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
@@ -169,7 +168,6 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     GetValueModule
   ],
   providers: [
-    DynamicComponentService,
     VisualizeService,
     MapService,
     ResultlistService,

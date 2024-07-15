@@ -609,6 +609,12 @@
   }
 }
 
+.timeline__legend--hidden {
+  ::ng-deep .arlas-timeline--legend {
+    display: none;
+  }
+}
+
 .empty_mode {
   display: flex;
   flex-direction: column;

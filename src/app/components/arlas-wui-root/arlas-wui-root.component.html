@@ -48,9 +48,9 @@
                 || (resultlistService.rightListContributors.length > 0
                   && !(resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode))
               && !resultlistService.listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-timeline-hidden]="!isTimelineOpen"
-            [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent
-              && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
+            [class.app-container-timeline-hidden]="!showTimeline"
+            [class.app-container-timeline-legend]="showTimeline && timelineComponent
+              && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1 && showTimelineLegend">
 
             <div class="shortcut-list" *ngIf="showShortcuts || analyticsService.activeTab === undefined">
               <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
@@ -141,8 +141,8 @@
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig"
-              class="arlas-timeline-toolkit" [class.timeline-hidden]="!isTimelineOpen"
-              [isDisplayHistogram]="isTimelineOpen" (isDisplayHistogramChange)="toggleTimeline()"
+              class="arlas-timeline-toolkit" [class.timeline__legend--hidden]="!showTimelineLegend"
+              [isDisplayHistogram]="showTimeline" (isDisplayHistogramChange)="toggleTimeline()"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig"
               [units]="appUnits">

@@ -83,7 +83,6 @@ export class ArlasListComponent implements OnInit, OnDestroy {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'geoAutoSortEvent', data: enabled });
   }
 
-  // TODO: Decide whether to keep both this and geoAutoSort since they are emitted one after the other
   public geoSort(listContributor: ResultListContributor, event: string) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'geoSortEvent', data: event });
   }

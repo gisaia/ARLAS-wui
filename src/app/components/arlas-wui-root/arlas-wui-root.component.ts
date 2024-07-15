@@ -73,39 +73,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public version: string;
 
-  // TODO: use correct structure of Action from web comp
-  /**
-   * @Output : Angular
-   * TODO: what is the use of that ??
-   */
-  @Output() public actionOnPopup = new Subject<{
-    action: {
-      id: string;
-      label: string;
-      collection: string;
-      cssClass?: string | string[];
-      tooltip?: string;
-    };
-    elementidentifier: ElementIdentifier;
-  }>();
-
   public chipsSearchContributor: ChipsSearchContributor;
 
   public appName: string;
   public appUnits: CollectionUnit[];
-  // TODO: to add back to template ?
-  public appNameBackgroundColor: string;
 
   // Component config
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
-  /**
-   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
-   */
-  public isTimelineLegend = true;
 
   public menuState: MenuState;
-  public searchOpen = true;
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
@@ -113,7 +90,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   // TODO: to add back ?
   public showZoomToData = false;
   public showIndicators = false;
-  public isTimelineOpen = true;
+  public showTimeline = true;
+  /**
+   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
+   */
+  public showTimelineLegend = true;
 
   /**
    * @Input : Angular
@@ -206,8 +187,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       /** end of retrocompatibility code */
-      this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
-        this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
 
@@ -223,7 +202,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /** init from url */
-    this.isTimelineOpen = getParamValue('to') === 'true';
+    this.showTimeline = getParamValue('to') === 'true';
 
     let wasTabSelected = getParamValue('at') !== null;
     this.analyticsService.tabChange.subscribe(tab => {
@@ -250,19 +229,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
 
-      // TODO: move to map
-      this.actionOnPopup
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(data => {
-          const collection = data.action.collection;
-          const mapContributor = this.mapService.getContributorByCollection(collection);
-          const listContributor = this.resultlistService.resultlistContributors.filter(m => m.collection === collection)[0];
-          this.resultlistService.actionOnItemEvent(data, mapContributor, listContributor, collection);
-        });
-
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
       this.shortcuts = this.arlasStartupService.filtersShortcuts;
+
+      this.resultlistService.listOpenChange
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(o => {
+          this.updateTimelineLegendVisibility();
+          this.adjustGrids();
+          this.adjustComponentsSize();
+          this.adjustVisibleShortcuts();
+        });
 
       this.collaborativeService.ongoingSubscribe
         .pipe(takeUntil(this._onDestroy$))
@@ -344,21 +322,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public toggleList() {
     this.arlasListComponent.tabsList.realignInkBar();
     this.resultlistService.toggleList();
-    this.updateTimelineLegendVisibility();
-    this.adjustGrids();
-    this.adjustComponentsSize();
-    this.adjustVisibleShortcuts();
   }
 
   public toggleTimeline() {
-    this.isTimelineOpen = !this.isTimelineOpen;
+    this.showTimeline = !this.showTimeline;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['to'] = this.isTimelineOpen + '';
+    queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   public updateTimelineLegendVisibility() {
-    this.isTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
+    this.showTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   public closeAnalytics() {
