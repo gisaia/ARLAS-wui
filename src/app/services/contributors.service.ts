@@ -20,11 +20,7 @@
 import { Injectable } from '@angular/core';
 import { ChipsSearchContributor, MapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
-import {
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasStartupService
-} from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
 @Injectable()
 export class ContributorService {

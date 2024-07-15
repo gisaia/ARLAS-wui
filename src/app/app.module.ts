@@ -68,8 +68,8 @@ import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-roo
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
+import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 import { ContributorService } from './services/contributors.service';
 import { DynamicComponentService } from './services/dynamicComponent.service';
 import { VisualizeService } from './services/visualize.service';

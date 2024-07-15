@@ -28,7 +28,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../services/geocoding.service';
+import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '@services/geocoding.service';
 
 @Component({
   selector: 'arlas-geocoding',

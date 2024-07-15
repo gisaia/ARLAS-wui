@@ -28,8 +28,13 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapService } from 'app/services/map.service';
-import { ResultlistService } from 'app/services/resultlist.service';
+import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
+import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { MenuState } from '@components/left-menu/left-menu.component';
+import { ContributorService } from '@services/contributors.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import {
   Item,
   ModeEnum
@@ -55,11 +60,6 @@ import {
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ContributorService } from '../../services/contributors.service';
-import { VisualizeService } from '../../services/visualize.service';
-import { ArlasListComponent } from '../arlas-list/arlas-list.component';
-import { ArlasMapComponent } from '../arlas-map/arlas-map.component';
-import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
