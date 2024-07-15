@@ -49,7 +49,6 @@ export class LeftMenuComponent implements OnInit {
 
   public zendeskActive = false;
 
-  // TODO: add typing
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
