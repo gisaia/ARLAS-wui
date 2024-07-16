@@ -68,6 +68,7 @@ import {
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
+  AiasDownloadComponent,
   AnalyticsService,
   ArlasCollaborativesearchService,
   ArlasConfigService,
@@ -79,7 +80,6 @@ import {
   CollectionUnit,
   FilterShortcutConfiguration,
   NOT_CONFIGURED,
-  ProcessComponent,
   ProcessService,
   TimelineComponent
 } from 'arlas-wui-toolkit';
@@ -1483,12 +1483,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             collection
           ).subscribe({
             next: (item: any) => {
-              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
-              this.downloadDialogRef.componentInstance.nbProducts = ids.length;
-              this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
-              this.downloadDialogRef.componentInstance.wktAoi = this.mapglComponent.getAllPolygon('wkt');
-              this.downloadDialogRef.componentInstance.ids = ids;
-              this.downloadDialogRef.componentInstance.collection = collection;
+              this.downloadDialogRef = this.dialog
+                .open(AiasDownloadComponent, {
+                  minWidth: '520px',
+                  maxWidth: '60vw',
+                  data: {
+                    ids,
+                    collection,
+                    nbProducts: ids.length,
+                    itemDetail: item,
+                    wktAoi: this.mapglComponent.getAllPolygon('wkt')
+                  }
+                });
             }
           });
         }
