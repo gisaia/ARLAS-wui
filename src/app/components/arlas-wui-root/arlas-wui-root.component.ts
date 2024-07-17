@@ -706,6 +706,26 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
         this.updateVisibleItems();
       }
+
+      this.mapglComponent.map.addSource('fused-datacube-source', {
+        'type': 'raster',
+        'tiles': [ // Raster Tile URL that returns png
+          // eslint-disable-next-line max-len
+          'https://www.fused.io/server/v1/realtime-shared/3f6784f25891e2751c1224c126d3feb7dc5dfe2a3fa1e2d8d1156c81a4eab279/run/tiles/{z}/{x}/{y}?dtype_out_raster=png'
+        ],
+        // 'tileSize': 256,
+        'minzoom': 6,
+        'maxzoom': 14
+      });
+      this.mapglComponent.map.addLayer(
+        {
+          'id': 'wms-datacube-layer', // Layer ID
+          'type': 'raster',
+          'source': 'fused-datacube-source', // ID of the tile source created above
+          'paint': { }
+        },
+        'building'
+      );
     }
   }
 

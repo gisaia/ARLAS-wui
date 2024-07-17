@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add a vector tile source</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXN0b3JudWRhbWUiLCJhIjoiY2xneTh0Y3czMDczODNmcG11ZTNuazZvbSJ9.QFTdgqDlAFQKaJ_QLA35ew';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/dark-v10',
+        zoom: 9.09415885301504,
+        center: [-1.5024388206566472, 42.74518550903445]
+    });
+
+    map.on('load', () => {
+        map.addSource('fused-datacube-source', {
+            'type': 'raster',
+            'tiles': [ // Vector Tile URL that returns mvt (https://docs.mapbox.com/data/tilesets/guides/vector-tiles-standards/)
+                'https://www.fused.io/server/v1/realtime-shared/3f6784f25891e2751c1224c126d3feb7dc5dfe2a3fa1e2d8d1156c81a4eab279/run/tiles/{z}/{x}/{y}?dtype_out_raster=png'
+            ],
+            'tileSize': 256,
+            'minzoom': 6,
+            'maxzoom': 14
+        });
+        map.addLayer(
+            {
+                'id': 'wms-datacube-layer', // Layer ID
+                'type': 'raster',
+                'source': 'fused-datacube-source', // ID of the tile source created above
+                'paint': { }
+            },
+            // 'building'
+        );
+    })
+</script>
+
+</body>
+</html>
