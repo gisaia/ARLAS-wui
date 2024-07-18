@@ -1,5 +1,34 @@
 # Change Log
 
+## [v25.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.1.0) (2024-07-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.9...v25.1.0)
+
+**New stuff:**
+
+- Display start value and end value of a timeline bucket.  [\#816](https://github.com/gisaia/ARLAS-wui/issues/816)
+- Improve property window on feature click [\#673](https://github.com/gisaia/ARLAS-wui/issues/673)
+- \[map\] filter data with a circle [\#545](https://github.com/gisaia/ARLAS-wui/issues/545)
+- Handle multi-collection for powerbars [\#390](https://github.com/gisaia/ARLAS-wui/issues/390)
+
+**Fixed bugs:**
+
+- Dashboards that don't have tabs attribute are not displayed on arlas-wui [\#833](https://github.com/gisaia/ARLAS-wui/issues/833)
+- Layers disappear when we are zoomed in [\#817](https://github.com/gisaia/ARLAS-wui/issues/817)
+- Features layers are not displayed on the map if the collection has a date field that has not a format [\#804](https://github.com/gisaia/ARLAS-wui/issues/804)
+- Export / Import dashboard : circle heatmaps configurations are lost [\#797](https://github.com/gisaia/ARLAS-wui/issues/797)
+- Histogram filter: Cross for closing a selection among multi-selection is partially hidden [\#787](https://github.com/gisaia/ARLAS-wui/issues/787)
+- Tour of ARLAS breaks the layout when the step is on the timeline [\#765](https://github.com/gisaia/ARLAS-wui/issues/765)
+- Histogram : NaN values instead of negative values [\#728](https://github.com/gisaia/ARLAS-wui/issues/728)
+- Label layer with average metric displays abnormal values [\#646](https://github.com/gisaia/ARLAS-wui/issues/646)
+- Research does not work with space character [\#533](https://github.com/gisaia/ARLAS-wui/issues/533)
+- Histogram and timeline selection moves when ARLAS is loading [\#513](https://github.com/gisaia/ARLAS-wui/issues/513)
+- Changing tabs triggers map style update after hard coded 500ms [\#360](https://github.com/gisaia/ARLAS-wui/issues/360)
+
+## [v24.3.9](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.9) (2024-07-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.4...v24.3.9)
+
 ## [v25.0.1-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.4) (2024-06-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.3...v25.0.1-beta.4)
