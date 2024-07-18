@@ -65,6 +65,9 @@
                 <div class="arlas-map-action-items" matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="draw_polygon" (click)="this.mapglComponent.switchToDrawMode();"></mat-icon>
                 </div>
+                <div class="arlas-map-action-items" matTooltip="{{'Draw a circle' | translate}}" matTooltipPosition="below">
+                  <mat-icon svgIcon="draw_circle" (click)="drawCircle();"></mat-icon>
+                </div>
                 <div class="arlas-map-action-items" matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
                   <mat-icon svgIcon="import_polygon" (click)="this.mapImportComponent.openDialog();"></mat-icon>
                 </div>
