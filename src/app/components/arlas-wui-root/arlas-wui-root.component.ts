@@ -32,10 +32,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
+import { ResultlistService } from 'app/services/resultlist.service';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   AoiEdition,
+  ArlasAnyLayer,
   ArlasColorService,
   BboxGeneratorComponent,
   CellBackgroundStyleEnum,
@@ -85,11 +88,9 @@ import { debounceTime, finalize, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
 import { DynamicComponentService } from '../../services/dynamicComponent.service';
+import { GeocodingResult } from '../../services/geocoding.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MenuState } from '../left-menu/left-menu.component';
-import { GeocodingResult } from '../../services/geocoding.service';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -737,20 +738,19 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // use always this.previewListContrib because it's the current resultlist contributor
     if (!!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        const layer = this.mapglComponent.map.getLayer(l);
-        if (ids && ids.length > 0) {
-          if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
+        const layer = this.mapglComponent.map.getLayer(l) as ArlasAnyLayer;
+        if (!!layer && typeof(layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
+          if (ids && ids.length > 0) {
             // Tests value in camel and kebab case due to an unknown issue on other projects
-            (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
-            this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
-            const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-            if (!!strokeLayer) {
-              this.mapglComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
+            if (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer']) {
+              this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
+              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
+              const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
+              if (!!strokeLayer) {
+                this.mapglComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
+              }
             }
-          }
-        } else {
-          if (!!layer && layer.source.indexOf(collection) >= 0) {
+          } else {
             this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
