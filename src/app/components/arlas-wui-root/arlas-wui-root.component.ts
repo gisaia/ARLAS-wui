@@ -252,6 +252,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
+  /** store last identifier selected **/
+  private _lastTileIdentifier: string;
+  private detailedGridOpen: boolean;
+
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
@@ -385,6 +389,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.mapService
 
     if (!this.version) {
       this.version = environment.VERSION;
@@ -698,6 +703,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.allowMapExtend) {
           this.mapEventListener.next(null);
         }
+         // wrong place because fire before result list opened
+        if(this.detailedGridOpen && this._lastTileIdentifier){
+          const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
+
+          setTimeout(() =>  {
+            console.log(item)
+            this.resultListComponent.setSelectedGridItem(item);
+          }, 1000);
+        }
       });
       this.adjustMapOffset();
       this.adjustCoordinates();
@@ -878,6 +892,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public clickOnTile(item: Item) {
+    this.storeItemIdentifier(item);
     this.tabsList.realignInkBar();
     const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
     config.defautMode = this.modeEnum.grid;
@@ -1417,7 +1432,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
-          mapContributor.getBoundsToFit(data.elementidentifier, collection)
+          // if detailed menu is not open when zoom to feature we reset identifer
+          this.detailedGridOpen = this.resultListComponent.isDetailledGridOpen;
+          if(!this.detailedGridOpen) {
+            this._lastTileIdentifier = null;
+          }
+          mapContributor
+            .getBoundsToFit(data.elementidentifier, collection)
             .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         }
         break;
@@ -1489,6 +1510,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         callback();
       }
     }, 100);
+  }
+
+  storeItemIdentifier($event: Item) {
+    if($event.identifier) {
+      this._lastTileIdentifier = (<Item>$event).identifier;
+    }
   }
 }
 
