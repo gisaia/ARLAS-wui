@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ResultlistService } from '@services/resultlist.service';
 import { AnalyticsContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
@@ -10,10 +11,9 @@ import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas
 })
 export class ArlasAnalyticsComponent implements OnInit {
   /**
-   * @Input : Angular
    * Whether to show the analytics menu inside of this component. Useful for multi-windows views
    */
-  @Input() public showMenu = false;
+  public showMenu = false;
 
   public analyticsContributor: AnalyticsContributor;
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; };
@@ -23,7 +23,8 @@ export class ArlasAnalyticsComponent implements OnInit {
     protected analyticsService: AnalyticsService,
     protected arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    protected resultlistService: ResultlistService
+    protected resultlistService: ResultlistService,
+    private router: Router
   ) {
   }
 
@@ -33,6 +34,12 @@ export class ArlasAnalyticsComponent implements OnInit {
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
       }
+    }
+
+    // TODO: make sure it works when reloading
+    // When visualizing just the list, open the list to have it displayed
+    if (this.router.url === '/analytics' && this.analyticsService.activeTab === undefined) {
+      this.analyticsService.selectTab(0);
     }
   }
 

@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
+import { ContributorService } from '@services/contributors.service';
 import { MapService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
@@ -82,7 +83,8 @@ export class ResultlistService {
     private snackbar: MatSnackBar,
     private visualizeService: VisualizeService,
     private translate: TranslateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private contributorService: ContributorService
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: string[]) {
@@ -354,7 +356,7 @@ export class ResultlistService {
    * @param contributor ResultlistContributor instance that fetches the data
    * @param eventPaginate Which page is queried
    */
-  private paginate(contributor: ResultListContributor, eventPaginate: PageQuery): void {
+  public paginate(contributor: ResultListContributor, eventPaginate: PageQuery): void {
     contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
     const sort = this.isGeoSortActivated.get(contributor.identifier) ? contributor.geoOrderSort : contributor.sort;
     this.mapService.mapContributors
@@ -432,8 +434,8 @@ export class ResultlistService {
   }
 
   /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
-  private sortColumnEvent(contributorId: string, sortOutput: Column) {
-    const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
+  public sortColumnEvent(contributorId: string, sortOutput: Column) {
+    const resultlistContributor = (this.contributorService.getContributor(contributorId) as ResultListContributor);
     this.isGeoSortActivated.set(contributorId, false);
     /** Save the sorted column */
     this.sortOutput.set(contributorId, sortOutput);

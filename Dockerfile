@@ -5,6 +5,7 @@ FROM node:16.19.0 as builder
 
 COPY ./package.json  ./
 COPY ./package-lock.json  ./
+COPY ./libs/windows-communication-bus-1.0.0.tgz ./libs/
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 

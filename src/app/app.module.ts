@@ -42,10 +42,29 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { ArlasAnalyticsComponent } from '@components/arlas-analytics/arlas-analytics.component';
+import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
+import { AoiDimensionComponent } from '@components/arlas-map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from '@components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
+import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { ArlasWuiRootComponent } from '@components/arlas-wui-root/arlas-wui-root.component';
+import { ConfigsListComponent } from '@components/configs-list/configs-list.component';
+import { GeocodingComponent } from '@components/geocoding/geocoding.component';
+import { LeftMenuComponent } from '@components/left-menu/left-menu.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ContributorService } from '@services/contributors.service';
+import { CrossCollaborationsService } from '@services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from '@services/cross-tabs-communication/cross.map.service';
+import { CrossResultlistService } from '@services/cross-tabs-communication/cross.resultlist.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import {
+  BboxGeneratorModule,
+  FormatNumberModule,
+  GetValueModule,
   HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule, GetValueModule
+  ResultsModule
 } from 'arlas-web-components';
 import {
   ArlasConfigService,
@@ -61,26 +80,13 @@ import {
   PersistenceService,
   WalkthroughLoader
 } from 'arlas-wui-toolkit';
+import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
-import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
-import { ConfigsListComponent } from './components/configs-list/configs-list.component';
-import { GeocodingComponent } from './components/geocoding/geocoding.component';
-import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { ContributorService } from './services/contributors.service';
-import { VisualizeService } from './services/visualize.service';
+import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
-import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
-import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
-import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
-import { MapService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
-import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 
 
 @NgModule({
@@ -181,7 +187,10 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
     },
-    ContributorService
+    ContributorService,
+    CrossCollaborationsService,
+    CrossMapService,
+    CrossResultlistService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

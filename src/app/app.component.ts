@@ -16,15 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { ContributorService } from '@services/contributors.service';
+import { CrossCollaborationsService } from '@services/cross-tabs-communication/cross.collaboration.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
-import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
+import { SharedWorkerBusService } from 'windows-communication-bus';
 
 @Component({
   selector: 'arlas-root',
@@ -58,13 +60,31 @@ export class ArlasWuiComponent implements OnInit {
     private mapService: MapService,
     private colorService: ArlasColorService,
     private collaborativeService: ArlasCollaborativesearchService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    // Don't remove it, useful to dialog between browser
+    private crossCollaborationsService: CrossCollaborationsService,
+    private sharedWorkerBusService: SharedWorkerBusService
   ) { }
+
+  @HostListener('window:beforeunload', ['$event'])
+  public unloadHandler(event: Event) {
+    this.sharedWorkerBusService.terminate();
+  }
 
   public ngOnInit(): void {
     const loadingGif = document.querySelector('.gif');
     if (!!loadingGif) {
       loadingGif.remove();
+    }
+
+    // If no shared worker block the buttons to reach the routes => Guard ?
+    if (typeof SharedWorker !== 'undefined') {
+      this.sharedWorkerBusService.setSharedWorker(new SharedWorker(new URL('./app.worker', import.meta.url), {
+        'name': 'multi-windows'
+      }));
+    } else {
+      // Shared Workers are not supported in this environment.
+      // You should add a fallback so that your program still executes correctly.
     }
 
     // Initialize the contributors and app wide services

@@ -50,7 +50,8 @@
             ],
             "scripts": [
               "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "development": {
@@ -156,7 +157,8 @@
                 "input": "./node_modules/arlas-web-components/assets/rotate",
                 "output": "/assets/rotate/"
               }
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         },
         "lint": {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MapService } from 'app/services/map.service';
+import { MapService } from '@services/map.service';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService, ArlasSettingsService, ArlasStartupService, ArlasWalkthroughService,

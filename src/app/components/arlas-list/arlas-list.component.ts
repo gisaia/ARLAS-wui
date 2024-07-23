@@ -19,10 +19,16 @@
 
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
+import { Router } from '@angular/router';
+import { CrossMapService, CrossMove } from '@services/cross-tabs-communication/cross.map.service';
+import { CrossResultlistService } from '@services/cross-tabs-communication/cross.resultlist.service';
+import { CrossSort } from '@services/cross-tabs-communication/tools/tools';
 import { ResultlistService } from '@services/resultlist.service';
+import { isElementInViewport } from 'app/tools/utils';
 import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { Subject } from 'rxjs';
+import { filter, map, Subject, takeUntil } from 'rxjs';
+import { SharedWorkerBusService } from 'windows-communication-bus';
 
 @Component({
   selector: 'arlas-list',
@@ -54,17 +60,59 @@ export class ArlasListComponent implements OnInit, OnDestroy {
   private _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    protected resultlistService: ResultlistService
+    protected resultlistService: ResultlistService,
+    private crossResultlistService: CrossResultlistService,
+    private crossMapService: CrossMapService,
+    private sharedWorkerBus: SharedWorkerBusService,
+    private router: Router
   ) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    // TODO: make sure it works when reloading
+    // When visualizing just the list, open the list to have it displayed
+    if (this.router.url === '/list' && !this.resultlistService.listOpen) {
+      this.resultlistService.toggleList();
+    }
+  }
 
   public ngOnDestroy(): void {
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
 
-  public ngAfterViewInit() { }
+  public ngAfterViewInit() {
+    this.sharedWorkerBus.publish({
+      type: 'init',
+      payload: {
+        name: 'list',
+        data: this.crossMapService.MOVE_MESSAGE
+      }
+    });
+    this.sharedWorkerBus.messagesOfType('init').
+      pipe(
+        map(m => m.payload),
+        filter(p => (!!p)),
+        takeUntil(this._onDestroy$)
+      ).subscribe((m) => {
+        if (m.name === this.crossMapService.MOVE_MESSAGE) {
+          setTimeout(() => {
+            const move = m.data as CrossMove;
+            this.resultlistService.applyMapExtent(move.pwithinraw, move.pwithin);
+            this.sharedWorkerBus.publish({
+              type: 'init',
+              payload: {
+                name: 'list',
+                data: this.crossResultlistService.SORT_COLUMN_MESSAGE
+              }
+            });
+          }, 2000);
+        } else if (m.name === this.crossResultlistService.SORT_COLUMN_MESSAGE) {
+          const crossSort = m.data as CrossSort;
+          this.resultlistService.sortColumnEvent(crossSort.listContributorId, crossSort.column);
+        }
+      }
+      );
+  }
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);
@@ -77,41 +125,58 @@ export class ArlasListComponent implements OnInit, OnDestroy {
 
   public sortColumn(listContributor: ResultListContributor, column: Column) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'sortColumnEvent', data: column });
+    this.crossResultlistService.propagateSortingColumn(listContributor.identifier, column);
   }
 
   public geoAutoSort(listContributor: ResultListContributor, enabled: boolean) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'geoAutoSortEvent', data: enabled });
-  }
-
-  public geoSort(listContributor: ResultListContributor, event: string) {
-    this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'geoSortEvent', data: event });
+    this.crossResultlistService.propagateGeoSort(listContributor.identifier, enabled);
   }
 
   public applyActionOnItem(listContributor: ResultListContributor, action: { action: Action; elementidentifier: ElementIdentifier; }) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'actionOnItemEvent', data: action });
+    this.crossResultlistService.propagateAction(listContributor.identifier, action);
   }
 
   public consultItem(listContributor: ResultListContributor, data: ElementIdentifier) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'consultedItemEvent', data });
+    this.crossMapService.propagateFeatureHover(data, listContributor.collection);
   }
 
   public selectItems(listContributor: ResultListContributor, data: string[]) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'selectedItemsEvent', data });
+    const idPath = this.resultlistService.collectionToDescription.get(listContributor.collection).id_path;
+    this.crossMapService.propagateFeaturesSelection(idPath, data, listContributor.collection);
+  }
+
+  public geoSort(listContributor: ResultListContributor, enabled: boolean) {
+    this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'geoSortEvent', data: enabled });
   }
 
   public paginate(listContributor: ResultListContributor, pageQuery: PageQuery) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'paginationEvent', data: pageQuery });
+    this.crossMapService.propagatePaginate(listContributor.identifier, pageQuery);
   }
 
   public applyGlobalAction(listContributor: ResultListContributor, action: Action) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'globalActionEvent', data: action });
   }
 
-  public updateMapStyleFromScroll(items: Item[], collection: string) {
+  public updateMapStyleFromScroll(items: Item[], collection) {
     this.resultlistService.updateMapStyleFromScroll(items, collection);
+    this.crossMapService.propagateScrollMapRestyle(items.map(i => i.identifier), collection);
   }
 
-  public updateMapStyleFromChange(items: Map<string, string>[], collection: string) {
+  public updateMapStyleFromChange(items: Map<string, string>[], collection) {
     this.resultlistService.updateMapStyleFromChange(items, collection);
+    const description = this.resultlistService.collectionToDescription.get(collection);
+    if (description) {
+      const idFieldName = this.resultlistService.collectionToDescription.get(collection).id_path;
+      setTimeout(() => {
+        const visibleItems = items.map(item => item.get(idFieldName))
+          .filter(id => id !== undefined && isElementInViewport(document.getElementById(id.toString())));
+        this.crossMapService.propagateScrollMapRestyle(visibleItems, collection);
+      }, 0);
+    }
   }
 }

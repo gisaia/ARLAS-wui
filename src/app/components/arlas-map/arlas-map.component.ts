@@ -24,6 +24,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CrossCollaborationsService } from '@services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from '@services/cross-tabs-communication/cross.map.service';
+import { CrossResultlistService } from '@services/cross-tabs-communication/cross.resultlist.service';
 import { GeocodingResult } from '@services/geocoding.service';
 import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
@@ -40,6 +43,7 @@ import {
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil, takeWhile } from 'rxjs';
+import { SharedWorkerBusService } from 'windows-communication-bus';
 
 // TODO: update with working one
 const DEFAULT_BASEMAP: BasemapStyle = {
@@ -129,6 +133,10 @@ export class ArlasMapComponent implements OnInit {
     private snackbar: MatSnackBar,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
+    private sharedWorkerBusService: SharedWorkerBusService,
+    private crossCollaborationService: CrossCollaborationsService,
+    private crossMapService: CrossMapService,
+    private crossResultlistService: CrossResultlistService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -282,6 +290,10 @@ export class ArlasMapComponent implements OnInit {
   }
 
   public ngOnDestroy(): void {
+    // TODO: why terminate only in map component ?
+    this.crossCollaborationService.terminate();
+    this.crossMapService.terminate();
+    this.sharedWorkerBusService.terminate();
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
@@ -370,6 +382,7 @@ export class ArlasMapComponent implements OnInit {
       const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
       if (this.recalculateExtend && !this.disableRecalculateExtend) {
         this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
+        this.crossMapService.propagateMoveend(pwithinRaw, pwithin);
 
         this.mapService.mapContributors.forEach(c => {
           if (!!this.resultlistService.resultlistContributors) {
@@ -424,6 +437,7 @@ export class ArlasMapComponent implements OnInit {
       this.mapService.setCursor('');
       this.resultlistService.clearHighlightedItems();
     }
+    this.crossResultlistService.propagateItemsHighlight(event.features);
   }
 
   public emitFeaturesOnClic(event) {

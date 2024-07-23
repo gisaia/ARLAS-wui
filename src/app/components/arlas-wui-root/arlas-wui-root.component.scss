@@ -300,6 +300,7 @@
   }
 }
 
+// TODO: replace by app-container-timeline-shown => default is no timeline for the map route
 .app-container-timeline-hidden {
   .arlas-map {
     ::ng-deep.mapboxgl-ctrl-scale {

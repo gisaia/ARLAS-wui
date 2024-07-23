@@ -25,14 +25,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ContributorService } from '@services/contributors.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
-import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
-import { VisualizeService } from './services/visualize.service';
 
 describe('ArlasWuiComponent', () => {
   let component: ArlasWuiComponent;

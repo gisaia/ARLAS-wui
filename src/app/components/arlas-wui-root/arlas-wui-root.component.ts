@@ -23,7 +23,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -32,17 +31,13 @@ import { ArlasListComponent } from '@components/arlas-list/arlas-list.component'
 import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
 import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
+import { CrossCollaborationsService } from '@services/cross-tabs-communication/cross.collaboration.service';
+import { CrossMapService } from '@services/cross-tabs-communication/cross.map.service';
 import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
-import {
-  Item,
-  ModeEnum
-} from 'arlas-web-components';
-import {
-  ChipsSearchContributor,
-  ElementIdentifier
-} from 'arlas-web-contributors';
+import { Item, ModeEnum } from 'arlas-web-components';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService,
   ArlasCollaborativesearchService,
@@ -158,7 +153,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService,
-    protected mapService: MapService
+    protected mapService: MapService,
+    private crossCollaborationService: CrossCollaborationsService,
+    private crossMapService: CrossMapService,
   ) {
     this.menuState = {
       configs: false
@@ -216,6 +213,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.crossCollaborationService.terminate();
+    this.crossMapService.terminate();
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
