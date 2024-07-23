@@ -389,7 +389,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.mapService
 
     if (!this.version) {
       this.version = environment.VERSION;
@@ -594,6 +593,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               }
             );
+            // this.retrieveOpenedGridItem();
           }
         });
     }
@@ -677,6 +677,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
           queryParams[this.MAP_EXTEND_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+
         });
 
       this.cdr.detectChanges();
@@ -702,15 +703,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (this.allowMapExtend) {
           this.mapEventListener.next(null);
-        }
-         // wrong place because fire before result list opened
-        if(this.detailedGridOpen && this._lastTileIdentifier){
-          const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
-
-          setTimeout(() =>  {
-            console.log(item)
-            this.resultListComponent.setSelectedGridItem(item);
-          }, 1000);
         }
       });
       this.adjustMapOffset();
@@ -806,6 +798,15 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
+  private retrieveOpenedGridItem(){
+    // wrong place because fire before result list opened
+    if(this.detailedGridOpen && this._lastTileIdentifier){
+      const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
+      if(item) {
+        this.resultListComponent.setSelectedGridItem(item);
+      }
+    }
+  }
 
   /**
    * Applies the selected geo query
@@ -1512,10 +1513,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 100);
   }
 
-  storeItemIdentifier($event: Item) {
+  public storeItemIdentifier($event: Item) {
     if($event.identifier) {
       this._lastTileIdentifier = (<Item>$event).identifier;
     }
+  }
+
+  public reactToUpdateList() {
+    this.retrieveOpenedGridItem();
   }
 }
 
