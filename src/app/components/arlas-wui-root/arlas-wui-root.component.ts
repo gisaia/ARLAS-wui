@@ -1479,7 +1479,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.processService.getItemsDetail(
             this.collectionToDescription.get(collection).id_path,
             ids,
-            this.processService.getProcessDescription().additionalParameters?.parameters,
             collection
           ).subscribe({
             next: (item: any) => {
