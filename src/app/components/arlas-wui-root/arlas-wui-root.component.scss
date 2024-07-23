@@ -31,17 +31,37 @@
     padding: 0;
   }
 
-  ::ng-deep.current-coordinate,
-  ::ng-deep.current-coordinate-edition {
-    right: calc($sm-spacing + $map-scale-max-width + $default-spacing);
-    bottom: calc($timeline-height + $sm-spacing);
-  }
+  .arlas-map {
+    display: flex;
+    width: 100%;
+    height: 100%;
 
-  .map-container-tight-coordinates {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      right: $sm-spacing;
-      bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      right: calc($sm-spacing + $map-scale-max-width + $default-spacing);
+      bottom: calc($timeline-height + $sm-spacing);
+    }
+
+    &--tight {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        right: $sm-spacing;
+        bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
+      }
+    }
+
+    &--tight-reduce {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        right: calc($sm-spacing + $result-list-width);
+      }
+    }
+
+    &--tight-with-list {
+      ::ng-deep.current-coordinate,
+      ::ng-deep.current-coordinate-edition {
+        right: calc($sm-spacing + $preview-result-list-width);
+      }
     }
   }
 }
@@ -50,12 +70,6 @@
   width: 100%;
   position: absolute;
   top: 0;
-}
-
-.arlas-map {
-  display: flex;
-  width: 100%;
-  height: 100%;
 }
 
 .side-result-list-toggle {
@@ -227,11 +241,11 @@
 
 .app-container-reduce-analytics,
 .app-container-reduce {
-  .arlas-map-action,
-  .arlas-map-settings {
-    right: calc($result-list-width + $sm-spacing);
+  ::ng-deep.arlas-map-action,
+  ::ng-deep.arlas-map-settings {
+    right: calc($result-list-width + $sm-spacing) !important;
   }
-  .aoi-dimensions {
+  ::ng-deep.aoi-dimensions {
     right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
   }
   ::ng-deep.basemap-container {
@@ -242,10 +256,10 @@
   ::ng-deep.current-coordinate-edition {
     right: calc($result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
-  .map-container-tight-coordinates {
+  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      right: calc($result-list-width + $sm-spacing);
+      right: calc($result-list-width + $sm-spacing) !important;
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
     }
   }
@@ -253,11 +267,11 @@
 
 .app-container-with-list-analytics,
 .app-container-with-list {
-  .arlas-map-action,
-  .arlas-map-settings {
-    right: calc($preview-result-list-width + $sm-spacing);
+  ::ng-deep.arlas-map-action,
+  ::ng-deep.arlas-map-settings {
+    right: calc($preview-result-list-width + $sm-spacing) !important;
   }
-  .aoi-dimensions {
+  ::ng-deep.aoi-dimensions {
     right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
   }
 
@@ -269,10 +283,10 @@
   ::ng-deep.current-coordinate-edition {
     right: calc($preview-result-list-width + $sm-spacing + $map-scale-max-width + $default-spacing);
   }
-  .map-container-tight-coordinates {
+  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
-      right: calc($preview-result-list-width + $sm-spacing);
+      right: calc($preview-result-list-width + $sm-spacing) !important;
       bottom: calc($timeline-height + $sm-spacing + $map-scale-height + $sm-spacing);
     }
   }
@@ -308,7 +322,8 @@
     // Center regarding to timeline tools
     bottom: calc(($timeline-tools-height - $map-scale-height) / 2);
   }
-  .map-container-tight-coordinates {
+
+  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
       bottom: calc(($timeline-tools-height - $map-scale-height) / 2 + $map-scale-height + $sm-spacing);
@@ -341,7 +356,7 @@
     bottom: calc($timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2);
   }
 
-  .map-container-tight-coordinates {
+  .arlas-map--tight {
     ::ng-deep.current-coordinate,
     ::ng-deep.current-coordinate-edition {
       // Center regarding to timeline tools
@@ -364,74 +379,6 @@
   }
 }
 
-.arlas-map-action-container {
-  position: absolute;
-  right: 30px;
-  bottom: 0;
-  display: flex;
-  flex-direction: row-reverse;
-  background-color: white;
-  @include box-border();
-
-  .arlas-map-action-items {
-    height: $map-actions-width;
-    width: $map-actions-width;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: $xs-border solid #ddd;
-    color: black;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    &:first-child {
-      border-right: unset;
-    }
-  }
-}
-
-.if-geocoding-button {
-  bottom: 30px;
-}
-
-.arlas-map-settings {
-  position: absolute;
-  top: calc(
-    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
-      $sm-spacing
-  );
-  right: $sm-spacing;
-  z-index: 2;
-
-  .arlas-map-settings-container {
-    display: flex;
-    flex-direction: column;
-    @include box-border();
-    background-color: white;
-
-    .arlas-map-settings-items {
-      height: $map-actions-width;
-      width: $map-actions-width;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-top: 1px solid #ddd;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-
-      &:first-child {
-        border-top: none !important;
-      }
-    }
-  }
-}
-
 .arlas-map ::ng-deep.basemap-container {
   top: calc(
     $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
@@ -441,6 +388,7 @@
   z-index: 1;
 }
 
+// TODO: still useful ?
 .arlas-zoom-to-data {
   margin: 0 4px;
   background-color: #ff4081;
@@ -468,17 +416,6 @@
 .main_content {
   width: 100%;
   height: calc(100vh - $top-menu-height);
-}
-
-.aoi-dimensions {
-  position: absolute;
-
-  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
-  top: calc(
-    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
-      $sm-spacing + $map-actions-width
-  );
-  z-index: 3;
 }
 ::ng-deep.bookmark-shortcut {
   top: 30px !important;

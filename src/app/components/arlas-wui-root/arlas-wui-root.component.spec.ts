@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
@@ -17,10 +17,10 @@ import {
 } from 'arlas-wui-toolkit';
 import { LeftMenuComponent } from '../left-menu/left-menu.component';
 
-import { HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule } from 'arlas-web-components';
-import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 import { ContributorService } from 'app/services/contributors.service';
 import { ResultlistService } from 'app/services/resultlist.service';
+import { HistogramModule } from 'arlas-web-components';
+import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 
 describe('ArlasWuiRootComponent', () => {
   let component: ArlasWuiRootComponent;
@@ -34,8 +34,7 @@ describe('ArlasWuiRootComponent', () => {
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, HistogramModule,
         MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MapglModule,
-        ArlasTaggerModule, MapglImportModule, MapglSettingsModule, ArlasToolkitSharedModule,
+        ArlasTaggerModule, ArlasToolkitSharedModule,
       ],
       declarations: [
         ArlasWuiRootComponent, LeftMenuComponent
@@ -47,7 +46,8 @@ describe('ArlasWuiRootComponent', () => {
         ArlasStartupService,
         { provide: APP_BASE_HREF, useValue: '/' },
         ResultlistService
-      ]
+      ],
+      teardown: { destroyAfterEach: false }
     }).compileComponents();
 
   });
