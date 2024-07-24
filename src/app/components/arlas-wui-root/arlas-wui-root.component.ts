@@ -593,7 +593,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               }
             );
-            // this.retrieveOpenedGridItem();
           }
         });
     }
@@ -799,7 +798,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private retrieveOpenedGridItem(){
-    // wrong place because fire before result list opened
     if(this.detailedGridOpen && this._lastTileIdentifier){
       const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
       if(item) {
@@ -1517,10 +1515,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if($event.identifier) {
       this._lastTileIdentifier = (<Item>$event).identifier;
     }
-  }
-
-  public reactToUpdateList() {
-    this.retrieveOpenedGridItem();
   }
 }
 
