@@ -682,6 +682,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     /** wait until the map component loading is finished before fetching the data */
     if (isLoaded && !this.arlasStartUpService.emptyMode) {
 
+      // Disable map pitch
+      (this.mapglComponent.map.dragRotate as any)._mousePitch.disable();
+      (this.mapglComponent.map.keyboard as any)._pitchStep = 0;
+
       this.mapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
