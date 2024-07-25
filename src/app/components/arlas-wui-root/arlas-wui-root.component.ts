@@ -248,7 +248,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings()?.enabled;
 
   /* Process */
-  private downloadDialogRef: MatDialogRef<ProcessComponent>;
+  private downloadDialogRef: MatDialogRef<AiasDownloadComponent>;
 
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
