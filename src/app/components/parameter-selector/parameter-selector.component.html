@@ -1,0 +1,19 @@
+<div class="parameters">
+    <mat-form-field appearance="outline" class="parameters__form">
+        <mat-label>Band</mat-label>
+        <mat-select [value]="band" (valueChange)="onBandChange($event)">
+            <mat-option [value]="'B05'">
+                B05
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="parameters__form">
+        <mat-label>Timestamp</mat-label>
+        <mat-select [value]="timeIndex" (valueChange)="onTimeIndexChange($event)">
+            <mat-option *ngFor="let t of timeOptions; let idx=index" [value]="idx">
+                {{ t | date }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

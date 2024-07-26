@@ -251,6 +251,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
+  private fusedCurrentBand = 'B05';
+  private fusedCurrentTimeIndex = 0;
+  private FUSED_SOURCE_NAME = 'fused-datacube-source';
+  // eslint-disable-next-line max-len
+  private FUSED_BASE_URL = 'https://www.fused.io/server/v1/realtime-shared/3f6784f25891e2751c1224c126d3feb7dc5dfe2a3fa1e2d8d1156c81a4eab279/run/tiles/{z}/{x}/{y}?dtype_out_raster=png&max_zoom=12';
+  private fusedLayer: mapboxgl.Layer = {
+    'id': 'wms-datacube-layer', // Layer ID
+    'type': 'raster',
+    'source': 'fused-datacube-source', // ID of the tile source created above
+    'paint': { }
+  };
+
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
@@ -707,26 +719,43 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.updateVisibleItems();
       }
 
-      this.mapglComponent.map.addSource('fused-datacube-source', {
+      this.mapglComponent.map.addSource(this.FUSED_SOURCE_NAME, {
         'type': 'raster',
         'tiles': [ // Raster Tile URL that returns png
-          // eslint-disable-next-line max-len
-          'https://www.fused.io/server/v1/realtime-shared/3f6784f25891e2751c1224c126d3feb7dc5dfe2a3fa1e2d8d1156c81a4eab279/run/tiles/{z}/{x}/{y}?dtype_out_raster=png'
+          this.FUSED_BASE_URL
         ],
-        // 'tileSize': 256,
         'minzoom': 6,
-        'maxzoom': 14
+        'maxzoom': 15,
+        'tileSize': 256
       });
-      this.mapglComponent.map.addLayer(
-        {
-          'id': 'wms-datacube-layer', // Layer ID
-          'type': 'raster',
-          'source': 'fused-datacube-source', // ID of the tile source created above
-          'paint': { }
-        },
-        'building'
-      );
+      this.mapglComponent.map.addLayer(this.fusedLayer);
     }
+  }
+
+  public onBandChange(band: string) {
+    this.fusedCurrentBand = band;
+    this.updateFusedLayer();
+  }
+
+  public onTimeIndexChange(timeIndex: number) {
+    this.fusedCurrentTimeIndex = timeIndex;
+    this.updateFusedLayer();
+  }
+
+  private updateFusedLayer() {
+    this.mapglComponent.map.removeLayer(this.fusedLayer.id);
+    this.mapglComponent.map.removeSource(this.FUSED_SOURCE_NAME);
+    const currentFusedUrl = this.FUSED_BASE_URL + `&band=${this.fusedCurrentBand}&time=${this.fusedCurrentTimeIndex}`;
+    this.mapglComponent.map.addSource(this.FUSED_SOURCE_NAME, {
+      'type': 'raster',
+      'tiles': [ // Raster Tile URL that returns png
+        currentFusedUrl
+      ],
+      'minzoom': 6,
+      'maxzoom': 15,
+      'tileSize': 256
+    });
+    this.mapglComponent.map.addLayer(this.fusedLayer);
   }
 
   public setAppTitle() {

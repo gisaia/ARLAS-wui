@@ -41,6 +41,9 @@
             [class.app-container-analytics]="(rightListContributors.length === 0 || (rightListContributors.length > 0 && !resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode)) && !resultlistService.listOpen && analyticsService.activeTab !== undefined"
             [class.app-container-timeline-hidden]="!isTimelineOpen"
             [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
+
+            <arlas-parameter-selector (bandEvent)="onBandChange($event)" (timeIndexEvent)="onTimeIndexChange($event)"></arlas-parameter-selector>
+
             <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartUpService.emptyMode" >
               <div class="arlas-map-settings-container" >
                 <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
