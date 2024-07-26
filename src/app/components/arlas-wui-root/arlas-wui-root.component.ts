@@ -44,6 +44,7 @@ import {
   BboxGeneratorComponent,
   CellBackgroundStyleEnum,
   ChartType,
+  CollectionService,
   Column,
   DataType,
   GeoQuery,
@@ -282,7 +283,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private generateAoiDialog: MatDialog,
     private processService: ProcessService,
     private resultlistService: ResultlistService,
-    private exportService: ArlasExportCsvService
+    private exportService: ArlasExportCsvService,
+    private arlasCollectionService: CollectionService
   ) {
     this.menuState = {
       configs: false
@@ -299,17 +301,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
-      this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
-        this.configService.getValue('arlas-wui.web.app.units') : [];
-      /** retrocompatibility code for unit*/
-      const appUnit = this.configService.getValue('arlas-wui.web.app.unit');
-      if (appUnit || this.appUnits.length === 0) {
-        this.appUnits.push({
-          collection: this.collaborativeService.defaultCollection,
-          unit: !!appUnit ? appUnit : this.collaborativeService.defaultCollection,
-          ignored: false
-        });
-      }
+      this.appUnits = this.arlasCollectionService.getAllUnits();
       /** end of retrocompatibility code */
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
