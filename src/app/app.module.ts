@@ -45,7 +45,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule
+  ResultsModule, FormatNumberModule, BboxGeneratorModule, GetValueModule
 } from 'arlas-web-components';
 import {
   ArlasConfigService,
@@ -77,6 +77,10 @@ import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoad
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
+import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
+import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
 
 
 @NgModule({
@@ -89,7 +93,9 @@ import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
     RoundKilometer,
     SquareKilometer,
     GeocodingComponent,
-    ArlasMapComponent
+    ArlasMapComponent,
+    ArlasListComponent,
+    GetResultlistConfigPipe
   ],
   exports: [
     AoiDimensionComponent,
@@ -98,7 +104,11 @@ import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    GeocodingComponent,
+    ArlasMapComponent,
+    ArlasListComponent,
+    GetResultlistConfigPipe
   ],
   imports: [
     BrowserModule,
@@ -153,12 +163,14 @@ import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
     }),
     ArlasTaggerModule,
     LoginModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    GetValueModule
   ],
   providers: [
-    ContributorService,
     DynamicComponentService,
     VisualizeService,
+    MapService,
+    ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
       useClass: LazyLoadImageHooks
@@ -168,7 +180,8 @@ import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
       useClass: JwtInterceptor,
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
-    }
+    },
+    ContributorService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

@@ -35,7 +35,6 @@ export class ContributorService {
   public CONTRIBUTORS_PATH = 'arlas.web.contributors';
   public ID_PATH = 'arlas-wui.web.app.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
-  public MAPCONTRIBUTOR_ID = 'mapbox';
   public CHIPSSEARCH_ID = 'chipssearch';
 
   public constructor(
@@ -43,18 +42,6 @@ export class ContributorService {
     private arlasStartupService: ArlasStartupService,
     public collaborativeService: ArlasCollaborativesearchService
   ) { }
-
-  /* returns the map contributor */
-  public getMapContributor(): MapContributor {
-    const mapContributorConfig = this.getContributorConfig(this.MAPCONTRIBUTOR_ID);
-    let mapglcontributor;
-    if (mapContributorConfig !== undefined) {
-      mapglcontributor = this.arlasStartupService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID) as MapContributor;
-      this.arlasContributors.set(this.MAPCONTRIBUTOR_ID, mapglcontributor);
-      this.contributorsIcons.set(this.MAPCONTRIBUTOR_ID, mapContributorConfig.icon);
-    }
-    return mapglcontributor;
-  }
 
   public getMapContributors(): Array<MapContributor> {
     const mapContributorsConfig = this.getMapContributorConfigs();

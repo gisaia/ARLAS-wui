@@ -26,28 +26,17 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTabGroup } from '@angular/material/tabs';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
 import { MapService } from 'app/services/map.service';
 import { ResultlistService } from 'app/services/resultlist.service';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ArlasColorService,
-  CellBackgroundStyleEnum,
   ChartType,
-  Column,
   DataType,
-  Item,
-  ModeEnum,
-  PageQuery,
   Position,
-  ResultListComponent,
-  SortEnum
+  Item,
+  ModeEnum
 } from 'arlas-web-components';
 import {
   AnalyticsContributor,
@@ -60,25 +49,22 @@ import {
   AnalyticsService,
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasExportCsvService,
   ArlasMapService,
   ArlasMapSettings,
   ArlasSettingsService,
   ArlasStartupService,
   CollectionUnit,
   FilterShortcutConfiguration,
+  getParamValue,
   NOT_CONFIGURED,
-  ProcessComponent,
-  ProcessService,
   TimelineComponent
 } from 'arlas-wui-toolkit';
-import * as mapboxgl from 'mapbox-gl';
-import { fromEvent, Subject, timer, zip } from 'rxjs';
-import { debounceTime, finalize, takeUntil, takeWhile } from 'rxjs/operators';
+import { fromEvent, Subject, zip } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
-import { DynamicComponentService } from '../../services/dynamicComponent.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { ArlasListComponent } from '../arlas-list/arlas-list.component';
 import { ArlasMapComponent } from '../arlas-map/arlas-map.component';
 import { MenuState } from '../left-menu/left-menu.component';
 
@@ -101,9 +87,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }>();
   @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
-  public modeEnum = ModeEnum;
   public chipsSearchContributor: ChipsSearchContributor;
-  public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
   public analytics: Array<any>;
@@ -123,27 +107,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   public isTimelineLegend = true;
 
-  public resultListsConfig = [];
-  public resultListConfigPerContId = new Map<string, any>();
-  public resultlistIsExporting = false;
-
   public menuState: MenuState;
   public searchOpen = true;
-  public previewListContrib: ResultListContributor = null;
-  public rightListContributors: Array<ResultListContributor> = new Array();
+
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
   public showZoomToData = false;
   public showIndicators = false;
-  public onSideNavChange: boolean;
   public mainCollection;
   public isTimelineOpen = true;
 
-  public mapglContributors = new Array<MapContributor>();
-
   @Input() public hiddenAnalyticsTabs: string[] = [];
-  @Input() public hiddenResultlistTabs: string[] = [];
   /**
    * @Input : Angular
    * @description Width in pixels of the preview result list
@@ -163,10 +138,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public collections: string[];
   public apploading = true;
 
-  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('resultsidenav', { static: false }) public resultListComponent: ResultListComponent;
-  @ViewChild('arlasmap', { static: false }) public arlasMapComponent: ArlasMapComponent;
+  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
+  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
@@ -191,9 +165,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   public spacing = 5;
 
-  /* Process */
-  private downloadDialogRef: MatDialogRef<ProcessComponent>;
-
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
@@ -202,29 +173,23 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     protected settingsService: ArlasSettingsService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    public arlasStartUpService: ArlasStartupService,
+    public arlasStartupService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
     private cdr: ChangeDetectorRef,
     private toolkitMapService: ArlasMapService,
-    private colorService: ArlasColorService,
     private titleService: Title,
-    private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
-    private translate: TranslateService,
-    private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public analyticsService: AnalyticsService,
-    private dialog: MatDialog,
-    private processService: ProcessService,
     protected resultlistService: ResultlistService,
-    private exportService: ArlasExportCsvService,
     protected mapService: MapService
   ) {
     this.menuState = {
       configs: false
     };
-    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
+
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
       fromEvent(window, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
@@ -249,7 +214,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       /** end of retrocompatibility code */
       this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
         this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
-      this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics') as AnalyticsContributor;
+      this.analyticsContributor = this.arlasStartupService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
 
@@ -264,20 +229,20 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
       }
-
-      /** init from url */
-      this.isTimelineOpen = this.getParamValue('to') === 'true';
-
-      let wasTabSelected = this.getParamValue('at') !== null;
-      this.analyticsService.tabChange.subscribe(tab => {
-        // If there is a change in the state of the analytics (open/close), resize
-        if (wasTabSelected !== (tab !== undefined)) {
-          this.adjustComponentsSize();
-          wasTabSelected = (tab !== undefined);
-        }
-        this.updateTimelineLegendVisibility();
-      });
     }
+
+    /** init from url */
+    this.isTimelineOpen = getParamValue('to') === 'true';
+
+    let wasTabSelected = getParamValue('at') !== null;
+    this.analyticsService.tabChange.subscribe(tab => {
+      // If there is a change in the state of the analytics (open/close), resize
+      if (wasTabSelected !== (tab !== undefined)) {
+        this.adjustComponentsSize();
+        wasTabSelected = (tab !== undefined);
+      }
+      this.updateTimelineLegendVisibility();
+    });
   }
 
   public ngOnDestroy(): void {
@@ -291,156 +256,26 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.version = environment.VERSION;
     }
     this.setAppTitle();
-    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** Retrieve displayable analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
-      const allAnalytics = this.arlasStartUpService.analytics;
+      const allAnalytics = this.arlasStartupService.analytics;
       this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
-      /** Retrieve displayable resultlists */
-      const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
-      const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
-      const allContributors = this.configService.getValue('arlas.web.contributors');
-      this.resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
-        const contId = a.contributorId;
-        const tab = allContributors.find(c => c.identifier === contId).name;
-        return !hiddenListsTabsSet.has(tab);
-      }) : [];
 
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
-      const ids = new Set(this.resultListsConfig.map(c => c.contributorId));
-      this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
-        if (v instanceof ResultListContributor) {
-          v.updateData = ids.has(v.identifier);
-          this.resultlistContributors.push(v);
-        }
-      });
-      this.resultlistService.setContributors(this.resultlistContributors, this.resultListsConfig);
-
-      if (this.resultlistContributors.length > 0) {
-        this.rightListContributors = this.resultlistContributors
-          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
-          .map(rlcontrib => {
-            (rlcontrib as any).name = rlcontrib.getName();
-            const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
-            if (!!sortColumn) {
-              this.resultlistService.sortOutput.set(rlcontrib.identifier, {
-                columnName: sortColumn.columnName,
-                fieldName: sortColumn.fieldName,
-                sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
-              });
-            }
-            return rlcontrib;
-          });
-
-        this.resultListsConfig.forEach(rlConf => {
-          rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
-            CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
-          this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
-        });
-
-        // Check if the user can access process endpoint
-        const processSettings = this.settingsService.getProcessSettings();
-        const externalNode = this.configService.getValue('arlas.web.externalNode');
-        if (
-          !!processSettings && !!processSettings.url
-          && !!externalNode && !!externalNode.download && externalNode.download === true
-        ) {
-          this.processService.check()
-            .pipe(takeUntil(this._onDestroy$))
-            .subscribe({
-              next: () => {
-                this.resultlistContributors.forEach(c => {
-                  const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-                  if (!listActionsId.includes('production')) {
-                    c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
-                    const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-                    if (resultConfig) {
-                      if (!resultConfig.globalActionsList) {
-                        resultConfig.globalActionsList = [];
-                      }
-                      resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
-                    }
-                  }
-
-                });
-              }
-            });
-        }
-
-        const selectedResultlistTab = this.getParamValue('rt');
-        const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
-        if (previewListContrib) {
-          this.previewListContrib = previewListContrib;
-        } else {
-          this.previewListContrib = this.rightListContributors[0];
-        }
-      }
 
       this.actionOnPopup
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(data => {
           const collection = data.action.collection;
-          const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-          const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
-          this.actionOnItemEvent(data, mapContributor, listContributor, collection);
+          const mapContributor = this.mapService.mapContributors.filter(m => m.collection === collection)[0];
+          const listContributor = this.resultlistService.resultlistContributors.filter(m => m.collection === collection)[0];
+          this.resultlistService.actionOnItemEvent(data, mapContributor, listContributor, collection);
         });
 
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
-      // Set MapContributors
-      const mapContributors = [];
-      this.contributorService.getMapContributors().forEach(mapContrib => {
-        mapContrib.colorGenerator = this.colorService.colorGenerator;
-        if (!!this.resultlistContributors) {
-          const resultlistContrbutor: ResultListContributor = this.resultlistContributors
-            .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
-          if (!!resultlistContrbutor) {
-            mapContrib.searchSize = resultlistContrbutor.pageSize;
-            mapContrib.searchSort = resultlistContrbutor.sort;
-          } else {
-            mapContrib.searchSize = 50;
-          }
-        }
-        mapContributors.push(mapContrib);
-      });
-      this.mapService.setContributors(mapContributors);
-
-      zip(...this.collections.map(c => this.collaborativeService.describe(c)))
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(cdrs => {
-          cdrs.forEach(cdr => {
-            this.collectionToDescription.set(cdr.collection_name, cdr.params);
-          });
-          this.resultlistService.setCollectionsDescription(this.collectionToDescription);
-          const bounds = (<mapboxgl.Map>this.arlasMapComponent.mapglComponent?.map)?.getBounds();
-          if (!!bounds) {
-            (<mapboxgl.Map>this.arlasMapComponent.mapglComponent?.map).fitBounds(bounds, { duration: 0 });
-          }
-          if (this.resultlistContributors.length > 0) {
-            this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
-          }
-        });
-
-      // Add actions to resultlist contributors
-      this.resultlistContributors.forEach(c => {
-        const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-        const mapcontributor = mapContributors.find(mc => mc.collection === c.collection);
-        if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-          c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: marker('Zoom to product') });
-        }
-        if (!!this.resultListConfigPerContId.get(c.identifier)) {
-          if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-            c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: marker('Visualize on the map') });
-          }
-          if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-            c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: marker('Download') });
-          }
-        }
-
-      });
-      this.declareResultlistExportCsv();
-
-      this.shortcuts = this.arlasStartUpService.filtersShortcuts;
+      this.shortcuts = this.arlasStartupService.filtersShortcuts;
 
       this.collaborativeService.ongoingSubscribe
         .pipe(takeUntil(this._onDestroy$))
@@ -463,69 +298,31 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public isElementInViewport(el: HTMLElement) {
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      return (rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth));
-    } else {
-      return false;
-    }
-  }
-
-  public declareResultlistExportCsv() {
-    if (this.settingsService.isResultListExportEnabled()) {
-      this.resultlistContributors.forEach(c => {
-        const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-        if (resultConfig) {
-          if (!resultConfig.globalActionsList) {
-            resultConfig.globalActionsList = [];
-          }
-          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': 'Export csv', 'alwaysEnabled': true });
-        }
-      });
-    }
-  }
-
   public ngAfterViewInit(): void {
-    if (!this.arlasStartUpService.emptyMode) {
+    if (!this.arlasStartupService.emptyMode) {
+      const isListOpen = getParamValue('ro') === 'true';
+      if (isListOpen) {
+        this.resultlistService.toggleList();
+      }
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();
       this.adjustComponentsSize();
+
+      // TODO: move it to list with an added output ?
       // Keep the last displayed list as preview when closing the right panel
-      if (!!this.tabsList) {
-        this.tabsList.selectedIndexChange
+      if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
+        this.arlasListComponent.tabsList.selectedIndexChange
           .pipe(takeUntil(this._onDestroy$))
           .subscribe(index => {
-            this.resultlistService.selectedListTabIndex = index;
-            this.previewListContrib = this.resultlistContributors[index];
+            this.resultlistService.selectList(index);
 
             const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-            queryParams['rt'] = this.previewListContrib.getName();
+            queryParams['rt'] = this.resultlistService.previewListContrib.getName();
             this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
             this.adjustGrids();
             this.adjustComponentsSize();
           });
       }
-
-      // TODO: remove when the resultlist is externalised
-      if (!!this.previewListContrib) {
-        timer(0, 200)
-          .pipe(
-            takeUntil(this._onDestroy$),
-            takeWhile(() => this.apploading))
-          .subscribe(() => {
-            if (this.previewListContrib.data.length > 0 &&
-              this.mapService.getMapConfig().mapLayers.events.onHover.filter(l => this.mapService.mapComponent?.map.getLayer(l)).length > 0) {
-              this.updateVisibleItems();
-              this.apploading = false;
-            }
-          });
-      }
-      this.resultlistService.setResultlistComponent(this.resultListComponent);
-      this.cdr.detectChanges();
     }
   }
 
@@ -536,198 +333,30 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       prefixTitle.concat(' - ').concat(this.appName));
   }
 
-  /**
-   * Update which elements from the list are visible on the map
-   */
-  public updateVisibleItems() {
-    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
-      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
-      this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
-    }
-  }
-
-  public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
-    this.mapService.updateMapStyle(items.map(i => i.identifier), collection);
-  }
-
-  /**
-   * Updates features style on map after repopulating the resultlist with data
-   * @param items List of items constituting the resultlist
-   */
-  public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
-    if (this.collectionToDescription.size > 0) {
-      const idFieldName = this.collectionToDescription.get(collection).id_path;
-      setTimeout(() => {
-        const visibleItems = items.map(item => item.get(idFieldName))
-          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id.toString())));
-        this.mapService.updateMapStyle(visibleItems, collection);
-      }, 200);
-    }
-  }
-
   public consumeMenuEvents(states: MenuState) {
     this.menuState = states;
   }
 
   public zoomToData(collection: string): void {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
-      this.mapSettingsService.mapContributors = this.mapglContributors;
+      this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
     const centroidPath = this.collectionToDescription.get(collection).centroid_path;
     this.toolkitMapService.zoomToData(collection, centroidPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
 
-
-  /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
-  public sortColumnEvent(contributorId: string, sortOutput: Column) {
-    const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
-    this.resultlistService.isGeoSortActivated.set(contributorId, false);
-    /** Save the sorted column */
-    this.resultlistService.sortOutput.set(contributorId, sortOutput);
-    /** Sort the list by the selected column and the id field name */
-    resultlistContributor.sortColumn(sortOutput, true);
-    /** set mapcontritbutor sort */
-    let sortOrder = null;
-    if (sortOutput.sortDirection.toString() === '0') {
-      sortOrder = '';
-    } else if (sortOutput.sortDirection.toString() === '1') {
-      sortOrder = '-';
-    }
-    let sort = '';
-    if (sortOrder !== null) {
-      sort = sortOrder + sortOutput.fieldName;
-    }
-
-    this.mapglContributors
-      .filter(c => c.collection === resultlistContributor.collection)
-      .forEach(c => {
-        // Could have some problems if we put 2 lists with the same collection and different sort ?
-        c.searchSort = resultlistContributor.sort;
-        c.searchSize = resultlistContributor.getConfigValue('search_size');
-        /** Redraw features with setted sort in case of window mode */
-        /** Remove old features */
-        this.mapService.clearWindowData(c);
-        /** Set new features */
-        c.drawGeoSearch(0, true);
-      });
-  }
-
-  /**
-   * Called at the end of scrolling the list
-   * @param contributor ResultlistContributor instance that fetches the data
-   * @param eventPaginate Which page is queried
-   */
-  public paginate(contributor, eventPaginate: PageQuery): void {
-    contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
-    const sort = this.resultlistService.isGeoSortActivated.get(contributor.identifier) ? contributor.geoOrderSort : contributor.sort;
-    this.mapglContributors
-      .filter(c => c.collection === contributor.collection)
-      .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
-  }
-
   public clickOnTile(item: Item) {
-    this.tabsList.realignInkBar();
-    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
-    config.defautMode = this.modeEnum.grid;
+    this.arlasListComponent.tabsList.realignInkBar();
+    const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
+    config.defautMode = ModeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
-    this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
-    this.resultlistService.toggleList();
-    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
-  }
-
-  public changeListResultMode(mode: ModeEnum, identifier: string) {
-    const config = this.resultListConfigPerContId.get(identifier);
-    config.defautMode = mode;
-    this.resultListConfigPerContId.set(identifier, config);
-    setTimeout(() => {
-      this.updateVisibleItems();
-    }, 0);
-  }
-
-  public getBoardEvents(event: { origin: string; event: string; data?: any; }) {
-    const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
-    const currentCollection = resultListContributor.collection;
-    const mapContributor: MapContributor = this.mapService.getContributorByCollection(currentCollection);
-    switch (event.event) {
-      case 'paginationEvent':
-        this.paginate(resultListContributor, event.data);
-        break;
-      case 'sortColumnEvent':
-        this.sortColumnEvent(event.origin, event.data);
-        break;
-      case 'consultedItemEvent':
-        if (!!mapContributor) {
-          const f = mapContributor.getFeatureToHightLight(event.data);
-          if (mapContributor) {
-            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-          }
-          this.mapService.featureToHightLight = f;
-        }
-        break;
-      case 'selectedItemsEvent':
-        const ids = event.data;
-        const idPath = this.collectionToDescription.get(currentCollection).id_path;
-        this.mapService.selectFeatures(idPath, ids, mapContributor);
-        break;
-      case 'actionOnItemEvent':
-        this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
-        break;
-      case 'globalActionEvent':
-        if (event.data.id === 'production') {
-          const idsItemSelected: ElementIdentifier[] = this.mapService.mapComponent.featuresToSelect;
-          this.process(idsItemSelected.map(i => i.idValue), currentCollection);
-        } else if (event.data.id === 'export_csv') {
-          this.resultlistIsExporting = true;
-          this.exportService.fetchResultlistData$(resultListContributor, undefined)
-            .pipe(finalize(() => this.resultlistIsExporting = false))
-            .subscribe({
-              next: (h) => this.exportService.exportResultlist(resultListContributor, h),
-              error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
-            });
-        }
-        break;
-      case 'geoSortEvent':
-        break;
-      case 'geoAutoSortEvent':
-        this.onActiveOnGeosort(event.data, resultListContributor);
-        break;
-    }
-    this.actionOnList.next(event);
-  }
-
-  public onActiveOnGeosort(data, resultListContributor: ResultListContributor): void {
-    this.resultlistService.isGeoSortActivated.set(resultListContributor.identifier, data);
-    const mapContributor = this.mapService.getContributorByCollection(resultListContributor.collection);
-    if (data) {
-      /** Apply geosort in list */
-      const lat = this.mapService.centerLatLng.lat;
-      const lng = this.mapService.centerLatLng.lng;
-      resultListContributor.geoSort(lat, lng, true);
-      this.resultlistService.sortOutput.delete(resultListContributor.identifier);
-      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
-      /** Apply geosort in map (for simple mode) */
-      this.mapService.clearWindowData(mapContributor);
-      mapContributor.searchSort = resultListContributor.geoOrderSort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      mapContributor.drawGeoSearch(0, true);
-    } else {
-      const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
-      this.resultlistService.sortOutput.set(resultListContributor.identifier,
-        { fieldName: idFieldName, sortDirection: SortEnum.none });
-      /** Sort the list by the selected column and the id field name */
-      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
-      mapContributor.searchSort = resultListContributor.sort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      this.mapService.clearWindowData(mapContributor);
-      mapContributor.drawGeoSearch(0, true);
-    }
+    this.resultlistService.resultlistConfigPerContId.set(this.resultlistService.previewListContrib.identifier, config);
+    this.toggleList();
   }
 
   public toggleList() {
-    this.tabsList.realignInkBar();
+    this.arlasListComponent.tabsList.realignInkBar();
     this.resultlistService.toggleList();
     this.updateTimelineLegendVisibility();
     this.adjustGrids();
@@ -783,17 +412,20 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private resizeCollectionCounts() {
     // Add padding to the left of the divider and right of the title
-    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
-    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
-    this.availableSpaceCounts = end - start;
+    const start = document.getElementById('menuDivider')?.getBoundingClientRect().right + this.spacing;
+    const end = document.getElementById('title')?.getBoundingClientRect().left - this.spacing;
+    if (!!start && !!end) {
+      this.availableSpaceCounts = end - start;
+    }
   }
 
   private adjustGrids() {
     if (!this.resultlistService.listOpen) {
-      const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
+      const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
     } else {
-      this.resultlistService.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
+      this.resultlistService.selectedListTabIndex =
+        this.resultlistService.rightListContributors.indexOf(this.resultlistService.previewListContrib);
     }
   }
 
@@ -816,7 +448,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.mapComponent?.map?.resize();
       this.mapService.adjustCoordinates();
 
-      this.updateVisibleItems();
+      this.resultlistService.updateVisibleItems();
     }, 0);
   }
 
@@ -837,8 +469,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // The threshold is based on the window inner size and the available size for the shortcuts
     // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
     // with a minimum spacing equal to the one on the left.
-    const previewListOpen = !!this.previewListContrib && !this.resultlistService.listOpen
-      && this.resultListConfigPerContId.get(this.previewListContrib.identifier)?.hasGridMode;
+    const previewListOpen = !!this.resultlistService.previewListContrib && !this.resultlistService.listOpen
+      && this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier)?.hasGridMode;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
     this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
@@ -870,95 +502,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.showShortcuts = false;
-  }
-
-  private getParamValue(param: string): string {
-    let paramValue = null;
-    const url = window.location.href;
-    const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
-    const results = regex.exec(url);
-    if (results && results[2]) {
-      paramValue = results[2];
-    }
-    return paramValue;
-  }
-
-  private actionOnItemEvent(data, mapContributor, listContributor, collection) {
-    switch (data.action.id) {
-      case 'zoomToFeature':
-        if (!!mapContributor) {
-          mapContributor.getBoundsToFit(data.elementidentifier, collection)
-            .subscribe(bounds => this.visualizeService.fitbounds = bounds);
-        }
-        break;
-      case 'visualize':
-        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
-          const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
-          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-            this.visualizeService.displayDataOnMap(url,
-              data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-              this.collectionToDescription.get(collection).centroid_path, collection);
-          });
-        }
-        break;
-      case 'download':
-        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
-          const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
-          if (urlDownloadTemplate) {
-            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
-              const win = window.open(url, '_blank');
-              win.focus();
-            });
-          }
-        }
-        break;
-      case 'production':
-        this.process([data.elementidentifier.idValue], collection);
-        break;
-    }
-  }
-
-  private process(ids: string[], collection: string) {
-    const maxItems = this.settingsService.getProcessSettings().max_items;
-    if (ids.length <= maxItems) {
-      this.processService.load().subscribe({
-        next: () => {
-          this.processService.getItemsDetail(
-            this.collectionToDescription.get(collection).id_path,
-            ids,
-            this.processService.getProcessDescription().additionalParameters?.parameters,
-            collection
-          ).subscribe({
-            next: (item: any) => {
-              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
-              this.downloadDialogRef.componentInstance.nbProducts = ids.length;
-              this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
-              this.downloadDialogRef.componentInstance.wktAoi = this.mapService.mapComponent.getAllPolygon('wkt');
-              this.downloadDialogRef.componentInstance.ids = ids;
-              this.downloadDialogRef.componentInstance.collection = collection;
-            }
-          });
-        }
-      });
-    } else {
-      this.snackbar.open(
-        this.translate.instant('You have exceeded the number of products authorised for a single download') + ' (' + maxItems + ')', 'X',
-        {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 5000
-        }
-      );
-    }
-  }
-
-  private waitFor(variable, callback) {
-    const interval = setInterval(() => {
-      if (variable !== undefined) {
-        clearInterval(interval);
-        callback();
-      }
-    }, 100);
   }
 }
 
