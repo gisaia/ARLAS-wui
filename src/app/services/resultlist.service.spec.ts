@@ -5,10 +5,10 @@ import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { ResultlistService } from './resultlist.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { VisualizeService } from './visualize.service';
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 
 describe('ResultlistService', () => {
