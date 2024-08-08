@@ -145,11 +145,6 @@ arlas-coordinates {
   .current-coordinate-edition {
     height: unset;
     z-index: 2;
-
-    ::ng-deep .mat-form-field-wrapper {
-      padding-bottom: $default-spacing !important;
-      padding-top: $default-spacing !important;
-    }
   }
 }
 

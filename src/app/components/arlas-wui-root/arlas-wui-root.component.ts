@@ -22,9 +22,7 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
+  OnInit, ViewChild
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,15 +32,8 @@ import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
 import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
-import { VisualizeService } from '@services/visualize.service';
-import {
-  Item,
-  ModeEnum
-} from 'arlas-web-components';
-import {
-  ChipsSearchContributor,
-  ElementIdentifier
-} from 'arlas-web-contributors';
+import { Item, ModeEnum } from 'arlas-web-components';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService,
   ArlasCollaborativesearchService,
@@ -146,17 +137,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
-    public collaborativeService: ArlasCollaborativesearchService,
+    protected collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    public arlasStartupService: ArlasStartupService,
+    protected arlasStartupService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
     private cdr: ChangeDetectorRef,
     private toolkitMapService: ArlasMapService,
     private titleService: Title,
-    public visualizeService: VisualizeService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public analyticsService: AnalyticsService,
+    protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService,
     protected mapService: MapService
   ) {
