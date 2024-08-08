@@ -26,19 +26,21 @@
 }
 
 .result-list-tab-group {
-    ::ng-deep .mat-tab-label {
-        min-width: 60px;
+    ::ng-deep.mat-mdc-tab {
+        padding: 0 16px;
     }
-
-    ::ng-deep .mat-tab-label-content {
+    ::ng-deep.mdc-tab--active .mdc-tab__text-label {
+        color: rgba(0, 0, 0, 0.6);
+    }
+    ::ng-deep.mdc-tab__text-label {
         display: flex;
         justify-content: space-between;
         width: 100%;
         gap: 0 10px;
-    }
 
-    ::ng-deep .mat-tab-label-content .name {
-        flex: 5;
+        .name {
+            flex: 5;
+        }
     }
 
     .list__container {

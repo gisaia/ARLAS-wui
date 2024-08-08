@@ -128,7 +128,7 @@
     height: calc(100vh - $top-menu-height) !important;
   }
 
-  ::ng-deep.mat-tab-header {
+  ::ng-deep.mat-mdc-tab-header {
     display: none;
   }
 }
@@ -447,6 +447,11 @@
     // Realign box when opened
     ::ng-deep.extra-open {
       margin-top: $sm-margin;
+
+      ::ng-deep.title {
+        height: 34px;
+        padding-bottom: 10px;
+      }
     }
   }
 }
@@ -531,6 +536,10 @@
     flex-direction: column;
     align-items: flex-start;
     margin-left: $sm-spacing;
+
+    section .text {
+      white-space: nowrap;
+    }
 
     .title {
       cursor: pointer;
