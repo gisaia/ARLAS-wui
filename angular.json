@@ -263,7 +263,8 @@
   "defaultProject": "arlas-wui",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "arlas"
+      "prefix": "arlas",
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "arlas"
