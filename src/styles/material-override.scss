@@ -17,13 +17,6 @@
  * under the License.
  */
 
-// Tighten the display of inputs
-.mat-mdc-form-field-infix {
-  // Remove 8px from padding bottom and min height
-  padding-bottom: 0 !important;
-  min-height: 48px !important;
-}
-
 // Avoid whitesmoke background of input
 .mat-mdc-text-field-wrapper {
   background-color: white !important;
@@ -43,8 +36,15 @@
 .mdc-dialog__content {
   --mdc-dialog-supporting-text-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --mdc-dialog-supporting-text-tracking: 0;
+  // Avoid cropping _ and the bottom of letters in selects
+  --mdc-dialog-supporting-text-line-height: 16px;
 }
 
 .mdc-dialog__surface {
   padding: 24px;
+}
+
+// Avoid overlap of collection count and divider
+.mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
+  margin-left: 0 !important;
 }
