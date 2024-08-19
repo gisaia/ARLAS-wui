@@ -81,7 +81,8 @@ import {
   FilterShortcutConfiguration,
   NOT_CONFIGURED,
   ProcessService,
-  TimelineComponent
+  TimelineComponent,
+  ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, zip } from 'rxjs';
@@ -161,6 +162,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
+  public zoomToStrategy = ZoomToDataStrategy.NONE;
   public showZoomToData = false;
   public showIndicators = false;
   public onSideNavChange: boolean;
@@ -321,6 +323,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
+      this.zoomToStrategy = this.configService.getValue('arlas.web.options.zoom_to_strategy');
 
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
@@ -332,7 +335,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
       }
-      if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
+      if (
+        (!!this.zoomToStrategy && this.zoomToStrategy !== ZoomToDataStrategy.NONE)
+        || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
+      ) {
         this.showZoomToData = true;
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
@@ -713,7 +719,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // If there is a list displayed, sync window layers' data
       if (!!this.previewListContrib && this.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+        this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
         this.updateVisibleItems();
       }
     }
@@ -743,7 +749,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
         const layer = this.mapglComponent.map.getLayer(l) as ArlasAnyLayer;
-        if (!!layer && typeof(layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
+        if (!!layer && typeof (layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
           if (ids && ids.length > 0) {
             // Tests value in camel and kebab case due to an unknown issue on other projects
             if (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer']) {
@@ -839,8 +845,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapglContributors;
     }
-    const centroidPath = this.collectionToDescription.get(collection).centroid_path;
-    this.mapService.zoomToData(collection, centroidPath, this.mapglComponent.map, 0.2);
+    let fieldPath;
+    if (
+      this.zoomToStrategy === ZoomToDataStrategy.CENTROID
+      || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
+    ) {
+      fieldPath = this.collectionToDescription.get(collection).centroid_path;
+    } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
+      fieldPath = this.collectionToDescription.get(collection).geometry_path;
+    }
+    this.mapService.zoomToData(collection, fieldPath, this.mapglComponent.map, 0.2);
   }
 
 
@@ -1136,9 +1150,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         // Select the good tab if we have several
         // No tabs case
         if (this.resultlistContributors.length === 1) {
-          this.waitFor(this.resultListComponent,() => this.openDetail(id));
+          this.waitFor(this.resultListComponent, () => this.openDetail(id));
         } else {
-          this.waitFor(this.resultListComponent,() => {
+          this.waitFor(this.resultListComponent, () => {
             // retrieve list
             const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
             tab.click();
