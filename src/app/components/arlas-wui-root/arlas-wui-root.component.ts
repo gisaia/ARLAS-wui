@@ -87,8 +87,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
-  // TODO: to add back ?
-  public showZoomToData = false;
   public showIndicators = false;
   public showTimeline = true;
   /**
@@ -192,9 +190,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
-      }
-      if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
-        this.showZoomToData = true;
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
