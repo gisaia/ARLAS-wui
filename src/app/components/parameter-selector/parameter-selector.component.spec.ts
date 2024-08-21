@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParameterSelectorComponent } from './parameter-selector.component';
@@ -8,7 +9,8 @@ describe('ParameterSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParameterSelectorComponent ]
+      declarations: [ ParameterSelectorComponent ],
+      imports: [ HttpClientModule ]
     })
       .compileComponents();
 
