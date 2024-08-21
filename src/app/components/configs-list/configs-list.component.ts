@@ -42,15 +42,19 @@ export interface Configuration {
 })
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
-  public hubUrl;
+  public hubUrl: string;
   public listResolved = false;
   public retrieveData = true;
 
-  public isAuthentActivated;
+  public isAuthentActivated: boolean;
   public authentMode = 'false';
   public orgs: UserOrgData[] = [];
   public currentOrg: string;
 
+  /**
+   * @Output : Angular
+   * Emits an event when the hub needs to be opened
+   */
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   public constructor(

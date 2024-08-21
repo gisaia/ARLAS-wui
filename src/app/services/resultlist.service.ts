@@ -23,6 +23,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
+import { MapService } from '@services/map.service';
+import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
@@ -35,8 +37,6 @@ import {
   getParamValue, ProcessComponent, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject } from 'rxjs';
-import { MapService } from './map.service';
-import { VisualizeService } from './visualize.service';
 
 
 @Injectable({
@@ -59,8 +59,12 @@ export class ResultlistService {
   public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
   public selectedListTabIndex = 0;
   public listOpen = false;
+  public listOpenChange = new Subject<boolean>();
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
+  /**
+   * Event emitted when an action is performed on the list
+   */
   public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
   /* Process */
@@ -97,7 +101,6 @@ export class ResultlistService {
         .filter(c => this.resultlistConfigs.some((rc) => c.identifier === rc.contributorId))
         .map(rlcontrib => {
           (rlcontrib as any).name = rlcontrib.getName();
-          // TODO: update c type
           const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
           if (!!sortColumn) {
             this.sortOutput.set(rlcontrib.identifier, {
@@ -128,6 +131,7 @@ export class ResultlistService {
 
   public toggleList() {
     this.listOpen = !this.listOpen;
+    this.listOpenChange.next(this.listOpen);
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['ro'] = this.listOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -266,22 +270,19 @@ export class ResultlistService {
     }
   }
 
-  public onActiveOnGeosort(data, resultListContributor: ResultListContributor): void {
-    this.isGeoSortActivated.set(resultListContributor.identifier, data);
+  public toggleGeosort(isGeosort: boolean, resultListContributor: ResultListContributor): void {
+    this.isGeoSortActivated.set(resultListContributor.identifier, isGeosort);
     const mapContributor = this.mapService.getContributorByCollection(resultListContributor.collection);
-    if (data) {
+    if (isGeosort) {
       /** Apply geosort in list */
       const lat = this.mapService.centerLatLng.lat;
       const lng = this.mapService.centerLatLng.lng;
       resultListContributor.geoSort(lat, lng, true);
       this.sortOutput.delete(resultListContributor.identifier);
-      // TODO: why commented
-      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
+
       /** Apply geosort in map (for simple mode) */
-      this.mapService.clearWindowData(mapContributor);
       mapContributor.searchSort = resultListContributor.geoOrderSort;
       mapContributor.searchSize = resultListContributor.pageSize;
-      mapContributor.drawGeoSearch(0, true);
     } else {
       const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
       this.sortOutput.set(resultListContributor.identifier,
@@ -290,9 +291,9 @@ export class ResultlistService {
       resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
       mapContributor.searchSort = resultListContributor.sort;
       mapContributor.searchSize = resultListContributor.pageSize;
-      this.mapService.clearWindowData(mapContributor);
-      mapContributor.drawGeoSearch(0, true);
     }
+    this.mapService.clearWindowData(mapContributor);
+    mapContributor.drawGeoSearch(0, true);
   }
 
   public getBoardEvents(event: { origin: string; event: string; data?: any; }) {
@@ -342,7 +343,7 @@ export class ResultlistService {
       case 'geoSortEvent':
         break;
       case 'geoAutoSortEvent':
-        this.onActiveOnGeosort(event.data, resultListContributor);
+        this.toggleGeosort(event.data, resultListContributor);
         break;
     }
     this.actionOnList.next(event);
@@ -361,7 +362,7 @@ export class ResultlistService {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
-  public actionOnItemEvent(data, mapContributor, listContributor, collection) {
+  public actionOnItemEvent(data, mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
@@ -438,19 +439,6 @@ export class ResultlistService {
     this.sortOutput.set(contributorId, sortOutput);
     /** Sort the list by the selected column and the id field name */
     resultlistContributor.sortColumn(sortOutput, true);
-
-    // TODO: why here when does nothing
-    /** set mapcontritbutor sort */
-    let sortOrder = null;
-    if (sortOutput.sortDirection.toString() === '0') {
-      sortOrder = '';
-    } else if (sortOutput.sortDirection.toString() === '1') {
-      sortOrder = '-';
-    }
-    let sort = '';
-    if (sortOrder !== null) {
-      sort = sortOrder + sortOutput.fieldName;
-    }
 
     this.mapService.mapContributors
       .filter(c => c.collection === resultlistContributor.collection)

@@ -24,12 +24,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { GeocodingResult } from 'app/services/geocoding.service';
-import { MapService } from 'app/services/map.service';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { VisualizeService } from 'app/services/visualize.service';
+import { GeocodingResult } from '@services/geocoding.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import {
-  AoiEdition, BboxGeneratorComponent, GeoQuery, MapglComponent, MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
+  AoiEdition,
+  BasemapStyle,
+  BboxGeneratorComponent, GeoQuery, MapglComponent, MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
 import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
@@ -39,10 +41,9 @@ import {
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil, takeWhile } from 'rxjs';
 
-// TODO: update with working one
-const DEFAULT_BASEMAP = {
-  styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-  name: 'Positron'
+const DEFAULT_BASEMAP: BasemapStyle = {
+  styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
+  name: 'Basic'
 };
 
 @Component({
@@ -54,8 +55,7 @@ export class ArlasMapComponent implements OnInit {
   /** Map definition */
   public mapComponentConfig: any;
   public mapId = 'mapgl';
-  // TODO: add typing
-  public defaultBasemap;
+  public defaultBasemap: BasemapStyle;
   public mainMapContributor: MapContributor;
   public mainCollection: string;
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';

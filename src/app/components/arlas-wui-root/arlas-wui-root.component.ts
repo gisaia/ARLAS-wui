@@ -28,22 +28,20 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapService } from 'app/services/map.service';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
+import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { MenuState } from '@components/left-menu/left-menu.component';
+import { ContributorService } from '@services/contributors.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
 import {
-  ChartType,
-  DataType,
-  Position,
   Item,
   ModeEnum
 } from 'arlas-web-components';
 import {
-  AnalyticsContributor,
   ChipsSearchContributor,
-  ElementIdentifier,
-  MapContributor,
-  ResultListContributor
+  ElementIdentifier
 } from 'arlas-web-contributors';
 import {
   AnalyticsService,
@@ -59,14 +57,9 @@ import {
   NOT_CONFIGURED,
   TimelineComponent
 } from 'arlas-wui-toolkit';
-import { fromEvent, Subject, zip } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ContributorService } from '../../services/contributors.service';
-import { VisualizeService } from '../../services/visualize.service';
-import { ArlasListComponent } from '../arlas-list/arlas-list.component';
-import { ArlasMapComponent } from '../arlas-map/arlas-map.component';
-import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -74,51 +67,33 @@ import { MenuState } from '../left-menu/left-menu.component';
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
 export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * @Input : Angular
+   * Current version of ARLAS WUI
+   */
   @Input() public version: string;
-  @Output() public actionOnPopup = new Subject<{
-    action: {
-      id: string;
-      label: string;
-      collection: string;
-      cssClass?: string | string[];
-      tooltip?: string;
-    };
-    elementidentifier: ElementIdentifier;
-  }>();
-  @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
   public chipsSearchContributor: ChipsSearchContributor;
-  public analyticsContributor: AnalyticsContributor;
-
-  public analytics: Array<any>;
-  public dataType = DataType;
-  public chartType = ChartType;
-  public position = Position;
 
   public appName: string;
   public appUnits: CollectionUnit[];
-  public appNameBackgroundColor: string;
 
-  // component config
+  // Component config
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
-  /**
-   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
-   */
-  public isTimelineLegend = true;
 
   public menuState: MenuState;
-  public searchOpen = true;
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
-  public showZoomToData = false;
   public showIndicators = false;
-  public mainCollection;
-  public isTimelineOpen = true;
+  public showTimeline = true;
+  /**
+   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
+   */
+  public showTimelineLegend = true;
 
-  @Input() public hiddenAnalyticsTabs: string[] = [];
   /**
    * @Input : Angular
    * @description Width in pixels of the preview result list
@@ -134,9 +109,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * @description Number of columns in the grid result list
    */
   @Input() public resultListGridColumns = 4;
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
-  public apploading = true;
 
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
   @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
@@ -212,19 +185,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       /** end of retrocompatibility code */
-      this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
-        this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
-      this.analyticsContributor = this.arlasStartupService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
 
-      this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
-      }
-      if (this.configService.getValue('arlas.web.options.zoom_to_data')) {
-        this.showZoomToData = true;
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
@@ -232,7 +197,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /** init from url */
-    this.isTimelineOpen = getParamValue('to') === 'true';
+    this.showTimeline = getParamValue('to') === 'true';
 
     let wasTabSelected = getParamValue('at') !== null;
     this.analyticsService.tabChange.subscribe(tab => {
@@ -251,31 +216,26 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-
     if (!this.version) {
       this.version = environment.VERSION;
     }
     this.setAppTitle();
+
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      /** Retrieve displayable analytics */
-      const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
-      const allAnalytics = this.arlasStartupService.analytics;
-      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
-
       this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
-
-      this.actionOnPopup
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(data => {
-          const collection = data.action.collection;
-          const mapContributor = this.mapService.mapContributors.filter(m => m.collection === collection)[0];
-          const listContributor = this.resultlistService.resultlistContributors.filter(m => m.collection === collection)[0];
-          this.resultlistService.actionOnItemEvent(data, mapContributor, listContributor, collection);
-        });
 
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
       this.shortcuts = this.arlasStartupService.filtersShortcuts;
+
+      this.resultlistService.listOpenChange
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(o => {
+          this.updateTimelineLegendVisibility();
+          this.adjustGrids();
+          this.adjustComponentsSize();
+          this.adjustVisibleShortcuts();
+        });
 
       this.collaborativeService.ongoingSubscribe
         .pipe(takeUntil(this._onDestroy$))
@@ -308,7 +268,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.adjustVisibleShortcuts();
       this.adjustComponentsSize();
 
-      // TODO: move it to list with an added output ?
       // Keep the last displayed list as preview when closing the right panel
       if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
         this.arlasListComponent.tabsList.selectedIndexChange
@@ -341,7 +300,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
-    const centroidPath = this.collectionToDescription.get(collection).centroid_path;
+    const centroidPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
     this.toolkitMapService.zoomToData(collection, centroidPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
 
@@ -358,21 +317,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public toggleList() {
     this.arlasListComponent.tabsList.realignInkBar();
     this.resultlistService.toggleList();
-    this.updateTimelineLegendVisibility();
-    this.adjustGrids();
-    this.adjustComponentsSize();
-    this.adjustVisibleShortcuts();
   }
 
   public toggleTimeline() {
-    this.isTimelineOpen = !this.isTimelineOpen;
+    this.showTimeline = !this.showTimeline;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['to'] = this.isTimelineOpen + '';
+    queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   public updateTimelineLegendVisibility() {
-    this.isTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
+    this.showTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   public closeAnalytics() {

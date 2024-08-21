@@ -25,7 +25,6 @@ export class MapService {
   }
 
   public selectFeatures(idPath: string, ids: string[] | number[], mapContributor: MapContributor) {
-    /** TODO : manage features to select when we have multiple collections */
     if (!!this.mapComponent && !!mapContributor) {
       if (ids.length > 0) {
         const featuresToSelect = ids.map(id => {

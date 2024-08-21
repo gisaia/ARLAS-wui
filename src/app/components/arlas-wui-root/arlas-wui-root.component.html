@@ -6,7 +6,7 @@
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <arlas-filter class="arlas-filters-chips-top"
-        [collectionToDescription]="collectionToDescription"
+        [collectionToDescription]="resultlistService.collectionToDescription"
         [units]="appUnits" (zoomEvent)="zoomToData($event)"
         [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
@@ -30,7 +30,9 @@
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartupService.shouldRunApp">
-          <!-- TODO: Create pipe to have a clearer explanation or just add comments ? -->
+          <!-- reduce = list is open and analytics closed -->
+          <!-- with-list = list is closed but there is a preview and analytics closed -->
+          <!-- -analytics = analytics open in addition to previously mentionned state -->
           <div class="app-container"
             [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
             [class.app-container-with-list]="resultlistService.rightListContributors.length > 0
@@ -46,9 +48,9 @@
                 || (resultlistService.rightListContributors.length > 0
                   && !(resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode))
               && !resultlistService.listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-timeline-hidden]="!isTimelineOpen"
-            [class.app-container-timeline-legend]="isTimelineOpen && timelineComponent
-              && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1">
+            [class.app-container-timeline-hidden]="!showTimeline"
+            [class.app-container-timeline-legend]="showTimeline && timelineComponent
+              && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1 && showTimelineLegend">
 
             <div class="shortcut-list" *ngIf="showShortcuts || analyticsService.activeTab === undefined">
               <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
@@ -87,11 +89,8 @@
                 matTooltip="{{'Close analytics board' | translate}}" matTooltipPosition="right">
                 <mat-icon class="primary">keyboard_arrow_left</mat-icon>
               </div>
-              <div class="arlas-analytics--container" *ngIf="analyticsService.activeTab !== undefined && !arlasStartupService.emptyMode">
-                <arlas-analytics-board [groupsDisplayStatusMap]="analyticsContributor?.analitycsIdtoShow"
-                  (boardOutputs)="getBoardEvents($event)" [showSpinner]="spinner.show"
-                  [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
-                  [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
+              <div *ngIf="analyticsService.activeTab !== undefined" class="arlas-analytics--wrapper">
+                <arlas-analytics></arlas-analytics>
               </div>
 
               <arlas-map #arlasMap></arlas-map>
@@ -142,8 +141,8 @@
             </div>
 
             <arlas-timeline #timeline *ngIf="timelineComponentConfig"
-              class="arlas-timeline-toolkit" [class.timeline-hidden]="!isTimelineOpen"
-              [isDisplayHistogram]="isTimelineOpen" (isDisplayHistogramChange)="toggleTimeline()"
+              class="arlas-timeline-toolkit" [class.timeline__legend--hidden]="!showTimelineLegend"
+              [isDisplayHistogram]="showTimeline" (isDisplayHistogramChange)="toggleTimeline()"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
               [detailedTimelineComponent]="detailedTimelineComponentConfig"
               [units]="appUnits">
