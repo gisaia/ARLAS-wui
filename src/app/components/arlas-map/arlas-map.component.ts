@@ -41,10 +41,9 @@ import {
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil, takeWhile } from 'rxjs';
 
-// TODO: update with working one
 const DEFAULT_BASEMAP: BasemapStyle = {
-  styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-  name: 'Positron'
+  styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
+  name: 'Basic'
 };
 
 @Component({
