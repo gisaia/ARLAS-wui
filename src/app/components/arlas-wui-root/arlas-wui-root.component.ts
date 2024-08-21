@@ -798,7 +798,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
-  private retrieveOpenedGridItem(){
+  public retrieveOpenedGridItem(){
     if(this.detailedGridOpen && this._lastTileIdentifier){
       const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
       if(item) {
