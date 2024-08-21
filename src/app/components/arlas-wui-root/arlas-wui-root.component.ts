@@ -802,6 +802,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
       if(item) {
         this.resultListComponent.setSelectedGridItem(item);
+      } else {
+        this._lastTileIdentifier = null;
       }
     }
   }
