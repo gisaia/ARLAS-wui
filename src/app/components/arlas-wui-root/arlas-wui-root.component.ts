@@ -253,6 +253,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
+  /** store last identifier selected **/
+  private _lastTileIdentifier: string;
+  private detailedGridOpen: boolean;
+
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
@@ -673,6 +677,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
           queryParams[this.MAP_EXTEND_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+
         });
 
       this.cdr.detectChanges();
@@ -793,6 +798,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
+  private retrieveOpenedGridItem(){
+    if(this.detailedGridOpen && this._lastTileIdentifier){
+      const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
+      if(item) {
+        this.resultListComponent.setSelectedGridItem(item);
+      } else {
+        this._lastTileIdentifier = null;
+      }
+    }
+  }
 
   /**
    * Applies the selected geo query
@@ -879,6 +894,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public clickOnTile(item: Item) {
+    this.storeItemIdentifier(item);
     this.tabsList.realignInkBar();
     const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
     config.defautMode = this.modeEnum.grid;
@@ -1418,7 +1434,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
-          mapContributor.getBoundsToFit(data.elementidentifier, collection)
+          // if detailed menu is not open when zoom to feature we reset identifer
+          this.detailedGridOpen = this.resultListComponent.isDetailledGridOpen;
+          if(!this.detailedGridOpen) {
+            this._lastTileIdentifier = null;
+          }
+          mapContributor
+            .getBoundsToFit(data.elementidentifier, collection)
             .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         }
         break;
@@ -1490,6 +1512,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         callback();
       }
     }, 100);
+  }
+
+  public storeItemIdentifier($event: Item) {
+    if($event.identifier) {
+      this._lastTileIdentifier = (<Item>$event).identifier;
+    }
   }
 }
 

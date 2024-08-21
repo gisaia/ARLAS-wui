@@ -223,6 +223,7 @@
                         [currentSortedColumn]="sortOutput.get(list.identifier)"
                         [isGeoSortActivated]="isGeoSortActivated.get(list.identifier)"
                         (setFiltersEvent)="list.setFilters($event)"
+                        (clickOnTile)="storeItemIdentifier($event)" (onResultListUpdate)="retrieveOpenedGridItem()"
                         (paginationEvent)="getBoardEvents({ origin: list.identifier, event: 'paginationEvent', data: $event })"
                         (geoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoSortEvent', data: $event })"
                         (geoAutoSortEvent)="getBoardEvents({ origin: list.identifier, event: 'geoAutoSortEvent', data: $event })"
