@@ -48,6 +48,7 @@ import {
   ResultsModule, FormatNumberModule, BboxGeneratorModule
 } from 'arlas-web-components';
 import {
+  ArlasCollectionService,
   ArlasConfigService,
   ArlasIamService,
   ArlasSettingsService,
@@ -166,7 +167,8 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
       useClass: JwtInterceptor,
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
-    }
+    },
+    ArlasCollectionService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

@@ -6,9 +6,7 @@
         [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
       <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
-        [collectionToDescription]="collectionToDescription"
-        [units]="appUnits" (zoomEvent)="zoomToData($event)"
-        [availableSpace]="availableSpaceCounts" [spacing]="spacing">
+        [collectionToDescription]="collectionToDescription" (zoomEvent)="zoomToData($event)" [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
     </div>
 
@@ -243,8 +241,7 @@
               class="arlas-timeline-toolkit" [class.timeline-hidden]="!isTimelineOpen"
               [isDisplayHistogram]="isTimelineOpen" (isDisplayHistogramChange)="toggleTimeline()"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-              [detailedTimelineComponent]="detailedTimelineComponentConfig"
-              [units]="appUnits">
+              [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>
 
             <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"

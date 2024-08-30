@@ -71,13 +71,13 @@ import {
   AiasDownloadComponent,
   AnalyticsService,
   ArlasCollaborativesearchService,
+  ArlasCollectionService,
   ArlasConfigService,
   ArlasExportCsvService,
   ArlasMapService,
   ArlasMapSettings,
   ArlasSettingsService,
   ArlasStartupService,
-  CollectionUnit,
   FilterShortcutConfiguration,
   NOT_CONFIGURED,
   ProcessService,
@@ -128,8 +128,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public position = Position;
 
   public appName: string;
-  public appUnits: CollectionUnit[];
-  public appNameBackgroundColor: string;
 
   // component config
   public mapComponentConfig: any;
@@ -174,7 +172,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Visibility status of layers on the map */
   public layersVisibilityStatus: Map<string, boolean> = new Map();
   public mainMapContributor: MapContributor;
-  public mainCollection;
+  public mainCollection: string;
   public geojsondraw: { type: string; features: Array<any>; } = {
     'type': 'FeatureCollection',
     'features': []
@@ -284,7 +282,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private generateAoiDialog: MatDialog,
     private processService: ProcessService,
     private resultlistService: ResultlistService,
-    private exportService: ArlasExportCsvService
+    private exportService: ArlasExportCsvService,
+    private collectionService: ArlasCollectionService
   ) {
     this.menuState = {
       configs: false
@@ -301,20 +300,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
-      this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
-        this.configService.getValue('arlas-wui.web.app.units') : [];
-      /** retrocompatibility code for unit*/
-      const appUnit = this.configService.getValue('arlas-wui.web.app.unit');
-      if (appUnit || this.appUnits.length === 0) {
-        this.appUnits.push({
-          collection: this.collaborativeService.defaultCollection,
-          unit: !!appUnit ? appUnit : this.collaborativeService.defaultCollection,
-          ignored: false
-        });
-      }
-      /** end of retrocompatibility code */
-      this.appNameBackgroundColor = this.configService.getValue('arlas-wui.web.app.name_background_color') ?
-        this.configService.getValue('arlas-wui.web.app.name_background_color') : '#FF4081';
       this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics') as AnalyticsContributor;
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
@@ -827,7 +812,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         changedMapContributors[i].setGeoQueryOperation(geoQuery.operation);
         changedMapContributors[i].setGeoQueryField(geoQuery.geometry_path);
         changedMapContributors[i].onChangeGeoQuery();
-        this.snackbar.open(this.translate.instant('Updating Geo-query of') + ' ' + changedMapContributors[i].collection);
+        this.snackbar.open(this.translate.instant('Updating Geo-query of ',
+          { collection: this.translate.instant(this.collectionService.getDisplayName(changedMapContributors[i].collection))}));
         if (i === changedMapContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
         }
@@ -845,7 +831,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapglContributors;
     }
-    let fieldPath;
+    let fieldPath: string;
     if (
       this.zoomToStrategy === ZoomToDataStrategy.CENTROID
       || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
@@ -1026,7 +1012,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
     for (let i = 0; i < this.mapglContributors.length; i++) {
       setTimeout(() => {
-        this.snackbar.open(this.translate.instant('Loading data of') + ' ' + this.mapglContributors[i].collection);
+        this.snackbar.open(this.translate.instant('Loading data of ',
+          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapglContributors[i].collection))}));
         this.mapglContributors[i].onChangeAoi(event);
         if (i === this.mapglContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
@@ -1442,7 +1429,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     return paramValue;
   }
 
-  private actionOnItemEvent(data, mapContributor, listContributor, collection) {
+  private actionOnItemEvent(data, mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
