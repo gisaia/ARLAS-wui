@@ -1,5 +1,37 @@
 # Change Log
 
+## [v26.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.1) (2024-09-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.1.0...v26.0.0-rc.1)
+
+**New stuff:**
+
+- Create a Collection Service that provides the display name and the unit of a given collection. [\#841](https://github.com/gisaia/ARLAS-wui/issues/841)
+- Add a new Metric Table component [\#824](https://github.com/gisaia/ARLAS-wui/issues/824)
+- Implement a multi-collection powerbar [\#818](https://github.com/gisaia/ARLAS-wui/issues/818)
+- Highlight the item whose detail is displayed on the list [\#813](https://github.com/gisaia/ARLAS-wui/issues/813)
+- 'Zoom to' button next to count should zoom to feature geometry [\#810](https://github.com/gisaia/ARLAS-wui/issues/810)
+- Add an option to deactivate 'Sign up' button [\#806](https://github.com/gisaia/ARLAS-wui/issues/806)
+- Display Unit instead of collection name in timeline and histogram having a count [\#755](https://github.com/gisaia/ARLAS-wui/issues/755)
+- Add a legend for x / y in a histogram [\#688](https://github.com/gisaia/ARLAS-wui/issues/688)
+- \[legend\] refactor how the legend is displayed [\#554](https://github.com/gisaia/ARLAS-wui/issues/554)
+- \[metrics\] organize metrics in a datatable [\#544](https://github.com/gisaia/ARLAS-wui/issues/544)
+- Rescale the x-axis domain to include selection that goes beyond the data domain [\#411](https://github.com/gisaia/ARLAS-wui/issues/411)
+- Handle Multi-collection fulltext search [\#382](https://github.com/gisaia/ARLAS-wui/issues/382)
+- Support H3 grids [\#315](https://github.com/gisaia/ARLAS-wui/issues/315)
+
+**Fixed bugs:**
+
+- Hilighting layer when cursor is over result list no longer work [\#854](https://github.com/gisaia/ARLAS-wui/issues/854)
+- Multiline values "outlined" colored cells rendering in result list could be improved  [\#852](https://github.com/gisaia/ARLAS-wui/issues/852)
+- Missing geo sort in datatable \(result list\) [\#849](https://github.com/gisaia/ARLAS-wui/issues/849)
+- Drag and drop of layers within a group doesn't work anymore in arlas wui [\#848](https://github.com/gisaia/ARLAS-wui/issues/848)
+- \[Timeline\] Incohérence d'affichage de date dans le cas de un seul produit  [\#847](https://github.com/gisaia/ARLAS-wui/issues/847)
+- Logout action must redirect to login instead of alert message [\#837](https://github.com/gisaia/ARLAS-wui/issues/837)
+- User can create a dashboard on an organisation where he is only user [\#836](https://github.com/gisaia/ARLAS-wui/issues/836)
+- Map tilt cannot be reset [\#808](https://github.com/gisaia/ARLAS-wui/issues/808)
+- Search input placeholder persists on focus [\#807](https://github.com/gisaia/ARLAS-wui/issues/807)
+
 ## [v25.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.1.0) (2024-07-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.9...v25.1.0)
@@ -14,6 +46,7 @@
 **Fixed bugs:**
 
 - Dashboards that don't have tabs attribute are not displayed on arlas-wui [\#833](https://github.com/gisaia/ARLAS-wui/issues/833)
+- Paginator of bookmarks list doesn't show the right lenght of the table [\#819](https://github.com/gisaia/ARLAS-wui/issues/819)
 - Layers disappear when we are zoomed in [\#817](https://github.com/gisaia/ARLAS-wui/issues/817)
 - Features layers are not displayed on the map if the collection has a date field that has not a format [\#804](https://github.com/gisaia/ARLAS-wui/issues/804)
 - Export / Import dashboard : circle heatmaps configurations are lost [\#797](https://github.com/gisaia/ARLAS-wui/issues/797)
