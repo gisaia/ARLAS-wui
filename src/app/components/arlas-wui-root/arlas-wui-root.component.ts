@@ -60,11 +60,11 @@ import {
 } from 'arlas-web-components';
 import {
   AnalyticsContributor,
-  ChipsSearchContributor,
   ElementIdentifier,
   FeatureRenderMode,
   MapContributor,
-  ResultListContributor
+  ResultListContributor,
+  SearchContributor
 } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
@@ -116,7 +116,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public coordinatesHaveSpace = true;
   public modeEnum = ModeEnum;
   public mapglContributors: Array<MapContributor> = new Array();
-  public chipsSearchContributor: ChipsSearchContributor;
+  public searchContributors: SearchContributor[];
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public analyticsContributor: AnalyticsContributor;
 
@@ -429,7 +429,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         };
       }));
 
-      this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
+      this.searchContributors = this.contributorService.getSearchContributors();
       const ids = new Set(this.resultListsConfig.map(c => c.contributorId));
       this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
         if (v instanceof ResultListContributor) {
