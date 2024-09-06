@@ -1,5 +1,21 @@
 # Change Log
 
+## [v26.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.2) (2024-09-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.1...v26.0.0-rc.2)
+
+**New stuff:**
+
+- change icon when selecting an item [\#870](https://github.com/gisaia/ARLAS-wui/issues/870)
+- Pass the new searchContributors input to arlas-search component [\#865](https://github.com/gisaia/ARLAS-wui/issues/865)
+- \[bookmark\] rename bookmarks [\#543](https://github.com/gisaia/ARLAS-wui/issues/543)
+
+**Fixed bugs:**
+
+- errors related to bounding box + resizehistogram at init [\#871](https://github.com/gisaia/ARLAS-wui/issues/871)
+- The information icon 'i' stays on the item after closing the detail in the resultlist [\#866](https://github.com/gisaia/ARLAS-wui/issues/866)
+- When I log out, a blank page is displayed [\#864](https://github.com/gisaia/ARLAS-wui/issues/864)
+
 ## [v26.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.1) (2024-09-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.1.0...v26.0.0-rc.1)
