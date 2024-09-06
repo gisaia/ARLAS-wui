@@ -787,10 +787,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
-  public retrieveOpenedGridItem(){
-    if(this.detailedGridOpen && this._lastTileIdentifier){
+  public retrieveOpenedGridItem() {
+    if (this.detailedGridOpen && this._lastTileIdentifier) {
       const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
-      if(item) {
+      if (item) {
         this.resultListComponent.setSelectedGridItem(item);
       } else {
         this._lastTileIdentifier = null;
@@ -813,7 +813,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         changedMapContributors[i].setGeoQueryField(geoQuery.geometry_path);
         changedMapContributors[i].onChangeGeoQuery();
         this.snackbar.open(this.translate.instant('Updating Geo-query of ',
-          { collection: this.translate.instant(this.collectionService.getDisplayName(changedMapContributors[i].collection))}));
+          { collection: this.translate.instant(this.collectionService.getDisplayName(changedMapContributors[i].collection)) }));
         if (i === changedMapContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
         }
@@ -1013,7 +1013,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < this.mapglContributors.length; i++) {
       setTimeout(() => {
         this.snackbar.open(this.translate.instant('Loading data of ',
-          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapglContributors[i].collection))}));
+          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapglContributors[i].collection)) }));
         this.mapglContributors[i].onChangeAoi(event);
         if (i === this.mapglContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
@@ -1280,10 +1280,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * Compute the space available between the divider after the search and the title of the application
    */
   private resizeCollectionCounts() {
-    // Add padding to the left of the divider and right of the title
-    const start = document.getElementById('menuDivider').getBoundingClientRect().right + this.spacing;
-    const end = document.getElementById('title').getBoundingClientRect().left - this.spacing;
-    this.availableSpaceCounts = end - start;
+    const checkElement = async selector => {
+      while (document.getElementById(selector) === null) {
+        await new Promise(resolve => requestAnimationFrame(resolve));
+      }
+      return document.getElementById(selector);
+    };
+    Promise.all([checkElement('menuDivider'), checkElement('title'),]).then((valArray) => {
+      // Add padding to the left of the divider and right of the title
+      const start = valArray[0].getBoundingClientRect().right + this.spacing;
+      const end = valArray[1].getBoundingClientRect().left - this.spacing;
+      this.availableSpaceCounts = end - start;
+    });
   }
 
   private adjustGrids() {
@@ -1315,7 +1323,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.adjustCoordinates();
 
       this.updateVisibleItems();
-    }, 0);
+    }, 100);
   }
 
   private adjustCoordinates(): void {
@@ -1435,7 +1443,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!!mapContributor) {
           // if detailed menu is not open when zoom to feature we reset identifer
           this.detailedGridOpen = this.resultListComponent.isDetailledGridOpen;
-          if(!this.detailedGridOpen) {
+          if (!this.detailedGridOpen) {
             this._lastTileIdentifier = null;
           }
           mapContributor
@@ -1519,7 +1527,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public storeItemIdentifier($event: Item) {
-    if($event.identifier) {
+    if ($event.identifier) {
       this._lastTileIdentifier = (<Item>$event).identifier;
     }
   }
