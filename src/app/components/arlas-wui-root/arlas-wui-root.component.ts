@@ -1054,7 +1054,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
             const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
             if (!!mapContrib) {
-              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
             } else {
               MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
             }
