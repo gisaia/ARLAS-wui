@@ -1,5 +1,9 @@
 # Change Log
 
+## [v26.0.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.3) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.2...v26.0.0-rc.3)
+
 ## [v26.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.2) (2024-09-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.1...v26.0.0-rc.2)
@@ -13,6 +17,7 @@
 **Fixed bugs:**
 
 - errors related to bounding box + resizehistogram at init [\#871](https://github.com/gisaia/ARLAS-wui/issues/871)
+- The resultlist is not updated after removing the bbox [\#868](https://github.com/gisaia/ARLAS-wui/issues/868)
 - The information icon 'i' stays on the item after closing the detail in the resultlist [\#866](https://github.com/gisaia/ARLAS-wui/issues/866)
 - When I log out, a blank page is displayed [\#864](https://github.com/gisaia/ARLAS-wui/issues/864)
 
