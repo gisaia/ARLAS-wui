@@ -171,9 +171,11 @@ npm cache clean --force
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
+docker build -f docker/Dockerfile-production --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
+docker build -f docker/Dockerfile-production-no-analytics --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION}-no-analytics .
 
 docker push gisaia/arlas-wui:${VERSION}
+docker push gisaia/arlas-wui:${VERSION}-no-analytics
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
     docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
