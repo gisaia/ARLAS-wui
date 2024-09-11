@@ -109,7 +109,7 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "index": {
-                "input": "src/index-without-analytics",
+                "input": "src/index-without-analytics.html",
                 "output": "index.html"
               },
               "fileReplacements": [
