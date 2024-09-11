@@ -1,5 +1,9 @@
 # Change Log
 
+## [v26.0.0-rc.4](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.4) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.3...v26.0.0-rc.4)
+
 ## [v26.0.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.3) (2024-09-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.2...v26.0.0-rc.3)
