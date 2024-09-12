@@ -1,5 +1,9 @@
 # Change Log
 
+## [v26.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.3) (2024-09-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.2...v26.0.3)
+
 ## [v26.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.2) (2024-09-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.1...v26.0.2)
@@ -887,19 +891,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
-
 ## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
+
+## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
