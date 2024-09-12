@@ -791,10 +791,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.detailedGridOpen && this._lastTileIdentifier) {
       const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
       if (item) {
-        this.resultListComponent.setSelectedGridItem(item);
+        this.waitFor(this.resultListComponent, () => this.openDetail(this._lastTileIdentifier));
       } else {
         this._lastTileIdentifier = null;
       }
+    } else {
+      this._lastTileIdentifier = null;
+      this.disableRecalculateExtend = false;
     }
   }
 
@@ -1178,10 +1181,13 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             const detailGridButton = document.getElementById('show_details_gridmode_btn');
             if (!!detailGridButton) {
               detailGridButton.click();
-              this.disableRecalculateExtend = false;
+              this.detailedGridOpen = true;
             }
+            this.disableRecalculateExtend = false;
+
           }, 250);
         } else {
+          this.detailedGridOpen = true;
           // If image is displayed switch to detail data
           const gridDivs = document.getElementsByClassName('resultgrid__img');
           if (gridDivs.length > 0) {
@@ -1191,8 +1197,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
                 const detailGridButton = document.getElementById('show_details_gridmode_btn');
                 if (!!detailGridButton) {
                   detailGridButton.click();
-                  this.disableRecalculateExtend = false;
                 }
+                this.disableRecalculateExtend = false;
               }, 1);
             }
           }
@@ -1530,6 +1536,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if ($event.identifier) {
       this._lastTileIdentifier = (<Item>$event).identifier;
     }
+    this.disableRecalculateExtend = false;
   }
 }
 
