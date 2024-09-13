@@ -903,7 +903,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     config.isDetailledGridOpen = true;
     this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
     this.resultlistService.toggleList();
-    setTimeout(() => this.timelineComponent.timelineHistogramComponent.resizeHistogram(), 100);
+    setTimeout(() => {
+      if (!!this.timelineComponent.timelineHistogramComponent) {
+        this.timelineComponent.timelineHistogramComponent.resizeHistogram();
+      }
+    }, 100);
   }
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
@@ -1173,7 +1177,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       const productTile = document.getElementById('grid-tile-' + id);
-      const isDetailledGridOpen = this.resultListComponent.isDetailledGridOpen;
+      const isDetailledGridOpen = this.resultListComponent?.isDetailledGridOpen;
       if (!!productTile) {
         productTile.click();
         if (!isDetailledGridOpen) {
@@ -1448,7 +1452,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'zoomToFeature':
         if (!!mapContributor) {
           // if detailed menu is not open when zoom to feature we reset identifer
-          this.detailedGridOpen = this.resultListComponent.isDetailledGridOpen;
+          this.detailedGridOpen = this.resultListComponent?.isDetailledGridOpen;
           if (!this.detailedGridOpen) {
             this._lastTileIdentifier = null;
           }
