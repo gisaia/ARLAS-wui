@@ -253,10 +253,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
-  /** store last identifier selected **/
-  private _lastTileIdentifier: string;
-  private detailedGridOpen: boolean;
-
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
@@ -787,20 +783,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
-  public retrieveOpenedGridItem() {
-    if (this.detailedGridOpen && this._lastTileIdentifier) {
-      const item = this.resultListComponent.items.find(item => item.identifier === this._lastTileIdentifier);
-      if (item) {
-        this.waitFor(this.resultListComponent, () => this.openDetail(this._lastTileIdentifier));
-      } else {
-        this._lastTileIdentifier = null;
-      }
-    } else {
-      this._lastTileIdentifier = null;
-      this.disableRecalculateExtend = false;
-    }
-  }
-
   /**
    * Applies the selected geo query
    */
@@ -895,7 +877,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public clickOnTile(item: Item) {
-    this.storeItemIdentifier(item);
     this.tabsList.realignInkBar();
     const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
     config.defautMode = this.modeEnum.grid;
@@ -1185,13 +1166,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             const detailGridButton = document.getElementById('show_details_gridmode_btn');
             if (!!detailGridButton) {
               detailGridButton.click();
-              this.detailedGridOpen = true;
             }
             this.disableRecalculateExtend = false;
 
           }, 250);
         } else {
-          this.detailedGridOpen = true;
           // If image is displayed switch to detail data
           const gridDivs = document.getElementsByClassName('resultgrid__img');
           if (gridDivs.length > 0) {
@@ -1451,14 +1430,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
-          // if detailed menu is not open when zoom to feature we reset identifer
-          this.detailedGridOpen = this.resultListComponent?.isDetailledGridOpen;
-          if (!this.detailedGridOpen) {
-            this._lastTileIdentifier = null;
-          }
           mapContributor
             .getBoundsToFit(data.elementidentifier, collection)
-            .subscribe(bounds => this.visualizeService.fitbounds = bounds);
+            .subscribe(bounds => {
+              this.visualizeService.fitbounds = bounds;
+            });
         }
         break;
       case 'visualize':
@@ -1534,13 +1510,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         callback();
       }
     }, 100);
-  }
-
-  public storeItemIdentifier($event: Item) {
-    if ($event.identifier) {
-      this._lastTileIdentifier = (<Item>$event).identifier;
-    }
-    this.disableRecalculateExtend = false;
   }
 }
 
