@@ -1126,6 +1126,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         // No tabs case
         if (this.resultlistContributors.length === 1) {
           this.waitFor(this.resultListComponent, () => this.openDetail(id));
+          this.disableRecalculateExtend = false;
         } else {
           this.waitFor(this.resultListComponent, () => {
             // retrieve list
