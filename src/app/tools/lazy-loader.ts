@@ -22,7 +22,7 @@ import { Injectable } from '@angular/core';
 import { ResultlistService } from 'app/services/resultlist.service';
 import { PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { Attributes, IntersectionObserverHooks } from 'ng-lazyload-image';
-import { Observable, map } from 'rxjs';
+import { map, ObservableInput } from 'rxjs';
 
 
 @Injectable()
@@ -37,18 +37,19 @@ export class LazyLoadImageHooks extends IntersectionObserverHooks {
     this.http = http;
   }
 
-  public override loadImage({imagePath}: Attributes): Observable<string> {
-    // Load the image through `HttpClient` Angular system to pass inside the JwtInterceptor
-    // to load the thumbnail with the authentication token
-    const getParams: {
+  public override loadImage(attributes: Attributes): ObservableInput<string> {
+    if (this.resultListService.isThumbnailProtected()) {
+      // Load the image through `HttpClient` Angular system to pass inside the JwtInterceptor
+      // to load the thumbnail with the authentication token
+      const getParams: {
         headers?: HttpHeaders | { [header: string]: string | string[]; };
         responseType: 'blob';
-    } = { responseType: 'blob' };
-
-    if (this.resultListService.isThumbnailProtected()) {
+      } = { responseType: 'blob' };
       getParams.headers = { [PROTECTED_IMAGE_HEADER]: 'true' };
+      return this.http.get(attributes.imagePath, getParams).pipe(map(blob => URL.createObjectURL(blob)));
+    } else {
+      // If the thumbnail is not protected, lazyload it normally
+      return super.loadImage(attributes);
     }
-
-    return this.http.get(imagePath, getParams).pipe(map(blob => URL.createObjectURL(blob)));
   }
 }
