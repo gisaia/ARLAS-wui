@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "~26.0.7",
+    "arlas-wui-toolkit": "~26.0.8",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
@@ -81,6 +81,7 @@
     },
     "@mapbox/geojson-extent": {
       "traverse": "0.6.8"
-    }
+    },
+    "dompurify": "2.5.6"
   }
 }
