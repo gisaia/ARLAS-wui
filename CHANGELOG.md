@@ -1,5 +1,14 @@
 # Change Log
 
+## [v26.0.7](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.7) (2024-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.6...v26.0.7)
+
+**Fixed bugs:**
+
+- Detailed timeline doesn't show buckets for some cases [\#884](https://github.com/gisaia/ARLAS-wui/issues/884)
+- Tour guide is not triggered unless you resize the window of your tab [\#801](https://github.com/gisaia/ARLAS-wui/issues/801)
+
 ## [v26.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.6) (2024-09-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.5...v26.0.6)
@@ -903,19 +912,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
-
 ## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
