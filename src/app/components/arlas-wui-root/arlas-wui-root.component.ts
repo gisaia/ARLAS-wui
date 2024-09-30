@@ -545,9 +545,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map)?.getBounds();
+          const bounds = this.mapglComponent.map.getBounds();
           if (!!bounds) {
-            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
+            this.mapglComponent.map.fitBounds(bounds, { duration: 0 });
           }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
@@ -661,7 +661,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           debounceTime(this.mapExtendTimer))
         .subscribe(() => {
           /** Change map extend in the url */
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+          const bounds = this.mapglComponent.map.getBounds();
           const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
           queryParams[this.MAP_EXTEND_PARAM] = extend;
@@ -680,7 +680,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
       this.mapglComponent.map.on('movestart', (e) => {
@@ -746,12 +746,12 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             }
           } else {
-            this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
+            this.mapglComponent.map.setFilter(l, this.mapglComponent.map.layersMap.get(l).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
             if (!!strokeLayer) {
               this.mapglComponent.map.setFilter(strokeLayerId,
-                this.mapglComponent.layersMap.get(strokeLayerId).filter);
+                this.mapglComponent.map.layersMap.get(strokeLayerId).filter);
             }
           }
         }
@@ -1030,7 +1030,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // Update data only when the collections info are presents
     if (this.collectionToDescription.size > 0) {
       /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const bounds = this.mapglComponent.map.getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
@@ -1399,7 +1399,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getVisibleElementLayerFilter(l, ids) {
-    const lFilter = this.mapglComponent.layersMap.get(l).filter;
+    const lFilter = this.mapglComponent.map.layersMap.get(l).filter;
     const filters = [];
     if (lFilter) {
       lFilter.forEach(f => {
