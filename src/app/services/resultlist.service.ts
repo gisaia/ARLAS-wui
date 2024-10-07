@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
@@ -28,13 +28,12 @@ import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery,
-  SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
 } from 'arlas-web-components';
 import { MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasExportCsvService, ArlasSettingsService,
-  getParamValue, ProcessComponent, ProcessService
+  AiasDownloadComponent, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject } from 'rxjs';
 
@@ -62,13 +61,14 @@ export class ResultlistService {
   public listOpenChange = new Subject<boolean>();
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
+
+  /** Resullist component */
+  private listComponent: ResultListComponent;
+
   /**
    * Event emitted when an action is performed on the list
    */
   public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
-
-  /* Process */
-  private downloadDialogRef: MatDialogRef<ProcessComponent>;
 
   public constructor(
     private activatedRoute: ActivatedRoute,
@@ -156,7 +156,7 @@ export class ResultlistService {
         const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
         const mapContrib = this.mapService.getContributorByCollection(c.collection);
         if (!!mapContrib) {
-          c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath);
+          c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
         } else {
           MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
         }
@@ -216,7 +216,7 @@ export class ResultlistService {
     }
   }
 
-  public openDetail$(id: any): BehaviorSubject<boolean> {
+  public openDetail(id: any): BehaviorSubject<boolean> {
     const isOpen = new BehaviorSubject<boolean>(false);
     // If does not work add a variable ?
     const listConfig = this.resultlistConfigPerContId.get(this.previewListContrib.identifier);
@@ -397,6 +397,23 @@ export class ResultlistService {
     }
   }
 
+  public setListComponent(listComponent: ResultListComponent) {
+    this.listComponent = listComponent;
+  }
+
+  public unsetListComponent() {
+    this.listComponent = null;
+  }
+
+  public waitForList(callback: () => any) {
+    const interval = setInterval(() => {
+      if (this.listComponent !== undefined) {
+        clearInterval(interval);
+        callback();
+      }
+    }, 100);
+  }
+
   private process(ids: string[], collection: string) {
     const maxItems = this.settingsService.getProcessSettings().max_items;
     if (ids.length <= maxItems) {
@@ -405,23 +422,28 @@ export class ResultlistService {
           this.processService.getItemsDetail(
             this.collectionToDescription.get(collection).id_path,
             ids,
-            this.processService.getProcessDescription().additionalParameters?.parameters,
             collection
           ).subscribe({
             next: (item: any) => {
-              this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
-              this.downloadDialogRef.componentInstance.nbProducts = ids.length;
-              this.downloadDialogRef.componentInstance.matchingAdditionalParams = item as Map<string, boolean>;
-              this.downloadDialogRef.componentInstance.wktAoi = this.mapService.mapComponent.getAllPolygon('wkt');
-              this.downloadDialogRef.componentInstance.ids = ids;
-              this.downloadDialogRef.componentInstance.collection = collection;
+              this.dialog
+                .open(AiasDownloadComponent, {
+                  minWidth: '520px',
+                  maxWidth: '60vw',
+                  data: {
+                    ids,
+                    collection,
+                    nbProducts: ids.length,
+                    itemDetail: item,
+                    wktAoi: this.mapService.mapComponent.getAllPolygon('wkt')
+                  }
+                });
             }
           });
         }
       });
     } else {
       this.snackbar.open(
-        this.translate.instant('You have exceeded the number of products authorised for a single download') + ' (' + maxItems + ')', 'X',
+        this.translate.instant('You have exceeded the number of products authorised for a single download', { max: maxItems }), 'X',
         {
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -507,7 +529,7 @@ export class ResultlistService {
           if (!resultConfig.globalActionsList) {
             resultConfig.globalActionsList = [];
           }
-          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': 'Export csv', 'alwaysEnabled': true });
+          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': marker('Export csv'), 'alwaysEnabled': true });
         }
       });
     }

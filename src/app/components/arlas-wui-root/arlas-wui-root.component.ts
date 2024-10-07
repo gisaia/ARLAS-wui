@@ -3,7 +3,7 @@
  * license agreements. See the NOTICE.txt file distributed with
  * this work for additional information regarding copyright
  * ownership. Gisaïa licenses this file to you under
- * the Apache License, Version 2.0 (the 'License'); you may
+ * the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -11,21 +11,13 @@
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
  */
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
@@ -35,27 +27,12 @@ import { ContributorService } from '@services/contributors.service';
 import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
+import { Item, ModeEnum } from 'arlas-web-components';
+import { SearchContributor } from 'arlas-web-contributors';
 import {
-  Item,
-  ModeEnum
-} from 'arlas-web-components';
-import {
-  ChipsSearchContributor,
-  ElementIdentifier
-} from 'arlas-web-contributors';
-import {
-  AnalyticsService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasMapService,
-  ArlasMapSettings,
-  ArlasSettingsService,
-  ArlasStartupService,
-  CollectionUnit,
-  FilterShortcutConfiguration,
-  getParamValue,
-  NOT_CONFIGURED,
-  TimelineComponent
+  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService,
+  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, FilterShortcutConfiguration,
+  getParamValue, NOT_CONFIGURED, TimelineComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -73,16 +50,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public version: string;
 
-  public chipsSearchContributor: ChipsSearchContributor;
+  public searchContributors: SearchContributor[];
 
   public appName: string;
-  public appUnits: CollectionUnit[];
 
   // Component config
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
 
-  public menuState: MenuState;
+  public menuState: MenuState = {
+    configs: false
+  };
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
@@ -93,6 +71,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
    */
   public showTimelineLegend = true;
+  public zoomToStrategy = ZoomToDataStrategy.NONE;
+  public showZoomToData = false;
 
   /**
    * @Input : Angular
@@ -158,10 +138,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     protected resultlistService: ResultlistService,
     protected mapService: MapService
   ) {
-    this.menuState = {
-      configs: false
-    };
-
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
       fromEvent(window, 'resize').pipe(debounceTime(100))
@@ -173,23 +149,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
-      this.appUnits = this.configService.getValue('arlas-wui.web.app.units') ?
-        this.configService.getValue('arlas-wui.web.app.units') : [];
-      /** retrocompatibility code for unit*/
-      const appUnit = this.configService.getValue('arlas-wui.web.app.unit');
-      if (appUnit || this.appUnits.length === 0) {
-        this.appUnits.push({
-          collection: this.collaborativeService.defaultCollection,
-          unit: !!appUnit ? appUnit : this.collaborativeService.defaultCollection,
-          ignored: false
-        });
-      }
-      /** end of retrocompatibility code */
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
+      this.zoomToStrategy = this.configService.getValue('arlas.web.options.zoom_to_strategy');
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
+      }
+      if (
+        (!!this.zoomToStrategy && this.zoomToStrategy !== ZoomToDataStrategy.NONE)
+        || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
+      ) {
+        this.showZoomToData = true;
       }
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
@@ -222,7 +193,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setAppTitle();
 
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      this.chipsSearchContributor = this.contributorService.getChipSearchContributor();
+      this.searchContributors = this.contributorService.getSearchContributors();
 
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
@@ -300,8 +271,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
-    const centroidPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
-    this.toolkitMapService.zoomToData(collection, centroidPath, this.arlasMapComponent.mapglComponent.map, 0.2);
+    let fieldPath: string;
+    if (
+      this.zoomToStrategy === ZoomToDataStrategy.CENTROID
+      || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
+    ) {
+      fieldPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
+    } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
+      fieldPath = this.resultlistService.collectionToDescription.get(collection).geometry_path;
+    }
+    this.toolkitMapService.zoomToData(collection, fieldPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
 
   public clickOnTile(item: Item) {
@@ -366,12 +345,18 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * Compute the space available between the divider after the search and the title of the application
    */
   private resizeCollectionCounts() {
-    // Add padding to the left of the divider and right of the title
-    const start = document.getElementById('menuDivider')?.getBoundingClientRect().right + this.spacing;
-    const end = document.getElementById('title')?.getBoundingClientRect().left - this.spacing;
-    if (!!start && !!end) {
+    const checkElement = async selector => {
+      while (document.getElementById(selector) === null) {
+        await new Promise(resolve => requestAnimationFrame(resolve));
+      }
+      return document.getElementById(selector);
+    };
+    Promise.all([checkElement('menuDivider'), checkElement('title'),]).then((valArray) => {
+      // Add padding to the left of the divider and right of the title
+      const start = valArray[0].getBoundingClientRect().right + this.spacing;
+      const end = valArray[1].getBoundingClientRect().left - this.spacing;
       this.availableSpaceCounts = end - start;
-    }
+    });
   }
 
   private adjustGrids() {
@@ -404,7 +389,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.adjustCoordinates();
 
       this.resultlistService.updateVisibleItems();
-    }, 0);
+    }, 100);
   }
 
   /**
@@ -459,4 +444,3 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showShortcuts = false;
   }
 }
-

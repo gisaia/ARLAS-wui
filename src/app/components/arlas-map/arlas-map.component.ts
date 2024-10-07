@@ -29,17 +29,17 @@ import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
 import {
-  AoiEdition,
-  BasemapStyle,
-  BboxGeneratorComponent, GeoQuery, MapglComponent, MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
+  AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, MapglComponent,
+  MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
 import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, getParamValue
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasMapService,
+  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, getParamValue
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
-import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil, takeWhile } from 'rxjs';
+import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -99,6 +99,8 @@ export class ArlasMapComponent implements OnInit {
   /** Import geometries */
   public nbVerticesLimit = 50;
   public maxFeatures = 100;
+  public maxFileSize = 5000000; // bytes
+  public maxLoadingTime = 30000; // s
 
   /** Geocoding */
   protected showGeocodingPopup = new BehaviorSubject(false);
@@ -128,6 +130,7 @@ export class ArlasMapComponent implements OnInit {
     private snackbar: MatSnackBar,
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
+    private collectionService: ArlasCollectionService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -211,6 +214,9 @@ export class ArlasMapComponent implements OnInit {
       this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
 
       // eslint-disable-next-line max-len
+      this.iconRegistry.addSvgIconLiteral('draw_circle', this.domSanitizer.bypassSecurityTrustHtml('<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="black" fill="transparent" stroke-width="3"/><circle r="2" cx="12" cy="12" fill="black" /></svg>'));
+
+      // eslint-disable-next-line max-len
       this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
 
       // eslint-disable-next-line max-len
@@ -251,7 +257,7 @@ export class ArlasMapComponent implements OnInit {
       this.toolkitMapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
+        this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
       this.mapglComponent.map.on('movestart', (e) => {
@@ -322,7 +328,8 @@ export class ArlasMapComponent implements OnInit {
         changedMapContributors[i].setGeoQueryOperation(geoQuery.operation);
         changedMapContributors[i].setGeoQueryField(geoQuery.geometry_path);
         changedMapContributors[i].onChangeGeoQuery();
-        this.snackbar.open(this.translate.instant('Updating Geo-query of') + ' ' + changedMapContributors[i].collection);
+        this.snackbar.open(this.translate.instant('Updating Geo-query of ',
+          { collection: this.translate.instant(this.collectionService.getDisplayName(changedMapContributors[i].collection)) }));
         if (i === changedMapContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
         }
@@ -348,7 +355,7 @@ export class ArlasMapComponent implements OnInit {
     // Update data only when the collections info are presents
     if (this.resultlistService.collectionToDescription.size > 0) {
       /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
+      const bounds = this.mapglComponent.map.getBounds();
       const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
@@ -398,7 +405,8 @@ export class ArlasMapComponent implements OnInit {
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
     for (let i = 0; i < this.mapService.mapContributors.length; i++) {
       setTimeout(() => {
-        this.snackbar.open(this.translate.instant('Loading data of') + ' ' + this.mapService.mapContributors[i].collection);
+        this.snackbar.open(this.translate.instant('Loading data of ',
+          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapService.mapContributors[i].collection)) }));
         this.mapService.mapContributors[i].onChangeAoi(event);
         if (i === this.mapService.mapContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
@@ -407,8 +415,8 @@ export class ArlasMapComponent implements OnInit {
     }
   }
 
-  public changeVisualisation(event) {
-    this.mapService.mapContributors.forEach(contrib => contrib.changeVisualisation(event));
+  public changeVisualisation(layers: Set<string>) {
+    this.mapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
@@ -425,7 +433,7 @@ export class ArlasMapComponent implements OnInit {
     }
   }
 
-  public emitFeaturesOnClic(event) {
+  public emitFeaturesOnClick(event) {
     if (event.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistService.resultlistContributors
@@ -445,18 +453,21 @@ export class ArlasMapComponent implements OnInit {
         const listIdx = contributorIds.findIndex(id => id === resultListContributor.identifier);
         this.resultlistService.selectedListTabIndex = listIdx;
 
-        // Set Timeout to wait for the detail to be open
-        setTimeout(() => {
-          let isDone = false;
-          this.resultlistService.openDetail$(id)
-            .pipe(takeUntil(this._onDestroy$), takeWhile(() => !isDone))
-            .subscribe(r => {
-              if (r) {
-                this.disableRecalculateExtend = false;
-                isDone = true;
-              }
-            });
-        }, 250);
+        // Select the good tab if we have several
+        // No tabs case
+        if (this.resultlistService.resultlistContributors.length === 1) {
+          this.resultlistService.waitForList(() => this.resultlistService.openDetail(id));
+          this.disableRecalculateExtend = false;
+        } else {
+          this.resultlistService.waitForList(() => {
+            // retrieve list
+            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
+            tab.click();
+            // Set Timeout to wait the new tab
+            setTimeout(() => this.resultlistService.openDetail(id), 250);
+            this.disableRecalculateExtend = false;
+          });
+        }
       }
     }
   }
@@ -467,6 +478,10 @@ export class ArlasMapComponent implements OnInit {
         this.isMapMenuOpen = false;
       }
     }, 100);
+  }
+
+  public drawCircle() {
+    this.mapglComponent.switchToDrawMode('draw_radius_circle', { isFixedRadius: false, steps: 12 });
   }
 
   protected goToLocation(event: GeocodingResult) {

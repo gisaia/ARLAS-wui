@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MapglComponent } from 'arlas-web-components';
+import { ArlasAnyLayer, MapglComponent } from 'arlas-web-components';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
 
 export interface FeatureHover {
@@ -78,19 +78,18 @@ export class MapService {
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        const layer = this.mapComponent.map.getLayer(l);
-        if (ids && ids.length > 0) {
-          if (!!layer && layer.source.indexOf(collection) >= 0 && ids.length > 0 &&
-            (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer'])) {
-            this.mapComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
-            const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-            const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
-            if (!!strokeLayer) {
-              this.mapComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
+        const layer = this.mapComponent.map.getLayer(l) as ArlasAnyLayer;
+        if (!!layer && typeof(layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
+          if (ids && ids.length > 0) {
+            if (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer']) {
+              this.mapComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
+              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
+              const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
+              if (!!strokeLayer) {
+                this.mapComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
+              }
             }
-          }
-        } else {
-          if (!!layer && layer.source.indexOf(collection) >= 0) {
+          } else {
             this.mapComponent.map.setFilter(l, this.mapComponent.layersMap.get(l).filter);
             const strokeLayerId = l.replace('_id:', '-fill_stroke-');
             const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);

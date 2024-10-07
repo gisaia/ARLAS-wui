@@ -48,6 +48,7 @@ import {
   ResultsModule, FormatNumberModule, BboxGeneratorModule, GetValueModule
 } from 'arlas-web-components';
 import {
+  ArlasCollectionService,
   ArlasConfigService,
   ArlasIamService,
   ArlasSettingsService,
@@ -181,6 +182,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
     },
+    ArlasCollectionService,
     ContributorService
   ],
   bootstrap: [ArlasWuiComponent],

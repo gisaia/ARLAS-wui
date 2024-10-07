@@ -98,6 +98,46 @@
                   "output": "/assets/rotate/"
                 }
               ]
+            },
+            "production-no-analytics": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "index": {
+                "input": "src/index-without-analytics.html",
+                "output": "index.html"
+              },
+              "fileReplacements": [
+                {
+                  "src": "src/environments/environment.ts",
+                  "replaceWith": "src/environments/environment.prod.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "input": "src/environments/prod/",
+                  "output": "/",
+                  "glob": "*.yaml"
+                },
+                "src/assets",
+                "src/silent-refresh.html",
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/resize",
+                  "output": "/assets/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/rotate",
+                  "output": "/assets/rotate/"
+                }
+              ]
             }
           }
         },
@@ -112,6 +152,9 @@
             },
             "production": {
               "browserTarget": "arlas-wui:build:production"
+            },
+            "production-no-analytics": {
+              "browserTarget": "arlas-wui:build:production-no-analytics"
             }
           },
           "defaultConfiguration": "development"

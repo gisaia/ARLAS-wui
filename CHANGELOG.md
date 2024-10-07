@@ -1,5 +1,129 @@
 # Change Log
 
+## [v26.0.7](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.7) (2024-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.6...v26.0.7)
+
+**Fixed bugs:**
+
+- Detailed timeline doesn't show buckets for some cases [\#884](https://github.com/gisaia/ARLAS-wui/issues/884)
+- Tour guide is not triggered unless you resize the window of your tab [\#801](https://github.com/gisaia/ARLAS-wui/issues/801)
+
+## [v26.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.6) (2024-09-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.5...v26.0.6)
+
+## [v26.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.5) (2024-09-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.4...v26.0.5)
+
+## [v26.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.4) (2024-09-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.3...v26.0.4)
+
+## [v26.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.3) (2024-09-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.2...v26.0.3)
+
+## [v26.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.2) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.1...v26.0.2)
+
+## [v26.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.1) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0...v26.0.1)
+
+## [v26.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.4...v26.0.0)
+
+## [v26.0.0-rc.4](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.4) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.3...v26.0.0-rc.4)
+
+## [v26.0.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.3) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.2...v26.0.0-rc.3)
+
+## [v26.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.2) (2024-09-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.1...v26.0.0-rc.2)
+
+**New stuff:**
+
+- change icon when selecting an item [\#870](https://github.com/gisaia/ARLAS-wui/issues/870)
+- Pass the new searchContributors input to arlas-search component [\#865](https://github.com/gisaia/ARLAS-wui/issues/865)
+- \[bookmark\] rename bookmarks [\#543](https://github.com/gisaia/ARLAS-wui/issues/543)
+
+**Fixed bugs:**
+
+- errors related to bounding box + resizehistogram at init [\#871](https://github.com/gisaia/ARLAS-wui/issues/871)
+- The resultlist is not updated after removing the bbox [\#868](https://github.com/gisaia/ARLAS-wui/issues/868)
+- The information icon 'i' stays on the item after closing the detail in the resultlist [\#866](https://github.com/gisaia/ARLAS-wui/issues/866)
+- When I log out, a blank page is displayed [\#864](https://github.com/gisaia/ARLAS-wui/issues/864)
+
+## [v26.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.1) (2024-09-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.1.0...v26.0.0-rc.1)
+
+**New stuff:**
+
+- Create a Collection Service that provides the display name and the unit of a given collection. [\#841](https://github.com/gisaia/ARLAS-wui/issues/841)
+- Add a new Metric Table component [\#824](https://github.com/gisaia/ARLAS-wui/issues/824)
+- Implement a multi-collection powerbar [\#818](https://github.com/gisaia/ARLAS-wui/issues/818)
+- Highlight the item whose detail is displayed on the list [\#813](https://github.com/gisaia/ARLAS-wui/issues/813)
+- 'Zoom to' button next to count should zoom to feature geometry [\#810](https://github.com/gisaia/ARLAS-wui/issues/810)
+- Add an option to deactivate 'Sign up' button [\#806](https://github.com/gisaia/ARLAS-wui/issues/806)
+- Display Unit instead of collection name in timeline and histogram having a count [\#755](https://github.com/gisaia/ARLAS-wui/issues/755)
+- Add a legend for x / y in a histogram [\#688](https://github.com/gisaia/ARLAS-wui/issues/688)
+- \[legend\] refactor how the legend is displayed [\#554](https://github.com/gisaia/ARLAS-wui/issues/554)
+- \[metrics\] organize metrics in a datatable [\#544](https://github.com/gisaia/ARLAS-wui/issues/544)
+- Rescale the x-axis domain to include selection that goes beyond the data domain [\#411](https://github.com/gisaia/ARLAS-wui/issues/411)
+- Handle Multi-collection fulltext search [\#382](https://github.com/gisaia/ARLAS-wui/issues/382)
+- Support H3 grids [\#315](https://github.com/gisaia/ARLAS-wui/issues/315)
+
+**Fixed bugs:**
+
+- Hilighting layer when cursor is over result list no longer work [\#854](https://github.com/gisaia/ARLAS-wui/issues/854)
+- Multiline values "outlined" colored cells rendering in result list could be improved  [\#852](https://github.com/gisaia/ARLAS-wui/issues/852)
+- Missing geo sort in datatable \(result list\) [\#849](https://github.com/gisaia/ARLAS-wui/issues/849)
+- Drag and drop of layers within a group doesn't work anymore in arlas wui [\#848](https://github.com/gisaia/ARLAS-wui/issues/848)
+- \[Timeline\] Incohérence d'affichage de date dans le cas de un seul produit  [\#847](https://github.com/gisaia/ARLAS-wui/issues/847)
+- Logout action must redirect to login instead of alert message [\#837](https://github.com/gisaia/ARLAS-wui/issues/837)
+- User can create a dashboard on an organisation where he is only user [\#836](https://github.com/gisaia/ARLAS-wui/issues/836)
+- Map tilt cannot be reset [\#808](https://github.com/gisaia/ARLAS-wui/issues/808)
+- Search input placeholder persists on focus [\#807](https://github.com/gisaia/ARLAS-wui/issues/807)
+
+## [v25.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.1.0) (2024-07-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.9...v25.1.0)
+
+**New stuff:**
+
+- Display start value and end value of a timeline bucket.  [\#816](https://github.com/gisaia/ARLAS-wui/issues/816)
+- Improve property window on feature click [\#673](https://github.com/gisaia/ARLAS-wui/issues/673)
+- \[map\] filter data with a circle [\#545](https://github.com/gisaia/ARLAS-wui/issues/545)
+- Handle multi-collection for powerbars [\#390](https://github.com/gisaia/ARLAS-wui/issues/390)
+
+**Fixed bugs:**
+
+- Dashboards that don't have tabs attribute are not displayed on arlas-wui [\#833](https://github.com/gisaia/ARLAS-wui/issues/833)
+- Paginator of bookmarks list doesn't show the right lenght of the table [\#819](https://github.com/gisaia/ARLAS-wui/issues/819)
+- Layers disappear when we are zoomed in [\#817](https://github.com/gisaia/ARLAS-wui/issues/817)
+- Features layers are not displayed on the map if the collection has a date field that has not a format [\#804](https://github.com/gisaia/ARLAS-wui/issues/804)
+- Export / Import dashboard : circle heatmaps configurations are lost [\#797](https://github.com/gisaia/ARLAS-wui/issues/797)
+- Histogram filter: Cross for closing a selection among multi-selection is partially hidden [\#787](https://github.com/gisaia/ARLAS-wui/issues/787)
+- Tour of ARLAS breaks the layout when the step is on the timeline [\#765](https://github.com/gisaia/ARLAS-wui/issues/765)
+- Histogram : NaN values instead of negative values [\#728](https://github.com/gisaia/ARLAS-wui/issues/728)
+- Label layer with average metric displays abnormal values [\#646](https://github.com/gisaia/ARLAS-wui/issues/646)
+- Research does not work with space character [\#533](https://github.com/gisaia/ARLAS-wui/issues/533)
+- Histogram and timeline selection moves when ARLAS is loading [\#513](https://github.com/gisaia/ARLAS-wui/issues/513)
+- Changing tabs triggers map style update after hard coded 500ms [\#360](https://github.com/gisaia/ARLAS-wui/issues/360)
+
+## [v24.3.9](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.9) (2024-07-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.4...v24.3.9)
+
 ## [v25.0.1-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.4) (2024-06-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.3...v25.0.1-beta.4)

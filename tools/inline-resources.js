@@ -1,4 +1,22 @@
 #!/usr/bin/env node
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 'use strict';
 
 const fs = require('fs');
@@ -31,7 +49,7 @@ const writeFile = promiseify(fs.writeFile);
 
 
 function inlineResources(globs) {
-  console.log("globs : " + globs);
+  console.log('globs : ' + globs);
   if (typeof globs == 'string') {
     globs = [globs];
   }
@@ -40,7 +58,7 @@ function inlineResources(globs) {
    * For every argument, inline the templates and styles under it and write the new file.
    */
   return Promise.all(globs.map(pattern => {
-        console.log("globs.map : pattern " + pattern);
+    console.log('globs.map : pattern ' + pattern);
     if (pattern.indexOf('*') < 0) {
       // Argument is a directory target, add glob patterns to include every files.
       pattern = path.join(pattern, '**', '*');
@@ -48,19 +66,15 @@ function inlineResources(globs) {
 
     const files = glob.sync(pattern, {})
       .filter(name => /\.js$/.test(name));  // Matches only JavaScript files.
-     console.log("files : " + files);
+    console.log('files : ' + files);
     // Generate all files content with inlined templates.
-    return Promise.all(files.map(filePath => {
-      return readFile(filePath, 'utf-8')
-        .then(content => inlineResourcesFromString(content, url => {
-          return path.join(path.dirname(filePath), url);
-        }))
-        .then(content => writeFile(filePath, content))
-        .then(content => console.log("done", filePath))
-        .catch(err => {
-          console.error('An error occured: ', err);
-        });
-    }));
+    return Promise.all(files.map(filePath => readFile(filePath, 'utf-8')
+      .then(content => inlineResourcesFromString(content, url => path.join(path.dirname(filePath), url)))
+      .then(content => writeFile(filePath, content))
+      .then(content => console.log('done', filePath))
+      .catch(err => {
+        console.error('An error occured: ', err);
+      })));
   }));
 }
 
@@ -94,7 +108,7 @@ if (require.main === module) {
  */
 function inlineTemplate(content, urlResolver) {
   return content.replace(/templateUrl:\s*'([^']+?\.html)'/g, function(m, templateUrl) {
-    console.log("template", templateUrl);
+    console.log('template', templateUrl);
     const templateFile = urlResolver(templateUrl);
     const templateContent = fs.readFileSync(templateFile, 'utf-8');
     const shortenedTemplate = templateContent
@@ -118,13 +132,13 @@ function inlineStyle(content, urlResolver) {
     return 'styles: ['
       + urls.map(styleUrl => {
         const extension = path.extname(styleUrl);
-        if(extension == '.scss'){
-            console.log("extension sass trouvé", styleUrl);
-            const style = sassExtract.renderSync({ file: urlResolver(styleUrl)});
-            const shortenedStyle = style.css.toString()
-          .replace(/([\n\r]\s*)+/gm, ' ')
-          .replace(/"/g, '\\"');
-        return `"${shortenedStyle}"`;
+        if(extension === '.scss'){
+          console.log('extension sass trouvé', styleUrl);
+          const style = sassExtract.renderSync({ file: urlResolver(styleUrl)});
+          const shortenedStyle = style.css.toString()
+            .replace(/([\n\r]\s*)+/gm, ' ')
+            .replace(/"/g, '\\"');
+          return `"${shortenedStyle}"`;
 
         }else{
           const styleFile = urlResolver(styleUrl);

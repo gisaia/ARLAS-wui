@@ -60,11 +60,14 @@ export class ArlasListComponent implements OnInit, OnDestroy {
   public ngOnInit(): void { }
 
   public ngOnDestroy(): void {
+    this.resultlistService.unsetListComponent();
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
 
-  public ngAfterViewInit() { }
+  public ngAfterViewInit() {
+    this.resultlistService.setListComponent(this.resultListComponent);
+  }
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);

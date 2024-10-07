@@ -3,7 +3,7 @@
  * license agreements. See the NOTICE.txt file distributed with
  * this work for additional information regarding copyright
  * ownership. Gisaïa licenses this file to you under
- * the Apache License, Version 2.0 (the 'License'); you may
+ * the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -11,7 +11,7 @@
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
@@ -20,12 +20,9 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import {
-  ArlasIamService, ArlasSettingsService, ArlasStartupService,
-  AuthentificationService, PersistenceService
-} from 'arlas-wui-toolkit';
-import { Subject } from 'rxjs';
 import { ArlasColorService } from 'arlas-web-components';
+import { ArlasIamService, ArlasSettingsService, ArlasStartupService, AuthentificationService, PersistenceService } from 'arlas-wui-toolkit';
+import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 
@@ -77,7 +74,6 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     if (this.authentMode === 'iam') {
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
@@ -109,7 +105,7 @@ export class ConfigsListComponent implements OnInit {
     this.openHubEventEmitter.next(true);
   }
 
-  public switchConf(confId) {
+  public switchConf(confId: string) {
     let url = '?config_id=' + confId;
     const currentOrg = this.arlasIamService.getOrganisation();
     if (!!currentOrg) {

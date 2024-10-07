@@ -2,12 +2,11 @@
   <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
     <div left-menu class="top-left-menu">
       <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
-      <arlas-search *ngIf="chipsSearchContributor" #search id="search" class="arlas-search"
-        [searchContributor]="chipsSearchContributor" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
-      <mat-divider *ngIf="chipsSearchContributor" vertical class="vertical-divider" id="menuDivider"></mat-divider>
-      <arlas-filter class="arlas-filters-chips-top"
-        [collectionToDescription]="resultlistService.collectionToDescription"
-        [units]="appUnits" (zoomEvent)="zoomToData($event)"
+      <arlas-search *ngIf="searchContributors" #search id="search" class="arlas-search"
+        [searchContributors]="searchContributors" [dialogPositionLeft]="42" [dialogPositionTop]="-2"></arlas-search>
+      <mat-divider *ngIf="searchContributors" vertical class="vertical-divider" id="menuDivider"></mat-divider>
+      <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
+        [collectionToDescription]="resultlistService.collectionToDescription" (zoomEvent)="zoomToData($event)"
         [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
     </div>
@@ -144,8 +143,7 @@
               class="arlas-timeline-toolkit" [class.timeline__legend--hidden]="!showTimelineLegend"
               [isDisplayHistogram]="showTimeline" (isDisplayHistogramChange)="toggleTimeline()"
               [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-              [detailedTimelineComponent]="detailedTimelineComponentConfig"
-              [units]="appUnits">
+              [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>
 
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"

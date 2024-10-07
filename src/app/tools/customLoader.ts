@@ -16,27 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { DataWithLinks } from 'arlas-persistence-api';
 import enComponents from 'arlas-web-components/assets/i18n/en.json';
-import frComponents from 'arlas-web-components/assets/i18n/fr.json';
 import esComponents from 'arlas-web-components/assets/i18n/es.json';
+import frComponents from 'arlas-web-components/assets/i18n/fr.json';
 import {
   ArlasConfigService, ArlasSettingsService, CONFIG_ID_QUERY_PARAM,
   NOT_CONFIGURED, PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import enToolkit from 'arlas-wui-toolkit/assets/i18n/en.json';
-import frToolkit from 'arlas-wui-toolkit/assets/i18n/fr.json';
 import esToolkit from 'arlas-wui-toolkit/assets/i18n/es.json';
+import frToolkit from 'arlas-wui-toolkit/assets/i18n/fr.json';
 import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
-import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
 import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
+import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
-import { DataWithLinks } from 'arlas-persistence-api';
 
 
 export class ArlasWalkthroughLoader implements WalkthroughLoader {

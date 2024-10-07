@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ChipsSearchContributor, MapContributor } from 'arlas-web-contributors';
+import { SearchContributor, MapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
@@ -31,7 +31,7 @@ export class ContributorService {
   public CONTRIBUTORS_PATH = 'arlas.web.contributors';
   public ID_PATH = 'arlas-wui.web.app.idFieldName';
   public DEFAULT_CHART_HEIGHT = 70;
-  public CHIPSSEARCH_ID = 'chipssearch';
+  public SEARCH_TYPE = 'search';
 
   public constructor(
     private configService: ArlasConfigService,
@@ -55,15 +55,20 @@ export class ContributorService {
     return mapcontributors;
   }
 
-  public getChipSearchContributor(): ChipsSearchContributor {
-    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
-    let chipsSearchContributor: ChipsSearchContributor;
-    if (chipssearchContributorConfig !== undefined) {
-      chipsSearchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
-      this.arlasContributors.set(this.CHIPSSEARCH_ID, chipsSearchContributor);
-      this.contributorsIcons.set(this.CHIPSSEARCH_ID, chipssearchContributorConfig.icon);
+  public getSearchContributors(): Array<SearchContributor> {
+    const searchContributorsConfig = this.getSearchContributorsConfigs();
+    const searchContributors = new Array<SearchContributor>();
+    if (searchContributorsConfig !== undefined) {
+      searchContributorsConfig
+        .forEach((config: { identifier: string; icon: string; }) => {
+          const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier) as SearchContributor;
+
+          this.arlasContributors.set(config.identifier, contrib);
+          this.contributorsIcons.set(config.identifier, config.icon);
+          searchContributors.push(contrib);
+        });
     }
-    return chipsSearchContributor;
+    return searchContributors;
   }
 
   public getArlasContributors(): Map<string, Contributor> {
@@ -86,15 +91,15 @@ export class ContributorService {
     return this.contributorsIcons;
   }
 
-  private getContributorConfig(contributorIdentifier: string) {
-    return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue(this.CONTRIBUTORS_PATH).find(
-      contrib => (contrib.identifier === contributorIdentifier)
-    );
-  }
-
   private getMapContributorConfigs() {
     return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue('arlas')['web']['contributors'].filter(
       contrib => (contrib.type === 'map')
     );
+  }
+
+  private getSearchContributorsConfigs() {
+    return this.arlasStartupService.emptyMode ? undefined : !!this.configService.getValue('arlas') ?
+      this.configService.getValue('arlas')['web']['contributors'].filter(
+        (contrib: { type: string; }) => (contrib.type === this.SEARCH_TYPE || contrib.type === 'chipssearch')) : undefined;
   }
 }

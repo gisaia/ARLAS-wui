@@ -28,6 +28,9 @@
           <div class="arlas-map-action-items" matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
             <mat-icon svgIcon="import_polygon" (click)="mapImportComponent.openDialog()"></mat-icon>
           </div>
+          <div class="arlas-map-action-items" matTooltip="{{'Draw a circle' | translate}}" matTooltipPosition="below">
+            <mat-icon svgIcon="draw_circle" (click)="drawCircle();"></mat-icon>
+          </div>
           <div class="arlas-map-action-items" matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
             <mat-icon (click)="mapglComponent.switchToEditMode()">edit</mat-icon>
           </div>
@@ -63,12 +66,12 @@
       (onMove)="onMove($event)"
       (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
       (legendVisibiltyStatus)="setLayersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnHover($event)"
-      (onFeatureClic)="emitFeaturesOnClic($event)"
+      (onFeatureClic)="emitFeaturesOnClick($event)"
       (downloadSourceEmitter)="downloadLayerSource($event)">
     </arlas-mapgl>
 
-    <arlas-mapgl-import *ngIf="mapLoaded" #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
-      [maxLoadingTime]="30000" [maxFeatures]="maxFeatures" [mapComponent]="mapglComponent"></arlas-mapgl-import>
+    <arlas-mapgl-import *ngIf="mapLoaded" #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="maxFileSize"
+      [maxLoadingTime]="maxLoadingTime" [maxFeatures]="maxFeatures" [mapComponent]="mapglComponent"></arlas-mapgl-import>
 
     <div class="aoi-dimensions" *ngIf="aoiEdition && aoiEdition.show">
       <arlas-aoi-dimensions [aoiEdition]="aoiEdition"></arlas-aoi-dimensions>
