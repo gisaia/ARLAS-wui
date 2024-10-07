@@ -60,8 +60,8 @@ describe('ArlasWuiRootComponent', () => {
     mockSettingsService.getLinksSettings.and.returnValue();
     mockSettingsService.getTicketingKey.and.returnValue();
 
-    const mockContributorService = jasmine.createSpyObj('ContributorService', ['getChipSearchContributor']);
-    mockContributorService.getChipSearchContributor.and.returnValue();
+    const mockContributorService = jasmine.createSpyObj('ContributorService', ['getSearchContributors']);
+    mockContributorService.getSearchContributors.and.returnValue();
 
     await TestBed.configureTestingModule({
       imports: [

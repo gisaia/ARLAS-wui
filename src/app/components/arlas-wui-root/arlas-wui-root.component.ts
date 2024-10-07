@@ -379,7 +379,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private adjustComponentsSize() {
     setTimeout(() => {
-      if (this.timelineComponent.timelineHistogramComponent) {
+      if (!!this.timelineComponent && !!this.timelineComponent.timelineHistogramComponent) {
         this.timelineComponent.timelineHistogramComponent.resizeHistogram();
         if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
