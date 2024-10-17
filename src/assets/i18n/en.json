@@ -39,6 +39,7 @@
 	"Width": "Width",
 	"envelope": "envelope",
 	"Height": "Height",
+	"Remove all rasters": "Remove all rasters",
 	"Updating Geo-query of ": "Updating Geo-query of {{collection}}",
 	"Loading data of ": "Loading collection {{collection}}",
 	"You have exceeded the number of products authorised for a single download": "You have exceeded the number of products authorised for a single download",

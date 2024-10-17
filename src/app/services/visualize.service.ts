@@ -40,12 +40,18 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 export class VisualizeService {
   public map;
   public fitbounds: Array<Array<number>> = [];
+  /**  @deprecated. Use isRasterOnMap instead. */
   public isWMTSOnMap = false;
+  public isRasterOnMap = false;
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
     private translateService: TranslateService, private snackBar: MatSnackBar
   ) { }
 
+  /**
+   * Sets the mapbox map object + loads the 'cross' icon to it.
+   * @param m Mapbox map object.
+   */
   public setMap(m) {
     this.map = m;
     this.map.loadImage(
@@ -102,13 +108,18 @@ export class VisualizeService {
     }));
   }
 
+  /** @deprecated Use removeRasters instead. */
   public removeWMTS(id?: string) {
+    this.removeRasters(id);
+  }
+
+  public removeRasters(id?: string) {
     if (id) {
-      if (this.map.getLayer('wmts-layer-' + id)) {
-        this.map.removeLayer('wmts-layer-' + id);
+      if (this.map.getLayer('raster-layer-' + id)) {
+        this.map.removeLayer('raster-layer-' + id);
       }
-      if (this.map.getSource('wmts-source-' + id)) {
-        this.map.removeSource('wmts-source-' + id);
+      if (this.map.getSource('raster-source-' + id)) {
+        this.map.removeSource('raster-source-' + id);
       }
       if (this.map.getLayer(CROSS_LAYER_PREFIX + id)) {
         this.map.removeLayer(CROSS_LAYER_PREFIX + id);
@@ -119,33 +130,51 @@ export class VisualizeService {
     } else {
       this.map.getStyle().layers
         .filter(layer => layer.source !== undefined)
-        .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0)
+        .filter(layer => layer.source.indexOf('raster-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0)
         .forEach(layer => {
           this.map.removeLayer(layer.id);
           this.map.removeSource(layer.source);
         });
       this.isWMTSOnMap = false;
+      this.isRasterOnMap = false;
     }
+    this.isRasterOnMap = this.map.getStyle().layers
+      .filter(layer => layer.source !== undefined)
+      .filter(layer => layer.source.indexOf('raster-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0).length > 0;
+    this.isWMTSOnMap = this.isRasterOnMap;
   }
 
+  /** @deprecated Use add raster instead. */
   public addWMTS(urlWmts, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
-    if (this.map.getLayer('wmts-layer-' + id)) {
-      this.map.removeLayer('wmts-layer-' + id);
+    this.addRaster(urlWmts, maxZoom, bounds, id, beforeId);
+  }
+
+  /**
+   *
+   * @param url Url to the raster source.
+   * @param maxZoom Maximum zoom level.
+   * @param bounds Bounds of the raster. The source won't load tiles beyond these bounds.
+   * @param id Identifier of the raster.
+   * @param beforeId Insert before a given raster id.
+   */
+  public addRaster(url, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
+    if (this.map.getLayer('raster-layer-' + id)) {
+      this.map.removeLayer('raster-layer-' + id);
     }
-    if (this.map.getSource('wmts-source-' + id)) {
-      this.map.removeSource('wmts-source-' + id);
+    if (this.map.getSource('raster-source-' + id)) {
+      this.map.removeSource('raster-source-' + id);
     }
-    this.map.addSource('wmts-source-' + id, {
+    this.map.addSource('raster-source-' + id, {
       type: 'raster',
-      tiles: [urlWmts],
+      tiles: [url],
       bounds: bounds,
       maxzoom: maxZoom,
       tileSize: 256
     });
     this.map.addLayer({
-      'id': 'wmts-layer-' + id,
+      'id': 'raster-layer-' + id,
       'type': 'raster',
-      'source': 'wmts-source-' + id,
+      'source': 'raster-source-' + id,
       'paint': {},
       'layout': {
         'visibility': 'visible'
@@ -153,6 +182,7 @@ export class VisualizeService {
     }, beforeId);
     if (id !== 'external') {
       this.isWMTSOnMap = true;
+      this.isRasterOnMap = true;
     }
 
     this.addcrossToRemove(bounds[2], bounds[3], id);
@@ -206,11 +236,7 @@ export class VisualizeService {
       }
     });
     this.map.on('click', CROSS_LAYER_PREFIX + id, (e) => {
-      this.removeWMTS(id);
-      // Remove button 'remove all wmts' if no more wmts left on the map
-      this.isWMTSOnMap = this.map.getStyle().layers
-        .filter(layer => layer.source !== undefined)
-        .filter(layer => layer.source.indexOf('wmts-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0).length > 0;
+      this.removeRasters(id);
     });
     this.map.on('mousemove', CROSS_LAYER_PREFIX + id, (e) => {
       this.map.getCanvas().style.cursor = 'pointer';
@@ -293,7 +319,7 @@ export class VisualizeService {
 
   public addGeocodingPreviewLayer(geoJson: any) {
     const source = this.map.getSource(GEOCODING_PREVIEW_ID);
-    if(!source) {
+    if (!source) {
       this.map.addSource(GEOCODING_PREVIEW_ID, {
         type: 'geojson',
         data: geoJson
@@ -308,28 +334,28 @@ export class VisualizeService {
       'circle-color': '#3bb2d0',
       'circle-stroke-color': '#3bb2d0'
     };
-    const polygonPaint = {'fill-color':'#3bb2d0','fill-outline-color':'#3bb2d0','fill-opacity':0.1};
+    const polygonPaint = { 'fill-color': '#3bb2d0', 'fill-outline-color': '#3bb2d0', 'fill-opacity': 0.1 };
 
     const type = (geoJson.type === 'Point') ? 'circle' : 'fill';
-    const paint =  (geoJson.type === 'Point') ? circlePaint : polygonPaint;
+    const paint = (geoJson.type === 'Point') ? circlePaint : polygonPaint;
 
     this.map.addLayer({
       'id': GEOCODING_PREVIEW_ID,
       'type': type,
       'source': GEOCODING_PREVIEW_ID,
-      'paint':paint,
+      'paint': paint,
       'layout': {
         'visibility': 'visible'
       }
     });
   }
-  public removeGeocodingPreviewLayer(){
-    if(this.map.getLayer(GEOCODING_PREVIEW_ID)) {
+  public removeGeocodingPreviewLayer() {
+    if (this.map.getLayer(GEOCODING_PREVIEW_ID)) {
       this.map.removeLayer(GEOCODING_PREVIEW_ID);
     }
   }
 
-  public handleGeojsonPreview(geojson: any){
+  public handleGeojsonPreview(geojson: any) {
     this.addGeocodingPreviewLayer(geojson);
     this.map.on('zoomend', () => {
       this.removeGeocodingPreviewLayer();
