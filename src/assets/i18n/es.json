@@ -39,6 +39,7 @@
 	"Width": "Anchura",
 	"envelope": "cuadro delimitador ",
 	"Height": "Altura",
+	"Remove all rasters": "Quitar todos los rasters",
 	"Updating Geo-query of ": "Carga de la petición geográfica de {{collection}}",
 	"Loading data of ": "Carga de la collección {{collection}}",
 	"You have exceeded the number of products authorised for a single download": "Ha superado el número de productos autorizados para una sola descarga",
