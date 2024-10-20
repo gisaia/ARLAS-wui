@@ -17,28 +17,24 @@
  * under the License.
  */
 
-$top-menu-height: 40px;
-$left-menu-width: 48px;
-$filter-height: 30px;
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { VisualizeService } from '../../../services/visualize.service';
+import { AoiEdition } from 'arlas-web-components';
 
-$preview-result-list-width: 125px;
-$result-list-width: 500px;
-$analytics-board-width: 466px;
+@Component({
+  selector: 'arlas-rasters-manager',
+  templateUrl: './rasters-manager.component.html',
+  styleUrls: ['./rasters-manager.component.scss']
+})
+export class RastersManagerComponent {
 
-$map-actions-length: 87px;
-$map-actions-width: 29px;
-$map-scale-border-width: 2px;
-$map-attributions-height: 20px;
-$map-scale-max-width: 100px;
-$map-scale-height: 22px;
-$map-settings-height: 91px;
+  public constructor(private visualisationService: VisualizeService) {
 
-// Original size of 130px + sm-spacing
-$timeline-height: 135px;
-$timeline-with-legend-height: 165px;
-$timeline-tools-height: 30px;
+  }
 
-$search-width: 150px;
+  /** Removes all raster layers from the map. */
+  public removeLayers() {
+    this.visualisationService.removeRasters();
+  }
 
-// 24px for the icon and 2px for the xs-border
-$toggle-height: 26px;
+}

@@ -16,29 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
-$top-menu-height: 40px;
-$left-menu-width: 48px;
-$filter-height: 30px;
+.wrapper {
+    cursor: pointer;
+    width: $map-actions-width;
+    height: $map-actions-width;
+    margin-bottom: $sm-spacing;
+    @include box-border();
+    box-shadow: none;
+    padding: 0;
+    background-color: white;
 
-$preview-result-list-width: 125px;
-$result-list-width: 500px;
-$analytics-board-width: 466px;
-
-$map-actions-length: 87px;
-$map-actions-width: 29px;
-$map-scale-border-width: 2px;
-$map-attributions-height: 20px;
-$map-scale-max-width: 100px;
-$map-scale-height: 22px;
-$map-settings-height: 91px;
-
-// Original size of 130px + sm-spacing
-$timeline-height: 135px;
-$timeline-with-legend-height: 165px;
-$timeline-tools-height: 30px;
-
-$search-width: 150px;
-
-// 24px for the icon and 2px for the xs-border
-$toggle-height: 26px;
+    .icon {
+      height: $map-actions-width;
+      width: $map-actions-width;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+}
