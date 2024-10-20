@@ -200,7 +200,7 @@ export class VisualizeService {
       this.getBoundsAndCenter(elementidentifier.idFieldName, elementidentifier.idValue,
         geometryPath, centroidPath, collection)
         .subscribe(d => {
-          this.addWMTS(url, 25, d.box, elementidentifier.idValue);
+          this.addRaster(url, 25, d.box, elementidentifier.idValue);
           this.fitbounds = d.bounds;
         });
     } else {
