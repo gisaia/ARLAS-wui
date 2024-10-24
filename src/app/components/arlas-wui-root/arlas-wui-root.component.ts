@@ -48,8 +48,8 @@ import {
   DataType,
   GeoQuery,
   Item,
-  MapglComponent,
   MapglImportComponent,
+  MapglMaplibreComponent,
   MapglSettingsComponent,
   ModeEnum,
   PageQuery,
@@ -84,7 +84,7 @@ import {
   TimelineComponent,
   ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
-import * as mapboxgl from 'mapbox-gl';
+import * as maplibre from 'maplibre-gl';
 import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, zip } from 'rxjs';
 import { debounceTime, finalize, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -206,7 +206,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
-  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: MapglMaplibreComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
@@ -238,7 +238,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
   private allowMapExtend: boolean;
-  private mapBounds: mapboxgl.LngLatBounds;
+  private mapBounds: maplibre.LngLatBounds;
   private mapEventListener = new Subject();
   private mapExtendTimer: number;
   private MAP_EXTEND_PARAM = 'extend';
@@ -531,9 +531,10 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (extendValue) {
           const stringBounds = extendValue.split(',');
           if (stringBounds.length === 4) {
-            this.mapBounds = new mapboxgl.LngLatBounds(
-              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+            //TODO: Very important. We should not have mapbox or Maplibre here.
+            this.mapBounds = new maplibre.LngLatBounds(
+              new maplibre.LngLat(+stringBounds[0], +stringBounds[1]),
+              new maplibre.LngLat(+stringBounds[2], +stringBounds[3])
             );
           }
         }
@@ -680,7 +681,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtend) {
-        this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
+        this.mapglComponent.map.fitBounds(this.mapBounds as any, { duration: 0 });
         this.mapBounds = null;
       }
       this.mapglComponent.map.on('movestart', (e) => {
@@ -1270,9 +1271,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.visualizeService.handleGeojsonPreview(event.geojson);
     if (event.geojson.type === 'Point') {
       const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      this.mapglComponent.map.fitBounds(bbox, { maxZoom: zoom });
+      console.log(this.mapglComponent.map.getCanvas().className)
+      //TODO: map.fitboundshould be less restrictive
+      this.mapglComponent.map.fitBounds(bbox as any, { maxZoom: zoom });
     } else {
-      this.mapglComponent.map.fitBounds(bbox);
+      this.mapglComponent.map.fitBounds(bbox as any);
     }
   }
 
@@ -1331,7 +1334,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     const scaleMaxWidth = 100;
     const toggleButtonWidth = 24;
     const smMargin = 5;
-    const mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
+    const mapCanvas = document.getElementsByClassName('maplibregl-canvas');
     if (mapCanvas && mapCanvas.length > 0) {
       const bbox = mapCanvas[0].getBoundingClientRect();
       if (bbox) {

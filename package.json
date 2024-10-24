@@ -34,6 +34,7 @@
     "@ngx-translate/core": "14.0.0",
     "arlas-wui-toolkit": "~26.0.1",
     "hammerjs": "^2.0.8",
+    "maplibre-gl": "^4.7.1",
     "ng-packagr": "^14.2.2",
     "ngx-markdown": "14.0.1",
     "patch-package": "^6.4.7",

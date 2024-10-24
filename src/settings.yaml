@@ -29,15 +29,15 @@ authentication:
 tab_name: "ARLAS Wui"
 
 persistence:
-  url: http://localhost:81/persist
-  use_local_config: true
+  url: http://localhost/persist
+  use_local_config: false
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
 resultlist:
   enable_export: true
   export_size: 10000
-arlas_hub_url: http://localhost:81/hub
+arlas_hub_url: http://localhost/hub
 dashboards_shortcut: true
 process:
   url: 'https://arlas/processes/download/execution'
@@ -53,16 +53,16 @@ links:
     url: https://google.com
   - name: ARLAS Builder
     icon: build
-    check_url: http://localhost:9997/arlas_iam_server
+    check_url: http://localhost/arlas_iam_server
     url: http://localhost:81/builder
   - name: ARLAS Hub
     icon: hub
-    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
-    url: http://localhost:81/hub
+    check_url: http://localhost/arlas/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
+    url: http://localhost/hub
   - name: Fam
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
-    check_url: http://localhost:9997/arlas_iam_server
+    check_url: http://localhost/arlas_iam_server
 geocoding:
   enabled: true
   find_place_url: "https://nominatim.openstreetmap.org/"
