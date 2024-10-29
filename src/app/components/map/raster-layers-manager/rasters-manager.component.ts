@@ -17,24 +17,54 @@
  * under the License.
  */
 
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VisualizeService } from '../../../services/visualize.service';
-import { AoiEdition } from 'arlas-web-components';
+import { ResultlistService } from '../../../services/resultlist.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
   styleUrls: ['./rasters-manager.component.scss']
 })
-export class RastersManagerComponent {
+export class RastersManagerComponent implements OnInit, OnDestroy {
 
-  public constructor(private visualisationService: VisualizeService) {
+  /** Destroy subscriptions */
+  private _onDestroy$ = new Subject<boolean>();
 
+  public constructor(
+    private visualisationService: VisualizeService,
+    private resultlistService: ResultlistService,
+    private collaborativeSearchService: ArlasCollaborativesearchService
+  ) { }
+
+  public ngOnInit(): void {
+    this.visualisationService.rasterRemoved$.pipe(takeUntil(this._onDestroy$)).subscribe({
+      next: (id) => {
+        this.resultlistService.removeItemActions(id, 'visualize');
+      }
+    });
+    /** Remove the raster once an arlas filter is applied */
+    this.collaborativeSearchService.collaborationBus.pipe(takeUntil(this._onDestroy$)).subscribe({
+      next: (ce: CollaborationEvent) => {
+        if (ce.operation === OperationEnum.add) {
+          this.removeLayers();
+        }
+      }
+    });
   }
 
   /** Removes all raster layers from the map. */
   public removeLayers() {
     this.visualisationService.removeRasters();
+    this.resultlistService.removeActions('visualize');
+  }
+
+  public ngOnDestroy(): void {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
 }

@@ -277,7 +277,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private generateAoiDialog: MatDialog,
     private processService: ProcessService,
-    private resultlistService: ResultlistService,
+    public resultlistService: ResultlistService,
     private exportService: ArlasExportCsvService,
     private collectionService: ArlasCollectionService
   ) {
@@ -460,16 +460,23 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.resultlistContributors.forEach(c => {
           const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
           const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
-          if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-            c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
-          }
           if (!!this.resultListConfigPerContId.get(c.identifier)) {
             if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-              c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: 'Visualize on the map' });
+              c.addAction({
+                id: 'visualize', label: 'Visualize', icon: 'visibility', cssClass: '', tooltip: 'Visualize on the map',
+                reverseAction: {
+                  id: 'remove', label: 'Remove from map', cssClass: '', tooltip: 'Remove from map', icon: 'visibility_off'
+                },
+                fields: this.visualizeService.getVisuFields(this.resultListConfigPerContId.get(c.identifier).visualisationLink),
+                hide: true
+              } as any);
             }
             if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
               c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
             }
+          }
+          if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
+            c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
           }
 
         });
@@ -1441,11 +1448,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'visualize':
         if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
           const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
-          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-            this.visualizeService.displayDataOnMap(url,
-              data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-              this.collectionToDescription.get(collection).centroid_path, collection);
-          });
+          if (!data.action.activated) {
+            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
+              this.visualizeService.displayDataOnMap(url,
+                data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
+                this.collectionToDescription.get(collection).centroid_path, collection);
+            });
+            this.resultlistService.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
+          } else {
+            this.visualizeService.removeRasters(data.elementidentifier.idValue);
+            this.resultlistService.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+          }
         }
         break;
       case 'download':

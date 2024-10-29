@@ -30,7 +30,7 @@ import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { Popup } from 'mapbox-gl';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { parse } from 'wellknown';
 
@@ -43,6 +43,10 @@ export class VisualizeService {
   /**  @deprecated. Use isRasterOnMap instead. */
   public isWMTSOnMap = false;
   public isRasterOnMap = false;
+
+  /** emits the item's identifier of removed raster */
+  private rasterRemovedSource = new Subject<string>();
+  public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
     private translateService: TranslateService, private snackBar: MatSnackBar
@@ -64,6 +68,20 @@ export class VisualizeService {
           this.map.addImage('cross', image);
         }
       });
+  }
+
+
+  public getVisuFields(urlTemplate): string[] {
+    if (urlTemplate.indexOf('{') >= 0) {
+      const fields = urlTemplate.split(/[{}]/).filter(v => v.length > 0);
+      if (fields) {
+        return fields
+          .filter(f => f !== 'x')
+          .filter(f => f !== 'y')
+          .filter(f => f !== 'z');
+      }
+    }
+    return [];
   }
 
   public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
@@ -92,17 +110,13 @@ export class VisualizeService {
       if (urlTemplate.indexOf('{') < 0) {
         return urlTemplate;
       } else {
-        const fields = urlTemplate.split(/[{}]/).filter(v => v.length > 0);
-        fields
-          .filter(f => f !== 'x')
-          .filter(f => f !== 'y')
-          .filter(f => f !== 'z').forEach(field => {
-            if (data.hits[0].data[field] === undefined) {
-              return undefined;
-            } else {
-              urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
-            }
-          });
+        this.getVisuFields(urlTemplate).forEach(field => {
+          if (data.hits[0].data[field] === undefined) {
+            return undefined;
+          } else {
+            urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
+          }
+        });
       }
       return urlTemplate;
     }));
@@ -200,7 +214,7 @@ export class VisualizeService {
       this.getBoundsAndCenter(elementidentifier.idFieldName, elementidentifier.idValue,
         geometryPath, centroidPath, collection)
         .subscribe(d => {
-          this.addWMTS(url, 25, d.box, elementidentifier.idValue);
+          this.addRaster(url, 25, d.box, elementidentifier.idValue);
           this.fitbounds = d.bounds;
         });
     } else {
@@ -237,6 +251,7 @@ export class VisualizeService {
     });
     this.map.on('click', CROSS_LAYER_PREFIX + id, (e) => {
       this.removeRasters(id);
+      this.notifyRasterRemoved(id);
     });
     this.map.on('mousemove', CROSS_LAYER_PREFIX + id, (e) => {
       this.map.getCanvas().style.cursor = 'pointer';
@@ -245,6 +260,10 @@ export class VisualizeService {
       this.map.getCanvas().style.cursor = '';
     });
     this.handlePopup(lat, lng, id);
+  }
+
+  public notifyRasterRemoved(id: string) {
+    this.rasterRemovedSource.next(id);
   }
 
   public handlePopup(lat, lng, id) {
