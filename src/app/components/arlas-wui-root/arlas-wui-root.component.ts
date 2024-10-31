@@ -372,7 +372,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public downloadLayerSource(d) {
     const mc = this.mapglContributors.find(mc => mc.collection === d.collection);
     if (mc) {
-      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType);
+      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
     }
   }
 
