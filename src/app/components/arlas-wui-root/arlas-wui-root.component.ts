@@ -463,9 +463,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           if (!!this.resultListConfigPerContId.get(c.identifier)) {
             if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
               c.addAction({
-                id: 'visualize', label: 'Visualize', icon: 'visibility', cssClass: '', tooltip: 'Visualize on the map',
+                id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
                 reverseAction: {
-                  id: 'remove', label: 'Remove from map', cssClass: '', tooltip: 'Remove from map', icon: 'visibility_off'
+                  id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
                 },
                 fields: this.visualizeService.getVisuFields(this.resultListConfigPerContId.get(c.identifier).visualisationLink),
                 hide: true
@@ -476,9 +476,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-            c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: 'Zoom to product' });
+            c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to product') });
           }
-
         });
         this.declareResultlistExportCsv();
 
