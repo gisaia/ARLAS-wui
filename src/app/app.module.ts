@@ -77,6 +77,7 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
+import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
     ConfigsListComponent,
     RoundKilometer,
     SquareKilometer,
-    GeocodingComponent
+    GeocodingComponent,
+    RastersManagerComponent
   ],
   exports: [
     AoiDimensionComponent,

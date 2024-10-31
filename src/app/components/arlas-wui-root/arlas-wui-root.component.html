@@ -80,6 +80,9 @@
                 </div>
               </div>
             </div>
+            <div class="arlas-rasters-manager" [class.arlas-rasters-manager--geocoding]="enableGeocodingFeature" *ngIf="visualizeService.isRasterOnMap">
+              <arlas-rasters-manager></arlas-rasters-manager>
+            </div>
 
             <div class="shortcut-list" *ngIf="showShortcuts || analyticsService.activeTab === undefined">
               <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
@@ -163,6 +166,7 @@
                   [fetchState]="previewListContrib.fetchState" [globalActionsList]="[]"
                   [isGeoSortEnabled]="resultListConfigPerContId.get(previewListContrib.identifier)?.isGeoSortActived"
                   [options]="resultListConfigPerContId.get(previewListContrib.identifier)?.options"
+                  [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(previewListContrib.identifier)"
                   [displayFilters]="false"
                   (thumbnailFitEvent)="resultListConfigPerContId.get(previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="updateMapStyleFromScroll($event, previewListContrib.collection)"
@@ -205,6 +209,7 @@
                         [defautMode]="resultListConfigPerContId.get(list.identifier)?.defautMode"
                         [selectedGridItem]="resultListConfigPerContId.get(list.identifier)?.selectedGridItem"
                         [fetchState]="list.fetchState"
+                        [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(list.identifier)"
                         (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
                         (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
                         [globalActionsList]="resultListConfigPerContId.get(list.identifier)?.globalActionsList"
