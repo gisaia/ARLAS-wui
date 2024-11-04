@@ -17,19 +17,19 @@
  * under the License.
  */
 
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ResultlistService } from '@services/resultlist.service';
 import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'arlas-list',
   templateUrl: './arlas-list.component.html',
   styleUrls: ['./arlas-list.component.scss']
 })
-export class ArlasListComponent implements OnInit, OnDestroy {
+export class ArlasListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * @Input : Angular
@@ -59,14 +59,24 @@ export class ArlasListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void { }
 
+  public ngAfterViewInit(): void {
+    this.tabsList.selectedIndexChange.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
+      this.resultlistService.selectedListTabIndex = e;
+    });
+  }
+
   public ngOnDestroy(): void {
     this.resultlistService.unsetListComponent();
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
 
-  public ngAfterViewInit() {
-    this.resultlistService.setListComponent(this.resultListComponent);
+  public onListLoaded(loaded: boolean) {
+    if (loaded) {
+      setTimeout(() => {
+        this.resultlistService.setListComponent(this.resultListComponent);
+      }, 0);
+    }
   }
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {

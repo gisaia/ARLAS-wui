@@ -46,7 +46,8 @@
         (consultedItemEvent)="consultItem(list, $event)"
         (actionOnItemEvent)="applyActionOnItem(list, $event)"
         (globalActionEvent)="applyGlobalAction(list, $event)"
-        (changeResultMode)="changeListResultMode($event, list.identifier)">
+        (changeResultMode)="changeListResultMode($event, list.identifier)"
+        (onListLoaded)="onListLoaded($event)">
       </arlas-result-list>
     </div>
   </mat-tab>
