@@ -21,7 +21,7 @@
 @import "app/sizes.scss";
 @import "app/mixin.scss";
 
-.mapboxgl-ctrl-scale {
+.mapboxgl-ctrl-scale, maplibregl-ctrl-scale {
   position: absolute;
   // Remove the width of the border to align with the coordinates
   // This is due to the way the width is computed for the scale

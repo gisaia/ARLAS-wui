@@ -49,7 +49,6 @@ import {
   GeoQuery,
   Item,
   MapglImportComponent,
-  MapglMaplibreComponent,
   MapglSettingsComponent,
   ModeEnum,
   PageQuery,
@@ -206,7 +205,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public isGeoSortActivated = new Map<string, boolean>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
-  @ViewChild('map', { static: false }) public mapglComponent: MapglMaplibreComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: any;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
@@ -309,7 +308,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.zoomToStrategy = this.configService.getValue('arlas.web.options.zoom_to_strategy');
-
+      console.log(this.mapComponentConfig)
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
         {
