@@ -18,7 +18,7 @@
  */
 
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AoiEdition } from 'arlas-web-components';
+// import { AoiEdition } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-aoi-dimensions',
@@ -26,7 +26,7 @@ import { AoiEdition } from 'arlas-web-components';
   styleUrls: ['./aoi-dimensions.component.scss']
 })
 export class AoiDimensionComponent implements OnInit, OnChanges {
-  @Input() public aoiEdition: AoiEdition;
+  @Input() public aoiEdition: any;
 
   public constructor() { }
 

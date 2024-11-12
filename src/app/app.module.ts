@@ -44,8 +44,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule
+  HistogramModule,  MapglSettingsModule,
+  ResultsModule, FormatNumberModule,
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,
@@ -77,6 +77,8 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
+import { ArlasMapModule, ArlasMapService, BasemapService } from 'arlas-map';
+import { ArlasMapboxService, MapboxBasemapService} from 'arlas-mapbox';
 
 
 @NgModule({
@@ -102,7 +104,6 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MapglImportModule,
     MapglSettingsModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -124,14 +125,12 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
     FormsModule,
     ReactiveFormsModule,
     ResultsModule,
-    MapglModule,
     MatTableModule,
     MatListModule,
     MatSelectModule,
     MatSidenavModule,
     FormatNumberModule,
     HistogramModule,
-    BboxGeneratorModule,
     RouterModule,
     AppRoutingModule,
     ArlasToolkitSharedModule,
@@ -152,11 +151,20 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
     }),
     ArlasTaggerModule,
     LoginModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    ArlasMapModule
   ],
   providers: [
     ContributorService,
     DynamicComponentService,
+    {
+      provide: ArlasMapService,
+      useClass: ArlasMapboxService
+    },
+    {
+      provide: BasemapService,
+      useClass: MapboxBasemapService
+    },
     VisualizeService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,

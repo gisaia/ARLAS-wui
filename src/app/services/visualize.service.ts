@@ -24,7 +24,7 @@ import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
 import { Expression, Filter, Search } from 'arlas-api';
-import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
+import { CROSS_LAYER_PREFIX } from 'arlas-map';
 import { ElementIdentifier } from 'arlas-web-contributors';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';

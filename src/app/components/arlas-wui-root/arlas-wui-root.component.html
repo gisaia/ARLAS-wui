@@ -119,7 +119,7 @@
                   [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter" [colorSpinner]="spinner.color"
                   [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
               </div>
-              <arlas-mapglibre [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+              <arlas-map [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
                 [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
                 [defaultBasemapStyle]="defaultBaseMap"
                 [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -144,7 +144,7 @@
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"
                 (onFeatureClic)="emitFeaturesOnClic($event)"
                 (downloadSourceEmitter)="downloadLayerSource($event)">
-              </arlas-mapglibre>
+              </arlas-map>
               <div *ngIf="rightListContributors.length > 0" class="side-result-list-toggle"
                 [class.side-result-list-toggle-open]="resultlistService.listOpen"
                 [class.side-result-list-toggle-open-no-grid]="!resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && !resultlistService.listOpen"
