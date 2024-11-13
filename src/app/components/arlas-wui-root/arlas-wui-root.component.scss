@@ -26,6 +26,12 @@
   height: 100%;
   overflow: hidden;
 
+  .arlas-progression {
+    width: 100%;
+    position: absolute;
+    top: 0;
+  }
+
   ::ng-deep.arlas-time-shortcuts--container {
     left: $sm-spacing;
     padding: 0;
