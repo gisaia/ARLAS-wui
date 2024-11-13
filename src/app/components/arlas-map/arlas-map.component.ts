@@ -66,19 +66,19 @@ export class ArlasMapComponent implements OnInit {
 
   /** Map move */
   public fitbounds: Array<Array<number>> = [];
-  public recalculateExtend = true;
+  public recalculateExtent = true;
   public zoomChanged = false;
   public zoomStart: number;
-  private disableRecalculateExtend = false;
+  private disableRecalculateExtent = false;
   private cumulatedXMoveRatio = 0;
   private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
-  private allowMapExtend: boolean;
+  private allowMapExtent: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
   private mapEventListener = new Subject();
-  private mapExtendTimer: number;
-  private MAP_EXTEND_PARAM = 'extend';
+  private mapExtentTimer: number;
+  private MAP_EXTENT_PARAM = 'extend';
 
   /** Map data  */
   public mapDataSources;
@@ -145,9 +145,8 @@ export class ArlasMapComponent implements OnInit {
       if (!!this.mapComponentConfig) {
         this.mapService.setMapConfig(this.mapComponentConfig);
         this.defaultBasemap = this.mapComponentConfig.defaultBasemapStyle ?? DEFAULT_BASEMAP;
-        const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
-        this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
-        this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
+        this.mapExtentTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer') ?? 4000;
+        this.allowMapExtent = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
         this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
 
         /** init from url */
@@ -195,10 +194,10 @@ export class ArlasMapComponent implements OnInit {
         };
       }));
 
-      if (this.allowMapExtend) {
-        const extendValue = getParamValue(this.MAP_EXTEND_PARAM);
-        if (extendValue) {
-          const stringBounds = extendValue.split(',');
+      if (this.allowMapExtent) {
+        const extentValue = getParamValue(this.MAP_EXTENT_PARAM);
+        if (extentValue) {
+          const stringBounds = extentValue.split(',');
           if (stringBounds.length === 4) {
             this.mapBounds = new mapboxgl.LngLatBounds(
               new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
@@ -235,13 +234,13 @@ export class ArlasMapComponent implements OnInit {
       this.mapEventListener
         .pipe(
           takeUntil(this._onDestroy$),
-          debounceTime(this.mapExtendTimer))
+          debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
           const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+          const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-          queryParams[this.MAP_EXTEND_PARAM] = extend;
+          queryParams[this.MAP_EXTENT_PARAM] = extent;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
     }
@@ -257,7 +256,7 @@ export class ArlasMapComponent implements OnInit {
       this.mapService.setMapComponent(this.mapglComponent);
       this.toolkitMapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
-      if (this.mapBounds && this.allowMapExtend) {
+      if (this.mapBounds && this.allowMapExtent) {
         this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
@@ -268,7 +267,7 @@ export class ArlasMapComponent implements OnInit {
         if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
           this.zoomChanged = true;
         }
-        if (this.allowMapExtend) {
+        if (this.allowMapExtent) {
           this.mapEventListener.next(null);
         }
       });
@@ -355,12 +354,12 @@ export class ArlasMapComponent implements OnInit {
   public onMove(event) {
     // Update data only when the collections info are presents
     if (this.resultlistService.collectionToDescription.size > 0) {
-      /** Change map extend in the url */
+      /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
+      const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
+      queryParams[this.MAP_EXTENT_PARAM] = extent;
       queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
@@ -371,7 +370,7 @@ export class ArlasMapComponent implements OnInit {
       this.cumulatedXMoveRatio += event.xMoveRatio;
       this.cumulatedYMoveRatio += event.yMoveRatio;
       if ((this.cumulatedXMoveRatio > ratioToAutoSort || this.cumulatedYMoveRatio > ratioToAutoSort || this.zoomChanged)) {
-        this.recalculateExtend = true;
+        this.recalculateExtent = true;
         this.cumulatedXMoveRatio = 0;
         this.cumulatedYMoveRatio = 0;
       }
@@ -379,7 +378,7 @@ export class ArlasMapComponent implements OnInit {
       const newMapExtentRaw = event.rawExtendWithOffset;
       const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
       const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
-      if (this.recalculateExtend && !this.disableRecalculateExtend) {
+      if (this.recalculateExtent && !this.disableRecalculateExtent) {
         this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
 
         this.mapService.mapContributors.forEach(c => {
@@ -400,8 +399,8 @@ export class ArlasMapComponent implements OnInit {
       }
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;
-      this.mapService.mapContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
-      this.recalculateExtend = false;
+      this.mapService.mapContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtent));
+      this.recalculateExtent = false;
     }
   }
 
@@ -448,7 +447,7 @@ export class ArlasMapComponent implements OnInit {
         const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
         // Open the list panel if it's closed
-        this.disableRecalculateExtend = true;
+        this.disableRecalculateExtent = true;
         if (!this.resultlistService.listOpen) {
           this.resultlistService.toggleList();
         }
@@ -462,7 +461,7 @@ export class ArlasMapComponent implements OnInit {
         // No tabs case
         if (this.resultlistService.resultlistContributors.length === 1) {
           this.resultlistService.waitForList(() => this.resultlistService.openDetail(id));
-          this.disableRecalculateExtend = false;
+          this.disableRecalculateExtent = false;
         } else {
           this.resultlistService.waitForList(() => {
             // retrieve list
@@ -470,7 +469,7 @@ export class ArlasMapComponent implements OnInit {
             tab.click();
             // Set Timeout to wait the new tab
             setTimeout(() => this.resultlistService.openDetail(id), 250);
-            this.disableRecalculateExtend = false;
+            this.disableRecalculateExtent = false;
           });
         }
       }
@@ -501,7 +500,7 @@ export class ArlasMapComponent implements OnInit {
   }
 
   private adjustMapOffset() {
-    this.recalculateExtend = true;
+    this.recalculateExtent = true;
     this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
   }
 }
