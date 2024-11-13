@@ -42,6 +42,7 @@
     }
 
     .list__container {
+        // 50px is the height of the tab group
         height: calc(100vh - 50px - $top-menu-height);
         overflow: hidden;
     }

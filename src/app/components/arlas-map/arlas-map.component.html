@@ -4,10 +4,10 @@
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
       <div class="arlas-map-settings-container" >
         <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
-          <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
+          <mat-icon (click)="openMapSettings()">settings</mat-icon>
         </div>
-        <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-          <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+        <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}">
+          <mat-icon (click)="mapglComponent.showBasemapSwitcher()">public</mat-icon>
         </div>
         <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
             (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
