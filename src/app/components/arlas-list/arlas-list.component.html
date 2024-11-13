@@ -35,6 +35,7 @@
         [isDetailledGridOpen]="(list | getResultlistConfig)?.isDetailledGridOpen"
         [currentSortedColumn]="list | getValue:resultlistService.sortOutput"
         [isGeoSortActivated]="list | getValue:resultlistService.isGeoSortActivated"
+        [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(list.identifier)"
         (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
         (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
         (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(list.identifier).fitThumbnail = $event"

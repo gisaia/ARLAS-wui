@@ -228,7 +228,8 @@
 .app-container-reduce {
   .arlas-map {
     ::ng-deep.arlas-map-action,
-    ::ng-deep.arlas-map-settings {
+    ::ng-deep.arlas-map-settings,
+    ::ng-deep.arlas-rasters-manager {
       right: calc($result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {
@@ -256,7 +257,8 @@
 .app-container-with-list {
   .arlas-map {
     ::ng-deep.arlas-map-action,
-    ::ng-deep.arlas-map-settings {
+    ::ng-deep.arlas-map-settings,
+    ::ng-deep.arlas-rasters-manager {
       right: calc($preview-result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {

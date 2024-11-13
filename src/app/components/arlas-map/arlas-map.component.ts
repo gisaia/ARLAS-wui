@@ -306,7 +306,7 @@ export class ArlasMapComponent implements OnInit {
   public downloadLayerSource(d) {
     const mc = this.mapService.mapContributors.find(mc => mc.collection === d.collection);
     if (mc) {
-      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType);
+      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
     }
   }
 

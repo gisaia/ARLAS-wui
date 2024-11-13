@@ -27,10 +27,9 @@ import { MapService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
-import {
-  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
-} from 'arlas-web-components';
-import { MapContributor, ResultListContributor } from 'arlas-web-contributors';
+import { ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
+  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
+import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent, ArlasCollaborativesearchService, ArlasConfigService,
   ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService
@@ -61,6 +60,7 @@ export class ResultlistService {
   public listOpenChange = new Subject<boolean>();
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
+  public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -144,6 +144,64 @@ export class ResultlistService {
 
   public isThumbnailProtected(): boolean {
     return this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails ?? false;
+  }
+
+  public addAction(contId: string, itemId: string, action: Action) {
+    if (ActionHandler.isReversible(action)) {
+      if (!this.activeActionsPerContId.get(contId)) {
+        this.activeActionsPerContId.set(contId, new Map());
+      }
+      const activeActions = this.activeActionsPerContId.get(contId);
+      if (!activeActions.get(itemId)) {
+        activeActions.set(itemId, new Set());
+      }
+      const actions = activeActions.get(itemId);
+      actions.add(action.id);
+      this.activeActionsPerContId.set(contId, new Map(activeActions));
+
+    }
+  }
+
+  /** Remove an activated action for a given item and given contributor */
+  public removeAction(contId: string, itemId: string, actionId: string) {
+    if (!this.activeActionsPerContId.get(contId)) {
+      return;
+    }
+    const activeActions = this.activeActionsPerContId.get(contId);
+    if (!activeActions.get(itemId)) {
+      return;
+    }
+    const actions = activeActions.get(itemId);
+    if (!actions) {
+      return;
+    }
+    actions.delete(actionId);
+    this.activeActionsPerContId.set(contId, new Map(activeActions));
+  }
+
+  /** Removes an activated action for all items and all contributors */
+  public removeActions(actionId: string) {
+    if (this.activeActionsPerContId) {
+      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
+        actionsPerItem.forEach((actions, itemId) => {
+          actions.delete(actionId);
+        });
+        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
+      });
+    }
+  }
+
+  /** Removes an activated action for a given item in all contributors */
+  public removeItemActions(itemId: string, actionId: string) {
+    if (this.activeActionsPerContId) {
+      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
+        const actions = actionsPerItem.get(itemId);
+        if (!!actions) {
+          actions.delete(actionId);
+        }
+        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
+      });
+    }
   }
 
   public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
@@ -372,11 +430,17 @@ export class ResultlistService {
       case 'visualize':
         if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
           const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
-          this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-            this.visualizeService.displayDataOnMap(url,
-              data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-              this.collectionToDescription.get(collection).centroid_path, collection);
-          });
+          if (!data.action.activated) {
+            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
+              this.visualizeService.displayDataOnMap(url,
+                data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
+                this.collectionToDescription.get(collection).centroid_path, collection);
+            });
+            this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
+          } else {
+            this.visualizeService.removeRasters(data.elementidentifier.idValue);
+            this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+          }
         }
         break;
       case 'download':
@@ -479,38 +543,44 @@ export class ResultlistService {
     this.resultlistContributors.forEach(c => {
       const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
       const mapcontributor = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
-      if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-        c.addAction({ id: 'zoomToFeature', label: 'Zoom to', cssClass: '', tooltip: marker('Zoom to product') });
-      }
       if (!!this.resultlistConfigPerContId.get(c.identifier)) {
         if (!!this.resultlistConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-          c.addAction({ id: 'visualize', label: 'Visualize', cssClass: '', tooltip: marker('Visualize on the map') });
+          c.addAction({
+            id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
+            reverseAction: {
+              id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
+            },
+            fields: this.visualizeService.getVisuFields(this.resultlistConfigPerContId.get(c.identifier).visualisationLink),
+            hide: true
+          } as any);
         }
         if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-          c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: marker('Download') });
+          c.addAction({ id: 'download', label: marker('Download metadata'),
+            cssClass: '', tooltip: marker('Download description of the item') });
         }
+      }
+      if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
+        c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to item') });
       }
     });
 
     // Check if the user can access process endpoint
     const processSettings = this.settingsService.getProcessSettings();
     const externalNode = this.configService.getValue('arlas.web.externalNode');
-    if (!!processSettings && !!processSettings.url
-      && !!externalNode && !!externalNode.download && externalNode.download === true) {
-
+    if (!!processSettings && !!processSettings.url && externalNode?.download === true) {
       this.processService.check()
         .subscribe({
           next: () => {
             this.resultlistContributors.forEach(c => {
               const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
               if (!listActionsId.includes('production')) {
-                c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: marker('Download') });
+                c.addAction({ id: 'production', label: marker('Download product'), cssClass: '', tooltip: marker('Download product archive') });
                 const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
                 if (resultConfig) {
                   if (!resultConfig.globalActionsList) {
                     resultConfig.globalActionsList = [];
                   }
-                  resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
+                  resultConfig.globalActionsList.push({ 'id': 'production', 'label': marker('Download product') });
                 }
               }
 

@@ -2,46 +2,51 @@
     <arlas-mapgl-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
 
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
-        <div class="arlas-map-settings-container" >
-          <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
-            <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
-          </div>
-          <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-            <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
-          </div>
-          <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
-            (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
-            <mat-icon>travel_explore</mat-icon>
-          </div>
-          <div *ngIf="enableGeocodingFeature" class="arlas-map-settings-items geo-filter-item">
-            <mat-icon (click)="showGeocodingPopup.next(true)" matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below">location_searching</mat-icon>
-            <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
-          </div>
+      <div class="arlas-map-settings-container" >
+        <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
+          <mat-icon svgIcon="map_settings" (click)="openMapSettings()"></mat-icon>
         </div>
-        <div class="arlas-map-action-container" [class.if-geocoding-button]="enableGeocodingFeature" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
-          <div class="arlas-map-action-items" matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
-            <mat-icon svgIcon="bbox" (click)="mapglComponent.addGeoBox()"></mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
-            <mat-icon svgIcon="draw_polygon" (click)="mapglComponent.switchToDrawMode()"></mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
-            <mat-icon svgIcon="import_polygon" (click)="mapImportComponent.openDialog()"></mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'Draw a circle' | translate}}" matTooltipPosition="below">
-            <mat-icon svgIcon="draw_circle" (click)="drawCircle();"></mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
-            <mat-icon (click)="mapglComponent.switchToEditMode()">edit</mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
-            <mat-icon svgIcon="remove_polygon" (click)="mapglComponent.removeAois()"></mat-icon>
-          </div>
-          <div class="arlas-map-action-items" matTooltip="{{'BBox from coordinates' | translate}}" matTooltipPosition="below">
-            <div class="generate-bbox" (click)="openAoiGenerator()">° ' "</div>
-          </div>
+        <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
+          <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+        </div>
+        <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
+            (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+          <mat-icon>travel_explore</mat-icon>
+        </div>
+        <div *ngIf="enableGeocodingFeature" class="arlas-map-settings-items geo-filter-item">
+          <mat-icon (click)="showGeocodingPopup.next(true)" matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below">location_searching</mat-icon>
+          <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
         </div>
       </div>
+
+      <div class="arlas-map-action-container" [class.if-geocoding-button]="enableGeocodingFeature" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+        <div class="arlas-map-action-items" matTooltip="{{'Add bbox' | translate}}" matTooltipPosition="below">
+          <mat-icon svgIcon="bbox" (click)="mapglComponent.addGeoBox()"></mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'Draw a polygon' | translate}}" matTooltipPosition="below">
+          <mat-icon svgIcon="draw_polygon" (click)="mapglComponent.switchToDrawMode()"></mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'Import polygon' | translate}}" matTooltipPosition="below">
+          <mat-icon svgIcon="import_polygon" (click)="mapImportComponent.openDialog()"></mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'Draw a circle' | translate}}" matTooltipPosition="below">
+          <mat-icon svgIcon="draw_circle" (click)="drawCircle();"></mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'Edit drawings' | translate}}" matTooltipPosition="below">
+          <mat-icon (click)="mapglComponent.switchToEditMode()">edit</mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'Remove drawings' | translate}}" matTooltipPosition="below">
+          <mat-icon svgIcon="remove_polygon" (click)="mapglComponent.removeAois()"></mat-icon>
+        </div>
+        <div class="arlas-map-action-items" matTooltip="{{'BBox from coordinates' | translate}}" matTooltipPosition="below">
+          <div class="generate-bbox" (click)="openAoiGenerator()">° ' "</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arlas-rasters-manager" [class.arlas-rasters-manager--geocoding]="enableGeocodingFeature" *ngIf="visualizeService.isRasterOnMap">
+      <arlas-rasters-manager></arlas-rasters-manager>
+    </div>
 
     <arlas-mapgl [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
       [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"

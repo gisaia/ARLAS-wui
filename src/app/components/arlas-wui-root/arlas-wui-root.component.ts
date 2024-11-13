@@ -18,6 +18,7 @@
  */
 
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
@@ -30,9 +31,9 @@ import { VisualizeService } from '@services/visualize.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService,
+  AnalyticsService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasExportCsvService, ArlasMapService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, FilterShortcutConfiguration,
-  getParamValue, NOT_CONFIGURED, TimelineComponent, ZoomToDataStrategy
+  getParamValue, NOT_CONFIGURED, ProcessService, TimelineComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -135,6 +136,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public analyticsService: AnalyticsService,
+    private dialog: MatDialog,
+    private generateAoiDialog: MatDialog,
+    private processService: ProcessService,
+    private exportService: ArlasExportCsvService,
+    private collectionService: ArlasCollectionService,
     protected resultlistService: ResultlistService,
     protected mapService: MapService
   ) {

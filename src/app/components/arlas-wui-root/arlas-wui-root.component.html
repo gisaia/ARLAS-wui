@@ -102,7 +102,7 @@
               </div>
 
               <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen"
-                *ngIf="!resultlistService.listOpen
+                *ngIf="!resultlistService.listOpen && !!resultlistService.previewListContrib
                   && (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode">
                 <arlas-result-list [rowItemList]="resultlistService.previewListContrib.data"
                   [fieldsList]="resultlistService.previewListContrib.fieldsList"
@@ -119,6 +119,7 @@
                   [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
                   [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                   [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
+                  [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
                   (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
                   (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"
