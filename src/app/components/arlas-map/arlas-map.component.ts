@@ -65,12 +65,13 @@ export class ArlasMapComponent implements OnInit {
   public featuresToSelect: Array<ElementIdentifier> = [];
 
   /** Map move */
-  public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public fitbounds: Array<Array<number>> = [];
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
   private disableRecalculateExtend = false;
+  private cumulatedXMoveRatio = 0;
+  private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
   private allowMapExtend: boolean;
@@ -365,10 +366,14 @@ export class ArlasMapComponent implements OnInit {
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
 
       const ratioToAutoSort = 0.1;
-      this.centerLatLng['lat'] = event.centerWithOffset[1];
-      this.centerLatLng['lng'] = event.centerWithOffset[0];
-      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
+      this.mapService.centerLatLng.lat = event.centerWithOffset[1];
+      this.mapService.centerLatLng.lng = event.centerWithOffset[0];
+      this.cumulatedXMoveRatio += event.xMoveRatio;
+      this.cumulatedYMoveRatio += event.yMoveRatio;
+      if ((this.cumulatedXMoveRatio > ratioToAutoSort || this.cumulatedYMoveRatio > ratioToAutoSort || this.zoomChanged)) {
         this.recalculateExtend = true;
+        this.cumulatedXMoveRatio = 0;
+        this.cumulatedYMoveRatio = 0;
       }
       const newMapExtent = event.extendWithOffset;
       const newMapExtentRaw = event.rawExtendWithOffset;

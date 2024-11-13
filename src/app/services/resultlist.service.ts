@@ -341,7 +341,6 @@ export class ResultlistService {
         }
         break;
       case 'geoSortEvent':
-        break;
       case 'geoAutoSortEvent':
         this.toggleGeosort(event.data, resultListContributor);
         break;
