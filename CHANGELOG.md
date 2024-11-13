@@ -1,8 +1,36 @@
 # Change Log
 
+## [v26.0.8](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.8) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.7...v26.0.8)
+
+**New stuff:**
+
+- Display x/y/z layers in ARLAS [\#899](https://github.com/gisaia/ARLAS-wui/issues/899)
+- Disable bookmark creation if there is no filter [\#898](https://github.com/gisaia/ARLAS-wui/issues/898)
+- Homogenise font-sizes in legend  [\#882](https://github.com/gisaia/ARLAS-wui/issues/882)
+- Close the 'share' dialog after downloading geojson/shape zip [\#890](https://github.com/gisaia/ARLAS-wui/issues/890)
+
+**Fixed bugs:**
+
+- Geo-sorted products are not sorted relatively to the map center [\#907](https://github.com/gisaia/ARLAS-wui/issues/907)
+- Values of layer stroke colors field are not displayed in the legend [\#903](https://github.com/gisaia/ARLAS-wui/issues/903)
+- Normalized colored layer display \[0-1\] values in legend [\#902](https://github.com/gisaia/ARLAS-wui/issues/902)
+- detail of a feature is closed after clicking on a feature on the map [\#897](https://github.com/gisaia/ARLAS-wui/issues/897)
+- Change "Mode" by "Geometry" in the "Share geo data" menu \(bottom left\) [\#893](https://github.com/gisaia/ARLAS-wui/issues/893)
+- In case of multi-collection in timeline, when one bucket is returned the detailed timeline gives information about only one collection [\#891](https://github.com/gisaia/ARLAS-wui/issues/891)
+- Selecting an image when the list is closed results in no image being shown once list is open [\#886](https://github.com/gisaia/ARLAS-wui/issues/886)
+- If timeline filter is deactivated first and then removed, the selection brush is not updated [\#885](https://github.com/gisaia/ARLAS-wui/issues/885)
+- other\_color in map legend is not translated [\#883](https://github.com/gisaia/ARLAS-wui/issues/883)
+- Bookmarks can not be selected [\#875](https://github.com/gisaia/ARLAS-wui/issues/875)
+
 ## [v26.0.7](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.7) (2024-09-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.6...v26.0.7)
+
+**New stuff:**
+
+- Share layers : Sort alphabetically the list of fields to include [\#889](https://github.com/gisaia/ARLAS-wui/issues/889)
 
 **Fixed bugs:**
 
