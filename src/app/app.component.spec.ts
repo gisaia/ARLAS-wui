@@ -26,7 +26,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasCollectionService,
+  ArlasConfigService, ArlasSettingsService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
@@ -42,7 +43,8 @@ describe('ArlasWuiComponent', () => {
     const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {
       shouldRunApp: true,
       emptyMode: false,
-      contributorRegistry: new Map()
+      contributorRegistry: new Map(),
+      collectionsMap: new Map()
     });
 
     const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket']);
@@ -102,7 +104,8 @@ describe('ArlasWuiComponent', () => {
         {
           provide: ColorGeneratorLoader,
           useValue: mockColorGeneratorLoader
-        }
+        },
+        ArlasCollectionService
       ]
     }).compileComponents();
   });

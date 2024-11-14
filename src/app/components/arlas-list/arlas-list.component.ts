@@ -60,7 +60,7 @@ export class ArlasListComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnInit(): void { }
 
   public ngAfterViewInit(): void {
-    this.tabsList.selectedIndexChange.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
+    this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
     });
   }

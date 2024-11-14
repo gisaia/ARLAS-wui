@@ -37,7 +37,7 @@ import { ResultlistService } from 'app/services/resultlist.service';
 import { VisualizeService } from 'app/services/visualize.service';
 import { HistogramModule } from 'arlas-web-components';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService,
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService,
   ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
 } from 'arlas-wui-toolkit';
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
@@ -86,11 +86,11 @@ describe('ArlasWuiRootComponent', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         ResultlistService,
         VisualizeService,
-        ArlasSettingsService,
         {
           provide: ArlasSettingsService,
           useValue: mockSettingsService
-        }
+        },
+        ArlasCollectionService
       ],
       teardown: { destroyAfterEach: false }
     }).compileComponents();

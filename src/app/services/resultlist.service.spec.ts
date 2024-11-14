@@ -1,20 +1,23 @@
-import { TestBed } from '@angular/core/testing';
-
-import { RouterTestingModule } from '@angular/router/testing';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { ResultlistService } from './resultlist.service';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { VisualizeService } from './visualize.service';
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
+import { HttpClientModule } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService, ArlasCollectionService } from 'arlas-wui-toolkit';
+import { ResultlistService } from './resultlist.service';
+import { VisualizeService } from './visualize.service';
 
 
 describe('ResultlistService', () => {
   let service: ResultlistService;
 
   beforeEach(() => {
+    const mockArlasCollectionService = jasmine.createSpyObj('ArlasCollectionService', [], {
+      appUnits: new Map()
+    });
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -28,7 +31,11 @@ describe('ResultlistService', () => {
         MatSnackBar,
         VisualizeService,
         Overlay,
-        MatDialog
+        MatDialog,
+        {
+          provide: ArlasCollectionService,
+          useValue: mockArlasCollectionService
+        }
       ],
       teardown: { destroyAfterEach: false }
     });
