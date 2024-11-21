@@ -30,9 +30,21 @@ import { ResultlistService } from '@services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AnalyticsService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasExportCsvService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, FilterShortcutConfiguration,
-  getParamValue, NOT_CONFIGURED, ProcessService, TimelineComponent, ZoomToDataStrategy
+  AnalyticsService,
+  ArlasCollaborativesearchService,
+  ArlasCollectionService,
+  ArlasConfigService,
+  ArlasExportCsvService,
+  ArlasMapService,
+  ArlasMapSettings,
+  ArlasSettingsService,
+  ArlasStartupService,
+  FilterShortcutConfiguration,
+  getParamValue,
+  NOT_CONFIGURED,
+  ProcessService,
+  TimelineComponent,
+  ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
