@@ -71,6 +71,25 @@ export class ArlasWuiComponent implements OnInit {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
+      /** Map */
+      // Set MapContributors
+      const mapContributors = [];
+      this.contributorService.getMapContributors().forEach(mapContrib => {
+        mapContrib.colorGenerator = this.colorService.colorGenerator;
+        if (!!this.resultlistContributors) {
+          const resultlistContrbutor: ResultListContributor = this.resultlistContributors
+            .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
+          if (!!resultlistContrbutor) {
+            mapContrib.searchSize = resultlistContrbutor.pageSize;
+            mapContrib.searchSort = resultlistContrbutor.sort;
+          } else {
+            mapContrib.searchSize = 50;
+          }
+        }
+        mapContributors.push(mapContrib);
+      });
+      this.mapService.setContributors(mapContributors);
+
       /** Resultlist */
       /** Retrieve displayable resultlists */
       const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
@@ -90,25 +109,6 @@ export class ArlasWuiComponent implements OnInit {
         }
       });
       this.resultlistService.setContributors(this.resultlistContributors, resultListsConfig);
-
-      /** Map */
-      // Set MapContributors
-      const mapContributors = [];
-      this.contributorService.getMapContributors().forEach(mapContrib => {
-        mapContrib.colorGenerator = this.colorService.colorGenerator;
-        if (!!this.resultlistContributors) {
-          const resultlistContrbutor: ResultListContributor = this.resultlistContributors
-            .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
-          if (!!resultlistContrbutor) {
-            mapContrib.searchSize = resultlistContrbutor.pageSize;
-            mapContrib.searchSort = resultlistContrbutor.sort;
-          } else {
-            mapContrib.searchSize = 50;
-          }
-        }
-        mapContributors.push(mapContrib);
-      });
-      this.mapService.setContributors(mapContributors);
 
       zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .pipe(takeUntil(this._onDestroy$))
