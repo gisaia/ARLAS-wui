@@ -29,9 +29,9 @@
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
-          <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
+          <!-- <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
             (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
-          </arlas-mapgl-settings>
+          </arlas-mapgl-settings> -->
           <div class="app-container" [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
             [class.app-container-with-list]="rightListContributors.length > 0 && !resultlistService.listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
             [class.app-container-reduce-analytics]="resultlistService.listOpen && analyticsService.activeTab !== undefined"
@@ -132,13 +132,12 @@
                 [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
                 [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
                 [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
-                [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
+               [mapLayers]="mapComponentConfig?.mapLayers"
                 [mapSources]="mapComponentConfig?.mapSources"
                 [featureToHightLight]="featureToHightLight" [featuresToSelect]="featuresToSelect"
                 [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
                 [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
                 (onAoiChanged)="onChangeAoi($event)"
-                (onAoiEdit)="onAoiEdit($event)"
                 (onMove)="onMove($event)"
                 (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
                 (legendVisibiltyStatus)="setLyersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnOver($event)"

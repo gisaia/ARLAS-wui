@@ -77,8 +77,8 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapModule, ArlasMapService, BasemapService } from 'arlas-map';
-import { ArlasMapboxService, MapboxBasemapService} from 'arlas-mapbox';
+import { ArlasMapModule, ArlasMapService, BasemapService, LegendService } from 'arlas-map';
+import { ArlasMapboxService, MapboxBasemapService, MapboxLegendService} from 'arlas-mapbox';
 
 
 @NgModule({
@@ -164,6 +164,10 @@ import { ArlasMapboxService, MapboxBasemapService} from 'arlas-mapbox';
     {
       provide: BasemapService,
       useClass: MapboxBasemapService
+    },
+    {
+      provide: LegendService,
+      useClass: MapboxLegendService
     },
     VisualizeService,
     {

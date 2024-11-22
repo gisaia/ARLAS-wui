@@ -169,7 +169,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public layersVisibilityStatus: Map<string, boolean> = new Map();
   public mainMapContributor: MapContributor;
   public mainCollection: string;
-  public geojsondraw: { type: string; features: Array<any>; } = {
+  public geojsondraw: any = {
     'type': 'FeatureCollection',
     'features': []
   };
@@ -543,7 +543,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          console.log(this.mapglComponent)
           const bounds = this.mapglComponent.map.getBounds();
           if (!!bounds) {
             this.mapglComponent.map.fitBounds(bounds, { duration: 0 });
@@ -1248,7 +1247,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.visualizeService.handleGeojsonPreview(event.geojson);
     if (event.geojson.type === 'Point') {
       const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      console.log(this.mapglComponent.map.getCanvas().className)
       //TODO: map.fitboundshould be less restrictive
       this.mapglComponent.map.fitBounds(bbox as any, { maxZoom: zoom });
     } else {
