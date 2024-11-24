@@ -44,7 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  HistogramModule,  MapglSettingsModule,
+  HistogramModule,
   ResultsModule, FormatNumberModule,
 } from 'arlas-web-components';
 import {
@@ -77,7 +77,7 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapModule, ArlasMapService, BasemapService, LegendService } from 'arlas-map';
+import { ArlasMapModule, ArlasMapService, BasemapService, LegendService, MapImportComponent } from 'arlas-map';
 import { ArlasMapboxService, MapboxBasemapService, MapboxLegendService} from 'arlas-mapbox';
 
 
@@ -90,7 +90,7 @@ import { ArlasMapboxService, MapboxBasemapService, MapboxLegendService} from 'ar
     ConfigsListComponent,
     RoundKilometer,
     SquareKilometer,
-    GeocodingComponent
+    GeocodingComponent,
   ],
   exports: [
     AoiDimensionComponent,
@@ -104,7 +104,6 @@ import { ArlasMapboxService, MapboxBasemapService, MapboxLegendService} from 'ar
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MapglSettingsModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,

@@ -29,9 +29,9 @@
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartUpService.shouldRunApp">
-          <!-- <arlas-mapgl-settings #mapSettings [basemapStylesGroup]="mapglComponent?.basemapStylesGroup"
-            (baseMapStyleEmitter)="setBasemapStylesGroup($event)" (geoQueryEmitter)="applySelectedGeoQuery($event)">
-          </arlas-mapgl-settings> -->
+          <arlas-map-settings #mapSettings
+             (geoQueryEmitter)="applySelectedGeoQuery($event)">
+          </arlas-map-settings>
           <div class="app-container" [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
             [class.app-container-with-list]="rightListContributors.length > 0 && !resultlistService.listOpen && resultListConfigPerContId.get(previewListContrib.identifier)?.hasGridMode && analyticsService.activeTab === undefined"
             [class.app-container-reduce-analytics]="resultlistService.listOpen && analyticsService.activeTab !== undefined"
@@ -243,8 +243,8 @@
               [detailedTimelineComponent]="detailedTimelineComponentConfig">
             </arlas-timeline>
 
-            <arlas-mapgl-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
-              [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-mapgl-import>
+            <arlas-map-import #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="5000000"
+              [maxLoadingTime]="30000" [maxFeatures]="100" [mapComponent]="mapglComponent"></arlas-map-import>
             <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe>0" color="primary"
               mode="indeterminate"></mat-progress-bar>
 

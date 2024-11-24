@@ -28,7 +28,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { ArlasMapComponent, LngLat, SCROLLABLE_ARLAS_ID } from 'arlas-map';
+import { AoiEdition, ArlasMapComponent, BboxGeneratorComponent, GeoQuery, LngLat, MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID } from 'arlas-map';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -45,9 +45,7 @@ import {
   ChartType,
   Column,
   DataType,
-  GeoQuery,
   Item,
-  MapglSettingsComponent,
   ModeEnum,
   PageQuery,
   Position,
@@ -177,7 +175,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public recalculateExtend = true;
   public zoomChanged = false;
   public zoomStart: number;
-  //public aoiEdition: AoiEdition;
+  public aoiEdition: AoiEdition;
 
   private disableRecalculateExtend = false;
   private currentClickedFeatureId: string = undefined;
@@ -203,8 +201,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent;
-  // @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent;
+  @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
   @ViewChild('resultsidenav', { static: false }) public resultListComponent: ResultListComponent;
@@ -355,14 +353,14 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openAoiGenerator() {
-    // this.generateAoiDialog.open(BboxGeneratorComponent, {
-    //   data: {
-    //     initCorner: {
-    //       lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
-    //       lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
-    //     }
-    //   }
-    // });
+    this.generateAoiDialog.open(BboxGeneratorComponent, {
+      data: {
+        initCorner: {
+          lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
+          lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
+        }
+      }
+    });
   }
 
   public ngOnDestroy(): void {
