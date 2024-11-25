@@ -198,60 +198,116 @@ fi
 envsubst '$ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
-
+## Download
 # Process settings URL
-if [ -z "${ARLAS_PROCESS_SETTINGS_URL}" ]; then
-  ARLAS_PROCESS_SETTINGS_URL='assets/processes/download.json'
-  export ARLAS_PROCESS_SETTINGS_URL
-  echo "No ARLAS_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/processes/download.json'"
+if [ -z "${ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL}" ]; then
+  ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL='assets/processes/download.json'
+  export ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL
+  echo "No ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/processes/download.json'"
 else
-  echo ${ARLAS_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the process inputs."
+  echo ${ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the download process inputs."
 fi
-envsubst '$ARLAS_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+envsubst '$ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process URL
-if [ -z "${ARLAS_PROCESS_URL}" ]; then
-  ARLAS_PROCESS_URL=NOT_CONFIGURED
-  export ARLAS_PROCESS_URL
-  echo "No ARLAS_PROCESS_URL is specified."
+if [ -z "${ARLAS_DOWNLOAD_PROCESS_URL}" ]; then
+  ARLAS_DOWNLOAD_PROCESS_URL=NOT_CONFIGURED
+  export ARLAS_DOWNLOAD_PROCESS_URL
+  echo "No ARLAS_DOWNLOAD_PROCESS_URL is specified."
 else
-  echo ${ARLAS_PROCESS_URL}  "is used as a backend endpoint to execute the process."
+  echo ${ARLAS_DOWNLOAD_PROCESS_URL}  "is used as a backend endpoint to execute the download process."
 fi
-envsubst '$ARLAS_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+envsubst '$ARLAS_DOWNLOAD_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process CHECK URL
-if [ -z "${ARLAS_PROCESS_CHECK_URL}" ]; then
-  ARLAS_PROCESS_CHECK_URL=NOT_CONFIGURED
-  export ARLAS_PROCESS_CHECK_URL
-  echo "No ARLAS_PROCESS_CHECK_URL is specified."
+if [ -z "${ARLAS_DOWNLOAD_PROCESS_CHECK_URL}" ]; then
+  ARLAS_DOWNLOAD_PROCESS_CHECK_URL=NOT_CONFIGURED
+  export ARLAS_DOWNLOAD_PROCESS_CHECK_URL
+  echo "No ARLAS_DOWNLOAD_PROCESS_CHECK_URL is specified."
 else
-  echo ${ARLAS_PROCESS_CHECK_URL}  "is used as a backend endpoint to check the process availability."
+  echo ${ARLAS_DOWNLOAD_PROCESS_CHECK_URL}  "is used as a backend endpoint to check the download process availability."
 fi
-envsubst '$ARLAS_PROCESS_CHECK_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+envsubst '$ARLAS_DOWNLOAD_PROCESS_CHECK_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process Status URL
-if [ -z "${ARLAS_PROCESS_STATUS_URL}" ]; then
-  ARLAS_PROCESS_STATUS_URL=NOT_CONFIGURED
-  export ARLAS_PROCESS_STATUS_URL
-  echo "No ARLAS_PROCESS_STATUS_URL is specified."
+if [ -z "${ARLAS_DOWNLOAD_PROCESS_STATUS_URL}" ]; then
+  ARLAS_DOWNLOAD_PROCESS_STATUS_URL=NOT_CONFIGURED
+  export ARLAS_DOWNLOAD_PROCESS_STATUS_URL
+  echo "No ARLAS_DOWNLOAD_PROCESS_STATUS_URL is specified."
 else
-  echo ${ARLAS_PROCESS_STATUS_URL}  "is used as a backend endpoint to check the status of the process."
+  echo ${ARLAS_DOWNLOAD_PROCESS_STATUS_URL}  "is used as a backend endpoint to check the status of the download process."
 fi
-envsubst '$ARLAS_PROCESS_STATUS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+envsubst '$ARLAS_DOWNLOAD_PROCESS_STATUS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 # Process maximum number of items allowed
-if [ -z "${ARLAS_PROCESS_MAX_ITEMS}" ]; then
-  ARLAS_PROCESS_MAX_ITEMS=100
-  export ARLAS_PROCESS_MAX_ITEMS
-  echo "No ARLAS_PROCESS_MAX_ITEMS is specified."
+if [ -z "${ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS}" ]; then
+  ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS=100
+  export ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS
+  echo "No ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS is specified."
 else
-  echo ${ARLAS_PROCESS_MAX_ITEMS}  "is used for process.max_items."
+  echo ${ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS}  "is used for the download process max items."
 fi
-envsubst '$ARLAS_PROCESS_MAX_ITEMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+envsubst '$ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+## Enrich
+# Process settings URL
+if [ -z "${ARLAS_ENRICH_PROCESS_SETTINGS_URL}" ]; then
+  ARLAS_ENRICH_PROCESS_SETTINGS_URL='assets/processes/enrich.json'
+  export ARLAS_ENRICH_PROCESS_SETTINGS_URL
+  echo "No ARLAS_ENRICH_PROCESS_SETTINGS_URL is specified. Defaults to 'assets/processes/download.json'"
+else
+  echo ${ARLAS_ENRICH_PROCESS_SETTINGS_URL}  "is used as a path to settings description of the enrich process inputs."
+fi
+envsubst '$ARLAS_ENRICH_PROCESS_SETTINGS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process URL
+if [ -z "${ARLAS_ENRICH_PROCESS_URL}" ]; then
+  ARLAS_ENRICH_PROCESS_URL=NOT_CONFIGURED
+  export ARLAS_ENRICH_PROCESS_URL
+  echo "No ARLAS_ENRICH_PROCESS_URL is specified."
+else
+  echo ${ARLAS_ENRICH_PROCESS_URL}  "is used as a backend endpoint to execute the enrich process."
+fi
+envsubst '$ARLAS_ENRICH_PROCESS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process CHECK URL
+if [ -z "${ARLAS_ENRICH_PROCESS_CHECK_URL}" ]; then
+  ARLAS_ENRICH_PROCESS_CHECK_URL=NOT_CONFIGURED
+  export ARLAS_ENRICH_PROCESS_CHECK_URL
+  echo "No ARLAS_ENRICH_PROCESS_CHECK_URL is specified."
+else
+  echo ${ARLAS_ENRICH_PROCESS_CHECK_URL}  "is used as a backend endpoint to check the enrich process availability."
+fi
+envsubst '$ARLAS_ENRICH_PROCESS_CHECK_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process Status URL
+if [ -z "${ARLAS_ENRICH_PROCESS_STATUS_URL}" ]; then
+  ARLAS_ENRICH_PROCESS_STATUS_URL=NOT_CONFIGURED
+  export ARLAS_ENRICH_PROCESS_STATUS_URL
+  echo "No ARLAS_ENRICH_PROCESS_STATUS_URL is specified."
+else
+  echo ${ARLAS_ENRICH_PROCESS_STATUS_URL}  "is used as a backend endpoint to check the status of the enrich process."
+fi
+envsubst '$ARLAS_ENRICH_PROCESS_STATUS_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
+mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
+
+# Process maximum number of items allowed
+if [ -z "${ARLAS_ENRICH_PROCESS_MAX_ITEMS}" ]; then
+  ARLAS_ENRICH_PROCESS_MAX_ITEMS=100
+  export ARLAS_ENRICH_PROCESS_MAX_ITEMS
+  echo "No ARLAS_ENRICH_PROCESS_MAX_ITEMS is specified."
+else
+  echo ${ARLAS_ENRICH_PROCESS_MAX_ITEMS}  "is used for the enrich process max items."
+fi
+envsubst '$ARLAS_ENRICH_PROCESS_MAX_ITEMS' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 

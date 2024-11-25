@@ -44,14 +44,23 @@ resultlist:
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
   export_nb_buckets: ${ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS}
-process:
-  url: ${ARLAS_PROCESS_URL}
-  check_url: ${ARLAS_PROCESS_CHECK_URL}
-  max_items: ${ARLAS_PROCESS_MAX_ITEMS}
-  settings:
-    url: ${ARLAS_PROCESS_SETTINGS_URL}
-  status:
-    url: ${ARLAS_PROCESS_STATUS_URL}
+processes:
+  - name: download
+    url: ${ARLAS_DOWNLOAD_PROCESS_URL}
+    check_url: ${ARLAS_DOWNLOAD_PROCESS_CHECK_URL}
+    max_items: ${ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS}
+    settings:
+      url: ${ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL}
+    status:
+      url: ${ARLAS_DOWNLOAD_PROCESS_STATUS_URL}
+  - name: enrich
+    url: ${ARLAS_ENRICH_PROCESS_URL}
+    check_url: ${ARLAS_ENRICH_PROCESS_CHECK_URL}
+    max_items: ${ARLAS_ENRICH_PROCESS_MAX_ITEMS}
+    settings:
+      url: ${ARLAS_ENRICH_PROCESS_SETTINGS_URL}
+    status:
+      url: ${ARLAS_ENRICH_PROCESS_STATUS_URL}
 geocoding:
   enabled: ${ARLAS_GEOCODING_ENABLED}
   find_place_url: ${ARLAS_GEOCODING_FIND_PLACE_URL}

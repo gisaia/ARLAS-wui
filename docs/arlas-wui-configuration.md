@@ -22,7 +22,7 @@ All supported environment variables are listed below.
 
 Instead of overriding some properties of the settings file, it is possible to start the `arlas-wui` container with a given settings file.
 
-#### File 
+#### File
 
 The `arlas-wui` container can start with a mounted settings file thanks to docker volume mapping. For instance, if the current directory of the host contains a `settings.yaml` file, the container can be started as follow:
 

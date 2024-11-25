@@ -4,7 +4,7 @@
 authentication:
   use_authent: true
   auth_mode: iam
-  url: https://merolla/arlas_iam_server
+  url: https://localhost/arlas_iam_server
   force_connect: false
   threshold: 60000
   use_discovery: false
@@ -29,7 +29,7 @@ authentication:
 tab_name: "ARLAS Wui"
 
 persistence:
-  url: https://merolla/persist
+  url: https://localhost/persist
   use_local_config: false
 histogram:
   max_buckets: 200
@@ -37,26 +37,25 @@ histogram:
 resultlist:
   enable_export: true
   export_size: 10000
-arlas_hub_url: https://merolla/hub
+arlas_hub_url: https://localhost/hub
 dashboards_shortcut: true
 processes:
   - name: download
-    url: 'https://merolla/aproc/processes/download/execution'
-    check_url: 'https://merolla/arlas/explore/catalog/_count?f=centroid%3Awithin%3A-11.460693359377501%2C21.6691986319004%2C-4.539306640626933%2C35.845895216684255&righthand=false&pretty=false&max-age-cache=120'
+    url: 'https://localhost/aproc/processes/download/execution'
+    check_url: 'https://localhost/aproc/processes/download'
     max_items: 15
     settings:
       url: 'assets/processes/download.json'
     status:
-      url: 'https://merolla/aproc/jobs'
+      url: 'https://localhost/aproc/jobs'
   - name: enrich
-    url: 'https://merolla/aproc/processes/enrich/execution'
-    check_url: 'https://merolla/arlas/explore/catalog/_count?f=centroid%3Awithin%3A-11.460693359377501%2C21.6691986319004%2C-4.539306640626933%2C35.845895216684255&righthand=false&pretty=false&max-age-cache=120'
+    url: 'https://localhost/aproc/processes/enrich/execution'
+    check_url: 'https://localhost/aproc/processes/enrich'
     max_items: 15
     settings:
-    # TODO: have one for enrich
-      url: 'assets/processes/download.json'
+      url: 'assets/processes/enrich.json'
     status:
-      url: 'https://merolla/aproc/jobs'
+      url: 'https://localhost/aproc/jobs'
 links:
   - name: Explorer
     icon: landscape
