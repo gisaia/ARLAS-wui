@@ -1,6 +1,14 @@
 # Change Log
 
-## [v26.0.8](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.8) (2024-11-12)
+## [v26.1.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.1) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.8...v26.1.0-rc.1)
+
+**Miscellaneous:**
+
+- Externalise the map and the resultlists from the main component [\#895](https://github.com/gisaia/ARLAS-wui/issues/895)
+
+## [v26.0.8](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.8) (2024-11-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.7...v26.0.8)
 
@@ -8,6 +16,7 @@
 
 - Display x/y/z layers in ARLAS [\#899](https://github.com/gisaia/ARLAS-wui/issues/899)
 - Disable bookmark creation if there is no filter [\#898](https://github.com/gisaia/ARLAS-wui/issues/898)
+- Use display names of the fields in all components [\#894](https://github.com/gisaia/ARLAS-wui/issues/894)
 - Homogenise font-sizes in legend  [\#882](https://github.com/gisaia/ARLAS-wui/issues/882)
 - Close the 'share' dialog after downloading geojson/shape zip [\#890](https://github.com/gisaia/ARLAS-wui/issues/890)
 
