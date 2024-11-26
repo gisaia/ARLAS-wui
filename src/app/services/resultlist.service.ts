@@ -508,10 +508,9 @@ export class ResultlistService {
         }
       });
     } else {
-      // TODO: translate
       this.snackbar.open(
         this.translate.instant('You have exceeded the number of products authorised for a single process',
-          { max: maxItems, name: processName }), 'X',
+          { max: maxItems, name: this.translate.instant(processName) }), 'X',
         {
           horizontalPosition: 'center',
           verticalPosition: 'top',

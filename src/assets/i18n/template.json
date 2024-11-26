@@ -44,7 +44,7 @@
 	"Remove all rasters": "Remove all rasters",
 	"Updating Geo-query of ": "Updating Geo-query of ",
 	"Loading data of ": "Loading data of ",
-	"You have exceeded the number of products authorised for a single download": "You have exceeded the number of products authorised for a single download",
+	"You have exceeded the number of products authorised for a single process": "You have exceeded the number of products authorised for a single process",
 	"An error occured exporting the list": "An error occured exporting the list",
 	"Visualize": "Visualize",
 	"Visualize on the map": "Visualize on the map",
@@ -55,6 +55,8 @@
 	"Zoom to item": "Zoom to item",
 	"Download product": "Download product",
 	"Download product archive": "Download product archive",
+	"Enrich product": "Enrich product",
+	"Enrich product with more assets": "Enrich product with more assets",
 	"Export csv": "Export csv",
 	"The visualisation is not available for this product.": "The visualisation is not available for this product.",
 	"Remove visualisation": "Remove visualisation"
