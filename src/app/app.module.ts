@@ -45,7 +45,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule
+  ResultsModule, FormatNumberModule, BboxGeneratorModule, GetValueModule
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,
@@ -69,15 +69,20 @@ import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-roo
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { AoiDimensionComponent } from './components/map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/map/aoi-dimensions/aoi-dimensions.pipes';
+import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 import { ContributorService } from './services/contributors.service';
-import { DynamicComponentService } from './services/dynamicComponent.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
+import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
+import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
+import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 
 
 @NgModule({
@@ -90,7 +95,11 @@ import { RastersManagerComponent } from './components/map/raster-layers-manager/
     RoundKilometer,
     SquareKilometer,
     GeocodingComponent,
-    RastersManagerComponent
+    RastersManagerComponent,
+    ArlasMapComponent,
+    ArlasListComponent,
+    GetResultlistConfigPipe,
+    ArlasAnalyticsComponent
   ],
   exports: [
     AoiDimensionComponent,
@@ -99,7 +108,11 @@ import { RastersManagerComponent } from './components/map/raster-layers-manager/
     LeftMenuComponent,
     ConfigsListComponent,
     RoundKilometer,
-    SquareKilometer
+    SquareKilometer,
+    GeocodingComponent,
+    ArlasMapComponent,
+    ArlasListComponent,
+    GetResultlistConfigPipe
   ],
   imports: [
     BrowserModule,
@@ -154,12 +167,13 @@ import { RastersManagerComponent } from './components/map/raster-layers-manager/
     }),
     ArlasTaggerModule,
     LoginModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    GetValueModule
   ],
   providers: [
-    ContributorService,
-    DynamicComponentService,
     VisualizeService,
+    MapService,
+    ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
       useClass: LazyLoadImageHooks
@@ -170,7 +184,8 @@ import { RastersManagerComponent } from './components/map/raster-layers-manager/
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
     },
-    ArlasCollectionService
+    ArlasCollectionService,
+    ContributorService
   ],
   bootstrap: [ArlasWuiComponent],
   entryComponents: []

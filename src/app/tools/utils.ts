@@ -17,45 +17,14 @@
  * under the License.
  */
 
-@import '../../../styles/variables.scss';
-
-.menu_container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  mat-icon {
-    color: #666;
-  }
-
-  ::ng-deep .mat-list-item-content {
-    padding: calc(($left-menu-width - 40px ) / 2) !important;
-  }
-
-  .arlas-analytics {
-    display: flex;
-    flex-direction: column;
-
-    .arlas-analytics-refresh {
-      align-self: center;
-    }
-  }
-
-  .action-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .action-menu-button {
-      align-self: center;
-    }
-  }
-}
-
-.active-menu {
-  background-color: rgba(255, 64, 129, 0.1);
-  mat-icon {
-    color: #ff4081;
+export function isElementInViewport(el: HTMLElement) {
+  if (el) {
+    const rect = el.getBoundingClientRect();
+    return (rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth));
+  } else {
+    return false;
   }
 }

@@ -1,0 +1,55 @@
+<mat-progress-bar *ngIf="resultlistService.resultlistIsExporting" class="arlas-progression" color="primary"
+  mode="indeterminate"></mat-progress-bar>
+<mat-tab-group [selectedIndex]="resultlistService.selectedListTabIndex" #tabsList class="result-list-tab-group">
+  <mat-tab *ngFor="let list of resultlistService.rightListContributors; let listIdx = index" [aria-label]="list.identifier">
+    <ng-template mat-tab-label>
+      <mat-icon class="icon"
+        *ngIf="(list | getResultlistConfig)?.options?.showIcon"
+        [matTooltip]="list.name"
+        [matTooltipDisabled]="(list | getResultlistConfig)?.options?.showName">
+        {{(list | getResultlistConfig)?.options?.icon}}
+      </mat-icon>
+      <span class="name"
+        *ngIf="(list | getResultlistConfig)?.options?.showName !== false">
+        {{list.name | translate}}
+      </span>
+    </ng-template>
+    <div class="list__container">
+      <arlas-result-list *ngIf="resultlistService.listOpen && listIdx === resultlistService.selectedListTabIndex"
+        #resultList [rowItemList]="list.data" [fieldsList]="list.fieldsList"
+        [detailedDataRetriever]="list.detailedDataRetriever" [fieldsConfiguration]="list.fieldsConfiguration"
+        [dropDownMapValues]="list.dropDownMapValues" [filtersMap]="list.filtersMap"
+        [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10" [nbGridColumns]="resultListGridColumns"
+        [tableWidth]="listWidth"
+        [defautMode]="(list | getResultlistConfig)?.defautMode"
+        [selectedGridItem]="(list | getResultlistConfig)?.selectedGridItem"
+        [fetchState]="list.fetchState"
+        [globalActionsList]="(list | getResultlistConfig)?.globalActionsList"
+        [isGeoSortEnabled]="(list | getResultlistConfig)?.isGeoSortActived"
+        [options]="(list | getResultlistConfig)?.options"
+        [displayFilters]="(list | getResultlistConfig)?.displayFilters"
+        [useColorService]="(list | getResultlistConfig)?.useColorService"
+        [cellBackgroundStyle]="(list | getResultlistConfig)?.cellBackgroundStyle"
+        [colorsSaturationWeight]="(list | getResultlistConfig)?.colorsSaturationWeight"
+        [keysToColors]="(list | getResultlistConfig)?.keysToColors"
+        [isDetailledGridOpen]="(list | getResultlistConfig)?.isDetailledGridOpen"
+        [currentSortedColumn]="list | getValue:resultlistService.sortOutput"
+        [isGeoSortActivated]="list | getValue:resultlistService.isGeoSortActivated"
+        [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(list.identifier)"
+        (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
+        (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
+        (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(list.identifier).fitThumbnail = $event"
+        (setFiltersEvent)="list.setFilters($event)"
+        (sortColumnEvent)="sortColumn(list, $event)"
+        (paginationEvent)="paginate(list, $event)"
+        (geoSortEvent)="geoSort(list, $event)"
+        (geoAutoSortEvent)="geoAutoSort(list, $event)"
+        (consultedItemEvent)="consultItem(list, $event)"
+        (actionOnItemEvent)="applyActionOnItem(list, $event)"
+        (globalActionEvent)="applyGlobalAction(list, $event)"
+        (changeResultMode)="changeListResultMode($event, list.identifier)"
+        (onListLoaded)="onListLoaded($event)">
+      </arlas-result-list>
+    </div>
+  </mat-tab>
+</mat-tab-group>

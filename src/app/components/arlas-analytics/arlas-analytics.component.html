@@ -1,0 +1,7 @@
+<div class="arlas-analytics--container">
+  <arlas-analytics-menu *ngIf="showMenu" [showIndicators]="showIndicators"></arlas-analytics-menu>
+
+  <arlas-analytics-board (boardOutputs)="resultlistService.getBoardEvents($event)"
+    [showSpinner]="spinner.show" [showIndicators]="showIndicators" [diameterSpinner]="+spinner.diameter"
+    [colorSpinner]="spinner.color" [strokeWidthSpinner]="spinner.strokeWidth"></arlas-analytics-board>
+</div>

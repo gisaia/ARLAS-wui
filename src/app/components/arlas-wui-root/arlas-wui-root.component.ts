@@ -17,82 +17,27 @@
  * under the License.
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTabGroup } from '@angular/material/tabs';
-import { DomSanitizer, Title } from '@angular/platform-browser';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
+import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { MenuState } from '@components/left-menu/left-menu.component';
+import { ContributorService } from '@services/contributors.service';
+import { MapService } from '@services/map.service';
+import { ResultlistService } from '@services/resultlist.service';
+import { VisualizeService } from '@services/visualize.service';
+import { Item, ModeEnum } from 'arlas-web-components';
+import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AoiEdition,
-  ArlasAnyLayer,
-  ArlasColorService,
-  BboxGeneratorComponent,
-  CellBackgroundStyleEnum,
-  ChartType,
-  Column,
-  DataType,
-  GeoQuery,
-  Item,
-  MapglComponent,
-  MapglImportComponent,
-  MapglSettingsComponent,
-  ModeEnum,
-  PageQuery,
-  Position,
-  ResultListComponent,
-  SCROLLABLE_ARLAS_ID,
-  SortEnum
-} from 'arlas-web-components';
-import {
-  AnalyticsContributor,
-  ElementIdentifier,
-  FeatureRenderMode,
-  MapContributor,
-  ResultListContributor,
-  SearchContributor
-} from 'arlas-web-contributors';
-import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
-import {
-  AiasDownloadComponent,
-  AnalyticsService,
-  ArlasCollaborativesearchService,
-  ArlasCollectionService,
-  ArlasConfigService,
-  ArlasExportCsvService,
-  ArlasMapService,
-  ArlasMapSettings,
-  ArlasSettingsService,
-  ArlasStartupService,
-  FilterShortcutConfiguration,
-  NOT_CONFIGURED,
-  ProcessService,
-  TimelineComponent,
-  ZoomToDataStrategy
+  AnalyticsService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasExportCsvService, ArlasMapService,
+  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, FilterShortcutConfiguration,
+  getParamValue, NOT_CONFIGURED, ProcessService, TimelineComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
-import * as mapboxgl from 'mapbox-gl';
-import { BehaviorSubject, fromEvent, merge, Observable, of, Subject, zip } from 'rxjs';
-import { debounceTime, finalize, mergeMap, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ContributorService } from '../../services/contributors.service';
-import { DynamicComponentService } from '../../services/dynamicComponent.service';
-import { GeocodingResult } from '../../services/geocoding.service';
-import { VisualizeService } from '../../services/visualize.service';
-import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -100,94 +45,36 @@ import { MenuState } from '../left-menu/left-menu.component';
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
 export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * @Input : Angular
+   * Current version of ARLAS WUI
+   */
   @Input() public version: string;
-  @Output() public actionOnPopup = new Subject<{
-    action: {
-      id: string;
-      label: string;
-      collection: string;
-      cssClass?: string | string[];
-      tooltip?: string;
-    };
-    elementidentifier: ElementIdentifier;
-  }>();
-  @Output() public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
-  public coordinatesHaveSpace = true;
-  public modeEnum = ModeEnum;
-  public mapglContributors: Array<MapContributor> = new Array();
   public searchContributors: SearchContributor[];
-  public resultlistContributors: Array<ResultListContributor> = new Array();
-  public analyticsContributor: AnalyticsContributor;
-
-  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
-
-  public analytics: Array<any>;
-  public dataType = DataType;
-  public chartType = ChartType;
-  public position = Position;
 
   public appName: string;
 
-  // component config
-  public mapComponentConfig: any;
+  // Component config
   public timelineComponentConfig: any;
   public detailedTimelineComponentConfig: any;
-  /**
-   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
-   */
-  public isTimelineLegend = true;
 
-  public resultListsConfig = [];
-  public resultListConfigPerContId = new Map<string, any>();
-  public resultlistIsExporting = false;
-
-  public fitbounds: Array<Array<number>> = [];
-  public featureToHightLight: {
-    isleaving: boolean;
-    elementidentifier: ElementIdentifier;
+  public menuState: MenuState = {
+    configs: false
   };
-  public featuresToSelect: Array<ElementIdentifier> = [];
-  public nbVerticesLimit = 50;
-  public isMapMenuOpen = false;
-  public shouldCloseMapMenu = true;
-  public menuState: MenuState;
-  public searchOpen = true;
-  public mapId = 'mapgl';
-  public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
-  public previewListContrib: ResultListContributor = null;
-  public rightListContributors: Array<ResultListContributor> = new Array();
+
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
     = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
+  public showIndicators = false;
+  public showTimeline = true;
+  /**
+   * Whether the legend of the timeline is displayed. If both the analytics and the list are open, then the legend is hidden
+   */
+  public showTimelineLegend = true;
   public zoomToStrategy = ZoomToDataStrategy.NONE;
   public showZoomToData = false;
-  public showIndicators = false;
-  public onSideNavChange: boolean;
-  public defaultBaseMap;
-  public mapDataSources;
-  public mapRedrawSources;
-  public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
-  public mapVisibilityUpdater;
-  /** Visibility status of layers on the map */
-  public layersVisibilityStatus: Map<string, boolean> = new Map();
-  public mainMapContributor: MapContributor;
-  public mainCollection: string;
-  public geojsondraw: { type: string; features: Array<any>; } = {
-    'type': 'FeatureCollection',
-    'features': []
-  };
-  public isTimelineOpen = true;
-  public recalculateExtend = true;
-  public zoomChanged = false;
-  public zoomStart: number;
-  public aoiEdition: AoiEdition;
 
-  private disableRecalculateExtend = false;
-  private currentClickedFeatureId: string = undefined;
-
-  @Input() public hiddenAnalyticsTabs: string[] = [];
-  @Input() public hiddenResultlistTabs: string[] = [];
   /**
    * @Input : Angular
    * @description Width in pixels of the preview result list
@@ -203,15 +90,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    * @description Number of columns in the grid result list
    */
   @Input() public resultListGridColumns = 4;
-  public isGeoSortActivated = new Map<string, boolean>();
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   public collections: string[];
-  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
-  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
-  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('resultsidenav', { static: false }) public resultListComponent: ResultListComponent;
+  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
+  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
@@ -236,20 +119,6 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   public spacing = 5;
 
-  public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
-  private allowMapExtend: boolean;
-  private mapBounds: mapboxgl.LngLatBounds;
-  private mapEventListener = new Subject();
-  private mapExtendTimer: number;
-  private MAP_EXTEND_PARAM = 'extend';
-
-  /** Geocoding */
-  protected showGeocodingPopup = new BehaviorSubject(false);
-  protected enableGeocodingFeature = !!this.arlasSettingsService.getGeocodingSettings()?.enabled;
-
-  /* Process */
-  private downloadDialogRef: MatDialogRef<AiasDownloadComponent>;
-
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
@@ -258,37 +127,27 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     protected settingsService: ArlasSettingsService,
     public collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    public arlasStartUpService: ArlasStartupService,
+    public arlasStartupService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
-    private iconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
-    private mapService: ArlasMapService,
-    private colorService: ArlasColorService,
+    private toolkitMapService: ArlasMapService,
     private titleService: Title,
-    private arlasSettingsService: ArlasSettingsService,
-    private dynamicComponentService: DynamicComponentService,
     public visualizeService: VisualizeService,
-    private translate: TranslateService,
-    private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public analyticsService: AnalyticsService,
     private dialog: MatDialog,
     private generateAoiDialog: MatDialog,
     private processService: ProcessService,
-    public resultlistService: ResultlistService,
     private exportService: ArlasExportCsvService,
-    private collectionService: ArlasCollectionService
+    private collectionService: ArlasCollectionService,
+    protected resultlistService: ResultlistService,
+    protected mapService: MapService
   ) {
-    this.menuState = {
-      configs: false
-    };
-    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
       fromEvent(window, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
-          this.mapglComponent.map.resize();
           this.resizeCollectionCounts();
           this.adjustVisibleShortcuts();
           this.adjustComponentsSize();
@@ -296,22 +155,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
 
-      this.analyticsContributor = this.arlasStartUpService.contributorRegistry.get('analytics') as AnalyticsContributor;
-      this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      const mapExtendTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer');
-      this.mapExtendTimer = (mapExtendTimer !== undefined) ? mapExtendTimer : 4000;
-      this.allowMapExtend = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
-      this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
       this.timelineComponentConfig = this.configService.getValue('arlas.web.components.timeline');
       this.detailedTimelineComponentConfig = this.configService.getValue('arlas.web.components.detailedTimeline');
       this.zoomToStrategy = this.configService.getValue('arlas.web.options.zoom_to_strategy');
-
-      this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-      this.defaultBaseMap = !!this.mapComponentConfig.defaultBasemapStyle ? this.mapComponentConfig.defaultBasemapStyle :
-        {
-          styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-          name: 'Positron'
-        };
 
       if (this.configService.getValue('arlas.web.options.spinner')) {
         this.spinner = Object.assign(this.spinner, this.configService.getValue('arlas.web.options.spinner'));
@@ -325,42 +171,19 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configService.getValue('arlas.web.options.indicators')) {
         this.showIndicators = true;
       }
-
-      /** init from url */
-      const queryParamVisibleVisualisations = this.getParamValue('vs');
-      if (queryParamVisibleVisualisations) {
-        const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
-        this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
-      }
-
-      this.isTimelineOpen = this.getParamValue('to') === 'true';
-
-      let wasTabSelected = this.getParamValue('at') !== null;
-      this.analyticsService.tabChange.subscribe(tab => {
-        // If there is a change in the state of the analytics (open/close), resize
-        if (wasTabSelected !== (tab !== undefined)) {
-          this.adjustComponentsSize();
-          wasTabSelected = (tab !== undefined);
-        }
-        this.updateTimelineLegendVisibility();
-      });
-    } else {
-      // Update default basemap style ?
-      this.defaultBaseMap = {
-        styleFile: 'http://demo.arlas.io:82/styles/positron/style.json',
-        name: 'Positron'
-      };
     }
-  }
 
-  public openAoiGenerator() {
-    this.generateAoiDialog.open(BboxGeneratorComponent, {
-      data: {
-        initCorner: {
-          lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
-          lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
-        }
+    /** init from url */
+    this.showTimeline = getParamValue('to') === 'true';
+
+    let wasTabSelected = getParamValue('at') !== null;
+    this.analyticsService.tabChange.subscribe(tab => {
+      // If there is a change in the state of the analytics (open/close), resize
+      if (wasTabSelected !== (tab !== undefined)) {
+        this.adjustComponentsSize();
+        wasTabSelected = (tab !== undefined);
       }
+      this.updateTimelineLegendVisibility();
     });
   }
 
@@ -369,207 +192,27 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this._onDestroy$.complete();
   }
 
-  public downloadLayerSource(d) {
-    const mc = this.mapglContributors.find(mc => mc.collection === d.collection);
-    if (mc) {
-      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
-    }
-  }
-
   public ngOnInit() {
-
     if (!this.version) {
       this.version = environment.VERSION;
     }
     this.setAppTitle();
-    if (this.arlasStartUpService.shouldRunApp && !this.arlasStartUpService.emptyMode) {
-      /** Retrieve displayable analytics */
-      const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
-      const allAnalytics = this.arlasStartUpService.analytics;
-      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
-      /** Retrieve displayable resultlists */
-      const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
-      const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
-      const allContributors = this.configService.getValue('arlas.web.contributors');
-      this.resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
-        const contId = a.contributorId;
-        const tab = allContributors.find(c => c.identifier === contId).name;
-        return !hiddenListsTabsSet.has(tab);
-      }) : [];
-      /** Prepare map data */
-      this.mapglContributors = this.contributorService.getMapContributors();
-      this.mainMapContributor = this.mapglContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
-      this.mapDataSources = this.mapglContributors.map(c => c.dataSources).length > 0 ?
-        this.mapglContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
-      this.mapRedrawSources = merge(...this.mapglContributors.map(c => c.redrawSource));
 
-      const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
-        merge(...this.mapglContributors
-          .map(c => c.legendUpdater
-            .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
-          ));
-      const legendData = new Map<string, Map<string, LegendData>>();
-      legendUpdaters
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(lg => {
-          legendData.set(lg.collection, lg.legendData);
-          this.mapLegendUpdater.next(legendData);
-        });
-
-      this.mapVisibilityUpdater = merge(...this.mapglContributors.map(c => c.visibilityUpdater));
-      this.mapglContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
-        this.geojsondraw = {
-          'type': 'FeatureCollection',
-          'features': this.mapglContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
-            .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
-        };
-      }));
-
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.searchContributors = this.contributorService.getSearchContributors();
-      const ids = new Set(this.resultListsConfig.map(c => c.contributorId));
-      this.arlasStartUpService.contributorRegistry.forEach((v, k) => {
-        if (v instanceof ResultListContributor) {
-          v.updateData = ids.has(v.identifier);
-          this.resultlistContributors.push(v);
-        }
-      });
-      this.resultlistService.setContributors(this.resultlistContributors, this.resultListsConfig);
 
-      if (this.resultlistContributors.length > 0) {
-        this.rightListContributors = this.resultlistContributors
-          .filter(c => this.resultListsConfig.some((rc) => c.identifier === rc.contributorId))
-          .map(rlcontrib => {
-            (rlcontrib as any).name = rlcontrib.getName();
-            const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
-            if (!!sortColumn) {
-              this.sortOutput.set(rlcontrib.identifier, {
-                columnName: sortColumn.columnName,
-                fieldName: sortColumn.fieldName,
-                sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
-              });
-            }
-            return rlcontrib;
-          });
-
-        this.resultListsConfig.forEach(rlConf => {
-          rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
-            CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
-          this.resultListConfigPerContId.set(rlConf.contributorId, rlConf.input);
-        });
-
-        this.resultlistContributors.forEach(c => {
-          const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-          const mapcontributor = this.mapglContributors.find(mc => mc.collection === c.collection);
-          if (!!this.resultListConfigPerContId.get(c.identifier)) {
-            if (!!this.resultListConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-              c.addAction({
-                id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
-                reverseAction: {
-                  id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
-                },
-                fields: this.visualizeService.getVisuFields(this.resultListConfigPerContId.get(c.identifier).visualisationLink),
-                hide: true
-              } as any);
-            }
-            if (!!this.resultListConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-              c.addAction({ id: 'download', label: 'Download', cssClass: '', tooltip: 'Download' });
-            }
-          }
-          if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
-            c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to product') });
-          }
-        });
-        this.declareResultlistExportCsv();
-
-        // Check if the user can access process endpoint
-        const processSettings = this.arlasSettingsService.getProcessSettings();
-        const externalNode = this.configService.getValue('arlas.web.externalNode');
-        if (
-          !!processSettings && !!processSettings.url
-          && !!externalNode && !!externalNode.download && externalNode.download === true
-        ) {
-          this.processService.check()
-            .pipe(takeUntil(this._onDestroy$))
-            .subscribe({
-              next: () => {
-                this.resultlistContributors.forEach(c => {
-                  const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-                  if (!listActionsId.includes('production')) {
-                    c.addAction({ id: 'production', label: 'Download', cssClass: '', tooltip: 'Download' });
-                    const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-                    if (resultConfig) {
-                      if (!resultConfig.globalActionsList) {
-                        resultConfig.globalActionsList = [];
-                      }
-                      resultConfig.globalActionsList.push({ 'id': 'production', 'label': 'Download' });
-                    }
-                  }
-
-                });
-              }
-            });
-        }
-
-        const selectedResultlistTab = this.getParamValue('rt');
-        const previewListContrib = this.rightListContributors.find(r => r.getName() === decodeURI(selectedResultlistTab));
-        if (previewListContrib) {
-          this.previewListContrib = previewListContrib;
-        } else {
-          this.previewListContrib = this.rightListContributors[0];
-        }
-      }
-
-      this.actionOnPopup
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(data => {
-          const collection = data.action.collection;
-          const mapContributor = this.mapglContributors.filter(m => m.collection === collection)[0];
-          const listContributor = this.resultlistContributors.filter(m => m.collection === collection)[0];
-          this.actionOnItemEvent(data, mapContributor, listContributor, collection);
-        });
-
-      if (this.allowMapExtend) {
-        const extendValue = this.getParamValue(this.MAP_EXTEND_PARAM);
-        if (extendValue) {
-          const stringBounds = extendValue.split(',');
-          if (stringBounds.length === 4) {
-            this.mapBounds = new mapboxgl.LngLatBounds(
-              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
-            );
-          }
-        }
-      }
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
-      zip(...this.collections.map(c => this.collaborativeService.describe(c)))
-        .pipe(takeUntil(this._onDestroy$))
-        .subscribe(cdrs => {
-          cdrs.forEach(cdr => {
-            this.collectionToDescription.set(cdr.collection_name, cdr.params);
-          });
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map)?.getBounds();
-          if (!!bounds) {
-            (<mapboxgl.Map>this.mapglComponent.map).fitBounds(bounds, { duration: 0 });
-          }
-          if (this.resultlistContributors.length > 0) {
-            this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
-          }
-          this.mapglContributors.forEach(mapContrib => {
-            mapContrib.colorGenerator = this.colorService.colorGenerator;
-            if (!!this.resultlistContributors) {
-              const resultlistContrbutor: ResultListContributor = this.resultlistContributors
-                .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
-              if (!!resultlistContrbutor) {
-                mapContrib.searchSize = resultlistContrbutor.pageSize;
-                mapContrib.searchSort = resultlistContrbutor.sort;
-              } else {
-                mapContrib.searchSize = 50;
-              }
-            }
-          });
-        });
 
-      this.shortcuts = this.arlasStartUpService.filtersShortcuts;
+      this.shortcuts = this.arlasStartupService.filtersShortcuts;
+
+      this.resultlistService.listOpenChange
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(o => {
+          this.updateTimelineLegendVisibility();
+          this.adjustGrids();
+          this.adjustComponentsSize();
+          this.adjustVisibleShortcuts();
+        });
 
       this.collaborativeService.ongoingSubscribe
         .pipe(takeUntil(this._onDestroy$))
@@ -590,643 +233,90 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
     }
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('draw_circle', this.domSanitizer.bypassSecurityTrustHtml('<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="black" fill="transparent" stroke-width="3"/><circle r="2" cx="12" cy="12" fill="black" /></svg>'));
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
-
-    // eslint-disable-next-line max-len
-    this.iconRegistry.addSvgIconLiteral('map_settings', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" viewBox="0 0 22 22" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 0.554688 1.101562 C 0.25 1.097656 0 1.34375 0 1.648438 L 0 17.113281 C 0 17.328125 0.125 17.523438 0.320312 17.613281 L 7.285156 20.847656 C 7.359375 20.882812 7.441406 20.902344 7.523438 20.898438 C 7.601562 20.898438 7.675781 20.882812 7.75 20.847656 L 14.484375 17.71875 L 21.21875 20.847656 C 21.582031 21.019531 22 20.75 22 20.351562 L 22 7.988281 L 20.898438 9.34375 L 20.898438 19.488281 L 14.8125 16.660156 L 14.769531 9.792969 L 14.113281 9.917969 L 14.152344 16.660156 L 7.84375 19.59375 L 7.761719 5.378906 L 11.335938 3.71875 L 12.074219 2.160156 L 7.515625 4.28125 L 0.78125 1.152344 C 0.710938 1.117188 0.632812 1.101562 0.554688 1.101562 Z M 1.101562 2.511719 L 7.101562 5.300781 L 7.183594 19.589844 L 1.101562 16.761719 Z M 1.101562 2.511719 "/><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 16.308594 0 C 16.171875 0 16.058594 0.109375 16.058594 0.246094 L 16.058594 1.632812 C 15.832031 1.699219 15.613281 1.792969 15.40625 1.90625 L 14.425781 0.925781 C 14.378906 0.878906 14.3125 0.851562 14.246094 0.851562 C 14.183594 0.851562 14.121094 0.878906 14.074219 0.925781 L 13.023438 1.976562 C 12.929688 2.070312 12.929688 2.226562 13.023438 2.324219 L 14.003906 3.304688 C 13.890625 3.511719 13.800781 3.730469 13.730469 3.960938 L 12.347656 3.960938 C 12.210938 3.960938 12.101562 4.070312 12.101562 4.207031 L 12.101562 5.691406 C 12.101562 5.828125 12.210938 5.941406 12.347656 5.941406 L 13.730469 5.941406 C 13.800781 6.167969 13.890625 6.386719 14.003906 6.59375 L 13.023438 7.574219 C 12.929688 7.671875 12.929688 7.828125 13.023438 7.925781 L 14.074219 8.976562 C 14.171875 9.070312 14.328125 9.070312 14.425781 8.976562 L 15.40625 7.996094 C 15.613281 8.109375 15.832031 8.199219 16.058594 8.269531 L 16.058594 9.652344 C 16.058594 9.789062 16.171875 9.898438 16.308594 9.898438 L 17.792969 9.898438 C 17.929688 9.898438 18.039062 9.789062 18.039062 9.652344 L 18.039062 8.269531 C 18.269531 8.199219 18.488281 8.109375 18.695312 7.996094 L 19.675781 8.976562 C 19.773438 9.070312 19.929688 9.070312 20.023438 8.976562 L 21.074219 7.925781 C 21.171875 7.828125 21.171875 7.671875 21.074219 7.574219 L 20.09375 6.59375 C 20.207031 6.386719 20.300781 6.167969 20.367188 5.941406 L 21.753906 5.941406 C 21.890625 5.941406 22 5.828125 22 5.691406 L 22 4.207031 C 22 4.070312 21.890625 3.960938 21.753906 3.960938 L 20.367188 3.960938 C 20.300781 3.730469 20.207031 3.511719 20.09375 3.304688 L 21.074219 2.324219 C 21.171875 2.226562 21.171875 2.070312 21.074219 1.976562 L 20.023438 0.925781 C 19.976562 0.878906 19.914062 0.851562 19.847656 0.851562 C 19.78125 0.851562 19.722656 0.878906 19.675781 0.925781 L 18.695312 1.90625 C 18.488281 1.792969 18.269531 1.699219 18.039062 1.632812 L 18.039062 0.246094 C 18.039062 0.109375 17.929688 0 17.792969 0 Z M 17.050781 3.21875 C 18.015625 3.21875 18.78125 3.984375 18.78125 4.949219 C 18.78125 5.917969 18.015625 6.683594 17.050781 6.683594 C 16.082031 6.683594 15.316406 5.917969 15.316406 4.949219 C 15.316406 3.984375 16.082031 3.21875 17.050781 3.21875 Z M 17.050781 3.21875 "/></g></svg>'));
-  }
-
-  public isElementInViewport(el) {
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      return (rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth));
-    } else {
-      return false;
-    }
-  }
-
-  public declareResultlistExportCsv() {
-    if (this.settingsService.isResultListExportEnabled()) {
-      this.resultlistContributors.forEach(c => {
-        const resultConfig = this.resultListConfigPerContId.get(c.identifier);
-        if (resultConfig) {
-          if (!resultConfig.globalActionsList) {
-            resultConfig.globalActionsList = [];
-          }
-          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': 'Export csv', 'alwaysEnabled': true });
-        }
-      });
-    }
   }
 
   public ngAfterViewInit(): void {
-    if (!this.arlasStartUpService.emptyMode) {
+    if (!this.arlasStartupService.emptyMode) {
+      const isListOpen = getParamValue('ro') === 'true';
+      if (isListOpen) {
+        this.resultlistService.toggleList();
+      }
       this.resizeCollectionCounts();
       this.adjustVisibleShortcuts();
       this.adjustComponentsSize();
+
       // Keep the last displayed list as preview when closing the right panel
-      if (!!this.tabsList) {
-        this.tabsList.selectedIndexChange
+      if (!!this.arlasListComponent && !!this.arlasListComponent.tabsList) {
+        this.arlasListComponent.tabsList.selectedIndexChange
           .pipe(takeUntil(this._onDestroy$))
           .subscribe(index => {
-            this.resultlistService.selectedListTabIndex = index;
-            this.previewListContrib = this.resultlistContributors[index];
+            this.resultlistService.selectList(index);
 
             const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-            queryParams['rt'] = this.previewListContrib.getName();
+            queryParams['rt'] = this.resultlistService.previewListContrib.getName();
             this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
             this.adjustGrids();
             this.adjustComponentsSize();
           });
       }
-
-      this.mapEventListener
-        .pipe(
-          takeUntil(this._onDestroy$),
-          debounceTime(this.mapExtendTimer))
-        .subscribe(() => {
-          /** Change map extend in the url */
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-          queryParams[this.MAP_EXTEND_PARAM] = extend;
-          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-
-        });
-
-      this.cdr.detectChanges();
-    }
-  }
-
-  public onMapLoaded(isLoaded: boolean): void {
-    /** wait until the map component loading is finished before fetching the data */
-    if (isLoaded && !this.arlasStartUpService.emptyMode) {
-
-      this.mapService.setMap(this.mapglComponent.map);
-      this.visualizeService.setMap(this.mapglComponent.map);
-      if (this.mapBounds && this.allowMapExtend) {
-        (<mapboxgl.Map>this.mapglComponent.map).fitBounds(this.mapBounds, { duration: 0 });
-        this.mapBounds = null;
-      }
-      this.mapglComponent.map.on('movestart', (e) => {
-        this.zoomStart = this.mapglComponent.map.getZoom();
-      });
-      this.mapglComponent.map.on('moveend', (e) => {
-        if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
-          this.zoomChanged = true;
-        }
-        if (this.allowMapExtend) {
-          this.mapEventListener.next(null);
-        }
-      });
-      this.adjustMapOffset();
-      this.adjustCoordinates();
-      this.mapglContributors.forEach(mapglContributor => {
-        mapglContributor.updateData = true;
-        mapglContributor.fetchData(null);
-        mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
-      });
-
-      // If there is a list displayed, sync window layers' data
-      if (!!this.previewListContrib && this.previewListContrib.data.length > 0 &&
-        this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
-        this.updateVisibleItems();
-      }
     }
   }
 
   public setAppTitle() {
-    const prefixTitle = (!!this.arlasSettingsService.settings.tab_name && this.arlasSettingsService.settings.tab_name !== NOT_CONFIGURED) ?
-      this.arlasSettingsService.settings.tab_name : '';
+    const prefixTitle = (!!this.settingsService.settings.tab_name && this.settingsService.settings.tab_name !== NOT_CONFIGURED) ?
+      this.settingsService.settings.tab_name : '';
     this.titleService.setTitle(prefixTitle === '' ? this.appName :
       prefixTitle.concat(' - ').concat(this.appName));
-  }
-
-  /**
-   * Update which elements from the list are visible on the map
-   */
-  public updateVisibleItems() {
-    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
-      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-        .filter(i => i !== undefined && this.isElementInViewport(document.getElementById(i.toString())));
-      this.updateMapStyle(visibleItems, this.previewListContrib.collection);
-    }
-  }
-
-  public updateMapStyle(ids: Array<string | number>, collection: string) {
-    // use always this.previewListContrib because it's the current resultlist contributor
-    if (!!this.mapComponentConfig.mapLayers.events.onHover) {
-      this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        const layer = this.mapglComponent.map.getLayer(l) as ArlasAnyLayer;
-        if (!!layer && typeof (layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
-          if (ids && ids.length > 0) {
-            // Tests value in camel and kebab case due to an unknown issue on other projects
-            if (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer']) {
-              this.mapglComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
-              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-              const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-              if (!!strokeLayer) {
-                this.mapglComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
-              }
-            }
-          } else {
-            this.mapglComponent.map.setFilter(l, this.mapglComponent.layersMap.get(l).filter);
-            const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-            const strokeLayer = this.mapglComponent.map.getLayer(strokeLayerId);
-            if (!!strokeLayer) {
-              this.mapglComponent.map.setFilter(strokeLayerId,
-                this.mapglComponent.layersMap.get(strokeLayerId).filter);
-            }
-          }
-        }
-      });
-    }
-  }
-
-  public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
-    this.updateMapStyle(items.map(i => i.identifier), collection);
-  }
-
-  /**
-   * Updates features style on map after repopulating the resultlist with data
-   * @param items List of items constituting the resultlist
-   */
-  public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
-    if (this.collectionToDescription.size > 0) {
-      const idFieldName = this.collectionToDescription.get(collection).id_path;
-      setTimeout(() => {
-        const visibleItems = items.map(item => item.get(idFieldName))
-          .filter(id => id !== undefined && this.isElementInViewport(document.getElementById(id.toString())));
-        this.updateMapStyle(visibleItems, collection);
-      }, 200);
-    }
   }
 
   public consumeMenuEvents(states: MenuState) {
     this.menuState = states;
   }
 
-  public openMapSettings(): void {
-    this.mapSettingsService.mapContributors = this.mapglContributors;
-    this.mapSettings.openDialog(this.mapSettingsService);
-  }
-
-  /**
-   * Applies the selected geo query
-   */
-  public applySelectedGeoQuery(geoQueries: Map<string, GeoQuery>) {
-    const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
-    const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    const changedMapContributors = this.mapglContributors.filter(mc => !!geoQueries.has(mc.collection));
-    for (let i = 0; i < changedMapContributors.length; i++) {
-      setTimeout(() => {
-        const collection = changedMapContributors[i].collection;
-        const geoQuery = geoQueries.get(collection);
-        changedMapContributors[i].setGeoQueryOperation(geoQuery.operation);
-        changedMapContributors[i].setGeoQueryField(geoQuery.geometry_path);
-        changedMapContributors[i].onChangeGeoQuery();
-        this.snackbar.open(this.translate.instant('Updating Geo-query of ',
-          { collection: this.translate.instant(this.collectionService.getDisplayName(changedMapContributors[i].collection)) }));
-        if (i === changedMapContributors.length - 1) {
-          setTimeout(() => this.snackbar.dismiss(), 1000);
-        }
-
-      }, (i) * (debounceDuration * 1.5));
-    }
-
-  }
-
-  public setLyersVisibilityStatus(event) {
-    this.layersVisibilityStatus = event;
-  }
-
   public zoomToData(collection: string): void {
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
-      this.mapSettingsService.mapContributors = this.mapglContributors;
+      this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
     let fieldPath: string;
     if (
       this.zoomToStrategy === ZoomToDataStrategy.CENTROID
       || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
     ) {
-      fieldPath = this.collectionToDescription.get(collection).centroid_path;
+      fieldPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
     } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
-      fieldPath = this.collectionToDescription.get(collection).geometry_path;
+      fieldPath = this.resultlistService.collectionToDescription.get(collection).geometry_path;
     }
-    this.mapService.zoomToData(collection, fieldPath, this.mapglComponent.map, 0.2);
-  }
-
-
-  /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
-  public sortColumnEvent(contributorId: string, sortOutput: Column) {
-    const resultlistContributor = (this.collaborativeService.registry.get(contributorId) as ResultListContributor);
-    this.isGeoSortActivated.set(contributorId, false);
-    /** Save the sorted column */
-    this.sortOutput.set(contributorId, sortOutput);
-    /** Sort the list by the selected column and the id field name */
-    resultlistContributor.sortColumn(sortOutput, true);
-    /** set mapcontritbutor sort */
-    let sortOrder = null;
-    if (sortOutput.sortDirection.toString() === '0') {
-      sortOrder = '';
-    } else if (sortOutput.sortDirection.toString() === '1') {
-      sortOrder = '-';
-    }
-    let sort = '';
-    if (sortOrder !== null) {
-      sort = sortOrder + sortOutput.fieldName;
-    }
-
-    this.mapglContributors
-      .filter(c => c.collection === resultlistContributor.collection)
-      .forEach(c => {
-        // Could have some problems if we put 2 lists with the same collection and different sort ?
-        c.searchSort = resultlistContributor.sort;
-        c.searchSize = resultlistContributor.getConfigValue('search_size');
-        /** Redraw features with setted sort in case of window mode */
-        /** Remove old features */
-        this.clearWindowData(c);
-        /** Set new features */
-        c.drawGeoSearch(0, true);
-      });
-  }
-
-  /**
-   * Called at the end of scrolling the list
-   * @param contributor ResultlistContributor instance that fetches the data
-   * @param eventPaginate Which page is queried
-   */
-  public paginate(contributor, eventPaginate: PageQuery): void {
-    contributor.getPage(eventPaginate.reference, eventPaginate.whichPage);
-    const sort = this.isGeoSortActivated.get(contributor.identifier) ? contributor.geoOrderSort : contributor.sort;
-    this.mapglContributors
-      .filter(c => c.collection === contributor.collection)
-      .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
+    this.toolkitMapService.zoomToData(collection, fieldPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
 
   public clickOnTile(item: Item) {
-    this.tabsList.realignInkBar();
-    const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
-    config.defautMode = this.modeEnum.grid;
+    this.arlasListComponent.tabsList.realignInkBar();
+    const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
+    config.defautMode = ModeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
-    this.resultListConfigPerContId.set(this.previewListContrib.identifier, config);
-    this.resultlistService.toggleList();
-    setTimeout(() => {
-      if (!!this.timelineComponent.timelineHistogramComponent) {
-        this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-      }
-    }, 100);
-  }
-
-  public changeListResultMode(mode: ModeEnum, identifier: string) {
-    const config = this.resultListConfigPerContId.get(identifier);
-    config.defautMode = mode;
-    this.resultListConfigPerContId.set(identifier, config);
-    setTimeout(() => {
-      this.updateVisibleItems();
-    }, 0);
-  }
-
-  public reloadMapImages() {
-    this.visualizeService.setMap(this.mapglComponent.map);
-  }
-
-  public getBoardEvents(event: { origin: string; event: string; data?: any; }) {
-    const resultListContributor = this.collaborativeService.registry.get(event.origin) as ResultListContributor;
-    const currentCollection = resultListContributor.collection;
-    const mapContributor: MapContributor = this.mapglContributors.filter(c => c.collection === currentCollection)[0];
-    switch (event.event) {
-      case 'paginationEvent':
-        this.paginate(resultListContributor, event.data);
-        break;
-      case 'sortColumnEvent':
-        this.sortColumnEvent(event.origin, event.data);
-        break;
-      case 'consultedItemEvent':
-        if (!!mapContributor) {
-          const f = mapContributor.getFeatureToHightLight(event.data);
-          if (mapContributor) {
-            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-          }
-          this.featureToHightLight = f;
-        }
-        break;
-      case 'selectedItemsEvent':
-        /** TODO : manage features to select when we have multiple collections */
-        if (event.data.length > 0 && this.mapComponentConfig && mapContributor) {
-          this.featuresToSelect = event.data.map(id => {
-            let idFieldName = this.collectionToDescription.get(currentCollection).id_path;
-            if (mapContributor.isFlat) {
-              idFieldName = idFieldName.replace(/\./g, '_');
-            }
-            return {
-              idFieldName: idFieldName,
-              idValue: id
-            };
-          });
-          this.mapglComponent.selectFeaturesByCollection(this.featuresToSelect, currentCollection);
-        } else {
-          if (!!this.mapglComponent) {
-            this.mapglComponent.selectFeaturesByCollection([], currentCollection);
-          }
-        }
-        break;
-      case 'actionOnItemEvent':
-        this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
-        break;
-      case 'globalActionEvent':
-        if (event.data.id === 'production') {
-          const idsItemSelected: ElementIdentifier[] = this.featuresToSelect;
-          this.process(idsItemSelected.map(i => i.idValue), currentCollection);
-        } else if (event.data.id === 'export_csv') {
-          this.resultlistIsExporting = true;
-          this.exportService.fetchResultlistData$(resultListContributor, undefined)
-            .pipe(finalize(() => this.resultlistIsExporting = false))
-            .subscribe({
-              next: (h) => this.exportService.exportResultlist(resultListContributor, h),
-              error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
-            });
-        }
-        break;
-      case 'geoSortEvent':
-        break;
-      case 'geoAutoSortEvent':
-        this.onActiveOnGeosort(event.data, resultListContributor, mapContributor, this.centerLatLng.lat, this.centerLatLng.lng);
-        break;
-    }
-    this.actionOnList.next(event);
-  }
-
-  public onActiveOnGeosort(data, resultListContributor: ResultListContributor, mapContributor: MapContributor, lat, lng): void {
-    this.isGeoSortActivated.set(resultListContributor.identifier, data);
-    if (data) {
-      /** Apply geosort in list */
-      resultListContributor.geoSort(lat, lng, true);
-      this.sortOutput.delete(resultListContributor.identifier);
-      // this.resultListComponent.columns.filter(c => !c.isIdField).forEach(c => c.sortDirection = SortEnum.none);
-      /** Apply geosort in map (for simple mode) */
-      this.clearWindowData(mapContributor);
-      mapContributor.searchSort = resultListContributor.geoOrderSort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      mapContributor.drawGeoSearch(0, true);
-    } else {
-      const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
-      this.sortOutput.set(resultListContributor.identifier,
-        { fieldName: idFieldName, sortDirection: SortEnum.none });
-      /** Sort the list by the selected column and the id field name */
-      resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
-      mapContributor.searchSort = resultListContributor.sort;
-      mapContributor.searchSize = resultListContributor.pageSize;
-      this.clearWindowData(mapContributor);
-      mapContributor.drawGeoSearch(0, true);
-    }
-  }
-
-  public onChangeAoi(event) {
-    const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
-    const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    for (let i = 0; i < this.mapglContributors.length; i++) {
-      setTimeout(() => {
-        this.snackbar.open(this.translate.instant('Loading data of ',
-          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapglContributors[i].collection)) }));
-        this.mapglContributors[i].onChangeAoi(event);
-        if (i === this.mapglContributors.length - 1) {
-          setTimeout(() => this.snackbar.dismiss(), 1000);
-        }
-      }, (i) * ((debounceDuration + 100) * 1.5));
-    }
-  }
-
-  public onAoiEdit(aoiEdit: AoiEdition) {
-    this.aoiEdition = aoiEdit;
-  }
-
-  public onMove(event) {
-    // Update data only when the collections info are presents
-    if (this.collectionToDescription.size > 0) {
-      /** Change map extend in the url */
-      const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-      const extend = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-      queryParams[this.MAP_EXTEND_PARAM] = extend;
-      queryParams['vs'] = visibileVisus;
-      this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-      localStorage.setItem('currentExtent', JSON.stringify(bounds));
-      const ratioToAutoSort = 0.1;
-      this.centerLatLng['lat'] = event.centerWithOffset[1];
-      this.centerLatLng['lng'] = event.centerWithOffset[0];
-      if ((event.xMoveRatio > ratioToAutoSort || event.yMoveRatio > ratioToAutoSort || this.zoomChanged)) {
-        this.recalculateExtend = true;
-      }
-      const newMapExtent = event.extendWithOffset;
-      const newMapExtentRaw = event.rawExtendWithOffset;
-      const pwithin = newMapExtent[1] + ',' + newMapExtent[2] + ',' + newMapExtent[3] + ',' + newMapExtent[0];
-      const pwithinRaw = newMapExtentRaw[1] + ',' + newMapExtentRaw[2] + ',' + newMapExtentRaw[3] + ',' + newMapExtentRaw[0];
-      if (this.recalculateExtend && !this.disableRecalculateExtend) {
-        this.resultlistContributors
-          .forEach(c => {
-            const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
-            const mapContrib = this.mapglContributors.find(mc => mc.collection === c.collection);
-            if (!!mapContrib) {
-              c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
-            } else {
-              MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
-            }
-            this.collaborativeService.registry.set(c.identifier, c);
-          });
-        this.resultlistContributors.forEach(c => {
-          if (this.isGeoSortActivated.get(c.identifier)) {
-            c.geoSort(this.centerLatLng.lat, this.centerLatLng.lng, true);
-          } else {
-            c.sortColumn(this.sortOutput.get(c.identifier), true);
-          }
-        });
-        this.mapglContributors.forEach(c => {
-          if (!!this.resultlistContributors) {
-            const resultlistContrbutor: ResultListContributor = this.resultlistContributors.find(v => v.collection === c.collection);
-            if (!!resultlistContrbutor) {
-              if (this.isGeoSortActivated.get(c.identifier)) {
-                c.searchSort = resultlistContrbutor.geoOrderSort;
-              } else {
-                c.searchSort = resultlistContrbutor.sort;
-              }
-              this.collaborativeService.registry.set(c.identifier, c);
-            }
-          }
-          this.clearWindowData(c);
-        });
-        this.zoomChanged = false;
-      }
-      event.extendForTest = newMapExtent;
-      event.rawExtendForTest = newMapExtentRaw;
-      this.mapglContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtend));
-      this.recalculateExtend = false;
-
-    }
-  }
-
-  public changeVisualisation(event) {
-    this.mapglContributors.forEach(contrib => contrib.changeVisualisation(event));
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-    queryParams['vs'] = visibileVisus;
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
-  }
-
-
-  public emitFeaturesOnOver(event) {
-    if (event.features) {
-      this.mapglComponent.map.getCanvas().style.cursor = 'pointer';
-      // Get feature by collection
-      this.resultlistContributors.forEach(c => {
-        const idFieldName = this.collectionToDescription.get(c.collection).id_path;
-        const highLightItems = event.features
-          .filter(f => f.layer.metadata.collection === c.collection)
-          .map(f => f.properties[idFieldName.replace(/\./g, '_')])
-          .filter(id => id !== undefined)
-          .map(id => id.toString());
-        c.setHighlightItems(highLightItems);
-      });
-    } else {
-      this.mapglComponent.map.getCanvas().style.cursor = '';
-      this.resultlistContributors.forEach(c => {
-        c.setHighlightItems([]);
-      });
-    }
-  }
-
-  public emitFeaturesOnClic(event) {
-    if (event.features) {
-      const feature = event.features[0];
-      const resultListContributor = this.resultlistContributors
-        .filter(c => feature.layer.metadata.collection === c.collection && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
-      if (!!resultListContributor) {
-        const idFieldName = this.collectionToDescription.get(resultListContributor.collection).id_path;
-        const id = feature.properties[idFieldName.replace(/\./g, '_')];
-        // Open the list panel if it's closed
-        this.disableRecalculateExtend = true;
-        if (!this.resultlistService.listOpen) {
-          this.toggleList();
-        }
-        // Select the good tab if we have several
-        // No tabs case
-        if (this.resultlistContributors.length === 1) {
-          this.waitFor(this.resultListComponent, () => this.openDetail(id));
-          this.disableRecalculateExtend = false;
-        } else {
-          this.waitFor(this.resultListComponent, () => {
-            // retrieve list
-            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
-            tab.click();
-            // Set Timeout to wait the new tab
-            setTimeout(() => this.openDetail(id), 250);
-            this.disableRecalculateExtend = false;
-          });
-        }
-      }
-    }
-  }
-
-  private openDetail(id: any) {
-    const isListMode = this.resultListComponent.resultMode === this.modeEnum.list;
-    if (isListMode) {
-      const detailListButton = document.getElementById('open-detail-' + id);
-      if (!!detailListButton) {
-        // close previous if exists
-        if (this.currentClickedFeatureId) {
-          const closeButtonElement = document.getElementById('close-detail-' + this.currentClickedFeatureId);
-          if (closeButtonElement) {
-            closeButtonElement.click();
-          }
-        }
-        detailListButton.click();
-        this.currentClickedFeatureId = id;
-        this.disableRecalculateExtend = false;
-      }
-    } else {
-      const productTile = document.getElementById('grid-tile-' + id);
-      const isDetailledGridOpen = this.resultListComponent?.isDetailledGridOpen;
-      if (!!productTile) {
-        productTile.click();
-        if (!isDetailledGridOpen) {
-          setTimeout(() => {
-            const detailGridButton = document.getElementById('show_details_gridmode_btn');
-            if (!!detailGridButton) {
-              detailGridButton.click();
-            }
-            this.disableRecalculateExtend = false;
-
-          }, 250);
-        } else {
-          // If image is displayed switch to detail data
-          const gridDivs = document.getElementsByClassName('resultgrid__img');
-          if (gridDivs.length > 0) {
-            const imgDiv = gridDivs[0].parentElement;
-            if (window.getComputedStyle(imgDiv).display === 'block') {
-              setTimeout(() => {
-                const detailGridButton = document.getElementById('show_details_gridmode_btn');
-                if (!!detailGridButton) {
-                  detailGridButton.click();
-                }
-                this.disableRecalculateExtend = false;
-              }, 1);
-            }
-          }
-        }
-      }
-    }
+    this.resultlistService.resultlistConfigPerContId.set(this.resultlistService.previewListContrib.identifier, config);
+    this.toggleList();
   }
 
   public toggleList() {
-    this.tabsList.realignInkBar();
+    this.arlasListComponent.tabsList.realignInkBar();
     this.resultlistService.toggleList();
-    this.updateTimelineLegendVisibility();
-    this.adjustGrids();
-    this.adjustComponentsSize();
-    this.adjustVisibleShortcuts();
   }
 
   public toggleTimeline() {
-    this.isTimelineOpen = !this.isTimelineOpen;
+    this.showTimeline = !this.showTimeline;
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['to'] = this.isTimelineOpen + '';
+    queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   public updateTimelineLegendVisibility() {
-    this.isTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
+    this.showTimelineLegend = !(this.resultlistService.listOpen && this.analyticsService.activeTab !== undefined);
   }
 
   public closeAnalytics() {
     this.analyticsService.selectTab(undefined);
-  }
-
-  public closeMapMenu() {
-    setTimeout(() => {
-      if (this.shouldCloseMapMenu) {
-        this.isMapMenuOpen = false;
-      }
-    }, 100);
   }
 
   public onOpenShortcut(state: boolean, shortcutIdx: number) {
@@ -1251,24 +341,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public goToArlasHub() {
-    const hubUrl = this.arlasSettingsService.getArlasHubUrl();
+    const hubUrl = this.settingsService.getArlasHubUrl();
     if (!!hubUrl) {
       window.open(hubUrl);
-    }
-  }
-
-  public drawCircle() {
-    this.mapglComponent.switchToDrawMode('draw_radius_circle', { isFixedRadius: false, steps: 12 });
-  }
-
-  protected goToLocation(event: GeocodingResult) {
-    const bbox = this.visualizeService.getBbox(event.geojson);
-    this.visualizeService.handleGeojsonPreview(event.geojson);
-    if (event.geojson.type === 'Point') {
-      const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      this.mapglComponent.map.fitBounds(bbox, { maxZoom: zoom });
-    } else {
-      this.mapglComponent.map.fitBounds(bbox);
     }
   }
 
@@ -1292,10 +367,11 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private adjustGrids() {
     if (!this.resultlistService.listOpen) {
-      const config = this.resultListConfigPerContId.get(this.previewListContrib.identifier);
+      const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
       config.isDetailledGridOpen = false;
     } else {
-      this.resultlistService.selectedListTabIndex = this.rightListContributors.indexOf(this.previewListContrib);
+      this.resultlistService.selectedListTabIndex =
+        this.resultlistService.rightListContributors.indexOf(this.resultlistService.previewListContrib);
     }
   }
 
@@ -1309,32 +385,17 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private adjustComponentsSize() {
     setTimeout(() => {
-      if (this.timelineComponent.timelineHistogramComponent) {
+      if (!!this.timelineComponent && !!this.timelineComponent.timelineHistogramComponent) {
         this.timelineComponent.timelineHistogramComponent.resizeHistogram();
         if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
         }
       }
-      this.mapglComponent.map?.resize();
-      this.adjustCoordinates();
+      this.mapService.mapComponent?.map?.resize();
+      this.mapService.adjustCoordinates();
 
-      this.updateVisibleItems();
+      this.resultlistService.updateVisibleItems();
     }, 100);
-  }
-
-  private adjustCoordinates(): void {
-    const timelineToolsMaxWidth = 420;
-    const scaleMaxWidth = 100;
-    const toggleButtonWidth = 24;
-    const smMargin = 5;
-    const mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
-    if (mapCanvas && mapCanvas.length > 0) {
-      const bbox = mapCanvas[0].getBoundingClientRect();
-      if (bbox) {
-        const width = bbox.width;
-        this.coordinatesHaveSpace = (width - timelineToolsMaxWidth - scaleMaxWidth - toggleButtonWidth - 3 * smMargin) > 230;
-      }
-    }
   }
 
   /**
@@ -1354,8 +415,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     // The threshold is based on the window inner size and the available size for the shortcuts
     // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
     // with a minimum spacing equal to the one on the left.
-    const previewListOpen = !!this.previewListContrib && !this.resultlistService.listOpen
-      && this.resultListConfigPerContId.get(this.previewListContrib.identifier)?.hasGridMode;
+    const previewListOpen = !!this.resultlistService.previewListContrib && !this.resultlistService.listOpen
+      && this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier)?.hasGridMode;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
     this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
@@ -1388,141 +449,4 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.showShortcuts = false;
   }
-
-  private adjustMapOffset() {
-    this.recalculateExtend = true;
-    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
-  }
-
-  private getVisibleElementLayerFilter(l, ids) {
-    const lFilter = this.mapglComponent.layersMap.get(l).filter;
-    const filters = [];
-    if (lFilter) {
-      lFilter.forEach(f => {
-        filters.push(f);
-      });
-    }
-    if (filters.length === 0) {
-      filters.push('all');
-    }
-    filters.push([
-      'match',
-      ['get', 'id'],
-      Array.from(new Set(ids)),
-      true,
-      false
-    ]);
-    return filters;
-  }
-
-  private clearWindowData(contributor: MapContributor) {
-    contributor.getConfigValue('layers_sources')
-      .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
-      .map(ls => ls.source)
-      .forEach(source => contributor.clearData(source));
-  }
-
-  private getParamValue(param: string): string {
-    let paramValue = null;
-    const url = window.location.href;
-    const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
-    const results = regex.exec(url);
-    if (results && results[2]) {
-      paramValue = results[2];
-    }
-    return paramValue;
-  }
-
-  private actionOnItemEvent(data, mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
-    switch (data.action.id) {
-      case 'zoomToFeature':
-        if (!!mapContributor) {
-          mapContributor
-            .getBoundsToFit(data.elementidentifier, collection)
-            .subscribe(bounds => {
-              this.visualizeService.fitbounds = bounds;
-            });
-        }
-        break;
-      case 'visualize':
-        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
-          const urlVisualisationTemplate = this.resultListConfigPerContId.get(listContributor.identifier).visualisationLink;
-          if (!data.action.activated) {
-            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-              this.visualizeService.displayDataOnMap(url,
-                data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-                this.collectionToDescription.get(collection).centroid_path, collection);
-            });
-            this.resultlistService.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
-          } else {
-            this.visualizeService.removeRasters(data.elementidentifier.idValue);
-            this.resultlistService.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-          }
-        }
-        break;
-      case 'download':
-        if (!!this.resultListConfigPerContId.get(listContributor.identifier)) {
-          const urlDownloadTemplate = this.resultListConfigPerContId.get(listContributor.identifier).downloadLink;
-          if (urlDownloadTemplate) {
-            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
-              const win = window.open(url, '_blank');
-              win.focus();
-            });
-          }
-        }
-        break;
-      case 'production':
-        this.process([data.elementidentifier.idValue], collection);
-        break;
-    }
-  }
-
-  private process(ids: string[], collection: string) {
-    const maxItems = this.arlasSettingsService.getProcessSettings().max_items;
-    if (ids.length <= maxItems) {
-      this.processService.load().subscribe({
-        next: () => {
-          this.processService.getItemsDetail(
-            this.collectionToDescription.get(collection).id_path,
-            ids,
-            collection
-          ).subscribe({
-            next: (item: any) => {
-              this.downloadDialogRef = this.dialog
-                .open(AiasDownloadComponent, {
-                  minWidth: '520px',
-                  maxWidth: '60vw',
-                  data: {
-                    ids,
-                    collection,
-                    nbProducts: ids.length,
-                    itemDetail: item,
-                    wktAoi: this.mapglComponent.getAllPolygon('wkt')
-                  }
-                });
-            }
-          });
-        }
-      });
-    } else {
-      this.snackbar.open(
-        this.translate.instant('You have exceeded the number of products authorised for a single download') + ' (' + maxItems + ')', 'X',
-        {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 5000
-        }
-      );
-    }
-  }
-
-  private waitFor(variable, callback) {
-    const interval = setInterval(() => {
-      if (variable !== undefined) {
-        clearInterval(interval);
-        callback();
-      }
-    }, 100);
-  }
 }
-

@@ -17,45 +17,22 @@
  * under the License.
  */
 
-@import '../../../styles/variables.scss';
+import { Component, Input, OnInit } from '@angular/core';
+import { AoiEdition } from 'arlas-web-components';
 
-.menu_container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@Component({
+  selector: 'arlas-aoi-dimensions',
+  templateUrl: './aoi-dimensions.component.html',
+  styleUrls: ['./aoi-dimensions.component.scss']
+})
+export class AoiDimensionComponent implements OnInit {
+  /**
+   * @Input : Angular
+   * Current dimensions of the AOI being edited
+   */
+  @Input() public aoiEdition: AoiEdition;
 
-  mat-icon {
-    color: #666;
-  }
+  public constructor() { }
 
-  ::ng-deep .mat-list-item-content {
-    padding: calc(($left-menu-width - 40px ) / 2) !important;
-  }
-
-  .arlas-analytics {
-    display: flex;
-    flex-direction: column;
-
-    .arlas-analytics-refresh {
-      align-self: center;
-    }
-  }
-
-  .action-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .action-menu-button {
-      align-self: center;
-    }
-  }
-}
-
-.active-menu {
-  background-color: rgba(255, 64, 129, 0.1);
-  mat-icon {
-    color: #ff4081;
-  }
+  public ngOnInit() { }
 }

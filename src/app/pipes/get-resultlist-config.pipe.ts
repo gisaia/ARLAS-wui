@@ -17,45 +17,19 @@
  * under the License.
  */
 
-@import '../../../styles/variables.scss';
+import { Pipe, PipeTransform } from '@angular/core';
+import { ResultlistService } from 'app/services/resultlist.service';
+import { ResultListContributor } from 'arlas-web-contributors';
 
-.menu_container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@Pipe({
+  name: 'getResultlistConfig'
+})
+export class GetResultlistConfigPipe implements PipeTransform {
 
-  mat-icon {
-    color: #666;
+  public constructor(private resultlistService: ResultlistService) { }
+
+  public transform(resultlistContributor: ResultListContributor): any {
+    return this.resultlistService.resultlistConfigPerContId.get(resultlistContributor?.identifier);
   }
 
-  ::ng-deep .mat-list-item-content {
-    padding: calc(($left-menu-width - 40px ) / 2) !important;
-  }
-
-  .arlas-analytics {
-    display: flex;
-    flex-direction: column;
-
-    .arlas-analytics-refresh {
-      align-self: center;
-    }
-  }
-
-  .action-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .action-menu-button {
-      align-self: center;
-    }
-  }
-}
-
-.active-menu {
-  background-color: rgba(255, 64, 129, 0.1);
-  mat-icon {
-    color: #ff4081;
-  }
 }

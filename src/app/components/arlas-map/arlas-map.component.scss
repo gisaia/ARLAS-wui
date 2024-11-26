@@ -1,0 +1,121 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+@import "../../../styles/variables.scss";
+@import "../../../styles/app/sizes.scss";
+@import "../../../styles/app/mixin.scss";
+
+.arlas-map__container {
+  height: 100%;
+
+  .arlas-map-settings {
+    position: absolute;
+    top: calc( $sm-spacing + $map-attributions-height + $sm-spacing
+        + $map-actions-width + $sm-spacing
+        + $map-actions-length + $sm-spacing);
+    right: $sm-spacing;
+    z-index: 2;
+
+    .arlas-map-settings-container {
+      display: flex;
+      flex-direction: column;
+      @include box-border();
+      background-color: white;
+
+      .arlas-map-settings-items {
+        height: $map-actions-width;
+        width: $map-actions-width;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #ddd;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        &:first-child {
+          border-top: none !important;
+        }
+      }
+    }
+  }
+
+  .if-geocoding-button {
+    bottom: calc($map-actions-width + $xs-border) !important;
+  }
+
+  .arlas-rasters-manager {
+    position: absolute;
+    top: calc(
+      $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+      $sm-spacing + $map-settings-height + $sm-spacing
+    );
+    right: $sm-spacing;
+    z-index: 2;
+
+    &--geocoding {
+      top: calc(
+        $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+        $sm-spacing + $map-settings-height + $map-actions-width + $sm-spacing
+      );
+    }
+  }
+
+  .arlas-map-action-container {
+    position: absolute;
+    right: calc($map-actions-width + $xs-border);
+    bottom: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: white;
+    @include box-border();
+
+    .arlas-map-action-items {
+      height: $map-actions-width;
+      width: $map-actions-width;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: $xs-border solid #ddd;
+      color: black;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      &:first-child {
+        border-right: unset;
+      }
+    }
+  }
+
+  .aoi-dimensions {
+    position: absolute;
+
+    right: calc($sm-spacing + $map-actions-width + $sm-spacing);
+    top: calc($sm-spacing + $map-attributions-height
+        + $sm-spacing + $map-actions-width
+        + $sm-spacing + $map-actions-length
+        + $sm-spacing + $map-actions-width);
+    z-index: 1;
+  }
+}

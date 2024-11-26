@@ -17,31 +17,104 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { Dialog, DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
+import { ArlasCollaborativesearchService, ArlasCollectionService,
+  ArlasConfigService, ArlasSettingsService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
+import { ContributorService } from './services/contributors.service';
+import { MapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
+import { VisualizeService } from './services/visualize.service';
 
 describe('ArlasWuiComponent', () => {
   let component: ArlasWuiComponent;
   let fixture: ComponentFixture<ArlasWuiComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
+  beforeEach(async () => {
+    const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {
+      shouldRunApp: true,
+      emptyMode: false,
+      contributorRegistry: new Map(),
+      collectionsMap: new Map()
+    });
 
-      ],
-      declarations: [
+    const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket']);
+    mockSettingsService.getHistogramMaxBucket.and.returnValue();
+
+    const mockContributorService = jasmine.createSpyObj('ContributorService', ['getMapContributors']);
+    mockContributorService.getMapContributors.and.returnValue([]);
+
+    const mockColorGeneratorLoader = jasmine.createSpyObj('ColorGeneratorLoader', [], {
+      changekeysToColors$: of()
+    });
+
+    await TestBed.configureTestingModule({
+      declarations: [ArlasWuiComponent],
+      imports: [
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        MatTooltipModule,
+        /** Needed for ResultlistService */
+        RouterTestingModule,
+        HttpClientModule
+        /** End */
       ],
       providers: [
+        ResultlistService,
+        MapService,
+        ArlasColorService,
+        ArlasCollaborativesearchService,
+        ArlasConfigService,
+        {
+          provide: ArlasStartupService,
+          useValue: mockArlasStartupService
+        },
+        {
+          provide: ArlasSettingsService,
+          useValue: mockSettingsService
+        },
+        {
+          provide: ContributorService,
+          useValue: mockContributorService
+        },
+        /** Needed for ResultlistService */
+        MatSnackBar,
+        VisualizeService,
+        MatDialog,
+        {
+          provide: MAT_DIALOG_SCROLL_STRATEGY,
+          useValue: {}
+        },
+        Dialog,
+        {
+          provide: DIALOG_SCROLL_STRATEGY,
+          useValue: {}
+        },
+        /** End */
+        {
+          provide: ColorGeneratorLoader,
+          useValue: mockColorGeneratorLoader
+        },
+        ArlasCollectionService
       ]
     }).compileComponents();
+  });
 
-  }));
-
-  beforeEach(async(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(ArlasWuiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

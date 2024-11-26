@@ -29,7 +29,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../services/geocoding.service';
+import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '@services/geocoding.service';
 
 @Component({
   selector: 'arlas-geocoding',
@@ -37,8 +37,16 @@ import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../s
   styleUrls: ['./geocoding.component.scss']
 })
 export class GeocodingComponent implements AfterViewInit {
-  @Output() private close = new EventEmitter();
-  @Output() private zoomToAddress = new EventEmitter();
+  /**
+   * @Output : Angular
+   * Emits an event when the geocoding popup needs to be closed
+   */
+  @Output() private close = new EventEmitter<boolean>();
+  /**
+   * @Output : Angular
+   * Emits an event when the map needs to zoom on the given location
+   */
+  @Output() private zoomToAddress = new EventEmitter<GeocodingResult>();
   @ViewChild('searchInput') private searchInput: ElementRef;
 
   protected displayedColumns: string[] = ['address'];

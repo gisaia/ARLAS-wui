@@ -17,11 +17,11 @@
  * under the License.
  */
 
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ArlasSettingsService } from 'arlas-wui-toolkit';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 export interface GeocodingQueryParams {
   q: string;

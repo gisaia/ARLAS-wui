@@ -20,12 +20,9 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import {
-  ArlasIamService, ArlasSettingsService, ArlasStartupService,
-  AuthentificationService, PersistenceService
-} from 'arlas-wui-toolkit';
-import { Subject } from 'rxjs';
 import { ArlasColorService } from 'arlas-web-components';
+import { ArlasIamService, ArlasSettingsService, ArlasStartupService, AuthentificationService, PersistenceService } from 'arlas-wui-toolkit';
+import { Subject } from 'rxjs';
 
 export const ZONE_WUI_BUILDER = 'config.json';
 
@@ -42,15 +39,19 @@ export interface Configuration {
 })
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
-  public hubUrl;
+  public hubUrl: string;
   public listResolved = false;
   public retrieveData = true;
 
-  public isAuthentActivated;
+  public isAuthentActivated: boolean;
   public authentMode = 'false';
   public orgs: UserOrgData[] = [];
   public currentOrg: string;
 
+  /**
+   * @Output : Angular
+   * Emits an event when the hub needs to be opened
+   */
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   public constructor(
@@ -73,7 +74,6 @@ export class ConfigsListComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     if (this.authentMode === 'iam') {
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
@@ -105,7 +105,7 @@ export class ConfigsListComponent implements OnInit {
     this.openHubEventEmitter.next(true);
   }
 
-  public switchConf(confId) {
+  public switchConf(confId: string) {
     let url = '?config_id=' + confId;
     const currentOrg = this.arlasIamService.getOrganisation();
     if (!!currentOrg) {

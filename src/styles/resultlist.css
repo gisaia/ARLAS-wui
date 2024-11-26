@@ -27,23 +27,23 @@
 }
 
 .analytics-board-content .group-item-title,
-.side-result-list .group-item-title {
+.resultlist__wrapper .group-item-title {
   color: #656565 !important;
 }
 
 .analytics-board-content .detail-item,
-.side-result-list .detail-item {
+.resultlist__wrapper .detail-item {
   color: #ff4081 !important;
   display: inline-block;
 }
 
 .analytics-board-content .resultdetaileditem-key,
-.side-result-list .resultdetaileditem-key {
+.resultlist__wrapper .resultdetaileditem-key {
   color: #656565;
 }
 
 .analytics-board-content .resultdetaileditem-value,
-.side-result-list .resultdetaileditem-value {
+.resultlist__wrapper .resultdetaileditem-value {
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-size: 0.9em;
   font-weight: normal;
