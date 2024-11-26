@@ -588,13 +588,10 @@ export class ResultlistService {
   private addProcess(processName: string, id: string, label: string, cssClass: string, tooltip: string, icon: string) {
     const processSettings = this.settingsService.getProcessSettings(processName);
     const externalNode = new Map(Object.entries(this.configService.getValue('arlas.web.externalNode')));
-    console.log(externalNode.get(processName));
-    console.log(processSettings);
     if (!!processSettings && !!processSettings.url && !!externalNode && externalNode.get(processName) === true) {
       this.processService.check(processName)
         .subscribe({
           next: () => {
-            console.log('hello?');
             this.resultlistContributors.forEach(c => {
               const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
               if (!listActionsId.includes(id)) {
