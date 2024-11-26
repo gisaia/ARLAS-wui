@@ -55,16 +55,16 @@ If you don't mount a `settings.yaml` file to the container, nor serve it with `A
 
 |Environment variable| settings.yaml variable|Default|Description|
 |--------------------|---------------------------|-------|-----------|
-|ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL   | process.settings.url| assets/processes/download.json | URL to settings file that describes the download process inputs. |
-|ARLAS_DOWNLOAD_PROCESS_URL   | process.url| - | URL to the backend endpoint that executes the download process. |
-|ARLAS_DOWNLOAD_PROCESS_CHECK_URL | process.check_url | - | URL to an endpoint that enables to check if a user has the right to use the download process. |
-|ARLAS_DOWNLOAD_PROCESS_STATUS_URL | process.status.url | - | URL to an endpoint that check the download process ongoing status. |
-|ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS | process.max_items | - | Maximum number of items that can be handled with one execution of the download process.|
-|ARLAS_ENRICH_PROCESS_SETTINGS_URL   | process.settings.url| assets/processes/enrich.json | URL to settings file that describes the enrich process inputs. |
-|ARLAS_ENRICH_PROCESS_URL   | process.url| - | URL to the backend endpoint that executes the enrich process. |
-|ARLAS_ENRICH_PROCESS_CHECK_URL | process.check_url | - | URL to an endpoint that enables to check if a user has the right to use the enrich process.|
-|ARLAS_ENRICH_PROCESS_STATUS_URL | process.status.url | - | URL to an endpoint that check the enrich process ongoing status|
-|ARLAS_ENRICH_PROCESS_MAX_ITEMS | process.max_items | - | Maximum number of items that can be handled with one execution of the enrich process.|
+|ARLAS_DOWNLOAD_PROCESS_SETTINGS_URL   | processes[].settings.url| assets/processes/download.json | URL to settings file that describes the download process inputs. |
+|ARLAS_DOWNLOAD_PROCESS_URL   | processes[].url| - | URL to the backend endpoint that executes the download process. |
+|ARLAS_DOWNLOAD_PROCESS_CHECK_URL | processes[].check_url | - | URL to an endpoint that enables to check if a user has the right to use the download process. |
+|ARLAS_DOWNLOAD_PROCESS_STATUS_URL | processes[].status.url | - | URL to an endpoint that check the download process ongoing status. |
+|ARLAS_DOWNLOAD_PROCESS_MAX_ITEMS | processes[].max_items | - | Maximum number of items that can be handled with one execution of the download process.|
+|ARLAS_ENRICH_PROCESS_SETTINGS_URL   | processes[].settings.url| assets/processes/enrich.json | URL to settings file that describes the enrich process inputs. |
+|ARLAS_ENRICH_PROCESS_URL   | processes[].url| - | URL to the backend endpoint that executes the enrich process. |
+|ARLAS_ENRICH_PROCESS_CHECK_URL | processes[].check_url | - | URL to an endpoint that enables to check if a user has the right to use the enrich process.|
+|ARLAS_ENRICH_PROCESS_STATUS_URL | processes[].status.url | - | URL to an endpoint that check the enrich process ongoing status|
+|ARLAS_ENRICH_PROCESS_MAX_ITEMS | processes[].max_items | - | Maximum number of items that can be handled with one execution of the enrich process.|
 |ARLAS_WUI_DASHBOARDS_SHORTCUT| dashboards_shortcut | false | Whether to display a shortcut component to switch between dashboards. To be used for dev purposes only. |
 
 ## ARLAS-wui assets
