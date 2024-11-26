@@ -76,9 +76,9 @@ export class VisualizeService {
       /** Fetch all elements between {} in the template. */
       const regex = new RegExp(/{([^}]+)}/g);
       const fields = [];
-      let match;
-      while ((match = regex.exec(urlTemplate)) !== null) {
-        fields.push(match[1]);
+      const matches = [...urlTemplate.matchAll(regex)];
+      if (!!matches) {
+        matches.filter(m => !!m && Array.isArray(m) && m.length > 1).forEach(m => fields.push(m[1]));
       }
       if (fields) {
         return fields
