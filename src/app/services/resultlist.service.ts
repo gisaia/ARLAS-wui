@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -31,8 +32,8 @@ import { ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
   Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
 import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService
+  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject } from 'rxjs';
 
@@ -387,7 +388,10 @@ export class ResultlistService {
       case 'globalActionEvent':
         if (event.data.id === 'production') {
           const idsItemSelected: ElementIdentifier[] = this.mapService.mapComponent.featuresToSelect;
-          this.process(idsItemSelected.map(i => i.idValue), currentCollection);
+          this.aiasDownload(idsItemSelected.map(i => i.idValue), currentCollection);
+        } else if (event.data.id === 'enrich') {
+          const idsItemSelected: ElementIdentifier[] = this.mapService.mapComponent.featuresToSelect;
+          this.aiasEnrich(idsItemSelected.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'export_csv') {
           this.resultlistIsExporting = true;
           this.exportService.fetchResultlistData$(resultListContributor, undefined)
@@ -455,7 +459,10 @@ export class ResultlistService {
         }
         break;
       case 'production':
-        this.process([data.elementidentifier.idValue], collection);
+        this.aiasDownload([data.elementidentifier.idValue], collection);
+        break;
+      case 'enrich':
+        this.aiasEnrich([data.elementidentifier.idValue], collection);
         break;
     }
   }
@@ -477,10 +484,10 @@ export class ResultlistService {
     }, 100);
   }
 
-  private process(ids: string[], collection: string) {
-    const maxItems = this.settingsService.getProcessSettings().max_items;
+  private process<T>(processName: string, ids: string[], collection: string, component: ComponentType<T>, additionalData?: any) {
+    const maxItems = this.settingsService.getProcessSettings(processName).max_items;
     if (ids.length <= maxItems) {
-      this.processService.load().subscribe({
+      this.processService.load(processName).subscribe({
         next: () => {
           this.processService.getItemsDetail(
             this.collectionToDescription.get(collection).id_path,
@@ -488,17 +495,13 @@ export class ResultlistService {
             collection
           ).subscribe({
             next: (item: any) => {
+              const data = Object.assign({ids, collection, nbProducts: ids.length, itemDetail: item}, additionalData);
+
               this.dialog
-                .open(AiasDownloadComponent, {
+                .open(component, {
                   minWidth: '520px',
                   maxWidth: '60vw',
-                  data: {
-                    ids,
-                    collection,
-                    nbProducts: ids.length,
-                    itemDetail: item,
-                    wktAoi: this.mapService.mapComponent.getAllPolygon('wkt')
-                  }
+                  data: data
                 });
             }
           });
@@ -506,7 +509,8 @@ export class ResultlistService {
       });
     } else {
       this.snackbar.open(
-        this.translate.instant('You have exceeded the number of products authorised for a single download', { max: maxItems }), 'X',
+        this.translate.instant('You have exceeded the number of products authorised for a single process',
+          { max: maxItems, name: this.translate.instant(processName) }), 'X',
         {
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -514,6 +518,15 @@ export class ResultlistService {
         }
       );
     }
+  }
+
+  private aiasDownload(ids: string[], collection: string) {
+    this.process(DOWNLOAD_PROCESS_NAME, ids, collection, AiasDownloadComponent,
+      { wktAoi: this.mapService.mapComponent.getAllPolygon('wkt')});
+  }
+
+  private aiasEnrich(ids: string[], collection: string) {
+    this.process(ENRICH_PROCESS_NAME, ids, collection, AiasEnrichComponent);
   }
 
   /** This method sorts the list on the given column. The features are also sorted if the `Simple mode` is activated in mapContributor  */
@@ -565,25 +578,33 @@ export class ResultlistService {
     });
 
     // Check if the user can access process endpoint
-    const processSettings = this.settingsService.getProcessSettings();
-    const externalNode = this.configService.getValue('arlas.web.externalNode');
-    if (!!processSettings && !!processSettings.url && externalNode?.download === true) {
-      this.processService.check()
+    this.addProcess(DOWNLOAD_PROCESS_NAME, 'production', marker('Download product'), '',
+      marker('Download product archive'), 'download');
+
+    this.addProcess(ENRICH_PROCESS_NAME, 'enrich', marker('Enrich product'), '',
+      marker('Enrich product with more assets'), 'add_photo_alternate');
+  }
+
+  private addProcess(processName: string, id: string, label: string, cssClass: string, tooltip: string, icon: string) {
+    const processSettings = this.settingsService.getProcessSettings(processName);
+    const externalNode = new Map(Object.entries(this.configService.getValue('arlas.web.externalNode')));
+    if (!!processSettings && !!processSettings.url && !!externalNode && externalNode.get(processName) === true) {
+      this.processService.check(processName)
         .subscribe({
           next: () => {
             this.resultlistContributors.forEach(c => {
               const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
-              if (!listActionsId.includes('production')) {
-                c.addAction({ id: 'production', label: marker('Download product'), cssClass: '', tooltip: marker('Download product archive') });
+              if (!listActionsId.includes(id)) {
+                c.addAction({ id: id, label: label, cssClass: cssClass,
+                  tooltip: tooltip, icon: icon });
                 const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
                 if (resultConfig) {
                   if (!resultConfig.globalActionsList) {
                     resultConfig.globalActionsList = [];
                   }
-                  resultConfig.globalActionsList.push({ 'id': 'production', 'label': marker('Download product') });
-                }
+                  resultConfig.globalActionsList.push({ 'id': id, 'label': label });
+                };
               }
-
             });
           }
         });

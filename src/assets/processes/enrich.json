@@ -1,0 +1,10 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "Enrich",
+  "description": "Enrichir un ou plusieurs produits",
+  "inputs": {},
+  "additionalParameters": {
+    "parameters": []
+  }
+}
