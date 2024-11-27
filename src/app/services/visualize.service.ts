@@ -209,7 +209,7 @@ export class VisualizeService {
   }
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
-    geometryPath: string, centroidPath: string, collection) {
+    geometryPath: string, centroidPath: string, collection: string, fitBounds = true) {
     if (url !== undefined && url.indexOf('{bbox-epsg-3857}{:bbox3857:}') >= 0) {
       url = url.replace('{:bbox3857:}', '');
     }
@@ -221,7 +221,9 @@ export class VisualizeService {
         geometryPath, centroidPath, collection)
         .subscribe(d => {
           this.addRaster(url, 25, d.box, elementidentifier.idValue);
-          this.fitbounds = d.bounds;
+          if (fitBounds) {
+            this.fitbounds = d.bounds;
+          }
         });
     } else {
       const snackMsg = this.translateService.instant('The visualisation is not available for this product.');

@@ -35,7 +35,7 @@ import {
   AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
   ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, Subject } from 'rxjs';
+import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 
 
 @Injectable({
@@ -123,6 +123,7 @@ export class ResultlistService {
 
       this.addActions();
       this.declareResultlistExportCsv();
+      this.declareGlobalRasterVisualisation();
     }
   }
 
@@ -400,6 +401,18 @@ export class ResultlistService {
               next: (h) => this.exportService.exportResultlist(resultListContributor, h),
               error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
             });
+        } else if (event.data.id === 'visualize') {
+          this.mapService.featuresToSelect.forEach(e => {
+            // For each element, check if the necessary fields for the visualisation are present
+            this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
+              next: (values: string[]) => {
+                // If no field is missing, visualize the raster
+                if (values.filter(v => !v).length === 0) {
+                  this.visualizeRaster({action: event.data, elementidentifier: e}, resultListContributor, currentCollection, false);
+                }
+              }
+            });
+          });
         }
         break;
       case 'geoSortEvent':
@@ -423,7 +436,9 @@ export class ResultlistService {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
-  public actionOnItemEvent(data, mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
+  public actionOnItemEvent(data: {action: Action; elementidentifier: ElementIdentifier;},
+    mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
+
     switch (data.action.id) {
       case 'zoomToFeature':
         if (!!mapContributor) {
@@ -432,20 +447,7 @@ export class ResultlistService {
         }
         break;
       case 'visualize':
-        if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
-          const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
-          if (!data.action.activated) {
-            this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-              this.visualizeService.displayDataOnMap(url,
-                data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-                this.collectionToDescription.get(collection).centroid_path, collection);
-            });
-            this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
-          } else {
-            this.visualizeService.removeRasters(data.elementidentifier.idValue);
-            this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-          }
-        }
+        this.visualizeRaster(data, listContributor, collection);
         break;
       case 'download':
         if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
@@ -482,6 +484,25 @@ export class ResultlistService {
         callback();
       }
     }, 100);
+  }
+
+  private visualizeRaster(data: {action: Action; elementidentifier: ElementIdentifier;},
+    listContributor: ResultListContributor, collection: string, fitBounds = true) {
+
+    if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
+      const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
+      if (!data.action.activated) {
+        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
+          this.visualizeService.displayDataOnMap(url,
+            data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
+            this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
+        });
+        this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
+      } else {
+        this.visualizeService.removeRasters(data.elementidentifier.idValue);
+        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+      }
+    }
   }
 
   private process<T>(processName: string, ids: string[], collection: string, component: ComponentType<T>, additionalData?: any) {
@@ -602,7 +623,7 @@ export class ResultlistService {
                   if (!resultConfig.globalActionsList) {
                     resultConfig.globalActionsList = [];
                   }
-                  resultConfig.globalActionsList.push({ 'id': id, 'label': label });
+                  (resultConfig.globalActionsList as Array<Action>).push({ 'id': id, 'label': label });
                 };
               }
             });
@@ -619,9 +640,22 @@ export class ResultlistService {
           if (!resultConfig.globalActionsList) {
             resultConfig.globalActionsList = [];
           }
-          resultConfig.globalActionsList.push({ 'id': 'export_csv', 'label': marker('Export csv'), 'alwaysEnabled': true });
+          (resultConfig.globalActionsList as Array<Action>).push({ 'id': 'export_csv', 'label': marker('Export csv'), 'alwaysEnabled': true });
         }
       });
     }
+  }
+
+  private declareGlobalRasterVisualisation() {
+    this.resultlistContributors.forEach(c => {
+      const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
+      if (!!resultConfig && !!resultConfig.visualisationLink) {
+        if (!resultConfig.globalActionsList) {
+          resultConfig.globalActionsList = [];
+        }
+        (resultConfig.globalActionsList as Array<Action>).push({id: 'visualize', label: marker('Visualize products'),
+          fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink)});
+      }
+    });
   }
 }
