@@ -387,10 +387,10 @@ export class ResultlistService {
         break;
       case 'globalActionEvent':
         if (event.data.id === 'production') {
-          const idsItemSelected: ElementIdentifier[] = this.mapService.mapComponent.featuresToSelect;
+          const idsItemSelected: ElementIdentifier[] = this.mapService.featuresToSelect;
           this.aiasDownload(idsItemSelected.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'enrich') {
-          const idsItemSelected: ElementIdentifier[] = this.mapService.mapComponent.featuresToSelect;
+          const idsItemSelected: ElementIdentifier[] = this.mapService.featuresToSelect;
           this.aiasEnrich(idsItemSelected.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'export_csv') {
           this.resultlistIsExporting = true;
