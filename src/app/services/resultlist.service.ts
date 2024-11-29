@@ -62,6 +62,7 @@ export class ResultlistService {
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
   public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
+  public selectedItems = new Array<ElementIdentifier>();
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -377,10 +378,11 @@ export class ResultlistService {
         }
         break;
       case 'selectedItemsEvent':
-        const ids = event.data;
+        const ids: Array<string> = event.data;
         const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
         if (!!idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
+          this.selectedItems = ids.map(id => ({idFieldName: idPath, idValue: id}));
         }
         break;
       case 'actionOnItemEvent':
@@ -388,11 +390,9 @@ export class ResultlistService {
         break;
       case 'globalActionEvent':
         if (event.data.id === 'production') {
-          const idsItemSelected: ElementIdentifier[] = this.mapService.featuresToSelect;
-          this.aiasDownload(idsItemSelected.map(i => i.idValue), currentCollection);
+          this.aiasDownload(this.selectedItems.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'enrich') {
-          const idsItemSelected: ElementIdentifier[] = this.mapService.featuresToSelect;
-          this.aiasEnrich(idsItemSelected.map(i => i.idValue), currentCollection);
+          this.aiasEnrich(this.selectedItems.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'export_csv') {
           this.resultlistIsExporting = true;
           this.exportService.fetchResultlistData$(resultListContributor, undefined)
@@ -402,13 +402,14 @@ export class ResultlistService {
               error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
-          this.mapService.featuresToSelect.forEach(e => {
+          this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
             this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
                   this.visualizeRaster({action: event.data, elementidentifier: e}, resultListContributor, currentCollection, false);
+                  this.addAction(event.origin, e.idValue, event.data.action);
                 }
               }
             });
@@ -653,8 +654,9 @@ export class ResultlistService {
         if (!resultConfig.globalActionsList) {
           resultConfig.globalActionsList = [];
         }
+        const reverseAction = c.actionToTriggerOnClick.find(a => a.id === 'visualize').reverseAction;
         (resultConfig.globalActionsList as Array<Action>).push({id: 'visualize', label: marker('Visualize products'),
-          fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink)});
+          fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink), reverseAction});
       }
     });
   }

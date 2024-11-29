@@ -117,7 +117,7 @@ export class VisualizeService {
         return urlTemplate;
       } else {
         this.getVisuFields(urlTemplate).forEach(field => {
-          if (data.hits[0].data[field] === undefined) {
+          if (!data.hits || data.hits[0].data[field] === undefined) {
             return undefined;
           } else {
             urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
