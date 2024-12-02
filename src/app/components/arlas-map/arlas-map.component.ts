@@ -61,9 +61,6 @@ export class ArlasMapComponent implements OnInit {
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
   public mapLoaded = false;
 
-  /** Map interactions */
-  public featuresToSelect: Array<ElementIdentifier> = [];
-
   /** Map move */
   public fitbounds: Array<Array<number>> = [];
   public recalculateExtent = true;
@@ -303,7 +300,6 @@ export class ArlasMapComponent implements OnInit {
         const appUrl = new URL(window.location.href);
         const mapServiceOrigin = mapServiceUrl.origin;
         const appOrigin = appUrl.origin;
-        console.log('enriching ...', appOrigin, mapServiceOrigin, headers)
         /** We enrich map url by an ARLAS header only if the map url is provided by ARLAS. */
         if (appOrigin === mapServiceOrigin && !!headers) {
           return ({
