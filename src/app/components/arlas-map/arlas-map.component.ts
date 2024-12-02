@@ -61,9 +61,6 @@ export class ArlasMapComponent implements OnInit {
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
   public mapLoaded = false;
 
-  /** Map interactions */
-  public featuresToSelect: Array<ElementIdentifier> = [];
-
   /** Map move */
   public fitbounds: Array<Array<number>> = [];
   public recalculateExtent = true;
