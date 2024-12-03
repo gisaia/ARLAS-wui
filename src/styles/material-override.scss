@@ -31,6 +31,7 @@
   --mdc-dialog-subhead-size: 20px;
   --mdc-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --mdc-dialog-subhead-weight: bold;
+  --mdc-dialog-subhead-tracking: 0;
 }
 
 .mdc-dialog__content {
@@ -38,10 +39,8 @@
   --mdc-dialog-supporting-text-tracking: 0;
   // Avoid cropping _ and the bottom of letters in selects
   --mdc-dialog-supporting-text-line-height: 16px;
-}
 
-.mdc-dialog__surface {
-  padding: 24px;
+  padding-bottom: 0 !important;
 }
 
 // Avoid overlap of collection count and divider

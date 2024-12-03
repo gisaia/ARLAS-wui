@@ -72,17 +72,18 @@
     }
   }
 
+  .geocode-tip {
+    font-size: $sm-font-size;
+    color: grey;
+    font-style: italic;
+    margin-bottom: $xs-spacing;
+  }
+
   .geocode-table-container {
     max-height: 150px;
     overflow-y: auto;
     margin-top: $sm-spacing;
-
-    .geocode-tip {
-      font-size: $sm-font-size;
-      color: grey;
-      font-style: italic;
-      margin-bottom: 2.5px;
-    }
+    font-size: $default-font-size;
   }
 
   .table {
