@@ -30,6 +30,7 @@
 @import 'styles/map.scss';
 @import 'styles/filter.scss';
 @import 'styles/variables.scss';
+@import 'styles/material-override.scss';
 @import 'styles/app/sizes.scss';
 @import 'styles/app/colors.scss';
 @import 'styles/app/mixin.scss';
@@ -110,7 +111,7 @@ button:focus {
   font-weight: 300;
 }
 
-.analytics-tabs .mat-tab-header {
+.analytics-tabs .mat-mdc-tab-header {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
@@ -155,7 +156,7 @@ button:focus {
   height: 0;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   max-height: 85vh !important;
 }
 

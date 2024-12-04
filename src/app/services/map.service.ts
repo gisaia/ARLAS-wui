@@ -109,12 +109,14 @@ export class MapService {
               }
             }
           } else {
-            this.mapComponent.map.setFilter(l, this.mapComponent.layersMap.get(l).filter);
-            const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-            const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
-            if (!!strokeLayer) {
-              this.mapComponent.map.setFilter(strokeLayerId,
-                this.mapComponent.layersMap.get(strokeLayerId).filter);
+            if (!!layer && layer.source.indexOf(collection) >= 0) {
+              this.mapComponent.map.setFilter(l, this.mapComponent.layersMap.get(l).filter);
+              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
+              const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
+              if (!!strokeLayer) {
+                this.mapComponent.map.setFilter(strokeLayerId,
+                  this.mapComponent.layersMap.get(strokeLayerId).filter);
+              }
             }
           }
         }

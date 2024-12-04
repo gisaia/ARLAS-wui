@@ -27,13 +27,24 @@ import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
 import { MapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
-import { VisualizeService } from '@services/visualize.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AnalyticsService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasExportCsvService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, FilterShortcutConfiguration,
-  getParamValue, NOT_CONFIGURED, ProcessService, TimelineComponent, ZoomToDataStrategy
+  AnalyticsService,
+  ArlasCollaborativesearchService,
+  ArlasCollectionService,
+  ArlasConfigService,
+  ArlasExportCsvService,
+  ArlasMapService,
+  ArlasMapSettings,
+  ArlasSettingsService,
+  ArlasStartupService,
+  FilterShortcutConfiguration,
+  getParamValue,
+  NOT_CONFIGURED,
+  ProcessService,
+  TimelineComponent,
+  ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -125,22 +136,16 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public constructor(
     private configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
-    public collaborativeService: ArlasCollaborativesearchService,
+    protected collaborativeService: ArlasCollaborativesearchService,
     private contributorService: ContributorService,
-    public arlasStartupService: ArlasStartupService,
+    protected arlasStartupService: ArlasStartupService,
     private mapSettingsService: ArlasMapSettings,
     private cdr: ChangeDetectorRef,
     private toolkitMapService: ArlasMapService,
     private titleService: Title,
-    public visualizeService: VisualizeService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public analyticsService: AnalyticsService,
-    private dialog: MatDialog,
-    private generateAoiDialog: MatDialog,
-    private processService: ProcessService,
-    private exportService: ArlasExportCsvService,
-    private collectionService: ArlasCollectionService,
+    protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService,
     protected mapService: MapService
   ) {

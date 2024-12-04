@@ -60,26 +60,37 @@
 
   .geocode-input {
     flex-basis: 60%;
+
+    // Tighten the display of inputs
+    ::ng-deep.mat-mdc-form-field-infix {
+      // Remove 8px from padding bottom and min height
+      padding-bottom: 0;
+      min-height: 48px;
+    }
+    ::ng-deep.mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+
+  .geocode-tip {
+    font-size: $sm-font-size;
+    color: grey;
+    font-style: italic;
+    margin-bottom: $xs-spacing;
   }
 
   .geocode-table-container {
     max-height: 150px;
     overflow-y: auto;
     margin-top: $sm-spacing;
-
-    .geocode-tip {
-      font-size: $sm-font-size;
-      color: grey;
-      font-style: italic;
-      margin-bottom: 2.5px;
-    }
+    font-size: $default-font-size;
   }
 
   .table {
     max-height: 200px;
     width: 100%;
 
-    ::ng-deep thead tr.mat-header-row {
+    ::ng-deep thead tr.mat-mdc-header-row {
       height: 1px;
     }
   }
@@ -93,7 +104,7 @@
     color: $errorColor;
   }
 
-  ::ng-deep td.mat-cell:last-of-type,
+  ::ng-deep td.mat-mdc-cell:last-of-type,
   ::ng-deep td.mat-cell:first-of-type {
     padding: 0;
   }

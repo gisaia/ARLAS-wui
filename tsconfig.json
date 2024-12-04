@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "skipLibCheck": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
@@ -9,10 +10,10 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports":true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "resolveJsonModule":true,
-    "target": "es6",
+    "resolveJsonModule": true,
+    "target": "ES2022",
     "types": [
       "node",
       "mapbox-gl",
@@ -33,6 +34,7 @@
       "@services/*": [
         "app/services/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }

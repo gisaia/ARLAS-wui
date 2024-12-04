@@ -98,7 +98,8 @@
                 [class.resultlist__toggle--open]="resultlistService.listOpen"
                 [class.resultlist__toggle--no-grid]="!resultlistService.listOpen
                   && !(resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode">
-                <mat-icon>{{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
+                <mat-icon [matTooltip]="resultlistService.listOpen ? ('Close data table' | translate) : ('Open data table' | translate)" matTooltipPosition="before">
+                  {{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
               </div>
 
               <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen"
