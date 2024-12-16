@@ -260,7 +260,6 @@
       }
     }
   },
-  "defaultProject": "arlas-wui",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "arlas",
