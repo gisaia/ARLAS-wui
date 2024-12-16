@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "@ngx-translate/core": "14.0.0",
-    "arlas-wui-toolkit": "27.0.0-rc.1",
+    "arlas-wui-toolkit": "27.0.0-beta.5",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^17.3.0",
-    "ngx-markdown": "15.1.2",
+    "ngx-markdown": "^17.0.0",
     "patch-package": "^6.4.7",
     "web-animations-js": "^2.3.2"
   },
