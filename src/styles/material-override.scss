@@ -32,6 +32,7 @@
   --mdc-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --mdc-dialog-subhead-weight: bold;
   --mdc-dialog-subhead-tracking: 0;
+  --mat-dialog-headline-padding: 0;
 }
 
 .mdc-dialog__content {
@@ -39,8 +40,20 @@
   --mdc-dialog-supporting-text-tracking: 0;
   // Avoid cropping _ and the bottom of letters in selects
   --mdc-dialog-supporting-text-line-height: 16px;
+  --mat-dialog-content-padding: 0;
+  --mat-dialog-with-actions-content-padding: 0;
+}
 
-  padding-bottom: 0 !important;
+.mdc-dialog__actions {
+  --mat-dialog-actions-padding: 0;
+}
+
+// Align left edge of dialog
+.mdc-dialog__surface {
+  padding: 12px 24px;
+}
+.mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+  padding-left: 6px !important;
 }
 
 // Avoid overlap of collection count and divider
