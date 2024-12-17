@@ -19,21 +19,25 @@
 
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { MapWuiService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
-import { ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
-  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
+import {
+  ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
+  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+} from 'arlas-web-components';
 import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService, getParamValue, ProcessService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME
+  ArlasExportCsvService, ArlasSettingsService,
+  DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME,
+  getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject } from 'rxjs';
 
