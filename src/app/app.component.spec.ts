@@ -31,7 +31,7 @@ import { ArlasCollaborativesearchService, ArlasCollectionService,
 import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
+import { MapWuiService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 
@@ -71,7 +71,7 @@ describe('ArlasWuiComponent', () => {
       ],
       providers: [
         ResultlistService,
-        MapService,
+        MapWuiService,
         ArlasColorService,
         ArlasCollaborativesearchService,
         ArlasConfigService,

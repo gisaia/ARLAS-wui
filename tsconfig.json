@@ -13,10 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "target": "ES2022",
     "types": [
       "node",
-      "mapbox-gl",
       "geojson"
     ],
     "typeRoots": [

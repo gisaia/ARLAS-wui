@@ -18,9 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasAnyLayer, MapglComponent } from 'arlas-web-components';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
-
+import { ArlasMapComponent, AbstractArlasMapService, ArlasMapFrameworkService } from 'arlas-map';
 export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
@@ -29,15 +28,15 @@ export interface FeatureHover {
 @Injectable({
   providedIn: 'root'
 })
-export class MapService {
-  public mapComponent: MapglComponent;
+export class MapWuiService {
+  public mapComponent: ArlasMapComponent;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public featureToHightLight: FeatureHover;
   public coordinatesHaveSpace: boolean;
 
-  public constructor() { }
+  public constructor(public mapService: ArlasMapFrameworkService, public mapLogicService: AbstractArlasMapService) { }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -80,10 +79,10 @@ export class MapService {
   }
 
   public setCursor(cursor: string) {
-    this.mapComponent.map.getCanvas().style.cursor = cursor;
+    this.mapService.setMapCursor(this.mapComponent.map, cursor);
   }
 
-  public setMapComponent(mapComponent: MapglComponent) {
+  public setMapComponent(mapComponent: ArlasMapComponent) {
     this.mapComponent = mapComponent;
   }
 
@@ -97,29 +96,8 @@ export class MapService {
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        const layer = this.mapComponent.map.getLayer(l) as ArlasAnyLayer;
-        if (!!layer && typeof(layer.source) === 'string' && layer.source.indexOf(collection) >= 0) {
-          if (ids && ids.length > 0) {
-            if (layer.metadata.isScrollableLayer || layer.metadata['is-scrollable-layer']) {
-              this.mapComponent.map.setFilter(l, this.getVisibleElementLayerFilter(l, ids));
-              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-              const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
-              if (!!strokeLayer) {
-                this.mapComponent.map.setFilter(strokeLayerId, this.getVisibleElementLayerFilter(strokeLayerId, ids));
-              }
-            }
-          } else {
-            if (!!layer && layer.source.indexOf(collection) >= 0) {
-              this.mapComponent.map.setFilter(l, this.mapComponent.layersMap.get(l).filter);
-              const strokeLayerId = l.replace('_id:', '-fill_stroke-');
-              const strokeLayer = this.mapComponent.map.getLayer(strokeLayerId);
-              if (!!strokeLayer) {
-                this.mapComponent.map.setFilter(strokeLayerId,
-                  this.mapComponent.layersMap.get(strokeLayerId).filter);
-              }
-            }
-          }
-        }
+        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection  )
+
       });
     }
   }
@@ -142,27 +120,6 @@ export class MapService {
         this.coordinatesHaveSpace = (width - timelineToolsMaxWidth - scaleMaxWidth - toggleButtonWidth - 3 * smMargin) > 230;
       }
     }
-  }
-
-  private getVisibleElementLayerFilter(l, ids) {
-    const lFilter = this.mapComponent.layersMap.get(l).filter;
-    const filters = [];
-    if (lFilter) {
-      lFilter.forEach(f => {
-        filters.push(f);
-      });
-    }
-    if (filters.length === 0) {
-      filters.push('all');
-    }
-    filters.push([
-      'match',
-      ['get', 'id'],
-      Array.from(new Set(ids)),
-      true,
-      false
-    ]);
-    return filters;
   }
 
   public getContributorByCollection(collection: string): MapContributor {

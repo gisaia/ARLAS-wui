@@ -1,5 +1,5 @@
-<div class="arlas-map__container" [class.arlas-map__container--tight]="!mapService.coordinatesHaveSpace">
-    <arlas-mapgl-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-mapgl-settings>
+<div class="arlas-map__container" [class.arlas-map__container--tight]="!arlasMapService.coordinatesHaveSpace">
+    <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
         <div class="arlas-map-settings-container" >
@@ -48,7 +48,7 @@
       <arlas-rasters-manager></arlas-rasters-manager>
     </div>
 
-    <arlas-mapgl [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
+    <arlas-map [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
       [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"
       [defaultBasemapStyle]="defaultBasemap"
       [visualisationSetsConfig]="mapComponentConfig?.visualisations_sets"
@@ -61,9 +61,9 @@
       [maxZoom]="mapComponentConfig?.maxZoom" [displayScale]="mapComponentConfig?.displayScale"
       [displayCurrentCoordinates]="mapComponentConfig?.displayCurrentCoordinates"
       [maxWidthScale]="mapComponentConfig?.maxWidthScale" [unitScale]="mapComponentConfig?.unitScale"
-      [idFeatureField]="mapComponentConfig?.idFieldName" [mapLayers]="mapComponentConfig?.mapLayers"
+      [mapLayers]="mapComponentConfig?.mapLayers"
       [mapSources]="mapComponentConfig?.mapSources"
-      [featureToHightLight]="mapService.featureToHightLight" [featuresToSelect]="featuresToSelect"
+      [featureToHightLight]="arlasMapService.featureToHightLight" [featuresToSelect]="featuresToSelect"
       [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
       [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
       (onAoiChanged)="onChangeAoi($event)"
@@ -73,10 +73,10 @@
       (legendVisibiltyStatus)="setLayersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnHover($event)"
       (onFeatureClic)="emitFeaturesOnClick($event)"
       (downloadSourceEmitter)="downloadLayerSource($event)">
-    </arlas-mapgl>
+    </arlas-map>
 
-    <arlas-mapgl-import *ngIf="mapLoaded" #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="maxFileSize"
-      [maxLoadingTime]="maxLoadingTime" [maxFeatures]="maxFeatures" [mapComponent]="mapglComponent"></arlas-mapgl-import>
+    <arlas-map-import *ngIf="mapLoaded" #import [hidden]="true" [maxVertexByPolygon]="nbVerticesLimit" [maxFileSize]="maxFileSize"
+      [maxLoadingTime]="maxLoadingTime" [maxFeatures]="maxFeatures" [mapComponent]="mapglComponent"></arlas-map-import>
 
     <div class="aoi-dimensions" *ngIf="aoiEdition && aoiEdition.show">
       <arlas-aoi-dimensions [aoiEdition]="aoiEdition"></arlas-aoi-dimensions>

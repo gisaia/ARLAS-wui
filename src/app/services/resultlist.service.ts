@@ -24,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { MapService } from '@services/map.service';
+import { MapWuiService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
@@ -74,7 +74,7 @@ export class ResultlistService {
   public constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private mapService: MapService,
+    private mapService: MapWuiService,
     private collaborativeService: ArlasCollaborativesearchService,
     private settingsService: ArlasSettingsService,
     private configService: ArlasConfigService,

@@ -47,6 +47,7 @@ import {
   HistogramModule,
   ResultsModule, FormatNumberModule,
   GetValueModule,
+  GetValuePipe,
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,
@@ -77,8 +78,8 @@ import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapComponent, ArlasMapModule, ArlasMapService, BasemapService, LegendService, MapImportComponent } from 'arlas-map';
-import { ArlasMaplibreService, MaplibreBasemapService, MaplibreLegendService } from 'arlas-maplibre';
+import { ArlasMapComponent, ArlasMapFrameworkService, ArlasMapModule, AbstractArlasMapService, BasemapService, LegendService, MapImportComponent } from 'arlas-map';
+import { ArlasMaplibreService, MaplibreBasemapService, MaplibreLegendService, ArlasMapService } from 'arlas-maplibre';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
 import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
@@ -167,7 +168,8 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ArlasTaggerModule,
     LoginModule,
     LazyLoadImageModule,
-    ArlasMapModule
+    ArlasMapModule,
+    GetValueModule
   ],
   providers: [
     ContributorService,
@@ -175,6 +177,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
       provide: ArlasMapService,
       useClass: ArlasMaplibreService
     },
+    ArlasMaplibreService,
     {
       provide: BasemapService,
       useClass: MaplibreBasemapService
@@ -183,9 +186,13 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
       provide: LegendService,
       useClass: MaplibreLegendService
     },
-    GetValueModule,
+    {
+      provide: ArlasMapFrameworkService,
+      useClass: ArlasMaplibreService
+    },
     VisualizeService,
     MapWuiService,
+    ArlasMapService,
     ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
@@ -203,5 +210,5 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     bootstrap: [ArlasWuiComponent],
     entryComponents: []
 })
-export class ArlasWuiModule {
+export class ArlasWuiOSModule {
 }

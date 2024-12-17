@@ -22,10 +22,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
-import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { ArlasWuiMapComponent } from '@components/arlas-map/arlas-map.component';
 import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
-import { MapService } from '@services/map.service';
+import { MapWuiService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
@@ -102,9 +102,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public resultListGridColumns = 4;
   public collections: string[];
-
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
+  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasWuiMapComponent;
   @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent;
 
   /** Shortcuts */
@@ -147,7 +146,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService,
-    protected mapService: MapService
+    protected mapService: MapWuiService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */

@@ -23,7 +23,7 @@ import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
+import { MapWuiService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class ArlasWuiComponent implements OnInit {
     private configService: ArlasConfigService,
     private resultlistService: ResultlistService,
     private contributorService: ContributorService,
-    private mapService: MapService,
+    private mapService: MapWuiService,
     private colorService: ArlasColorService,
     private collaborativeService: ArlasCollaborativesearchService,
     private analyticsService: AnalyticsService
@@ -118,9 +118,9 @@ export class ArlasWuiComponent implements OnInit {
           });
           this.resultlistService.setCollectionsDescription(this.collectionToDescription);
           if (!!this.mapService.mapComponent) {
-            const bounds = (<mapboxgl.Map>this.mapService.mapComponent.map).getBounds();
+            const bounds = this.mapService.mapComponent.map.getBounds();
             if (!!bounds) {
-              (<mapboxgl.Map>this.mapService.mapComponent.map).fitBounds(bounds, { duration: 0 });
+              this.mapService.mapComponent.map.fitBounds(bounds, { duration: 0 });
             }
           }
           if (this.resultlistContributors.length > 0) {

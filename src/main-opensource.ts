@@ -20,12 +20,12 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { ArlasWuiModule } from './app/app.module';
 import { environment } from './environments/environment';
+import { ArlasWuiOSModule } from 'app/app.module.opensource';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(ArlasWuiModule)
+platformBrowserDynamic().bootstrapModule(ArlasWuiOSModule)
   .catch(err => console.log(err));

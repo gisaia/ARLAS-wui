@@ -18,7 +18,7 @@
  */
 
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MapService } from 'app/services/map.service';
+import { MapWuiService } from 'app/services/map.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
   ArlasWalkthroughService, DownloadComponent, PersistenceService, ShareComponent, TagComponent
@@ -78,7 +78,7 @@ export class LeftMenuComponent implements OnInit {
     private configService: ArlasConfigService,
     protected arlasStartupService: ArlasStartupService,
     protected persistenceService: PersistenceService,
-    private mapService: MapService
+    private mapService: MapWuiService
   ) {
   }
 
@@ -129,6 +129,7 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public refreshComponents() {
+    console.log('refresh')
     const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
     this.collaborativeService.setCollaborations(dataModel);
   }

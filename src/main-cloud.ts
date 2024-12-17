@@ -17,22 +17,15 @@
  * under the License.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
-import { AoiEdition } from 'arlas-map';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-@Component({
-  selector: 'arlas-aoi-dimensions',
-  templateUrl: './aoi-dimensions.component.html',
-  styleUrls: ['./aoi-dimensions.component.scss']
-})
-export class AoiDimensionComponent implements OnInit {
-  /**
-   * @Input : Angular
-   * Current dimensions of the AOI being edited
-   */
-  @Input() public aoiEdition: AoiEdition;
+import { environment } from './environments/environment';
+import { ArlasWuiCloudModule } from 'app/app.module.cloud';
 
-  public constructor() { }
-
-  public ngOnInit() { }
+if (environment.production) {
+  enableProdMode();
 }
+
+platformBrowserDynamic().bootstrapModule(ArlasWuiCloudModule)
+  .catch(err => console.log(err));

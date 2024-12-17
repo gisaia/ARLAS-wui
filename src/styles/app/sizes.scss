@@ -23,6 +23,7 @@
 $default-spacing: 10px;
 $xs-spacing: math.div($default-spacing, 4);
 $sm-spacing: math.div($default-spacing, 2);
+
 $lg-spacing: $default-spacing * 2;
 
 $default-margin: $default-spacing;
@@ -43,3 +44,5 @@ $title-font-size: 18px;
 $metric-value-font-size: 24px;
 
 $icon-size: 24px;
+
+$maplibre-left-control-correction: -4px;

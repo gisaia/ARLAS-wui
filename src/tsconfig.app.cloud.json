@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "",
+    "types": [
+      "mapbox-gl",
+      "geojson",
+      "node"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
+  "files": [
+    "main-cloud.ts",
+    "polyfills.ts"
+  ]
+}

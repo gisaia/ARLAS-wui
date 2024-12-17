@@ -24,12 +24,12 @@ import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
 import { Expression, Filter, Search } from 'arlas-api';
-import { CROSS_LAYER_PREFIX } from 'arlas-web-components';
+import { AbstractArlasMapGL, ArlasCircle, ArlasFill, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum } from 'arlas-map';
+import { MaplibreVectorStyle } from 'arlas-maplibre';
 import { ElementIdentifier } from 'arlas-web-contributors';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Popup } from 'mapbox-gl';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { parse } from 'wellknown';
@@ -39,6 +39,7 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 @Injectable()
 export class VisualizeService {
   public map;
+  public mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
   /**  @deprecated. Use isRasterOnMap instead. */
   public isWMTSOnMap = false;
@@ -49,25 +50,17 @@ export class VisualizeService {
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
-    private translateService: TranslateService, private snackBar: MatSnackBar
+    private translateService: TranslateService, private snackBar: MatSnackBar,
+    private mapFrameworkService: ArlasMapFrameworkService
   ) { }
 
   /**
-   * Sets the mapbox map object + loads the 'cross' icon to it.
-   * @param m Mapbox map object.
-   */
-  public setMap(m) {
-    this.map = m;
-    this.map.loadImage(
-      'assets/cross.png',
-      (error, image) => {
-        if (error) {
-          throw error;
-        }
-        if (!this.map.hasImage('cross')) {
-          this.map.addImage('cross', image);
-        }
-      });
+  * Sets the mapbox map object + loads the 'cross' icon to it.
+  * @param m Mapbox map object.
+  */
+  public setMap(m: AbstractArlasMapGL) {
+    this.mapInstance = m;
+    this.mapFrameworkService.addImage('cross', 'assets/cross.png', m, 'Cross icon is not loaded');
   }
 
 
@@ -135,32 +128,14 @@ export class VisualizeService {
 
   public removeRasters(id?: string) {
     if (id) {
-      if (this.map.getLayer('raster-layer-' + id)) {
-        this.map.removeLayer('raster-layer-' + id);
-      }
-      if (this.map.getSource('raster-source-' + id)) {
-        this.map.removeSource('raster-source-' + id);
-      }
-      if (this.map.getLayer(CROSS_LAYER_PREFIX + id)) {
-        this.map.removeLayer(CROSS_LAYER_PREFIX + id);
-      }
-      if (this.map.getSource(CROSS_LAYER_PREFIX + id)) {
-        this.map.removeSource(CROSS_LAYER_PREFIX + id);
-      }
+      this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+      this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     } else {
-      this.map.getStyle().layers
-        .filter(layer => layer.source !== undefined)
-        .filter(layer => layer.source.indexOf('raster-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0)
-        .forEach(layer => {
-          this.map.removeLayer(layer.id);
-          this.map.removeSource(layer.source);
-        });
-      this.isWMTSOnMap = false;
-      this.isRasterOnMap = false;
+      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
+      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
+      this.isWMTSOnMap = this.isRasterOnMap = false;
     }
-    this.isRasterOnMap = this.map.getStyle().layers
-      .filter(layer => layer.source !== undefined)
-      .filter(layer => layer.source.indexOf('raster-source-') >= 0 || layer.source.indexOf(CROSS_LAYER_PREFIX) >= 0).length > 0;
+    this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-')
     this.isWMTSOnMap = this.isRasterOnMap;
   }
 
@@ -178,33 +153,14 @@ export class VisualizeService {
    * @param beforeId Insert before a given raster id.
    */
   public addRaster(url, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
-    if (this.map.getLayer('raster-layer-' + id)) {
-      this.map.removeLayer('raster-layer-' + id);
-    }
-    if (this.map.getSource('raster-source-' + id)) {
-      this.map.removeSource('raster-source-' + id);
-    }
-    this.map.addSource('raster-source-' + id, {
-      type: 'raster',
-      tiles: [url],
-      bounds: bounds,
-      maxzoom: maxZoom,
-      tileSize: 256
-    });
-    this.map.addLayer({
-      'id': 'raster-layer-' + id,
-      'type': 'raster',
-      'source': 'raster-source-' + id,
-      'paint': {},
-      'layout': {
-        'visibility': 'visible'
-      }
-    }, beforeId);
+    this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+    this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
+    this.mapFrameworkService.addRasterLayer(this.mapInstance, 'raster-source-' + id, url, bounds, maxZoom,
+      /** minzoom */undefined, /** tilesize */ 256, beforeId);
     if (id !== 'external') {
       this.isWMTSOnMap = true;
       this.isRasterOnMap = true;
     }
-
     this.addcrossToRemove(bounds[2], bounds[3], id);
   }
 
@@ -230,40 +186,28 @@ export class VisualizeService {
   }
 
   public addcrossToRemove(lat, lng, id) {
-    this.map.addSource(CROSS_LAYER_PREFIX + id, {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': [
-          {
-            'type': 'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [lat, lng]
-            }
+    const crossPosition = {
+      type: 'FeatureCollection',
+      'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [lat, lng]
           }
-        ]
-      }
-    });
-    this.map.addLayer({
-      'id': CROSS_LAYER_PREFIX + id,
-      'type': 'symbol',
-      'source': CROSS_LAYER_PREFIX + id,
-      'layout': {
-        'icon-image': 'cross',
-        'icon-size': 0.25,
-        'visibility': 'visible'
-      }
-    });
-    this.map.on('click', CROSS_LAYER_PREFIX + id, (e) => {
+        }
+      ]
+    } as GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry>
+    this.mapFrameworkService.addIconLayer(this.mapInstance, CROSS_LAYER_PREFIX + id, 'cross', 0.25, crossPosition);
+    this.mapFrameworkService.onLayerEvent('click', this.mapInstance, CROSS_LAYER_PREFIX + id, (e) => {
       this.removeRasters(id);
       this.notifyRasterRemoved(id);
     });
-    this.map.on('mousemove', CROSS_LAYER_PREFIX + id, (e) => {
-      this.map.getCanvas().style.cursor = 'pointer';
+    this.mapFrameworkService.onLayerEvent('mousemove', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
+      this.mapFrameworkService.setMapCursor(this.mapInstance, 'pointer');
     });
-    this.map.on('mouseleave', CROSS_LAYER_PREFIX + id, (e) => {
-      this.map.getCanvas().style.cursor = '';
+    this.mapFrameworkService.onLayerEvent('mouseleave', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
+      this.mapFrameworkService.setMapCursor(this.mapInstance, '');
     });
     this.handlePopup(lat, lng, id);
   }
@@ -273,20 +217,16 @@ export class VisualizeService {
   }
 
   public handlePopup(lat, lng, id) {
-    const popup = new Popup({
-      closeButton: false,
-      closeOnClick: false
+    const tooltipMsg = this.translateService.instant('Remove visualisation');
+    const popup = this.mapFrameworkService.createPopup(lng, lat, tooltipMsg);
+    this.mapFrameworkService.onLayerEvent('mouseenter', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
+      this.mapFrameworkService.addPopup(this.mapInstance, popup);
     });
-    this.map.on('mouseenter', CROSS_LAYER_PREFIX + id, (e) => {
-      const tooltipMsg = this.translateService.instant('Remove visualisation');
-      popup.setLngLat([lat, lng])
-        .setHTML(tooltipMsg)
-        .addTo(this.map);
-    });
-    this.map.on('mouseleave', CROSS_LAYER_PREFIX + id, () => {
-      popup.remove();
+    this.mapFrameworkService.onLayerEvent('mouseleave', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
+      this.mapFrameworkService.removePopup(this.mapInstance, popup);
     });
   }
+
   public getBoundsAndCenter(idField: string, idValue: string, geometryPath: string, centroidPath: string, collection): Observable<{
     bounds: Array<Array<number>>;
     center: Array<number>;
@@ -343,16 +283,7 @@ export class VisualizeService {
   }
 
   public addGeocodingPreviewLayer(geoJson: any) {
-    const source = this.map.getSource(GEOCODING_PREVIEW_ID);
-    if (!source) {
-      this.map.addSource(GEOCODING_PREVIEW_ID, {
-        type: 'geojson',
-        data: geoJson
-      });
-    } else {
-      source.setData(geoJson);
-    }
-
+    this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
     const circlePaint = {
       'circle-radius': 4,
       'circle-stroke-width': 2,
@@ -360,29 +291,19 @@ export class VisualizeService {
       'circle-stroke-color': '#3bb2d0'
     };
     const polygonPaint = { 'fill-color': '#3bb2d0', 'fill-outline-color': '#3bb2d0', 'fill-opacity': 0.1 };
+    const type = (geoJson.type === 'Point') ? VectorStyleEnum.circle : VectorStyleEnum.fill;
+    const paint = (geoJson.type === 'Point') ? circlePaint as ArlasCircle : polygonPaint as ArlasFill;
+    const style = new MaplibreVectorStyle(type, paint);
+    this.mapFrameworkService.addGeojsonLayer(this.mapInstance, GEOCODING_PREVIEW_ID, style, geoJson);
 
-    const type = (geoJson.type === 'Point') ? 'circle' : 'fill';
-    const paint = (geoJson.type === 'Point') ? circlePaint : polygonPaint;
-
-    this.map.addLayer({
-      'id': GEOCODING_PREVIEW_ID,
-      'type': type,
-      'source': GEOCODING_PREVIEW_ID,
-      'paint': paint,
-      'layout': {
-        'visibility': 'visible'
-      }
-    });
   }
   public removeGeocodingPreviewLayer() {
-    if (this.map.getLayer(GEOCODING_PREVIEW_ID)) {
-      this.map.removeLayer(GEOCODING_PREVIEW_ID);
-    }
+    this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
   }
 
   public handleGeojsonPreview(geojson: any) {
     this.addGeocodingPreviewLayer(geojson);
-    this.map.on('zoomend', () => {
+    this.mapFrameworkService.onMapEvent('zoomend', this.mapInstance, () => {
       this.removeGeocodingPreviewLayer();
     });
   }

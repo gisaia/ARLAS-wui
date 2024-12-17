@@ -176,6 +176,10 @@ button:focus {
   display: none;
 }
 
+.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois, .maplibregl-ctrl-group-pitch {
+  display: none;
+}
+
 .mapboxgl-ctrl-group-layersswitcher {
   visibility: hidden;
 }
