@@ -7,7 +7,7 @@
     "ng": "ng",
     "postinstall": "patch-package --patch-dir node_modules/arlas-web-core/patches && patch-package --patch-dir node_modules/arlas-d3/patches",
     "start": "ng serve",
-    "build": "ng build --configuration production --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
+    "build": "ng build arlas-wui --configuration production --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
     "build-lib": "ng build arlas-wui-lib",
     "test": "ng test",
     "lint": "ng lint",
