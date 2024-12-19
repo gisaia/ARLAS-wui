@@ -187,8 +187,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ArlasCollectionService,
     ContributorService
   ],
-  bootstrap: [ArlasWuiComponent],
-  entryComponents: []
+  bootstrap: [ArlasWuiComponent]
 })
 export class ArlasWuiModule {
 }
