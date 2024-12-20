@@ -77,18 +77,18 @@ export class ResultlistService {
   public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
 
   public constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private mapService: MapService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private settingsService: ArlasSettingsService,
-    private configService: ArlasConfigService,
-    private processService: ProcessService,
-    private exportService: ArlasExportCsvService,
-    private snackbar: MatSnackBar,
-    private visualizeService: VisualizeService,
-    private translate: TranslateService,
-    private dialog: MatDialog
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly mapService: MapService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly configService: ArlasConfigService,
+    private readonly processService: ProcessService,
+    private readonly exportService: ArlasExportCsvService,
+    private readonly snackbar: MatSnackBar,
+    private readonly visualizeService: VisualizeService,
+    private readonly translate: TranslateService,
+    private readonly dialog: MatDialog
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: string[]) {
@@ -381,14 +381,15 @@ export class ResultlistService {
           this.mapService.featureToHightLight = f;
         }
         break;
-      case 'selectedItemsEvent':
+      case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
         const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
-        if (!!idPath) {
+        if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({idFieldName: idPath, idValue: id}));
         }
         break;
+      }
       case 'actionOnItemEvent':
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;

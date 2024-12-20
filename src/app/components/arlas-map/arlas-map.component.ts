@@ -32,7 +32,7 @@ import {
   AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, MapglComponent,
   MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
-import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
+import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
@@ -71,10 +71,10 @@ export class ArlasMapComponent implements OnInit {
   private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
-  private allowMapExtent: boolean;
+  private readonly allowMapExtent: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
-  private mapEventListener = new Subject();
-  private mapExtentTimer: number;
+  private readonly mapEventListener = new Subject();
+  private readonly mapExtentTimer: number;
   private MAP_EXTENT_PARAM = 'extend';
 
   /** Map data  */
@@ -108,7 +108,7 @@ export class ArlasMapComponent implements OnInit {
   protected enableGeocodingFeature = !!this.settingsService.getGeocodingSettings()?.enabled;
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
@@ -116,24 +116,24 @@ export class ArlasMapComponent implements OnInit {
 
   public constructor(
     protected mapService: MapService,
-    private toolkitMapService: ArlasMapService,
+    private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
-    private configService: ArlasConfigService,
-    private collaborativeService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
     protected arlasStartupService: ArlasStartupService,
-    private settingsService: ArlasSettingsService,
-    private generateAoiDialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private mapSettingsService: ArlasMapSettings,
-    private resultlistService: ResultlistService,
-    private translate: TranslateService,
-    private snackbar: MatSnackBar,
-    private iconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
-    private collectionService: ArlasCollectionService,
-    private authentService: AuthentificationService,
-    private arlasIamService: ArlasIamService
+    private readonly settingsService: ArlasSettingsService,
+    private readonly generateAoiDialog: MatDialog,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly mapSettingsService: ArlasMapSettings,
+    private readonly resultlistService: ResultlistService,
+    private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly collectionService: ArlasCollectionService,
+    private readonly authentService: AuthentificationService,
+    private readonly arlasIamService: ArlasIamService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -144,7 +144,7 @@ export class ArlasMapComponent implements OnInit {
         });
 
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      if (!!this.mapComponentConfig) {
+      if (this.mapComponentConfig) {
         this.mapService.setMapConfig(this.mapComponentConfig);
         this.defaultBasemap = this.mapComponentConfig.defaultBasemapStyle ?? DEFAULT_BASEMAP;
         this.mapExtentTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer') ?? 4000;
@@ -250,19 +250,19 @@ export class ArlasMapComponent implements OnInit {
 
   /** Updates the map url headers at each refresh.*/
   public updateMapTransformRequest() {
-    const authentMode = !!this.settingsService.getAuthentSettings() ? this.settingsService.getAuthentSettings().auth_mode : undefined;
+    const authentMode = this.settingsService.getAuthentSettings()?.auth_mode;
     const isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
     if (isAuthentActivated) {
       if (authentMode === 'iam') {
         this.arlasIamService.tokenRefreshed$.pipe(takeUntil(this._onDestroy$)).subscribe({
           next: (loginData) => {
-            if (!!loginData) {
+            if (loginData) {
               const org = this.arlasIamService.getOrganisation();
               const iamHeader = {
                 Authorization: 'Bearer ' + loginData.access_token,
               };
               // Set the org filter only if the organisation is defined
-              if (!!org) {
+              if (org) {
                 iamHeader['arlas-org-filter'] = org;
               }
               this.setMapTransformRequest(iamHeader);
