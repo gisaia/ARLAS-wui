@@ -1,8 +1,26 @@
 # Change Log
 
+## [v26.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.1) (2025-01-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0...v26.1.1)
+
+**New stuff:**
+
+- Migrate to Angular 18 [\#913](https://github.com/gisaia/ARLAS-wui/issues/913)
+- Enhance handling the app behaviour when intercepting 401, 20x [\#622](https://github.com/gisaia/ARLAS-wui/issues/622)
+
+**Miscellaneous:**
+
+- Migrate to Angular 15 [\#812](https://github.com/gisaia/ARLAS-wui/issues/812)
+
 ## [v26.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0) (2024-12-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0-rc.3...v26.1.0)
+
+**New stuff:**
+
+- Visualize multiple products at once [\#914](https://github.com/gisaia/ARLAS-wui/issues/914)
+- Enrich the header of calls made by the map to securised ARLAS services  [\#912](https://github.com/gisaia/ARLAS-wui/issues/912)
 
 ## [v26.1.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.3) (2024-11-27)
 
