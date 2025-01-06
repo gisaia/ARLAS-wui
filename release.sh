@@ -3,9 +3,6 @@ set -e
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd)"
 PROJECT_ROOT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
 
-# dockerlogin=`docker info | sed '/Username:/!d;s/.* //'`
-# if  [ -z "$dockerlogin"  ] ; then echo "your are not logged on dockerhub"; exit -1; else  echo "logged as "$dockerlogin ; fi
-
 if  [ -z "$GITHUB_CHANGELOG_TOKEN"  ] ; then echo "Please set GITHUB_CHANGELOG_TOKEN environment variable"; exit -1; fi
 
 function clean {
@@ -16,30 +13,27 @@ function clean {
 trap clean EXIT
 
 usage(){
-	echo "Usage: ./release.sh -rel=X [--no-tests]"
-    echo " -rel|--app-release   release arlas-app X version"
-	echo " -dev|--app-dev   development arlas-app version (-SNAPSHOT qualifier will be automatically added)"
-	echo " --no-tests    Skip running integration tests"
-	echo " --not-latest  Doesn't tag the release version as the latest."
-    echo " -s|--stage    Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
-    echo " -i|--stage_iteration=n, the released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"	
- 	echo " -ref_branch | --reference_branch  from which branch to start the release."
+	echo "Usage: ./release.sh -version=X [--no-tests]"
+    echo " -version                          Release ARLAS-wui X version"
+	echo " --no-tests                        Skip running integration tests"
+	echo " --not-latest                      Doesn't tag the release version as the latest."
+    echo " -s|--stage                        Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
+    echo " -i|--stage_iteration=n            The released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"
+ 	echo " -ref_branch|--reference_branch    From which branch to start the release."
     echo "    Add -ref_branch=develop for a new official release"
     echo "    Add -ref_branch=x.x.x for a maintenance release"
 	exit 1
 }
+
 STAGE="stable"
 TESTS="YES"
 IS_LATEST_VERSION="YES"
+
 for i in "$@"
 do
 case $i in
-    -rel=*|--app-release=*)
-    APP_REL="${i#*=}"
-    shift # past argument=value
-    ;;
-    -dev=*|--app-dev=*)
-    APP_DEV="${i#*=}"
+    -version=*)
+    VERSION="${i#*=}"
     shift # past argument=value
     ;;
     --no-tests)
@@ -67,9 +61,6 @@ case $i in
     ;;
 esac
 done
-
-VERSION="${APP_REL}"
-DEV="${APP_DEV}"
 
 if [ "$TESTS" == "YES" ]; then
   ng lint
@@ -135,7 +126,7 @@ git pull origin "$REF_BRANCH"
 
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
-        VERSION="${APP_REL}-${STAGE}.${STAGE_ITERATION}"
+    VERSION="${VERSION}-${STAGE}.${STAGE_ITERATION}"
 fi
 
 echo "==> Set version"
@@ -174,10 +165,12 @@ echo "==> Docker"
 docker build -f docker/Dockerfile-production --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
 docker build -f docker/Dockerfile-production-no-analytics --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION}-no-analytics .
 
+echo "  -- Publishing docker images"
 docker push gisaia/arlas-wui:${VERSION}
 docker push gisaia/arlas-wui:${VERSION}-no-analytics
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
+    echo "  -- Publishing latest"
     docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
     docker push gisaia/arlas-wui:latest
 fi
@@ -193,6 +186,7 @@ if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     echo "  -- tagged as ${STAGE}"
     npm publish --tag=${STAGE}
 else
+    echo "  -- Stable release"
     npm publish
 fi
 cd ../..
@@ -214,10 +208,16 @@ if [ "${REF_BRANCH}" == "develop" ] && [ "${STAGE}" == "stable" ];
     git rebase origin/master
 fi
 
-npm --no-git-tag-version version "${DEV}-dev"
-npm --no-git-tag-version --prefix src version "${DEV}-dev"
+IFS='.' read -ra TAB <<< "$VERSION"
+major=${TAB[0]}
+minor=${TAB[1]}
+newminor=$(( $minor + 1 ))
+newDevVersion=${major}.${newminor}.0
 
-git commit -a -m "development version ${DEV}-dev"
+npm --no-git-tag-version version "${newDevVersion}-dev"
+npm --no-git-tag-version --prefix src version "${newDevVersion}-dev"
+
+git commit -a -m "development version ${newDevVersion}-dev"
 git push origin ${REF_BRANCH}
 
 echo "==> Well done :)"
