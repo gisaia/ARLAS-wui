@@ -32,11 +32,11 @@ import {
   AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, MapglComponent,
   MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-web-components';
-import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
+import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, getParamValue
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
+  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
 import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
@@ -61,9 +61,6 @@ export class ArlasMapComponent implements OnInit {
   public mapAttributionPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
   public mapLoaded = false;
 
-  /** Map interactions */
-  public featuresToSelect: Array<ElementIdentifier> = [];
-
   /** Map move */
   public fitbounds: Array<Array<number>> = [];
   public recalculateExtent = true;
@@ -74,10 +71,10 @@ export class ArlasMapComponent implements OnInit {
   private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
-  private allowMapExtent: boolean;
+  private readonly allowMapExtent: boolean;
   private mapBounds: mapboxgl.LngLatBounds;
-  private mapEventListener = new Subject();
-  private mapExtentTimer: number;
+  private readonly mapEventListener = new Subject();
+  private readonly mapExtentTimer: number;
   private MAP_EXTENT_PARAM = 'extend';
 
   /** Map data  */
@@ -85,6 +82,9 @@ export class ArlasMapComponent implements OnInit {
   public mapRedrawSources;
   public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
   public mapVisibilityUpdater;
+
+  /** Map Url enricher */
+  public transformMapRequest;
   /** Visibility status of layers on the map */
   public layersVisibilityStatus: Map<string, boolean> = new Map();
 
@@ -108,7 +108,7 @@ export class ArlasMapComponent implements OnInit {
   protected enableGeocodingFeature = !!this.settingsService.getGeocodingSettings()?.enabled;
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
   @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
@@ -116,22 +116,24 @@ export class ArlasMapComponent implements OnInit {
 
   public constructor(
     protected mapService: MapService,
-    private toolkitMapService: ArlasMapService,
+    private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
-    private configService: ArlasConfigService,
-    private collaborativeService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
     protected arlasStartupService: ArlasStartupService,
-    private settingsService: ArlasSettingsService,
-    private generateAoiDialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private mapSettingsService: ArlasMapSettings,
-    private resultlistService: ResultlistService,
-    private translate: TranslateService,
-    private snackbar: MatSnackBar,
-    private iconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
-    private collectionService: ArlasCollectionService
+    private readonly settingsService: ArlasSettingsService,
+    private readonly generateAoiDialog: MatDialog,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly mapSettingsService: ArlasMapSettings,
+    private readonly resultlistService: ResultlistService,
+    private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly collectionService: ArlasCollectionService,
+    private readonly authentService: AuthentificationService,
+    private readonly arlasIamService: ArlasIamService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -142,7 +144,7 @@ export class ArlasMapComponent implements OnInit {
         });
 
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
-      if (!!this.mapComponentConfig) {
+      if (this.mapComponentConfig) {
         this.mapService.setMapConfig(this.mapComponentConfig);
         this.defaultBasemap = this.mapComponentConfig.defaultBasemapStyle ?? DEFAULT_BASEMAP;
         this.mapExtentTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer') ?? 4000;
@@ -222,6 +224,9 @@ export class ArlasMapComponent implements OnInit {
       // eslint-disable-next-line max-len
       this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
     }
+
+    this.updateMapTransformRequest();
+
   }
 
   public ngAfterViewInit() {
@@ -243,6 +248,71 @@ export class ArlasMapComponent implements OnInit {
     }
   }
 
+  /** Updates the map url headers at each refresh.*/
+  public updateMapTransformRequest() {
+    const authentMode = this.settingsService.getAuthentSettings()?.auth_mode;
+    const isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
+    if (isAuthentActivated) {
+      if (authentMode === 'iam') {
+        this.arlasIamService.tokenRefreshed$.pipe(takeUntil(this._onDestroy$)).subscribe({
+          next: (loginData) => {
+            if (loginData) {
+              const org = this.arlasIamService.getOrganisation();
+              const iamHeader = {
+                Authorization: 'Bearer ' + loginData.access_token,
+              };
+              // Set the org filter only if the organisation is defined
+              if (org) {
+                iamHeader['arlas-org-filter'] = org;
+              }
+              this.setMapTransformRequest(iamHeader);
+            } else {
+              this.setMapTransformRequest();
+            }
+          }
+        });
+      } else {
+        this.authentService.canActivateProtectedRoutes.pipe(takeUntil(this._onDestroy$)).subscribe(isConnected => {
+          if (isConnected) {
+            const headers = {
+              Authorization: 'Bearer ' + this.authentService.accessToken
+            };
+            this.setMapTransformRequest(headers);
+          } else {
+            this.setMapTransformRequest();
+          }
+        });
+      }
+    } else {
+      this.setMapTransformRequest();
+    }
+  }
+
+  /** Enriches map url by an ARLAS header only if the map url is provided by ARLAS. */
+  public setMapTransformRequest(headers?: any) {
+    this.transformMapRequest = (url, resourceType) => {
+      /** Wrapping with a try block because the URL() mdn docs says : 'Throws if the passed arguments don't define a valid URL.' */
+      try {
+        const mapServiceUrl = new URL(url);
+        const appUrl = new URL(window.location.href);
+        const mapServiceOrigin = mapServiceUrl.origin;
+        const appOrigin = appUrl.origin;
+        /** We enrich map url by an ARLAS header only if the map url is provided by ARLAS. */
+        if (appOrigin === mapServiceOrigin && !!headers) {
+          return ({
+            url,
+            headers,
+          });
+        } else {
+          return ({ url });
+        }
+      } catch {
+        return ({ url });
+      }
+    };
+  }
+
+
   /**
    * Wait until the map component is loaded before fetching the data
    * @param isLoaded Whether the map has loaded
@@ -250,6 +320,7 @@ export class ArlasMapComponent implements OnInit {
   public onMapLoaded(isLoaded: boolean): void {
     if (isLoaded && !this.arlasStartupService.emptyMode) {
       this.mapLoaded = true;
+
       this.mapService.setMapComponent(this.mapglComponent);
       this.toolkitMapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
@@ -277,7 +348,7 @@ export class ArlasMapComponent implements OnInit {
       });
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+        this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
         this.resultlistService.updateVisibleItems();
       }
     }
