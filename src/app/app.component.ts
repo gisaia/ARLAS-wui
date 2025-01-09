@@ -49,17 +49,17 @@ export class ArlasWuiComponent implements OnInit {
   @Input() public hiddenAnalyticsTabs: string[] = [];
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private arlasStartupService: ArlasStartupService,
-    private configService: ArlasConfigService,
-    private resultlistService: ResultlistService,
-    private contributorService: ContributorService,
-    private mapService: MapWuiService,
-    private colorService: ArlasColorService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private analyticsService: AnalyticsService
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly configService: ArlasConfigService,
+    private readonly resultlistService: ResultlistService,
+    private readonly contributorService: ContributorService,
+    private readonly mapService: MapWuiService,
+    private readonly colorService: ArlasColorService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly analyticsService: AnalyticsService
   ) { }
 
   public ngOnInit(): void {

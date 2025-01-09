@@ -18,7 +18,6 @@
  */
 
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
@@ -32,9 +31,7 @@ import { SearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService,
   ArlasCollaborativesearchService,
-  ArlasCollectionService,
   ArlasConfigService,
-  ArlasExportCsvService,
   ArlasMapService,
   ArlasMapSettings,
   ArlasSettingsService,
@@ -42,7 +39,6 @@ import {
   FilterShortcutConfiguration,
   getParamValue,
   NOT_CONFIGURED,
-  ProcessService,
   TimelineComponent,
   ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
@@ -130,20 +126,20 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public spacing = 5;
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private configService: ArlasConfigService,
+    private readonly configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
     protected collaborativeService: ArlasCollaborativesearchService,
-    private contributorService: ContributorService,
+    private readonly contributorService: ContributorService,
     protected arlasStartupService: ArlasStartupService,
-    private mapSettingsService: ArlasMapSettings,
-    private cdr: ChangeDetectorRef,
-    private toolkitMapService: ArlasMapService,
-    private titleService: Title,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private readonly mapSettingsService: ArlasMapSettings,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly toolkitMapService: ArlasMapService,
+    private readonly titleService: Title,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService,
     protected mapService: MapWuiService
@@ -256,7 +252,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe(index => {
             this.resultlistService.selectList(index);
 
-            const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+            const queryParams = { ...this.activatedRoute.snapshot.queryParams};
             queryParams['rt'] = this.resultlistService.previewListContrib.getName();
             this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
             this.adjustGrids();
@@ -310,7 +306,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public toggleTimeline() {
     this.showTimeline = !this.showTimeline;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
     queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
@@ -323,8 +319,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.analyticsService.selectTab(undefined);
   }
 
-  public onOpenShortcut(state: boolean, shortcutIdx: number) {
-    if (state) {
+  public onOpenShortcut(shortcutState: boolean, shortcutIdx: number) {
+    if (shortcutState) {
       this.shortcutOpen = shortcutIdx;
       // If open one of the visible shortcuts, hide the extra ones
       if (this.shortcutOpen < this.shortcuts.length) {
@@ -346,7 +342,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public goToArlasHub() {
     const hubUrl = this.settingsService.getArlasHubUrl();
-    if (!!hubUrl) {
+    if (hubUrl) {
       window.open(hubUrl);
     }
   }
@@ -391,7 +387,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (!!this.timelineComponent && !!this.timelineComponent.timelineHistogramComponent) {
         this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-        if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+        if (this.timelineComponent.detailedTimelineHistogramComponent) {
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
         }
       }

@@ -16,8 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Feature, FeatureCollection, Geometry, Polygon, polygon } from '@turf/helpers';
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -29,21 +27,23 @@ import { GeocodingResult } from '@services/geocoding.service';
 import { MapWuiService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
+import { FeatureCollection } from '@turf/helpers';
 import {
-  AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, ArlasMapComponent,
-  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID,
+  AoiEdition,
   ArlasLngLat,
+  ArlasLngLatBounds,
+  ArlasMapComponent,
   ArlasMapFrameworkService,
-  ArlasLngLatBounds
+  BasemapStyle, BboxGeneratorComponent, GeoQuery,
+  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
-import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
+import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
-import { AbstractArlasMapService } from 'arlas-map';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -74,7 +74,7 @@ export class ArlasWuiMapComponent implements OnInit {
   private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
-  private allowMapExtent: boolean;
+  public allowMapExtent: boolean;
   private mapBounds: ArlasLngLatBounds;
   private readonly mapEventListener = new Subject();
   private readonly mapExtentTimer: number;
@@ -119,9 +119,8 @@ export class ArlasWuiMapComponent implements OnInit {
 
   public constructor(
     protected arlasMapService: MapWuiService,
-    private mapService: AbstractArlasMapService<any, any, any>,
-    private mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
-    private toolkitMapService: ArlasMapService,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
+    private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
     private readonly configService: ArlasConfigService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -176,7 +175,7 @@ export class ArlasWuiMapComponent implements OnInit {
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
       this.mainMapContributor = this.arlasMapService.mapContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
       this.mapDataSources = this.arlasMapService.mapContributors.map(c => c.dataSources).length > 0 ?
-        this.arlasMapService.mapContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
+        this.arlasMapService.mapContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2]), new Set()) : new Set();
       this.mapRedrawSources = merge(...this.arlasMapService.mapContributors.map(c => c.redrawSource));
 
       const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
@@ -196,7 +195,7 @@ export class ArlasWuiMapComponent implements OnInit {
       this.arlasMapService.mapContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
         this.geojsondraw = {
           'type': 'FeatureCollection',
-          'features': this.arlasMapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
+          'features': this.arlasMapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b), [])
             .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
         };
       }));
@@ -244,9 +243,8 @@ export class ArlasWuiMapComponent implements OnInit {
           debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
-          const bounds = this.mapglComponent.map.getBounds();
           const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+          const queryParams = { ...this.activatedRoute.snapshot.queryParams};
           queryParams[this.MAP_EXTENT_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
@@ -430,7 +428,7 @@ export class ArlasWuiMapComponent implements OnInit {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
       const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const queryParams = { ...this.activatedRoute.snapshot.queryParams};
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
@@ -455,9 +453,9 @@ export class ArlasWuiMapComponent implements OnInit {
         this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
 
         this.arlasMapService.mapContributors.forEach(c => {
-          if (!!this.resultlistService.resultlistContributors) {
+          if (this.resultlistService.resultlistContributors) {
             const resultlistContrbutor = this.resultlistService.resultlistContributors.find(v => v.collection === c.collection);
-            if (!!resultlistContrbutor) {
+            if (resultlistContrbutor) {
               if (this.resultlistService.isGeoSortActivated.get(c.identifier)) {
                 c.searchSort = resultlistContrbutor.geoOrderSort;
               } else {
@@ -494,7 +492,7 @@ export class ArlasWuiMapComponent implements OnInit {
 
   public changeVisualisation(layers: Set<string>) {
     this.arlasMapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -516,7 +514,7 @@ export class ArlasWuiMapComponent implements OnInit {
       const resultListContributor = this.resultlistService.resultlistContributors
         .filter(c => feature.layer.metadata.collection === c.collection
           && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
-      if (!!resultListContributor) {
+      if (resultListContributor) {
         const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
         // Open the list panel if it's closed
@@ -538,8 +536,8 @@ export class ArlasWuiMapComponent implements OnInit {
         } else {
           this.resultlistService.waitForList(() => {
             // retrieve list
-            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
-            tab.click();
+            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]');
+            (tab as HTMLElement).click();
             // Set Timeout to wait the new tab
             setTimeout(() => this.resultlistService.openDetail(id), 250);
             this.disableRecalculateExtent = false;

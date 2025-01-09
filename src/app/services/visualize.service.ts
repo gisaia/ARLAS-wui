@@ -46,12 +46,12 @@ export class VisualizeService {
   public isRasterOnMap = false;
 
   /** emits the item's identifier of removed raster */
-  private rasterRemovedSource = new Subject<string>();
+  private readonly rasterRemovedSource = new Subject<string>();
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
-    private translateService: TranslateService, private snackBar: MatSnackBar,
-    private mapFrameworkService: ArlasMapFrameworkService<any, any, any>
+    private readonly translateService: TranslateService, private readonly snackBar: MatSnackBar,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>
   ) { }
 
   /**
@@ -70,7 +70,7 @@ export class VisualizeService {
       const regex = new RegExp(/{([^}]+)}/g);
       const fields = [];
       const matches = [...urlTemplate.matchAll(regex)];
-      if (!!matches) {
+      if (matches) {
         matches.filter(m => !!m && Array.isArray(m) && m.length > 1).forEach(m => fields.push(m[1]));
       }
       if (fields) {
@@ -258,7 +258,7 @@ export class VisualizeService {
         const maxY = box[3] + 0.1 / 100 * box[3];
         return {
           bounds: [[minX, minY], [maxX, maxY]],
-          center: !!geojsonCenter.coordinates ? geojsonCenter.coordinates : [geojsonCenter.lon, geojsonCenter.lat],
+          center: geojsonCenter.coordinates ? geojsonCenter.coordinates : [geojsonCenter.lon, geojsonCenter.lat],
           box: box
         };
       })
