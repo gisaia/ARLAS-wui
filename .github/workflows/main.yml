@@ -44,6 +44,7 @@ jobs:
       - name: Docker build
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          docker build --no-cache .
+          docker build -f docker/Dockerfile-production-cloud .;
+          docker build -f docker/Dockerfile-production-opensource .
       #- name: i18n
       #  run: ./checki18n.sh
