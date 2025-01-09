@@ -13,9 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.4
 
-      - name: Build an image from Dockerfile
+      - name: Build -opensource and cloud- Docker images
         run: |
-          docker build -t docker.io/gisaia/arlas-wui:${{ github.sha }} .
+          docker build -f docker/Dockerfile-production-cloud -t docker.io/gisaia/arlas-wui-cloud:${{ github.sha }} .
+          docker build -f docker/Dockerfile-production-opensource -t docker.io/gisaia/arlas-wui-opensource:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         env:

@@ -18,8 +18,9 @@ WORKDIR /ng-app
 
 COPY . .
 
-## Build the angular app in production mode and store the artifacts in <dist folder
-s
+## Build the angular app in production mode and store the artifacts in <dist folder>
+RUN npm run build-cloud
+
 ### STAGE 2: Setup ###
 
 FROM nginx:1.25.3-alpine3.18-slim
