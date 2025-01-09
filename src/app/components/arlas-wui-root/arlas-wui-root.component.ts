@@ -51,7 +51,11 @@ import { environment } from '../../../environments/environment';
   templateUrl: './arlas-wui-root.component.html',
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
-export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, OnDestroy {
   /**
    * @Input : Angular
    * Current version of ARLAS WUI
@@ -99,8 +103,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public resultListGridColumns = 4;
   public collections: string[];
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasWuiMapComponent;
-  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent;
+  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasWuiMapComponent<L, S, M>;
+  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent<L, S, M>;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
@@ -141,8 +145,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     protected analyticsService: AnalyticsService,
-    protected resultlistService: ResultlistService,
-    protected mapService: MapWuiService
+    protected resultlistService: ResultlistService<L, S, M>,
+    protected mapService: MapWuiService<L, S, M>
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */

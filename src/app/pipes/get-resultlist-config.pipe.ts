@@ -24,9 +24,13 @@ import { ResultListContributor } from 'arlas-web-contributors';
 @Pipe({
   name: 'getResultlistConfig'
 })
-export class GetResultlistConfigPipe implements PipeTransform {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class GetResultlistConfigPipe<L, S, M> implements PipeTransform {
 
-  public constructor(private resultlistService: ResultlistService) { }
+  public constructor(private readonly resultlistService: ResultlistService<L, S, M>) { }
 
   public transform(resultlistContributor: ResultListContributor): any {
     return this.resultlistService.resultlistConfigPerContId.get(resultlistContributor?.identifier);

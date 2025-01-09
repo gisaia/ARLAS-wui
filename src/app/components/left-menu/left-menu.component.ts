@@ -34,7 +34,11 @@ export interface MenuState {
   templateUrl: './left-menu.component.html',
   styleUrls: ['./left-menu.component.scss']
 })
-export class LeftMenuComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class LeftMenuComponent<L, S, M> implements OnInit {
   /**
    * @Input : Angular
    * List of collections displayed in the map
@@ -78,7 +82,7 @@ export class LeftMenuComponent implements OnInit {
     private readonly configService: ArlasConfigService,
     protected arlasStartupService: ArlasStartupService,
     protected persistenceService: PersistenceService,
-    private readonly mapService: MapWuiService
+    private readonly mapService: MapWuiService<L, S, M>
   ) {
   }
 

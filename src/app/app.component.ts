@@ -25,14 +25,18 @@ import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { MapWuiService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
-import { ArlasLngLatBounds, ArlasMapFrameworkService } from 'arlas-map';
+import { ArlasMapFrameworkService } from 'arlas-map';
 
 @Component({
   selector: 'arlas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class ArlasWuiComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiComponent<L, S, M> implements OnInit {
 
   public collections = new Array<string>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
@@ -54,10 +58,10 @@ export class ArlasWuiComponent implements OnInit {
   public constructor(
     private readonly arlasStartupService: ArlasStartupService,
     private readonly configService: ArlasConfigService,
-    private readonly resultlistService: ResultlistService,
+    private readonly resultlistService: ResultlistService<L, S, M>,
     private readonly contributorService: ContributorService,
-    private readonly mapService: MapWuiService,
-    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
+    private readonly mapService: MapWuiService<L, S, M>,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly analyticsService: AnalyticsService

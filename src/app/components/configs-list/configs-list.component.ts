@@ -58,7 +58,6 @@ export class ConfigsListComponent implements OnInit {
     private persistenceService: PersistenceService,
     private arlasColorService: ArlasColorService,
     private arlasSettingsService: ArlasSettingsService,
-    private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
     private arlasStartupService: ArlasStartupService
   ) {

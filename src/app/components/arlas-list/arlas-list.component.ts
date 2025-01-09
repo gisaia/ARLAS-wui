@@ -29,7 +29,11 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './arlas-list.component.html',
   styleUrls: ['./arlas-list.component.scss']
 })
-export class ArlasListComponent implements OnInit, OnDestroy, AfterViewInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * @Input : Angular
@@ -54,7 +58,7 @@ export class ArlasListComponent implements OnInit, OnDestroy, AfterViewInit {
   private _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    protected resultlistService: ResultlistService
+    protected resultlistService: ResultlistService<L, S, M>
   ) { }
 
   public ngOnInit(): void { }

@@ -55,7 +55,11 @@ const DEFAULT_BASEMAP: BasemapStyle = {
   templateUrl: './arlas-map.component.html',
   styleUrls: ['./arlas-map.component.scss']
 })
-export class ArlasWuiMapComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   /** Map definition */
   public mapComponentConfig: any;
   public mapId = 'mapgl';
@@ -113,13 +117,13 @@ export class ArlasWuiMapComponent implements OnInit {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
-  @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<any, any, any>;
-  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<any, any, any>;
+  @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
 
   public constructor(
-    protected arlasMapService: MapWuiService,
-    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
+    protected arlasMapService: MapWuiService<L, S, M>,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
     private readonly configService: ArlasConfigService,
@@ -130,7 +134,7 @@ export class ArlasWuiMapComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly mapSettingsService: ArlasMapSettings,
-    private readonly resultlistService: ResultlistService,
+    private readonly resultlistService: ResultlistService<L, S, M>,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     private readonly iconRegistry: MatIconRegistry,

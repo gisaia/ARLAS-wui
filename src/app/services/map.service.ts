@@ -28,8 +28,12 @@ export interface FeatureHover {
 @Injectable({
   providedIn: 'root'
 })
-export class MapWuiService {
-  public mapComponent: ArlasMapComponent<any, any, any>;
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class MapWuiService<L, S, M> {
+  public mapComponent: ArlasMapComponent<L, S, M>;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
@@ -39,7 +43,8 @@ export class MapWuiService {
 
   public coordinatesHaveSpace: boolean;
 
-  public constructor(public mapService: ArlasMapFrameworkService<any, any, any>, public mapLogicService: AbstractArlasMapService<any, any, any>) { }
+  public constructor(public mapService: ArlasMapFrameworkService<L, S, M>,
+    public mapLogicService: AbstractArlasMapService<L, S, M>) { }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -85,7 +90,7 @@ export class MapWuiService {
     this.mapService.setMapCursor(this.mapComponent.map, cursor);
   }
 
-  public setMapComponent(mapComponent: ArlasMapComponent<any, any, any>) {
+  public setMapComponent(mapComponent: ArlasMapComponent<L, S, M>) {
     this.mapComponent = mapComponent;
   }
 
@@ -99,7 +104,7 @@ export class MapWuiService {
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection  );
+        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection);
       });
     }
   }

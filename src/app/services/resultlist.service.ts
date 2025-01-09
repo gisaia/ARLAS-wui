@@ -45,7 +45,11 @@ import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ResultlistService {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ResultlistService<L, S, M> {
 
   /** Resultlist configs */
   public resultlistConfigs = [];
@@ -79,7 +83,7 @@ export class ResultlistService {
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly mapService: MapWuiService,
+    private readonly mapService: MapWuiService<L, S, M>,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly settingsService: ArlasSettingsService,
     private readonly configService: ArlasConfigService,

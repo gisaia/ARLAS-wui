@@ -26,12 +26,16 @@ import { map, ObservableInput } from 'rxjs';
 
 
 @Injectable()
-export class LazyLoadImageHooks extends IntersectionObserverHooks {
-  private http: HttpClient;
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class LazyLoadImageHooks<L, S, M> extends IntersectionObserverHooks {
+  private readonly http: HttpClient;
 
   public constructor(
     http: HttpClient,
-    private resultListService: ResultlistService
+    private readonly resultListService: ResultlistService<L, S, M>
   ) {
     super();
     this.http = http;
