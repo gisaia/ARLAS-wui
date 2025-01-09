@@ -18,10 +18,10 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist"
+              "base": "dist",
+              "browser": ""
             },
             "index": "src/index.html",
-            "tsConfig": "src/tsconfig.app.json",
             "polyfills": [
               "src/polyfills.ts"
             ],
@@ -52,23 +52,14 @@
             ],
             "scripts": [
               "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ],
-            "browser": "src/main.ts"
+            ]
           },
           "configurations": {
-            "development": {
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": true,
-              "extractLicenses": false,
-              "budgets": []
-            },
             "development-opensource": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
-              "main": "src/main-opensource.ts",
+              "browser": "src/main-opensource.ts",
               "tsConfig": "src/tsconfig.app.opensource.json",
               "styles": [
                 "src/styles/variables.scss",
@@ -80,15 +71,13 @@
               ],
               "namedChunks": true,
               "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false,
               "budgets": []
             },
             "development-cloud": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
-              "main": "src/main-cloud.ts",
+              "browser": "src/main-cloud.ts",
               "tsConfig": "src/tsconfig.app.cloud.json",
               "styles": [
                 "src/styles/variables.scss",
@@ -100,8 +89,7 @@
               ],
               "namedChunks": true,
               "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false,
+
               "budgets": []
             },
             "production": {
@@ -113,46 +101,8 @@
               "extractLicenses": true,
               "fileReplacements": [
                 {
-                  "src": "src/environments/environment.ts",
-                  "replaceWith": "src/environments/environment.prod.ts"
-                }
-              ],
-              "assets": [
-                {
-                  "input": "src/environments/prod/",
-                  "output": "/",
-                  "glob": "*.yaml"
-                },
-                "src/assets",
-                "src/silent-refresh.html",
-                "src/favicon.ico",
-                {
-                  "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/resize",
-                  "output": "/assets/resize/"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/rotate",
-                  "output": "/assets/rotate/"
-                }
-              ]
-            },
-            "production-no-analytics": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "index": {
-                "input": "src/index-without-analytics.html",
-                "output": "index.html"
-              },
-              "fileReplacements": [
-                {
-                  "src": "src/environments/environment.ts",
-                  "replaceWith": "src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "assets": [
@@ -179,21 +129,66 @@
             "production-opensource": {
               "optimization": false,
               "outputHashing": "all",
-              "main": "src/main-opensource.ts",
+              "browser": "src/main-opensource.ts",
               "tsConfig": "src/tsconfig.app.opensource.json",
               "styles": [
                 "node_modules/maplibre-gl/dist/maplibre-gl.css"
               ],
+              "index": {
+                "input": "src/index-without-analytics.html",
+                "output": "index.html"
+              },
               "sourceMap": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "src": "src/environments/environment.ts",
-                  "replaceWith": "src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "input": "src/environments/prod/",
+                  "output": "/",
+                  "glob": "*.yaml"
+                },
+                "src/assets",
+                "src/silent-refresh.html",
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/resize",
+                  "output": "/assets/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/rotate",
+                  "output": "/assets/rotate/"
+                }
+              ]
+            },
+            "production-cloud": {
+              "optimization": false,
+              "outputHashing": "all",
+              "browser": "src/main-cloud.ts",
+              "tsConfig": "src/tsconfig.app.cloud.json",
+              "styles": [
+                "node_modules/mapbox-gl/dist/mapbox-gl.css"
+              ],
+              "index": {
+                "input": "src/index.html",
+                "output": "index.html"
+              },
+              "sourceMap": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "assets": [
@@ -229,16 +224,16 @@
               "buildTarget": "arlas-wui:build:development"
             },
             "development-opensource": {
-              "browserTarget": "arlas-wui:build:development-opensource"
+              "buildTarget": "arlas-wui:build:development-opensource"
             },
             "development-cloud": {
-              "browserTarget": "arlas-wui:build:development-cloud"
+              "buildTarget": "arlas-wui:build:development-cloud"
             },
-            "production": {
-              "buildTarget": "arlas-wui:build:production"
+            "production-cloud": {
+              "buildTarget": "arlas-wui:build:production-cloud"
             },
-            "production-no-analytics": {
-              "buildTarget": "arlas-wui:build:production-no-analytics"
+            "production-opensource": {
+              "buildTarget": "arlas-wui:build:production-opensource"
             }
           },
           "defaultConfiguration": "development-opensource"
@@ -300,20 +295,36 @@
         }
       }
     },
-    "arlas-wui-lib": {
+    "arlas-wui-opensource-lib": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "src",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "tsconfig.lib.json",
-            "project": "ng-package.json"
-          },
+          "defaultConfiguration": "production-opensource",
           "configurations": {
-            "production": {
-              "tsConfig": "tsconfig.lib.prod.json"
+            "production-opensource": {
+              "tsConfig": "tsconfig.lib.prod.opensource.json",
+              "project": "ng-package.opensource.json"
+            }
+          }
+        }
+      }
+    },
+    "arlas-wui-cloud-lib": {
+      "projectType": "library",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "defaultConfiguration": "production-cloud",
+
+          "configurations": {
+            "production-cloud": {
+              "tsConfig": "tsconfig.lib.prod.cloud.json",
+              "project": "ng-package.cloud.json"
             }
           }
         }

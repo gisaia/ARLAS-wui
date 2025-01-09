@@ -32,8 +32,9 @@ import { VisualizeService } from '@services/visualize.service';
 import {
   AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, ArlasMapComponent,
   MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID,
-  LngLat,
-  ArlasMapFrameworkService
+  ArlasLngLat,
+  ArlasMapFrameworkService,
+  ArlasLngLatBounds
 } from 'arlas-map';
 import { ElementIdentifier, MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
@@ -68,7 +69,6 @@ export class ArlasWuiMapComponent implements OnInit {
   public featuresToSelect: Array<ElementIdentifier> = [];
 
   /** Map move */
-  public fitbounds: Array<Array<number>> = [];
   public recalculateExtent = true;
   public zoomChanged = false;
   public zoomStart: number;
@@ -78,7 +78,7 @@ export class ArlasWuiMapComponent implements OnInit {
 
   /** Extent in url */
   private allowMapExtent: boolean;
-  private mapBounds: any;
+  private mapBounds: ArlasLngLatBounds;
   private mapEventListener = new Subject();
   private mapExtentTimer: number;
   private MAP_EXTENT_PARAM = 'extend';
@@ -113,14 +113,14 @@ export class ArlasWuiMapComponent implements OnInit {
   /** Destroy subscriptions */
   private _onDestroy$ = new Subject<boolean>();
 
-  @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent;
-  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<any, any, any>;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<any, any, any>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
 
   public constructor(
     protected arlasMapService: MapWuiService,
-    private mapService: AbstractArlasMapService,
-    private mapFrameworkService: ArlasMapFrameworkService,
+    private mapService: AbstractArlasMapService<any, any, any>,
+    private mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
     private toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
     private configService: ArlasConfigService,
@@ -148,10 +148,9 @@ export class ArlasWuiMapComponent implements OnInit {
 
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       console.log(this.mapComponentConfig);
-      if (!!this.mapComponentConfig) {
+      if (this.mapComponentConfig) {
         this.arlasMapService.setMapConfig(this.mapComponentConfig);
         this.defaultBasemap = this.mapComponentConfig.defaultBasemapStyle ?? DEFAULT_BASEMAP;
-        console.log(this.defaultBasemap)
         this.mapExtentTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer') ?? 4000;
         this.allowMapExtent = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
         this.nbVerticesLimit = this.configService.getValue('arlas.web.components.mapgl.nbVerticesLimit');
@@ -207,8 +206,8 @@ export class ArlasWuiMapComponent implements OnInit {
           const stringBounds = extentValue.split(',');
           if (stringBounds.length === 4) {
             this.mapBounds = this.mapFrameworkService.getLngLatBound(
-              new LngLat(+stringBounds[0], +stringBounds[1]),
-              new LngLat(+stringBounds[2], +stringBounds[3])
+              new ArlasLngLat(+stringBounds[0], +stringBounds[1]),
+              new ArlasLngLat(+stringBounds[2], +stringBounds[3])
             );
           }
         }
@@ -242,7 +241,7 @@ export class ArlasWuiMapComponent implements OnInit {
         .subscribe(() => {
           /** Change map extent in the url */
           const bounds = this.mapglComponent.map.getBounds();
-          const extend = this.mapFrameworkService.boundsToString(bounds);
+          const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
           const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
           queryParams[this.MAP_EXTENT_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -284,7 +283,8 @@ export class ArlasWuiMapComponent implements OnInit {
       });
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
+        this.mapComponentConfig.mapLayers.events.onHover
+          .filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
         this.resultlistService.updateVisibleItems();
       }
     }
@@ -360,7 +360,7 @@ export class ArlasWuiMapComponent implements OnInit {
     if (this.resultlistService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
-      const extend = this.mapFrameworkService.boundsToString(bounds);
+      const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
       const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
@@ -489,7 +489,7 @@ export class ArlasWuiMapComponent implements OnInit {
   }
 
   public drawCircle() {
-    //this.mapglComponent.switchToDrawMode('draw_radius_circle', { isFixedRadius: false, steps: 12 });
+    this.mapglComponent.switchToDrawMode('draw_radius_circle', { isFixedRadius: false, steps: 12 });
   }
 
   protected goToLocation(event: GeocodingResult) {
@@ -505,6 +505,7 @@ export class ArlasWuiMapComponent implements OnInit {
 
   private adjustMapOffset() {
     this.recalculateExtent = true;
-    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+    console.log(this.mapglComponent.map.getBounds())
+    this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
   }
 }

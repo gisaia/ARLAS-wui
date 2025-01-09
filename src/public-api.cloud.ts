@@ -18,9 +18,9 @@
  */
 
 export { ArlasWuiComponent } from './app/app.component';
-export { ArlasWuiModule } from './app/app.module';
+export { ArlasWuiCloudModule } from './app/app.module.cloud';
 export { ArlasListComponent } from './app/components/arlas-list/arlas-list.component';
-export { ArlasMapComponent } from './app/components/arlas-map/arlas-map.component';
+export { ArlasWuiMapComponent } from './app/components/arlas-map/arlas-map.component';
 export { ArlasWuiRootComponent } from './app/components/arlas-wui-root/arlas-wui-root.component';
 export { ConfigsListComponent } from './app/components/configs-list/configs-list.component';
 export { GeocodingComponent } from './app/components/geocoding/geocoding.component';

@@ -129,7 +129,6 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public refreshComponents() {
-    console.log('refresh')
     const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
     this.collaborativeService.setCollaborations(dataModel);
   }

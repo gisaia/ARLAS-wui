@@ -29,14 +29,14 @@ export interface FeatureHover {
   providedIn: 'root'
 })
 export class MapWuiService {
-  public mapComponent: ArlasMapComponent;
+  public mapComponent: ArlasMapComponent<any, any, any>;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
   public featureToHightLight: FeatureHover;
   public coordinatesHaveSpace: boolean;
 
-  public constructor(public mapService: ArlasMapFrameworkService, public mapLogicService: AbstractArlasMapService) { }
+  public constructor(public mapService: ArlasMapFrameworkService<any, any, any>, public mapLogicService: AbstractArlasMapService<any, any, any>) { }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -82,7 +82,7 @@ export class MapWuiService {
     this.mapService.setMapCursor(this.mapComponent.map, cursor);
   }
 
-  public setMapComponent(mapComponent: ArlasMapComponent) {
+  public setMapComponent(mapComponent: ArlasMapComponent<any, any, any>) {
     this.mapComponent = mapComponent;
   }
 
@@ -96,14 +96,13 @@ export class MapWuiService {
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection  )
-
+        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection  );
       });
     }
   }
 
   public resize() {
-    this.mapComponent.map?.resize();
+    this.mapComponent?.map?.resize();
     this.adjustCoordinates();
   }
 

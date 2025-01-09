@@ -70,8 +70,8 @@
       (onAoiEdit)="onAoiEdit($event)"
       (onMove)="onMove($event)"
       (onBasemapChanged)="reloadMapImages()" (onMapLoaded)="onMapLoaded($event)"
-      (legendVisibiltyStatus)="setLayersVisibilityStatus($event)" (onFeatureOver)="emitFeaturesOnHover($event)"
-      (onFeatureClic)="emitFeaturesOnClick($event)"
+      (legendVisibiltyStatus)="setLayersVisibilityStatus($event)" (onFeatureHover)="emitFeaturesOnHover($event)"
+      (onFeatureClick)="emitFeaturesOnClick($event)"
       (downloadSourceEmitter)="downloadLayerSource($event)">
     </arlas-map>
 

@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "resolveJsonModule": true
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  },
+  "exclude": [
+    "src/test.ts",
+    "src/app/app.module.ts",
+    "src/app/app.module.cloud.ts",
+    "**/*.spec.ts"
+  ]
+}

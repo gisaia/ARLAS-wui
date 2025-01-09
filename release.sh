@@ -6,7 +6,7 @@ PROJECT_ROOT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
 # dockerlogin=`docker info | sed '/Username:/!d;s/.* //'`
 # if  [ -z "$dockerlogin"  ] ; then echo "your are not logged on dockerhub"; exit -1; else  echo "logged as "$dockerlogin ; fi
 
-if  [ -z "$GITHUB_CHANGELOG_TOKEN"  ] ; then echo "Please set GITHUB_CHANGELOG_TOKEN environment variable"; exit -1; fi
+# if  [ -z "$GITHUB_CHANGELOG_TOKEN"  ] ; then echo "Please set GITHUB_CHANGELOG_TOKEN environment variable"; exit -1; fi
 
 function clean {
     ARG=$?
@@ -129,8 +129,8 @@ if [ "${STAGE}" == "beta" ] || [ "${STAGE}" == "rc" ];
 fi
 
 echo "==> Get $REF_BRANCH branch"
-git checkout "$REF_BRANCH"
-git pull origin "$REF_BRANCH"
+# git checkout "$REF_BRANCH"
+# git pull origin "$REF_BRANCH"
 
 
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
@@ -141,52 +141,73 @@ fi
 echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
 npm --no-git-tag-version --prefix src version ${VERSION}
-git add package.json
-git add src/package.json
+npm --no-git-tag-version --prefix packages/cloud version ${VERSION}
+npm --no-git-tag-version --prefix packages/opensource version ${VERSION}
+
+# git add package.json
+# git add src/package.json
+# git add packages
 
 echo "  -- Create and push tag"
-git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
-git push origin v${VERSION}
+# git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
+# git push origin v${VERSION}
 
-echo "==> Generate CHANGELOG"
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
-  -u gisaia -p ARLAS-WUI --token ${GITHUB_CHANGELOG_TOKEN} --no-pr-wo-labels --no-issues-wo-labels --no-unreleased \
-  --issue-line-labels conf,documentation \
-  --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
-  --bug-labels type:bug --enhancement-labels type:enhancement --breaking-labels type:breaking \
-  --enhancement-label "**New stuff:**" --issues-label "**Miscellaneous:**" --since-tag v4.0.0
+# echo "==> Generate CHANGELOG"
+# docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
+#   -u gisaia -p ARLAS-WUI --token ${GITHUB_CHANGELOG_TOKEN} --no-pr-wo-labels --no-issues-wo-labels --no-unreleased \
+#   --issue-line-labels conf,documentation \
+#   --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
+#   --bug-labels type:bug --enhancement-labels type:enhancement --breaking-labels type:breaking \
+#   --enhancement-label "**New stuff:**" --issues-label "**Miscellaneous:**" --since-tag v4.0.0
 
-echo "  -- Remove tag to add generated CHANGELOG"
-git tag -d v${VERSION}
-git push origin :v${VERSION}
+# echo "  -- Remove tag to add generated CHANGELOG"
+# git tag -d v${VERSION}
+# git push origin :v${VERSION}
 
 echo "  -- Commit release version"
-git commit -a -m "prod automatic release ${VERSION}"
-git tag v${VERSION}
-git push origin v${VERSION}
-git push origin ${REF_BRANCH}
+# git commit -a -m "prod automatic release ${VERSION}"
+# git tag v${VERSION}
+# git push origin v${VERSION}
+# git push origin ${REF_BRANCH}
 
 echo "==> Clean local environment"
 npm cache clean --force
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build -f docker/Dockerfile-production --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
-docker build -f docker/Dockerfile-production-no-analytics --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION}-no-analytics .
+docker build -f docker/Dockerfile-production-cloud --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-cloud:${VERSION} .
+docker build -f docker/Dockerfile-production-opensource --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-opensource:${VERSION} .
 
-docker push gisaia/arlas-wui:${VERSION}
-docker push gisaia/arlas-wui:${VERSION}-no-analytics
+docker push gisaia/arlas-wui-cloud:${VERSION}
+docker push gisaia/arlas-wui-opensource:${VERSION}
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
-    docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
-    docker push gisaia/arlas-wui:latest
+    docker tag gisaia/arlas-wui-opensource:${VERSION} gisaia/arlas-wui-opensource:latest
+    docker tag gisaia/arlas-wui-cloud:${VERSION} gisaia/arlas-wui-cloud:latest
+    docker push gisaia/arlas-wui-cloud:latest
+    docker push gisaia/arlas-wui-opensource:latest
 fi
 
 echo "==> Build arlas-wui library"
 rm -rf dist
 npm install
-npm run build-lib
-cd dist/arlas-wui
+npm run build-cloud-lib
+cp packages/cloud/package.json dist/arlas-wui-cloud
+npm run build-opensource-lib
+cp packages/opensource/package.json dist/arlas-wui-opensource
+
+cd dist/arlas-wui-cloud
+echo "==> Publish to npm"
+if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
+    then
+    echo "  -- tagged as ${STAGE}"
+    npm publish --tag=${STAGE}
+else
+    npm publish
+fi
+cd ../..
+
+cd dist/arlas-wui-opensource
 echo "==> Publish to npm"
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
@@ -204,20 +225,22 @@ rm -rf node_modules/
 if [ "${REF_BRANCH}" == "develop" ] && [ "${STAGE}" == "stable" ];
     then
     echo "==> Merge develop into master"
-    git checkout master
-    git pull origin master
-    git merge origin/develop
-    git push origin master
+    # git checkout master
+    # git pull origin master
+    # git merge origin/develop
+    # git push origin master
 
-    git checkout develop
-    git pull origin develop
-    git rebase origin/master
+    # git checkout develop
+    # git pull origin develop
+    # git rebase origin/master
 fi
 
 npm --no-git-tag-version version "${DEV}-dev"
 npm --no-git-tag-version --prefix src version "${DEV}-dev"
+npm --no-git-tag-version --prefix packages/cloud version "${DEV}-dev"
+npm --no-git-tag-version --prefix packages/opensource version "${DEV}-dev"
 
-git commit -a -m "development version ${DEV}-dev"
-git push origin ${REF_BRANCH}
+# git commit -a -m "development version ${DEV}-dev"
+# git push origin ${REF_BRANCH}
 
 echo "==> Well done :)"

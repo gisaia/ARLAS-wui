@@ -51,7 +51,7 @@ export class VisualizeService {
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
     private translateService: TranslateService, private snackBar: MatSnackBar,
-    private mapFrameworkService: ArlasMapFrameworkService
+    private mapFrameworkService: ArlasMapFrameworkService<any, any, any>
   ) { }
 
   /**
@@ -135,7 +135,7 @@ export class VisualizeService {
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
       this.isWMTSOnMap = this.isRasterOnMap = false;
     }
-    this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-')
+    this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-');
     this.isWMTSOnMap = this.isRasterOnMap;
   }
 
@@ -197,7 +197,7 @@ export class VisualizeService {
           }
         }
       ]
-    } as GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry>
+    } as GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry>;
     this.mapFrameworkService.addIconLayer(this.mapInstance, CROSS_LAYER_PREFIX + id, 'cross', 0.25, crossPosition);
     this.mapFrameworkService.onLayerEvent('click', this.mapInstance, CROSS_LAYER_PREFIX + id, (e) => {
       this.removeRasters(id);

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "./dist/arlas-wui",
+  "dest": "./dist/arlas-wui-cloud",
   "assets": [
     "./src/assets",
     "./src/styles",
@@ -10,6 +10,6 @@
     "."
   ],
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.opensource.ts"
   }
 }

@@ -25,6 +25,7 @@ import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { MapWuiService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { ArlasLngLatBounds } from 'arlas-map';
 
 @Component({
   selector: 'arlas-root',
@@ -120,7 +121,7 @@ export class ArlasWuiComponent implements OnInit {
           if (!!this.mapService.mapComponent) {
             const bounds = this.mapService.mapComponent.map.getBounds();
             if (!!bounds) {
-              this.mapService.mapComponent.map.fitBounds(bounds, { duration: 0 });
+              this.mapService.mapComponent.map.fitBounds(bounds as ArlasLngLatBounds, { duration: 0 });
             }
           }
           if (this.resultlistContributors.length > 0) {

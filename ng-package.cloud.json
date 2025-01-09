@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "./dist/arlas-wui-cloud",
+  "assets": [
+    "./src/assets",
+    "./src/styles",
+    "./src/environments"
+  ],
+  "allowedNonPeerDependencies": [
+    "."
+  ],
+  "lib": {
+    "entryFile": "src/public-api.cloud.ts"
+  }
+}

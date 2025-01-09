@@ -72,20 +72,20 @@ import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { ContributorService } from './services/contributors.service';
-import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapComponent, ArlasMapModule, ArlasMapService, BasemapService, LegendService, MapImportComponent } from 'arlas-map';
-import { ArlasMaplibreService, MaplibreBasemapService, MaplibreLegendService } from 'arlas-maplibre';
+import { ArlasMapModule } from 'arlas-map';
+
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
 import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
-import { MapWuiService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
 import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
+import { VisualizeService } from './services/visualize.service';
+import { ContributorService } from './services/contributors.service';
+import { ResultlistService } from './services/resultlist.service';
+import { MapWuiService } from '@services/map.service';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 
 @NgModule({
@@ -120,6 +120,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    GetValueModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -170,20 +171,6 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ArlasMapModule
   ],
   providers: [
-    ContributorService,
-    {
-      provide: ArlasMapService,
-      useClass: ArlasMaplibreService
-    },
-    {
-      provide: BasemapService,
-      useClass: MaplibreBasemapService
-    },
-    {
-      provide: LegendService,
-      useClass: MaplibreLegendService
-    },
-    GetValueModule,
     VisualizeService,
     MapWuiService,
     ResultlistService,
@@ -199,8 +186,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     },
     ArlasCollectionService,
     ContributorService
-  ],
-  bootstrap: [ArlasWuiComponent]
+  ]
 })
 export class ArlasWuiModule {
 }

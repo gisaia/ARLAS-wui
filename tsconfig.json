@@ -5,7 +5,6 @@
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
-    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

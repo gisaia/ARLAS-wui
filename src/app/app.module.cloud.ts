@@ -17,165 +17,20 @@
  * under the License.
  */
 
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  HistogramModule,
-  ResultsModule, FormatNumberModule,
-  GetValueModule,
-  GetValuePipe,
-} from 'arlas-web-components';
-import {
-  ArlasCollectionService,
-  ArlasConfigService,
-  ArlasIamService,
-  ArlasSettingsService,
-  ArlasTaggerModule,
-  ArlasToolKitModule,
-  ArlasToolkitSharedModule,
-  ArlasWalkthroughModule,
-  AuthentificationService,
-  JwtInterceptor,
-  LoginModule,
-  PersistenceService,
-  WalkthroughLoader
-} from 'arlas-wui-toolkit';
-import { MarkdownModule } from 'ngx-markdown';
-import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
-import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
-import { ConfigsListComponent } from './components/configs-list/configs-list.component';
-import { GeocodingComponent } from './components/geocoding/geocoding.component';
-import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { ContributorService } from './services/contributors.service';
-import { VisualizeService } from './services/visualize.service';
-import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { LazyLoadImageHooks } from './tools/lazy-loader';
-import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService, ArlasMapModule, BasemapService, LegendService, MapImportComponent } from 'arlas-map';
-import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
-import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
-import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
-import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
-import { MapWuiService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
-import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
-import { ArlasMapboxService, ArlasMapService, MapboxBasemapService, MapboxLegendService} from 'arlas-mapbox';
-
+import { AbstractArlasMapService, ArlasMapFrameworkService,  BasemapService, LegendService } from 'arlas-map';
+import { ArlasMapboxService, ArlasMapService, MapboxBasemapService, MapboxLegendService } from 'arlas-mapbox';
+import { ArlasWuiModule } from './app.module';
 
 @NgModule({
-  declarations: [
-    AoiDimensionComponent,
-    ArlasWuiComponent,
-    ArlasWuiRootComponent,
-    LeftMenuComponent,
-    ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
-    GeocodingComponent,
-    RastersManagerComponent,
-    ArlasWuiMapComponent,
-    ArlasListComponent,
-    GetResultlistConfigPipe,
-    ArlasAnalyticsComponent
-  ],
-  exports: [
-    AoiDimensionComponent,
-    ArlasWuiComponent,
-    ArlasWuiRootComponent,
-    LeftMenuComponent,
-    ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
-    GeocodingComponent,
-    ArlasWuiMapComponent,
-    ArlasListComponent,
-    GetResultlistConfigPipe
-  ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatStepperModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatProgressBarModule,
-    MarkdownModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    ResultsModule,
-    MatTableModule,
-    MatListModule,
-    MatSelectModule,
-    MatSidenavModule,
-    FormatNumberModule,
-    HistogramModule,
-    RouterModule,
-    AppRoutingModule,
-    ArlasToolkitSharedModule,
-    ArlasToolKitModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: ArlasTranslateLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService]
-      }
-    }),
-    ArlasWalkthroughModule.forRoot({
-      loader: {
-        provide: WalkthroughLoader,
-        useClass: ArlasWalkthroughLoader,
-        deps: [HttpClient, ArlasSettingsService, PersistenceService, ArlasConfigService, TranslateService]
-      }
-    }),
-    ArlasTaggerModule,
-    LoginModule,
-    LazyLoadImageModule,
-    ArlasMapModule,
-    GetValueModule
+    ArlasWuiModule
   ],
   providers: [
-    ContributorService,
     {
       provide: AbstractArlasMapService,
-      useClass: ArlasMapboxService
+      useClass: ArlasMapService
     },
     ArlasMapboxService,
     {
@@ -188,27 +43,11 @@ import { ArlasMapboxService, ArlasMapService, MapboxBasemapService, MapboxLegend
     },
     {
       provide: ArlasMapFrameworkService,
-      useClass: ArlasMapService
-    },
-    VisualizeService,
-    MapWuiService,
-    ArlasMapService,
-    ResultlistService,
-    {
-      provide: LAZYLOAD_IMAGE_HOOKS,
-      useClass: LazyLoadImageHooks
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
-      multi: true
-    },
-    ArlasCollectionService,
-    ContributorService
+      useClass: ArlasMapboxService
+    }
   ],
-    bootstrap: [ArlasWuiComponent],
-    entryComponents: []
+  bootstrap: [ArlasWuiComponent],
+
 })
 export class ArlasWuiCloudModule {
 }

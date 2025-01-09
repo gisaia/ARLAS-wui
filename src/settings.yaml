@@ -2,9 +2,9 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: iam
-  url: https://localhost/arlas_iam_server
+  url: https://cloud.arlas.io/arlas/iam/
   force_connect: false
   threshold: 60000
   use_discovery: false
