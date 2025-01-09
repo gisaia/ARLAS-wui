@@ -33,7 +33,10 @@ export class MapWuiService {
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
+
   public featureToHightLight: FeatureHover;
+  public featuresToSelect: Array<ElementIdentifier> = [];
+
   public coordinatesHaveSpace: boolean;
 
   public constructor(public mapService: ArlasMapFrameworkService<any, any, any>, public mapLogicService: AbstractArlasMapService<any, any, any>) { }
@@ -45,7 +48,7 @@ export class MapWuiService {
   public selectFeatures(idPath: string, ids: string[] | number[], mapContributor: MapContributor) {
     if (!!this.mapComponent && !!mapContributor) {
       if (ids.length > 0) {
-        const featuresToSelect = ids.map(id => {
+        this.featuresToSelect = ids.map(id => {
           let idFieldName = idPath;
           if (mapContributor.isFlat) {
             idFieldName = idFieldName.replace(/\./g, '_');
@@ -55,7 +58,7 @@ export class MapWuiService {
             idValue: id
           };
         });
-        this.mapComponent.selectFeaturesByCollection(featuresToSelect, mapContributor.collection);
+        this.mapComponent.selectFeaturesByCollection(this.featuresToSelect, mapContributor.collection);
       } else {
         this.mapComponent.selectFeaturesByCollection([], mapContributor.collection);
       }

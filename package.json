@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@ngx-translate/core": "^15.0.0",
-    "@turf/transform-translate": "^6.5.0",
     "arlas-mapbox": "27.0.0-z-rc.0",
     "arlas-maplibre": "27.0.0-z-rc.0",
     "arlas-wui-toolkit": "27.0.0-rc.6",
