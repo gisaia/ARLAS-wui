@@ -18,7 +18,7 @@
  */
 
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MapWuiService } from 'app/services/map.service';
+import { ArlasWuiMapService } from 'app/services/map.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
   ArlasWalkthroughService, DownloadComponent, PersistenceService, ShareComponent, TagComponent
@@ -32,6 +32,7 @@ export interface MenuState {
 @Component({
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
+  standalone: false,
   styleUrls: ['./left-menu.component.scss']
 })
 /** L: a layer class/interface.
@@ -82,7 +83,7 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
     private readonly configService: ArlasConfigService,
     protected arlasStartupService: ArlasStartupService,
     protected persistenceService: PersistenceService,
-    private readonly mapService: MapWuiService<L, S, M>
+    private readonly mapService: ArlasWuiMapService<L, S, M>
   ) {
   }
 

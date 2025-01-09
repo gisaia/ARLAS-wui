@@ -25,6 +25,7 @@ import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas
 @Component({
   selector: 'arlas-analytics',
   templateUrl: './arlas-analytics.component.html',
+  standalone: false,
   styleUrls: ['./arlas-analytics.component.scss']
 })
 /** L: a layer class/interface.

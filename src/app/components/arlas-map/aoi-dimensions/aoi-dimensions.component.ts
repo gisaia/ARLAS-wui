@@ -17,15 +17,16 @@
  * under the License.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AoiEdition } from 'arlas-map';
 
 @Component({
   selector: 'arlas-aoi-dimensions',
   templateUrl: './aoi-dimensions.component.html',
+  standalone: false,
   styleUrls: ['./aoi-dimensions.component.scss']
 })
-export class AoiDimensionComponent implements OnInit {
+export class AoiDimensionComponent {
   /**
    * @Input : Angular
    * Current dimensions of the AOI being edited
@@ -33,6 +34,4 @@ export class AoiDimensionComponent implements OnInit {
   @Input() public aoiEdition: AoiEdition;
 
   public constructor() { }
-
-  public ngOnInit() { }
 }

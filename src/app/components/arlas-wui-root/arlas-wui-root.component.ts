@@ -24,7 +24,7 @@ import { ArlasListComponent } from '@components/arlas-list/arlas-list.component'
 import { ArlasWuiMapComponent } from '@components/arlas-map/arlas-map.component';
 import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
-import { MapWuiService } from '@services/map.service';
+import { ArlasWuiMapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
@@ -49,6 +49,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './arlas-wui-root.component.html',
+  standalone: false,
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
 /** L: a layer class/interface.
@@ -146,7 +147,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     private readonly router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService<L, S, M>,
-    protected mapService: MapWuiService<L, S, M>
+    protected mapService: ArlasWuiMapService<L, S, M>
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */

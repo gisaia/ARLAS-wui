@@ -84,7 +84,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
 import { VisualizeService } from './services/visualize.service';
 import { ContributorService } from './services/contributors.service';
 import { ResultlistService } from './services/resultlist.service';
-import { MapWuiService } from '@services/map.service';
+import { ArlasWuiMapService } from '@services/map.service';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 
@@ -172,7 +172,7 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
   ],
   providers: [
     VisualizeService,
-    MapWuiService,
+    ArlasWuiMapService,
     ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,

@@ -27,6 +27,7 @@ import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
+  standalone: false,
   styleUrls: ['./rasters-manager.component.scss']
 })
 /** L: a layer class/interface.

@@ -30,7 +30,7 @@ export { RoundKilometer, SquareKilometer } from './app/components/arlas-map/aoi-
 export { GetResultlistConfigPipe } from './app/pipes/get-resultlist-config.pipe';
 export { ContributorService } from './app/services/contributors.service';
 export { GeocodingService } from './app/services/geocoding.service';
-export { MapWuiService as MapService } from './app/services/map.service';
+export { ArlasWuiMapService as MapService } from './app/services/map.service';
 export { ResultlistService } from './app/services/resultlist.service';
 export { VisualizeService } from './app/services/visualize.service';
 export { ArlasTranslateLoader } from './app/tools/customLoader';

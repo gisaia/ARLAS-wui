@@ -22,7 +22,8 @@ import { ResultlistService } from 'app/services/resultlist.service';
 import { ResultListContributor } from 'arlas-web-contributors';
 
 @Pipe({
-  name: 'getResultlistConfig'
+  name: 'getResultlistConfig',
+  standalone: false
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

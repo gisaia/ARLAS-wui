@@ -32,7 +32,7 @@ export interface FeatureHover {
  *  S: a source class/interface.
  *  M: a Map configuration class/interface.
  */
-export class MapWuiService<L, S, M> {
+export class ArlasWuiMapService<L, S, M> {
   public mapComponent: ArlasMapComponent<L, S, M>;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
