@@ -572,7 +572,6 @@ export class ArlasWuiMapComponent implements OnInit {
 
   private adjustMapOffset() {
     this.recalculateExtent = true;
-    console.log(this.mapglComponent.map.getBounds())
     this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
   }
 }

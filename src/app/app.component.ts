@@ -25,7 +25,7 @@ import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { MapWuiService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
-import { ArlasLngLatBounds } from 'arlas-map';
+import { ArlasLngLatBounds, ArlasMapFrameworkService } from 'arlas-map';
 
 @Component({
   selector: 'arlas-root',
@@ -57,6 +57,7 @@ export class ArlasWuiComponent implements OnInit {
     private readonly resultlistService: ResultlistService,
     private readonly contributorService: ContributorService,
     private readonly mapService: MapWuiService,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>,
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly analyticsService: AnalyticsService
@@ -118,11 +119,8 @@ export class ArlasWuiComponent implements OnInit {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           this.resultlistService.setCollectionsDescription(this.collectionToDescription);
-          if (!!this.mapService.mapComponent) {
-            const bounds = this.mapService.mapComponent.map.getBounds();
-            if (!!bounds) {
-              this.mapService.mapComponent.map.fitBounds(bounds as ArlasLngLatBounds, { duration: 0 });
-            }
+          if (this.mapService.mapComponent) {
+            this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
           }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
