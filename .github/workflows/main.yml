@@ -37,8 +37,10 @@ jobs:
           export NODE_OPTIONS=--max_old_space_size=8192;
           npm install
           npm rebuild node-sass
-          npm run build
-          npm run build-lib
+          npm run build-opensource
+          npm run build-cloud
+          npm run build-opensource-lib
+          npm run build-cloud-lib
       - name: Docker build
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
