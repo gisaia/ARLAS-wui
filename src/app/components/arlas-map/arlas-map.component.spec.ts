@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { VisualizeService } from 'app/services/visualize.service';
 import { ArlasToolKitModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
-import { ArlasMapComponent } from './arlas-map.component';
+import { ArlasWuiMapComponent } from './arlas-map.component';
 
-describe('ArlasMapComponent', () => {
-  let component: ArlasMapComponent;
-  let fixture: ComponentFixture<ArlasMapComponent>;
+describe('ArlasWuiMapComponent', () => {
+  let component: ArlasWuiMapComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasWuiMapComponent<any, any, any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArlasMapComponent ],
+      declarations: [ ArlasWuiMapComponent ],
       imports: [
         ArlasToolKitModule,
         TranslateModule.forRoot({
@@ -24,7 +24,7 @@ describe('ArlasMapComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(ArlasMapComponent);
+    fixture = TestBed.createComponent(ArlasWuiMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

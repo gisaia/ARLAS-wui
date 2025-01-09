@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ArlasWuiMapService } from './map.service';
 
 describe('MapService', () => {
-  let service: ArlasWuiMapService;
+  let service: ArlasWuiMapService<any, any, any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

@@ -11,7 +11,7 @@ import { VisualizeService } from './visualize.service';
 
 
 describe('ResultlistService', () => {
-  let service: ResultlistService;
+  let service: ResultlistService<any, any, any>;
 
   beforeEach(() => {
     const mockArlasCollectionService = jasmine.createSpyObj('ArlasCollectionService', [], {

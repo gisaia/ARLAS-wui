@@ -43,8 +43,8 @@ import {
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 
 describe('ArlasWuiRootComponent', () => {
-  let component: ArlasWuiRootComponent;
-  let fixture: ComponentFixture<ArlasWuiRootComponent>;
+  let component: ArlasWuiRootComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasWuiRootComponent<any, any, any>>;
 
   beforeEach(async () => {
     const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService',

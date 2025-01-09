@@ -36,8 +36,8 @@ import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 
 describe('ArlasWuiComponent', () => {
-  let component: ArlasWuiComponent;
-  let fixture: ComponentFixture<ArlasWuiComponent>;
+  let component: ArlasWuiComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
 
   beforeEach(async () => {
     const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {

@@ -12,8 +12,8 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ResultlistService } from '@services/resultlist.service';
 
 describe('ArlasAnalyticsComponent', () => {
-  let component: ArlasAnalyticsComponent;
-  let fixture: ComponentFixture<ArlasAnalyticsComponent>;
+  let component: ArlasAnalyticsComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasAnalyticsComponent<any, any, any>>;
 
   beforeEach(async () => {
     const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {

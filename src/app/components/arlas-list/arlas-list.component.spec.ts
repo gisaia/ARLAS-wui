@@ -5,8 +5,8 @@ import { ArlasToolKitModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit'
 import { ArlasListComponent } from './arlas-list.component';
 
 describe('ArlasListComponent', () => {
-  let component: ArlasListComponent;
-  let fixture: ComponentFixture<ArlasListComponent>;
+  let component: ArlasListComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasListComponent<any, any, any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
