@@ -2,9 +2,9 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: iam
-  url: https://localhost/arlas_iam_server
+  url: https://cloud.arlas.io/arlas/iam/
   force_connect: false
   threshold: 60000
   use_discovery: false
@@ -37,7 +37,7 @@ histogram:
 resultlist:
   enable_export: true
   export_size: 10000
-arlas_hub_url: https://localhost/hub
+arlas_hub_url: http://localhost/hub
 dashboards_shortcut: true
 processes:
   - name: download
@@ -63,16 +63,16 @@ links:
     url: https://google.com
   - name: ARLAS Builder
     icon: build
-    check_url: http://localhost:9997/arlas_iam_server
+    check_url: http://localhost/arlas_iam_server
     url: http://localhost:81/builder
   - name: ARLAS Hub
     icon: hub
-    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
-    url: http://localhost:81/hub
+    check_url: http://localhost/arlas/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
+    url: http://localhost/hub
   - name: Fam
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
-    check_url: http://localhost:9997/arlas_iam_server
+    check_url: http://localhost/arlas_iam_server
 geocoding:
   enabled: true
   find_place_url: "https://nominatim.openstreetmap.org/"

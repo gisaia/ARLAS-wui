@@ -18,23 +18,20 @@
  */
 
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
-import { ArlasMapComponent } from '@components/arlas-map/arlas-map.component';
+import { ArlasWuiMapComponent } from '@components/arlas-map/arlas-map.component';
 import { MenuState } from '@components/left-menu/left-menu.component';
 import { ContributorService } from '@services/contributors.service';
-import { MapService } from '@services/map.service';
+import { ArlasWuiMapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService,
   ArlasCollaborativesearchService,
-  ArlasCollectionService,
   ArlasConfigService,
-  ArlasExportCsvService,
   ArlasMapService,
   ArlasMapSettings,
   ArlasSettingsService,
@@ -42,7 +39,6 @@ import {
   FilterShortcutConfiguration,
   getParamValue,
   NOT_CONFIGURED,
-  ProcessService,
   TimelineComponent,
   ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
@@ -53,9 +49,14 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './arlas-wui-root.component.html',
+  standalone: false,
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
-export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, OnDestroy {
   /**
    * @Input : Angular
    * Current version of ARLAS WUI
@@ -102,10 +103,9 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() public resultListGridColumns = 4;
   public collections: string[];
-
   @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasMapComponent;
-  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent;
+  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasWuiMapComponent<L, S, M>;
+  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent<L, S, M>;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
@@ -131,23 +131,23 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
   public spacing = 5;
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private configService: ArlasConfigService,
+    private readonly configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
     protected collaborativeService: ArlasCollaborativesearchService,
-    private contributorService: ContributorService,
+    private readonly contributorService: ContributorService,
     protected arlasStartupService: ArlasStartupService,
-    private mapSettingsService: ArlasMapSettings,
-    private cdr: ChangeDetectorRef,
-    private toolkitMapService: ArlasMapService,
-    private titleService: Title,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private readonly mapSettingsService: ArlasMapSettings,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly toolkitMapService: ArlasMapService,
+    private readonly titleService: Title,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
     protected analyticsService: AnalyticsService,
-    protected resultlistService: ResultlistService,
-    protected mapService: MapService
+    protected resultlistService: ResultlistService<L, S, M>,
+    protected mapService: ArlasWuiMapService<L, S, M>
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -257,7 +257,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe(index => {
             this.resultlistService.selectList(index);
 
-            const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+            const queryParams = { ...this.activatedRoute.snapshot.queryParams};
             queryParams['rt'] = this.resultlistService.previewListContrib.getName();
             this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
             this.adjustGrids();
@@ -311,7 +311,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public toggleTimeline() {
     this.showTimeline = !this.showTimeline;
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
     queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
@@ -324,8 +324,8 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.analyticsService.selectTab(undefined);
   }
 
-  public onOpenShortcut(state: boolean, shortcutIdx: number) {
-    if (state) {
+  public onOpenShortcut(shortcutState: boolean, shortcutIdx: number) {
+    if (shortcutState) {
       this.shortcutOpen = shortcutIdx;
       // If open one of the visible shortcuts, hide the extra ones
       if (this.shortcutOpen < this.shortcuts.length) {
@@ -347,7 +347,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public goToArlasHub() {
     const hubUrl = this.settingsService.getArlasHubUrl();
-    if (!!hubUrl) {
+    if (hubUrl) {
       window.open(hubUrl);
     }
   }
@@ -392,7 +392,7 @@ export class ArlasWuiRootComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (!!this.timelineComponent && !!this.timelineComponent.timelineHistogramComponent) {
         this.timelineComponent.timelineHistogramComponent.resizeHistogram();
-        if (!!this.timelineComponent.detailedTimelineHistogramComponent) {
+        if (this.timelineComponent.detailedTimelineHistogramComponent) {
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
         }
       }

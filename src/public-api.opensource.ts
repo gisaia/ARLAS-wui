@@ -18,9 +18,9 @@
  */
 
 export { ArlasWuiComponent } from './app/app.component';
-export { ArlasWuiModule } from './app/app.module';
+export { ArlasWuiOSModule } from './app/app.module.opensource';
 export { ArlasListComponent } from './app/components/arlas-list/arlas-list.component';
-export { ArlasMapComponent } from './app/components/arlas-map/arlas-map.component';
+export { ArlasWuiMapComponent } from './app/components/arlas-map/arlas-map.component';
 export { ArlasWuiRootComponent } from './app/components/arlas-wui-root/arlas-wui-root.component';
 export { ConfigsListComponent } from './app/components/configs-list/configs-list.component';
 export { GeocodingComponent } from './app/components/geocoding/geocoding.component';
@@ -30,7 +30,7 @@ export { RoundKilometer, SquareKilometer } from './app/components/arlas-map/aoi-
 export { GetResultlistConfigPipe } from './app/pipes/get-resultlist-config.pipe';
 export { ContributorService } from './app/services/contributors.service';
 export { GeocodingService } from './app/services/geocoding.service';
-export { MapService } from './app/services/map.service';
+export { ArlasWuiMapService as MapService } from './app/services/map.service';
 export { ResultlistService } from './app/services/resultlist.service';
 export { VisualizeService } from './app/services/visualize.service';
 export { ArlasTranslateLoader } from './app/tools/customLoader';

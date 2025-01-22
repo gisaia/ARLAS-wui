@@ -31,6 +31,10 @@
   margin-bottom: $xs-margin !important;
 }
 
+.maplibregl-ctrl-scale {
+  margin: 0 $sm-spacing $sm-spacing 0 !important;
+}
+
 .map__layers-list--container {
   top: 50px !important;
   border-radius: 4px;
@@ -65,9 +69,11 @@
     .map__visu-list--container {
       box-shadow: none;
       padding-top: 0;
+
       .map__visu-item {
         @include box-border();
         margin: 1px 1px 3px;
+
         .map__visu-content {
           overflow: hidden;
         }
@@ -76,14 +82,16 @@
   }
 }
 
-.mapboxgl-ctrl-top-right {
+.mapboxgl-ctrl-top-right,
+.maplibregl-ctrl-top-right {
   top: $sm-spacing !important;
   right: $sm-spacing !important;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 
-  .mapboxgl-ctrl-group {
+  .mapboxgl-ctrl-group,
+  .maplibregl-ctrl-group {
     // Leave space to insert map layers button between attributions and map controls
     margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing) !important;
     margin-right: 0 !important;
@@ -95,6 +103,16 @@
       align-self: center;
     }
   }
+
+  .maplibregl-ctrl-group {
+    // Leave space to insert map layers button between attributions and map controls
+    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing + $maplibre-left-control-correction) !important;
+  }
+}
+
+.maplibregl-compact {
+  margin: 0 !important;
+
 }
 
 .mapboxgl-compact {
@@ -117,6 +135,7 @@
 }
 
 arlas-coordinates {
+
   .current-coordinate,
   .current-coordinate-edition {
     position: absolute;
@@ -149,6 +168,7 @@ arlas-coordinates {
 }
 
 .map-container-tight-coordinates {
+
   ::ng-deep.current-coordinate,
   ::ng-deep.current-coordinate-edition {
     // Center regarding to timeline tools

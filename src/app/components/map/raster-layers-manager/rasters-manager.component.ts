@@ -27,17 +27,22 @@ import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
+  standalone: false,
   styleUrls: ['./rasters-manager.component.scss']
 })
-export class RastersManagerComponent implements OnInit, OnDestroy {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private visualisationService: VisualizeService,
-    private resultlistService: ResultlistService,
-    private collaborativeSearchService: ArlasCollaborativesearchService
+    private readonly visualisationService: VisualizeService,
+    private readonly resultlistService: ResultlistService<L, S, M>,
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService
   ) { }
 
   public ngOnInit(): void {

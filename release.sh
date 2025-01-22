@@ -132,8 +132,12 @@ fi
 echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
 npm --no-git-tag-version --prefix src version ${VERSION}
+npm --no-git-tag-version --prefix packages/cloud version ${VERSION}
+npm --no-git-tag-version --prefix packages/opensource version ${VERSION}
+
 git add package.json
 git add src/package.json
+git add packages
 
 echo "  -- Create and push tag"
 git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
@@ -162,24 +166,39 @@ npm cache clean --force
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build -f docker/Dockerfile-production --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
-docker build -f docker/Dockerfile-production-no-analytics --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION}-no-analytics .
+docker build -f docker/Dockerfile-production-cloud --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-cloud:${VERSION} .
+docker build -f docker/Dockerfile-production-opensource --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-opensource:${VERSION} .
 
-echo "  -- Publishing docker images"
-docker push gisaia/arlas-wui:${VERSION}
-docker push gisaia/arlas-wui:${VERSION}-no-analytics
+docker push gisaia/arlas-wui-cloud:${VERSION}
+docker push gisaia/arlas-wui-opensource:${VERSION}
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
-    echo "  -- Publishing latest"
-    docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
-    docker push gisaia/arlas-wui:latest
+    docker tag gisaia/arlas-wui-opensource:${VERSION} gisaia/arlas-wui-opensource:latest
+    docker tag gisaia/arlas-wui-cloud:${VERSION} gisaia/arlas-wui-cloud:latest
+    docker push gisaia/arlas-wui-cloud:latest
+    docker push gisaia/arlas-wui-opensource:latest
 fi
 
 echo "==> Build arlas-wui library"
 rm -rf dist
 npm install
-npm run build-lib
-cd dist/arlas-wui
+npm run build-cloud-lib
+cp packages/cloud/package.json dist/arlas-wui-cloud
+npm run build-opensource-lib
+cp packages/opensource/package.json dist/arlas-wui-opensource
+
+cd dist/arlas-wui-cloud
+echo "==> Publish to npm"
+if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
+    then
+    echo "  -- tagged as ${STAGE}"
+    npm publish --tag=${STAGE}
+else
+    npm publish
+fi
+cd ../..
+
+cd dist/arlas-wui-opensource
 echo "==> Publish to npm"
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
@@ -198,6 +217,7 @@ rm -rf node_modules/
 if [ "${REF_BRANCH}" == "develop" ] && [ "${STAGE}" == "stable" ];
     then
     echo "==> Merge develop into master"
+
     git checkout master
     git pull origin master
     git merge origin/develop
@@ -216,6 +236,8 @@ newDevVersion=${major}.${newminor}.0
 
 npm --no-git-tag-version version "${newDevVersion}-dev"
 npm --no-git-tag-version --prefix src version "${newDevVersion}-dev"
+npm --no-git-tag-version --prefix packages/cloud version "${newDevVersion}-dev"
+npm --no-git-tag-version --prefix packages/opensource version "${newDevVersion}-dev"
 
 git commit -a -m "development version ${newDevVersion}-dev"
 git push origin ${REF_BRANCH}

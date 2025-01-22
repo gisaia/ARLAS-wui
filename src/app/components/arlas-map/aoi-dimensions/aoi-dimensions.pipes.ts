@@ -21,7 +21,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 
 @Pipe({
-  name: 'squareKm'
+  name: 'squareKm',
+  standalone: false
 })
 export class SquareKilometer implements PipeTransform {
 
@@ -33,7 +34,8 @@ export class SquareKilometer implements PipeTransform {
 }
 
 @Pipe({
-  name: 'roundKm'
+  name: 'roundKm',
+  standalone: false
 })
 export class RoundKilometer implements PipeTransform {
 

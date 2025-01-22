@@ -23,15 +23,21 @@ import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
+import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { ArlasMapFrameworkService } from 'arlas-map';
 
 @Component({
   selector: 'arlas-root',
   templateUrl: './app.component.html',
+  standalone: false,
   styleUrls: ['./app.component.scss']
 })
-export class ArlasWuiComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiComponent<L, S, M> implements OnInit {
 
   public collections = new Array<string>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
@@ -48,17 +54,18 @@ export class ArlasWuiComponent implements OnInit {
   @Input() public hiddenAnalyticsTabs: string[] = [];
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private arlasStartupService: ArlasStartupService,
-    private configService: ArlasConfigService,
-    private resultlistService: ResultlistService,
-    private contributorService: ContributorService,
-    private mapService: MapService,
-    private colorService: ArlasColorService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private analyticsService: AnalyticsService
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly configService: ArlasConfigService,
+    private readonly resultlistService: ResultlistService<L, S, M>,
+    private readonly contributorService: ContributorService,
+    private readonly mapService: ArlasWuiMapService<L, S, M>,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
+    private readonly colorService: ArlasColorService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly analyticsService: AnalyticsService
   ) { }
 
   public ngOnInit(): void {
@@ -117,11 +124,8 @@ export class ArlasWuiComponent implements OnInit {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           this.resultlistService.setCollectionsDescription(this.collectionToDescription);
-          if (!!this.mapService.mapComponent) {
-            const bounds = (<mapboxgl.Map>this.mapService.mapComponent.map).getBounds();
-            if (!!bounds) {
-              (<mapboxgl.Map>this.mapService.mapComponent.map).fitBounds(bounds, { duration: 0 });
-            }
+          if (this.mapService.mapComponent) {
+            this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
           }
           if (this.resultlistContributors.length > 0) {
             this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);

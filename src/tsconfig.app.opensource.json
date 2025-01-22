@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "",
@@ -13,7 +13,7 @@
     "**/*.spec.ts"
   ],
   "files": [
-    "main.ts",
+    "main-opensource.ts",
     "polyfills.ts"
   ]
 }

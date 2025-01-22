@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MapService } from './map.service';
+import { ArlasWuiMapService } from './map.service';
 
 describe('MapService', () => {
-  let service: MapService;
+  let service: ArlasWuiMapService<any, any, any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MapService);
+    service = TestBed.inject(ArlasWuiMapService);
   });
 
   it('should be created', () => {

@@ -25,9 +25,14 @@ import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas
 @Component({
   selector: 'arlas-analytics',
   templateUrl: './arlas-analytics.component.html',
+  standalone: false,
   styleUrls: ['./arlas-analytics.component.scss']
 })
-export class ArlasAnalyticsComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasAnalyticsComponent<L, S, M> implements OnInit {
   /**
    * @Input : Angular
    * Whether to show the analytics menu inside of this component. Useful for multi-windows views
@@ -41,8 +46,8 @@ export class ArlasAnalyticsComponent implements OnInit {
   public constructor(
     protected analyticsService: AnalyticsService,
     protected arlasStartupService: ArlasStartupService,
-    private configService: ArlasConfigService,
-    protected resultlistService: ResultlistService
+    private readonly configService: ArlasConfigService,
+    protected resultlistService: ResultlistService<L, S, M>
   ) {
   }
 

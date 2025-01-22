@@ -35,6 +35,7 @@ export interface Configuration {
 @Component({
   selector: 'arlas-configs-list',
   templateUrl: './configs-list.component.html',
+  standalone: false,
   styleUrls: ['./configs-list.component.scss']
 })
 export class ConfigsListComponent implements OnInit {
@@ -58,7 +59,6 @@ export class ConfigsListComponent implements OnInit {
     private persistenceService: PersistenceService,
     private arlasColorService: ArlasColorService,
     private arlasSettingsService: ArlasSettingsService,
-    private authentService: AuthentificationService,
     private arlasIamService: ArlasIamService,
     private arlasStartupService: ArlasStartupService
   ) {

@@ -5,17 +5,16 @@
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
-    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "target": "ES2022",
     "types": [
       "node",
-      "mapbox-gl",
       "geojson"
     ],
     "typeRoots": [

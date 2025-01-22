@@ -22,7 +22,6 @@
               "browser": ""
             },
             "index": "src/index.html",
-            "tsConfig": "src/tsconfig.app.json",
             "polyfills": [
               "src/polyfills.ts"
             ],
@@ -49,21 +48,48 @@
               "src/styles/arlas-wui-theme.scss",
               "src/styles.scss",
               "node_modules/iv-viewer/dist/iv-viewer.css",
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
             ],
             "scripts": [
               "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ],
-            "browser": "src/main.ts"
+            ]
           },
           "configurations": {
-            "development": {
+            "development-opensource": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
+              "browser": "src/main-opensource.ts",
+              "tsConfig": "src/tsconfig.app.opensource.json",
+              "styles": [
+                "src/styles/variables.scss",
+                "src/styles/arlas-wui-theme.scss",
+                "src/styles.scss",
+                "node_modules/iv-viewer/dist/iv-viewer.css",
+                "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
+                "node_modules/maplibre-gl/dist/maplibre-gl.css"
+              ],
               "namedChunks": true,
               "extractLicenses": false,
+              "budgets": []
+            },
+            "development-cloud": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "browser": "src/main-cloud.ts",
+              "tsConfig": "src/tsconfig.app.cloud.json",
+              "styles": [
+                "src/styles/variables.scss",
+                "src/styles/arlas-wui-theme.scss",
+                "src/styles.scss",
+                "node_modules/iv-viewer/dist/iv-viewer.css",
+                "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
+                "node_modules/mapbox-gl/dist/mapbox-gl.css"
+              ],
+              "namedChunks": true,
+              "extractLicenses": false,
+
               "budgets": []
             },
             "production": {
@@ -100,17 +126,65 @@
                 }
               ]
             },
-            "production-no-analytics": {
+            "production-opensource": {
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
+              "browser": "src/main-opensource.ts",
+              "tsConfig": "src/tsconfig.app.opensource.json",
+              "styles": [
+                "node_modules/maplibre-gl/dist/maplibre-gl.css"
+              ],
               "index": {
                 "input": "src/index-without-analytics.html",
                 "output": "index.html"
               },
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "input": "src/environments/prod/",
+                  "output": "/",
+                  "glob": "*.yaml"
+                },
+                "src/assets",
+                "src/silent-refresh.html",
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/resize",
+                  "output": "/assets/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-web-components/assets/rotate",
+                  "output": "/assets/rotate/"
+                }
+              ]
+            },
+            "production-cloud": {
+              "optimization": false,
+              "outputHashing": "all",
+              "browser": "src/main-cloud.ts",
+              "tsConfig": "src/tsconfig.app.cloud.json",
+              "styles": [
+                "node_modules/mapbox-gl/dist/mapbox-gl.css"
+              ],
+              "index": {
+                "input": "src/index.html",
+                "output": "index.html"
+              },
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -149,14 +223,20 @@
             "development": {
               "buildTarget": "arlas-wui:build:development"
             },
-            "production": {
-              "buildTarget": "arlas-wui:build:production"
+            "development-opensource": {
+              "buildTarget": "arlas-wui:build:development-opensource"
             },
-            "production-no-analytics": {
-              "buildTarget": "arlas-wui:build:production-no-analytics"
+            "development-cloud": {
+              "buildTarget": "arlas-wui:build:development-cloud"
+            },
+            "production-cloud": {
+              "buildTarget": "arlas-wui:build:production-cloud"
+            },
+            "production-opensource": {
+              "buildTarget": "arlas-wui:build:production-opensource"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development-opensource"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -179,6 +259,7 @@
               "src/styles.scss",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/maplibre-gl/dist/maplibre-gl.css",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
             ],
             "assets": [
@@ -214,20 +295,36 @@
         }
       }
     },
-    "arlas-wui-lib": {
+    "arlas-wui-opensource-lib": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "src",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "tsconfig.lib.json",
-            "project": "ng-package.json"
-          },
+          "defaultConfiguration": "production-opensource",
           "configurations": {
-            "production": {
-              "tsConfig": "tsconfig.lib.prod.json"
+            "production-opensource": {
+              "tsConfig": "tsconfig.lib.prod.opensource.json",
+              "project": "ng-package.opensource.json"
+            }
+          }
+        }
+      }
+    },
+    "arlas-wui-cloud-lib": {
+      "projectType": "library",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "defaultConfiguration": "production-cloud",
+
+          "configurations": {
+            "production-cloud": {
+              "tsConfig": "tsconfig.lib.prod.cloud.json",
+              "project": "ng-package.cloud.json"
             }
           }
         }

@@ -31,13 +31,13 @@ import { ArlasCollaborativesearchService, ArlasCollectionService,
 import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
-import { MapService } from './services/map.service';
+import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 
 describe('ArlasWuiComponent', () => {
-  let component: ArlasWuiComponent;
-  let fixture: ComponentFixture<ArlasWuiComponent>;
+  let component: ArlasWuiComponent<any, any, any>;
+  let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
 
   beforeEach(async () => {
     const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {
@@ -71,7 +71,7 @@ describe('ArlasWuiComponent', () => {
       ],
       providers: [
         ResultlistService,
-        MapService,
+        ArlasWuiMapService,
         ArlasColorService,
         ArlasCollaborativesearchService,
         ArlasConfigService,

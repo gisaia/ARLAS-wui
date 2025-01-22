@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -25,20 +24,25 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GeocodingResult } from '@services/geocoding.service';
-import { MapService } from '@services/map.service';
+import { ArlasWuiMapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
+import { FeatureCollection } from '@turf/helpers';
 import {
-  AoiEdition, BasemapStyle, BboxGeneratorComponent, GeoQuery, MapglComponent,
-  MapglImportComponent, MapglSettingsComponent, SCROLLABLE_ARLAS_ID
-} from 'arlas-web-components';
+  AoiEdition,
+  ArlasLngLat,
+  ArlasLngLatBounds,
+  ArlasMapComponent,
+  ArlasMapFrameworkService,
+  BasemapStyle, BboxGeneratorComponent, GeoQuery,
+  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID
+} from 'arlas-map';
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
-import * as mapboxgl from 'mapbox-gl';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
@@ -47,11 +51,16 @@ const DEFAULT_BASEMAP: BasemapStyle = {
 };
 
 @Component({
-  selector: 'arlas-map',
+  selector: 'arlas-wui-map',
   templateUrl: './arlas-map.component.html',
+  standalone: false,
   styleUrls: ['./arlas-map.component.scss']
 })
-export class ArlasMapComponent implements OnInit {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   /** Map definition */
   public mapComponentConfig: any;
   public mapId = 'mapgl';
@@ -62,7 +71,6 @@ export class ArlasMapComponent implements OnInit {
   public mapLoaded = false;
 
   /** Map move */
-  public fitbounds: Array<Array<number>> = [];
   public recalculateExtent = true;
   public zoomChanged = false;
   public zoomStart: number;
@@ -71,8 +79,8 @@ export class ArlasMapComponent implements OnInit {
   private cumulatedYMoveRatio = 0;
 
   /** Extent in url */
-  private readonly allowMapExtent: boolean;
-  private mapBounds: mapboxgl.LngLatBounds;
+  public allowMapExtent: boolean;
+  private mapBounds: ArlasLngLatBounds;
   private readonly mapEventListener = new Subject();
   private readonly mapExtentTimer: number;
   private MAP_EXTENT_PARAM = 'extend';
@@ -92,7 +100,7 @@ export class ArlasMapComponent implements OnInit {
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
   public aoiEdition: AoiEdition;
-  public geojsondraw: { type: string; features: Array<any>; } = {
+  public geojsondraw: FeatureCollection<GeoJSON.Geometry> = {
     'type': 'FeatureCollection',
     'features': []
   };
@@ -110,12 +118,13 @@ export class ArlasMapComponent implements OnInit {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
-  @ViewChild('map', { static: false }) public mapglComponent: MapglComponent;
-  @ViewChild('import', { static: false }) public mapImportComponent: MapglImportComponent;
-  @ViewChild('mapSettings', { static: false }) public mapSettings: MapglSettingsComponent;
+  @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
+  @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
+  @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
 
   public constructor(
-    protected mapService: MapService,
+    protected wuiMapService: ArlasWuiMapService<L, S, M>,
+    private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService,
     private readonly configService: ArlasConfigService,
@@ -126,7 +135,7 @@ export class ArlasMapComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly mapSettingsService: ArlasMapSettings,
-    private readonly resultlistService: ResultlistService,
+    private readonly resultlistService: ResultlistService<L, S, M>,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     private readonly iconRegistry: MatIconRegistry,
@@ -140,12 +149,12 @@ export class ArlasMapComponent implements OnInit {
       fromEvent(window, 'resize')
         .pipe(debounceTime(100), takeUntil(this._onDestroy$))
         .subscribe((event: Event) => {
-          this.mapService.resize();
+          this.wuiMapService.resize();
         });
 
       this.mapComponentConfig = this.configService.getValue('arlas.web.components.mapgl.input');
       if (this.mapComponentConfig) {
-        this.mapService.setMapConfig(this.mapComponentConfig);
+        this.wuiMapService.setMapConfig(this.mapComponentConfig);
         this.defaultBasemap = this.mapComponentConfig.defaultBasemapStyle ?? DEFAULT_BASEMAP;
         this.mapExtentTimer = this.configService.getValue('arlas.web.components.mapgl.mapExtendTimer') ?? 4000;
         this.allowMapExtent = this.configService.getValue('arlas.web.components.mapgl.allowMapExtend');
@@ -169,13 +178,13 @@ export class ArlasMapComponent implements OnInit {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** Prepare map data */
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-      this.mainMapContributor = this.mapService.mapContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
-      this.mapDataSources = this.mapService.mapContributors.map(c => c.dataSources).length > 0 ?
-        this.mapService.mapContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2])) : new Set();
-      this.mapRedrawSources = merge(...this.mapService.mapContributors.map(c => c.redrawSource));
+      this.mainMapContributor = this.wuiMapService.mapContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
+      this.mapDataSources = this.wuiMapService.mapContributors.map(c => c.dataSources).length > 0 ?
+        this.wuiMapService.mapContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2]), new Set()) : new Set();
+      this.mapRedrawSources = merge(...this.wuiMapService.mapContributors.map(c => c.redrawSource));
 
       const legendUpdaters: Observable<{ collection: string; legendData: Map<string, LegendData>; }> =
-        merge(...this.mapService.mapContributors
+        merge(...this.wuiMapService.mapContributors
           .map(c => c.legendUpdater
             .pipe(mergeMap(m => of({ collection: c.collection, legendData: m })))
           ));
@@ -187,11 +196,11 @@ export class ArlasMapComponent implements OnInit {
           this.mapLegendUpdater.next(legendData);
         });
 
-      this.mapVisibilityUpdater = merge(...this.mapService.mapContributors.map(c => c.visibilityUpdater));
-      this.mapService.mapContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
+      this.mapVisibilityUpdater = merge(...this.wuiMapService.mapContributors.map(c => c.visibilityUpdater));
+      this.wuiMapService.mapContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
         this.geojsondraw = {
           'type': 'FeatureCollection',
-          'features': this.mapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b))
+          'features': this.wuiMapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b), [])
             .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
         };
       }));
@@ -201,9 +210,9 @@ export class ArlasMapComponent implements OnInit {
         if (extentValue) {
           const stringBounds = extentValue.split(',');
           if (stringBounds.length === 4) {
-            this.mapBounds = new mapboxgl.LngLatBounds(
-              new mapboxgl.LngLat(+stringBounds[0], +stringBounds[1]),
-              new mapboxgl.LngLat(+stringBounds[2], +stringBounds[3])
+            this.mapBounds = this.mapFrameworkService.getLngLatBound(
+              new ArlasLngLat(+stringBounds[0], +stringBounds[1]),
+              new ArlasLngLat(+stringBounds[2], +stringBounds[3])
             );
           }
         }
@@ -231,7 +240,7 @@ export class ArlasMapComponent implements OnInit {
 
   public ngAfterViewInit() {
     if (!this.arlasStartupService.emptyMode) {
-      this.mapService.adjustCoordinates();
+      this.wuiMapService.adjustCoordinates();
 
       this.mapEventListener
         .pipe(
@@ -239,10 +248,9 @@ export class ArlasMapComponent implements OnInit {
           debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
-          const bounds = (<mapboxgl.Map>this.mapglComponent.map).getBounds();
-          const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-          const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-          queryParams[this.MAP_EXTENT_PARAM] = extent;
+          const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
+          const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+          queryParams[this.MAP_EXTENT_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
     }
@@ -320,8 +328,7 @@ export class ArlasMapComponent implements OnInit {
   public onMapLoaded(isLoaded: boolean): void {
     if (isLoaded && !this.arlasStartupService.emptyMode) {
       this.mapLoaded = true;
-
-      this.mapService.setMapComponent(this.mapglComponent);
+      this.wuiMapService.setMapComponent(this.mapglComponent);
       this.toolkitMapService.setMap(this.mapglComponent.map);
       this.visualizeService.setMap(this.mapglComponent.map);
       if (this.mapBounds && this.allowMapExtent) {
@@ -340,15 +347,16 @@ export class ArlasMapComponent implements OnInit {
         }
       });
       this.adjustMapOffset();
-      this.mapService.adjustCoordinates();
-      this.mapService.mapContributors.forEach(mapglContributor => {
+      this.wuiMapService.adjustCoordinates();
+      this.wuiMapService.mapContributors.forEach(mapglContributor => {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       });
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-        this.mapComponentConfig.mapLayers.events.onHover.filter(l => this.mapglComponent.map.getLayer(l)).length > 0) {
+        this.mapComponentConfig.mapLayers.events.onHover
+          .filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
         this.resultlistService.updateVisibleItems();
       }
     }
@@ -371,14 +379,14 @@ export class ArlasMapComponent implements OnInit {
   }
 
   public downloadLayerSource(d) {
-    const mc = this.mapService.mapContributors.find(mc => mc.collection === d.collection);
+    const mc = this.wuiMapService.mapContributors.find(mc => mc.collection === d.collection);
     if (mc) {
       mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
     }
   }
 
   public openMapSettings(): void {
-    this.mapSettingsService.mapContributors = this.mapService.mapContributors;
+    this.mapSettingsService.mapContributors = this.wuiMapService.mapContributors;
     this.mapSettings.openDialog(this.mapSettingsService);
   }
 
@@ -388,7 +396,7 @@ export class ArlasMapComponent implements OnInit {
   public applySelectedGeoQuery(geoQueries: Map<string, GeoQuery>) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    const changedMapContributors = this.mapService.mapContributors.filter(mc => !!geoQueries.has(mc.collection));
+    const changedMapContributors = this.wuiMapService.mapContributors.filter(mc => !!geoQueries.has(mc.collection));
     for (let i = 0; i < changedMapContributors.length; i++) {
       setTimeout(() => {
         const collection = changedMapContributors[i].collection;
@@ -424,17 +432,17 @@ export class ArlasMapComponent implements OnInit {
     if (this.resultlistService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
-      const extent = bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth();
-      const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
+      const queryParams = { ...this.activatedRoute.snapshot.queryParams};
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
-      queryParams[this.MAP_EXTENT_PARAM] = extent;
+      queryParams[this.MAP_EXTENT_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
       this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
       localStorage.setItem('currentExtent', JSON.stringify(bounds));
 
       const ratioToAutoSort = 0.1;
-      this.mapService.centerLatLng.lat = event.centerWithOffset[1];
-      this.mapService.centerLatLng.lng = event.centerWithOffset[0];
+      this.wuiMapService.centerLatLng.lat = event.centerWithOffset[1];
+      this.wuiMapService.centerLatLng.lng = event.centerWithOffset[0];
       this.cumulatedXMoveRatio += event.xMoveRatio;
       this.cumulatedYMoveRatio += event.yMoveRatio;
       if ((this.cumulatedXMoveRatio > ratioToAutoSort || this.cumulatedYMoveRatio > ratioToAutoSort || this.zoomChanged)) {
@@ -449,10 +457,10 @@ export class ArlasMapComponent implements OnInit {
       if (this.recalculateExtent && !this.disableRecalculateExtent) {
         this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
 
-        this.mapService.mapContributors.forEach(c => {
-          if (!!this.resultlistService.resultlistContributors) {
+        this.wuiMapService.mapContributors.forEach(c => {
+          if (this.resultlistService.resultlistContributors) {
             const resultlistContrbutor = this.resultlistService.resultlistContributors.find(v => v.collection === c.collection);
-            if (!!resultlistContrbutor) {
+            if (resultlistContrbutor) {
               if (this.resultlistService.isGeoSortActivated.get(c.identifier)) {
                 c.searchSort = resultlistContrbutor.geoOrderSort;
               } else {
@@ -461,13 +469,13 @@ export class ArlasMapComponent implements OnInit {
               this.collaborativeService.registry.set(c.identifier, c);
             }
           }
-          this.mapService.clearWindowData(c);
+          this.wuiMapService.clearWindowData(c);
         });
         this.zoomChanged = false;
       }
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;
-      this.mapService.mapContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtent));
+      this.wuiMapService.mapContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtent));
       this.recalculateExtent = false;
     }
   }
@@ -475,12 +483,12 @@ export class ArlasMapComponent implements OnInit {
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    for (let i = 0; i < this.mapService.mapContributors.length; i++) {
+    for (let i = 0; i < this.wuiMapService.mapContributors.length; i++) {
       setTimeout(() => {
         this.snackbar.open(this.translate.instant('Loading data of ',
-          { collection: this.translate.instant(this.collectionService.getDisplayName(this.mapService.mapContributors[i].collection)) }));
-        this.mapService.mapContributors[i].onChangeAoi(event);
-        if (i === this.mapService.mapContributors.length - 1) {
+          { collection: this.translate.instant(this.collectionService.getDisplayName(this.wuiMapService.mapContributors[i].collection)) }));
+        this.wuiMapService.mapContributors[i].onChangeAoi(event);
+        if (i === this.wuiMapService.mapContributors.length - 1) {
           setTimeout(() => this.snackbar.dismiss(), 1000);
         }
       }, (i) * ((debounceDuration + 100) * 1.5));
@@ -488,8 +496,8 @@ export class ArlasMapComponent implements OnInit {
   }
 
   public changeVisualisation(layers: Set<string>) {
-    this.mapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    this.wuiMapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -497,10 +505,10 @@ export class ArlasMapComponent implements OnInit {
 
   public emitFeaturesOnHover(event) {
     if (event.features) {
-      this.mapService.setCursor('pointer');
+      this.wuiMapService.setCursor('pointer');
       this.resultlistService.highlightItems(event.features);
     } else {
-      this.mapService.setCursor('');
+      this.wuiMapService.setCursor('');
       this.resultlistService.clearHighlightedItems();
     }
   }
@@ -511,7 +519,7 @@ export class ArlasMapComponent implements OnInit {
       const resultListContributor = this.resultlistService.resultlistContributors
         .filter(c => feature.layer.metadata.collection === c.collection
           && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
-      if (!!resultListContributor) {
+      if (resultListContributor) {
         const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
         // Open the list panel if it's closed
@@ -533,8 +541,8 @@ export class ArlasMapComponent implements OnInit {
         } else {
           this.resultlistService.waitForList(() => {
             // retrieve list
-            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]') as any;
-            tab.click();
+            const tab = document.querySelector('[aria-label="' + resultListContributor.identifier + '"]');
+            (tab as HTMLElement).click();
             // Set Timeout to wait the new tab
             setTimeout(() => this.resultlistService.openDetail(id), 250);
             this.disableRecalculateExtent = false;
@@ -569,6 +577,6 @@ export class ArlasMapComponent implements OnInit {
 
   private adjustMapOffset() {
     this.recalculateExtent = true;
-    this.mapglComponent.map.fitBounds(this.mapglComponent.map.getBounds());
+    this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
   }
 }

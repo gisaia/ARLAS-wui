@@ -34,6 +34,7 @@ import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '@servic
 @Component({
   selector: 'arlas-geocoding',
   templateUrl: './geocoding.component.html',
+  standalone: false,
   styleUrls: ['./geocoding.component.scss']
 })
 export class GeocodingComponent implements AfterViewInit {

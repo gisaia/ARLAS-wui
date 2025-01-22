@@ -17,32 +17,15 @@
  * under the License.
  */
 
-@use 'sass:math';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-/** SPACING around elements **/
-$default-spacing: 10px;
-$xs-spacing: math.div($default-spacing, 4);
-$sm-spacing: math.div($default-spacing, 2);
+import { environment } from './environments/environment';
+import { ArlasWuiCloudModule } from 'app/app.module.cloud';
 
-$lg-spacing: $default-spacing * 2;
+if (environment.production) {
+  enableProdMode();
+}
 
-$default-margin: $default-spacing;
-$xs-margin: $xs-spacing;
-$sm-margin: $sm-spacing;
-$lg-margin: $lg-spacing;
-
-$sm-border: 2px;
-$xs-border: math.div($sm-border, 2);
-$default-border-radius: 4px;
-$menu-border: solid 1px rgba(0, 0, 0, 0.12);
-
-/** Fonts sizes **/
-$xs-font-size: 10px;
-$sm-font-size: 12px;
-$default-font-size: 14px;
-$title-font-size: 18px;
-$metric-value-font-size: 24px;
-
-$icon-size: 24px;
-
-$maplibre-left-control-correction: -4px;
+platformBrowserDynamic().bootstrapModule(ArlasWuiCloudModule)
+  .catch(err => console.log(err));

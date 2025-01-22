@@ -44,8 +44,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  HistogramModule, MapglImportModule, MapglModule, MapglSettingsModule,
-  ResultsModule, FormatNumberModule, BboxGeneratorModule, GetValueModule
+  HistogramModule,
+  ResultsModule, FormatNumberModule,
+  GetValueModule,
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,
@@ -71,18 +72,20 @@ import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
 import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { ContributorService } from './services/contributors.service';
-import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { LazyLoadImageHooks } from './tools/lazy-loader';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
+import { ArlasMapModule } from 'arlas-map';
+
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
-import { ArlasMapComponent } from './components/arlas-map/arlas-map.component';
+import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
 import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
-import { MapService } from './services/map.service';
-import { ResultlistService } from './services/resultlist.service';
 import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
+import { VisualizeService } from './services/visualize.service';
+import { ContributorService } from './services/contributors.service';
+import { ResultlistService } from './services/resultlist.service';
+import { ArlasWuiMapService } from '@services/map.service';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 
 @NgModule({
@@ -96,7 +99,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     SquareKilometer,
     GeocodingComponent,
     RastersManagerComponent,
-    ArlasMapComponent,
+    ArlasWuiMapComponent,
     ArlasListComponent,
     GetResultlistConfigPipe,
     ArlasAnalyticsComponent
@@ -110,15 +113,14 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     RoundKilometer,
     SquareKilometer,
     GeocodingComponent,
-    ArlasMapComponent,
+    ArlasWuiMapComponent,
     ArlasListComponent,
     GetResultlistConfigPipe
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MapglImportModule,
-    MapglSettingsModule,
+    GetValueModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -139,14 +141,12 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     FormsModule,
     ReactiveFormsModule,
     ResultsModule,
-    MapglModule,
     MatTableModule,
     MatListModule,
     MatSelectModule,
     MatSidenavModule,
     FormatNumberModule,
     HistogramModule,
-    BboxGeneratorModule,
     RouterModule,
     AppRoutingModule,
     ArlasToolkitSharedModule,
@@ -168,11 +168,11 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     ArlasTaggerModule,
     LoginModule,
     LazyLoadImageModule,
-    GetValueModule
+    ArlasMapModule
   ],
   providers: [
     VisualizeService,
-    MapService,
+    ArlasWuiMapService,
     ResultlistService,
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
@@ -186,8 +186,7 @@ import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-anal
     },
     ArlasCollectionService,
     ContributorService
-  ],
-  bootstrap: [ArlasWuiComponent]
+  ]
 })
 export class ArlasWuiModule {
 }

@@ -24,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { MapService } from '@services/map.service';
+import { ArlasWuiMapService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
@@ -45,7 +45,11 @@ import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ResultlistService {
+/** L: a layer class/interface.
+ *  S: a source class/interface.
+ *  M: a Map configuration class/interface.
+ */
+export class ResultlistService<L, S, M> {
 
   /** Resultlist configs */
   public resultlistConfigs = [];
@@ -79,7 +83,7 @@ export class ResultlistService {
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly mapService: MapService,
+    private readonly mapService: ArlasWuiMapService<L, S, M>,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly settingsService: ArlasSettingsService,
     private readonly configService: ArlasConfigService,
@@ -108,7 +112,7 @@ export class ResultlistService {
         .map(rlcontrib => {
           (rlcontrib as any).name = rlcontrib.getName();
           const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
-          if (!!sortColumn) {
+          if (sortColumn) {
             this.sortOutput.set(rlcontrib.identifier, {
               columnName: sortColumn.columnName,
               fieldName: sortColumn.fieldName,
@@ -139,7 +143,7 @@ export class ResultlistService {
   public toggleList() {
     this.listOpen = !this.listOpen;
     this.listOpenChange.next(this.listOpen);
-    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams };
     queryParams['ro'] = this.listOpen + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
@@ -203,7 +207,7 @@ export class ResultlistService {
     if (this.activeActionsPerContId) {
       this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
         const actions = actionsPerItem.get(itemId);
-        if (!!actions) {
+        if (actions) {
           actions.delete(actionId);
         }
         this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
@@ -220,7 +224,7 @@ export class ResultlistService {
       .forEach(c => {
         const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
         const mapContrib = this.mapService.getContributorByCollection(c.collection);
-        if (!!mapContrib) {
+        if (mapContrib) {
           c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
         } else {
           MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
@@ -288,7 +292,7 @@ export class ResultlistService {
     const isListMode = listConfig.defautMode === ModeEnum.list;
     if (isListMode) {
       const detailListButton = document.getElementById('open-detail-' + id);
-      if (!!detailListButton) {
+      if (detailListButton) {
         // close previous if exists
         if (this.currentClickedFeatureId) {
           const closeButtonElement = document.getElementById('close-detail-' + this.currentClickedFeatureId);
@@ -303,12 +307,12 @@ export class ResultlistService {
     } else {
       const productTile = document.getElementById('grid-tile-' + id);
       const isDetailledGridOpen = listConfig.isDetailledGridOpen;
-      if (!!productTile) {
+      if (productTile) {
         productTile.click();
         if (!isDetailledGridOpen) {
           setTimeout(() => {
             const detailGridButton = document.getElementById('show_details_gridmode_btn');
-            if (!!detailGridButton) {
+            if (detailGridButton) {
               detailGridButton.click();
               isOpen.next(true);
             }
@@ -321,7 +325,7 @@ export class ResultlistService {
             if (window.getComputedStyle(imgDiv).display === 'block') {
               setTimeout(() => {
                 const detailGridButton = document.getElementById('show_details_gridmode_btn');
-                if (!!detailGridButton) {
+                if (detailGridButton) {
                   detailGridButton.click();
                   isOpen.next(true);
                 }
@@ -373,9 +377,9 @@ export class ResultlistService {
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
-        if (!!mapContributor) {
+        if (mapContributor) {
           const f = mapContributor.getFeatureToHightLight(event.data);
-          if (mapContributor) {
+          if (f) {
             f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
           }
           this.mapService.featureToHightLight = f;
@@ -386,7 +390,7 @@ export class ResultlistService {
         const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
         if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
-          this.selectedItems = ids.map(id => ({idFieldName: idPath, idValue: id}));
+          this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
         }
         break;
       }
@@ -413,7 +417,7 @@ export class ResultlistService {
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
-                  this.visualizeRaster({action: event.data, elementidentifier: e}, resultListContributor, currentCollection, false);
+                  this.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
                   this.addAction(event.origin, e.idValue, event.data.action);
                 }
               }
@@ -442,12 +446,12 @@ export class ResultlistService {
       .forEach(c => c.getPage(eventPaginate.reference, sort, eventPaginate.whichPage, contributor.maxPages));
   }
 
-  public actionOnItemEvent(data: {action: Action; elementidentifier: ElementIdentifier;},
+  public actionOnItemEvent(data: { action: Action; elementidentifier: ElementIdentifier; },
     mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
 
     switch (data.action.id) {
       case 'zoomToFeature':
-        if (!!mapContributor) {
+        if (mapContributor) {
           mapContributor.getBoundsToFit(data.elementidentifier, collection)
             .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         }
@@ -456,7 +460,7 @@ export class ResultlistService {
         this.visualizeRaster(data, listContributor, collection);
         break;
       case 'download':
-        if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
+        if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
           const urlDownloadTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).downloadLink;
           if (urlDownloadTemplate) {
             this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
@@ -492,10 +496,10 @@ export class ResultlistService {
     }, 100);
   }
 
-  private visualizeRaster(data: {action: Action; elementidentifier: ElementIdentifier;},
+  private visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
     listContributor: ResultListContributor, collection: string, fitBounds = true) {
 
-    if (!!this.resultlistConfigPerContId.get(listContributor.identifier)) {
+    if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
       const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
       if (!data.action.activated) {
         this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
@@ -522,7 +526,7 @@ export class ResultlistService {
             collection
           ).subscribe({
             next: (item: any) => {
-              const data = Object.assign({ids, collection, nbProducts: ids.length, itemDetail: item}, additionalData);
+              const data = { ids, collection, nbProducts: ids.length, itemDetail: item, ...additionalData };
 
               this.dialog
                 .open(component, {
@@ -549,7 +553,7 @@ export class ResultlistService {
 
   private aiasDownload(ids: string[], collection: string) {
     this.process(DOWNLOAD_PROCESS_NAME, ids, collection, AiasDownloadComponent,
-      { wktAoi: this.mapService.mapComponent.getAllPolygon('wkt')});
+      { wktAoi: this.mapService.mapComponent.getAllPolygon('wkt') });
   }
 
   private aiasEnrich(ids: string[], collection: string) {
@@ -583,7 +587,7 @@ export class ResultlistService {
     this.resultlistContributors.forEach(c => {
       const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
       const mapcontributor = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
-      if (!!this.resultlistConfigPerContId.get(c.identifier)) {
+      if (this.resultlistConfigPerContId.get(c.identifier)) {
         if (!!this.resultlistConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
           c.addAction({
             id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
@@ -595,8 +599,10 @@ export class ResultlistService {
           } as any);
         }
         if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
-          c.addAction({ id: 'download', label: marker('Download metadata'),
-            cssClass: '', tooltip: marker('Download description of the item') });
+          c.addAction({
+            id: 'download', label: marker('Download metadata'),
+            cssClass: '', tooltip: marker('Download description of the item')
+          });
         }
       }
       if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
@@ -622,8 +628,10 @@ export class ResultlistService {
             this.resultlistContributors.forEach(c => {
               const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
               if (!listActionsId.includes(id)) {
-                c.addAction({ id: id, label: label, cssClass: cssClass,
-                  tooltip: tooltip, icon: icon });
+                c.addAction({
+                  id: id, label: label, cssClass: cssClass,
+                  tooltip: tooltip, icon: icon
+                });
                 const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
                 if (resultConfig) {
                   if (!resultConfig.globalActionsList) {
@@ -660,8 +668,10 @@ export class ResultlistService {
           resultConfig.globalActionsList = [];
         }
         const reverseAction = c.actionToTriggerOnClick.find(a => a.id === 'visualize').reverseAction;
-        (resultConfig.globalActionsList as Array<Action>).push({id: 'visualize', label: marker('Visualize products'),
-          fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink), reverseAction});
+        (resultConfig.globalActionsList as Array<Action>).push({
+          id: 'visualize', label: marker('Visualize products'),
+          fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink), reverseAction
+        });
       }
     });
   }
