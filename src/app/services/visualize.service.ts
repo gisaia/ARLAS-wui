@@ -24,8 +24,7 @@ import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
 import { Expression, Filter, Search } from 'arlas-api';
-import { AbstractArlasMapGL, ArlasCircle, ArlasFill, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum } from 'arlas-map';
-import { MaplibreVectorStyle } from 'arlas-maplibre';
+import { AbstractArlasMapGL, ArlasPaint, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum, VectorStyle } from 'arlas-map';
 import { ElementIdentifier } from 'arlas-web-contributors';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';
@@ -286,16 +285,17 @@ export class VisualizeService {
 
   public addGeocodingPreviewLayer(geoJson: any) {
     this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
-    const circlePaint = {
+    const circlePaint: ArlasPaint = {
       'circle-radius': 4,
       'circle-stroke-width': 2,
       'circle-color': '#3bb2d0',
       'circle-stroke-color': '#3bb2d0'
     };
-    const polygonPaint = { 'fill-color': '#3bb2d0', 'fill-outline-color': '#3bb2d0', 'fill-opacity': 0.1 };
+    const polygonPaint: ArlasPaint = { 'fill-color': '#3bb2d0', 'fill-outline-color': '#3bb2d0', 'fill-opacity': 0.1 };
     const type = (geoJson.type === 'Point') ? VectorStyleEnum.circle : VectorStyleEnum.fill;
-    const paint = (geoJson.type === 'Point') ? circlePaint as ArlasCircle : polygonPaint as ArlasFill;
-    const style = new MaplibreVectorStyle(type, paint);
+    const paint = (geoJson.type === 'Point') ? circlePaint : polygonPaint;
+    const style = new VectorStyle(type, paint);
+
     this.mapFrameworkService.addGeojsonLayer(this.mapInstance, GEOCODING_PREVIEW_ID, style, geoJson);
 
   }
