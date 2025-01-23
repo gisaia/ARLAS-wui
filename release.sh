@@ -24,6 +24,17 @@ usage(){
 	exit 1
 }
 
+send_chat_message(){
+    MESSAGE=$1
+    if [ -z "$GOOGLE_CHAT_RELEASE_CHANEL" ] ; then
+        echo "Environement variable GOOGLE_CHAT_RELEASE_CHANEL is not definied ... skipping message publishing"
+    else
+        DATA='{"text":"'${MESSAGE}'"}'
+        echo $DATA
+        curl -X POST --header "Content-Type:application/json" $GOOGLE_CHAT_RELEASE_CHANEL -d "${DATA}"
+    fi
+}
+
 STAGE="stable"
 TESTS="YES"
 IS_LATEST_VERSION="YES"
@@ -121,6 +132,9 @@ npm --no-git-tag-version version ${VERSION}
 npm --no-git-tag-version --prefix src version ${VERSION}
 npm --no-git-tag-version --prefix packages/cloud version ${VERSION}
 npm --no-git-tag-version --prefix packages/opensource version ${VERSION}
+
+git config --local user.email "github-actions[bot]@users.noreply.github.com"
+git config --local user.name "github-actions[bot]"
 
 git add package.json
 git add src/package.json
@@ -230,3 +244,10 @@ git commit -a -m "development version ${newDevVersion}-dev"
 git push origin ${REF_BRANCH}
 
 echo "==> Well done :)"
+
+if [ "$STAGE" == "stable" ] || [ "$STAGE" == "rc" ];
+    then
+    send_chat_message "Release of arlas-wui, version ${VERSION}"
+    send_chat_message "Release of arlas-wui-cloud, version ${VERSION}"
+
+fi
