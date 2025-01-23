@@ -188,7 +188,7 @@ npm install
 npm run build-cloud-lib
 cp packages/cloud/package.json dist/arlas-wui-cloud
 npm run build-opensource-lib
-cp packages/opensource/package.json dist/arlas-wui-opensource
+cp packages/opensource/package.json dist/arlas-wui
 
 cd dist/arlas-wui-cloud
 echo "==> Publish to npm"
@@ -201,7 +201,7 @@ else
 fi
 cd ../..
 
-cd dist/arlas-wui-opensource
+cd dist/arlas-wui
 echo "==> Publish to npm"
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     then
