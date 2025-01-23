@@ -98,6 +98,7 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
+
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -131,6 +132,11 @@
               "browser": "src/main-opensource.ts",
               "tsConfig": "src/tsconfig.app.opensource.json",
               "styles": [
+                "src/styles/variables.scss",
+                "src/styles/arlas-wui-theme.scss",
+                "src/styles.scss",
+                "node_modules/iv-viewer/dist/iv-viewer.css",
+                "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
                 "node_modules/maplibre-gl/dist/maplibre-gl.css"
               ],
               "index": {
@@ -174,6 +180,11 @@
               "browser": "src/main-cloud.ts",
               "tsConfig": "src/tsconfig.app.cloud.json",
               "styles": [
+                "src/styles/variables.scss",
+                "src/styles/arlas-wui-theme.scss",
+                "src/styles.scss",
+                "node_modules/iv-viewer/dist/iv-viewer.css",
+                "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
                 "node_modules/mapbox-gl/dist/mapbox-gl.css"
               ],
               "scripts": [
