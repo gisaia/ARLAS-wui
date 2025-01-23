@@ -122,6 +122,9 @@ npm --no-git-tag-version --prefix src version ${VERSION}
 npm --no-git-tag-version --prefix packages/cloud version ${VERSION}
 npm --no-git-tag-version --prefix packages/opensource version ${VERSION}
 
+git config --local user.email "github-actions[bot]@users.noreply.github.com"
+git config --local user.name "github-actions[bot]"
+
 git add package.json
 git add src/package.json
 git add packages
