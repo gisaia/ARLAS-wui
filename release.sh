@@ -145,7 +145,7 @@ git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
 git push origin v${VERSION}
 
 echo "==> Generate CHANGELOG"
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
+docker run --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
   -u gisaia -p ARLAS-WUI --token ${GITHUB_CHANGELOG_TOKEN} --no-pr-wo-labels --no-issues-wo-labels --no-unreleased \
   --issue-line-labels conf,documentation \
   --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
