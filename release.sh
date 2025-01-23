@@ -167,16 +167,16 @@ rm -rf node_modules/
 
 echo "==> Docker"
 docker build -f docker/Dockerfile-production-cloud --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-cloud:${VERSION} .
-docker build -f docker/Dockerfile-production-opensource --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-opensource:${VERSION} .
+docker build -f docker/Dockerfile-production-opensource --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
 
 docker push gisaia/arlas-wui-cloud:${VERSION}
-docker push gisaia/arlas-wui-opensource:${VERSION}
+docker push gisaia/arlas-wui:${VERSION}
 if [ "${STAGE}" == "stable" ] && [ "${IS_LATEST_VERSION}" == "YES" ];
     then
-    docker tag gisaia/arlas-wui-opensource:${VERSION} gisaia/arlas-wui-opensource:latest
+    docker tag gisaia/arlas-wui:${VERSION} gisaia/arlas-wui:latest
     docker tag gisaia/arlas-wui-cloud:${VERSION} gisaia/arlas-wui-cloud:latest
     docker push gisaia/arlas-wui-cloud:latest
-    docker push gisaia/arlas-wui-opensource:latest
+    docker push gisaia/arlas-wui:latest
 fi
 
 echo "==> Build arlas-wui library"
