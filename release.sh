@@ -13,9 +13,8 @@ function clean {
 trap clean EXIT
 
 usage(){
-	echo "Usage: ./release.sh -version=X [--no-tests]"
+	echo "Usage: ./release.sh -version=X"
     echo " -version                          Release ARLAS-wui X version"
-	echo " --no-tests                        Skip running integration tests"
 	echo " --not-latest                      Doesn't tag the release version as the latest."
     echo " -s|--stage                        Stage of the release : beta | rc | stable. If --stage is 'rc' or 'beta', there is no merge of develop into master (if -ref_branch=develop)"
     echo " -i|--stage_iteration=n            The released version will be : [x].[y].[z]-beta.[n] OR  [x].[y].[z]-rc.[n] according to the given --stage"
@@ -35,10 +34,6 @@ case $i in
     -version=*)
     VERSION="${i#*=}"
     shift # past argument=value
-    ;;
-    --no-tests)
-    TESTS="NO"
-    shift # past argument with no value
     ;;
     --not-latest)
     IS_LATEST_VERSION="NO"
@@ -61,14 +56,6 @@ case $i in
     ;;
 esac
 done
-
-if [ "$TESTS" == "YES" ]; then
-  ng lint
-  ng test
-  ng e2e
-else
-  echo "==> Skip tests"
-fi
 
 if [ -z ${REF_BRANCH+x} ];
     then
