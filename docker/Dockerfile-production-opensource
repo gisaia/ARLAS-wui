@@ -3,8 +3,7 @@
 # We label our stage as 'builder'
 FROM node:18.20.5 AS builder
 
-COPY ./package.json  ./
-COPY ./package-lock.json  ./
+COPY ./packages/opensource/package-docker.json  ./package.json
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 

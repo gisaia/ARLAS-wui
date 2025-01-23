@@ -16,13 +16,13 @@ jobs:
       - name: Build -opensource and cloud- Docker images
         run: |
           docker build -f docker/Dockerfile-production-cloud -t docker.io/gisaia/arlas-wui-cloud:${{ github.sha }} .
-          docker build -f docker/Dockerfile-production-opensource -t docker.io/gisaia/arlas-wui-opensource:${{ github.sha }} .
+          docker build -f docker/Dockerfile-production-opensource -t docker.io/gisaia/arlas-wui:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner on opensource image
         uses: aquasecurity/trivy-action@master
         env:
           TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
         with:
-          image-ref: "docker.io/gisaia/arlas-wui-opensource:${{ github.sha }}"
+          image-ref: "docker.io/gisaia/arlas-wui:${{ github.sha }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true

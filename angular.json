@@ -49,9 +49,6 @@
               "src/styles.scss",
               "node_modules/iv-viewer/dist/iv-viewer.css",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
-            ],
-            "scripts": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.js"
             ]
           },
           "configurations": {
@@ -79,6 +76,9 @@
               "sourceMap": true,
               "browser": "src/main-cloud.ts",
               "tsConfig": "src/tsconfig.app.cloud.json",
+              "scripts": [
+                "node_modules/mapbox-gl/dist/mapbox-gl.js"
+              ],
               "styles": [
                 "src/styles/variables.scss",
                 "src/styles/arlas-wui-theme.scss",
@@ -89,7 +89,6 @@
               ],
               "namedChunks": true,
               "extractLicenses": false,
-
               "budgets": []
             },
             "production": {
@@ -176,6 +175,9 @@
               "tsConfig": "src/tsconfig.app.cloud.json",
               "styles": [
                 "node_modules/mapbox-gl/dist/mapbox-gl.css"
+              ],
+              "scripts": [
+                "node_modules/mapbox-gl/dist/mapbox-gl.js"
               ],
               "index": {
                 "input": "src/index.html",
@@ -320,7 +322,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "defaultConfiguration": "production-cloud",
-
           "configurations": {
             "production-cloud": {
               "tsConfig": "tsconfig.lib.prod.cloud.json",
