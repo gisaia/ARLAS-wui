@@ -21,7 +21,6 @@
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr,es}.json --format json",
     "license-check": "license-check-and-add check -f license-check-and-add.json"
   },
- 
   "peerDependencies": {
     "@angular/animations": "^18.2.13",
     "@angular/cdk": "^18.2.14",
