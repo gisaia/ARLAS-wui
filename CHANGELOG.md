@@ -1,8 +1,42 @@
 # Change Log
 
+## [v27.0.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.3) (2025-01-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.2...v27.0.0-beta.3)
+
+## [v27.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.2) (2025-01-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.1...v27.0.0-beta.2)
+
+**New stuff:**
+
+- implement the release script in github actions [\#877](https://github.com/gisaia/ARLAS-wui/issues/877)
+
+**Fixed bugs:**
+
+- ARLAS Hub forbids access when user belongs to two organisations [\#926](https://github.com/gisaia/ARLAS-wui/issues/926)
+
+## [v26.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.1) (2025-01-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0...v26.1.1)
+
+**New stuff:**
+
+- Migrate to Angular 18 [\#913](https://github.com/gisaia/ARLAS-wui/issues/913)
+- Enhance handling the app behaviour when intercepting 401, 20x [\#622](https://github.com/gisaia/ARLAS-wui/issues/622)
+
+**Miscellaneous:**
+
+- Migrate to Angular 15 [\#812](https://github.com/gisaia/ARLAS-wui/issues/812)
+
 ## [v26.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0) (2024-12-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0-rc.3...v26.1.0)
+
+**New stuff:**
+
+- Visualize multiple products at once [\#914](https://github.com/gisaia/ARLAS-wui/issues/914)
+- Enrich the header of calls made by the map to securised ARLAS services  [\#912](https://github.com/gisaia/ARLAS-wui/issues/912)
 
 ## [v26.1.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.3) (2024-11-27)
 
@@ -961,19 +995,19 @@
 
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0-beta.0)
-
 ## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
 
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
