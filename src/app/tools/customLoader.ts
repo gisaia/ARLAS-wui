@@ -19,6 +19,9 @@
 
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateService } from '@ngx-translate/core';
+import enMap from 'arlas-map/assets/i18n/en.json';
+import esMap from 'arlas-map/assets/i18n/es.json';
+import frMap from 'arlas-map/assets/i18n/fr.json';
 import { DataWithLinks } from 'arlas-persistence-api';
 import enComponents from 'arlas-web-components/assets/i18n/en.json';
 import esComponents from 'arlas-web-components/assets/i18n/es.json';
@@ -34,7 +37,7 @@ import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
-import { forkJoin, Observable, of } from 'rxjs';
+import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
@@ -42,11 +45,11 @@ import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 export class ArlasWalkthroughLoader implements WalkthroughLoader {
   public constructor(
-    private http: HttpClient,
-    private arlasSettings: ArlasSettingsService,
-    private persistenceService: PersistenceService,
-    private configService: ArlasConfigService,
-    private translateService: TranslateService) {
+    private readonly http: HttpClient,
+    private readonly arlasSettings: ArlasSettingsService,
+    private readonly persistenceService: PersistenceService,
+    private readonly configService: ArlasConfigService,
+    private readonly translateService: TranslateService) {
   }
   public loader(): Promise<any> {
     const lang = this.translateService.currentLang ? this.translateService.currentLang : 'en';
@@ -58,10 +61,10 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
       && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     if (usePersistence && configurationId) {
-      return this.persistenceService.get(configurationId)
-        .pipe(mergeMap(configDoc => this.getTour(lang, configDoc, localTour))).toPromise();
+      return firstValueFrom(this.persistenceService.get(configurationId)
+        .pipe(mergeMap(configDoc => this.getTour(lang, configDoc, localTour))));
     } else {
-      return localTour.toPromise();
+      return firstValueFrom(localTour);
     }
 
   }
@@ -88,10 +91,10 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
 export class ArlasTranslateLoader implements TranslateLoader {
 
   public constructor(
-    private http: HttpClient,
-    private arlasSettings: ArlasSettingsService,
-    private persistenceService: PersistenceService,
-    private configService: ArlasConfigService
+    private readonly http: HttpClient,
+    private readonly arlasSettings: ArlasSettingsService,
+    private readonly persistenceService: PersistenceService,
+    private readonly configService: ArlasConfigService
   ) { }
 
   public getTranslation(lang: string): Observable<any> {
@@ -112,7 +115,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
       const localI18nObs = this.http.get(localI18nAdress);
       const externalI18nObs = this.persistenceService.get(configurationId)
         .pipe(mergeMap(configDoc => this.getI18n(lang, configDoc, of('{}'))));
-      return Observable.create(observer => {
+      return new Observable(observer => {
         forkJoin([localI18nObs, externalI18nObs]).subscribe(
           results => {
             const localI18n = results[0];
@@ -120,11 +123,11 @@ export class ArlasTranslateLoader implements TranslateLoader {
             let merged = localI18n;
             // Properties in externalI18n will overwrite those in localI18n and frToolkit and frComponents .
             if (lang === 'fr') {
-              merged = { ...frComponents, ...frToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...frComponents, ...frMap, ...frToolkit, ...localI18n, ...externalI18n as Object };
             } else if (lang === 'en') {
-              merged = { ...enComponents, ...enToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...enComponents, ...enMap, ...enToolkit, ...localI18n, ...externalI18n as Object };
             } else if (lang === 'es') {
-              merged = { ...esComponents, ...esToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...esComponents, ...esMap, ...esToolkit, ...localI18n, ...externalI18n as Object };
             }
             observer.next(merged);
             observer.complete();
