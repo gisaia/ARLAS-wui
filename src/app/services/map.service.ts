@@ -119,7 +119,10 @@ export class ArlasWuiMapService<L, S, M> {
     const scaleMaxWidth = 100;
     const toggleButtonWidth = 24;
     const smMargin = 5;
-    const mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
+    let mapCanvas = document.getElementsByClassName('mapboxgl-canvas');
+    if (mapCanvas.length === 0) {
+      mapCanvas = document.getElementsByClassName('maplibregl-canvas');
+    }
     if (mapCanvas && mapCanvas.length > 0) {
       const bbox = mapCanvas[0].getBoundingClientRect();
       if (bbox) {
