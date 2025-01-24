@@ -310,7 +310,8 @@
 
 .app-container-timeline-hidden {
   .arlas-map {
-    ::ng-deep.mapboxgl-ctrl-scale {
+    ::ng-deep.mapboxgl-ctrl-scale,
+    ::ng-deep.maplibregl-ctrl-scale {
       // Center regarding to timeline tools
       bottom: calc(($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width);
     }
@@ -343,7 +344,8 @@
 
 .app-container-timeline-legend {
   .arlas-map {
-    ::ng-deep.mapboxgl-ctrl-scale {
+    ::ng-deep.mapboxgl-ctrl-scale,
+    ::ng-deep.maplibregl-ctrl-scale {
       // Center regarding to timeline tools
       bottom: calc(
         $timeline-with-legend-height + ($timeline-tools-height - $map-scale-height) / 2 - $map-scale-border-width
