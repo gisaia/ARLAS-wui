@@ -1,5 +1,13 @@
 # Change Log
 
+## [v27.0.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.6) (2025-01-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-rc.2...v27.0.0-beta.6)
+
+**New stuff:**
+
+- Propose a new implementation of arlas-map that supports MapLibre [\#734](https://github.com/gisaia/ARLAS-wui/issues/734)
+
 ## [v27.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-rc.2) (2025-01-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-rc.1...v27.0.0-rc.2)
