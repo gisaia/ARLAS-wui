@@ -8,9 +8,13 @@
     "compilationMode": "partial"
   },
   "exclude": [
-    "src/test.ts",
-    "src/app/app.module.ts",
+    "src/app/app.module.cloud.ts",
     "src/app/app.module.opensource.ts",
+    "src/test.ts",
     "**/*.spec.ts"
+  ],
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ]
 }

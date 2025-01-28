@@ -186,7 +186,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     },
     ArlasCollectionService,
     ContributorService
-  ]
+  ],
+  bootstrap: [ArlasWuiComponent]
 })
 export class ArlasWuiModule {
 }

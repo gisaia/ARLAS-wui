@@ -1,5 +1,9 @@
 {
   "name": "arlas-wui",
+  "workspaces": [
+    "packages/cloud",
+    "packages/opensource"
+  ],
   "version": "27.1.0-dev",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -7,13 +11,12 @@
     "ng": "ng",
     "serve-cloud": "ng serve --configuration=development-cloud",
     "postinstall": "patch-package --patch-dir node_modules/arlas-web-core/patches && patch-package --patch-dir node_modules/arlas-d3/patches",
-    "start": "ng serve",
+    "start": "ng serve --configuration=development-opensource",
     "build-opensource-stats": "ng build arlas-wui --configuration production-opensource --aot --base-href='$ARLAS_WUI_BASE_HREF/' --stats-json --metafile=meta.json",
     "build-opensource": "ng build arlas-wui --configuration production-opensource --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
-    "build-opensource-lib": "ng build arlas-wui-opensource-lib",
+    "build-lib": "ng build arlas-wui-lib --configuration production",
     "analyze-opensource": "esbuild-visualizer --metadata dist/stats.json",
     "build-cloud": "ng build arlas-wui --configuration production-cloud --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
-    "build-cloud-lib": "ng build arlas-wui-cloud-lib",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -75,9 +78,5 @@
     "ts-node": "~10.4.0",
     "typescript": "5.5.4",
     "webpack-bundle-analyzer": "^4.10.2"
-  },
-  "workspaces": [
-    "packages/cloud",
-    "packages/opensource"
-  ]
+  }
 }

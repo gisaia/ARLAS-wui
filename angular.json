@@ -52,6 +52,22 @@
             ]
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "browser": "src/main.ts",
+              "tsConfig": "src/tsconfig.app.json",
+              "styles": [
+                "src/styles/variables.scss",
+                "src/styles/arlas-wui-theme.scss",
+                "src/styles.scss",
+                "node_modules/iv-viewer/dist/iv-viewer.css"
+              ],
+              "namedChunks": true,
+              "extractLicenses": false,
+              "budgets": []
+            },
             "development-opensource": {
               "optimization": false,
               "outputHashing": "all",
@@ -249,7 +265,7 @@
               "buildTarget": "arlas-wui:build:production-opensource"
             }
           },
-          "defaultConfiguration": "development-opensource"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -308,35 +324,20 @@
         }
       }
     },
-    "arlas-wui-opensource-lib": {
+    "arlas-wui-lib": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "src",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
-          "defaultConfiguration": "production-opensource",
+          "options": {
+            "tsConfig": "tsconfig.lib.json",
+            "project": "ng-package.json"
+          },
           "configurations": {
-            "production-opensource": {
-              "tsConfig": "tsconfig.lib.prod.opensource.json",
-              "project": "ng-package.opensource.json"
-            }
-          }
-        }
-      }
-    },
-    "arlas-wui-cloud-lib": {
-      "projectType": "library",
-      "root": "",
-      "sourceRoot": "src",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "defaultConfiguration": "production-cloud",
-          "configurations": {
-            "production-cloud": {
-              "tsConfig": "tsconfig.lib.prod.cloud.json",
-              "project": "ng-package.cloud.json"
+            "production": {
+              "tsConfig": "tsconfig.lib.prod.json"
             }
           }
         }

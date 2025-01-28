@@ -133,15 +133,12 @@ fi
 echo "==> Set version"
 npm --no-git-tag-version version ${VERSION}
 npm --no-git-tag-version --prefix src version ${VERSION}
-npm --no-git-tag-version --prefix packages/cloud version ${VERSION}
-npm --no-git-tag-version --prefix packages/opensource version ${VERSION}
 
 git config --local user.email "github-actions[bot]@users.noreply.github.com"
 git config --local user.name "github-actions[bot]"
 
 git add package.json
 git add src/package.json
-git add packages
 
 echo "  -- Create and push tag"
 git tag -a v${VERSION} -m "prod automatic release ${VERSION}"
@@ -170,8 +167,8 @@ npm cache clean --force
 rm -rf node_modules/
 
 echo "==> Docker"
-docker build -f docker/Dockerfile-production-cloud --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui-cloud:${VERSION} .
-docker build -f docker/Dockerfile-production-opensource --no-cache --build-arg version=${VERSION} --tag gisaia/arlas-wui:${VERSION} .
+docker build -f docker/Dockerfile --no-cache --build-arg version=${VERSION} --build-arg WORKSPACE=cloud --tag gisaia/arlas-wui-cloud:${VERSION} .
+docker build -f docker/Dockerfile --no-cache --build-arg version=${VERSION} --build-arg WORKSPACE=opensource  --tag gisaia/arlas-wui:${VERSION} .
 
 docker push gisaia/arlas-wui-cloud:${VERSION}
 docker push gisaia/arlas-wui:${VERSION}
@@ -185,23 +182,9 @@ fi
 
 echo "==> Build arlas-wui library"
 rm -rf dist
-npm install
-npm run build-cloud-lib
-cp packages/cloud/package.json dist/arlas-wui-cloud
-npm run build-opensource-lib
-cp packages/opensource/package.json dist/arlas-wui
-
-cd dist/arlas-wui-cloud
-echo "==> Publish to npm"
-if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
-    then
-    echo "  -- tagged as ${STAGE}"
-    npm publish --tag=${STAGE}
-else
-    npm publish
-fi
-cd ../..
-
+rm -rf node_modules/
+npm install --workspaces=false 
+npm run build-lib
 cd dist/arlas-wui
 echo "==> Publish to npm"
 if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
@@ -209,7 +192,6 @@ if [ "${STAGE}" == "rc" ] || [ "${STAGE}" == "beta" ];
     echo "  -- tagged as ${STAGE}"
     npm publish --tag=${STAGE}
 else
-    echo "  -- Stable release"
     npm publish
 fi
 cd ../..
@@ -240,8 +222,6 @@ newDevVersion=${major}.${newminor}.0
 
 npm --no-git-tag-version version "${newDevVersion}-dev"
 npm --no-git-tag-version --prefix src version "${newDevVersion}-dev"
-npm --no-git-tag-version --prefix packages/cloud version "${newDevVersion}-dev"
-npm --no-git-tag-version --prefix packages/opensource version "${newDevVersion}-dev"
 
 git commit -a -m "development version ${newDevVersion}-dev"
 git push origin ${REF_BRANCH}

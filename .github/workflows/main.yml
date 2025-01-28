@@ -32,19 +32,27 @@ jobs:
         run: npm run license-check
       - name: Test
         run: npm run test
-      - name: Build
+      - name: Build lib
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install
+          npm install --workspaces=false --include-workspace-root=true
+          npm run build-lib
+      - name: Build cloud
+        run: |
+          export NODE_OPTIONS=--max_old_space_size=8192;
+          npm install --workspace=packages/cloud --include-workspace-root=true
+          npm rebuild node-sass
+          npm run build-cloud
+      - name: Build open source
+        run: |
+          export NODE_OPTIONS=--max_old_space_size=8192;
+          npm install --workspace=packages/opensource --include-workspace-root=true
           npm rebuild node-sass
           npm run build-opensource
-          npm run build-cloud
-          npm run build-opensource-lib
-          npm run build-cloud-lib
       - name: Docker build
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          docker build -f docker/Dockerfile-production-cloud .;
-          docker build -f docker/Dockerfile-production-opensource .
+          docker build -f docker/Dockerfile --build-arg WORKSPACE=cloud .;
+          docker build -f docker/Dockerfile --build-arg WORKSPACE=opensource .
       #- name: i18n
       #  run: ./checki18n.sh

@@ -1,97 +1,5 @@
 #!/bin/sh
 
-fetchSettings(){
-  echo "Download the WUI settings file from \"${ARLAS_SETTINGS_URL}\" ..."
-  curl ${ARLAS_SETTINGS_URL} -o /usr/share/nginx/html/settings.yaml && echo "settings.yaml file downloaded with success." || (echo "Failed to download the settings.yaml file."; exit 1)
-}
-
-### URL to WUI SETTINGS
-if [ -z "${ARLAS_SETTINGS_URL}" ]; then
-  echo "The default WUI container settings.yaml file is used"
-else
-  fetchSettings;
-fi
-
-fetchConfiguration(){
-  echo "Download the CATALOG configuration file from \"${ARLAS_WUI_CONFIGURATION_URL}\" ..."
-  curl ${ARLAS_WUI_CONFIGURATION_URL} -o /usr/share/nginx/html/config.json && echo "Configuration file downloaded with success." || (echo "Failed to download the configuration file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_CONFIGURATION_URL}" ]; then
-  echo "The default catalog container configuration file is used"
-else
-  fetchConfiguration;
-fi
-
-fetchMapConfiguration(){
-  echo "Download the CATALOG map configuration file from \"${ARLAS_WUI_MAP_CONFIGURATION_URL}\" ..."
-  # Retrieve name of map configuration file
-  # TODO : ARLAS_WUI_MAP_CONFIGURATION_FILENAME=`cat /usr/share/nginx/html/config.json | jq -r '.extraConfigs[0].configPath'`
-  curl ${ARLAS_WUI_MAP_CONFIGURATION_URL} -o "/usr/share/nginx/html/config.map.json" && echo "Map configuration file downloaded with success." || (echo "Failed to download the map configuration file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_MAP_CONFIGURATION_URL}" ]; then
-  echo "The default catalog container map configuration file is used"
-else
-  fetchMapConfiguration;
-fi
-
-fetchAboutEnContent(){
-  echo "Download the about_en.md file from \"${ARLAS_WUI_ABOUT_EN_URL}\" ..."
-  curl ${ARLAS_WUI_ABOUT_EN_URL} -o "/usr/share/nginx/html/assets/about/about_en.md" && echo "'About EN' file downloaded with success." || (echo "Failed to download the 'About EN' file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_ABOUT_EN_URL}" ]; then
-  echo "The default 'about_en' file is used"
-else
-  fetchAboutEnContent;
-fi
-
-fetchAboutFrContent(){
-  echo "Download the about_fr.md file from \"${ARLAS_WUI_ABOUT_FR_URL}\" ..."
-  curl ${ARLAS_WUI_ABOUT_FR_URL} -o "/usr/share/nginx/html/assets/about/about_en.md" && echo "'About FR' file downloaded with success." || (echo "Failed to download the 'About FR' file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_ABOUT_FR_URL}" ]; then
-  echo "The default 'about_fr' file is used"
-else
-  fetchAboutFrContent;
-fi
-
-fetchI18nENContent(){
-  echo "Download the en.json file from \"${ARLAS_WUI_I18N_EN_URL}\" ..."
-  curl ${ARLAS_WUI_I18N_EN_URL} -o "/usr/share/nginx/html/assets/i18n/en.json" && echo "'EN language' file downloaded with success." || (echo "Failed to download the 'EN language' file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_I18N_EN_URL}" ]; then
-  echo "The default 'EN language' file is used"
-else
-  fetchI18nENContent;
-fi
-
-fetchI18nFRContent(){
-  echo "Download the fr.json file from \"${ARLAS_WUI_I18N_FR_URL}\" ..."
-  curl ${ARLAS_WUI_I18N_FR_URL} -o "/usr/share/nginx/html/assets/i18n/fr.json" && echo "'FR language' file downloaded with success." || (echo "Failed to download the 'FR language' file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_I18N_FR_URL}" ]; then
-  echo "The default 'FR language' file is used"
-else
-  fetchI18nFRContent;
-fi
-
-
-fetchI18nESContent(){
-  echo "Download the es.json file from \"${ARLAS_WUI_I18N_ES_URL}\" ..."
-  curl ${ARLAS_WUI_I18N_ES_URL} -o "/usr/share/nginx/html/assets/i18n/es.json" && echo "'ES language' file downloaded with success." || (echo "Failed to download the 'ES language' file."; exit 1)
-}
-
-if [ -z "${ARLAS_WUI_I18N_ES_URL}" ]; then
-  echo "The default 'ES language' file is used"
-else
-  fetchI18nESContent;
-fi
-
 if [ -z "${ARLAS_SERVER_URL}" ]; then
   ARLAS_SERVER_URL="http://demo.arlas.io/arlas/"
   export ARLAS_SERVER_URL
@@ -737,9 +645,5 @@ mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
 envsubst '$ARLAS_TICKETING_KEY' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
-
-
-export HTTP_RESOURCES
-/usr/share/nginx/fetch-conf-by-http.sh
 
 nginx -g "daemon off;"
