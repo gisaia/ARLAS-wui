@@ -1,5 +1,9 @@
 # Change Log
 
+## [v27.0.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.8) (2025-01-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.7...v27.0.0-beta.8)
+
 ## [v27.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.7) (2025-01-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.6...v27.0.0-beta.7)
