@@ -18,8 +18,8 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
-import { ResultlistService } from 'app/services/resultlist.service';
 import { ResultListContributor } from 'arlas-web-contributors';
+import { ResultlistService } from '../services/resultlist.service';
 
 @Pipe({
   name: 'getResultlistConfig',

@@ -19,10 +19,10 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResultlistService } from 'app/services/resultlist.service';
 import { PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { Attributes, IntersectionObserverHooks } from 'ng-lazyload-image';
 import { map, ObservableInput } from 'rxjs';
+import { ResultlistService } from '../services/resultlist.service';
 
 
 @Injectable()

@@ -23,10 +23,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { GeocodingResult } from '@services/geocoding.service';
-import { ArlasWuiMapService } from '@services/map.service';
-import { ResultlistService } from '@services/resultlist.service';
-import { VisualizeService } from '@services/visualize.service';
 import { FeatureCollection } from '@turf/helpers';
 import {
   AoiEdition,
@@ -44,6 +40,10 @@ import {
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { GeocodingResult } from '../../services/geocoding.service';
+import { ArlasWuiMapService } from '../../services/map.service';
+import { ResultlistService } from '../../services/resultlist.service';
+import { VisualizeService } from '../../services/visualize.service';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',

@@ -43,10 +43,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasMapModule } from 'arlas-map';
 import {
-  HistogramModule,
-  ResultsModule, FormatNumberModule,
+  FormatNumberModule,
   GetValueModule,
+  HistogramModule,
+  ResultsModule,
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,
@@ -63,28 +65,26 @@ import {
   PersistenceService,
   WalkthroughLoader
 } from 'arlas-wui-toolkit';
+import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
+import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
+import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
+import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
+import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
+import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
 import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-root.component';
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
-import { RoundKilometer, SquareKilometer } from './components/arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
-import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
-import { ArlasMapModule } from 'arlas-map';
-
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
-import { ArlasWuiMapComponent } from './components/arlas-map/arlas-map.component';
-import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
-import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
-import { VisualizeService } from './services/visualize.service';
 import { ContributorService } from './services/contributors.service';
+import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
-import { ArlasWuiMapService } from '@services/map.service';
+import { VisualizeService } from './services/visualize.service';
+import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 

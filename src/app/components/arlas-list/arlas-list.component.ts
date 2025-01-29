@@ -19,10 +19,10 @@
 
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { ResultlistService } from '@services/resultlist.service';
 import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Subject, takeUntil } from 'rxjs';
+import { ResultlistService } from '../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-list',

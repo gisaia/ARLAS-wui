@@ -31,15 +31,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { GetResultlistConfigPipe } from 'app/pipes/get-resultlist-config.pipe';
-import { ContributorService } from 'app/services/contributors.service';
-import { ResultlistService } from 'app/services/resultlist.service';
-import { VisualizeService } from 'app/services/visualize.service';
 import { HistogramModule } from 'arlas-web-components';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService,
   ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
 } from 'arlas-wui-toolkit';
+import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
+import { ContributorService } from '../../services/contributors.service';
+import { ResultlistService } from '../../services/resultlist.service';
+import { VisualizeService } from '../../services/visualize.service';
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 
 describe('ArlasWuiRootComponent', () => {

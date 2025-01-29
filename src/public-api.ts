@@ -1,4 +1,3 @@
-import { ArlasWuiModule } from './app/app.module';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with

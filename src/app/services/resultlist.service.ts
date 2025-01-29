@@ -24,9 +24,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { ArlasWuiMapService } from '@services/map.service';
-import { VisualizeService } from '@services/visualize.service';
-import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
   ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
@@ -40,6 +37,9 @@ import {
   getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { ArlasWuiMapService } from '../services/map.service';
+import { VisualizeService } from '../services/visualize.service';
+import { isElementInViewport } from '../tools/utils';
 
 
 @Injectable({
