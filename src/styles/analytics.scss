@@ -1,0 +1,87 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+@import 'app/sizes.scss';
+
+.analytics-board-card {
+  box-shadow: none !important;
+  padding: 1px !important;
+  margin: 3px 0 3px 0 !important;
+}
+
+.analytics-board-panel {
+  .mat-expansion-panel-header {
+    font-size: 16px;
+    font-weight: 300;
+    align-items: inherit;
+  }
+  .mat-expansion-panel-body {
+    margin: 0 1px 0px;
+    padding: 0 5px 0 0 !important;
+    font-weight: 300;
+  }
+
+  .export-csv-button {
+    display: none;
+    cursor: pointer;
+  }
+  &:hover .export-csv-button {
+    display: block;
+    position: absolute;
+  }
+}
+
+.analytics-tabs .mat-mdc-tab-header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 2;
+  border-bottom: none;
+}
+
+.arlas-analytics--container {
+  .arlas-metric-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $default-spacing;
+    box-sizing: border-box;
+
+    .arlas-metric-value {
+      font-weight: 400;
+      font-size: $metric-value-font-size;
+      padding: $sm-spacing 0;
+    }
+
+    .arlas-metric-description {
+      font-size: $title-font-size;
+      font-weight: 100;
+      text-align: center;
+    }
+  }
+}
+
+.analytics-board-group {
+  justify-content: space-evenly;
+}
+
+.analytics-board-panel-title{
+  flex-basis: auto;
+}

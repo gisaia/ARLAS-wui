@@ -21,6 +21,15 @@
 @import "app/sizes.scss";
 @import "app/mixin.scss";
 
+.mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch,
+.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois, .maplibregl-ctrl-group-pitch {
+  display: none;
+}
+
+.mapboxgl-ctrl-group-layersswitcher {
+  visibility: hidden;
+}
+
 .mapboxgl-ctrl-scale,
 .maplibregl-ctrl-scale {
   position: absolute;
@@ -36,6 +45,7 @@
   top: 50px !important;
   border-radius: 4px;
   right: 43px !important;
+  z-index: 1;
 }
 
 .main_content {

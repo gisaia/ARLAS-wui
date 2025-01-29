@@ -17,12 +17,13 @@
  * under the License.
  */
 
+@import 'variables.scss';
+
 .analytics-board-card .resultlist__header--columns__geosort-action-button {
   width: 24px;
   height: 24px;
 }
 .resultlist__tools__td {
-  align-items: center !important;
   box-sizing: border-box;
 }
 
@@ -48,30 +49,6 @@
   font-size: 0.9em;
   font-weight: normal;
   color: #656565;
-}
-
-.mapboxgl-popup-content .resultdetaileditem-value {
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-size: 0.9em;
-  font-weight: normal;
-  color: #656565;
-}
-
-.mapboxgl-popup-content .group-item-title {
-  color: #656565 !important;
-}
-
-.mapboxgl-popup-content .detail-item {
-  color: #ff4081 !important;
-  display: inline-block;
-}
-
-.mapboxgl-popup-content .resultdetaileditem-key {
-  color: #656565;
-}
-
-.mapboxgl-popup-content div {
-  overflow: auto;
 }
 
 .download-onhover-action {
@@ -122,4 +99,28 @@
   height: 18px;
   width: 18px;
   font-size: 18px !important;
+}
+
+.analytics-board-card table.resultlist>tbody {
+  height: 400px !important;
+}
+
+.resultlist__preview {
+  table.resultlist>tbody {
+    height: calc(100vh - $top-menu-height) !important;
+  }
+
+  table.resultlist>thead,
+  table.resultlist .resultgrid__icon_check,
+  table.resultlist .resultlist-thumbnails-fit {
+    display: none;
+  }
+}
+
+.resultlist__wrapper .resultgrid__title-highlight- {
+  margin: unset !important;
+  display: flex;
+  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
 }
