@@ -624,9 +624,6 @@ fi
 envsubst '$ARLAS_HUB_URL' < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp
 mv /usr/share/nginx/html/settings.yaml.tmp /usr/share/nginx/html/settings.yaml
 
-envsubst < /usr/share/nginx/html/config.json > /usr/share/nginx/html/config.json.tmp
-mv /usr/share/nginx/html/config.json.tmp /usr/share/nginx/html/config.json
-
 envsubst '$ARLAS_GOOGLE_ANALYTICS_KEY' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp
 mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
 
