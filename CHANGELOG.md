@@ -1,12 +1,20 @@
 # Change Log
 
-## [v27.0.0-beta.9](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.9) (2025-01-29)
+## [v27.0.0-beta.11](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.11) (2025-01-30)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.10...v27.0.0-beta.9)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.10...v27.0.0-beta.11)
+
+**Fixed bugs:**
+
+- Translation throws an error when the color key is not defined for manual colors [\#929](https://github.com/gisaia/ARLAS-wui/issues/929)
 
 ## [v27.0.0-beta.10](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.10) (2025-01-29)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.8...v27.0.0-beta.10)
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.9...v27.0.0-beta.10)
+
+## [v27.0.0-beta.9](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.9) (2025-01-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.8...v27.0.0-beta.9)
 
 ## [v27.0.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.8) (2025-01-29)
 
