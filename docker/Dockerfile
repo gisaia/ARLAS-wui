@@ -43,6 +43,6 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 COPY --from=builder /ng-app/start.sh /usr/share/nginx/
 
-HEALTHCHECK CMD curl --fail http://localhost:8080/ || exit 1
+HEALTHCHECK CMD wget -O /dev/null http://localhost:8080/ || exit 1
 
 CMD /usr/share/nginx/start.sh
