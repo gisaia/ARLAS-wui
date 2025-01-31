@@ -371,10 +371,12 @@
   },
   "schematics": {
     "@schematics/angular:component": {
+      "project": "arlas-wui",
       "prefix": "arlas",
       "style": "scss"
     },
     "@schematics/angular:directive": {
+      "project": "arlas-wui",
       "prefix": "arlas"
     },
     "@angular-eslint/schematics:application": {

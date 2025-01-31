@@ -1,27 +1,49 @@
 <div>
-  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version">
+  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version" [showAboutButton]="true">
     <div left-menu class="top-left-menu">
       <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
-      <arlas-search *ngIf="searchContributors" #search id="search" class="arlas-search"
-        [searchContributors]="searchContributors" [dialogPositionLeft]="46" [dialogPositionTop]="-1"></arlas-search>
-      <mat-divider *ngIf="searchContributors" vertical class="vertical-divider" id="menuDivider"></mat-divider>
+      @if (searchContributors) {
+        <arlas-search #search id="search" class="arlas-search"
+          [searchContributors]="searchContributors" [dialogPositionLeft]="46" [dialogPositionTop]="-1"></arlas-search>
+        <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
+      }
       <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
         [collectionToDescription]="resultlistService.collectionToDescription" (zoomEvent)="zoomToData($event)"
         [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
     </div>
 
-    <div right-menu class="title" id="title">
+    <div right-menu class="right-menu-container" id="title">
       <arlas-permissions-creator></arlas-permissions-creator>
       <mat-divider vertical class="vertical-divider"></mat-divider>
-      {{appName | translate}}
+      <span class="title">{{appName | translate}}</span>
+      @if (!arlasStartupService.emptyMode) {
+        <mat-divider vertical class="vertical-divider"></mat-divider>
+        @if (shareComponentConfig) {
+          <button mat-icon-button (click)="displayShare()" [matTooltip]="'Share geographical data' | translate">
+            <mat-icon>share</mat-icon>
+          </button>
+        }
+        @if (downloadComponentConfig) {
+          <button mat-icon-button (click)="displayDownload()" [matTooltip]="'Download data' | translate">
+            <mat-icon>get_app</mat-icon>
+          </button>
+        }
+        <!-- Wait for map to be loaded to make bookmarks available -->
+        @if (mapService.mapComponent) {
+          <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">
+            <mat-icon>bookmark</mat-icon>
+          </button>
+        }
+        <mat-divider vertical class="vertical-divider"></mat-divider>
+      }
     </div>
   </arlas-top-menu>
 
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #leftSidenav mode="side" opened>
       <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
-        [collections]="collections" [showIndicators]="showIndicators"></arlas-left-menu>
+        [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content" *ngIf="!arlasStartupService.emptyMode; else emptyMode">
       <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
@@ -169,3 +191,9 @@
     </ng-template>
   </mat-sidenav-container>
 </div>
+
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
+
+<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>

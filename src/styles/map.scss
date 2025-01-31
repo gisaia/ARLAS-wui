@@ -114,7 +114,8 @@
 
 .maplibregl-compact {
   margin: 0 !important;
-
+  background-color: #ffffffb0 !important;
+  height: $map-attributions-height;
 }
 
 .mapboxgl-compact {

@@ -33,9 +33,11 @@ import {
   ArlasMapSettings,
   ArlasSettingsService,
   ArlasStartupService,
+  DownloadComponent,
   FilterShortcutConfiguration,
   getParamValue,
   NOT_CONFIGURED,
+  ShareComponent,
   TimelineComponent,
   ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
@@ -130,6 +132,12 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    */
   public spacing = 5;
 
+  /** Download & Share */
+  public shareComponentConfig: any;
+  public downloadComponentConfig: any;
+  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
+  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
+
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
@@ -204,6 +212,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     this.setAppTitle();
 
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
+      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
+      this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
+
       this.searchContributors = this.contributorService.getSearchContributors();
 
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
@@ -350,6 +361,16 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     if (hubUrl) {
       window.open(hubUrl);
     }
+  }
+
+  /** When opening the dialog of layers to share, we specify the visibility status of all
+   * layers so that we choose only the displayed ones */
+  public displayShare() {
+    this.shareComponent.openDialog(this.mapService.mapComponent.visibilityStatus);
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
   }
 
   /**

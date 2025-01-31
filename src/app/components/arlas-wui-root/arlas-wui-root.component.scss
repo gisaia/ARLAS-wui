@@ -427,14 +427,7 @@
     }
   }
 
-  .vertical-divider {
-    height: $filter-height;
-    padding-left: $sm-spacing;
-  }
-
   .arlas-filters-chips-top {
-    padding-left: $sm-spacing;
-
     ::ng-deep.extra-counts {
       // Account for space above extra counts (centered), its height, the additional spacing and the movement up to hide part of the border
       top: calc(($top-menu-height - $filter-height) / 2 + $filter-height + 3px);
@@ -461,13 +454,34 @@
 ::ng-deep.top-menu {
   height: $top-menu-height !important;
   border-bottom: $menu-border;
+
+  ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
+    --mdc-icon-button-state-layer-size: 34px;
+    padding: 5px;
+}
 }
 
-.title {
+.right-menu-container {
   font-size: $title-font-size;
   display: flex;
-  mat-divider {
-    margin: 0 $sm-margin;
+  align-items: center;
+
+  .title {
+    margin: 0 5px;
+  }
+
+  --mat-icon-color: #666;
+  ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
+    --mdc-icon-button-state-layer-size: 34px;
+    padding: 5px;
+  }
+}
+
+.top-left-menu,
+.right-menu-container {
+  .vertical-divider {
+    height: $filter-height;
+    margin: 0 $sm-spacing;
   }
 }
 
