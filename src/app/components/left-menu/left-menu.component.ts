@@ -17,17 +17,20 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ArlasWuiMapService } from '../../services/map.service';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasSettingsService,
   ArlasStartupService,
   ArlasWalkthroughService,
-  PersistenceService
+  DownloadComponent,
+  PersistenceService,
+  ShareComponent,
+  TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
-import { ArlasWuiMapService } from '../../services/map.service';
 
 export interface MenuState {
   configs?: boolean;
@@ -68,6 +71,13 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
    */
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
+  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
+  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
+  @ViewChild('tag', { static: false }) private readonly tagComponent: TagComponent;
+
+  public tagComponentConfig: any;
+  public shareComponentConfig: any;
+  public downloadComponentConfig: any;
 
   public zendeskActive = false;
 
@@ -75,7 +85,7 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
   public showDashboardsList = false;
 
   public constructor(
-    protected walkthroughService: ArlasWalkthroughService,
+    private readonly walkthroughService: ArlasWalkthroughService,
     private readonly settings: ArlasSettingsService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly configService: ArlasConfigService,
@@ -87,6 +97,9 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
 
   public ngOnInit() {
     if (!this.arlasStartupService.emptyMode) {
+      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
+      this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
+      this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = !!this.settings.getTicketingKey();
       this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
@@ -108,5 +121,28 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
   public refreshComponents() {
     const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
     this.collaborativeService.setCollaborations(dataModel);
+  }
+
+  /** When opening the dialog of layers to share, we specify the visibility status of all
+   * layers so that we choose only the displayed ones */
+  public displayShare() {
+    this.shareComponent.openDialog(this.mapService.mapComponent.visibilityStatus);
+  }
+
+  public replayTour() {
+    this.walkthroughService.resetTour();
+    this.walkthroughService.startTour();
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
+  }
+
+  public displayTag() {
+    this.tagComponent.openDialog();
+  }
+
+  public displayTagManagement() {
+    this.tagComponent.openManagement();
   }
 }

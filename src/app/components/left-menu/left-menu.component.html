@@ -23,7 +23,42 @@
         </button>
       </mat-list-item>
     </mat-nav-list>
+    @if (!arlasStartupService.emptyMode) {
+      <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>bookmark</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="walkthroughService.isActivable" (click)="replayTour()" [matTooltip]="'Replay tour' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>slideshow</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="shareComponentConfig" (click)="displayShare()" [matTooltip]="'Share geographical data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>share</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="downloadComponentConfig" (click)="displayDownload()" [matTooltip]="'Download data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>get_app</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu" [matTooltip]="'Tag data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>local_offer</mat-icon>
+      </button>
+    }
   </div>
 </div>
 
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
+
+<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
+
+<arlas-tag #tag></arlas-tag>
+
+<mat-menu #tagMenu="matMenu">
+  <button mat-menu-item (click)="displayTag()">
+    <mat-icon>add_circle_outline</mat-icon>
+    <span>{{ 'Add' | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="displayTagManagement()">
+    <mat-icon>replay</mat-icon>
+    <span>{{ 'Replay' | translate }}</span>
+  </button>
+</mat-menu>
 

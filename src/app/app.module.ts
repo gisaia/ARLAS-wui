@@ -69,7 +69,6 @@ import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
-import { ActionMenuComponent } from './components/action-menu/action-menu.component';
 import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
 import { ArlasListComponent } from './components/arlas-list/arlas-list.component';
 import { AoiDimensionComponent } from './components/arlas-map/aoi-dimensions/aoi-dimensions.component';
@@ -103,8 +102,7 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasWuiMapComponent,
     ArlasListComponent,
     GetResultlistConfigPipe,
-    ArlasAnalyticsComponent,
-    ActionMenuComponent
+    ArlasAnalyticsComponent
   ],
   exports: [
     AoiDimensionComponent,

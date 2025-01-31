@@ -1,5 +1,5 @@
 <div>
-  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version" [showAboutButton]="false">
+  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version" [showAboutButton]="true">
     <div left-menu class="top-left-menu">
       <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
       <arlas-search *ngIf="searchContributors" #search id="search" class="arlas-search"
@@ -15,7 +15,6 @@
       <arlas-permissions-creator></arlas-permissions-creator>
       <mat-divider vertical class="vertical-divider"></mat-divider>
       <span>{{appName | translate}}</span>
-      <arlas-action-menu [wuiName]="'ARLAS WUI'" [version]="version" [collections]="collections"></arlas-action-menu>
     </div>
   </arlas-top-menu>
 
