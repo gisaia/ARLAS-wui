@@ -23,33 +23,26 @@
         </button>
       </mat-list-item>
     </mat-nav-list>
-    <button mat-icon-button [matMenuTriggerFor]="actionMenu" *ngIf="!arlasStartupService.emptyMode" class="action-menu-button">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #actionMenu="matMenu">
-      <button mat-menu-item *ngIf="shareComponentConfig" (click)="displayShare()">
-        <mat-icon>share</mat-icon>
-        <span>{{ 'Share geographical data' | translate }}</span>
-      </button>
-      <button mat-menu-item *ngIf="downloadComponentConfig" (click)="displayDownload()">
-        <mat-icon>get_app</mat-icon>
-        <span>{{ 'Download data' | translate }}</span>
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu" *ngIf="!arlasStartupService.emptyMode">
+    @if (!arlasStartupService.emptyMode) {
+      <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate" [matTooltipPosition]="'right'">
         <mat-icon>bookmark</mat-icon>
-        <span>{{ 'Bookmark' | translate }}</span>
       </button>
-      <button mat-menu-item *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu">
-        <mat-icon>local_offer</mat-icon>
-        <span>{{ 'Tag data' | translate }}</span>
-      </button>
-      <button mat-menu-item *ngIf="walkthroughService.isActivable" (click)="replayTour()">
+      <button mat-icon-button *ngIf="walkthroughService.isActivable" (click)="replayTour()" [matTooltip]="'Replay tour' | translate" [matTooltipPosition]="'right'">
         <mat-icon>slideshow</mat-icon>
-        <span>{{ 'Replay tour' | translate }}</span>
       </button>
-    </mat-menu>
+      <button mat-icon-button *ngIf="shareComponentConfig" (click)="displayShare()" [matTooltip]="'Share geographical data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>share</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="downloadComponentConfig" (click)="displayDownload()" [matTooltip]="'Download data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>get_app</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu" [matTooltip]="'Tag data' | translate" [matTooltipPosition]="'right'">
+        <mat-icon>local_offer</mat-icon>
+      </button>
+    }
   </div>
 </div>
+
 <arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
 
 <arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
@@ -68,3 +61,4 @@
     <span>{{ 'Replay' | translate }}</span>
   </button>
 </mat-menu>
+

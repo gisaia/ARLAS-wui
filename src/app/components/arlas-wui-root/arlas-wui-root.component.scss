@@ -463,9 +463,10 @@
   border-bottom: $menu-border;
 }
 
-.title {
+.right-menu-container {
   font-size: $title-font-size;
   display: flex;
+  align-items: center;
   mat-divider {
     margin: 0 $sm-margin;
   }

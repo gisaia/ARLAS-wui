@@ -18,10 +18,17 @@
  */
 
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ArlasWuiMapService } from 'app/services/map.service';
+import { ArlasWuiMapService } from '../../services/map.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
-  ArlasWalkthroughService, DownloadComponent, PersistenceService, ShareComponent, TagComponent
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasSettingsService,
+  ArlasStartupService,
+  ArlasWalkthroughService,
+  DownloadComponent,
+  PersistenceService,
+  ShareComponent,
+  TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
 
@@ -68,16 +75,17 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
   @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
   @ViewChild('tag', { static: false }) private readonly tagComponent: TagComponent;
 
-  public zendeskActive = false;
-
   public tagComponentConfig: any;
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
+
+  public zendeskActive = false;
+
   public isRefreshAnalyticsButton: boolean;
   public showDashboardsList = false;
 
   public constructor(
-    protected walkthroughService: ArlasWalkthroughService,
+    private readonly walkthroughService: ArlasWalkthroughService,
     private readonly settings: ArlasSettingsService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly configService: ArlasConfigService,
@@ -110,6 +118,11 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
     this.menuEventEmitter.next({ ...this.toggleStates});
   }
 
+  public refreshComponents() {
+    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
+    this.collaborativeService.setCollaborations(dataModel);
+  }
+
   /** When opening the dialog of layers to share, we specify the visibility status of all
    * layers so that we choose only the displayed ones */
   public displayShare() {
@@ -131,10 +144,5 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
 
   public displayTagManagement() {
     this.tagComponent.openManagement();
-  }
-
-  public refreshComponents() {
-    const dataModel = this.collaborativeService.dataModelBuilder(this.collaborativeService.urlBuilder().split('filter=')[1]);
-    this.collaborativeService.setCollaborations(dataModel);
   }
 }
