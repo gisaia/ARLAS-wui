@@ -17,13 +17,17 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ArlasWuiMapService } from 'app/services/map.service';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
-  ArlasWalkthroughService, DownloadComponent, PersistenceService, ShareComponent, TagComponent
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasSettingsService,
+  ArlasStartupService,
+  ArlasWalkthroughService,
+  PersistenceService
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
+import { ArlasWuiMapService } from '../../services/map.service';
 
 export interface MenuState {
   configs?: boolean;
@@ -64,15 +68,9 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
    */
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
-  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
-  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
-  @ViewChild('tag', { static: false }) private readonly tagComponent: TagComponent;
 
   public zendeskActive = false;
 
-  public tagComponentConfig: any;
-  public shareComponentConfig: any;
-  public downloadComponentConfig: any;
   public isRefreshAnalyticsButton: boolean;
   public showDashboardsList = false;
 
@@ -89,9 +87,6 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
 
   public ngOnInit() {
     if (!this.arlasStartupService.emptyMode) {
-      this.shareComponentConfig = this.configService.getValue('arlas.web.components.share');
-      this.downloadComponentConfig = this.configService.getValue('arlas.web.components.download');
-      this.tagComponentConfig = this.configService.getValue('arlas.tagger');
       this.zendeskActive = !!this.settings.getTicketingKey();
       this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
@@ -108,29 +103,6 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
       this.toggleStates.configs = false;
     }
     this.menuEventEmitter.next({ ...this.toggleStates});
-  }
-
-  /** When opening the dialog of layers to share, we specify the visibility status of all
-   * layers so that we choose only the displayed ones */
-  public displayShare() {
-    this.shareComponent.openDialog(this.mapService.mapComponent.visibilityStatus);
-  }
-
-  public replayTour() {
-    this.walkthroughService.resetTour();
-    this.walkthroughService.startTour();
-  }
-
-  public displayDownload() {
-    this.downloadComponent.openDialog();
-  }
-
-  public displayTag() {
-    this.tagComponent.openDialog();
-  }
-
-  public displayTagManagement() {
-    this.tagComponent.openManagement();
   }
 
   public refreshComponents() {

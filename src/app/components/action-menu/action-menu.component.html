@@ -1,0 +1,52 @@
+<button mat-icon-button [matMenuTriggerFor]="actionMenu" *ngIf="!arlasStartupService.emptyMode" class="action-menu-button">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
+
+<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
+
+<arlas-about #about [pathToMd]="aboutFile" [extraTextData]="extraAboutText"></arlas-about>
+
+<arlas-tag #tag></arlas-tag>
+
+<mat-menu #tagMenu="matMenu">
+  <button mat-menu-item (click)="displayTag()">
+    <mat-icon>add_circle_outline</mat-icon>
+    <span>{{ 'Add' | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="displayTagManagement()">
+    <mat-icon>replay</mat-icon>
+    <span>{{ 'Replay' | translate }}</span>
+  </button>
+</mat-menu>
+<mat-menu #actionMenu="matMenu">
+  <button mat-menu-item *ngIf="shareComponentConfig" (click)="displayShare()">
+    <mat-icon>share</mat-icon>
+    <span>{{ 'Share geographical data' | translate }}</span>
+  </button>
+  <button mat-menu-item *ngIf="downloadComponentConfig" (click)="displayDownload()">
+    <mat-icon>get_app</mat-icon>
+    <span>{{ 'Download data' | translate }}</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu" *ngIf="!arlasStartupService.emptyMode">
+    <mat-icon>bookmark</mat-icon>
+    <span>{{ 'Bookmark' | translate }}</span>
+  </button>
+  <button mat-menu-item *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu">
+    <mat-icon>local_offer</mat-icon>
+    <span>{{ 'Tag data' | translate }}</span>
+  </button>
+  <button mat-menu-item *ngIf="walkthroughService.isActivable" (click)="replayTour()">
+    <mat-icon>slideshow</mat-icon>
+    <span>{{ 'Replay tour' | translate }}</span>
+  </button>
+
+  <!-- Information -->
+  <button mat-menu-item *ngIf="showAboutButton()" (click)="displayAbout()">
+    <mat-icon class="icon">info_outline</mat-icon>
+    <span>{{ 'About' | translate }} {{ wuiName() }} {{ version() }}</span>
+  </button>
+</mat-menu>
