@@ -5,18 +5,17 @@
 FROM node:18.20.5 AS builder
 ARG WORKSPACE
 
-RUN  mkdir /ng-app
+RUN mkdir /ng-app
 WORKDIR /ng-app
 
-COPY packages/$WORKSPACE /ng-app/packages/$WORKSPACE/
-COPY package.json /ng-app/
-COPY package-lock.json /ng-app/
+COPY packages/$WORKSPACE ./packages/$WORKSPACE/
+COPY package.json .
+COPY package-lock.json .
 COPY ./src/ ./src/
-COPY ./scripts/start.sh .
 COPY angular.json .
 COPY tsconfig.json .
 
-RUN npm install --workspace=packages/$WORKSPACE --include-workspace-root=true
+RUN npm install --ignore-scripts --workspace=packages/$WORKSPACE --include-workspace-root=true && npm run postinstall
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN npm run build-$WORKSPACE
 
@@ -24,7 +23,7 @@ RUN npm run build-$WORKSPACE
 
 FROM nginx:1.25.3-alpine3.18-slim
 ARG version="latest"
-RUN chown -R nginx /etc/nginx;
+RUN chown -R nginx /etc/nginx
 RUN chown -R nginx /usr/share/nginx/html
 USER nginx
 
@@ -39,10 +38,11 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
+COPY ./scripts/start.sh /usr/share/nginx/
+
 ## From 'builder' stage copy over the artifacts in dist folder to default nginx public folder
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
-COPY --from=builder /ng-app/start.sh /usr/share/nginx/
 
-HEALTHCHECK CMD wget -O /dev/null http://localhost:8080/ || exit 1
+HEALTHCHECK CMD wget -O /dev/null http://127.0.0.1:8080/ || exit 1
 
 CMD /usr/share/nginx/start.sh
