@@ -155,7 +155,7 @@ export class VisualizeService {
     this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     this.mapFrameworkService.addRasterLayer(this.mapInstance, 'raster-source-' + id, url, bounds, maxZoom,
-      /** minzoom */undefined, /** tilesize */ 256, beforeId);
+      /** tilesize */ 256, beforeId);
     if (id !== 'external') {
       this.isWMTSOnMap = true;
       this.isRasterOnMap = true;
