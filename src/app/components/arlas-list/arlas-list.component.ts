@@ -62,11 +62,16 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     protected resultlistService: ResultlistService<L, S, M>
   ) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.resultlistService.setCogVisualisationConfig(0);
+  }
 
   public ngAfterViewInit(): void {
+
     this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
+      this.resultlistService.updateCogVisualisation();
+
     });
   }
 
@@ -132,4 +137,5 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   public updateMapStyleFromChange(items: Map<string, string>[], collection: string) {
     this.resultlistService.updateMapStyleFromChange(items, collection);
   }
+
 }

@@ -26,17 +26,34 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReferenceParameters, Expression } from 'arlas-api';
 import {
-  ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
-  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+  ActionHandler,
+  CellBackgroundStyleEnum,
+  CogModalComponent,
+  Column,
+  ElementIdentifier,
+  Item,
+  ModeEnum,
+  PageQuery,
+  ResultListComponent,
+  ResultlistNotifierService,
+  SortEnum,
+  VisualisationInterface
 } from 'arlas-web-components';
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
+import { ActionFilter } from 'arlas-web-contributors/models/models';
 import {
-  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService,
-  DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME,
-  getParamValue, ProcessService
+  AiasDownloadComponent,
+  AiasEnrichComponent,
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasExportCsvService,
+  ArlasSettingsService,
+  DOWNLOAD_PROCESS_NAME,
+  ENRICH_PROCESS_NAME,
+  getParamValue,
+  ProcessService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { BehaviorSubject, finalize, first, Observable, Subject, take } from 'rxjs';
 import { ArlasWuiMapService } from '../services/map.service';
 import { VisualizeService } from '../services/visualize.service';
 import { isElementInViewport } from '../tools/utils';
@@ -56,6 +73,11 @@ export class ResultlistService<L, S, M> {
   public resultlistConfigPerContId = new Map<string, any>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
+  /** Visualisation */
+  public currentCogVisualisationConfig: VisualisationInterface[];
+  public selectedCogVisualisation = new Map<number, {vis: VisualisationInterface; idx: number;}>();
+  public cogVisualisationChange = new Subject();
+
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public rightListContributors: Array<ResultListContributor> = new Array();
@@ -71,6 +93,7 @@ export class ResultlistService<L, S, M> {
   public resultlistIsExporting = false;
   public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
   public selectedItems = new Array<ElementIdentifier>();
+  protected firstCogSelection  = true;
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -92,7 +115,8 @@ export class ResultlistService<L, S, M> {
     private readonly snackbar: MatSnackBar,
     private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly translate: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly listNotifier: ResultlistNotifierService
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: string[]) {
@@ -175,7 +199,6 @@ export class ResultlistService<L, S, M> {
       const actions = activeActions.get(itemId);
       actions.add(action.id);
       this.activeActionsPerContId.set(contId, new Map(activeActions));
-
     }
   }
 
@@ -218,6 +241,15 @@ export class ResultlistService<L, S, M> {
         }
         this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
       });
+    }
+  }
+
+  /** Removes an activated action for all the items of a given contributor */
+  public removeContributorAction(contId: string, actionId: string) {
+    const activeActions = this.activeActionsPerContId?.get(contId);
+    if (activeActions) {
+      activeActions.forEach(actions => actions.delete(actionId));
+      this.activeActionsPerContId.set(contId, new Map(activeActions));
     }
   }
 
@@ -437,6 +469,7 @@ export class ResultlistService<L, S, M> {
               error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
+          console.log('in');
           this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
             this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
@@ -483,7 +516,7 @@ export class ResultlistService<L, S, M> {
         }
         break;
       case 'visualize':
-        this.visualizeRaster(data, listContributor, collection);
+        this.visualizeRasterAction(data, listContributor, collection, false);
         break;
       case 'download':
         if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
@@ -509,6 +542,10 @@ export class ResultlistService<L, S, M> {
     this.listComponent = listComponent;
   }
 
+  public getListComponent() {
+    return this.listComponent;
+  }
+
   public unsetListComponent() {
     this.listComponent = null;
   }
@@ -522,11 +559,45 @@ export class ResultlistService<L, S, M> {
     }, 100);
   }
 
+  private visualizeRasterAction(data: { action: Action; elementidentifier: ElementIdentifier; },
+    listContributor: ResultListContributor, collection: string, fitBounds = true) {
+
+    // Clicking the icon acts as an added action, so it needs to be put
+    this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
+
+    if (this.firstCogSelection && !data.action.activated) {
+      this.openCogSelectionDialog(data.action.matched)
+        .subscribe(cogStyle =>  {
+          if (!cogStyle) {
+            this.removeAction(listContributor.identifier, data.elementidentifier.idValue, 'visualize');
+          }
+
+          this.firstCogSelection = !cogStyle;
+          this.setSelectedCogVisualisation(cogStyle);
+
+          if (cogStyle) {
+            // Necessary to properly launch the visualisation
+            data.action.activated = false;
+            this.visualizeRaster(data, listContributor, collection, fitBounds);
+          }
+        });
+    } else {
+      this.visualizeRaster(data, listContributor, collection, fitBounds);
+    }
+  }
+
   private visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
     listContributor: ResultListContributor, collection: string, fitBounds = true) {
 
     if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
-      const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
+      const urlVisualisationTemplate = this.getVisualisationUrl(data.action, listContributor);
+      // If there is no visualisation url, then no visualisation can be done
+      //  Can be caused by the item not matching any visualisation rule
+      if (!urlVisualisationTemplate) {
+        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+        return;
+      }
+
       if (!data.action.activated) {
         this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
           this.visualizeService.displayDataOnMap(url,
@@ -538,6 +609,26 @@ export class ResultlistService<L, S, M> {
         this.visualizeService.removeRasters(data.elementidentifier.idValue);
         this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
       }
+    }
+  }
+
+  private getVisualisationUrl(action: Action, listContributor: ResultListContributor) {
+    if (action.matched) {
+      const visualisation = this.getCurrentVisualisation();
+
+      // Find the start of the selected visualisation in the array of matches of the action
+      // Only needed if there are more matches in the action than there are dataGroups.
+      // It happens when this item is not the first one visualized
+      let firstVisuElement = 0;
+      if (action.matched.length > visualisation.vis.dataGroups.length) {
+        for (let i= 0; i < visualisation.idx; i++) {
+          firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
+        }
+      }
+      // The url is the one of the first dataGroup for which the item matched the condition
+      return visualisation.vis.dataGroups.find((_, i) => action.matched[firstVisuElement + i])?.visualisationUrl;
+    } else {
+      return this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
     }
   }
 
@@ -614,16 +705,23 @@ export class ResultlistService<L, S, M> {
     this.resultlistContributors.forEach(c => {
       const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
       const mapcontributor = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
-      if (this.resultlistConfigPerContId.get(c.identifier)) {
-        if (!!this.resultlistConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-          c.addAction({
+      const config = this.resultlistConfigPerContId.get(c.identifier);
+      if (config) {
+        if (!listActionsId.includes('visualize')) {
+          const action: Action = {
             id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
             reverseAction: {
               id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
-            },
-            fields: this.visualizeService.getVisuFields(this.resultlistConfigPerContId.get(c.identifier).visualisationLink),
-            hide: true
-          } as any);
+            }
+          };
+          (action as any).hide = true;
+          if (config.visualisationLink) {
+            action.fields = this.visualizeService.getVisuFields(config.visualisationLink);
+            c.addAction(action);
+          } else if (config.visualisationsList) {
+            action.filters = this.getCogFiltersFromConfig(config);
+            c.addAction(action);
+          }
         }
         if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
           c.addAction({
@@ -702,4 +800,114 @@ export class ResultlistService<L, S, M> {
       }
     });
   }
+
+  /**
+   *  Open cog visualisation dialog to select the first cog visualisation
+   */
+  public openCogSelectionDialog(matches: Array<boolean>): Observable<VisualisationInterface|null> {
+    const enabled = this.currentCogVisualisationConfig.map(_ => false);
+
+    // Parses the array to find out which visualisations are enabled
+    let i = 0;
+    this.currentCogVisualisationConfig.forEach((v, vidx) => {
+      v.dataGroups.forEach(f => {
+        enabled[vidx] = matches[i] || enabled[vidx];
+        i++;
+      });
+    });
+
+    const dialogRef = this.dialog.open(CogModalComponent, {
+      data: {
+        visualisations: this.currentCogVisualisationConfig.map((v, idx) => ({ visualisation: v, match: enabled[idx] ? 'all' : 'none'})),
+        loading: false
+      },
+      width: '44vw',
+      maxHeight:'40vh'
+    });
+
+    return dialogRef.afterClosed().pipe(first());
+  }
+
+  public setCogVisualisationConfig(index: number){
+    const conf = this.resultlistConfigs[index];
+    if (conf.input.visualisationsList) {
+      this.currentCogVisualisationConfig = conf.input.visualisationsList;
+    }
+  }
+
+  public setSelectedCogVisualisation(v: VisualisationInterface) {
+    const contributor = this.resultlistContributors[this.selectedListTabIndex];
+    const contributorId = contributor.identifier;
+    const previousVisualisation = this.selectedCogVisualisation.get(this.selectedListTabIndex);
+    const filters = this.getCogFiltersFromConfig(this.resultlistConfigPerContId.get(contributorId));
+    const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
+
+    if (!v) {
+      this.selectedCogVisualisation.delete(this.selectedListTabIndex);
+      this.firstCogSelection = true;
+
+      // Allow all data groups
+      visualizeAction.filters = filters;
+    } else {
+      this.selectedCogVisualisation.set(this.selectedListTabIndex, {vis: v, idx: this.currentCogVisualisationConfig.findIndex(vi => vi === v)});
+
+      // Allow only the visualisation data groups
+      visualizeAction.filters = v.dataGroups.map(dg => dg.filters);
+    }
+    this.listNotifier.refreshActions();
+    this.cogVisualisationChange.next(v);
+
+    if (!v) {
+      // If no visualisation, clean up the rasters
+      this.visualizeService.removeRasters();
+      this.removeContributorAction(contributorId, 'visualize');
+    } else if (previousVisualisation?.vis) {
+      // If there is a visualisation and there are already visualisations, update them if they can be
+      this.activeActionsPerContId?.get(contributorId)?.forEach((actions, item) => {
+        if (actions.has('visualize')) {
+          const action: Action = {
+            id: 'visualize', label: ''
+          };
+          this.listComponent.detailedDataRetriever.getMatch(item, visualizeAction.filters).pipe(take(1)).subscribe({
+            next: values => {
+              action.matched = values;
+              this.visualizeService.removeRasters(item);
+
+              // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
+              if (this.getVisualisationUrl(action, contributor)) {
+                this.visualizeRaster(
+                  { action: action, elementidentifier: { idFieldName: contributor.fieldsConfiguration.idFieldName, idValue: item } },
+                  contributor, contributor.collection, false);
+
+                // Send a fake hover notification so that it can display its state properly
+                this.listNotifier.notifyItemHover(item);
+              } else {
+                this.removeAction(contributorId, item, 'visualize');
+              }
+            }
+          });
+        }
+      });
+    }
+  }
+
+  public getCogFiltersFromConfig(config: any): ActionFilter[][] {
+    return config.visualisationsList
+      .map(v => v.dataGroups.map(dg => dg.filters))
+      // .filter(f => f.length > 0) => If there are no filters it means everyone can do it
+      .reduce((a, b) => a.concat(b), []);
+  }
+
+  public updateCogVisualisation() {
+    this.setCogVisualisationConfig(this.selectedListTabIndex);
+    this.firstCogSelection = !this.selectedCogVisualisation.has(this.selectedListTabIndex);
+    console.log('update',  this.firstCogSelection);
+
+    this.cogVisualisationChange.next(this.getCurrentVisualisation());
+  }
+
+  public getCurrentVisualisation() {
+    return this.selectedCogVisualisation.get(this.selectedListTabIndex);
+  }
+
 }

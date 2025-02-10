@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,14 +30,27 @@ import {
   ArlasLngLatBounds,
   ArlasMapComponent,
   ArlasMapFrameworkService,
-  BasemapStyle, BboxGeneratorComponent, GeoQuery,
-  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID
+  BasemapStyle,
+  BboxGeneratorComponent,
+  GeoQuery,
+  MapImportComponent,
+  MapSettingsComponent,
+  SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
+import { VisualisationInterface } from 'arlas-web-components';
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
+  ArlasCollaborativesearchService,
+  ArlasCollectionService,
+  ArlasConfigService,
+  ArlasIamService,
+  ArlasMapService,
+  ArlasMapSettings,
+  ArlasSettingsService,
+  ArlasStartupService,
+  AuthentificationService,
+  getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -117,6 +130,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
+
+  /** show cog visualisation **/
+  protected cogVisualisation= signal<VisualisationInterface | null>(null);
 
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
@@ -235,7 +251,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     }
 
     this.updateMapTransformRequest();
-
+    this.listenVisualisationChange();
   }
 
   public ngAfterViewInit() {
@@ -579,5 +595,11 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   private adjustMapOffset() {
     this.recalculateExtent = true;
     this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
+  }
+
+  public listenVisualisationChange (){
+    this.resultlistService.cogVisualisationChange
+      .pipe(takeUntil(this._onDestroy$))
+      .subscribe(v => this.cogVisualisation.set(this.resultlistService.getCurrentVisualisation()?.vis)  );
   }
 }

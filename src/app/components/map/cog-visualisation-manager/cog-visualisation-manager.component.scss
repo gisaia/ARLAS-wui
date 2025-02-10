@@ -17,29 +17,29 @@
  * under the License.
  */
 
-$top-menu-height: 40px;
-$left-menu-width: 48px;
-$filter-height: 30px;
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
-$preview-result-list-width: 125px;
-$result-list-width: 500px;
-$analytics-board-width: 466px;
+:host {
+  display: flex;
+  align-items: center;
+  height: $map-actions-width;
+  padding: 0 $sm-spacing;
+  cursor: pointer;
+  box-shadow: none;
+  background-color: white;
+  @include box-border();
 
-$map-actions-length: 87px;
-$map-actions-width: 29px;
-$map-scale-border-width: 2px;
-$map-attributions-height: 20px;
-$map-scale-max-width: 100px;
-$map-scale-height: 22px;
-$map-settings-height: 91px;
-$map-cog-visualisation-width: 90px;
+  & ::ng-deep {
+    .visualisation-picture {
+      height: 16px !important;
+      width: 16px !important;
+    }
 
-// Original size of 130px + sm-spacing
-$timeline-height: 135px;
-$timeline-with-legend-height: 165px;
-$timeline-tools-height: 30px;
+    .visualisation-info_title {
+      font-size: $sm-font-size !important;
+    }
+  }
 
-$search-width: 150px;
-
-// 24px for the icon and 2px for the xs-border
-$toggle-height: 26px;
+}

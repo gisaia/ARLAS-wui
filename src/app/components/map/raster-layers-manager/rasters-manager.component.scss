@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- 
+
 @import "../../../../styles/variables.scss";
 @import "../../../../styles/app/sizes.scss";
 @import "../../../../styles/app/mixin.scss";
@@ -25,11 +25,11 @@
     cursor: pointer;
     width: $map-actions-width;
     height: $map-actions-width;
-    margin-bottom: $sm-spacing;
     @include box-border();
     box-shadow: none;
     padding: 0;
     background-color: white;
+    box-sizing: border-box;
 
     .icon {
       height: $map-actions-width;

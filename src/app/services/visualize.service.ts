@@ -131,7 +131,6 @@ export class VisualizeService<L, S, M> {
     } else {
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
-      this.isWMTSOnMap = this.isRasterOnMap = false;
     }
     this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-');
     this.isWMTSOnMap = this.isRasterOnMap;
