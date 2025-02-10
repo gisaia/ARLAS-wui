@@ -79,6 +79,15 @@
     }
   }
 
+  .arlas-cog-visualisation-manager {
+    position: absolute;
+    bottom: calc(
+      $sm-spacing + $map-scale-height
+    );
+    right: $sm-spacing;
+    z-index: 2;
+  }
+
   .arlas-map-action-container {
     position: absolute;
     right: calc($map-actions-width + $xs-border);
@@ -117,5 +126,13 @@
         + $sm-spacing + $map-actions-length
         + $sm-spacing + $map-actions-width);
     z-index: 1;
+  }
+}
+
+@media (max-width: 838px)  {
+  .arlas-cog-visualisation-manager {
+    bottom: calc(
+      $sm-spacing + $map-scale-height + $map-scale-height
+    )!important;
   }
 }

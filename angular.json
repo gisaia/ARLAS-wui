@@ -371,7 +371,8 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "arlas",
-      "style": "scss"
+      "style": "scss",
+      "project": "arlas-wui"
     },
     "@schematics/angular:directive": {
       "prefix": "arlas"

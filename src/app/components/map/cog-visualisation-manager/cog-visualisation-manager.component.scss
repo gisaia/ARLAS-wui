@@ -1,0 +1,73 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
+
+
+:host {
+  display: flex;
+  align-items: center;
+  height: $map-cog-visualisation-height;
+  padding: 0 $sm-spacing;
+  cursor: pointer;
+  box-shadow: none;
+  background-color: white;
+  @include box-border();
+
+  mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    margin-right: $sm-margin;
+  }
+
+  & ::ng-deep {
+    .visualisation-picture {
+      height: 20px !important;
+      width: 20px !important;
+    }
+
+    .visualisation-info_title {
+      font-size: $sm-font-size !important;
+    }
+  }
+
+}
+
+.wrapper {
+  cursor: pointer;
+  width: $map-actions-width;
+  height: $map-actions-width;
+  margin-bottom: $sm-spacing;
+  @include box-border();
+  box-shadow: none;
+  padding: 0;
+  background-color: white;
+
+  .icon {
+    height: $map-actions-width;
+    width: $map-actions-width;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

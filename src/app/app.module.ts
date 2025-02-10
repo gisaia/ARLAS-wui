@@ -43,11 +43,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  HistogramModule,
-  ResultsModule, FormatNumberModule,
-  GetValueModule,
-} from 'arlas-web-components';
+import { FormatNumberModule, GetValueModule, HistogramModule, ResultsModule, } from 'arlas-web-components';
 import {
   ArlasCollectionService,
   ArlasConfigService,
@@ -86,6 +82,9 @@ import { ContributorService } from './services/contributors.service';
 import { ResultlistService } from './services/resultlist.service';
 import { ArlasWuiMapService } from '@services/map.service';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
+import {
+  CogVisualisationManagerComponent
+} from '@components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 
 
 @NgModule({
@@ -168,7 +167,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasTaggerModule,
     LoginModule,
     LazyLoadImageModule,
-    ArlasMapModule
+    ArlasMapModule,
+    CogVisualisationManagerComponent
   ],
   providers: [
     VisualizeService,
