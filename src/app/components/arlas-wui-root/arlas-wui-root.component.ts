@@ -180,7 +180,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
     /** init from url */
     this.showTimeline = getParamValue('to') === 'true';
-
+    this.mapService.timeLineIsOpen = this.showTimeline;
     let wasTabSelected = getParamValue('at') !== null;
     this.analyticsService.tabChange.subscribe(tab => {
       // If there is a change in the state of the analytics (open/close), resize
@@ -311,6 +311,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   public toggleTimeline() {
     this.showTimeline = !this.showTimeline;
+    this.mapService.timeLineIsOpen = this.showTimeline;
     const queryParams = { ...this.activatedRoute.snapshot.queryParams};
     queryParams['to'] = this.showTimeline + '';
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });

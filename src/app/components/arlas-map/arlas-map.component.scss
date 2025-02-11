@@ -86,6 +86,22 @@
     );
     right: $sm-spacing;
     z-index: 2;
+
+    &--tight {
+      bottom: calc(
+        $sm-spacing + $map-scale-height + $map-scale-height
+      )!important;
+    }
+    &--timeline-open {
+      bottom: calc(
+        $sm-spacing + $map-scale-height + $sm-spacing + $timeline-height
+      )!important;
+    }
+    &--full {
+      bottom: calc(
+        $sm-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
+      )!important;
+    }
   }
 
   .arlas-map-action-container {
@@ -129,10 +145,3 @@
   }
 }
 
-@media (max-width: 838px)  {
-  .arlas-cog-visualisation-manager {
-    bottom: calc(
-      $sm-spacing + $map-scale-height + $map-scale-height
-    )!important;
-  }
-}

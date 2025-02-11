@@ -48,7 +48,11 @@
       <arlas-rasters-manager></arlas-rasters-manager>
     </div>
 
-  <div class="arlas-cog-visualisation-manager">
+  <div
+    [class.arlas-cog-visualisation-manager--tight]="!wuiMapService.coordinatesHaveSpace && !wuiMapService.timeLineIsOpen"
+    [class.arlas-cog-visualisation-manager--timeline-open]="wuiMapService.timeLineIsOpen && wuiMapService.coordinatesHaveSpace"
+    [class.arlas-cog-visualisation-manager--full]="wuiMapService.timeLineIsOpen && !wuiMapService.coordinatesHaveSpace"
+    class="arlas-cog-visualisation-manager">
     <arlas-cog-visualisation-manager></arlas-cog-visualisation-manager>
   </div>
 

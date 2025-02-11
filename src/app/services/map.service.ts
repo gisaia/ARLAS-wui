@@ -19,7 +19,8 @@
 
 import { Injectable } from '@angular/core';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
-import { ArlasMapComponent, AbstractArlasMapService, ArlasMapFrameworkService } from 'arlas-map';
+import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
+
 export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
@@ -42,6 +43,7 @@ export class ArlasWuiMapService<L, S, M> {
   public featuresToSelect: Array<ElementIdentifier> = [];
 
   public coordinatesHaveSpace: boolean;
+  public timeLineIsOpen: boolean;
 
   public constructor(public mapService: ArlasMapFrameworkService<L, S, M>,
     public mapLogicService: AbstractArlasMapService<L, S, M>) { }
