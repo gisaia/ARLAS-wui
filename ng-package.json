@@ -10,6 +10,6 @@
     "."
   ],
   "lib": {
-    "entryFile": "src/public-api.opensource.ts"
+    "entryFile": "src/public-api.ts"
   }
 }

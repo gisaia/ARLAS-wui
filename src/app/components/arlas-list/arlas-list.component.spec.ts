@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { VisualizeService } from 'app/services/visualize.service';
 import { ArlasToolKitModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
+import { VisualizeService } from '../../services/visualize.service';
 import { ArlasListComponent } from './arlas-list.component';
 
 describe('ArlasListComponent', () => {

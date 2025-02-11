@@ -26,7 +26,7 @@
 @import 'styles/hopscotch/hopscotch.css';
 @import 'styles/swimlane.css';
 @import 'styles/donut.css';
-@import 'styles/resultlist.css';
+@import 'styles/resultlist.scss';
 @import 'styles/map.scss';
 @import 'styles/filter.scss';
 @import 'styles/variables.scss';
@@ -34,6 +34,7 @@
 @import 'styles/app/sizes.scss';
 @import 'styles/app/colors.scss';
 @import 'styles/app/mixin.scss';
+@import 'styles/analytics.scss';
 
 /* Material Icons */
 
@@ -93,58 +94,6 @@ button:focus {
   font-feature-settings: 'liga';
 }
 
-.analytics-board-card {
-  box-shadow: none !important;
-  padding: 1px !important;
-  margin: 3px 0 3px 0 !important;
-}
-
-.analytics-board-panel .mat-expansion-panel-header {
-  font-size: 16px;
-  font-weight: 300;
-  align-items: inherit;
-}
-
-.analytics-board-panel .mat-expansion-panel-body {
-  margin: 0 1px 0px;
-  padding: 0 5px 0 0 !important;
-  font-weight: 300;
-}
-
-.analytics-tabs .mat-mdc-tab-header {
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-  background-color: inherit;
-  z-index: 2;
-  border-bottom: none;
-}
-
-.analytics-board-card table.resultlist>tbody {
-  height: 400px !important;
-}
-
-
-.resultlist__preview {
-  table.resultlist>tbody {
-    height: calc(100vh - $top-menu-height) !important;
-  }
-
-  table.resultlist>thead,
-  table.resultlist .resultgrid__icon_check,
-  table.resultlist .resultlist-thumbnails-fit {
-    display: none;
-  }
-}
-
-.resultlist__wrapper .resultgrid__title-highlight- {
-  margin: unset !important;
-  display: flex;
-  padding: 0 5px;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .boxdraw {
   background: transparent;
   border: 2px solid black;
@@ -156,32 +105,12 @@ button:focus {
   height: 0;
 }
 
-.mat-mdc-dialog-container {
-  max-height: 85vh !important;
-}
-
 .share-option-check .mat-pseudo-checkbox {
   display: none !important;
 }
 
 .histogram {
   overflow: hidden;
-}
-
-.map__layers-list--container {
-  z-index: 1;
-}
-
-.mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch {
-  display: none;
-}
-
-.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois, .maplibregl-ctrl-group-pitch {
-  display: none;
-}
-
-.mapboxgl-ctrl-group-layersswitcher {
-  visibility: hidden;
 }
 
 .tag-button {
@@ -191,46 +120,6 @@ button:focus {
 .arlas-tag-box {
   top: -10px !important;
   left: calc(50vw - 100px) !important;
-}
-
-.arlas-analytics--container {
-  .arlas-metric-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: $default-spacing;
-    box-sizing: border-box;
-
-    .arlas-metric-value {
-      font-weight: 400;
-      font-size: $metric-value-font-size;
-      padding: $sm-spacing 0;
-    }
-
-    .arlas-metric-description {
-      font-size: $title-font-size;
-      font-weight: 100;
-      text-align: center;
-    }
-  }
-}
-
-.analytics-board-group {
-  justify-content: space-evenly;
-}
-
-.analytics-board-panel-title{
-  flex-basis: auto;
-}
-
-.analytics-board-panel:hover .export-csv-button {
-  display: block;
-  position: absolute;
-}
-
-.export-csv-button {
-  display: none;
-  cursor: pointer;
 }
 
 .arlas-search .full-width-input {
@@ -252,7 +141,6 @@ button:focus {
 }
 
 /* Walkthrough */
-
 div.hopscotch-bubble .hopscotch-nav-button.next {
   border-color: #FF4081;
   color: #ffffff;
@@ -325,14 +213,6 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left {
 
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-arrow {
   left: 5px !important;
-}
-
-.resultitem-list__actions {
-  cursor: pointer;
-}
-
-.resultitem-grid__actions {
-  cursor: pointer;
 }
 
 .gif {

@@ -18,12 +18,12 @@
  */
 
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ArlasWuiMapService } from 'app/services/map.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
   ArlasWalkthroughService, DownloadComponent, PersistenceService, ShareComponent, TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
+import { ArlasWuiMapService } from '../../services/map.service';
 
 export interface MenuState {
   configs?: boolean;

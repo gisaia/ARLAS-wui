@@ -18,9 +18,9 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { ResultlistService } from '@services/resultlist.service';
 import { AnalyticsContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ResultlistService } from '../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-analytics',
