@@ -4,6 +4,10 @@ on:
   pull_request:
     branches:
       - develop
+  schedule:
+    - cron: 16 9 14 * *
+    # - cron: 15 6 1 * *
+
 
 jobs:
   scan:
