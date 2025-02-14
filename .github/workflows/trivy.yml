@@ -7,8 +7,7 @@ on:
       - develop
   schedule:
     # At 05:15 UTC on day-of-month 2
-    - cron: '20 10 14 * *'
-    # - cron: '15 5 2 * *'
+    - cron: '15 5 2 * *'
 
 
 jobs:
