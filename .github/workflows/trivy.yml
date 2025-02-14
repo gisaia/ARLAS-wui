@@ -1,12 +1,13 @@
 name: Trivy
+run-name: Trivy - Vulnerability Scan
 
 on:
   pull_request:
     branches:
       - develop
   schedule:
-    - cron: 24 8 14 * *
-    # - cron: 15 6 1 * *
+    # At 05:15 on Tuesday
+    - cron: '15 5 * * 2'
 
 
 jobs:
