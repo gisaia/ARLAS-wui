@@ -29,17 +29,31 @@ import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
-  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+  ActionHandler,
+  CellBackgroundStyleEnum,
+  Column,
+  ElementIdentifier,
+  Item,
+  ModeEnum,
+  PageQuery,
+  ResultCogVisualisationModalComponent,
+  ResultListComponent,
+  SortEnum
 } from 'arlas-web-components';
 import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService,
-  DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME,
-  getParamValue, ProcessService
+  AiasDownloadComponent,
+  AiasEnrichComponent,
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasExportCsvService,
+  ArlasSettingsService,
+  DOWNLOAD_PROCESS_NAME,
+  ENRICH_PROCESS_NAME,
+  getParamValue,
+  ProcessService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { BehaviorSubject, finalize, first, Subject, take } from 'rxjs';
 
 
 @Injectable({
@@ -71,6 +85,8 @@ export class ResultlistService<L, S, M> {
   public resultlistIsExporting = false;
   public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
   public selectedItems = new Array<ElementIdentifier>();
+  public selectedCogVisualisation ;
+  protected firstCogSelection  = true;
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -411,6 +427,7 @@ export class ResultlistService<L, S, M> {
               error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
+          console.log('in');
           this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
             this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
@@ -457,7 +474,7 @@ export class ResultlistService<L, S, M> {
         }
         break;
       case 'visualize':
-        this.visualizeRaster(data, listContributor, collection);
+        this.visualizeRasterAction(data, listContributor, collection);
         break;
       case 'download':
         if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
@@ -494,6 +511,19 @@ export class ResultlistService<L, S, M> {
         callback();
       }
     }, 100);
+  }
+
+  private visualizeRasterAction(data: { action: Action; elementidentifier: ElementIdentifier; },
+    listContributor: ResultListContributor, collection: string, fitBounds = true){
+    if(this.firstCogSelection) {
+      this.firstCogSelection = !this.firstCogSelection;
+      this.openCogSelectionDialog()
+        .afterClosed()
+        .pipe(first())
+        .subscribe(cogStyle => this.visualizeRaster(data, listContributor, collection, fitBounds));
+    } else {
+      this.visualizeRaster(data, listContributor, collection, fitBounds);
+    }
   }
 
   private visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
@@ -674,5 +704,12 @@ export class ResultlistService<L, S, M> {
         });
       }
     });
+  }
+
+  /**
+   *  Open cog visualisation dialog
+   */
+  public openCogSelectionDialog(){
+    return  this.dialog.open(ResultCogVisualisationModalComponent);
   }
 }

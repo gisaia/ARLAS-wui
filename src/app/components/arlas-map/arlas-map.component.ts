@@ -34,14 +34,26 @@ import {
   ArlasLngLatBounds,
   ArlasMapComponent,
   ArlasMapFrameworkService,
-  BasemapStyle, BboxGeneratorComponent, GeoQuery,
-  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID
+  BasemapStyle,
+  BboxGeneratorComponent,
+  GeoQuery,
+  MapImportComponent,
+  MapSettingsComponent,
+  SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
+  ArlasCollaborativesearchService,
+  ArlasCollectionService,
+  ArlasConfigService,
+  ArlasIamService,
+  ArlasMapService,
+  ArlasMapSettings,
+  ArlasSettingsService,
+  ArlasStartupService,
+  AuthentificationService,
+  getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 
@@ -117,6 +129,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
+
+  /** show cog visualisation **/
+  protected showCogVisualisationShortCut = this.resultlistService.selectedCogVisualisation != null;
 
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;

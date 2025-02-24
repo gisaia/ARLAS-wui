@@ -81,25 +81,27 @@
 
   .arlas-cog-visualisation-manager {
     position: absolute;
+    height: $map-cog-visualisation-height;
+    width: $map-cog-visualisation-width;
     bottom: calc(
-      $sm-spacing + $map-scale-height
+      $default-spacing + $map-scale-height
     );
     right: $sm-spacing;
     z-index: 2;
 
     &--tight {
       bottom: calc(
-        $sm-spacing + $map-scale-height + $map-scale-height
+        $default-spacing + $map-scale-height + $map-scale-height
       )!important;
     }
     &--timeline-open {
       bottom: calc(
-        $sm-spacing + $map-scale-height + $sm-spacing + $timeline-height
+        $default-spacing + $map-scale-height + $sm-spacing + $timeline-height
       )!important;
     }
     &--full {
       bottom: calc(
-        $sm-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
+        $default-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
       )!important;
     }
   }

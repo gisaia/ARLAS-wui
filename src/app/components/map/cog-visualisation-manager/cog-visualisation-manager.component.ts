@@ -16,6 +16,6 @@ import { MatDialog } from '@angular/material/dialog';
 export class CogVisualisationManagerComponent {
   protected dialog = inject(MatDialog);
   public openModal() {
-    // this.dialog.open(ResultCogVisualisationModalComponent);
+
   }
 }

@@ -53,7 +53,10 @@
     [class.arlas-cog-visualisation-manager--timeline-open]="wuiMapService.timeLineIsOpen && wuiMapService.coordinatesHaveSpace"
     [class.arlas-cog-visualisation-manager--full]="wuiMapService.timeLineIsOpen && !wuiMapService.coordinatesHaveSpace"
     class="arlas-cog-visualisation-manager">
-    <arlas-cog-visualisation-manager></arlas-cog-visualisation-manager>
+    @if(showCogVisualisationShortCut){
+      <arlas-cog-visualisation-manager></arlas-cog-visualisation-manager>
+    }
+
   </div>
 
     <arlas-map [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
