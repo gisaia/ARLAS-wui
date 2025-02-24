@@ -36,8 +36,7 @@ import { parse } from 'wellknown';
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
 @Injectable()
-export class VisualizeService {
-  public map;
+export class VisualizeService<L, S, M> {
   public mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
   /**  @deprecated. Use isRasterOnMap instead. */
@@ -50,7 +49,7 @@ export class VisualizeService {
 
   public constructor(public collaborativeService: ArlasCollaborativesearchService,
     private readonly translateService: TranslateService, private readonly snackBar: MatSnackBar,
-    private readonly mapFrameworkService: ArlasMapFrameworkService<any, any, any>
+    private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>
   ) { }
 
   /**
