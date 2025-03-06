@@ -10,7 +10,7 @@ describe('CogVisualisationManagerComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CogVisualisationManagerComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CogVisualisationManagerComponent);
     component = fixture.componentInstance;
