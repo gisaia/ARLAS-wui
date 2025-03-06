@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ResultCogVisualisationShortcutComponent } from 'arlas-web-components';
-import { MatDialog } from '@angular/material/dialog';
+import { VisualisationInterface } from '../../../tools/visualisation.interface';
+import { ResultlistService } from '@services/resultlist.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
@@ -14,8 +16,18 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './cog-visualisation-manager.component.scss'
 })
 export class CogVisualisationManagerComponent {
-  protected dialog = inject(MatDialog);
+  public visualisation = input<VisualisationInterface>();
+  protected resultListService = inject(ResultlistService);
   public openModal() {
+    this.resultListService.openCogSelectionDialog()
+      .afterClosed()
+      .pipe(first())
+      .subscribe(cogStyle =>  {
+        this.resultListService.setCongVisualisationSelectList(cogStyle);
+      });
+  }
 
+  public deleteVisualisation() {
+    this.resultListService.setCongVisualisationSelectList(null);
   }
 }

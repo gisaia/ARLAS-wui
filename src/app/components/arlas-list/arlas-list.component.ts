@@ -20,7 +20,15 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ResultlistService } from '@services/resultlist.service';
-import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
+import {
+  Action,
+  Column,
+  ElementIdentifier,
+  Item,
+  ModeEnum,
+  PageQuery,
+  ResultListComponent
+} from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -62,11 +70,16 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     protected resultlistService: ResultlistService<L, S, M>
   ) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.resultlistService.setCogVisualisationConfig(0);
+  }
 
   public ngAfterViewInit(): void {
+
     this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
+      this.resultlistService.updateCogVisualisation();
+
     });
   }
 
@@ -132,4 +145,5 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   public updateMapStyleFromChange(items: Map<string, string>[], collection: string) {
     this.resultlistService.updateMapStyleFromChange(items, collection);
   }
+
 }

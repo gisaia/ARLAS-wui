@@ -21,6 +21,10 @@
 @import "../../../../styles/app/sizes.scss";
 @import "../../../../styles/app/mixin.scss";
 
+arlas-result-cog-visualisation-shortcut {
+  display: block;
+  width: 100%;
+}
 
 :host {
   display: flex;
@@ -35,14 +39,13 @@
   mat-icon {
     font-size: 20px;
     height: 20px;
-    width: 20px;
-    margin-right: $sm-margin;
+    width: 27px;
   }
 
   & ::ng-deep {
     .visualisation-picture {
-      height: 20px !important;
-      width: 20px !important;
+      height: 16px !important;
+      width: 16px !important;
     }
 
     .visualisation-info_title {

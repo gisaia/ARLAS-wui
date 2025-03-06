@@ -54,6 +54,7 @@ import {
   ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, first, Subject, take } from 'rxjs';
+import { VisualisationInterface } from '../tools/visualisation.interface';
 
 
 @Injectable({
@@ -70,6 +71,11 @@ export class ResultlistService<L, S, M> {
   public resultlistConfigPerContId = new Map<string, any>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
+  /** Visualisation **/
+  public currentCogVisualisationConfig: VisualisationInterface[];
+  public cogVisualisationSelectedList = new Map<number, VisualisationInterface>();
+  public cogVisualisationChange = new  Subject();
+
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public rightListContributors: Array<ResultListContributor> = new Array();
@@ -85,8 +91,9 @@ export class ResultlistService<L, S, M> {
   public resultlistIsExporting = false;
   public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
   public selectedItems = new Array<ElementIdentifier>();
-  public selectedCogVisualisation ;
   protected firstCogSelection  = true;
+
+
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -515,12 +522,16 @@ export class ResultlistService<L, S, M> {
 
   private visualizeRasterAction(data: { action: Action; elementidentifier: ElementIdentifier; },
     listContributor: ResultListContributor, collection: string, fitBounds = true){
-    if(this.firstCogSelection) {
-      this.firstCogSelection = !this.firstCogSelection;
+    console.log(data.action);
+    if(this.firstCogSelection && !data.action.activated) {
       this.openCogSelectionDialog()
         .afterClosed()
         .pipe(first())
-        .subscribe(cogStyle => this.visualizeRaster(data, listContributor, collection, fitBounds));
+        .subscribe(cogStyle =>  {
+          console.log(cogStyle);
+          this.firstCogSelection = !cogStyle;
+          this.setCongVisualisationSelectList(cogStyle);
+        });
     } else {
       this.visualizeRaster(data, listContributor, collection, fitBounds);
     }
@@ -710,6 +721,40 @@ export class ResultlistService<L, S, M> {
    *  Open cog visualisation dialog
    */
   public openCogSelectionDialog(){
-    return  this.dialog.open(ResultCogVisualisationModalComponent);
+    return  this.dialog.open(ResultCogVisualisationModalComponent,
+      {data: {
+        visualisations: this.currentCogVisualisationConfig
+      },
+      width: '44vw',
+      maxHeight:'40vh'
+      });
   }
+
+  public setCogVisualisationConfig(index: number){
+    const conf =  this.resultlistConfigs[index];
+    if(conf.input.visualisationsList){
+      this.currentCogVisualisationConfig = conf.input.visualisationsList;
+    }
+  }
+
+  public setCongVisualisationSelectList(v: VisualisationInterface){
+    if(v !== undefined) {
+      this.cogVisualisationSelectedList.set(this.selectedListTabIndex, v);
+      this.cogVisualisationChange.next(v);
+    }
+  }
+
+
+  public updateCogVisualisation() {
+    this.setCogVisualisationConfig(this.selectedListTabIndex);
+    this.firstCogSelection = !this.cogVisualisationSelectedList.has(this.selectedListTabIndex);
+    console.log('update',  this.firstCogSelection);
+
+    this.cogVisualisationChange.next(this.cogVisualisationSelectedList.get(this.selectedListTabIndex));
+  }
+
+  public getCurrentVisualisation(){
+    return this.cogVisualisationSelectedList.get(this.selectedListTabIndex);
+  }
+
 }
