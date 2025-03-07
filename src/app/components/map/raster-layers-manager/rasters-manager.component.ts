@@ -40,7 +40,7 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
   private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private readonly visualisationService: VisualizeService,
+    private readonly visualisationService: VisualizeService<L, S, M>,
     private readonly resultlistService: ResultlistService<L, S, M>,
     private readonly collaborativeSearchService: ArlasCollaborativesearchService
   ) { }

@@ -34,6 +34,7 @@ import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
+import { MockArlasConfigService } from './tools/test';
 
 describe('ArlasWuiComponent', () => {
   let component: ArlasWuiComponent<any, any, any>;
@@ -47,8 +48,9 @@ describe('ArlasWuiComponent', () => {
       collectionsMap: new Map()
     });
 
-    const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket']);
+    const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket', 'getProcessSettings']);
     mockSettingsService.getHistogramMaxBucket.and.returnValue();
+    mockSettingsService.getProcessSettings.and.returnValue({});
 
     const mockContributorService = jasmine.createSpyObj('ContributorService', ['getMapContributors']);
     mockContributorService.getMapContributors.and.returnValue([]);
@@ -105,7 +107,11 @@ describe('ArlasWuiComponent', () => {
           provide: ColorGeneratorLoader,
           useValue: mockColorGeneratorLoader
         },
-        ArlasCollectionService
+        ArlasCollectionService,
+        {
+          provide: ArlasConfigService,
+          useClass: MockArlasConfigService
+        }
       ]
     }).compileComponents();
   });

@@ -126,7 +126,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     protected wuiMapService: ArlasWuiMapService<L, S, M>,
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly toolkitMapService: ArlasMapService,
-    protected visualizeService: VisualizeService,
+    protected visualizeService: VisualizeService<L, S, M>,
     private readonly configService: ArlasConfigService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     protected arlasStartupService: ArlasStartupService,
@@ -374,7 +374,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           lat: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[1] : 0,
           lng: this.mapComponentConfig.initCenter ? this.mapComponentConfig.initCenter[0] : 0,
         }
-      }
+      },
+      panelClass: 'arlas-bbox-generator-dialog'
     });
   }
 

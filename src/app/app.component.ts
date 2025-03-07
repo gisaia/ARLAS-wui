@@ -41,7 +41,6 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
   public collections = new Array<string>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
-  public resultlistContributors: Array<ResultListContributor> = new Array();
   /**
    * @Input : Angular
    * List of ResultList tabs to hide
@@ -77,6 +76,9 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
       this.initializeMap();
       /** Analytics */
       this.initializeAnalytics();
+
+      /** Resultlist-Map interactions */
+      this.resultlistService.setMapListInteractions();
     }
   }
 
@@ -99,8 +101,8 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           this.resultlistService.setCollectionsDescription(this.collectionToDescription);
-          if (this.resultlistContributors.length > 0) {
-            this.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
+          if (this.resultlistService.resultlistContributors.length > 0) {
+            this.resultlistService.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
           }
         });
     }
@@ -128,21 +130,22 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     });
 
     const ids = new Set(resultListsConfig.map(c => c.contributorId));
+    const resultlistContributors = new Array<ResultListContributor>();
     this.arlasStartupService.contributorRegistry.forEach((v, k) => {
       if (v instanceof ResultListContributor) {
         v.updateData = ids.has(v.identifier);
-        this.resultlistContributors.push(v);
+        resultlistContributors.push(v);
       }
     });
-    this.resultlistService.setContributors(this.resultlistContributors, resultListsConfig);
+    this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
   }
 
   private initializeMap() {
     const mapContributors = [];
     this.contributorService.getMapContributors().forEach(mapContrib => {
       mapContrib.colorGenerator = this.colorService.colorGenerator;
-      if (this.resultlistContributors) {
-        const resultlistContrbutor: ResultListContributor = this.resultlistContributors
+      if (this.resultlistService.resultlistContributors) {
+        const resultlistContrbutor: ResultListContributor = this.resultlistService.resultlistContributors
           .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
         if (resultlistContrbutor) {
           mapContrib.searchSize = resultlistContrbutor.pageSize;
