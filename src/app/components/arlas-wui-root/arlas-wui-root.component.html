@@ -121,6 +121,8 @@
                   [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                   [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
                   [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
+                  [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
+                  [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
                   (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
                   (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"
