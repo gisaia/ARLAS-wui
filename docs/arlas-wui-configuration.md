@@ -8,7 +8,7 @@ ARLAS-wui is configured with a yaml settings file that you can customize.
 
 #### With environment variables
 
-`ARLAS-wui` can run as a docker container. A rich set of properties of the settings file can be overriden by passing environment variables to the container:
+`ARLAS-wui` can run as a docker container. A rich set of properties of the settings file can be overridden by passing environment variables to the container:
 
 ```
 docker run -ti -d \
@@ -39,7 +39,7 @@ The `arlas-wui` container can start with a settings file that is downloaded befo
 | -------------------- | ----------- |
 |ARLAS_SETTINGS_URL | URL of the ARLAS-wui settings file to be downloaded by the container before starting |
 
-For instance, if the current directory of the host contains a `settings.yaml` file, the container can be started as follow:
+For instance, if the current directory of the host contains a `settings.yaml` file, the container can be started as follows:
 
 ```
 docker run -ti -d \
@@ -49,7 +49,7 @@ docker run -ti -d \
 ```
 ### arlas-wui settings properties
 
-If you don't mount a `settings.yaml` file to the container, nor serve it with `ARLAS_SETTINGS_URL` variable, you can set a bunch of environement variables in the default `settings.yaml` embarked with the application.
+If you don't mount a `settings.yaml` file to the container, nor serve it with `ARLAS_SETTINGS_URL` variable, you can set a bunch of environment variables in the default `settings.yaml` embarked with the application.
 
 #### Variables that are specific to ARLAS-wui
 
@@ -77,11 +77,11 @@ ARLAS-wui comes with several assets:
 
 `ARLAS-wui` comes with a list of translatable keys.
 
-Translations are edited in i18n files embarked with the application container in `/usr/share/nginx/html/assets/i18n/` folder. It could be overriden by a:
+Translations are edited in i18n files embarked with the application container in `/usr/share/nginx/html/assets/i18n/` folder. It could be overridden by a:
 
 #### File
 
-The `arlas-wui` container can start with a mounted i18n file thanks to docker volume mapping. For instance, if the current directory of the host contains a `fr.json` file, the container can be started as follow:
+The `arlas-wui` container can start with a mounted i18n file thanks to docker volume mapping. For instance, if the current directory of the host contains a `fr.json` file, the container can be started as follows:
 
 ```
 docker run -ti -d \
@@ -100,7 +100,7 @@ Two environment variables are available to set a url to English and French trans
 | ARLAS_WUI_I18N_FR_URL	          | Url to French file to translate `arlas-wui` labels and tooltips. |
 | ARLAS_WUI_I18N_ES_URL	          | Url to Spanish file to translate `arlas-wui` labels and tooltips. |
 
-For instance, if the current directory of the host contains a `en.json` file, the container can be started as follow:
+For instance, if the current directory of the host contains a `en.json` file, the container can be started as follows:
 
 ```
 docker run -ti -d \

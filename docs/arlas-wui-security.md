@@ -20,7 +20,7 @@ Below is an example of a **working** configuration with an ARLAS-IAM service.
 
 ## Authentication with Keycloak
 
-Arlas-wui is compliant with an identity service provider (like https://www.keycloak.org/) which respects an [OAuth 2.0 PKCE : RFC 7636: Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) protocol.
+Arlas-wui is compliant with an identity service provider (like [keycloak](https://www.keycloak.org/){:target="_blank"}) which respects an [OAuth 2.0 PKCE : RFC 7636: Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636){:target="_blank"} protocol.
 
 To configure the application you need to set some parameters in the settings.yaml file.
 
@@ -46,4 +46,4 @@ Below is an example of a **working** configuration with a Keycloak service. The 
 | authentication.client_id | The client's id as registered with the identity provider server, example: `arlas-front` | `CHANGE_ME` |
 | authentication.redirect_uri | The uri to go after login | `/callback` | 
 | authentication.silent_refresh_redirect_uri | The uri to use to refresh token | `/silent-refresh.html` | 
-| authentication.logout_url | The url to use to logout, example: `http://keycloak:8080/auth/realms/arlas/protocol/openid-connect/logout?client_id=arlas` | `CHANGE_ME` | 
+| authentication.logout_url | The url to use to logout, example: `http://keycloak:8080/auth/realms/arlas/protocol/openid-connect/logout?client_id=arlas` | `CHANGE_ME` |
