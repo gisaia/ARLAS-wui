@@ -36,18 +36,5 @@ export class MockArlasConfigService {
     if(key === 'arlas-wui.web.app.units'){
       return [];
     }
-    // if (key === 'arlas.web.components.mapgl.input') {
-    //   return {
-    //     visualisations_sets: [
-    //       {
-    //         'name': 'Image products in list',
-    //         'layers': [
-    //           'arlas_id:Image products in list:1707237476396'
-    //         ],
-    //         'enabled': true
-    //       }
-    //     ]
-    //   };
-    // }
   }
 }
