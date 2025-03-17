@@ -17,30 +17,24 @@
  * under the License.
  */
 
-@use 'sass:math';
+export class MockArlasConfigService {
 
-/** SPACING around elements **/
-$default-spacing: 10px;
-$xs-spacing: math.div($default-spacing, 4);
-$sm-spacing: math.div($default-spacing, 2);
-
-$lg-spacing: $default-spacing * 2;
-
-$default-margin: $default-spacing;
-$xs-margin: $xs-spacing;
-$sm-margin: $sm-spacing;
-$lg-margin: $lg-spacing;
-
-$sm-border: 2px;
-$xs-border: math.div($sm-border, 2);
-$default-border-radius: 4px;
-$menu-border: solid 1px rgba(0, 0, 0, 0.12);
-
-/** Fonts sizes **/
-$xs-font-size: 10px;
-$sm-font-size: 12px;
-$default-font-size: 14px;
-$title-font-size: 18px;
-$metric-value-font-size: 24px;
-
-$icon-size: 24px;
+  public getValue(key: string): any {
+    if (key === 'arlas') {
+      return {
+        'web': {
+          'contributors': []
+        }
+      };
+    }
+    if (key === 'arlas.web.contributors') {
+      return [];
+    }
+    if (key === 'arlas.web.externalNode') {
+      return {};
+    }
+    if(key === 'arlas-wui.web.app.units'){
+      return [];
+    }
+  }
+}

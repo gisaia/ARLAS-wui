@@ -3,7 +3,7 @@
     <div left-menu class="top-left-menu">
       <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
       <arlas-search *ngIf="searchContributors" #search id="search" class="arlas-search"
-        [searchContributors]="searchContributors" [dialogPositionLeft]="41" [dialogPositionTop]="-2"></arlas-search>
+        [searchContributors]="searchContributors" [dialogPositionLeft]="46" [dialogPositionTop]="-1"></arlas-search>
       <mat-divider *ngIf="searchContributors" vertical class="vertical-divider" id="menuDivider"></mat-divider>
       <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
         [collectionToDescription]="resultlistService.collectionToDescription" (zoomEvent)="zoomToData($event)"
@@ -121,6 +121,8 @@
                   [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                   [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
                   [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
+                  [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
+                  [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
                   (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
                   (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
                   (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"

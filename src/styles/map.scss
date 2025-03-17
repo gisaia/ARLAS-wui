@@ -110,11 +110,6 @@
       align-self: center;
     }
   }
-
-  .maplibregl-ctrl-group {
-    // Leave space to insert map layers button between attributions and map controls
-    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing + $maplibre-left-control-correction) !important;
-  }
 }
 
 .maplibregl-compact {

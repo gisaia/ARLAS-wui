@@ -90,7 +90,7 @@ export class ResultlistService<L, S, M> {
     private readonly processService: ProcessService,
     private readonly exportService: ArlasExportCsvService,
     private readonly snackbar: MatSnackBar,
-    private readonly visualizeService: VisualizeService,
+    private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog
   ) { }
@@ -130,10 +130,16 @@ export class ResultlistService<L, S, M> {
         this.selectList(0);
       }
 
-      this.addActions();
       this.declareResultlistExportCsv();
-      this.declareGlobalRasterVisualisation();
     }
+  }
+
+  /**
+   * Method to set actions and interactions of the list with the map
+   */
+  public setMapListInteractions() {
+    this.addActions();
+    this.declareGlobalRasterVisualisation();
   }
 
   public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
@@ -285,11 +291,11 @@ export class ResultlistService<L, S, M> {
     }
   }
 
-  public openDetail(id: any): BehaviorSubject<boolean> {
+  public openDetail(id: string): BehaviorSubject<boolean> {
     const isOpen = new BehaviorSubject<boolean>(false);
-    // If does not work add a variable ?
     const listConfig = this.resultlistConfigPerContId.get(this.previewListContrib.identifier);
     const isListMode = listConfig.defautMode === ModeEnum.list;
+
     if (isListMode) {
       const detailListButton = document.getElementById('open-detail-' + id);
       if (detailListButton) {
@@ -532,7 +538,8 @@ export class ResultlistService<L, S, M> {
                 .open(component, {
                   minWidth: '520px',
                   maxWidth: '60vw',
-                  data: data
+                  data: data,
+                  panelClass: 'arlas-aias-dialog'
                 });
             }
           });
