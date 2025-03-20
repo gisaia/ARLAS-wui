@@ -24,12 +24,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { CollectionReferenceParameters } from 'arlas-api';
+import { CollectionReferenceParameters, Expression } from 'arlas-api';
 import {
   ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
   Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
 } from 'arlas-web-components';
-import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
+import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
   ArlasExportCsvService, ArlasSettingsService,
@@ -228,13 +228,8 @@ export class ResultlistService<L, S, M> {
   public applyMapExtent(pwithinRaw: string, pwithin: string) {
     this.resultlistContributors
       .forEach(c => {
-        const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
         const mapContrib = this.mapService.getContributorByCollection(c.collection);
-        if (mapContrib) {
-          c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
-        } else {
-          MapContributor.getFilterFromExtent(pwithinRaw, pwithin, centroidPath);
-        }
+        this.setResultlistGeoFilter(c, mapContrib, pwithinRaw, pwithin);
         this.collaborativeService.registry.set(c.identifier, c);
       });
     this.resultlistContributors.forEach(c => {
@@ -244,6 +239,31 @@ export class ResultlistService<L, S, M> {
         c.sortColumn(this.sortOutput.get(c.identifier), true);
       }
     });
+  }
+
+  /**
+   * Sets the geographical filter to apply on the resultlist when moving the map.
+   * @param resultlistContributor resultlist contributor whose filter will be updated.
+   * @param mapContributor map contributor used to get the filter.
+   * @param rawExtent The extent of the map. The data will be fetched using this extent.
+   * @param wrappedExtent Wrapped format of the rawExtent (wrapped to the range [-180, 180]).
+   */
+  private setResultlistGeoFilter(resultlistContributor: ResultListContributor, mapContributor: MapContributor | undefined,
+    rawExtent: string, wrappedExtent: string): void {
+    if (!!mapContributor) {
+      let geoField: string | undefined;
+      let geoOp: Expression.OpEnum;
+      if (mapContributor.windowExtentGeometry === ExtentFilterGeometry.geometry_path) {
+        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.geometry_path;
+        geoOp = Expression.OpEnum.Intersects;
+      } else {
+        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.centroid_path;
+        geoOp = Expression.OpEnum.Within;
+      }
+      if (geoField) {
+        resultlistContributor.filter = mapContributor.getExtentFilter(rawExtent, wrappedExtent, geoField, geoOp, true);
+      }
+    }
   }
 
   public highlightItems(hoveredFeatures: any[]) {
