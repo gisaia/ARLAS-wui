@@ -1,5 +1,20 @@
 # Change Log
 
+## [v27.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.1) (2025-03-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0...v27.0.1)
+
+**Fixed bugs:**
+
+- Sort applied to the resultlist does not show [\#950](https://github.com/gisaia/ARLAS-wui/issues/950)
+- The descending/ascending radio buttons for resultlist sort are disabled [\#949](https://github.com/gisaia/ARLAS-wui/issues/949)
+
+**Miscellaneous:**
+
+- update security documentation [\#955](https://github.com/gisaia/ARLAS-wui/issues/955) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+- Zoom to feature not showing anymore [\#951](https://github.com/gisaia/ARLAS-wui/issues/951)
+- Wrong filter display with metrics table [\#948](https://github.com/gisaia/ARLAS-wui/issues/948)
+
 ## [v27.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0) (2025-02-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.12...v27.0.0)
@@ -11,10 +26,6 @@
 ## [v27.0.0-beta.11](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.11) (2025-01-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.10...v27.0.0-beta.11)
-
-**Fixed bugs:**
-
-- Translation throws an error when the color key is not defined for manual colors [\#929](https://github.com/gisaia/ARLAS-wui/issues/929)
 
 ## [v27.0.0-beta.10](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.10) (2025-01-29)
 
