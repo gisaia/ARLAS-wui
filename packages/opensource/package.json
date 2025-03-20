@@ -3,6 +3,6 @@
   "author": "gisaia",
   "license": "Apache-2.0",
   "dependencies": {
-    "arlas-maplibre": "~27.0.6"
+    "arlas-maplibre": "~27.0.7"
   }
 }

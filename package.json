@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "^15.0.0",
-    "arlas-wui-toolkit": "~27.0.6",
+    "arlas-wui-toolkit": "~27.0.7",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^18.2.1",
     "ngx-markdown": "^18.0.0",
@@ -78,5 +78,8 @@
     "ts-node": "~10.4.0",
     "typescript": "5.5.4",
     "webpack-bundle-analyzer": "^4.10.2"
+  },
+  "overrides": {
+    "esbuild": "~0.25.1"
   }
 }
