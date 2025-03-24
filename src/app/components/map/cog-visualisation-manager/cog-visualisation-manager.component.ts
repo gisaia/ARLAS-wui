@@ -19,10 +19,10 @@
 
 import { Component, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { ResultCogVisualisationShortcutComponent } from 'arlas-web-components';
-import { VisualisationInterface } from '../../../tools/visualisation.interface';
 import { ResultlistService } from '@services/resultlist.service';
+import { ResultCogVisualisationShortcutComponent } from 'arlas-web-components';
 import { first } from 'rxjs';
+import { VisualisationInterface } from '../../../tools/visualisation.interface';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
@@ -42,11 +42,11 @@ export class CogVisualisationManagerComponent {
       .afterClosed()
       .pipe(first())
       .subscribe(cogStyle =>  {
-        this.resultListService.setCongVisualisationSelectList(cogStyle);
+        this.resultListService.setCongVisualisationSelectionList(cogStyle);
       });
   }
 
   public deleteVisualisation() {
-    this.resultListService.setCongVisualisationSelectList(null);
+    this.resultListService.setCongVisualisationSelectionList(null);
   }
 }

@@ -36,11 +36,19 @@ arlas-result-cog-visualisation-shortcut {
   background-color: white;
   @include box-border();
 
-  mat-icon {
+  .delete {
     font-size: 20px;
     height: 20px;
     width: 27px;
+    display: none;
   }
+
+  &:hover {
+    .delete {
+      display: block;
+    }
+  }
+
 
   & ::ng-deep {
     .visualisation-picture {

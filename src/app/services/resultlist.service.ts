@@ -530,7 +530,7 @@ export class ResultlistService<L, S, M> {
         .subscribe(cogStyle =>  {
           console.log(cogStyle);
           this.firstCogSelection = !cogStyle;
-          this.setCongVisualisationSelectList(cogStyle);
+          this.setCongVisualisationSelectionList(cogStyle);
         });
     } else {
       this.visualizeRaster(data, listContributor, collection, fitBounds);
@@ -544,6 +544,7 @@ export class ResultlistService<L, S, M> {
       const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
       if (!data.action.activated) {
         this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
+          console.log(url);
           this.visualizeService.displayDataOnMap(url,
             data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
             this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
@@ -726,7 +727,8 @@ export class ResultlistService<L, S, M> {
         visualisations: this.currentCogVisualisationConfig
       },
       width: '44vw',
-      maxHeight:'40vh'
+      maxHeight:'40vh',
+      minHeight: '20vh'
       });
   }
 
@@ -737,13 +739,15 @@ export class ResultlistService<L, S, M> {
     }
   }
 
-  public setCongVisualisationSelectList(v: VisualisationInterface){
-    if(v !== undefined) {
-      this.cogVisualisationSelectedList.set(this.selectedListTabIndex, v);
-      this.cogVisualisationChange.next(v);
-    }
-  }
+  public setCongVisualisationSelectionList(v: VisualisationInterface){
+    this.cogVisualisationSelectedList.set(this.selectedListTabIndex, v);
+    this.cogVisualisationChange.next(v);
 
+    if(!v){
+      this.firstCogSelection = true;
+    }
+
+  }
 
   public updateCogVisualisation() {
     this.setCogVisualisationConfig(this.selectedListTabIndex);
