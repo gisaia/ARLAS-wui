@@ -20,16 +20,15 @@
 import { Component, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ResultlistService } from '@services/resultlist.service';
-import { ResultCogVisualisationShortcutComponent } from 'arlas-web-components';
+import { CogPreviewComponent, VisualisationInterface } from 'arlas-web-components';
 import { first } from 'rxjs';
-import { VisualisationInterface } from '../../../tools/visualisation.interface';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
   standalone: true,
   imports: [
     MatIcon,
-    ResultCogVisualisationShortcutComponent
+    CogPreviewComponent
   ],
   templateUrl: './cog-visualisation-manager.component.html',
   styleUrl: './cog-visualisation-manager.component.scss'
@@ -37,16 +36,15 @@ import { VisualisationInterface } from '../../../tools/visualisation.interface';
 export class CogVisualisationManagerComponent {
   public visualisation = input<VisualisationInterface>();
   protected resultListService = inject(ResultlistService);
+
   public openModal() {
     this.resultListService.openCogSelectionDialog()
-      .afterClosed()
-      .pipe(first())
       .subscribe(cogStyle =>  {
-        this.resultListService.setCongVisualisationSelectionList(cogStyle);
+        this.resultListService.setSelectedCogVisualisation(cogStyle);
       });
   }
 
   public deleteVisualisation() {
-    this.resultListService.setCongVisualisationSelectionList(null);
+    this.resultListService.setSelectedCogVisualisation(null);
   }
 }

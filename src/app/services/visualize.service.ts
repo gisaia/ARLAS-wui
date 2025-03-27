@@ -132,7 +132,6 @@ export class VisualizeService {
     } else {
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
-      this.isWMTSOnMap = this.isRasterOnMap = false;
     }
     this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-');
     this.isWMTSOnMap = this.isRasterOnMap;
@@ -155,7 +154,7 @@ export class VisualizeService {
     this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     this.mapFrameworkService.addRasterLayer(this.mapInstance, 'raster-source-' + id, url, bounds, maxZoom,
-      /** minzoom */undefined, /** tilesize */ 256, beforeId);
+      /** tilesize */ 256, beforeId);
     if (id !== 'external') {
       this.isWMTSOnMap = true;
       this.isRasterOnMap = true;

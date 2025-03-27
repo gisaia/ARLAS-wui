@@ -41,6 +41,7 @@ import {
   MapSettingsComponent,
   SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
+import { VisualisationInterface } from 'arlas-web-components';
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
@@ -56,7 +57,6 @@ import {
   getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
-import { VisualisationInterface } from '../../tools/visualisation.interface';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -599,6 +599,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   public listenVisualisationChange (){
     this.resultlistService.cogVisualisationChange
       .pipe(takeUntil(this._onDestroy$))
-      .subscribe(v => this.cogVisualisation.set(this.resultlistService.getCurrentVisualisation())  );
+      .subscribe(v => this.cogVisualisation.set(this.resultlistService.getCurrentVisualisation()?.vis)  );
   }
 }
