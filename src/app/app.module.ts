@@ -48,7 +48,7 @@ import {
   FormatNumberModule,
   GetValueModule,
   HistogramModule,
-  ResultsModule,
+  ResultsModule
 } from 'arlas-web-components';
 import {
   ArlasCollectionService,

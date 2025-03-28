@@ -1,18 +1,18 @@
 <div class="menu_container">
-  <div class="arlas-analytics" *ngIf="!arlasStartupService.emptyMode; else voidDiv">
-    <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
-    <mat-divider></mat-divider>
-    <ng-container *ngIf="isRefreshAnalyticsButton">
-      <button mat-icon-button class="arlas-analytics-refresh" (click)="refreshComponents()"
-        matTooltip="{{'Refresh components' | translate}}" matTooltipPosition="right">
-        <mat-icon>refresh</mat-icon>
-      </button>
+  <div class="arlas-analytics">
+    @if (!arlasStartupService.emptyMode) {
+      <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
       <mat-divider></mat-divider>
-    </ng-container>
+      <ng-container *ngIf="isRefreshAnalyticsButton">
+        <button mat-icon-button class="arlas-analytics-refresh" (click)="refreshComponents()"
+          matTooltip="{{'Refresh components' | translate}}" matTooltipPosition="right">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+      </ng-container>
+    }
   </div>
-  <ng-template #voidDiv>
-    <div></div>
-  </ng-template>
+
   <div class="action-list">
     <mat-divider></mat-divider>
     <mat-nav-list *ngIf="showDashboardsList">
@@ -23,38 +23,16 @@
         </button>
       </mat-list-item>
     </mat-nav-list>
-    <button mat-icon-button [matMenuTriggerFor]="actionMenu" *ngIf="!arlasStartupService.emptyMode" class="action-menu-button">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #actionMenu="matMenu">
-      <button mat-menu-item *ngIf="shareComponentConfig" (click)="displayShare()">
-        <mat-icon>share</mat-icon>
-        <span>{{ 'Share geographical data' | translate }}</span>
-      </button>
-      <button mat-menu-item *ngIf="downloadComponentConfig" (click)="displayDownload()">
-        <mat-icon>get_app</mat-icon>
-        <span>{{ 'Download data' | translate }}</span>
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu" *ngIf="!arlasStartupService.emptyMode">
-        <mat-icon>bookmark</mat-icon>
-        <span>{{ 'Bookmark' | translate }}</span>
-      </button>
-      <button mat-menu-item *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu">
+    @if (!arlasStartupService.emptyMode) {
+      <button mat-icon-button *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu" [matTooltip]="'Tag data' | translate" [matTooltipPosition]="'right'">
         <mat-icon>local_offer</mat-icon>
-        <span>{{ 'Tag data' | translate }}</span>
       </button>
-      <button mat-menu-item *ngIf="walkthroughService.isActivable" (click)="replayTour()">
+      <button mat-icon-button *ngIf="walkthroughService.isActivable" (click)="replayTour()" [matTooltip]="'Replay tour' | translate" [matTooltipPosition]="'right'">
         <mat-icon>slideshow</mat-icon>
-        <span>{{ 'Replay tour' | translate }}</span>
       </button>
-    </mat-menu>
+    }
   </div>
 </div>
-<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
-
-<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
-
-<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
 
 <arlas-tag #tag></arlas-tag>
 
@@ -68,3 +46,4 @@
     <span>{{ 'Replay' | translate }}</span>
   </button>
 </mat-menu>
+
