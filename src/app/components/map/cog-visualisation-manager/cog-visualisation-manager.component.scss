@@ -21,34 +21,15 @@
 @import "../../../../styles/app/sizes.scss";
 @import "../../../../styles/app/mixin.scss";
 
-arlas-result-cog-visualisation-shortcut {
-  display: block;
-  width: 100%;
-}
-
 :host {
   display: flex;
   align-items: center;
-  height: $map-cog-visualisation-height;
+  height: $map-actions-width;
   padding: 0 $sm-spacing;
   cursor: pointer;
   box-shadow: none;
   background-color: white;
   @include box-border();
-
-  .delete {
-    font-size: 20px;
-    height: 20px;
-    width: 27px;
-    display: none;
-  }
-
-  &:hover {
-    .delete {
-      display: block;
-    }
-  }
-
 
   & ::ng-deep {
     .visualisation-picture {
@@ -61,24 +42,4 @@ arlas-result-cog-visualisation-shortcut {
     }
   }
 
-}
-
-.wrapper {
-  cursor: pointer;
-  width: $map-actions-width;
-  height: $map-actions-width;
-  margin-bottom: $sm-spacing;
-  @include box-border();
-  box-shadow: none;
-  padding: 0;
-  background-color: white;
-
-  .icon {
-    height: $map-actions-width;
-    width: $map-actions-width;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }

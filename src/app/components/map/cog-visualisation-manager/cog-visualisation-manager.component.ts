@@ -43,8 +43,4 @@ export class CogVisualisationManagerComponent {
         this.resultListService.setSelectedCogVisualisation(cogStyle);
       });
   }
-
-  public deleteVisualisation() {
-    this.resultListService.setSelectedCogVisualisation(null);
-  }
 }

@@ -65,6 +65,7 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
   public removeLayers() {
     this.visualisationService.removeRasters();
     this.resultlistService.removeActions('visualize');
+    this.resultlistService.setSelectedCogVisualisation(null);
   }
 
   public ngOnDestroy(): void {
