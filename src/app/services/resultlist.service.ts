@@ -518,6 +518,10 @@ export class ResultlistService<L, S, M> {
     this.listComponent = listComponent;
   }
 
+  public getListComponent() {
+    return this.listComponent;
+  }
+
   public unsetListComponent() {
     this.listComponent = null;
   }
@@ -554,7 +558,6 @@ export class ResultlistService<L, S, M> {
           }
         });
     } else {
-      // this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
       this.visualizeRaster(data, listContributor, collection, fitBounds);
     }
   }
@@ -564,9 +567,15 @@ export class ResultlistService<L, S, M> {
 
     if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
       const urlVisualisationTemplate = this.getVisualisationUrl(data.action, listContributor);
+      // If there is no visualisation url, then no visualisation can be done
+      //  Can be caused by the item not matching any visualisation rule
+      if (!urlVisualisationTemplate) {
+        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+        return;
+      }
+
       if (!data.action.activated) {
         this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-          console.log(url);
           this.visualizeService.displayDataOnMap(url,
             data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
             this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
@@ -768,34 +777,35 @@ export class ResultlistService<L, S, M> {
   }
 
   /**
-   *  Open cog visualisation dialog
+   *  Open cog visualisation dialog to select the first cog visualisation
    */
-  public openCogSelectionDialog(matches?: Array<boolean>): Observable<VisualisationInterface|null> {
-    const enabled = this.currentCogVisualisationConfig.map(_ => true);
+  public openCogSelectionDialog(matches: Array<boolean>): Observable<VisualisationInterface|null> {
+    const enabled = this.currentCogVisualisationConfig.map(_ => false);
 
-    // If there are matches given, parses the array to find out which visualisations are enabled
-    if (matches) {
-      let i = 0;
-      this.currentCogVisualisationConfig.forEach((v, vidx) => {
-        enabled[vidx] = false;
-        v.dataGroups.forEach(f => {
-          enabled[vidx] = matches[i] || enabled[vidx];
-          i++;
-        });
+    // Parses the array to find out which visualisations are enabled
+    let i = 0;
+    this.currentCogVisualisationConfig.forEach((v, vidx) => {
+      v.dataGroups.forEach(f => {
+        enabled[vidx] = matches[i] || enabled[vidx];
+        i++;
       });
-    }
-    // Otherwise, they all are
+    });
 
-    return this.dialog.open(CogModalComponent, {
-      data: { visualisations: this.currentCogVisualisationConfig.filter((_, i) => enabled[i]) },
+    const dialogRef = this.dialog.open(CogModalComponent, {
+      data: {
+        visualisations: this.currentCogVisualisationConfig.map((v, idx) => ({ visualisation: v, match: enabled[idx] ? 'all' : 'none'})),
+        loading: false
+      },
       width: '44vw',
       maxHeight:'40vh'
-    }).afterClosed().pipe(first());
+    });
+
+    return dialogRef.afterClosed().pipe(first());
   }
 
   public setCogVisualisationConfig(index: number){
     const conf = this.resultlistConfigs[index];
-    if(conf.input.visualisationsList){
+    if (conf.input.visualisationsList) {
       this.currentCogVisualisationConfig = conf.input.visualisationsList;
     }
   }
@@ -833,16 +843,21 @@ export class ResultlistService<L, S, M> {
           const action: Action = {
             id: 'visualize', label: ''
           };
-          this.listComponent.detailedDataRetriever.getMatch(item, filters).pipe(take(1)).subscribe({
+          this.listComponent.detailedDataRetriever.getMatch(item, visualizeAction.filters).pipe(take(1)).subscribe({
             next: values => {
               action.matched = values;
-              // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
               this.visualizeService.removeRasters(item);
-              this.removeAction(contributorId, item, 'visualize');
+
+              // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
               if (this.getVisualisationUrl(action, contributor)) {
                 this.visualizeRaster(
                   { action: action, elementidentifier: { idFieldName: contributor.fieldsConfiguration.idFieldName, idValue: item } },
                   contributor, contributor.collection, false);
+
+                // Send a fake hover notification so that it can display its state properly
+                this.listNotifier.notifyItemHover(item);
+              } else {
+                this.removeAction(contributorId, item, 'visualize');
               }
             }
           });
@@ -851,7 +866,7 @@ export class ResultlistService<L, S, M> {
     }
   }
 
-  private getCogFiltersFromConfig(config: any): ActionFilter[][] {
+  public getCogFiltersFromConfig(config: any): ActionFilter[][] {
     return config.visualisationsList
       .map(v => v.dataGroups.map(dg => dg.filters))
       // .filter(f => f.length > 0) => If there are no filters it means everyone can do it
