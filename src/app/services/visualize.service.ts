@@ -23,6 +23,8 @@ import { TranslateService } from '@ngx-translate/core';
 import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
+import { flattenedMatchAndReplace } from 'app/tools/cog';
+import { getItem } from 'app/tools/utils';
 import { Expression, Filter, Search } from 'arlas-api';
 import { AbstractArlasMapGL, ArlasPaint, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum, VectorStyle } from 'arlas-map';
 import { ElementIdentifier } from 'arlas-web-contributors';
@@ -84,39 +86,8 @@ export class VisualizeService<L, S, M> {
   public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
     Observable<string> {
 
-    const search: Search = {
-      page: { size: 1 },
-      form: { pretty: false, flat: true }
-    };
-    const expression: Expression = {
-      field: elementidentifier.idFieldName,
-      op: Expression.OpEnum.Eq,
-      value: elementidentifier.idValue
-    };
-    const filterExpression: Filter = {
-      f: [[expression]]
-    };
-    const searchResult = this.collaborativeService
-      .resolveHits([projType.search, search],
-        this.collaborativeService.collaborations,
-        collection,
-        null,
-        filterExpression,
-        true);
-    return searchResult.pipe(map(data => {
-      if (urlTemplate.indexOf('{') < 0) {
-        return urlTemplate;
-      } else {
-        this.getVisuFields(urlTemplate).forEach(field => {
-          if (!data.hits || data.hits[0].data[field] === undefined) {
-            return undefined;
-          } else {
-            urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
-          }
-        });
-      }
-      return urlTemplate;
-    }));
+    const searchResult = getItem(elementidentifier, collection, this.collaborativeService);
+    return searchResult.pipe(map(data => flattenedMatchAndReplace(data.hits[0].data, urlTemplate)));
   }
 
   /** @deprecated Use removeRasters instead. */
@@ -255,7 +226,7 @@ export class VisualizeService<L, S, M> {
         const maxY = box[3] + 0.1 / 100 * box[3];
         return {
           bounds: [[minX, minY], [maxX, maxY]],
-          center: geojsonCenter.coordinates ? geojsonCenter.coordinates : [geojsonCenter.lon, geojsonCenter.lat],
+          center: geojsonCenter.coordinates ?? [geojsonCenter.lon, geojsonCenter.lat],
           box: box
         };
       })

@@ -21,6 +21,7 @@ import { Component, inject, input } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { ResultlistService } from '@services/resultlist.service';
+import { getTitilerPreviewUrl } from 'app/tools/cog';
 import { CogModalComponent, CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
 
@@ -38,9 +39,10 @@ import { first, zip } from 'rxjs';
 })
 export class CogVisualisationManagerComponent {
   public visualisation = input<VisualisationInterface>();
+  public preview = input<string>();
 
-  private resultListService = inject(ResultlistService);
-  private dialog = inject(MatDialog);
+  private readonly resultListService = inject(ResultlistService);
+  private readonly dialog = inject(MatDialog);
 
   public openModal() {
     const allVis: Array<VisualisationInterface> = this.resultListService.resultlistConfigs[this.resultListService.selectedListTabIndex]
@@ -60,23 +62,29 @@ export class CogVisualisationManagerComponent {
     });
 
     // Query for each of the currently viewed items what visualisations they match
-    const contributorId = this.resultListService.rightListContributors[this.resultListService.selectedListTabIndex].identifier;
+    const contributor = this.resultListService.rightListContributors[this.resultListService.selectedListTabIndex];
+    const contributorId = contributor.identifier;
     const filters = this.resultListService.getCogFiltersFromConfig(this.resultListService.resultlistConfigPerContId.get(contributorId));
-    const dataRetriever = this.resultListService.getListComponent().detailedDataRetriever;
+    const dataRetriever = contributor.detailedDataRetriever;
 
     const itemsVisualized = (new Array(...this.resultListService.activeActionsPerContId.get(contributorId).entries()))
       .filter(v => v[1].has('visualize'));
     const visualizedItemsMatches = zip(itemsVisualized.map(v => dataRetriever.getMatch(v[0], filters)));
 
-    visualizedItemsMatches.subscribe(matches => {
+    visualizedItemsMatches.subscribe(m => {
       const nbMatches = allVis.map(_ => 0);
       let currentIdx = 0;
       allVis.forEach((v, visIdx) => {
         // For each visualisation, check if each item matches at least one dataGroup
-        matches.forEach(match => {
+        m.forEach(mi => {
           let isMatched = false;
           v.dataGroups.forEach((dg, dgIdx) => {
-            isMatched = isMatched || match[currentIdx + dgIdx];
+            isMatched = isMatched || mi.matched[currentIdx + dgIdx];
+
+            // For titiler protocol, take the first datagroup that matches to create a preview url
+            if (mi.matched[currentIdx + dgIdx] && dg.protocol === 'titiler' && !visualisations[visIdx].preview) {
+              visualisations[visIdx].preview = getTitilerPreviewUrl(dg.visualisationUrl, mi.data);
+            }
           });
           if (isMatched) {
             nbMatches[visIdx] += 1;
@@ -87,15 +95,25 @@ export class CogVisualisationManagerComponent {
 
       // Transform the number of matches into 'match' description
       nbMatches.forEach((nb, idx) => {
-        visualisations[idx].match = nb === 0 ? 'none' : (nb === itemsVisualized.length ? 'all' : 'partial');
+        if (nb === 0) {
+          visualisations[idx].match = 'none';
+        } else {
+          visualisations[idx].match = nb === itemsVisualized.length ? 'all' : 'partial';
+        }
       });
 
       // Update the input data of the dialog
       dialogRef.componentInstance.data = { visualisations, loading: false };
+
+      // Get missing previews by querying with the filters
+      visualisations.filter(v => !v.preview).forEach(v => {
+        this.resultListService.findPreviewForVisualisation(v, 0);
+      });
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(cogStyle =>  {
-      this.resultListService.setSelectedCogVisualisation(cogStyle);
+    dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {
+      const idx = this.resultListService.currentCogVisualisationConfig.findIndex(vis => v === vis);
+      this.resultListService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
     });
   }
 }

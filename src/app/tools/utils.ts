@@ -17,6 +17,11 @@
  * under the License.
  */
 
+import { Expression, Filter, Search } from 'arlas-api';
+import { ElementIdentifier } from 'arlas-web-components';
+import { projType } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+
 export function isElementInViewport(el: HTMLElement) {
   if (el) {
     const rect = el.getBoundingClientRect();
@@ -27,4 +32,23 @@ export function isElementInViewport(el: HTMLElement) {
   } else {
     return false;
   }
+}
+
+
+export function getItem(elementidentifier: ElementIdentifier, collection: string, collaborativeService: ArlasCollaborativesearchService) {
+  const search: Search = {
+    page: { size: 1 },
+    form: { pretty: false, flat: true }
+  };
+  const expression: Expression = {
+    field: elementidentifier.idFieldName,
+    op: Expression.OpEnum.Eq,
+    value: elementidentifier.idValue
+  };
+  const filterExpression: Filter = {
+    f: [[expression]]
+  };
+  return collaborativeService.resolveHits(
+    [projType.search, search], collaborativeService.collaborations,
+    collection, null, filterExpression, true);
 }

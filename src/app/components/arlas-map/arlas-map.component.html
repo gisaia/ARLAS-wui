@@ -51,8 +51,8 @@
     @if (visualizeService.isRasterOnMap) {
       <arlas-rasters-manager></arlas-rasters-manager>
     }
-    @if(cogVisualisation()){
-      <arlas-cog-visualisation-manager [visualisation]="cogVisualisation()"></arlas-cog-visualisation-manager>
+    @if (cogVisualisation()?.visualisation){
+      <arlas-cog-visualisation-manager [visualisation]="cogVisualisation().visualisation" [preview]="cogVisualisation().preview"></arlas-cog-visualisation-manager>
     }
   </div>
 
