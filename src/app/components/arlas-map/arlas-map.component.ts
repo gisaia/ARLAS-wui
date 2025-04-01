@@ -28,6 +28,7 @@ import { ArlasWuiMapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
 import { VisualizeService } from '@services/visualize.service';
 import { FeatureCollection } from '@turf/helpers';
+import { VisualisationPreview } from 'app/tools/cog';
 import {
   AoiEdition,
   ArlasLngLat,
@@ -132,7 +133,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   private readonly _onDestroy$ = new Subject<boolean>();
 
   /** show cog visualisation **/
-  protected cogVisualisation= signal<VisualisationInterface | null>(null);
+  protected cogVisualisation = signal<VisualisationPreview | null>(null);
 
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
@@ -599,6 +600,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   public listenVisualisationChange (){
     this.resultlistService.cogVisualisationChange
       .pipe(takeUntil(this._onDestroy$))
-      .subscribe(v => this.cogVisualisation.set(this.resultlistService.getCurrentVisualisation()?.vis)  );
+      .subscribe(v => this.cogVisualisation.set(v));
   }
 }

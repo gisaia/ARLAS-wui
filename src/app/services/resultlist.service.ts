@@ -26,6 +26,7 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { ArlasWuiMapService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
+import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
 import { isElementInViewport } from 'app/tools/utils';
 import { CollectionReferenceParameters } from 'arlas-api';
 import {
@@ -56,7 +57,7 @@ import {
   getParamValue,
   ProcessService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, first, Observable, Subject, take } from 'rxjs';
+import { BehaviorSubject, finalize, first, map, Observable, Subject, take } from 'rxjs';
 
 
 @Injectable({
@@ -75,8 +76,8 @@ export class ResultlistService<L, S, M> {
 
   /** Visualisation */
   public currentCogVisualisationConfig: VisualisationInterface[];
-  public selectedCogVisualisation = new Map<number, {vis: VisualisationInterface; idx: number;}>();
-  public cogVisualisationChange = new Subject();
+  public selectedCogVisualisation = new Map<number, {visualisation: VisualisationInterface; idx: number; preview: string;}>();
+  public cogVisualisationChange = new Subject<VisualisationPreview>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -549,7 +550,8 @@ export class ResultlistService<L, S, M> {
           }
 
           this.firstCogSelection = !cogStyle;
-          this.setSelectedCogVisualisation(cogStyle);
+          const idx = this.currentCogVisualisationConfig.findIndex(vis => cogStyle.visualisation === vis);
+          this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview);
 
           if (cogStyle) {
             // Necessary to properly launch the visualisation
@@ -590,19 +592,19 @@ export class ResultlistService<L, S, M> {
 
   private getVisualisationUrl(action: Action, listContributor: ResultListContributor) {
     if (action.matched) {
-      const visualisation = this.getCurrentVisualisation();
+      const v = this.getCurrentVisualisation();
 
       // Find the start of the selected visualisation in the array of matches of the action
       // Only needed if there are more matches in the action than there are dataGroups.
       // It happens when this item is not the first one visualized
       let firstVisuElement = 0;
-      if (action.matched.length > visualisation.vis.dataGroups.length) {
-        for (let i= 0; i < visualisation.idx; i++) {
+      if (action.matched.length > v.visualisation.dataGroups.length) {
+        for (let i= 0; i < v.idx; i++) {
           firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
         }
       }
       // The url is the one of the first dataGroup for which the item matched the condition
-      return visualisation.vis.dataGroups.find((_, i) => action.matched[firstVisuElement + i])?.visualisationUrl;
+      return v.visualisation.dataGroups.find((_, i) => action.matched[firstVisuElement + i])?.visualisationUrl;
     } else {
       return this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
     }
@@ -779,28 +781,41 @@ export class ResultlistService<L, S, M> {
   /**
    *  Open cog visualisation dialog to select the first cog visualisation
    */
-  public openCogSelectionDialog(matches: Array<boolean>): Observable<VisualisationInterface|null> {
+  public openCogSelectionDialog(matches: Array<boolean>): Observable<VisualisationPreview> {
     const enabled = this.currentCogVisualisationConfig.map(_ => false);
+    const previews: Array<string> = this.currentCogVisualisationConfig.map(_ => undefined);
 
     // Parses the array to find out which visualisations are enabled
     let i = 0;
     this.currentCogVisualisationConfig.forEach((v, vidx) => {
-      v.dataGroups.forEach(f => {
+      v.dataGroups.forEach(dg => {
         enabled[vidx] = matches[i] || enabled[vidx];
+
+        // For titiler protocol, take the first datagroup that matches to create a preview url
+        if (matches[i] && dg.protocol === 'titiler' && !previews[vidx]) {
+          previews[vidx] = getTitilerPreviewUrl(dg.visualisationUrl);
+        }
+
         i++;
       });
     });
 
     const dialogRef = this.dialog.open(CogModalComponent, {
       data: {
-        visualisations: this.currentCogVisualisationConfig.map((v, idx) => ({ visualisation: v, match: enabled[idx] ? 'all' : 'none'})),
+        visualisations: this.currentCogVisualisationConfig.map((v, idx) => (
+          { visualisation: v, match: enabled[idx] ? 'all' : 'none', preview: previews[idx]})),
         loading: false
       },
       width: '44vw',
       maxHeight:'40vh'
     });
 
-    return dialogRef.afterClosed().pipe(first());
+    return dialogRef.afterClosed().pipe(first(),
+      map((v: VisualisationInterface) => {
+        const idx = this.currentCogVisualisationConfig.findIndex(vis => v === vis);
+        return {visualisation: v, preview: previews[idx], idx};
+      })
+    );
   }
 
   public setCogVisualisationConfig(index: number){
@@ -810,33 +825,33 @@ export class ResultlistService<L, S, M> {
     }
   }
 
-  public setSelectedCogVisualisation(v: VisualisationInterface) {
+  public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string) {
     const contributor = this.resultlistContributors[this.selectedListTabIndex];
     const contributorId = contributor.identifier;
-    const previousVisualisation = this.selectedCogVisualisation.get(this.selectedListTabIndex);
+    const previousVisualisation = this.selectedCogVisualisation.get(this.selectedListTabIndex)?.visualisation;
     const filters = this.getCogFiltersFromConfig(this.resultlistConfigPerContId.get(contributorId));
     const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
 
-    if (!v) {
+    if (!visualisation) {
       this.selectedCogVisualisation.delete(this.selectedListTabIndex);
       this.firstCogSelection = true;
 
       // Allow all data groups
       visualizeAction.filters = filters;
     } else {
-      this.selectedCogVisualisation.set(this.selectedListTabIndex, {vis: v, idx: this.currentCogVisualisationConfig.findIndex(vi => vi === v)});
+      this.selectedCogVisualisation.set(this.selectedListTabIndex, {visualisation, idx, preview});
 
       // Allow only the visualisation data groups
-      visualizeAction.filters = v.dataGroups.map(dg => dg.filters);
+      visualizeAction.filters = visualisation.dataGroups.map(dg => dg.filters);
     }
     this.listNotifier.refreshActions();
-    this.cogVisualisationChange.next(v);
+    this.cogVisualisationChange.next({visualisation, idx, preview});
 
-    if (!v) {
+    if (!visualisation) {
       // If no visualisation, clean up the rasters
       this.visualizeService.removeRasters();
       this.removeContributorAction(contributorId, 'visualize');
-    } else if (previousVisualisation?.vis) {
+    } else if (previousVisualisation) {
       // If there is a visualisation and there are already visualisations, update them if they can be
       this.activeActionsPerContId?.get(contributorId)?.forEach((actions, item) => {
         if (actions.has('visualize')) {

@@ -21,6 +21,7 @@ import { Component, inject, input } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { ResultlistService } from '@services/resultlist.service';
+import { getTitilerPreviewUrl } from 'app/tools/cog';
 import { CogModalComponent, CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
 
@@ -38,6 +39,7 @@ import { first, zip } from 'rxjs';
 })
 export class CogVisualisationManagerComponent {
   public visualisation = input<VisualisationInterface>();
+  public preview = input<string>();
 
   private resultListService = inject(ResultlistService);
   private dialog = inject(MatDialog);
@@ -77,6 +79,11 @@ export class CogVisualisationManagerComponent {
           let isMatched = false;
           v.dataGroups.forEach((dg, dgIdx) => {
             isMatched = isMatched || match[currentIdx + dgIdx];
+
+            // For titiler protocol, take the first datagroup that matches to create a preview url
+            if (match[currentIdx + dgIdx] && dg.protocol === 'titiler' && !visualisations[visIdx].preview) {
+              visualisations[visIdx].preview = getTitilerPreviewUrl(dg.visualisationUrl);
+            }
           });
           if (isMatched) {
             nbMatches[visIdx] += 1;
@@ -94,8 +101,9 @@ export class CogVisualisationManagerComponent {
       dialogRef.componentInstance.data = { visualisations, loading: false };
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(cogStyle =>  {
-      this.resultListService.setSelectedCogVisualisation(cogStyle);
+    dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {
+      const idx = this.resultListService.currentCogVisualisationConfig.findIndex(vis => v === vis);
+      this.resultListService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
     });
   }
 }
