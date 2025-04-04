@@ -18,11 +18,9 @@
  */
 
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContributorService } from '../../services/contributors.service';
-import { ArlasWuiMapService } from '../../services/map.service';
-import { ResultlistService } from '../../services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
@@ -33,20 +31,22 @@ import {
   ArlasMapSettings,
   ArlasSettingsService,
   ArlasStartupService,
-  DownloadComponent,
   FilterShortcutConfiguration,
   getParamValue,
   NOT_CONFIGURED,
-  ShareComponent,
   TimelineComponent,
   ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { MenuState } from '../left-menu/left-menu.component';
-import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
+import { ContributorService } from '../../services/contributors.service';
+import { ArlasWuiMapService } from '../../services/map.service';
+import { ResultlistService } from '../../services/resultlist.service';
 import { ArlasListComponent } from '../arlas-list/arlas-list.component';
+import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
+import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
+import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -135,8 +135,6 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   /** Download & Share */
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
-  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
-  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
@@ -155,7 +153,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     private readonly router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService<L, S, M>,
-    protected mapService: ArlasWuiMapService<L, S, M>
+    protected mapService: ArlasWuiMapService<L, S, M>,
+    public dialog: MatDialog
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -365,12 +364,25 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   /** When opening the dialog of layers to share, we specify the visibility status of all
    * layers so that we choose only the displayed ones */
-  public displayShare() {
-    this.shareComponent.openDialog(this.mapService.mapComponent.visibilityStatus);
-  }
-
-  public displayDownload() {
-    this.downloadComponent.openDialog();
+  public displayExportData() {
+    this.dialog.open(
+      ExportDataDialogComponent,
+      {
+        data: {
+          share: {
+            data: this.mapService.mapComponent?.visibilityStatus ?? [],
+            enabled: this.shareComponentConfig
+          },
+          download:{
+            data: this.collections,
+            enabled:this.downloadComponentConfig
+          }
+        },
+        width: '80vw',
+        minHeight: '60vh',
+        autoFocus: false
+      }
+    );
   }
 
   /**
