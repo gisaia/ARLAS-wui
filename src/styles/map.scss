@@ -99,8 +99,7 @@
 
   .mapboxgl-ctrl-group,
   .maplibregl-ctrl-group {
-    // Leave space to insert map layers button between attributions and map controls
-    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing) !important;
+    margin-top: $xs-spacing !important;
     margin-right: 0 !important;
     width: $map-actions-width;
     @include box-border();
@@ -109,6 +108,12 @@
     button {
       align-self: center;
     }
+  }
+
+  .mapboxgl-ctrl-group,
+  .maplibregl-ctrl-group:has(.maplibregl-ctrl-zoom-in) {
+    // Leave space to insert map layers button between attributions and map controls
+    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing) !important;
   }
 }
 

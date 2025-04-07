@@ -1,7 +1,7 @@
 <div class="arlas-map__container" [class.arlas-map__container--tight]="!wuiMapService.coordinatesHaveSpace">
     <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
-    <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
+    <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" [class.arlas-map-settings--globe]="mapComponentConfig?.enableGlobe">
         <div class="arlas-map-settings-container" >
           <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
             <mat-icon (click)="openMapSettings()">settings</mat-icon>
@@ -67,6 +67,7 @@
       [featureToHightLight]="wuiMapService.featureToHightLight" [featuresToSelect]="wuiMapService.featuresToSelect"
       [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
       [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
+      [enableGlobe]="mapComponentConfig?.enableGlobe"
       (onAoiChanged)="onChangeAoi($event)"
       (onAoiEdit)="onAoiEdit($event)"
       (onMove)="onMove($event)"
