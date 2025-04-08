@@ -27,24 +27,26 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArlasWuiMapService } from '@services/map.service';
 import { VisualizeService } from '@services/visualize.service';
 import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
-import { isElementInViewport } from 'app/tools/utils';
-import { CollectionReferenceParameters } from 'arlas-api';
+import { getItem, isElementInViewport } from 'app/tools/utils';
+import { CollectionReferenceParameters, Expression, Filter, Search } from 'arlas-api';
 import {
   ActionHandler,
   CellBackgroundStyleEnum,
+  CogModalComponent,
+  CogVisualisationData,
   Column,
   ElementIdentifier,
   Item,
   ModeEnum,
   PageQuery,
-  CogModalComponent,
   ResultListComponent,
+  ResultlistNotifierService,
   SortEnum,
-  VisualisationInterface,
-  ResultlistNotifierService
+  VisualisationInterface
 } from 'arlas-web-components';
 import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import { ActionFilter } from 'arlas-web-contributors/models/models';
+import { projType } from 'arlas-web-core';
 import {
   AiasDownloadComponent,
   AiasEnrichComponent,
@@ -543,7 +545,7 @@ export class ResultlistService<L, S, M> {
     this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
 
     if (this.firstCogSelection && !data.action.activated) {
-      this.openCogSelectionDialog(data.action.matched)
+      this.openCogSelectionDialog(data)
         .subscribe(cogStyle =>  {
           if (!cogStyle) {
             this.removeAction(listContributor.identifier, data.elementidentifier.idValue, 'visualize');
@@ -781,29 +783,56 @@ export class ResultlistService<L, S, M> {
   /**
    *  Open cog visualisation dialog to select the first cog visualisation
    */
-  public openCogSelectionDialog(matches: Array<boolean>): Observable<VisualisationPreview> {
-    const enabled = this.currentCogVisualisationConfig.map(_ => false);
-    const previews: Array<string> = this.currentCogVisualisationConfig.map(_ => undefined);
+  public openCogSelectionDialog(data: { action: Action; elementidentifier: ElementIdentifier; }): Observable<VisualisationPreview> {
+    const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v) => (
+      { visualisation: v, match: 'none', preview: undefined}));
+
+    // TODO: decide if we want for the popup to load while the previews are loading,
+    // or shall it have this degraded state with no previews but the functionalities
 
     // Parses the array to find out which visualisations are enabled
     let i = 0;
     this.currentCogVisualisationConfig.forEach((v, vidx) => {
-      v.dataGroups.forEach(dg => {
-        enabled[vidx] = matches[i] || enabled[vidx];
-
-        // For titiler protocol, take the first datagroup that matches to create a preview url
-        if (matches[i] && dg.protocol === 'titiler' && !previews[vidx]) {
-          previews[vidx] = getTitilerPreviewUrl(dg.visualisationUrl);
+      v.dataGroups.forEach(_ => {
+        if (data.action.matched[i]) {
+          visualisations[vidx].match = 'all';
         }
-
         i++;
       });
     });
 
+    const searchResult = getItem(data.elementidentifier,
+      this.rightListContributors[this.selectedListTabIndex].collection, this.collaborativeService);
+
+    // Fetch the detail of the item to replace the fields in the url
+    searchResult.subscribe(h => {
+      const itemData = h.hits[0].data;
+      console.log(itemData);
+
+      // Parses the array to find out which visualisations are enabled
+      let i = 0;
+      this.currentCogVisualisationConfig.forEach((v, vidx) => {
+        v.dataGroups.forEach(dg => {
+          if (data.action.matched[i]) {
+            visualisations[vidx].match = 'all';
+
+            // For titiler protocol, take the first datagroup that matches to create a preview url
+            if (dg.protocol === 'titiler' && !visualisations[vidx].preview) {
+              visualisations[vidx].preview = getTitilerPreviewUrl(dg.visualisationUrl, itemData);
+            }
+          }
+          i++;
+        });
+      });
+    });
+
+    visualisations.filter(v => v.match === 'none').forEach(v => {
+      this.findPreviewForVisualisation(v, 0);
+    });
+
     const dialogRef = this.dialog.open(CogModalComponent, {
       data: {
-        visualisations: this.currentCogVisualisationConfig.map((v, idx) => (
-          { visualisation: v, match: enabled[idx] ? 'all' : 'none', preview: previews[idx]})),
+        visualisations: visualisations,
         loading: false
       },
       width: '44vw',
@@ -813,9 +842,41 @@ export class ResultlistService<L, S, M> {
     return dialogRef.afterClosed().pipe(first(),
       map((v: VisualisationInterface) => {
         const idx = this.currentCogVisualisationConfig.findIndex(vis => v === vis);
-        return {visualisation: v, preview: previews[idx], idx};
+        return {visualisation: v, preview: visualisations[idx].preview, idx};
       })
     );
+  }
+
+  public findPreviewForVisualisation(v: CogVisualisationData, index: number) {
+    const search: Search = { page: { size: 1 } };
+    const filterExpression: Filter = {
+      f: [[]]
+    };
+    const contributor = this.rightListContributors[this.selectedListTabIndex];
+
+    v.visualisation.dataGroups[index].filters.forEach(f => {
+      filterExpression.f.push([{
+        field: f.field,
+        op: Expression.OpEnum[f.op.toString()],
+        value: f.value
+      }]);
+    });
+
+    this.collaborativeService.resolveHits(
+      [projType.search, search], this.collaborativeService.collaborations,
+      contributor.collection, contributor.identifier, filterExpression,
+      /** flat */ true, contributor.cacheDuration
+    ).pipe(take(1))
+      .subscribe(hits => {
+        if (hits.hits.length > 0) {
+          console.log(hits.hits[0].data);
+          v.preview = getTitilerPreviewUrl(v.visualisation.dataGroups[index].visualisationUrl, hits.hits[0].data);
+        } else {
+          if (index + 1 < v.visualisation.dataGroups.length) {
+            this.findPreviewForVisualisation(v, index + 1);
+          }
+        }
+      });
   }
 
   public setCogVisualisationConfig(index: number){
@@ -860,7 +921,7 @@ export class ResultlistService<L, S, M> {
           };
           this.listComponent.detailedDataRetriever.getMatch(item, visualizeAction.filters).pipe(take(1)).subscribe({
             next: values => {
-              action.matched = values;
+              action.matched = values.matched;
               this.visualizeService.removeRasters(item);
 
               // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it

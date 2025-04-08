@@ -42,7 +42,6 @@ import {
   MapSettingsComponent,
   SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
-import { VisualisationInterface } from 'arlas-web-components';
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
