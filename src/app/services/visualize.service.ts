@@ -26,17 +26,20 @@ import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
 import { flattenedMatchAndReplace } from 'app/tools/cog';
 import { getItem } from 'app/tools/utils';
 import { Expression, Filter, Search } from 'arlas-api';
-import { AbstractArlasMapGL, ArlasPaint, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum, VectorStyle } from 'arlas-map';
+import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
 import { ElementIdentifier } from 'arlas-web-contributors';
 import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, Observable, Subject } from 'rxjs';
 import { parse } from 'wellknown';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
+/**
+ * This service is used to display any type of rasters on the ARLAS map.
+ * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
+ */
 @Injectable()
 export class VisualizeService<L, S, M> {
   public mapInstance: AbstractArlasMapGL;
@@ -49,14 +52,16 @@ export class VisualizeService<L, S, M> {
   private readonly rasterRemovedSource = new Subject<string>();
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
-  public constructor(public collaborativeService: ArlasCollaborativesearchService,
-    private readonly translateService: TranslateService, private readonly snackBar: MatSnackBar,
+  public constructor(
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly translateService: TranslateService,
+    private readonly snackBar: MatSnackBar,
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>
   ) { }
 
   /**
-  * Sets the mapbox map object + loads the 'cross' icon to it.
-  * @param m Mapbox map object.
+  * Sets the map object + loads the 'cross' icon to it.
+  * @param m map object.
   */
   public setMap(m: AbstractArlasMapGL) {
     this.mapInstance = m;

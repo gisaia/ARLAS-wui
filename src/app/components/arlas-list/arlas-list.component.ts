@@ -22,6 +22,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Subject, takeUntil } from 'rxjs';
+import { CogService } from '../../services/cog.service';
 import { ResultlistService } from '../../services/resultlist.service';
 
 @Component({
@@ -59,19 +60,22 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   private _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    protected resultlistService: ResultlistService<L, S, M>
+    protected resultlistService: ResultlistService<L, S, M>,
+    private readonly cogService: CogService
   ) { }
 
   public ngOnInit(): void {
-    this.resultlistService.setCogVisualisationConfig(0);
+    this.cogService.setCogVisualisationConfig(
+      this.resultlistService.previewListContrib.identifier,
+      this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
   }
 
   public ngAfterViewInit(): void {
-
     this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
-      this.resultlistService.updateCogVisualisation();
-
+      this.cogService.updateCogVisualisation(
+        this.resultlistService.previewListContrib.identifier,
+        this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
     });
   }
 

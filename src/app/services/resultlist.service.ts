@@ -24,42 +24,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
-import { getItem, isElementInViewport } from 'app/tools/utils';
-import { CollectionReferenceParameters, Expression, Filter, Search } from 'arlas-api';
-import {
-  ActionHandler,
-  CellBackgroundStyleEnum,
-  CogModalComponent,
-  CogVisualisationData,
-  Column,
-  ElementIdentifier,
-  Item,
-  ModeEnum,
-  PageQuery,
-  ResultListComponent,
-  ResultlistNotifierService,
-  SortEnum,
-  VisualisationInterface
-} from 'arlas-web-components';
-import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
-import { ActionFilter } from 'arlas-web-contributors/models/models';
-import { projType } from 'arlas-web-core';
-import {
-  AiasDownloadComponent,
-  AiasEnrichComponent,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasExportCsvService,
-  ArlasSettingsService,
-  DOWNLOAD_PROCESS_NAME,
-  ENRICH_PROCESS_NAME,
-  getParamValue,
-  ProcessService
-} from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, first, map, Observable, Subject, take } from 'rxjs';
 import { ArlasWuiMapService } from '../services/map.service';
 import { VisualizeService } from '../services/visualize.service';
+import { isElementInViewport } from 'app/tools/utils';
+import { CollectionReferenceParameters, Expression } from 'arlas-api';
+import {
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+} from 'arlas-web-components';
+import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
+import {
+  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, getParamValue, ProcessService
+} from 'arlas-wui-toolkit';
+import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { CogService } from './cog.service';
 
 
 @Injectable({
@@ -70,16 +48,10 @@ import { VisualizeService } from '../services/visualize.service';
  *  M: a Map configuration class/interface.
  */
 export class ResultlistService<L, S, M> {
-
   /** Resultlist configs */
   public resultlistConfigs = [];
   public resultlistConfigPerContId = new Map<string, any>();
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
-
-  /** Visualisation */
-  public currentCogVisualisationConfig: VisualisationInterface[];
-  public selectedCogVisualisation = new Map<number, {visualisation: VisualisationInterface; idx: number; preview: string;}>();
-  public cogVisualisationChange = new Subject<VisualisationPreview>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -94,9 +66,7 @@ export class ResultlistService<L, S, M> {
   public listOpenChange = new Subject<boolean>();
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
-  public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
   public selectedItems = new Array<ElementIdentifier>();
-  protected firstCogSelection  = true;
 
   /** Resullist component */
   private listComponent: ResultListComponent;
@@ -119,10 +89,10 @@ export class ResultlistService<L, S, M> {
     private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
-    private readonly listNotifier: ResultlistNotifierService
+    private readonly cogService: CogService<L, S, M>
   ) { }
 
-  public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: string[]) {
+  public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: any[]) {
     this.resultlistContributors = resultlistContributors;
 
     if (this.resultlistContributors.length > 0) {
@@ -188,72 +158,6 @@ export class ResultlistService<L, S, M> {
 
   public isThumbnailProtected(): boolean {
     return this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails ?? false;
-  }
-
-  public addAction(contId: string, itemId: string, action: Action) {
-    if (ActionHandler.isReversible(action)) {
-      if (!this.activeActionsPerContId.get(contId)) {
-        this.activeActionsPerContId.set(contId, new Map());
-      }
-      const activeActions = this.activeActionsPerContId.get(contId);
-      if (!activeActions.get(itemId)) {
-        activeActions.set(itemId, new Set());
-      }
-      const actions = activeActions.get(itemId);
-      actions.add(action.id);
-      this.activeActionsPerContId.set(contId, new Map(activeActions));
-    }
-  }
-
-  /** Remove an activated action for a given item and given contributor */
-  public removeAction(contId: string, itemId: string, actionId: string) {
-    if (!this.activeActionsPerContId.get(contId)) {
-      return;
-    }
-    const activeActions = this.activeActionsPerContId.get(contId);
-    if (!activeActions.get(itemId)) {
-      return;
-    }
-    const actions = activeActions.get(itemId);
-    if (!actions) {
-      return;
-    }
-    actions.delete(actionId);
-    this.activeActionsPerContId.set(contId, new Map(activeActions));
-  }
-
-  /** Removes an activated action for all items and all contributors */
-  public removeActions(actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        actionsPerItem.forEach((actions, itemId) => {
-          actions.delete(actionId);
-        });
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
-      });
-    }
-  }
-
-  /** Removes an activated action for a given item in all contributors */
-  public removeItemActions(itemId: string, actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        const actions = actionsPerItem.get(itemId);
-        if (actions) {
-          actions.delete(actionId);
-        }
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
-      });
-    }
-  }
-
-  /** Removes an activated action for all the items of a given contributor */
-  public removeContributorAction(contId: string, actionId: string) {
-    const activeActions = this.activeActionsPerContId?.get(contId);
-    if (activeActions) {
-      activeActions.forEach(actions => actions.delete(actionId));
-      this.activeActionsPerContId.set(contId, new Map(activeActions));
-    }
   }
 
   public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
@@ -479,8 +383,8 @@ export class ResultlistService<L, S, M> {
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
-                  this.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
-                  this.addAction(event.origin, e.idValue, event.data.action);
+                  this.cogService.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
+                  // this.addAction(event.origin, e.idValue, event.data.action);
                 }
               }
             });
@@ -519,7 +423,7 @@ export class ResultlistService<L, S, M> {
         }
         break;
       case 'visualize':
-        this.visualizeRasterAction(data, listContributor, collection, false);
+        this.cogService.visualizeRasterAction(data, listContributor, collection, false);
         break;
       case 'download':
         if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
@@ -560,80 +464,6 @@ export class ResultlistService<L, S, M> {
         callback();
       }
     }, 100);
-  }
-
-  private visualizeRasterAction(data: { action: Action; elementidentifier: ElementIdentifier; },
-    listContributor: ResultListContributor, collection: string, fitBounds = true) {
-
-    // Clicking the icon acts as an added action, so it needs to be put
-    this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
-
-    if (this.firstCogSelection && !data.action.activated) {
-      this.openCogSelectionDialog(data)
-        .subscribe(cogStyle =>  {
-          if (!cogStyle) {
-            this.removeAction(listContributor.identifier, data.elementidentifier.idValue, 'visualize');
-          }
-
-          this.firstCogSelection = !cogStyle;
-          const idx = this.currentCogVisualisationConfig.findIndex(vis => cogStyle.visualisation === vis);
-          this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview);
-
-          if (cogStyle) {
-            // Necessary to properly launch the visualisation
-            data.action.activated = false;
-            this.visualizeRaster(data, listContributor, collection, fitBounds);
-          }
-        });
-    } else {
-      this.visualizeRaster(data, listContributor, collection, fitBounds);
-    }
-  }
-
-  private visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
-    listContributor: ResultListContributor, collection: string, fitBounds = true) {
-
-    if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
-      const urlVisualisationTemplate = this.getVisualisationUrl(data.action, listContributor);
-      // If there is no visualisation url, then no visualisation can be done
-      //  Can be caused by the item not matching any visualisation rule
-      if (!urlVisualisationTemplate) {
-        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-        return;
-      }
-
-      if (!data.action.activated) {
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-          this.visualizeService.displayDataOnMap(url,
-            data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-            this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
-        });
-        this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
-      } else {
-        this.visualizeService.removeRasters(data.elementidentifier.idValue);
-        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-      }
-    }
-  }
-
-  private getVisualisationUrl(action: Action, listContributor: ResultListContributor) {
-    if (action.matched) {
-      const v = this.getCurrentVisualisation();
-
-      // Find the start of the selected visualisation in the array of matches of the action
-      // Only needed if there are more matches in the action than there are dataGroups.
-      // It happens when this item is not the first one visualized
-      let firstVisuElement = 0;
-      if (action.matched.length > v.visualisation.dataGroups.length) {
-        for (let i= 0; i < v.idx; i++) {
-          firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
-        }
-      }
-      // The url is the one of the first dataGroup for which the item matched the condition
-      return v.visualisation.dataGroups.find((_, i) => action.matched[firstVisuElement + i])?.visualisationUrl;
-    } else {
-      return this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
-    }
   }
 
   private process<T>(processName: string, ids: string[], collection: string, component: ComponentType<T>, additionalData?: any) {
@@ -723,7 +553,7 @@ export class ResultlistService<L, S, M> {
             action.fields = this.visualizeService.getVisuFields(config.visualisationLink);
             c.addAction(action);
           } else if (config.visualisationsList) {
-            action.filters = this.getCogFiltersFromConfig(config);
+            action.filters = this.cogService.getCogFiltersFromConfig(config);
             c.addAction(action);
           }
         }
@@ -804,186 +634,4 @@ export class ResultlistService<L, S, M> {
       }
     });
   }
-
-  /**
-   *  Open cog visualisation dialog to select the first cog visualisation
-   */
-  public openCogSelectionDialog(data: { action: Action; elementidentifier: ElementIdentifier; }): Observable<VisualisationPreview> {
-    const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v) => (
-      { visualisation: v, match: 'none', preview: undefined}));
-
-    // TODO: decide if we want for the popup to load while the previews are loading,
-    // or shall it have this degraded state with no previews but the functionalities
-
-    // Parses the array to find out which visualisations are enabled
-    let i = 0;
-    this.currentCogVisualisationConfig.forEach((v, vidx) => {
-      v.dataGroups.forEach(_ => {
-        if (data.action.matched[i]) {
-          visualisations[vidx].match = 'all';
-        }
-        i++;
-      });
-    });
-
-    const searchResult = getItem(data.elementidentifier,
-      this.rightListContributors[this.selectedListTabIndex].collection, this.collaborativeService);
-
-    // Fetch the detail of the item to replace the fields in the url
-    searchResult.subscribe(h => {
-      const itemData = h.hits[0].data;
-      console.log(itemData);
-
-      // Parses the array to find out which visualisations are enabled
-      let i = 0;
-      this.currentCogVisualisationConfig.forEach((v, vidx) => {
-        v.dataGroups.forEach(dg => {
-          if (data.action.matched[i]) {
-            visualisations[vidx].match = 'all';
-
-            // For titiler protocol, take the first datagroup that matches to create a preview url
-            if (dg.protocol === 'titiler' && !visualisations[vidx].preview) {
-              visualisations[vidx].preview = getTitilerPreviewUrl(dg.visualisationUrl, itemData);
-            }
-          }
-          i++;
-        });
-      });
-    });
-
-    visualisations.filter(v => v.match === 'none').forEach(v => {
-      this.findPreviewForVisualisation(v, 0);
-    });
-
-    const dialogRef = this.dialog.open(CogModalComponent, {
-      data: {
-        visualisations: visualisations,
-        loading: false
-      },
-      width: '44vw',
-      maxHeight:'40vh'
-    });
-
-    return dialogRef.afterClosed().pipe(first(),
-      map((v: VisualisationInterface) => {
-        const idx = this.currentCogVisualisationConfig.findIndex(vis => v === vis);
-        return {visualisation: v, preview: visualisations[idx].preview, idx};
-      })
-    );
-  }
-
-  public findPreviewForVisualisation(v: CogVisualisationData, index: number) {
-    const search: Search = { page: { size: 1 } };
-    const filterExpression: Filter = {
-      f: [[]]
-    };
-    const contributor = this.rightListContributors[this.selectedListTabIndex];
-
-    v.visualisation.dataGroups[index].filters.forEach(f => {
-      filterExpression.f.push([{
-        field: f.field,
-        op: Expression.OpEnum[f.op.toString()],
-        value: f.value
-      }]);
-    });
-
-    this.collaborativeService.resolveHits(
-      [projType.search, search], this.collaborativeService.collaborations,
-      contributor.collection, contributor.identifier, filterExpression,
-      /** flat */ true, contributor.cacheDuration
-    ).pipe(take(1))
-      .subscribe(hits => {
-        if (hits.hits.length > 0) {
-          console.log(hits.hits[0].data);
-          v.preview = getTitilerPreviewUrl(v.visualisation.dataGroups[index].visualisationUrl, hits.hits[0].data);
-        } else {
-          if (index + 1 < v.visualisation.dataGroups.length) {
-            this.findPreviewForVisualisation(v, index + 1);
-          }
-        }
-      });
-  }
-
-  public setCogVisualisationConfig(index: number){
-    const conf = this.resultlistConfigs[index];
-    if (conf.input.visualisationsList) {
-      this.currentCogVisualisationConfig = conf.input.visualisationsList;
-    }
-  }
-
-  public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string) {
-    const contributor = this.resultlistContributors[this.selectedListTabIndex];
-    const contributorId = contributor.identifier;
-    const previousVisualisation = this.selectedCogVisualisation.get(this.selectedListTabIndex)?.visualisation;
-    const filters = this.getCogFiltersFromConfig(this.resultlistConfigPerContId.get(contributorId));
-    const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
-
-    if (!visualisation) {
-      this.selectedCogVisualisation.delete(this.selectedListTabIndex);
-      this.firstCogSelection = true;
-
-      // Allow all data groups
-      visualizeAction.filters = filters;
-    } else {
-      this.selectedCogVisualisation.set(this.selectedListTabIndex, {visualisation, idx, preview});
-
-      // Allow only the visualisation data groups
-      visualizeAction.filters = visualisation.dataGroups.map(dg => dg.filters);
-    }
-    this.listNotifier.refreshActions();
-    this.cogVisualisationChange.next({visualisation, idx, preview});
-
-    if (!visualisation) {
-      // If no visualisation, clean up the rasters
-      this.visualizeService.removeRasters();
-      this.removeContributorAction(contributorId, 'visualize');
-    } else if (previousVisualisation) {
-      // If there is a visualisation and there are already visualisations, update them if they can be
-      this.activeActionsPerContId?.get(contributorId)?.forEach((actions, item) => {
-        if (actions.has('visualize')) {
-          const action: Action = {
-            id: 'visualize', label: ''
-          };
-          this.listComponent.detailedDataRetriever.getMatch(item, visualizeAction.filters).pipe(take(1)).subscribe({
-            next: values => {
-              action.matched = values.matched;
-              this.visualizeService.removeRasters(item);
-
-              // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
-              if (this.getVisualisationUrl(action, contributor)) {
-                this.visualizeRaster(
-                  { action: action, elementidentifier: { idFieldName: contributor.fieldsConfiguration.idFieldName, idValue: item } },
-                  contributor, contributor.collection, false);
-
-                // Send a fake hover notification so that it can display its state properly
-                this.listNotifier.notifyItemHover(item);
-              } else {
-                this.removeAction(contributorId, item, 'visualize');
-              }
-            }
-          });
-        }
-      });
-    }
-  }
-
-  public getCogFiltersFromConfig(config: any): ActionFilter[][] {
-    return config.visualisationsList
-      .map(v => v.dataGroups.map(dg => dg.filters))
-      // .filter(f => f.length > 0) => If there are no filters it means everyone can do it
-      .reduce((a, b) => a.concat(b), []);
-  }
-
-  public updateCogVisualisation() {
-    this.setCogVisualisationConfig(this.selectedListTabIndex);
-    this.firstCogSelection = !this.selectedCogVisualisation.has(this.selectedListTabIndex);
-    console.log('update',  this.firstCogSelection);
-
-    this.cogVisualisationChange.next(this.getCurrentVisualisation());
-  }
-
-  public getCurrentVisualisation() {
-    return this.selectedCogVisualisation.get(this.selectedListTabIndex);
-  }
-
 }

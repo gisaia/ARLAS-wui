@@ -24,6 +24,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as helpers from '@turf/helpers';
+import { VisualisationPreview } from 'app/tools/cog';
 import {
   AoiEdition,
   ArlasLngLat,
@@ -52,11 +53,11 @@ import {
   getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { CogService } from '../../services/cog.service';
 import { GeocodingResult } from '../../services/geocoding.service';
 import { ArlasWuiMapService } from '../../services/map.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { VisualizeService } from '../../services/visualize.service';
-import { VisualisationPreview } from '../../tools/cog';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -158,7 +159,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly domSanitizer: DomSanitizer,
     private readonly collectionService: ArlasCollectionService,
     private readonly authentService: AuthentificationService,
-    private readonly arlasIamService: ArlasIamService
+    private readonly arlasIamService: ArlasIamService,
+    private readonly cogService: CogService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -598,7 +600,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   }
 
   public listenVisualisationChange (){
-    this.resultlistService.cogVisualisationChange
+    this.cogService.cogVisualisationChange
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
   }

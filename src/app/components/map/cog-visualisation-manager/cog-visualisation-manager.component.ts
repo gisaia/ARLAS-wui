@@ -19,20 +19,19 @@
 
 import { Component, inject, input } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
-import { ResultlistService } from '@services/resultlist.service';
 import { getTitilerPreviewUrl } from 'app/tools/cog';
 import { CogModalComponent, CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
+import { ActionManagerService } from '../../../services/action-manager.service';
+import { CogService } from '../../../services/cog.service';
+import { ResultlistService } from '../../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
   standalone: true,
   imports: [
-    MatIcon,
     CogPreviewComponent,
     MatDialogModule,
-    CogModalComponent
   ],
   templateUrl: './cog-visualisation-manager.component.html',
   styleUrl: './cog-visualisation-manager.component.scss'
@@ -43,12 +42,12 @@ export class CogVisualisationManagerComponent {
 
   private readonly resultListService = inject(ResultlistService);
   private readonly dialog = inject(MatDialog);
+  private readonly cogService = inject(CogService);
+  private readonly actionManager = inject(ActionManagerService);
 
   public openModal() {
-    const allVis: Array<VisualisationInterface> = this.resultListService.resultlistConfigs[this.resultListService.selectedListTabIndex]
-      .input.visualisationsList;
-
-    const visualisations: Array<CogVisualisationData> = allVis.map(v => ({ visualisation: v, match: 'none'}));
+    const visualisations: Array<CogVisualisationData> = this.cogService.currentCogVisualisationConfig
+      .map((v, idx) => ({ visualisation: v, match: 'none', preview: this.cogService.getDefaultPreview(idx)}));
 
     // Open the dialog for selection of visualisation
     // Currently loading
@@ -64,33 +63,35 @@ export class CogVisualisationManagerComponent {
     // Query for each of the currently viewed items what visualisations they match
     const contributor = this.resultListService.rightListContributors[this.resultListService.selectedListTabIndex];
     const contributorId = contributor.identifier;
-    const filters = this.resultListService.getCogFiltersFromConfig(this.resultListService.resultlistConfigPerContId.get(contributorId));
+    const filters = this.cogService.getCogFiltersFromConfig(this.resultListService.resultlistConfigPerContId.get(contributorId));
     const dataRetriever = contributor.detailedDataRetriever;
 
-    const itemsVisualized = (new Array(...this.resultListService.activeActionsPerContId.get(contributorId).entries()))
+    const itemsVisualized = (new Array(...this.actionManager.activeActionsPerContId.get(contributorId).entries()))
       .filter(v => v[1].has('visualize'));
     const visualizedItemsMatches = zip(itemsVisualized.map(v => dataRetriever.getMatch(v[0], filters)));
 
     visualizedItemsMatches.subscribe(m => {
-      const nbMatches = allVis.map(_ => 0);
+      const nbMatches = visualisations.map(_ => 0);
       let currentIdx = 0;
-      allVis.forEach((v, visIdx) => {
+      visualisations.forEach((v, visIdx) => {
         // For each visualisation, check if each item matches at least one dataGroup
         m.forEach(mi => {
           let isMatched = false;
-          v.dataGroups.forEach((dg, dgIdx) => {
+          v.visualisation.dataGroups.forEach((dg, dgIdx) => {
             isMatched = isMatched || mi.matched[currentIdx + dgIdx];
 
             // For titiler protocol, take the first datagroup that matches to create a preview url
-            if (mi.matched[currentIdx + dgIdx] && dg.protocol === 'titiler' && !visualisations[visIdx].preview) {
-              visualisations[visIdx].preview = getTitilerPreviewUrl(dg.visualisationUrl, mi.data);
+            if (mi.matched[currentIdx + dgIdx] && dg.protocol === 'titiler' && !v.preview) {
+              const previewUrl = getTitilerPreviewUrl(dg.visualisationUrl, mi.data);
+              v.preview = previewUrl;
+              this.cogService.setDefaultPreview(visIdx, previewUrl);
             }
           });
           if (isMatched) {
             nbMatches[visIdx] += 1;
           }
         });
-        currentIdx += v.dataGroups.length;
+        currentIdx += v.visualisation.dataGroups.length;
       });
 
       // Transform the number of matches into 'match' description
@@ -107,13 +108,13 @@ export class CogVisualisationManagerComponent {
 
       // Get missing previews by querying with the filters
       visualisations.filter(v => !v.preview).forEach(v => {
-        this.resultListService.findPreviewForVisualisation(v, 0);
+        this.cogService.findPreviewForVisualisation(v, 0);
       });
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {
-      const idx = this.resultListService.currentCogVisualisationConfig.findIndex(vis => v === vis);
-      this.resultListService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
+      const idx = this.cogService.currentCogVisualisationConfig.findIndex(vis => v === vis);
+      this.cogService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
     });
   }
 }

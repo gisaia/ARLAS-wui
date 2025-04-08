@@ -18,11 +18,12 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VisualizeService } from '../../../services/visualize.service';
-import { ResultlistService } from '../../../services/resultlist.service';
-import { Subject, takeUntil } from 'rxjs';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { Subject, takeUntil } from 'rxjs';
+import { ActionManagerService } from '../../../services/action-manager.service';
+import { CogService } from '../../../services/cog.service';
+import { VisualizeService } from '../../../services/visualize.service';
 
 @Component({
   selector: 'arlas-rasters-manager',
@@ -41,14 +42,15 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
 
   public constructor(
     private readonly visualisationService: VisualizeService<L, S, M>,
-    private readonly resultlistService: ResultlistService<L, S, M>,
-    private readonly collaborativeSearchService: ArlasCollaborativesearchService
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService,
+    private readonly cogService: CogService<L, S, M>,
+    private readonly actionManager: ActionManagerService
   ) { }
 
   public ngOnInit(): void {
     this.visualisationService.rasterRemoved$.pipe(takeUntil(this._onDestroy$)).subscribe({
       next: (id) => {
-        this.resultlistService.removeItemActions(id, 'visualize');
+        this.actionManager.removeItemActions(id, 'visualize');
       }
     });
     /** Remove the raster once an arlas filter is applied */
@@ -64,8 +66,8 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
   /** Removes all raster layers from the map. */
   public removeLayers() {
     this.visualisationService.removeRasters();
-    this.resultlistService.removeActions('visualize');
-    this.resultlistService.setSelectedCogVisualisation(null, 0, '');
+    this.actionManager.removeActions('visualize');
+    this.cogService.setSelectedCogVisualisation(null, 0, '');
   }
 
   public ngOnDestroy(): void {

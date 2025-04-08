@@ -73,17 +73,18 @@ import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-roo
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import {
+  CogVisualisationManagerComponent
+} from './components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
+import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
-import {
-  CogVisualisationManagerComponent
-} from '@components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 
 
 @NgModule({
@@ -184,7 +185,8 @@ import {
       multi: true
     },
     ArlasCollectionService,
-    ContributorService
+    ContributorService,
+    CogService
   ],
   bootstrap: [ArlasWuiComponent]
 })
