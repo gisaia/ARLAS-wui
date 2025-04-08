@@ -26,6 +26,7 @@ import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { ArlasMapFrameworkService } from 'arlas-map';
+import { CogService } from '@services/cog.service';
 
 @Component({
   selector: 'arlas-root',
@@ -65,7 +66,8 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
-    private readonly analyticsService: AnalyticsService
+    private readonly analyticsService: AnalyticsService,
+    private readonly cogService: CogService
   ) { }
 
   public ngOnInit(): void {
@@ -124,6 +126,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
           this.resultlistService.setCollectionsDescription(this.collectionToDescription);
+          this.cogService.setCollectionsDescription(this.collectionToDescription);
           if (this.mapService.mapComponent) {
             this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
           }

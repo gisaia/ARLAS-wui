@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CogService } from '@services/cog.service';
 import { GeocodingResult } from '@services/geocoding.service';
 import { ArlasWuiMapService } from '@services/map.service';
 import { ResultlistService } from '@services/resultlist.service';
@@ -158,7 +159,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly domSanitizer: DomSanitizer,
     private readonly collectionService: ArlasCollectionService,
     private readonly authentService: AuthentificationService,
-    private readonly arlasIamService: ArlasIamService
+    private readonly arlasIamService: ArlasIamService,
+    private readonly cogService: CogService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -597,7 +599,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   }
 
   public listenVisualisationChange (){
-    this.resultlistService.cogVisualisationChange
+    this.cogService.cogVisualisationChange
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
   }
