@@ -129,5 +129,6 @@
 	"All layers": "Todas las capas",
 	"Start draging to draw a bbox.": "Empieze a dibujar un cuadro delimitador.",
 	"Draw at least 2 points.": "Dibuje al menos 2 vértices",
-  "Export data": "Exportar datos"
+  "Export data": "Exportar datos",
+  "Download geo-data": "Descargar datos geográficos"
 }

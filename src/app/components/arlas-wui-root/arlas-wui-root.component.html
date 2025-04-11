@@ -20,9 +20,11 @@
       @if (!arlasStartupService.emptyMode) {
         <mat-divider vertical class="vertical-divider"></mat-divider>
 
-        <button mat-icon-button (click)="displayExportData()" [matTooltip]="'Export data' | translate">
+        @if(shareComponentConfig || downloadComponentConfig) {
+          <button mat-icon-button (click)="displayExportData()" [matTooltip]="'Export data' | translate">
           <mat-icon>get_app</mat-icon>
         </button>
+        }
         <!-- Wait for map to be loaded to make bookmarks available -->
         @if (mapService.mapComponent) {
           <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">

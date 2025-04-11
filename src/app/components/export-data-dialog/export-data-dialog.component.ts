@@ -27,8 +27,8 @@ import { DownloadDialogComponent, ShareDialogComponent } from 'arlas-wui-toolkit
 
 export interface ExportDataDialogConfiguration {
   share: {
-    data: Map<string, unknown>;
-      enabled: boolean;
+    data: Map<string, boolean>;
+    enabled: boolean;
   };
   download: {
     data: string;
@@ -61,7 +61,7 @@ export class ExportDataDialogComponent implements  OnInit {
         key,
         enabled: this.dialogData[key].enabled,
         component: key === 'share' ? ShareDialogComponent : DownloadDialogComponent,
-        title: key === 'share' ? marker('Share geographical data') : marker('Download data'),
+        title: key === 'share' ? marker('Download geo-data') : marker('Download data'),
         injector:  Injector.create({providers: [{provide: MAT_DIALOG_DATA, useValue: this.dialogData[key].data}] })
       }));
     this.componentsConf.set(tabs);

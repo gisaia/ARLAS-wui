@@ -79,7 +79,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   /* Options */
   public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
-    = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
+    = {show: false, diameter: '60', color: 'accent', strokeWidth: 5};
   public showIndicators = false;
   public showTimeline = true;
   /**
@@ -105,9 +105,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    */
   @Input() public resultListGridColumns = 4;
   public collections: string[];
-  @ViewChild('timeline', { static: false }) public timelineComponent: TimelineComponent;
-  @ViewChild('arlasMap', { static: false }) public arlasMapComponent: ArlasWuiMapComponent<L, S, M>;
-  @ViewChild('arlasList', { static: false }) public arlasListComponent: ArlasListComponent<L, S, M>;
+  @ViewChild('timeline', {static: false}) public timelineComponent: TimelineComponent;
+  @ViewChild('arlasMap', {static: false}) public arlasMapComponent: ArlasWuiMapComponent<L, S, M>;
+  @ViewChild('arlasList', {static: false}) public arlasListComponent: ArlasListComponent<L, S, M>;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
@@ -153,7 +153,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     private readonly router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService<L, S, M>,
-    protected mapService: ArlasWuiMapService<L, S, M>,
+    private mapService: ArlasWuiMapService<L, S, M>,
     public dialog: MatDialog
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
@@ -267,9 +267,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
           .subscribe(index => {
             this.resultlistService.selectList(index);
 
-            const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+            const queryParams = {...this.activatedRoute.snapshot.queryParams};
             queryParams['rt'] = this.resultlistService.previewListContrib.getName();
-            this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+            this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
             this.adjustGrids();
             this.adjustComponentsSize();
           });
@@ -321,9 +321,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   public toggleTimeline() {
     this.showTimeline = !this.showTimeline;
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+    const queryParams = {...this.activatedRoute.snapshot.queryParams};
     queryParams['to'] = this.showTimeline + '';
-    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+    this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
   }
 
   public updateTimelineLegendVisibility() {
@@ -373,9 +373,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
             data: this.mapService.mapComponent?.visibilityStatus ?? [],
             enabled: this.shareComponentConfig
           },
-          download:{
+          download: {
             data: this.collections,
-            enabled:this.downloadComponentConfig
+            enabled: this.downloadComponentConfig
           }
         },
         width: '80vw',
