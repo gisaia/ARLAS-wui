@@ -41,7 +41,7 @@
   </arlas-top-menu>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #leftSidenav mode="side" opened>
+    <mat-sidenav #leftSidenav mode="side" opened [disableClose]="true">
       <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
         [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
