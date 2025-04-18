@@ -18,12 +18,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { SearchContributor, MapContributor } from 'arlas-web-contributors';
+import { CollectionReferenceParameters } from 'arlas-api';
+import { MapContributor, SearchContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
 @Injectable()
 export class ContributorService {
+  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   public arlasContributors = new Map<string, Contributor>();
   public contributorsIcons = new Map<string, string>();
@@ -34,10 +36,13 @@ export class ContributorService {
   public SEARCH_TYPE = 'search';
 
   public constructor(
-    private configService: ArlasConfigService,
-    private arlasStartupService: ArlasStartupService,
-    public collaborativeService: ArlasCollaborativesearchService
+    private readonly configService: ArlasConfigService,
+    private readonly arlasStartupService: ArlasStartupService
   ) { }
+
+  public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
+    this.collectionToDescription = collectionToDescription;
+  }
 
   public getMapContributors(): Array<MapContributor> {
     const mapContributorsConfig = this.getMapContributorConfigs();

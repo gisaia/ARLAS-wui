@@ -24,10 +24,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { ArlasWuiMapService } from '../services/map.service';
-import { VisualizeService } from '../services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
-import { CollectionReferenceParameters, Expression } from 'arlas-api';
+import { Expression } from 'arlas-api';
 import {
   CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
 } from 'arlas-web-components';
@@ -37,7 +35,10 @@ import {
   ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { ArlasWuiMapService } from '../services/map.service';
+import { VisualizeService } from '../services/visualize.service';
 import { CogService } from './cog.service';
+import { ContributorService } from './contributors.service';
 
 
 @Injectable({
@@ -51,7 +52,6 @@ export class ResultlistService<L, S, M> {
   /** Resultlist configs */
   public resultlistConfigs = [];
   public resultlistConfigPerContId = new Map<string, any>();
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -89,7 +89,8 @@ export class ResultlistService<L, S, M> {
     private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
-    private readonly cogService: CogService<L, S, M>
+    private readonly cogService: CogService<L, S, M>,
+    private readonly contributorService: ContributorService
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: any[]) {
@@ -137,10 +138,6 @@ export class ResultlistService<L, S, M> {
   public setMapListInteractions() {
     this.addActions();
     this.declareGlobalRasterVisualisation();
-  }
-
-  public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
-    this.collectionToDescription = collectionToDescription;
   }
 
   public toggleList() {
@@ -193,10 +190,10 @@ export class ResultlistService<L, S, M> {
       let geoField: string | undefined;
       let geoOp: Expression.OpEnum;
       if (mapContributor.windowExtentGeometry === ExtentFilterGeometry.geometry_path) {
-        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.geometry_path;
+        geoField = this.contributorService.collectionToDescription.get(resultlistContributor.collection)?.geometry_path;
         geoOp = Expression.OpEnum.Intersects;
       } else {
-        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.centroid_path;
+        geoField = this.contributorService.collectionToDescription.get(resultlistContributor.collection)?.centroid_path;
         geoOp = Expression.OpEnum.Within;
       }
       if (geoField) {
@@ -207,7 +204,7 @@ export class ResultlistService<L, S, M> {
 
   public highlightItems(hoveredFeatures: any[]) {
     this.resultlistContributors.forEach(c => {
-      const idFieldName = this.collectionToDescription.get(c.collection).id_path;
+      const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
       const highLightItems = hoveredFeatures
         .filter(f => f.layer.metadata.collection === c.collection)
         .map(f => f.properties[idFieldName.replace(/\./g, '_')])
@@ -227,8 +224,8 @@ export class ResultlistService<L, S, M> {
    * Update which elements from the list are visible on the map
    */
   public updateVisibleItems() {
-    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+    if (this.previewListContrib && !!this.contributorService.collectionToDescription.get(this.previewListContrib.collection)) {
+      const idFieldName = this.contributorService.collectionToDescription.get(this.previewListContrib.collection).id_path;
       const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
         .filter(i => i !== undefined && isElementInViewport(document.getElementById(i.toString())));
       this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
@@ -240,8 +237,8 @@ export class ResultlistService<L, S, M> {
    * @param items List of items constituting the resultlist
    */
   public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
-    if (this.collectionToDescription.size > 0) {
-      const idFieldName = this.collectionToDescription.get(collection).id_path;
+    if (this.contributorService.collectionToDescription.size > 0) {
+      const idFieldName = this.contributorService.collectionToDescription.get(collection).id_path;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
           .filter(id => id !== undefined && isElementInViewport(document.getElementById(id.toString())));
@@ -352,7 +349,7 @@ export class ResultlistService<L, S, M> {
         break;
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
-        const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
+        const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
         if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
@@ -384,7 +381,6 @@ export class ResultlistService<L, S, M> {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
                   this.cogService.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
-                  // this.addAction(event.origin, e.idValue, event.data.action);
                 }
               }
             });
@@ -472,7 +468,7 @@ export class ResultlistService<L, S, M> {
       this.processService.load(processName).subscribe({
         next: () => {
           this.processService.getItemsDetail(
-            this.collectionToDescription.get(collection).id_path,
+            this.contributorService.collectionToDescription.get(collection).id_path,
             ids,
             collection
           ).subscribe({

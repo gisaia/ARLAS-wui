@@ -21,14 +21,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
 import { getItem } from 'app/tools/utils';
-import { CollectionReferenceParameters, Expression, Filter, Search } from 'arlas-api';
-import { CogModalComponent, CogVisualisationData, ResultlistNotifierService, VisualisationInterface } from 'arlas-web-components';
-import { Action, ElementIdentifier, ResultListContributor } from 'arlas-web-contributors';
-import { ActionFilter } from 'arlas-web-contributors/models/models';
+import { Expression, Filter, Search } from 'arlas-api';
+import {
+  CogModalComponent, CogVisualisationData, DataGroup, ItemDataType, ResultlistNotifierService, VisualisationInterface
+} from 'arlas-web-components';
+import { Action, ActionFilter, ElementIdentifier, ResultListContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { first, map, Observable, Subject, take } from 'rxjs';
 import { ActionManagerService } from './action-manager.service';
+import { ContributorService } from './contributors.service';
 import { VisualizeService } from './visualize.service';
 
 /**
@@ -39,8 +41,6 @@ import { VisualizeService } from './visualize.service';
   providedIn: 'root'
 })
 export class CogService<L, S, M> {
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
-
   /** --- Configuration of the current resultlist */
   /** Input field of the contributor configuration */
   public contributorConfig: any;
@@ -51,7 +51,7 @@ export class CogService<L, S, M> {
 
   /** --- Visualisation state */
   /** Current COG visualisation */
-  private selectedCogVisualisation = new Map<string, VisualisationPreview>();
+  private readonly selectedCogVisualisation = new Map<string, VisualisationPreview>();
   /** Emits any change to the visualisation used for the COGs */
   public cogVisualisationChange = new Subject<VisualisationPreview>();
   /** Whether this is the first selection of a COG */
@@ -64,12 +64,9 @@ export class CogService<L, S, M> {
     private readonly dialog: MatDialog,
     private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly listNotifier: ResultlistNotifierService,
-    private readonly actionManager: ActionManagerService
+    private readonly actionManager: ActionManagerService,
+    private readonly contributorsService: ContributorService
   ) { }
-
-  public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
-    this.collectionToDescription = collectionToDescription;
-  }
 
   public setCogVisualisationConfig(contributorId: string, contributorConfig: any) {
     this.contributorId = contributorId;
@@ -95,9 +92,6 @@ export class CogService<L, S, M> {
     const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v, idx) => (
       { visualisation: v, match: 'none', preview: this.getDefaultPreview(idx)}));
 
-    // TODO: decide if we want for the popup to load while the previews are loading,
-    // or shall it have this degraded state with no previews but the functionalities
-
     // Parses the array to find out which visualisations are enabled
     let i = 0;
     this.currentCogVisualisationConfig.forEach((v, vidx) => {
@@ -115,20 +109,12 @@ export class CogService<L, S, M> {
     // Fetch the detail of the item to replace the fields in the url
     searchResult.subscribe(h => {
       const itemData = h.hits[0].data;
-      console.log(itemData);
 
       // Parses the array to get the visualisation previews
       let i = 0;
       this.currentCogVisualisationConfig.forEach((v, vidx) => {
         v.dataGroups.forEach(dg => {
-          if (data.action.matched[i]) {
-            // For titiler protocol, take the first datagroup that matches to create a preview url
-            if (dg.protocol === 'titiler' && !visualisations[vidx].preview) {
-              const previewUrl = getTitilerPreviewUrl(dg.visualisationUrl, itemData);
-              visualisations[vidx].preview = previewUrl;
-              this.setDefaultPreview(vidx, previewUrl);
-            }
-          }
+          this.setDefaultPreview(data.action.matched[i], itemData, dg, visualisations[vidx], vidx);
           i++;
         });
       });
@@ -138,14 +124,7 @@ export class CogService<L, S, M> {
       this.findPreviewForVisualisation(v, 0);
     });
 
-    const dialogRef = this.dialog.open(CogModalComponent, {
-      data: {
-        visualisations: visualisations,
-        loading: false
-      },
-      width: '44vw',
-      maxHeight:'40vh'
-    });
+    const dialogRef = this.openCogModal(visualisations, false);
 
     return dialogRef.afterClosed().pipe(first(),
       map((v: VisualisationInterface) => {
@@ -155,8 +134,36 @@ export class CogService<L, S, M> {
     );
   }
 
-  public setDefaultPreview(visIdx: number, previewUrl: string) {
-    this.defaultPreviews[visIdx] = previewUrl;
+  public openCogModal(visualisations: Array<CogVisualisationData>, loading: boolean) {
+    return this.dialog.open(CogModalComponent, {
+      data: {
+        visualisations,
+        loading
+      },
+      width: '600px',
+      maxHeight:'50vh',
+      panelClass: 'arlas-cog-modal',
+      disableClose: true
+    });
+  }
+
+  /**
+   * Based on the visualisation and whether the item matches a Titiler datagroup, set the preview of the visualisation
+   * @param match Whether the item matches the visualisation
+   * @param itemData The data of the item
+   * @param dg The data group that the item is being tested for
+   * @param visualisation The visualisation containing the datagroup
+   * @param visIdx The index of the visualisation
+   */
+  public setDefaultPreview(match: boolean, itemData: Map<string, ItemDataType>,
+    dg: DataGroup, visualisation: CogVisualisationData, visIdx: number) {
+
+    // For titiler protocol, take the first datagroup that matches to create a preview url
+    if (match && dg.protocol === 'titiler' && !visualisation.preview) {
+      const previewUrl = getTitilerPreviewUrl(dg.visualisationUrl, itemData);
+      visualisation.preview = previewUrl;
+      this.defaultPreviews[visIdx] = previewUrl;
+    }
   }
 
   public getDefaultPreview(visIdx: number) {
@@ -170,7 +177,6 @@ export class CogService<L, S, M> {
    * @param dgIdx The current data group index
    */
   public findPreviewForVisualisation(v: CogVisualisationData, dgIdx: number) {
-    console.log('fetching preview');
     // If the protocol is not titiler, skip the query
     if (v.visualisation.dataGroups[dgIdx].protocol !== 'titiler') {
       if (dgIdx + 1 < v.visualisation.dataGroups.length) {
@@ -202,20 +208,18 @@ export class CogService<L, S, M> {
         if (hits.hits.length > 0) {
           const previewUrl = getTitilerPreviewUrl(v.visualisation.dataGroups[dgIdx].visualisationUrl, hits.hits[0].data);
           v.preview = previewUrl;
-          this.setDefaultPreview(this.currentCogVisualisationConfig.findIndex(vis => vis === v.visualisation),  previewUrl);
-        } else {
-          if (dgIdx + 1 < v.visualisation.dataGroups.length) {
-            this.findPreviewForVisualisation(v, dgIdx + 1);
-          }
+          this.defaultPreviews[this.currentCogVisualisationConfig.findIndex(vis => vis === v.visualisation)] = previewUrl;
+        } else if (dgIdx + 1 < v.visualisation.dataGroups.length) {
+          this.findPreviewForVisualisation(v, dgIdx + 1);
         }
       });
   }
 
-  public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string) {
+  public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string, itemId?: string) {
+    console.log(visualisation);
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
     const contributorId = contributor.identifier;
     const previousVisualisation = this.selectedCogVisualisation.get(contributorId)?.visualisation;
-    const filters = this.getCogFiltersFromConfig(this.contributorConfig);
     const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
 
     if (!visualisation) {
@@ -223,6 +227,7 @@ export class CogService<L, S, M> {
       this.firstCogSelection = true;
 
       // Allow all data groups
+      const filters = this.getCogFiltersFromConfig(this.contributorConfig);
       visualizeAction.filters = filters;
     } else {
       this.selectedCogVisualisation.set(contributorId, {visualisation, idx, preview});
@@ -230,7 +235,7 @@ export class CogService<L, S, M> {
       // Allow only the visualisation data groups
       visualizeAction.filters = visualisation.dataGroups.map(dg => dg.filters);
     }
-    this.listNotifier.refreshActions();
+    this.listNotifier.refreshActions(itemId);
     this.cogVisualisationChange.next({visualisation, idx, preview});
 
     if (!visualisation) {
@@ -250,7 +255,7 @@ export class CogService<L, S, M> {
               this.visualizeService.removeRasters(item);
 
               // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
-              if (this.getVisualisationUrl(action, contributor)) {
+              if (this.getVisualisationUrl(action)) {
                 this.visualizeRaster(
                   { action: action, elementidentifier: { idFieldName: contributor.fieldsConfiguration.idFieldName, idValue: item } },
                   contributor, contributor.collection, false);
@@ -293,7 +298,7 @@ export class CogService<L, S, M> {
 
           this.firstCogSelection = !cogStyle;
           const idx = this.currentCogVisualisationConfig.findIndex(vis => cogStyle.visualisation === vis);
-          this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview);
+          this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview, data.elementidentifier.idValue);
 
           if (cogStyle.visualisation) {
             // Necessary to properly launch the visualisation
@@ -310,7 +315,7 @@ export class CogService<L, S, M> {
     listContributor: ResultListContributor, collection: string, fitBounds = true) {
 
     if (this.contributorConfig) {
-      const urlVisualisationTemplate = this.getVisualisationUrl(data.action, listContributor);
+      const urlVisualisationTemplate = this.getVisualisationUrl(data.action);
       // If there is no visualisation url, then no visualisation can be done
       //  Can be caused by the item not matching any visualisation rule
       if (!urlVisualisationTemplate) {
@@ -321,8 +326,8 @@ export class CogService<L, S, M> {
       if (!data.action.activated) {
         this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
           this.visualizeService.displayDataOnMap(url,
-            data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-            this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
+            data.elementidentifier, this.contributorsService.collectionToDescription.get(collection).geometry_path,
+            this.contributorsService.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
         });
         this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
       } else {
@@ -332,7 +337,7 @@ export class CogService<L, S, M> {
     }
   }
 
-  private getVisualisationUrl(action: Action, listContributor: ResultListContributor) {
+  private getVisualisationUrl(action: Action) {
     if (action.matched) {
       const v = this.getCurrentVisualisation();
 

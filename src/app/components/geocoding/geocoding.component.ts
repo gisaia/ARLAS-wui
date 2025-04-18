@@ -18,13 +18,7 @@
  */
 
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';

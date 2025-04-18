@@ -140,6 +140,10 @@ button:focus {
   max-height: 70vh !important;
 }
 
+.arlas-cog-modal {
+  --mdc-dialog-container-color: whitesmoke;
+}
+
 /* Walkthrough */
 div.hopscotch-bubble .hopscotch-nav-button.next {
   border-color: #FF4081;

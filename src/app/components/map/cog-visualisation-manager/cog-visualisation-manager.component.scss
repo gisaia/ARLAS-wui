@@ -21,25 +21,29 @@
 @import "../../../../styles/app/sizes.scss";
 @import "../../../../styles/app/mixin.scss";
 
-:host {
+.manager__button {
   display: flex;
   align-items: center;
   height: $map-actions-width;
-  padding: 0 $sm-spacing;
   cursor: pointer;
-  box-shadow: none;
   background-color: white;
+  padding: 0;
   @include box-border();
 
   & ::ng-deep {
-    .visualisation-picture {
-      height: 16px !important;
-      width: 16px !important;
+    .visualisation {
+      align-items: center;
+      padding: 2px;
     }
 
-    .visualisation-info_title {
-      font-size: $sm-font-size !important;
+    .visualisation__preview {
+      height: 25px !important;
+      width: 25px !important;
+    }
+
+    .visualisation__info__title {
+      font-size: $default-font-size;
+      padding-bottom: 0;
     }
   }
-
 }

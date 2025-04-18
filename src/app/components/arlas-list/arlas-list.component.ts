@@ -22,6 +22,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Subject, takeUntil } from 'rxjs';
+import { ActionManagerService } from '../../services/action-manager.service';
 import { CogService } from '../../services/cog.service';
 import { ResultlistService } from '../../services/resultlist.service';
 
@@ -61,7 +62,8 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
 
   public constructor(
     protected resultlistService: ResultlistService<L, S, M>,
-    private readonly cogService: CogService
+    private readonly cogService: CogService<L, S, M>,
+    protected actionManager: ActionManagerService
   ) { }
 
   public ngOnInit(): void {
