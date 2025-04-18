@@ -18,23 +18,21 @@
  */
 
 import { Component, inject, input } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
-import { ActionManagerService } from '@services/action-manager.service';
-import { CogService } from '@services/cog.service';
-import { ResultlistService } from '@services/resultlist.service';
-import { getTitilerPreviewUrl } from 'app/tools/cog';
-import { CogModalComponent, CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
+import { CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
+import { ActionManagerService } from '../../../services/action-manager.service';
+import { CogService } from '../../../services/cog.service';
+import { ResultlistService } from '../../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
   standalone: true,
   imports: [
-    MatIcon,
     CogPreviewComponent,
-    MatDialogModule,
-    CogModalComponent
+    MatTooltipModule,
+    TranslateModule
   ],
   templateUrl: './cog-visualisation-manager.component.html',
   styleUrl: './cog-visualisation-manager.component.scss'
@@ -44,7 +42,6 @@ export class CogVisualisationManagerComponent {
   public preview = input<string>();
 
   private readonly resultListService = inject(ResultlistService);
-  private readonly dialog = inject(MatDialog);
   private readonly cogService = inject(CogService);
   private readonly actionManager = inject(ActionManagerService);
 
@@ -54,14 +51,7 @@ export class CogVisualisationManagerComponent {
 
     // Open the dialog for selection of visualisation
     // Currently loading
-    const dialogRef = this.dialog.open(CogModalComponent, {
-      data: {
-        visualisations: visualisations,
-        loading: true
-      },
-      width: '44vw',
-      maxHeight:'40vh'
-    });
+    const dialogRef = this.cogService.openCogModal(visualisations, true);
 
     // Query for each of the currently viewed items what visualisations they match
     const contributor = this.resultListService.rightListContributors[this.resultListService.selectedListTabIndex];
@@ -82,14 +72,9 @@ export class CogVisualisationManagerComponent {
           let isMatched = false;
           v.visualisation.dataGroups.forEach((dg, dgIdx) => {
             isMatched = isMatched || mi.matched[currentIdx + dgIdx];
-
-            // For titiler protocol, take the first datagroup that matches to create a preview url
-            if (mi.matched[currentIdx + dgIdx] && dg.protocol === 'titiler' && !v.preview) {
-              const previewUrl = getTitilerPreviewUrl(dg.visualisationUrl, mi.data);
-              v.preview = previewUrl;
-              this.cogService.setDefaultPreview(visIdx, previewUrl);
-            }
+            this.cogService.setDefaultPreview(mi.matched[currentIdx + dgIdx], mi.data, dg, v, visIdx);
           });
+
           if (isMatched) {
             nbMatches[visIdx] += 1;
           }
@@ -108,11 +93,6 @@ export class CogVisualisationManagerComponent {
 
       // Update the input data of the dialog
       dialogRef.componentInstance.data = { visualisations, loading: false };
-
-      // Get missing previews by querying with the filters
-      visualisations.filter(v => !v.preview).forEach(v => {
-        this.cogService.findPreviewForVisualisation(v, 0);
-      });
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {

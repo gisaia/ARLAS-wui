@@ -18,15 +18,15 @@
  */
 import { Component, Input, OnInit } from '@angular/core';
 import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
+import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
-import { ArlasMapFrameworkService } from 'arlas-map';
-import { CogService } from '@services/cog.service';
 
 @Component({
   selector: 'arlas-root',
@@ -125,8 +125,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
           cdrs.forEach(cdr => {
             this.collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          this.resultlistService.setCollectionsDescription(this.collectionToDescription);
-          this.cogService.setCollectionsDescription(this.collectionToDescription);
+          this.contributorService.setCollectionsDescription(this.collectionToDescription);
           if (this.mapService.mapComponent) {
             this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
           }

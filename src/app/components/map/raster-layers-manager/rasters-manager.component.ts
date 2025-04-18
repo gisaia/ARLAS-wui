@@ -18,11 +18,11 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActionManagerService } from '@services/action-manager.service';
-import { CogService } from '@services/cog.service';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';
+import { ActionManagerService } from '../../../services/action-manager.service';
+import { CogService } from '../../../services/cog.service';
 import { VisualizeService } from '../../../services/visualize.service';
 
 @Component({

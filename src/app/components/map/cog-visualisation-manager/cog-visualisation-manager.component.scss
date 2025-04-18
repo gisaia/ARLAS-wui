@@ -25,21 +25,25 @@
   display: flex;
   align-items: center;
   height: $map-actions-width;
-  padding: 0 $sm-spacing;
   cursor: pointer;
   box-shadow: none;
   background-color: white;
   @include box-border();
 
   & ::ng-deep {
-    .visualisation-picture {
-      height: 16px !important;
-      width: 16px !important;
+    .visualisation {
+      align-items: center;
+      padding: $sm-spacing;
     }
 
-    .visualisation-info_title {
-      font-size: $sm-font-size !important;
+    .visualisation__preview {
+      height: 24px !important;
+      width: 24px !important;
+    }
+
+    .visualisation__info__title {
+      font-size: $default-font-size;
+      padding-bottom: 0;
     }
   }
-
 }

@@ -24,12 +24,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { ArlasWuiMapService } from '@services/map.service';
-import { VisualizeService } from '@services/visualize.service';
 import { isElementInViewport } from 'app/tools/utils';
-import { CollectionReferenceParameters } from 'arlas-api';
 import {
-  ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
 } from 'arlas-web-components';
 import { Action, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
@@ -38,6 +35,9 @@ import {
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 import { CogService } from './cog.service';
+import { ContributorService } from './contributors.service';
+import { ArlasWuiMapService } from './map.service';
+import { VisualizeService } from './visualize.service';
 
 
 @Injectable({
@@ -51,7 +51,6 @@ export class ResultlistService<L, S, M> {
   /** Resultlist configs */
   public resultlistConfigs = [];
   public resultlistConfigPerContId = new Map<string, any>();
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -89,7 +88,8 @@ export class ResultlistService<L, S, M> {
     private readonly visualizeService: VisualizeService,
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
-    private readonly cogService: CogService
+    private readonly cogService: CogService,
+    private readonly contributorService: ContributorService
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: any[]) {
@@ -133,10 +133,6 @@ export class ResultlistService<L, S, M> {
     }
   }
 
-  public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
-    this.collectionToDescription = collectionToDescription;
-  }
-
   public toggleList() {
     this.listOpen = !this.listOpen;
     this.listOpenChange.next(this.listOpen);
@@ -161,7 +157,7 @@ export class ResultlistService<L, S, M> {
   public applyMapExtent(pwithinRaw: string, pwithin: string) {
     this.resultlistContributors
       .forEach(c => {
-        const centroidPath = this.collectionToDescription.get(c.collection).centroid_path;
+        const centroidPath = this.contributorService.collectionToDescription.get(c.collection).centroid_path;
         const mapContrib = this.mapService.getContributorByCollection(c.collection);
         if (mapContrib) {
           c.filter = mapContrib.getFilterForCount(pwithinRaw, pwithin, centroidPath, true);
@@ -181,7 +177,7 @@ export class ResultlistService<L, S, M> {
 
   public highlightItems(hoveredFeatures: any[]) {
     this.resultlistContributors.forEach(c => {
-      const idFieldName = this.collectionToDescription.get(c.collection).id_path;
+      const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
       const highLightItems = hoveredFeatures
         .filter(f => f.layer.metadata.collection === c.collection)
         .map(f => f.properties[idFieldName.replace(/\./g, '_')])
@@ -201,8 +197,8 @@ export class ResultlistService<L, S, M> {
    * Update which elements from the list are visible on the map
    */
   public updateVisibleItems() {
-    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+    if (this.previewListContrib && !!this.contributorService.collectionToDescription.get(this.previewListContrib.collection)) {
+      const idFieldName = this.contributorService.collectionToDescription.get(this.previewListContrib.collection).id_path;
       const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
         .filter(i => i !== undefined && isElementInViewport(document.getElementById(i.toString())));
       this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
@@ -214,8 +210,8 @@ export class ResultlistService<L, S, M> {
    * @param items List of items constituting the resultlist
    */
   public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
-    if (this.collectionToDescription.size > 0) {
-      const idFieldName = this.collectionToDescription.get(collection).id_path;
+    if (this.contributorService.collectionToDescription.size > 0) {
+      const idFieldName = this.contributorService.collectionToDescription.get(collection).id_path;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
           .filter(id => id !== undefined && isElementInViewport(document.getElementById(id.toString())));
@@ -326,7 +322,7 @@ export class ResultlistService<L, S, M> {
         break;
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
-        const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
+        const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
         if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
@@ -446,7 +442,7 @@ export class ResultlistService<L, S, M> {
       this.processService.load(processName).subscribe({
         next: () => {
           this.processService.getItemsDetail(
-            this.collectionToDescription.get(collection).id_path,
+            this.contributorService.collectionToDescription.get(collection).id_path,
             ids,
             collection
           ).subscribe({

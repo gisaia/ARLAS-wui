@@ -23,11 +23,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CogService } from '@services/cog.service';
-import { GeocodingResult } from '@services/geocoding.service';
-import { ArlasWuiMapService } from '@services/map.service';
-import { ResultlistService } from '@services/resultlist.service';
-import { VisualizeService } from '@services/visualize.service';
 import { FeatureCollection } from '@turf/helpers';
 import { VisualisationPreview } from 'app/tools/cog';
 import {
@@ -46,18 +41,16 @@ import {
 import { MapContributor } from 'arlas-web-contributors';
 import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
 import {
-  ArlasCollaborativesearchService,
-  ArlasCollectionService,
-  ArlasConfigService,
-  ArlasIamService,
-  ArlasMapService,
-  ArlasMapSettings,
-  ArlasSettingsService,
-  ArlasStartupService,
-  AuthentificationService,
-  getParamValue
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { CogService } from '../../services/cog.service';
+import { ContributorService } from '../../services/contributors.service';
+import { GeocodingResult } from '../../services/geocoding.service';
+import { ArlasWuiMapService } from '../../services/map.service';
+import { ResultlistService } from '../../services/resultlist.service';
+import { VisualizeService } from '../../services/visualize.service';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -160,7 +153,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly collectionService: ArlasCollectionService,
     private readonly authentService: AuthentificationService,
     private readonly arlasIamService: ArlasIamService,
-    private readonly cogService: CogService
+    private readonly cogService: CogService,
+    private readonly contributorService: ContributorService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -447,7 +441,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   public onMove(event) {
     // Update data only when the collections info are presents
-    if (this.resultlistService.collectionToDescription.size > 0) {
+    if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
       const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
@@ -538,7 +532,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
         .filter(c => feature.layer.metadata.collection === c.collection
           && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
       if (resultListContributor) {
-        const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
+        const idFieldName = this.contributorService.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
         // Open the list panel if it's closed
         this.disableRecalculateExtent = true;

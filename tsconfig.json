@@ -25,14 +25,6 @@
       "dom"
     ],
     "module": "esnext",
-    "paths": {
-      "@components/*": [
-        "app/components/*"
-      ],
-      "@services/*": [
-        "app/services/*"
-      ]
-    },
     "useDefineForClassFields": false
   }
 }

@@ -20,31 +20,22 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArlasListComponent } from '@components/arlas-list/arlas-list.component';
-import { ArlasWuiMapComponent } from '@components/arlas-map/arlas-map.component';
-import { MenuState } from '@components/left-menu/left-menu.component';
-import { ContributorService } from '@services/contributors.service';
-import { ArlasWuiMapService } from '@services/map.service';
-import { ResultlistService } from '@services/resultlist.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AnalyticsService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasMapService,
-  ArlasMapSettings,
-  ArlasSettingsService,
-  ArlasStartupService,
-  FilterShortcutConfiguration,
-  getParamValue,
-  NOT_CONFIGURED,
-  TimelineComponent,
-  ZoomToDataStrategy
+  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService,
+  ArlasStartupService, FilterShortcutConfiguration, getParamValue, NOT_CONFIGURED, TimelineComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { ActionManagerService } from '../../services/action-manager.service';
+import { ContributorService } from '../../services/contributors.service';
+import { ArlasWuiMapService } from '../../services/map.service';
+import { ResultlistService } from '../../services/resultlist.service';
+import { ArlasListComponent } from '../arlas-list/arlas-list.component';
+import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
+import { MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -137,7 +128,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     private readonly configService: ArlasConfigService,
     protected settingsService: ArlasSettingsService,
     protected collaborativeService: ArlasCollaborativesearchService,
-    private readonly contributorService: ContributorService,
+    protected contributorService: ContributorService,
     protected arlasStartupService: ArlasStartupService,
     private readonly mapSettingsService: ArlasMapSettings,
     private readonly cdr: ChangeDetectorRef,
@@ -147,7 +138,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     private readonly router: Router,
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService<L, S, M>,
-    protected mapService: ArlasWuiMapService<L, S, M>
+    protected mapService: ArlasWuiMapService<L, S, M>,
+    protected actionManager: ActionManagerService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -287,9 +279,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
       this.zoomToStrategy === ZoomToDataStrategy.CENTROID
       || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
     ) {
-      fieldPath = this.resultlistService.collectionToDescription.get(collection).centroid_path;
+      fieldPath = this.contributorService.collectionToDescription.get(collection).centroid_path;
     } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
-      fieldPath = this.resultlistService.collectionToDescription.get(collection).geometry_path;
+      fieldPath = this.contributorService.collectionToDescription.get(collection).geometry_path;
     }
     this.toolkitMapService.zoomToData(collection, fieldPath, this.arlasMapComponent.mapglComponent.map, 0.2);
   }
