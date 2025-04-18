@@ -25,8 +25,7 @@ import { Expression, Filter, Search } from 'arlas-api';
 import {
   CogModalComponent, CogVisualisationData, DataGroup, ItemDataType, ResultlistNotifierService, VisualisationInterface
 } from 'arlas-web-components';
-import { Action, ElementIdentifier, ResultListContributor } from 'arlas-web-contributors';
-import { ActionFilter } from 'arlas-web-contributors/models/models';
+import { Action, ActionFilter, ElementIdentifier, ResultListContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { first, map, Observable, Subject, take } from 'rxjs';
@@ -52,7 +51,7 @@ export class CogService {
 
   /** --- Visualisation state */
   /** Current COG visualisation */
-  private selectedCogVisualisation = new Map<string, VisualisationPreview>();
+  private readonly selectedCogVisualisation = new Map<string, VisualisationPreview>();
   /** Emits any change to the visualisation used for the COGs */
   public cogVisualisationChange = new Subject<VisualisationPreview>();
   /** Whether this is the first selection of a COG */
@@ -93,9 +92,6 @@ export class CogService {
     const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v, idx) => (
       { visualisation: v, match: 'none', preview: this.getDefaultPreview(idx)}));
 
-    // TODO: decide if we want for the popup to load while the previews are loading,
-    // or shall it have this degraded state with no previews but the functionalities
-
     // Parses the array to find out which visualisations are enabled
     let i = 0;
     this.currentCogVisualisationConfig.forEach((v, vidx) => {
@@ -113,7 +109,6 @@ export class CogService {
     // Fetch the detail of the item to replace the fields in the url
     searchResult.subscribe(h => {
       const itemData = h.hits[0].data;
-      console.log(itemData);
 
       // Parses the array to get the visualisation previews
       let i = 0;
@@ -214,19 +209,17 @@ export class CogService {
           const previewUrl = getTitilerPreviewUrl(v.visualisation.dataGroups[dgIdx].visualisationUrl, hits.hits[0].data);
           v.preview = previewUrl;
           this.defaultPreviews[this.currentCogVisualisationConfig.findIndex(vis => vis === v.visualisation)] = previewUrl;
-        } else {
-          if (dgIdx + 1 < v.visualisation.dataGroups.length) {
-            this.findPreviewForVisualisation(v, dgIdx + 1);
-          }
+        } else if (dgIdx + 1 < v.visualisation.dataGroups.length) {
+          this.findPreviewForVisualisation(v, dgIdx + 1);
         }
       });
   }
 
   public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string, itemId?: string) {
+    console.log(visualisation);
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
     const contributorId = contributor.identifier;
     const previousVisualisation = this.selectedCogVisualisation.get(contributorId)?.visualisation;
-    const filters = this.getCogFiltersFromConfig(this.contributorConfig);
     const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
 
     if (!visualisation) {
@@ -234,6 +227,7 @@ export class CogService {
       this.firstCogSelection = true;
 
       // Allow all data groups
+      const filters = this.getCogFiltersFromConfig(this.contributorConfig);
       visualizeAction.filters = filters;
     } else {
       this.selectedCogVisualisation.set(contributorId, {visualisation, idx, preview});

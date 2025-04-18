@@ -354,7 +354,6 @@ export class ResultlistService<L, S, M> {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
                   this.cogService.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
-                  // this.addAction(event.origin, e.idValue, event.data.action);
                 }
               }
             });

@@ -38,8 +38,7 @@ import {
   MapSettingsComponent,
   SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
-import { MapContributor } from 'arlas-web-contributors';
-import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import { LegendData, MapContributor } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue

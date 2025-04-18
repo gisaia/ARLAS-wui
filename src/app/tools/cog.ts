@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { VisualisationInterface } from 'arlas-web-components';
-import { ItemDataType } from 'arlas-web-components';
+import { ItemDataType, VisualisationInterface } from 'arlas-web-components';
 
 export interface VisualisationPreview {
     visualisation: VisualisationInterface;
@@ -39,7 +38,8 @@ function getValueOrFirstArrayValue(data: Map<string, ItemDataType>, flattenedFie
  */
 export function flattenedMatchAndReplace(data: Map<string, ItemDataType>, template: string) {
   let replaced = template;
-  template.match(/{(.+?)}/g)?.forEach(t => {
+  // Regex is more secured by checking that we don't match if there are multiple '{' in a row
+  template.match(/{([^{]+?)}/g)?.forEach(t => {
     const flattenedKey: string = t.replace('{', '').replace('}', '').replace('.', '_');
     const value = getValueOrFirstArrayValue(data, flattenedKey);
     if (value !== undefined) {

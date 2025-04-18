@@ -72,7 +72,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
 
   public ngOnInit(): void {
     const loadingGif = document.querySelector('.gif');
-    if (!!loadingGif) {
+    if (loadingGif) {
       loadingGif.remove();
     }
 
@@ -85,10 +85,10 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
       const mapContributors = [];
       this.contributorService.getMapContributors().forEach(mapContrib => {
         mapContrib.colorGenerator = this.colorService.colorGenerator;
-        if (!!this.resultlistContributors) {
+        if (this.resultlistContributors) {
           const resultlistContrbutor: ResultListContributor = this.resultlistContributors
             .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
-          if (!!resultlistContrbutor) {
+          if (resultlistContrbutor) {
             mapContrib.searchSize = resultlistContrbutor.pageSize;
             mapContrib.searchSort = resultlistContrbutor.sort;
           } else {
@@ -104,7 +104,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
       const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
       const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
       const allContributors = this.configService.getValue('arlas.web.contributors');
-      const resultListsConfig = !!allResultlists ? allResultlists.filter(a => {
+      const resultListsConfig = allResultlists ? allResultlists.filter(a => {
         const contId = a.contributorId;
         const tab = allContributors.find(c => c.identifier === contId).name;
         return !hiddenListsTabsSet.has(tab);
@@ -137,7 +137,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit {
       /** Analytics */
       const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
       const allAnalytics = this.arlasStartupService.analytics;
-      this.analyticsService.initializeGroups(!!allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
+      this.analyticsService.initializeGroups(allAnalytics ? allAnalytics.filter(a => !hiddenAnalyticsTabsSet.has(a.tab)) : []);
     }
   }
 }

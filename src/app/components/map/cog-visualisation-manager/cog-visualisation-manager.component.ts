@@ -20,7 +20,7 @@
 import { Component, inject, input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { CogPreviewComponent, CogVisualisationData, VisualisationInterface } from 'arlas-web-components';
+import { CogPreviewComponent, CogVisualisationData, MatchInfo, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
 import { ActionManagerService } from '../../../services/action-manager.service';
 import { CogService } from '../../../services/cog.service';
@@ -64,23 +64,7 @@ export class CogVisualisationManagerComponent {
     const visualizedItemsMatches = zip(itemsVisualized.map(v => dataRetriever.getMatch(v[0], filters)));
 
     visualizedItemsMatches.subscribe(m => {
-      const nbMatches = visualisations.map(_ => 0);
-      let currentIdx = 0;
-      visualisations.forEach((v, visIdx) => {
-        // For each visualisation, check if each item matches at least one dataGroup
-        m.forEach(mi => {
-          let isMatched = false;
-          v.visualisation.dataGroups.forEach((dg, dgIdx) => {
-            isMatched = isMatched || mi.matched[currentIdx + dgIdx];
-            this.cogService.setDefaultPreview(mi.matched[currentIdx + dgIdx], mi.data, dg, v, visIdx);
-          });
-
-          if (isMatched) {
-            nbMatches[visIdx] += 1;
-          }
-        });
-        currentIdx += v.visualisation.dataGroups.length;
-      });
+      const nbMatches = this.computeMatchesPerVisualisation(m, visualisations);
 
       // Transform the number of matches into 'match' description
       nbMatches.forEach((nb, idx) => {
@@ -99,5 +83,34 @@ export class CogVisualisationManagerComponent {
       const idx = this.cogService.currentCogVisualisationConfig.findIndex(vis => v === vis);
       this.cogService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
     });
+  }
+
+  /**
+   * For each visualisation, compute how many of the currently visualised items are matching it.
+   * If the item is matching and no preview is defined by default, sets it.
+   * @param matches List of matches and data per item
+   * @param visualisations List of visualisations
+   * @returns The amount of items matching a visualisation
+   */
+  private computeMatchesPerVisualisation(matches: Array<MatchInfo>, visualisations: Array<CogVisualisationData>) {
+    const nbMatches = visualisations.map(_ => 0);
+    let currentIdx = 0;
+    visualisations.forEach((v, visIdx) => {
+      // For each visualisation, check if each item matches at least one dataGroup
+      matches.forEach(mi => {
+        let isMatched = false;
+        v.visualisation.dataGroups.forEach((dg, dgIdx) => {
+          isMatched = isMatched || mi.matched[currentIdx + dgIdx];
+          this.cogService.setDefaultPreview(mi.matched[currentIdx + dgIdx], mi.data, dg, v, visIdx);
+        });
+
+        if (isMatched) {
+          nbMatches[visIdx] += 1;
+        }
+      });
+      currentIdx += v.visualisation.dataGroups.length;
+    });
+
+    return nbMatches;
   }
 }

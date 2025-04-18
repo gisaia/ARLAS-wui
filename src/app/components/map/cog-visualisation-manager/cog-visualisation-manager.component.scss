@@ -21,13 +21,13 @@
 @import "../../../../styles/app/sizes.scss";
 @import "../../../../styles/app/mixin.scss";
 
-:host {
+.manager__button {
   display: flex;
   align-items: center;
   height: $map-actions-width;
   cursor: pointer;
-  box-shadow: none;
   background-color: white;
+  padding: 0;
   @include box-border();
 
   & ::ng-deep {
