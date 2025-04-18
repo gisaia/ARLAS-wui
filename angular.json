@@ -34,13 +34,13 @@
               "src/silent-refresh.html",
               {
                 "glob": "**/*",
-                "input": "./node_modules/arlas-web-components/assets/resize",
-                "output": "/assets/resize/"
+                "input": "./node_modules/arlas-map/assets/icons/resize",
+                "output": "/assets/icons/resize/"
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/arlas-web-components/assets/rotate",
-                "output": "/assets/rotate/"
+                "input": "./node_modules/arlas-map/assets/icons/rotate",
+                "output": "/assets/icons/rotate/"
               }
             ],
             "styles": [
@@ -116,13 +116,13 @@
                 "src/favicon.ico",
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/resize",
-                  "output": "/assets/resize/"
+                  "input": "./node_modules/arlas-map/assets/icons/resize",
+                  "output": "/assets/icons/resize/"
                 },
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/rotate",
-                  "output": "/assets/rotate/"
+                  "input": "./node_modules/arlas-map/assets/icons/rotate",
+                  "output": "/assets/icons/rotate/"
                 }
               ]
             },
@@ -164,13 +164,13 @@
                 "src/favicon.ico",
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/resize",
-                  "output": "/assets/resize/"
+                  "input": "./node_modules/arlas-map/assets/icons/resize",
+                  "output": "/assets/icons/resize/"
                 },
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/rotate",
-                  "output": "/assets/rotate/"
+                  "input": "./node_modules/arlas-map/assets/icons/rotate",
+                  "output": "/assets/icons/rotate/"
                 }
               ]
             },
@@ -215,13 +215,13 @@
                 "src/favicon.ico",
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/resize",
-                  "output": "/assets/resize/"
+                  "input": "./node_modules/arlas-map/assets/icons/resize",
+                  "output": "/assets/icons/resize/"
                 },
                 {
                   "glob": "**/*",
-                  "input": "./node_modules/arlas-web-components/assets/rotate",
-                  "output": "/assets/rotate/"
+                  "input": "./node_modules/arlas-map/assets/icons/rotate",
+                  "output": "/assets/icons/rotate/"
                 }
               ]
             }
@@ -284,13 +284,13 @@
               "src/silent-refresh.html",
               {
                 "glob": "**/*",
-                "input": "./node_modules/arlas-web-components/assets/resize",
-                "output": "/assets/resize/"
+                "input": "./node_modules/arlas-map/assets/icons/resize",
+                "output": "/assets/icons/resize/"
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/arlas-web-components/assets/rotate",
-                "output": "/assets/rotate/"
+                "input": "./node_modules/arlas-map/assets/icons/rotate",
+                "output": "/assets/icons/rotate/"
               }
             ]
           }
