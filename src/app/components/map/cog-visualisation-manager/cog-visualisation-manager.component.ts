@@ -46,8 +46,12 @@ export class CogVisualisationManagerComponent {
   private readonly actionManager = inject(ActionManagerService);
 
   public openModal() {
+    const currentVisualisation = this.cogService.getCurrentVisualisation().visualisation;
+
     const visualisations: Array<CogVisualisationData> = this.cogService.currentCogVisualisationConfig
-      .map((v, idx) => ({ visualisation: v, match: 'none', preview: this.cogService.getDefaultPreview(idx)}));
+      .map((v, idx) => ({
+        visualisation: v, match: 'none', preview: this.cogService.getDefaultPreview(idx), selected: v === currentVisualisation
+      }));
 
     // Open the dialog for selection of visualisation
     // Currently loading

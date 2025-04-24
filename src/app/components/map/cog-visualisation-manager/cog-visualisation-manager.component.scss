@@ -33,12 +33,12 @@
   & ::ng-deep {
     .visualisation {
       align-items: center;
-      padding: $sm-spacing;
+      padding: 2px;
     }
 
     .visualisation__preview {
-      height: 24px !important;
-      width: 24px !important;
+      height: 25px !important;
+      width: 25px !important;
     }
 
     .visualisation__info__title {
