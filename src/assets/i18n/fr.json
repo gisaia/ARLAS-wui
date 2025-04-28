@@ -132,6 +132,6 @@
 	"All layers": "Toutes les couches",
 	"Start draging to draw a bbox.": "Commencez à dessiner une bbox.",
 	"Draw at least 2 points.": "Dessinez au moins 2 points.",
-  "Export data": "Exporter les données",
-  "Download geo-data": "Télécharger des données géographiques"
+	"Export data": "Télécharger les données",
+	"Download geo-data": "Télécharger des données géographiques"
 }

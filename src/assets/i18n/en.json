@@ -128,6 +128,6 @@
 	"Fill": "Polygon",
 	"Start draging to draw a bbox.": "Start draging to draw a bbox.",
 	"Draw at least 2 points.": "Draw at least 2 points.",
-  "Export data": "Export data",
-  "Download geo-data": "Download geo-data"
+	"Export data": "Download data",
+	"Download geo-data": "Download geo-data"
 }
