@@ -1,8 +1,30 @@
 # Change Log
 
-## [v27.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.1) (2025-03-20)
+## [v27.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.2) (2025-04-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0...v27.0.1)
+**New stuff:**
+
+- Move actions on the left-bottom menu to top-right band [\#909](https://github.com/gisaia/ARLAS-wui/issues/909)
+- Make powerbars filter case insensitive [\#479](https://github.com/gisaia/ARLAS-wui/issues/479)
+- \[Draw\] add a tooltip in each drawing step to indicate the next action to user [\#978](https://github.com/gisaia/ARLAS-wui/issues/978)
+- \[draw\] Implement rectangle draw mode to replace the current bbox  [\#977](https://github.com/gisaia/ARLAS-wui/issues/977)
+- Improve metrics ui [\#973](https://github.com/gisaia/ARLAS-wui/issues/973)
+- add display name for collections elements [\#971](https://github.com/gisaia/ARLAS-wui/issues/971)
+
+**Fixed bugs:**
+
+- Token not present when downloading data [\#963](https://github.com/gisaia/ARLAS-wui/issues/963)
+- Layout problem with legend [\#745](https://github.com/gisaia/ARLAS-wui/issues/745)
+- Wrong typing of drawn geometries [\#980](https://github.com/gisaia/ARLAS-wui/issues/980)
+- \[Bookmarks\] the buttons are greyed out after click on simulate combinaison [\#972](https://github.com/gisaia/ARLAS-wui/issues/972)
+- When a drawn bbox/polygon is selected ESC-key does not work as expected [\#969](https://github.com/gisaia/ARLAS-wui/issues/969)
+- Update dependencies information in About section [\#968](https://github.com/gisaia/ARLAS-wui/issues/968)
+- inconsistencies in the management of geogrpahic zones [\#967](https://github.com/gisaia/ARLAS-wui/issues/967)
+- Cant escape from draw a polygon if i do not start a draw [\#965](https://github.com/gisaia/ARLAS-wui/issues/965)
+- The left sidebar disappears on esc-key click [\#964](https://github.com/gisaia/ARLAS-wui/issues/964)
+- An error appears during text search [\#961](https://github.com/gisaia/ARLAS-wui/issues/961)
+
+## [v27.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.1) (2025-03-20)
 
 **Fixed bugs:**
 
@@ -17,113 +39,35 @@
 
 ## [v27.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0) (2025-02-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.12...v27.0.0)
-
-## [v27.0.0-beta.12](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.12) (2025-02-03)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.11...v27.0.0-beta.12)
-
-## [v27.0.0-beta.11](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.11) (2025-01-30)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.10...v27.0.0-beta.11)
-
-## [v27.0.0-beta.10](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.10) (2025-01-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.9...v27.0.0-beta.10)
-
-## [v27.0.0-beta.9](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.9) (2025-01-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.8...v27.0.0-beta.9)
-
-## [v27.0.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.8) (2025-01-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.7...v27.0.0-beta.8)
-
-## [v27.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.7) (2025-01-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.6...v27.0.0-beta.7)
-
-## [v27.0.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.6) (2025-01-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-rc.2...v27.0.0-beta.6)
-
-**New stuff:**
-
-- Propose a new implementation of arlas-map that supports MapLibre [\#734](https://github.com/gisaia/ARLAS-wui/issues/734)
-
-## [v27.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-rc.2) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-rc.1...v27.0.0-rc.2)
-
-## [v27.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-rc.1) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.5...v27.0.0-rc.1)
-
-## [v27.0.0-beta.5](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.5) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.4...v27.0.0-beta.5)
-
-## [v27.0.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.4) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.3...v27.0.0-beta.4)
-
-## [v27.0.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.3) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v27.0.0-beta.2...v27.0.0-beta.3)
-
-## [v27.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.0-beta.2) (2025-01-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.1...v27.0.0-beta.2)
-
-**New stuff:**
-
-- implement the release script in github actions [\#877](https://github.com/gisaia/ARLAS-wui/issues/877)
-
-**Fixed bugs:**
-
-- ARLAS Hub forbids access when user belongs to two organisations [\#926](https://github.com/gisaia/ARLAS-wui/issues/926)
-
-## [v26.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.1) (2025-01-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0...v26.1.1)
-
 **New stuff:**
 
 - Migrate to Angular 18 [\#913](https://github.com/gisaia/ARLAS-wui/issues/913)
+- implement the release script in github actions [\#877](https://github.com/gisaia/ARLAS-wui/issues/877)
+- Propose a new implementation of arlas-map that supports MapLibre [\#734](https://github.com/gisaia/ARLAS-wui/issues/734)
 - Enhance handling the app behaviour when intercepting 401, 20x [\#622](https://github.com/gisaia/ARLAS-wui/issues/622)
 
 **Miscellaneous:**
 
 - Migrate to Angular 15 [\#812](https://github.com/gisaia/ARLAS-wui/issues/812)
 
-## [v26.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0) (2024-12-02)
+## [v26.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.1) (2025-01-06)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0-rc.3...v26.1.0)
+**Fixed bugs:**
+
+- ARLAS Hub forbids access when user belongs to two organisations [\#926](https://github.com/gisaia/ARLAS-wui/issues/926)
+
+## [v26.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0) (2024-12-02)
 
 **New stuff:**
 
 - Visualize multiple products at once [\#914](https://github.com/gisaia/ARLAS-wui/issues/914)
 - Enrich the header of calls made by the map to securised ARLAS services  [\#912](https://github.com/gisaia/ARLAS-wui/issues/912)
 
-## [v26.1.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.3) (2024-11-27)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0-rc.2...v26.1.0-rc.3)
-
-## [v26.1.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.2) (2024-11-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.1.0-rc.1...v26.1.0-rc.2)
-
-## [v26.1.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.1.0-rc.1) (2024-11-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.8...v26.1.0-rc.1)
-
 **Miscellaneous:**
 
 - Externalise the map and the resultlists from the main component [\#895](https://github.com/gisaia/ARLAS-wui/issues/895)
 
 ## [v26.0.8](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.8) (2024-11-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.7...v26.0.8)
 
 **New stuff:**
 
@@ -142,13 +86,10 @@
 - Change "Mode" by "Geometry" in the "Share geo data" menu \(bottom left\) [\#893](https://github.com/gisaia/ARLAS-wui/issues/893)
 - In case of multi-collection in timeline, when one bucket is returned the detailed timeline gives information about only one collection [\#891](https://github.com/gisaia/ARLAS-wui/issues/891)
 - Selecting an image when the list is closed results in no image being shown once list is open [\#886](https://github.com/gisaia/ARLAS-wui/issues/886)
-- If timeline filter is deactivated first and then removed, the selection brush is not updated [\#885](https://github.com/gisaia/ARLAS-wui/issues/885)
 - other\_color in map legend is not translated [\#883](https://github.com/gisaia/ARLAS-wui/issues/883)
 - Bookmarks can not be selected [\#875](https://github.com/gisaia/ARLAS-wui/issues/875)
 
 ## [v26.0.7](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.7) (2024-09-22)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.6...v26.0.7)
 
 **New stuff:**
 
@@ -156,76 +97,31 @@
 
 **Fixed bugs:**
 
+- If timeline filter is deactivated first and then removed, the selection brush is not updated [\#885](https://github.com/gisaia/ARLAS-wui/issues/885)
 - Detailed timeline doesn't show buckets for some cases [\#884](https://github.com/gisaia/ARLAS-wui/issues/884)
-- Tour guide is not triggered unless you resize the window of your tab [\#801](https://github.com/gisaia/ARLAS-wui/issues/801)
 
 ## [v26.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.6) (2024-09-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.5...v26.0.6)
-
 ## [v26.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.5) (2024-09-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.4...v26.0.5)
 
 ## [v26.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.4) (2024-09-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.3...v26.0.4)
-
 ## [v26.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.3) (2024-09-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.2...v26.0.3)
 
 ## [v26.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.2) (2024-09-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.1...v26.0.2)
-
 ## [v26.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.1) (2024-09-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0...v26.0.1)
-
 ## [v26.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0) (2024-09-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.4...v26.0.0)
-
-## [v26.0.0-rc.4](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.4) (2024-09-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.3...v26.0.0-rc.4)
-
-## [v26.0.0-rc.3](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.3) (2024-09-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.2...v26.0.0-rc.3)
-
-## [v26.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.2) (2024-09-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v26.0.0-rc.1...v26.0.0-rc.2)
 
 **New stuff:**
 
 - change icon when selecting an item [\#870](https://github.com/gisaia/ARLAS-wui/issues/870)
 - Pass the new searchContributors input to arlas-search component [\#865](https://github.com/gisaia/ARLAS-wui/issues/865)
-- \[bookmark\] rename bookmarks [\#543](https://github.com/gisaia/ARLAS-wui/issues/543)
-
-**Fixed bugs:**
-
-- errors related to bounding box + resizehistogram at init [\#871](https://github.com/gisaia/ARLAS-wui/issues/871)
-- The resultlist is not updated after removing the bbox [\#868](https://github.com/gisaia/ARLAS-wui/issues/868)
-- The information icon 'i' stays on the item after closing the detail in the resultlist [\#866](https://github.com/gisaia/ARLAS-wui/issues/866)
-- When I log out, a blank page is displayed [\#864](https://github.com/gisaia/ARLAS-wui/issues/864)
-
-## [v26.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v26.0.0-rc.1) (2024-09-02)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.1.0...v26.0.0-rc.1)
-
-**New stuff:**
-
 - Create a Collection Service that provides the display name and the unit of a given collection. [\#841](https://github.com/gisaia/ARLAS-wui/issues/841)
 - Add a new Metric Table component [\#824](https://github.com/gisaia/ARLAS-wui/issues/824)
-- Implement a multi-collection powerbar [\#818](https://github.com/gisaia/ARLAS-wui/issues/818)
-- Highlight the item whose detail is displayed on the list [\#813](https://github.com/gisaia/ARLAS-wui/issues/813)
 - 'Zoom to' button next to count should zoom to feature geometry [\#810](https://github.com/gisaia/ARLAS-wui/issues/810)
-- Add an option to deactivate 'Sign up' button [\#806](https://github.com/gisaia/ARLAS-wui/issues/806)
 - Display Unit instead of collection name in timeline and histogram having a count [\#755](https://github.com/gisaia/ARLAS-wui/issues/755)
-- Add a legend for x / y in a histogram [\#688](https://github.com/gisaia/ARLAS-wui/issues/688)
 - \[legend\] refactor how the legend is displayed [\#554](https://github.com/gisaia/ARLAS-wui/issues/554)
 - \[metrics\] organize metrics in a datatable [\#544](https://github.com/gisaia/ARLAS-wui/issues/544)
 - Rescale the x-axis domain to include selection that goes beyond the data domain [\#411](https://github.com/gisaia/ARLAS-wui/issues/411)
@@ -234,102 +130,63 @@
 
 **Fixed bugs:**
 
+- errors related to bounding box + resizehistogram at init [\#871](https://github.com/gisaia/ARLAS-wui/issues/871)
+- The resultlist is not updated after removing the bbox [\#868](https://github.com/gisaia/ARLAS-wui/issues/868)
+- The information icon 'i' stays on the item after closing the detail in the resultlist [\#866](https://github.com/gisaia/ARLAS-wui/issues/866)
+- When I log out, a blank page is displayed [\#864](https://github.com/gisaia/ARLAS-wui/issues/864)
 - Hilighting layer when cursor is over result list no longer work [\#854](https://github.com/gisaia/ARLAS-wui/issues/854)
 - Multiline values "outlined" colored cells rendering in result list could be improved  [\#852](https://github.com/gisaia/ARLAS-wui/issues/852)
-- Missing geo sort in datatable \(result list\) [\#849](https://github.com/gisaia/ARLAS-wui/issues/849)
 - Drag and drop of layers within a group doesn't work anymore in arlas wui [\#848](https://github.com/gisaia/ARLAS-wui/issues/848)
 - \[Timeline\] Incohérence d'affichage de date dans le cas de un seul produit  [\#847](https://github.com/gisaia/ARLAS-wui/issues/847)
 - Logout action must redirect to login instead of alert message [\#837](https://github.com/gisaia/ARLAS-wui/issues/837)
 - User can create a dashboard on an organisation where he is only user [\#836](https://github.com/gisaia/ARLAS-wui/issues/836)
-- Map tilt cannot be reset [\#808](https://github.com/gisaia/ARLAS-wui/issues/808)
-- Search input placeholder persists on focus [\#807](https://github.com/gisaia/ARLAS-wui/issues/807)
+- Tour guide is not triggered unless you resize the window of your tab [\#801](https://github.com/gisaia/ARLAS-wui/issues/801)
 
 ## [v25.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.1.0) (2024-07-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.9...v25.1.0)
-
 **New stuff:**
 
+- Handle multi-collection for powerbars [\#390](https://github.com/gisaia/ARLAS-wui/issues/390)
 - Display start value and end value of a timeline bucket.  [\#816](https://github.com/gisaia/ARLAS-wui/issues/816)
+- Add an option to deactivate 'Sign up' button [\#806](https://github.com/gisaia/ARLAS-wui/issues/806)
+- Refresh tokens halfway its duration [\#802](https://github.com/gisaia/ARLAS-wui/issues/802)
+- Close window in drop down selection for sorting results in result list [\#707](https://github.com/gisaia/ARLAS-wui/issues/707)
+- Add a legend for x / y in a histogram [\#688](https://github.com/gisaia/ARLAS-wui/issues/688)
 - Improve property window on feature click [\#673](https://github.com/gisaia/ARLAS-wui/issues/673)
 - \[map\] filter data with a circle [\#545](https://github.com/gisaia/ARLAS-wui/issues/545)
-- Handle multi-collection for powerbars [\#390](https://github.com/gisaia/ARLAS-wui/issues/390)
 
 **Fixed bugs:**
 
-- Dashboards that don't have tabs attribute are not displayed on arlas-wui [\#833](https://github.com/gisaia/ARLAS-wui/issues/833)
-- Paginator of bookmarks list doesn't show the right lenght of the table [\#819](https://github.com/gisaia/ARLAS-wui/issues/819)
-- Layers disappear when we are zoomed in [\#817](https://github.com/gisaia/ARLAS-wui/issues/817)
-- Features layers are not displayed on the map if the collection has a date field that has not a format [\#804](https://github.com/gisaia/ARLAS-wui/issues/804)
-- Export / Import dashboard : circle heatmaps configurations are lost [\#797](https://github.com/gisaia/ARLAS-wui/issues/797)
 - Histogram filter: Cross for closing a selection among multi-selection is partially hidden [\#787](https://github.com/gisaia/ARLAS-wui/issues/787)
-- Tour of ARLAS breaks the layout when the step is on the timeline [\#765](https://github.com/gisaia/ARLAS-wui/issues/765)
-- Histogram : NaN values instead of negative values [\#728](https://github.com/gisaia/ARLAS-wui/issues/728)
-- Label layer with average metric displays abnormal values [\#646](https://github.com/gisaia/ARLAS-wui/issues/646)
-- Research does not work with space character [\#533](https://github.com/gisaia/ARLAS-wui/issues/533)
 - Histogram and timeline selection moves when ARLAS is loading [\#513](https://github.com/gisaia/ARLAS-wui/issues/513)
 - Changing tabs triggers map style update after hard coded 500ms [\#360](https://github.com/gisaia/ARLAS-wui/issues/360)
+- Dashboards that don't have tabs attribute are not displayed on arlas-wui [\#833](https://github.com/gisaia/ARLAS-wui/issues/833)
+- \[Migration demo\] Map controls are positionned wrongly in the app [\#822](https://github.com/gisaia/ARLAS-wui/issues/822)
+- Paginator of bookmarks list doesn't show the right lenght of the table [\#819](https://github.com/gisaia/ARLAS-wui/issues/819)
+- Layers disappear when we are zoomed in [\#817](https://github.com/gisaia/ARLAS-wui/issues/817)
+- \[Migration demo\] Bookmarks don't use persistence when logged in [\#815](https://github.com/gisaia/ARLAS-wui/issues/815)
+- \[Migration demo\] List of basemap thumbnails does'nt show anymore [\#814](https://github.com/gisaia/ARLAS-wui/issues/814)
+- Thumbnail fitters are always hidden [\#811](https://github.com/gisaia/ARLAS-wui/issues/811)
+- Features layers are not displayed on the map if the collection has a date field that has not a format [\#804](https://github.com/gisaia/ARLAS-wui/issues/804)
+- Export / Import dashboard : circle heatmaps configurations are lost [\#797](https://github.com/gisaia/ARLAS-wui/issues/797)
+- Incorrect message [\#796](https://github.com/gisaia/ARLAS-wui/issues/796)
+- Tour of ARLAS breaks the layout when the step is on the timeline [\#765](https://github.com/gisaia/ARLAS-wui/issues/765)
+- Datepicker position seems off [\#736](https://github.com/gisaia/ARLAS-wui/issues/736)
+- Histogram : NaN values instead of negative values [\#728](https://github.com/gisaia/ARLAS-wui/issues/728)
+- The filter shortcut preview values does not work on a multi-select [\#685](https://github.com/gisaia/ARLAS-wui/issues/685)
+- Network analytics layer is not displayed with temporal filter [\#648](https://github.com/gisaia/ARLAS-wui/issues/648)
+- Label layer with average metric displays abnormal values [\#646](https://github.com/gisaia/ARLAS-wui/issues/646)
+- Research does not work with space character [\#533](https://github.com/gisaia/ARLAS-wui/issues/533)
 
 ## [v24.3.9](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.9) (2024-07-01)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.4...v24.3.9)
-
-## [v25.0.1-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.4) (2024-06-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.3...v25.0.1-beta.4)
-
-## [v25.0.1-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.3) (2024-06-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.2...v25.0.1-beta.3)
-
-**Fixed bugs:**
-
-- \[Migration demo\] Map controls are positionned wrongly in the app [\#822](https://github.com/gisaia/ARLAS-wui/issues/822)
-- Thumbnail fitters are always hidden [\#811](https://github.com/gisaia/ARLAS-wui/issues/811)
-
-## [v25.0.1-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.2) (2024-06-18)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.1-beta.1...v25.0.1-beta.2)
-
-**New stuff:**
-
-- Refresh tokens halfway its duration [\#802](https://github.com/gisaia/ARLAS-wui/issues/802)
-
-**Fixed bugs:**
-
-- \[Migration demo\] Bookmarks don't use persistence when logged in [\#815](https://github.com/gisaia/ARLAS-wui/issues/815)
-- \[Migration demo\] List of basemap thumbnails does'nt show anymore [\#814](https://github.com/gisaia/ARLAS-wui/issues/814)
-
-## [v25.0.1-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.1-beta.1) (2024-06-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v25.0.0...v25.0.1-beta.1)
-
-**New stuff:**
-
-- Close window in drop down selection for sorting results in result list [\#707](https://github.com/gisaia/ARLAS-wui/issues/707)
-
-**Fixed bugs:**
-
-- Incorrect message [\#796](https://github.com/gisaia/ARLAS-wui/issues/796)
-- Crop with geo filter is not active [\#790](https://github.com/gisaia/ARLAS-wui/issues/790)
-- Datepicker position seems off [\#736](https://github.com/gisaia/ARLAS-wui/issues/736)
-- Grid tablet tooltip disappeared in new ARLAS version [\#732](https://github.com/gisaia/ARLAS-wui/issues/732)
-- The filter shortcut preview values does not work on a multi-select [\#685](https://github.com/gisaia/ARLAS-wui/issues/685)
-- Network analytics layer is not displayed with temporal filter [\#648](https://github.com/gisaia/ARLAS-wui/issues/648)
-- Vulnerabilities [\#628](https://github.com/gisaia/ARLAS-wui/issues/628)
-- Colorisation of a column fails [\#588](https://github.com/gisaia/ARLAS-wui/issues/588)
-
-**Miscellaneous:**
-
-- Upgrade NGINX version [\#718](https://github.com/gisaia/ARLAS-wui/issues/718)
-
 ## [v25.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v25.0.0) (2024-05-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.8...v25.0.0)
 
 **New stuff:**
 
 - Add a variable to activate/deactivate geocoding [\#773](https://github.com/gisaia/ARLAS-wui/issues/773)
+- Check the browser compatibility on load [\#754](https://github.com/gisaia/ARLAS-wui/issues/754)
+- Upgrade typedoc version in order to be able to generate typescript documentation of v3-swagger apis [\#750](https://github.com/gisaia/ARLAS-wui/issues/750) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
 - Add an exprt-csv action to the resultlist [\#710](https://github.com/gisaia/ARLAS-wui/issues/710)
 
 **Fixed bugs:**
@@ -345,10 +202,15 @@
 - Logging out is not detected in other opened tabs [\#770](https://github.com/gisaia/ARLAS-wui/issues/770)
 - Detailed timelines are not displayed [\#756](https://github.com/gisaia/ARLAS-wui/issues/756)
 - Powerbar download button no longer working when multiple powerbars in a group [\#753](https://github.com/gisaia/ARLAS-wui/issues/753)
+- Donut tooltip is wrongly rounded off [\#737](https://github.com/gisaia/ARLAS-wui/issues/737)
+- Shortcut filter window is systematically vertically too small [\#731](https://github.com/gisaia/ARLAS-wui/issues/731)
+- Vulnerabilities [\#628](https://github.com/gisaia/ARLAS-wui/issues/628)
+
+**Miscellaneous:**
+
+- Upgrade NGINX version [\#718](https://github.com/gisaia/ARLAS-wui/issues/718)
 
 ## [v24.3.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.8) (2024-04-24)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.7...v24.3.8)
 
 **New stuff:**
 
@@ -358,62 +220,29 @@
 
 - Close button in build bbox with coordinates does not work [\#759](https://github.com/gisaia/ARLAS-wui/issues/759)
 - The cross button in the Generate bbox popup does not work [\#738](https://github.com/gisaia/ARLAS-wui/issues/738)
-- Donut tooltip is wrongly rounded off [\#737](https://github.com/gisaia/ARLAS-wui/issues/737)
-- Shortcut filter window is systematically vertically too small [\#731](https://github.com/gisaia/ARLAS-wui/issues/731)
 
 ## [v24.3.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.7) (2024-04-05)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.6...v24.3.7)
-
 ## [v24.3.6](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.6) (2024-04-05)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.5...v24.3.6)
 
 ## [v24.3.5](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.5) (2024-04-05)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.4...v24.3.5)
-
 ## [v24.3.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.4) (2024-04-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.3...v24.3.4)
 
 **New stuff:**
 
 - \[openid\] add memory storage in oidc [\#763](https://github.com/gisaia/ARLAS-wui/issues/763)
 - Add find place function in the map control panel [\#758](https://github.com/gisaia/ARLAS-wui/issues/758)
 
-## [v24.3.2-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.3) (2024-03-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.2...v24.3.2-beta.3)
-
-## [v24.3.2-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.2) (2024-03-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2-beta.1...v24.3.2-beta.2)
-
-## [v24.3.2-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2-beta.1) (2024-03-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.3...v24.3.2-beta.1)
-
 ## [v24.3.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.3) (2024-03-20)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.2...v24.3.3)
-
-**New stuff:**
-
-- Check the browser compatibility on load [\#754](https://github.com/gisaia/ARLAS-wui/issues/754)
-- Upgrade typedoc version in order to be able to generate typescript documentation of v3-swagger apis [\#750](https://github.com/gisaia/ARLAS-wui/issues/750) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
-
 ## [v24.3.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.2) (2024-03-01)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.1...v24.3.2)
 
 **New stuff:**
 
 - use app name in toolbar logo tooltip instead of 'ARLAS-wui' [\#751](https://github.com/gisaia/ARLAS-wui/issues/751)
 
 ## [v24.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.1) (2024-02-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0...v24.3.1)
 
 **New stuff:**
 
@@ -426,55 +255,7 @@
 
 ## [v24.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0) (2023-12-20)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-rc.2...v24.3.0)
-
-## [v24.3.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-rc.2) (2023-12-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-rc.1...v24.3.0-rc.2)
-
-## [v24.3.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-rc.1) (2023-12-01)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0...v24.3.0-rc.1)
-
-**New stuff:**
-
-- Config list should be displayed/hidden by configuration [\#714](https://github.com/gisaia/ARLAS-wui/issues/714)
-- Center the map to given lat/long [\#708](https://github.com/gisaia/ARLAS-wui/issues/708)
-- Draw polygon: move back to the previous icon [\#679](https://github.com/gisaia/ARLAS-wui/issues/679)
-- In the grid view, the circles are partially hidden [\#675](https://github.com/gisaia/ARLAS-wui/issues/675)
-- Generate the AOI from the coordinates in decimal or sexagesimal degrees [\#668](https://github.com/gisaia/ARLAS-wui/issues/668)
-- Add the possibility to switch to different apps of ARLAS by configuration [\#667](https://github.com/gisaia/ARLAS-wui/issues/667)
-- Move authentication buttons to top menu [\#666](https://github.com/gisaia/ARLAS-wui/issues/666)
-- Display bbox/polygons area and width/height [\#661](https://github.com/gisaia/ARLAS-wui/issues/661)
-- Generate a form base on geoprocess \_descibe input [\#659](https://github.com/gisaia/ARLAS-wui/issues/659)
-- Integrate bookmarks + download + tagger +  tour in a menu. [\#635](https://github.com/gisaia/ARLAS-wui/issues/635)
-- Open shortcut above timeline [\#615](https://github.com/gisaia/ARLAS-wui/issues/615)
-- Integrate timeline collection legend into the chart  [\#614](https://github.com/gisaia/ARLAS-wui/issues/614)
-- Move map attribution on the top right of the map [\#612](https://github.com/gisaia/ARLAS-wui/issues/612)
-- Move analytics tabs in left menu [\#611](https://github.com/gisaia/ARLAS-wui/issues/611)
-- Integrate search bar in top menu [\#610](https://github.com/gisaia/ARLAS-wui/issues/610)
-- Add a bar of shortcuts to apply filter on data [\#606](https://github.com/gisaia/ARLAS-wui/issues/606)
-- User informations Panel: layout is too spread out [\#564](https://github.com/gisaia/ARLAS-wui/issues/564)
-- Add a button hide/display the timeline [\#542](https://github.com/gisaia/ARLAS-wui/issues/542)
-
-**Fixed bugs:**
-
-- Initial coordinates of Bbox generator are inverted [\#712](https://github.com/gisaia/ARLAS-wui/issues/712)
-- Handle the absence of map attributions [\#711](https://github.com/gisaia/ARLAS-wui/issues/711)
-- View quicklook in fullscreen does not work [\#709](https://github.com/gisaia/ARLAS-wui/issues/709)
-- The default basemap is not taken into account [\#704](https://github.com/gisaia/ARLAS-wui/issues/704)
-- The map actions buttons are incorrectly displayed in case of absence of attributions [\#702](https://github.com/gisaia/ARLAS-wui/issues/702)
-- Selecting quicklooks doesn't clear the previously selected one [\#701](https://github.com/gisaia/ARLAS-wui/issues/701)
-- The selected features on the list are not reset if the filters change [\#700](https://github.com/gisaia/ARLAS-wui/issues/700)
-- Replay tutorial button shouldn't be displayed when no dashboard is explored [\#693](https://github.com/gisaia/ARLAS-wui/issues/693)
-- Incorrect tooltip on the login icon [\#691](https://github.com/gisaia/ARLAS-wui/issues/691)
-- Tooltip placement [\#689](https://github.com/gisaia/ARLAS-wui/issues/689)
-- ARLAS Version does not show up any more on the \(i\) [\#681](https://github.com/gisaia/ARLAS-wui/issues/681)
-- ARLAS WUI is not telling me to reconnect when session is over [\#680](https://github.com/gisaia/ARLAS-wui/issues/680)
-
 ## [v24.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0) (2023-11-30)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.8...v24.2.0)
 
 **New stuff:**
 
@@ -484,65 +265,7 @@
 
 - The timeline disappears when there is no data  [\#696](https://github.com/gisaia/ARLAS-wui/issues/696)
 
-## [v24.3.0-beta.8](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.8) (2023-11-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.7...v24.3.0-beta.8)
-
-**Fixed bugs:**
-
-- Production buttons should not appear if the user has not the rights [\#695](https://github.com/gisaia/ARLAS-wui/issues/695)
-
-## [v24.3.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.7) (2023-11-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.6...v24.3.0-beta.7)
-
-## [v24.3.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.6) (2023-11-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.5...v24.3.0-beta.6)
-
-## [v24.3.0-beta.5](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.5) (2023-11-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.4...v24.3.0-beta.5)
-
-## [v24.3.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.4) (2023-11-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.3...v24.3.0-beta.4)
-
-**New stuff:**
-
-- Display results/status of the download process [\#671](https://github.com/gisaia/ARLAS-wui/issues/671)
-
-## [v24.3.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.3) (2023-11-08)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.3.0-beta.2...v24.3.0-beta.3)
-
-## [v24.3.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.0-beta.2) (2023-11-08)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.4...v24.3.0-beta.2)
-
-**New stuff:**
-
-- Create a permission based on current filters using IAM [\#664](https://github.com/gisaia/ARLAS-wui/issues/664)
-
-## [v24.2.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.4) (2023-10-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.3...v24.2.0-beta.4)
-
-## [v24.2.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.3) (2023-09-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.2-beta.2...v24.2.0-beta.3)
-
-## [v24.2.0-beta.2-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.2-beta.2) (2023-09-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.2.0-beta.1...v24.2.0-beta.2-beta.2)
-
-## [v24.2.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v24.2.0-beta.1) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.1.0...v24.2.0-beta.1)
-
 ## [v24.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.1.0) (2023-08-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.5...v24.1.0)
 
 **New stuff:**
 
@@ -558,15 +281,11 @@
 
 ## [v23.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.5) (2023-06-02)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v24.0.0...v23.0.5)
-
 **Miscellaneous:**
 
 - Upgrade angular to v14 in front stack [\#580](https://github.com/gisaia/ARLAS-wui/issues/580)
 
 ## [v24.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v24.0.0) (2023-05-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0...v24.0.0)
 
 **New stuff:**
 
@@ -593,15 +312,11 @@
 
 ## [v23.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.2.0) (2023-02-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.2.0-alpha.2...v23.2.0)
-
 **Fixed bugs:**
 
 - Issues with the WUI [\#463](https://github.com/gisaia/ARLAS-wui/issues/463)
 
 ## [v23.2.0-alpha.2](https://github.com/gisaia/ARLAS-WUI/tree/v23.2.0-alpha.2) (2023-02-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.1.0...v23.2.0-alpha.2)
 
 **Fixed bugs:**
 
@@ -619,16 +334,12 @@
 
 ## [v23.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.1.0) (2022-11-29)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.4...v23.1.0)
-
 **Fixed bugs:**
 
 - Average metric is not displayed correctly on the map [\#567](https://github.com/gisaia/ARLAS-wui/issues/567)
 - The legend of layers does not display properly and flickers when ARLAS loads \(23.0.1\) [\#529](https://github.com/gisaia/ARLAS-wui/issues/529)
 
 ## [v23.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.4) (2022-11-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.1.2...v23.0.4)
 
 **New stuff:**
 
@@ -642,15 +353,9 @@
 
 ## [v20.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.2) (2022-09-29)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.3...v20.1.2)
-
 ## [v23.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.3) (2022-09-27)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.2...v23.0.3)
-
 ## [v23.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.2) (2022-09-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.1...v23.0.2)
 
 **Fixed bugs:**
 
@@ -659,8 +364,6 @@
 - Legend of metrics not centered [\#507](https://github.com/gisaia/ARLAS-wui/issues/507)
 
 ## [v23.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.1) (2022-08-31)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.3...v23.0.1)
 
 **Fixed bugs:**
 
@@ -671,19 +374,13 @@
 
 ## [v22.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.3) (2022-07-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v23.0.0...v22.0.3)
-
 ## [v23.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v23.0.0) (2022-07-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.2...v23.0.0)
 
 **New stuff:**
 
 - Export a visible layer as Geojson [\#475](https://github.com/gisaia/ARLAS-wui/issues/475)
 
 ## [v22.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.2) (2022-07-08)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.1...v22.0.2)
 
 **New stuff:**
 
@@ -694,8 +391,6 @@
 - Cartographic elements are not displayed correctly on the map [\#474](https://github.com/gisaia/ARLAS-wui/issues/474)
 
 ## [v22.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.1) (2022-07-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v22.0.0...v22.0.1)
 
 **New stuff:**
 
@@ -711,8 +406,6 @@
 - Link "Get started" not working [\#461](https://github.com/gisaia/ARLAS-wui/issues/461) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
 
 ## [v22.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v22.0.0) (2022-05-25)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.1.1...v22.0.0)
 
 **New stuff:**
 
@@ -731,49 +424,13 @@
 
 ## [v20.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.1) (2022-04-13)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0...v20.1.1)
-
 ## [v21.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0) (2022-04-05)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.5...v21.0.0)
 
 **New stuff:**
 
 - Encode the visible layers and selected tabs in url [\#403](https://github.com/gisaia/ARLAS-wui/issues/403)
 
-## [v21.0.0-beta.5](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.5) (2022-03-30)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.4...v21.0.0-beta.5)
-
-## [v21.0.0-beta.4](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.4) (2022-03-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.3...v21.0.0-beta.4)
-
-## [v21.0.0-beta.3](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.3) (2022-03-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.2...v21.0.0-beta.3)
-
-## [v21.0.0-beta.2](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.2) (2022-03-24)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v21.0.0-beta.1...v21.0.0-beta.2)
-
-**Fixed bugs:**
-
-- ascending sort on powerbars is reversed [\#442](https://github.com/gisaia/ARLAS-wui/issues/442)
-
-## [v21.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v21.0.0-beta.1) (2022-03-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.2...v21.0.0-beta.1)
-
-**New stuff:**
-
-- Display icons on analytics and list tabs [\#388](https://github.com/gisaia/ARLAS-wui/issues/388)
-- Add the possibility to show a label in map layers [\#385](https://github.com/gisaia/ARLAS-wui/issues/385)
-- Add for each collection its own list of filters icons [\#383](https://github.com/gisaia/ARLAS-wui/issues/383)
-
 ## [v19.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.2) (2022-02-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.1.0...v19.1.2)
 
 **New stuff:**
 
@@ -784,8 +441,6 @@
 - bboxes prevent from showing detail of a feature when clicking on it [\#373](https://github.com/gisaia/ARLAS-wui/issues/373)
 
 ## [v20.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.1.0) (2022-02-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0...v20.1.0)
 
 **New stuff:**
 
@@ -800,8 +455,6 @@
 
 ## [v20.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0) (2022-02-02)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.3...v20.0.0)
-
 **New stuff:**
 
 - Add possibility to exclude selection from filter in powerbars widgets [\#421](https://github.com/gisaia/ARLAS-wui/issues/421)
@@ -813,8 +466,6 @@
 - Widgets are not loaded in the analytics board [\#374](https://github.com/gisaia/ARLAS-wui/issues/374)
 
 ## [v19.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.3) (2022-01-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-rc.1...v19.2.3)
 
 **Fixed bugs:**
 
@@ -830,29 +481,11 @@
 
 - Use the mapComponent outputs directly in the html [\#134](https://github.com/gisaia/ARLAS-wui/issues/134)
 
-## [v20.0.0-rc.1](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-rc.1) (2022-01-07)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v20.0.0-beta.15...v20.0.0-rc.1)
-
-**Miscellaneous:**
-
-- Migrate to Angular 13 [\#415](https://github.com/gisaia/ARLAS-wui/issues/415)
-
-## [v20.0.0-beta.15](https://github.com/gisaia/ARLAS-WUI/tree/v20.0.0-beta.15) (2022-01-03)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.2...v20.0.0-beta.15)
-
 ## [v19.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.2) (2021-12-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.1...v19.2.2)
 
 ## [v19.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.1) (2021-12-06)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.2.0...v19.2.1)
-
 ## [v19.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.2.0) (2021-12-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.1...v19.2.0)
 
 **New stuff:**
 
@@ -867,27 +500,17 @@
 
 ## [v19.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.1) (2021-10-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.6...v19.1.1)
-
 **Fixed bugs:**
 
 - Fix datepicker timezone [\#348](https://github.com/gisaia/ARLAS-wui/issues/348)
 
 ## [v17.2.6](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.6) (2021-10-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.1.0...v17.2.6)
-
 ## [v19.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.1.0) (2021-10-25)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.4...v19.1.0)
 
 ## [v19.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.4) (2021-10-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.3...v19.0.4)
-
 ## [v19.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.3) (2021-10-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.2...v19.0.3)
 
 **Fixed bugs:**
 
@@ -896,11 +519,7 @@
 
 ## [v19.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.2) (2021-09-30)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.1...v19.0.2)
-
 ## [v19.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.1) (2021-09-30)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0...v19.0.1)
 
 **New stuff:**
 
@@ -921,83 +540,41 @@
 
 ## [v19.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0) (2021-09-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0-beta.7...v19.0.0)
-
 **New stuff:**
 
 - Add result list to the right of the application with tabs [\#314](https://github.com/gisaia/ARLAS-wui/issues/314)
 
-## [v19.0.0-beta.7](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0-beta.7) (2021-09-22)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v19.0.0-beta.6...v19.0.0-beta.7)
-
-## [v19.0.0-beta.6](https://github.com/gisaia/ARLAS-WUI/tree/v19.0.0-beta.6) (2021-09-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.1.1...v19.0.0-beta.6)
-
 ## [v18.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v18.1.1) (2021-09-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.5...v18.1.1)
 
 ## [v17.2.5](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.5) (2021-09-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.1.0...v17.2.5)
-
 ## [v18.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v18.1.0) (2021-09-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.2...v18.1.0)
 
 ## [v18.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.2) (2021-08-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.4...v18.0.2)
-
 ## [v17.2.4](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.4) (2021-08-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.1...v17.2.4)
 
 ## [v18.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.1) (2021-08-06)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.3...v18.0.1)
-
 ## [v17.2.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.3) (2021-08-03)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v18.0.0...v17.2.3)
 
 ## [v18.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v18.0.0) (2021-07-12)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.2...v18.0.0)
-
 ## [v17.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.2) (2021-07-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.1...v17.2.2)
 
 ## [v17.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.1) (2021-06-30)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.2.0...v17.2.1)
-
 ## [v17.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.2.0) (2021-06-24)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.5...v17.2.0)
 
 ## [v17.1.5](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.5) (2021-06-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.4...v17.1.5)
-
 ## [v17.1.4](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.4) (2021-06-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.3...v17.1.4)
 
 ## [v17.1.3](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.3) (2021-06-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.2...v17.1.3)
-
 ## [v17.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.2) (2021-06-14)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.1...v17.1.2)
-
 ## [v17.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.1) (2021-06-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.1.0...v17.1.1)
 
 **New stuff:**
 
@@ -1006,11 +583,7 @@
 
 ## [v17.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.1.0) (2021-06-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.0.1...v17.1.0)
-
 ## [v17.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v17.0.1) (2021-05-21)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.0.0...v17.0.1)
 
 **New stuff:**
 
@@ -1018,27 +591,13 @@
 
 ## [v17.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.0.0) (2021-05-19)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v17.0.0-beta.0...v17.0.0)
-
-## [v17.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v17.0.0-beta.0) (2021-05-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.1.2...v17.0.0-beta.0)
-
 ## [v16.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v16.1.2) (2021-04-30)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.1.1...v16.1.2)
 
 ## [v16.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v16.1.1) (2021-04-29)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.1.0...v16.1.1)
-
 ## [v16.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v16.1.0) (2021-04-21)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.0.2...v16.1.0)
-
 ## [v16.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v16.0.2) (2021-04-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.0.1...v16.0.2)
 
 **New stuff:**
 
@@ -1046,43 +605,21 @@
 
 ## [v16.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v16.0.1) (2021-03-31)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v16.0.0...v16.0.1)
-
 ## [v16.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v16.0.0) (2021-03-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.2...v16.0.0)
 
 ## [v15.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.2) (2021-02-25)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.1...v15.0.2)
-
 ## [v15.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.1) (2021-02-23)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0...v15.0.1)
-
 ## [v15.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0) (2021-02-18)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.1...v15.0.0)
 
 **Fixed bugs:**
 
 - Wrong css applied in details section in resultlist [\#268](https://github.com/gisaia/ARLAS-wui/issues/268)
 
-## [v15.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.1) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v15.0.0-beta.0...v15.0.0-beta.1)
-
-## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-WUI/tree/v15.0.0-beta.0) (2021-02-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.1...v15.0.0-beta.0)
-
 ## [v14.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.1) (2021-02-03)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.3.0...v14.3.1)
-
 ## [v14.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.3.0) (2021-02-01)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.2.2...v14.3.0)
 
 **New stuff:**
 
@@ -1091,15 +628,9 @@
 
 ## [v14.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v14.2.2) (2021-01-19)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.2.1...v14.2.2)
-
 ## [v14.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.2.1) (2021-01-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.2.0...v14.2.1)
-
 ## [v14.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.2.0) (2021-01-18)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.1.2...v14.2.0)
 
 **Miscellaneous:**
 
@@ -1107,11 +638,7 @@
 
 ## [v14.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.2) (2020-12-22)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.1.1...v14.1.2)
-
 ## [v14.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.1) (2020-12-18)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.1.0...v14.1.1)
 
 **New stuff:**
 
@@ -1119,51 +646,25 @@
 
 ## [v14.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.1.0) (2020-12-07)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.1...v14.1.0)
-
 **Fixed bugs:**
 
 - Import geometries as filter is broken [\#244](https://github.com/gisaia/ARLAS-wui/issues/244)
 
 ## [v14.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.1) (2020-11-13)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0...v14.0.1)
-
 ## [v14.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0) (2020-11-09)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-rc.2...v14.0.0)
-
-## [v14.0.0-rc.2](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-rc.2) (2020-10-06)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-test-doc...v14.0.0-rc.2)
-
-**New stuff:**
-
-- Add a list of configs to load in the lateral menu [\#232](https://github.com/gisaia/ARLAS-wui/pull/232) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
-
 ## [v14.0.0-test-doc](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-test-doc) (2020-09-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v14.0.0-beta.1...v14.0.0-test-doc)
 
 **Fixed bugs:**
 
 - Add a silent-refresh html page to renew token [\#227](https://github.com/gisaia/ARLAS-wui/issues/227)
 
-## [v14.0.0-beta.1](https://github.com/gisaia/ARLAS-WUI/tree/v14.0.0-beta.1) (2020-08-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.3...v14.0.0-beta.1)
-
 ## [v13.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.3) (2020-07-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.2...v13.0.3)
 
 ## [v13.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.2) (2020-06-26)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.1...v13.0.2)
-
 ## [v13.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.1) (2020-06-25)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v13.0.0...v13.0.1)
 
 **New stuff:**
 
@@ -1176,16 +677,12 @@
 
 ## [v13.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v13.0.0) (2020-06-18)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.7.0...v13.0.0)
-
 **New stuff:**
 
 - Add unit to global count [\#213](https://github.com/gisaia/ARLAS-wui/issues/213)
 - Dot indicating filters in Tab's title appears on the title [\#194](https://github.com/gisaia/ARLAS-wui/issues/194)
 
 ## [v12.7.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.7.0) (2020-05-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.4...v12.7.0)
 
 **New stuff:**
 
@@ -1194,47 +691,27 @@
 
 ## [v12.6.4](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.4) (2020-04-10)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.3...v12.6.4)
-
 **New stuff:**
 
 - Enable collection configuration through env var for gisaia/arlas-wui  [\#200](https://github.com/gisaia/ARLAS-wui/issues/200) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)] [[conf](https://github.com/gisaia/ARLAS-wui/labels/conf)]
 
 ## [v12.6.3](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.3) (2020-03-26)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.2...v12.6.3)
-
 ## [v12.6.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.2) (2020-03-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.1...v12.6.2)
 
 ## [v12.6.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.1) (2020-03-20)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.6.0...v12.6.1)
-
 ## [v12.6.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.6.0) (2020-03-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.5...v12.6.0)
 
 ## [v12.5.5](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.5) (2020-03-11)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/12.5.4...v12.5.5)
-
 ## [12.5.4](https://github.com/gisaia/ARLAS-WUI/tree/12.5.4) (2020-02-24)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.4...12.5.4)
 
 ## [v12.5.4](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.4) (2020-02-24)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.3...v12.5.4)
-
 ## [v12.5.3](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.3) (2020-02-19)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.2...v12.5.3)
-
 ## [v12.5.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.2) (2020-02-19)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.1...v12.5.2)
 
 **Fixed bugs:**
 
@@ -1242,15 +719,9 @@
 
 ## [v12.5.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.1) (2020-02-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.5.0...v12.5.1)
-
 ## [v12.5.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.5.0) (2020-02-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.4.0...v12.5.0)
-
 ## [v12.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.4.0) (2020-02-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.3.0...v12.4.0)
 
 **New stuff:**
 
@@ -1261,8 +732,6 @@
 
 ## [v12.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.3.0) (2020-02-03)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.2...v12.3.0)
-
 **New stuff:**
 
 - Update stack to v12.3.0 [\#181](https://github.com/gisaia/ARLAS-wui/issues/181)
@@ -1270,23 +739,17 @@
 
 ## [v12.2.2](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.2) (2020-01-24)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.1...v12.2.2)
-
 **Fixed bugs:**
 
 - Donut size change when applying a filter [\#178](https://github.com/gisaia/ARLAS-wui/issues/178)
 
 ## [v12.2.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.1) (2020-01-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.2.0...v12.2.1)
-
 **Fixed bugs:**
 
 - Missing replacement of Google Analytics Key [\#176](https://github.com/gisaia/ARLAS-wui/issues/176)
 
 ## [v12.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.2.0) (2020-01-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.1...v12.2.0)
 
 **New stuff:**
 
@@ -1297,16 +760,12 @@
 
 ## [v12.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.1) (2019-12-23)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.1.0...v12.1.1)
-
 **Fixed bugs:**
 
 - Sort radio buttons of Result list get deselected by MapSettings component [\#166](https://github.com/gisaia/ARLAS-wui/issues/166)
 - Hide and show topology styles [\#165](https://github.com/gisaia/ARLAS-wui/issues/165)
 
 ## [v12.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.1.0) (2019-12-19)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v12.0.0...v12.1.0)
 
 **New stuff:**
 
@@ -1325,8 +784,6 @@
 
 ## [v12.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v12.0.0) (2019-11-22)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.4.0...v12.0.0)
-
 **Breaking changes:**
 
 - Update to angular 8.1 [\#136](https://github.com/gisaia/ARLAS-wui/issues/136)
@@ -1340,11 +797,7 @@
 
 ## [v11.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.4.0) (2019-11-08)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.2.0...v11.4.0)
-
 ## [v11.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.2.0) (2019-10-03)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.1.1...v11.2.0)
 
 **New stuff:**
 
@@ -1357,8 +810,6 @@
 
 ## [v11.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v11.1.1) (2019-09-27)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.1.0...v11.1.1)
-
 **Fixed bugs:**
 
 - Make mkDocs.sh file executable  [\#141](https://github.com/gisaia/ARLAS-wui/issues/141)
@@ -1366,16 +817,12 @@
 
 ## [v11.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.1.0) (2019-09-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v11.0.0...v11.1.0)
-
 **New stuff:**
 
 - Tagging with propagation \(WUI\) [\#133](https://github.com/gisaia/ARLAS-wui/issues/133)
 - Use new tagger component [\#140](https://github.com/gisaia/ARLAS-wui/pull/140) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v11.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v11.0.0) (2019-09-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v10.0.1...v11.0.0)
 
 **New stuff:**
 
@@ -1385,15 +832,11 @@
 
 ## [v10.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.1) (2019-05-15)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v10.0.0...v10.0.1)
-
 **Fixed bugs:**
 
 - Fix 'envsubst' replacement [\#131](https://github.com/gisaia/ARLAS-wui/issues/131)
 
 ## [v10.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v10.0.0) (2019-05-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.3.1...v10.0.0)
 
 **New stuff:**
 
@@ -1407,23 +850,17 @@
 
 ## [v9.3.1](https://github.com/gisaia/ARLAS-WUI/tree/v9.3.1) (2019-04-26)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.3.0...v9.3.1)
-
 **New stuff:**
 
 - Fetch resources before running the app [\#126](https://github.com/gisaia/ARLAS-wui/pull/126) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v9.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.3.0) (2019-03-21)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.2.0...v9.3.0)
-
 **New stuff:**
 
 - Add the map input :'defaultBasemapStyle' & 'basemapStyles' [\#124](https://github.com/gisaia/ARLAS-wui/pull/124) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 ## [v9.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.2.0) (2019-02-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v9.0.0...v9.2.0)
 
 **New stuff:**
 
@@ -1438,8 +875,6 @@
 
 ## [v9.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v9.0.0) (2018-12-03)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v8.0.0...v9.0.0)
-
 **Breaking changes:**
 
 - Update to angular 7 [\#104](https://github.com/gisaia/ARLAS-wui/issues/104)
@@ -1451,8 +886,6 @@
 
 ## [v8.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v8.0.0) (2018-10-24)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.2...v8.0.0)
-
 **New stuff:**
 
 - Add default css for all analytics components  [\#105](https://github.com/gisaia/ARLAS-wui/issues/105)
@@ -1463,8 +896,6 @@
 - Before instantiate check existence of contributor in conf [\#106](https://github.com/gisaia/ARLAS-wui/issues/106)
 
 ## [v7.4.2](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.2) (2018-10-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.1...v7.4.2)
 
 **New stuff:**
 
@@ -1480,8 +911,6 @@
 
 ## [v7.4.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.1) (2018-09-25)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.4.0...v7.4.1)
-
 **New stuff:**
 
 - ARLAS WUI URL keeps the Map extend and moves the map to that extend at the initial load. [\#91](https://github.com/gisaia/ARLAS-wui/issues/91)
@@ -1495,8 +924,6 @@
 
 ## [v7.4.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.4.0) (2018-09-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.3.0...v7.4.0)
-
 **New stuff:**
 
 - Add toggle button for search & analytics [\#92](https://github.com/gisaia/ARLAS-wui/pull/92) ([sebbousquet](https://github.com/sebbousquet))
@@ -1506,8 +933,6 @@
 - Fix/dataset dialog validation [\#89](https://github.com/gisaia/ARLAS-wui/pull/89) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v7.3.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.3.0) (2018-08-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.2.0...v7.3.0)
 
 **New stuff:**
 
@@ -1522,15 +947,11 @@
 
 ## [v7.2.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.2.0) (2018-07-25)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.1.0...v7.2.0)
-
 **New stuff:**
 
 - Feature/v.7.2.0 [\#77](https://github.com/gisaia/ARLAS-wui/pull/77) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 ## [v7.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.1.0) (2018-07-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.1...v7.1.0)
 
 **New stuff:**
 
@@ -1541,8 +962,6 @@
 - Display search value on init [\#74](https://github.com/gisaia/ARLAS-wui/pull/74) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v7.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.1) (2018-06-26)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v7.0.0...v7.0.1)
 
 **New stuff:**
 
@@ -1555,8 +974,6 @@
 
 ## [v7.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v7.0.0) (2018-06-22)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v6.0.1...v7.0.0)
-
 **New stuff:**
 
 - Add timeshortcuts and detailed timeline [\#66](https://github.com/gisaia/ARLAS-wui/issues/66)
@@ -1568,11 +985,7 @@
 
 ## [v6.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v6.0.1) (2018-05-25)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v6.0.0...v6.0.1)
-
 ## [v6.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v6.0.0) (2018-05-24)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.1.0...v6.0.0)
 
 **New stuff:**
 
@@ -1585,8 +998,6 @@
 
 ## [v5.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v5.1.0) (2018-04-30)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.0.3...v5.1.0)
-
 **Breaking changes:**
 
 - Feature/angular5 [\#54](https://github.com/gisaia/ARLAS-wui/pull/54) ([sebbousquet](https://github.com/sebbousquet))
@@ -1598,15 +1009,11 @@
 
 ## [v5.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v5.0.3) (2018-04-27)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.0.2...v5.0.3)
-
 **New stuff:**
 
 - Add a button to reload the components [\#53](https://github.com/gisaia/ARLAS-wui/pull/53) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v5.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v5.0.2) (2018-04-25)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v5.0.1...v5.0.2)
 
 **New stuff:**
 
@@ -1619,8 +1026,6 @@
 - Fix the donut component size [\#49](https://github.com/gisaia/ARLAS-wui/pull/49) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v5.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v5.0.1) (2018-04-23)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI/compare/v4.0.0...v5.0.1)
 
 **New stuff:**
 
