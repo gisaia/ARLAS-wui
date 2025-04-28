@@ -1,6 +1,6 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [disableRipple]="true" [selectedIndex]="selectedIndex()" >
   @for (tab of componentsConf(); track tab.key){
-      <mat-tab [label]="tab.title" [disabled]="!tab.enabled">
+      <mat-tab [label]="tab.title | translate" [disabled]="!tab.enabled">
         <ng-template matTabContent>
           <ng-container *ngComponentOutlet="tab.component; injector: tab.injector"></ng-container>
         </ng-template>
