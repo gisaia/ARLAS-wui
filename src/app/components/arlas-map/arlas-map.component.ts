@@ -23,7 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { FeatureCollection } from '@turf/helpers';
+import * as helpers from '@turf/helpers';
 import {
   AoiEdition,
   ArlasLngLat,
@@ -100,7 +100,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
   public aoiEdition: AoiEdition;
-  public geojsondraw: FeatureCollection<GeoJSON.Geometry> = {
+  public geojsondraw: { type: string; features: Array<helpers.Feature<helpers.Geometry>>; } = {
     'type': 'FeatureCollection',
     'features': []
   };
