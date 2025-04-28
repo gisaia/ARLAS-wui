@@ -19,15 +19,11 @@
       <span class="title">{{appName | translate}}</span>
       @if (!arlasStartupService.emptyMode) {
         <mat-divider vertical class="vertical-divider"></mat-divider>
-        @if (shareComponentConfig) {
-          <button mat-icon-button (click)="displayShare()" [matTooltip]="'Share geographical data' | translate">
-            <mat-icon>share</mat-icon>
-          </button>
-        }
-        @if (downloadComponentConfig) {
-          <button mat-icon-button (click)="displayDownload()" [matTooltip]="'Download data' | translate">
-            <mat-icon>get_app</mat-icon>
-          </button>
+
+        @if(shareComponentConfig || downloadComponentConfig) {
+          <button mat-icon-button (click)="displayExportData()" [matTooltip]="'Export data' | translate">
+          <mat-icon>get_app</mat-icon>
+        </button>
         }
         <!-- Wait for map to be loaded to make bookmarks available -->
         @if (mapService.mapComponent) {
@@ -191,9 +187,5 @@
     </ng-template>
   </mat-sidenav-container>
 </div>
-
-<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
-
-<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
 
 <arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
