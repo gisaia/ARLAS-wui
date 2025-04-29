@@ -1,19 +1,29 @@
 # Change Log
 
+## [v27.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.3) (2025-04-29)
+
+**New stuff:**
+
+- \[Map\] Circle heatmap has a stroke legend that should not be displayed [\#974](https://github.com/gisaia/ARLAS-wui/issues/974)
+
+**Fixed bugs:**
+
+- Add missing translation pipe in Download layer component [\#981](https://github.com/gisaia/ARLAS-wui/issues/981)
+
 ## [v27.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.2) (2025-04-28)
 
 **New stuff:**
 
-- Move actions on the left-bottom menu to top-right band [\#909](https://github.com/gisaia/ARLAS-wui/issues/909)
 - Make powerbars filter case insensitive [\#479](https://github.com/gisaia/ARLAS-wui/issues/479)
 - \[Draw\] add a tooltip in each drawing step to indicate the next action to user [\#978](https://github.com/gisaia/ARLAS-wui/issues/978)
 - \[draw\] Implement rectangle draw mode to replace the current bbox  [\#977](https://github.com/gisaia/ARLAS-wui/issues/977)
 - Improve metrics ui [\#973](https://github.com/gisaia/ARLAS-wui/issues/973)
 - add display name for collections elements [\#971](https://github.com/gisaia/ARLAS-wui/issues/971)
+- Merge the share and download buttons [\#958](https://github.com/gisaia/ARLAS-wui/issues/958)
+- Move actions on the left-bottom menu to top-right band [\#909](https://github.com/gisaia/ARLAS-wui/issues/909)
 
 **Fixed bugs:**
 
-- Token not present when downloading data [\#963](https://github.com/gisaia/ARLAS-wui/issues/963)
 - Layout problem with legend [\#745](https://github.com/gisaia/ARLAS-wui/issues/745)
 - Wrong typing of drawn geometries [\#980](https://github.com/gisaia/ARLAS-wui/issues/980)
 - \[Bookmarks\] the buttons are greyed out after click on simulate combinaison [\#972](https://github.com/gisaia/ARLAS-wui/issues/972)
@@ -22,6 +32,7 @@
 - inconsistencies in the management of geogrpahic zones [\#967](https://github.com/gisaia/ARLAS-wui/issues/967)
 - Cant escape from draw a polygon if i do not start a draw [\#965](https://github.com/gisaia/ARLAS-wui/issues/965)
 - The left sidebar disappears on esc-key click [\#964](https://github.com/gisaia/ARLAS-wui/issues/964)
+- Token not present when downloading data [\#963](https://github.com/gisaia/ARLAS-wui/issues/963)
 - An error appears during text search [\#961](https://github.com/gisaia/ARLAS-wui/issues/961)
 
 ## [v27.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.1) (2025-03-20)
