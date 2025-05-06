@@ -1,5 +1,5 @@
-name: Trivy
-run-name: Trivy - Vulnerability Scan
+name: Run Trivy - Hadolint- Dockle
+run-name: Run Trivy - Hadolint- Dockle - Vulnerability Scan
 
 on:
   pull_request:
@@ -17,11 +17,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          failure-threshold: "error"
+          dockerfile: "docker/Dockerfile"
       - name: Build -opensource and cloud- Docker images
         run: |
           docker build -f docker/Dockerfile --build-arg WORKSPACE=cloud -t docker.io/gisaia/arlas-wui-cloud:${{ github.sha }} .
           docker build -f docker/Dockerfile --build-arg WORKSPACE=opensource -t docker.io/gisaia/arlas-wui:${{ github.sha }} .
+      - name: Run Dockle on opensource image
+        uses: erzz/dockle-action@v1
+        with:
+          image: 'docker.io/gisaia/arlas-wui:${{ github.sha }}'
+          exit-code: 1
+          failure-threshold: fatal
+          accept-keywords:	KEY_SHA512
+      - name: Run Dockle on cloud image
+        uses: erzz/dockle-action@v1
+        with:
+          image: 'docker.io/gisaia/arlas-wui-cloud:${{ github.sha }}'
+          exit-code: 1
+          failure-threshold: fatal
+          accept-keywords:	KEY_SHA512
       - name: Run Trivy vulnerability scanner on opensource image
         uses: aquasecurity/trivy-action@master
         env:
