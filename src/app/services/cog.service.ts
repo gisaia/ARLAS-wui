@@ -78,6 +78,11 @@ export class CogService<L, S, M> {
     }
   }
 
+  /**
+   * When changing resultlist tab, update the current COG visualisation configuration
+   * @param contributorId Resultlist tab's contributor id
+   * @param contributorConfig Resultlist tab's configuration
+   */
   public updateCogVisualisation(contributorId: string, contributorConfig: any) {
     this.setCogVisualisationConfig(contributorId, contributorConfig);
     this.firstCogSelection = !this.selectedCogVisualisation.has(this.contributorId);
@@ -86,7 +91,9 @@ export class CogService<L, S, M> {
   }
 
   /**
-   *  Open cog visualisation dialog to select the first cog visualisation
+   * Open cog visualisation dialog to select the first cog visualisation
+   * @param data Structure containing the action info and item informations for the element that triggered the COG visualisation selection
+   * @returns An observable emitting the selected visualisation
    */
   public openCogSelectionDialog(data: { action: Action; elementidentifier: ElementIdentifier; }): Observable<VisualisationPreview> {
     const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v, idx) => (
@@ -215,8 +222,15 @@ export class CogService<L, S, M> {
       });
   }
 
+  /**
+   * Set the COG visualisation based on selection. If there were items that were visualized,
+   * remove them and if they match the new viusalisation, visualize them again
+   * @param visualisation Configuration to visualize COGs
+   * @param idx Id of the selected visualisation
+   * @param preview Preview for the visualisation
+   * @param itemId Id of the item that triggered the change of viusalisation. Only present when first selecting a visualisation
+   */
   public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string, itemId?: string) {
-    console.log(visualisation);
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
     const contributorId = contributor.identifier;
     const previousVisualisation = this.selectedCogVisualisation.get(contributorId)?.visualisation;
@@ -258,7 +272,7 @@ export class CogService<L, S, M> {
               if (this.getVisualisationUrl(action)) {
                 this.visualizeRaster(
                   { action: action, elementidentifier: { idFieldName: contributor.fieldsConfiguration.idFieldName, idValue: item } },
-                  contributor, contributor.collection, false);
+                  contributor, false);
 
                 // Send a fake hover notification so that it can display its state properly
                 this.listNotifier.notifyItemHover(item);
@@ -283,8 +297,14 @@ export class CogService<L, S, M> {
     return this.selectedCogVisualisation.get(this.contributorId);
   }
 
+  /**
+   * Visualize an item on the map from a list action. If no COG visualisation is chosen, then first open the COG selection screen
+   * @param data Structure containing the action info and item informations for the element that triggered the COG visualisation selection
+   * @param listContributor Resultlist tab's contributor
+   * @param fitBounds Whether to zoom in on the footprint of the item
+   */
   public visualizeRasterAction(data: { action: Action; elementidentifier: ElementIdentifier; },
-    listContributor: ResultListContributor, collection: string, fitBounds = true) {
+    listContributor: ResultListContributor, fitBounds = true) {
 
     // Clicking the icon acts as an added action, so it needs to be put
     this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
@@ -303,16 +323,22 @@ export class CogService<L, S, M> {
           if (cogStyle.visualisation) {
             // Necessary to properly launch the visualisation
             data.action.activated = false;
-            this.visualizeRaster(data, listContributor, collection, fitBounds);
+            this.visualizeRaster(data, listContributor, fitBounds);
           }
         });
     } else {
-      this.visualizeRaster(data, listContributor, collection, fitBounds);
+      this.visualizeRaster(data, listContributor, fitBounds);
     }
   }
 
+  /**
+   * Visualize an item on the map through the VisualizeService
+   * @param data Structure containing the action info and item informations for the element that triggered the COG visualisation selection
+   * @param listContributor Resultlist tab's contributor
+   * @param fitBounds Whether to zoom in on the footprint of the item
+   */
   public visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
-    listContributor: ResultListContributor, collection: string, fitBounds = true) {
+    listContributor: ResultListContributor, fitBounds = true) {
 
     if (this.contributorConfig) {
       const urlVisualisationTemplate = this.getVisualisationUrl(data.action);
@@ -324,10 +350,10 @@ export class CogService<L, S, M> {
       }
 
       if (!data.action.activated) {
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-          this.visualizeService.displayDataOnMap(url,
-            data.elementidentifier, this.contributorsService.collectionToDescription.get(collection).geometry_path,
-            this.contributorsService.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
+        const collectionDescription = this.contributorsService.collectionToDescription.get(listContributor.collection);
+        this.visualizeService.getVisuInfo(data.elementidentifier, listContributor.collection, urlVisualisationTemplate).subscribe(url => {
+          this.visualizeService.displayDataOnMap(url, data.elementidentifier, collectionDescription.geometry_path,
+            collectionDescription.centroid_path, listContributor.collection, fitBounds);
         });
         this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
       } else {

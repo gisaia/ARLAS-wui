@@ -24,12 +24,20 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActionManagerService } from '../../../services/action-manager.service';
 import { CogService } from '../../../services/cog.service';
 import { VisualizeService } from '../../../services/visualize.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
   standalone: false,
-  styleUrls: ['./rasters-manager.component.scss']
+  styleUrls: ['./rasters-manager.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({ opacity: 0 })), // Initial state when element is not present
+      state('*', style({ opacity: 1 })), // Final state when element is present
+      transition(':enter', animate('500ms ease-in')), // Animation duration and easing
+    ])
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
