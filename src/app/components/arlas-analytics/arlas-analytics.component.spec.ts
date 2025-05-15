@@ -7,7 +7,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService, ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ContributorService } from '../../services/contributors.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { MockArlasStartupService } from '../../tools/test';
 import { ArlasAnalyticsComponent } from './arlas-analytics.component';
 
 describe('ArlasAnalyticsComponent', () => {
@@ -15,13 +17,6 @@ describe('ArlasAnalyticsComponent', () => {
   let fixture: ComponentFixture<ArlasAnalyticsComponent<any, any, any>>;
 
   beforeEach(async () => {
-    const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {
-      shouldRunApp: true,
-      emptyMode: false,
-      contributorRegistry: new Map(),
-      collectionsMap: new Map()
-    });
-
     await TestBed.configureTestingModule({
       declarations: [ ArlasAnalyticsComponent ],
       imports: [
@@ -33,7 +28,7 @@ describe('ArlasAnalyticsComponent', () => {
         ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
-          useValue: mockArlasStartupService
+          useClass: MockArlasStartupService
         },
         MatSnackBar,
         VisualizeService,
@@ -48,7 +43,8 @@ describe('ArlasAnalyticsComponent', () => {
           useValue: {}
         },
         Overlay,
-        ArlasCollectionService
+        ArlasCollectionService,
+        ContributorService
       ]
     })
       .compileComponents();
