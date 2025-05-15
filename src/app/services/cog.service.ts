@@ -222,6 +222,12 @@ export class CogService<L, S, M> {
       });
   }
 
+  public resetCogVisualisation() {
+    if (this.currentCogVisualisationConfig) {
+      this.setSelectedCogVisualisation(null, 0, '');
+    }
+  }
+
   /**
    * Set the COG visualisation based on selection. If there were items that were visualized,
    * remove them and if they match the new viusalisation, visualize them again
@@ -298,7 +304,9 @@ export class CogService<L, S, M> {
   }
 
   /**
-   * Visualize an item on the map from a list action. If no COG visualisation is chosen, then first open the COG selection screen
+   * Visualize an item on the map from a list action.
+   * If no COG visualisation is chosen among the configured ones, then first open the COG selection screen.
+   * Otherwise, visualize the raster.
    * @param data Structure containing the action info and item informations for the element that triggered the COG visualisation selection
    * @param listContributor Resultlist tab's contributor
    * @param fitBounds Whether to zoom in on the footprint of the item
@@ -309,7 +317,7 @@ export class CogService<L, S, M> {
     // Clicking the icon acts as an added action, so it needs to be put
     this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
 
-    if (this.firstCogSelection && !data.action.activated) {
+    if (this.currentCogVisualisationConfig && this.firstCogSelection && !data.action.activated) {
       this.openCogSelectionDialog(data)
         .subscribe(cogStyle =>  {
           if (!cogStyle) {
