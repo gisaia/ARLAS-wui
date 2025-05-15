@@ -67,9 +67,11 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   ) { }
 
   public ngOnInit(): void {
-    this.cogService.setCogVisualisationConfig(
-      this.resultlistService.previewListContrib.identifier,
-      this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+    if (this.resultlistService.previewListContrib) {
+      this.cogService.setCogVisualisationConfig(
+        this.resultlistService.previewListContrib.identifier,
+        this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+    }
   }
 
   public ngAfterViewInit(): void {

@@ -5,7 +5,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ArlasCollaborativesearchService, ArlasCollectionService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { MockArlasStartupService } from '../tools/test';
+import { ContributorService } from './contributors.service';
 import { ResultlistService } from './resultlist.service';
 import { VisualizeService } from './visualize.service';
 
@@ -35,6 +37,11 @@ describe('ResultlistService', () => {
         {
           provide: ArlasCollectionService,
           useValue: mockArlasCollectionService
+        },
+        ContributorService,
+        {
+          provide: ArlasStartupService,
+          useClass: MockArlasStartupService
         }
       ],
       teardown: { destroyAfterEach: false }

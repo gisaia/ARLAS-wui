@@ -1,3 +1,5 @@
 <button class="manager__button" (click)="openModal()" [matTooltip]="'Change COG visualisation' | translate" matTooltipPosition="above">
-    <arlas-cog-preview [title]="visualisation().name" [preview]="preview()"></arlas-cog-preview>
+    @if (visualisation() && preview()) {
+        <arlas-cog-preview [title]="visualisation().name" [preview]="preview()"></arlas-cog-preview>
+    }
 </button>
