@@ -71,7 +71,7 @@
     right: $sm-spacing;
     z-index: 2;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 5px;
 
     &--tight {
