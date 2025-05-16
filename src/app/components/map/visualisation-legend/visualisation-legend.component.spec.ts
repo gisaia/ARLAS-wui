@@ -1,40 +1,37 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { ArlasStartupService } from 'arlas-wui-toolkit';
 import { ContributorService } from '../../../services/contributors.service';
 import { VisualizeService } from '../../../services/visualize.service';
 import { MockArlasStartupService } from '../../../tools/test';
-import { CogVisualisationManagerComponent } from './cog-visualisation-manager.component';
+import { VisualisationLegendComponent } from './visualisation-legend.component';
 
-describe('CogVisualisationManagerComponent', () => {
-  let component: CogVisualisationManagerComponent;
-  let fixture: ComponentFixture<CogVisualisationManagerComponent>;
+describe('VisualisationLegendComponent', () => {
+  let component: VisualisationLegendComponent;
+  let fixture: ComponentFixture<VisualisationLegendComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        CogVisualisationManagerComponent,
-        RouterTestingModule,
+        VisualisationLegendComponent,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
       ],
       providers: [
-        ArlasCollectionService,
+        VisualizeService,
+        ContributorService,
         {
           provide: ArlasStartupService,
           useClass: MockArlasStartupService
         },
-        VisualizeService,
-        ContributorService,
         provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(CogVisualisationManagerComponent);
+    fixture = TestBed.createComponent(VisualisationLegendComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

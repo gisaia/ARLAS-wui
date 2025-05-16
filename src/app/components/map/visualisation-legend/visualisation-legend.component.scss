@@ -17,24 +17,24 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { ResultListContributor } from 'arlas-web-contributors';
-import { ResultlistService } from '../services/resultlist.service';
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
-@Pipe({
-  name: 'getResultlistConfig',
-  standalone: false
-})
-/** L: a layer class/interface.
- *  S: a source class/interface.
- *  M: a Map configuration class/interface.
- */
-export class GetResultlistConfigPipe<L, S, M> implements PipeTransform {
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
-  public constructor(private readonly resultlistService: ResultlistService<L, S, M>) { }
+    &__item {
+        background-color: white;
+        border-radius: 4px;
 
-  public transform(resultlistContributor: ResultListContributor) {
-    return this.resultlistService.resultlistConfigPerContId.get(resultlistContributor?.identifier);
-  }
+        display: flex;
+        align-items: center;
 
+        ::ng-deep.legend {
+            height: $map-actions-width;
+        }
+    }
 }

@@ -340,11 +340,7 @@ export class ResultlistService<L, S, M> {
         break;
       case 'consultedItemEvent':
         if (mapContributor) {
-          const f = mapContributor.getFeatureToHightLight(event.data);
-          if (f) {
-            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-          }
-          this.mapService.featureToHightLight = f;
+          mapContributor.getFeatureToHightLight(event.data);
         }
         break;
       case 'selectedItemsEvent': {
@@ -373,7 +369,6 @@ export class ResultlistService<L, S, M> {
               error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
-          console.log('in');
           this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
             this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
@@ -472,7 +467,7 @@ export class ResultlistService<L, S, M> {
             ids,
             collection
           ).subscribe({
-            next: (item: any) => {
+            next: item => {
               const data = { ids, collection, nbProducts: ids.length, itemDetail: item, ...additionalData };
 
               this.dialog
@@ -544,7 +539,6 @@ export class ResultlistService<L, S, M> {
               id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
             }
           };
-          (action as any).hide = true;
           if (config.visualisationLink) {
             action.fields = this.visualizeService.getVisuFields(config.visualisationLink);
             c.addAction(action);

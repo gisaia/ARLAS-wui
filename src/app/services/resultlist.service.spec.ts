@@ -1,5 +1,5 @@
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +23,6 @@ describe('ResultlistService', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         OverlayModule,
         MatDialogModule
@@ -42,7 +41,8 @@ describe('ResultlistService', () => {
         {
           provide: ArlasStartupService,
           useClass: MockArlasStartupService
-        }
+        },
+        provideHttpClient(withInterceptorsFromDi())
       ],
       teardown: { destroyAfterEach: false }
     });
