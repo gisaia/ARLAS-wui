@@ -41,7 +41,7 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
  */
 @Injectable()
 export class VisualizeService<L, S, M> {
-  public mapInstance: AbstractArlasMapGL;
+  private mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
   /**  @deprecated. Use isRasterOnMap instead. */
   public isWMTSOnMap = false;
@@ -52,7 +52,7 @@ export class VisualizeService<L, S, M> {
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   /** Map containing the (item id, url) of visualised products to be able to remove the listening events */
-  private visualizedRasters = new Map<string, string>();
+  private readonly visualizedRasters = new Map<string, string>();
 
   public constructor(
     private readonly collaborativeService: ArlasCollaborativesearchService,
