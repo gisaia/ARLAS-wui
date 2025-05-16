@@ -1,5 +1,10 @@
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ArlasStartupService } from 'arlas-wui-toolkit';
+import { ContributorService } from '../../../services/contributors.service';
+import { VisualizeService } from '../../../services/visualize.service';
+import { MockArlasStartupService } from '../../../tools/test';
 import { VisualisationLegendComponent } from './visualisation-legend.component';
 
 describe('VisualisationLegendComponent', () => {
@@ -8,9 +13,23 @@ describe('VisualisationLegendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VisualisationLegendComponent]
+      imports: [
+        VisualisationLegendComponent,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        })
+      ],
+      providers: [
+        VisualizeService,
+        ContributorService,
+        {
+          provide: ArlasStartupService,
+          useClass: MockArlasStartupService
+        },
+        provideHttpClient(withInterceptorsFromDi())
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(VisualisationLegendComponent);
     component = fixture.componentInstance;
