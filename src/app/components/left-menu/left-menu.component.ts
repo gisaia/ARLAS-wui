@@ -28,7 +28,6 @@ import {
   TagComponent
 } from 'arlas-wui-toolkit';
 import { Subject } from 'rxjs';
-import { ArlasWuiMapService } from '../../services/map.service';
 
 export interface MenuState {
   configs?: boolean;
@@ -40,11 +39,7 @@ export interface MenuState {
   standalone: false,
   styleUrls: ['./left-menu.component.scss']
 })
-/** L: a layer class/interface.
- *  S: a source class/interface.
- *  M: a Map configuration class/interface.
- */
-export class LeftMenuComponent<L, S, M> implements OnInit {
+export class LeftMenuComponent implements OnInit {
   /**
    * @Input : Angular
    * State of the left menu's buttons
@@ -78,8 +73,7 @@ export class LeftMenuComponent<L, S, M> implements OnInit {
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly configService: ArlasConfigService,
     protected arlasStartupService: ArlasStartupService,
-    protected persistenceService: PersistenceService,
-    private readonly mapService: ArlasWuiMapService<L, S, M>
+    protected persistenceService: PersistenceService
   ) {
   }
 

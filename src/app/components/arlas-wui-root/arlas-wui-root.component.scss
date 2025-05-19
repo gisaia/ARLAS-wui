@@ -235,7 +235,7 @@
   .arlas-map {
     ::ng-deep.arlas-map-action,
     ::ng-deep.arlas-map-settings,
-    ::ng-deep.arlas-rasters-manager {
+    ::ng-deep .arlas-cog-visualisation-manager {
       right: calc($result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {
@@ -264,7 +264,7 @@
   .arlas-map {
     ::ng-deep.arlas-map-action,
     ::ng-deep.arlas-map-settings,
-    ::ng-deep.arlas-rasters-manager {
+    ::ng-deep .arlas-cog-visualisation-manager{
       right: calc($preview-result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {

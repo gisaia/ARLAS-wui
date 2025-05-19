@@ -17,31 +17,35 @@
  * under the License.
  */
 
-export class MockArlasConfigService {
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
-  public getValue(key: string): any {
-    if (key === 'arlas') {
-      return {
-        'web': {
-          'contributors': []
-        }
-      };
+.manager__button {
+  display: flex;
+  align-items: center;
+  height: $map-actions-width;
+  cursor: pointer;
+  background-color: white;
+  padding: 0;
+  @include box-border();
+
+  & ::ng-deep {
+    .visualisation {
+      align-items: center;
+      padding: 2px;
+      gap: 5px;
+      padding-right: 5px;
     }
-    if (key === 'arlas.web.contributors') {
-      return [];
+
+    .visualisation__preview {
+      height: 25px !important;
+      width: 25px !important;
     }
-    if (key === 'arlas.web.externalNode') {
-      return {};
-    }
-    if(key === 'arlas-wui.web.app.units'){
-      return [];
+
+    .visualisation__info__title {
+      font-size: $default-font-size;
+      padding-bottom: 0;
     }
   }
-}
-
-export class MockArlasStartupService {
-  public shouldRunApp = true;
-  public emptyMode = false;
-  public contributorRegistry = new Map();
-  public collectionsMap = new Map();
 }

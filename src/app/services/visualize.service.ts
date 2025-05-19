@@ -23,18 +23,22 @@ import { TranslateService } from '@ngx-translate/core';
 import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
+import { flattenedMatchAndReplace } from 'app/tools/cog';
+import { getItem } from 'app/tools/utils';
 import { Expression, Filter, Search } from 'arlas-api';
-import { AbstractArlasMapGL, ArlasPaint, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, VectorStyleEnum, VectorStyle } from 'arlas-map';
-import { ElementIdentifier } from 'arlas-web-contributors';
-import { getElementFromJsonObject } from 'arlas-web-contributors/utils/utils';
+import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
+import { ElementIdentifier, getElementFromJsonObject } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, Observable, Subject } from 'rxjs';
 import { parse } from 'wellknown';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
+/**
+ * This service is used to display any type of rasters on the ARLAS map.
+ * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
+ */
 @Injectable()
 export class VisualizeService<L, S, M> {
   public mapInstance: AbstractArlasMapGL;
@@ -47,14 +51,16 @@ export class VisualizeService<L, S, M> {
   private readonly rasterRemovedSource = new Subject<string>();
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
-  public constructor(public collaborativeService: ArlasCollaborativesearchService,
-    private readonly translateService: TranslateService, private readonly snackBar: MatSnackBar,
+  public constructor(
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly translateService: TranslateService,
+    private readonly snackBar: MatSnackBar,
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>
   ) { }
 
   /**
-  * Sets the mapbox map object + loads the 'cross' icon to it.
-  * @param m Mapbox map object.
+  * Sets the map object + loads the 'cross' icon to it.
+  * @param m map object.
   */
   public setMap(m: AbstractArlasMapGL) {
     this.mapInstance = m;
@@ -84,39 +90,8 @@ export class VisualizeService<L, S, M> {
   public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
     Observable<string> {
 
-    const search: Search = {
-      page: { size: 1 },
-      form: { pretty: false, flat: true }
-    };
-    const expression: Expression = {
-      field: elementidentifier.idFieldName,
-      op: Expression.OpEnum.Eq,
-      value: elementidentifier.idValue
-    };
-    const filterExpression: Filter = {
-      f: [[expression]]
-    };
-    const searchResult = this.collaborativeService
-      .resolveHits([projType.search, search],
-        this.collaborativeService.collaborations,
-        collection,
-        null,
-        filterExpression,
-        true);
-    return searchResult.pipe(map(data => {
-      if (urlTemplate.indexOf('{') < 0) {
-        return urlTemplate;
-      } else {
-        this.getVisuFields(urlTemplate).forEach(field => {
-          if (!data.hits || data.hits[0].data[field] === undefined) {
-            return undefined;
-          } else {
-            urlTemplate = urlTemplate.replace('{' + field + '}', data.hits[0].data[field]);
-          }
-        });
-      }
-      return urlTemplate;
-    }));
+    const searchResult = getItem(elementidentifier, collection, this.collaborativeService);
+    return searchResult.pipe(map(data => flattenedMatchAndReplace(data.hits[0].data, urlTemplate)));
   }
 
   /** @deprecated Use removeRasters instead. */
@@ -131,7 +106,6 @@ export class VisualizeService<L, S, M> {
     } else {
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
-      this.isWMTSOnMap = this.isRasterOnMap = false;
     }
     this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-');
     this.isWMTSOnMap = this.isRasterOnMap;
@@ -256,7 +230,7 @@ export class VisualizeService<L, S, M> {
         const maxY = box[3] + 0.1 / 100 * box[3];
         return {
           bounds: [[minX, minY], [maxX, maxY]],
-          center: geojsonCenter.coordinates ? geojsonCenter.coordinates : [geojsonCenter.lon, geojsonCenter.lat],
+          center: geojsonCenter.coordinates ?? [geojsonCenter.lon, geojsonCenter.lat],
           box: box
         };
       })

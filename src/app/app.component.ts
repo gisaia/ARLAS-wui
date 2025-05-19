@@ -18,14 +18,15 @@
  */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
+import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
-import { ArlasMapFrameworkService } from 'arlas-map';
 
 @Component({
   selector: 'arlas-root',
@@ -40,7 +41,6 @@ import { ArlasMapFrameworkService } from 'arlas-map';
 export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
   public collections = new Array<string>();
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
   /**
    * @Input : Angular
    * List of ResultList tabs to hide
@@ -65,6 +65,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly analyticsService: AnalyticsService,
+    private readonly cogService: CogService<L, S, M>
   ) {
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
@@ -94,15 +95,16 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
         this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
       }
 
+      const collectionToDescription = new Map<string, CollectionReferenceParameters>();
       zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(cdrs => {
           cdrs.forEach(cdr => {
-            this.collectionToDescription.set(cdr.collection_name, cdr.params);
+            collectionToDescription.set(cdr.collection_name, cdr.params);
           });
-          this.resultlistService.setCollectionsDescription(this.collectionToDescription);
+          this.contributorService.setCollectionsDescription(collectionToDescription);
           if (this.resultlistService.resultlistContributors.length > 0) {
-            this.resultlistService.resultlistContributors.forEach(c => c.sort = this.collectionToDescription.get(c.collection).id_path);
+            this.resultlistService.resultlistContributors.forEach(c => c.sort = collectionToDescription.get(c.collection).id_path);
           }
         });
     }
