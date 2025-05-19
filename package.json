@@ -83,6 +83,6 @@
   "overrides": {
     "esbuild": "~0.25.1",
     "arlas-web-contributors": "27.1.0-beta.1",
-    "arlas-web-components": "27.1.0-beta.1"
+    "arlas-web-components": "27.1.0-beta.2"
   }
 }

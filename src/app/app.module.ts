@@ -77,6 +77,7 @@ import {
   CogVisualisationManagerComponent
 } from './components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
+import { VisualisationLegendComponent } from './components/map/visualisation-legend/visualisation-legend.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
@@ -168,7 +169,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     LoginModule,
     LazyLoadImageModule,
     ArlasMapModule,
-    CogVisualisationManagerComponent
+    CogVisualisationManagerComponent,
+    VisualisationLegendComponent
   ],
   providers: [
     VisualizeService,

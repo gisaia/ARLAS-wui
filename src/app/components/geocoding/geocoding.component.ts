@@ -49,7 +49,7 @@ export class GeocodingComponent implements AfterViewInit {
   protected hasSearched = false;
   protected hasError = false;
   protected loading = false;
-  protected geocodingResult: MatTableDataSource<any>;
+  protected geocodingResult: MatTableDataSource<GeocodingResult>;
   protected searchFormControl = new FormControl('');
 
   private previousSearch: string;

@@ -33,7 +33,7 @@ export class GetResultlistConfigPipe<L, S, M> implements PipeTransform {
 
   public constructor(private readonly resultlistService: ResultlistService<L, S, M>) { }
 
-  public transform(resultlistContributor: ResultListContributor): any {
+  public transform(resultlistContributor: ResultListContributor) {
     return this.resultlistService.resultlistConfigPerContId.get(resultlistContributor?.identifier);
   }
 

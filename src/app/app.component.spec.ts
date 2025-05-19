@@ -18,7 +18,7 @@
  */
 
 import { Dialog, DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -62,8 +62,7 @@ describe('ArlasWuiComponent', () => {
         }),
         MatTooltipModule,
         /** Needed for ResultlistService */
-        RouterTestingModule,
-        HttpClientModule
+        RouterTestingModule
         /** End */
       ],
       providers: [
@@ -97,6 +96,7 @@ describe('ArlasWuiComponent', () => {
           provide: DIALOG_SCROLL_STRATEGY,
           useValue: {}
         },
+        provideHttpClient(withInterceptorsFromDi()),
         /** End */
         {
           provide: ColorGeneratorLoader,

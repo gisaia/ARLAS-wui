@@ -41,7 +41,7 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
  */
 @Injectable()
 export class VisualizeService<L, S, M> {
-  public mapInstance: AbstractArlasMapGL;
+  private mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
   /**  @deprecated. Use isRasterOnMap instead. */
   public isWMTSOnMap = false;
@@ -50,6 +50,9 @@ export class VisualizeService<L, S, M> {
   /** emits the item's identifier of removed raster */
   private readonly rasterRemovedSource = new Subject<string>();
   public rasterRemoved$ = this.rasterRemovedSource.asObservable();
+
+  /** Map containing the (item id, url) of visualised products to be able to remove the listening events */
+  private readonly visualizedRasters = new Map<string, string>();
 
   public constructor(
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -101,9 +104,13 @@ export class VisualizeService<L, S, M> {
 
   public removeRasters(id?: string) {
     if (id) {
+      this.visualizedRasters.delete(id);
+
       this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
       this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     } else {
+      this.visualizedRasters.clear();
+
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
     }
@@ -112,7 +119,7 @@ export class VisualizeService<L, S, M> {
   }
 
   /** @deprecated Use add raster instead. */
-  public addWMTS(urlWmts, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
+  public addWMTS(urlWmts: string, maxZoom: number, bounds: Array<number>, id: string, beforeId?: string) {
     this.addRaster(urlWmts, maxZoom, bounds, id, beforeId);
   }
 
@@ -124,16 +131,17 @@ export class VisualizeService<L, S, M> {
    * @param id Identifier of the raster.
    * @param beforeId Insert before a given raster id.
    */
-  public addRaster(url, maxZoom, bounds: Array<number>, id: string, beforeId?: string) {
-    this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+  public addRaster(url: string, maxZoom: number, bounds: Array<number>, id: string, beforeId?: string) {
+    const layerId = 'raster-source-' + id;
+    this.mapFrameworkService.removeLayer(this.mapInstance, layerId);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
-    this.mapFrameworkService.addRasterLayer(this.mapInstance, 'raster-source-' + id, url, bounds, maxZoom,
+    this.mapFrameworkService.addRasterLayer(this.mapInstance, layerId, url, bounds, maxZoom,
       /** tilesize */ 256, beforeId);
     if (id !== 'external') {
       this.isWMTSOnMap = true;
       this.isRasterOnMap = true;
     }
-    this.addcrossToRemove(bounds[2], bounds[3], id);
+    this.addCrossToRemove(bounds[2], bounds[3], id);
   }
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
@@ -159,7 +167,7 @@ export class VisualizeService<L, S, M> {
     }
   }
 
-  public addcrossToRemove(lat, lng, id) {
+  public addCrossToRemove(lat: number, lng: number, id: string) {
     const crossPosition = {
       type: 'FeatureCollection',
       'features': [
@@ -190,7 +198,7 @@ export class VisualizeService<L, S, M> {
     this.rasterRemovedSource.next(id);
   }
 
-  public handlePopup(lat, lng, id) {
+  public handlePopup(lat: number, lng: number, id: string) {
     const tooltipMsg = this.translateService.instant('Remove visualisation');
     const popup = this.mapFrameworkService.createPopup(lng, lat, tooltipMsg);
     this.mapFrameworkService.onLayerEvent('mouseenter', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
