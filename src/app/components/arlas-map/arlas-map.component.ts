@@ -593,7 +593,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   }
 
   public listenVisualisationChange (){
-    this.cogService.cogVisualisationChange
+    this.cogService.cogVisualisationChange$
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
   }

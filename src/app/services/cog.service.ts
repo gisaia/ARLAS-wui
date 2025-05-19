@@ -52,8 +52,9 @@ export class CogService<L, S, M> {
   /** --- Visualisation state */
   /** Current COG visualisation */
   private readonly selectedCogVisualisation = new Map<string, VisualisationPreview>();
+  private readonly cogVisualisationChangeSource = new Subject<VisualisationPreview>();
   /** Emits any change to the visualisation used for the COGs */
-  public cogVisualisationChange = new Subject<VisualisationPreview>();
+  public cogVisualisationChange$ = this.cogVisualisationChangeSource.asObservable();
   /** Whether this is the first selection of a COG */
   protected firstCogSelection  = true;
   /** Previews for each of the visualisations defined. Allows to query only once for default preview */
@@ -87,7 +88,7 @@ export class CogService<L, S, M> {
     this.setCogVisualisationConfig(contributorId, contributorConfig);
     this.firstCogSelection = !this.selectedCogVisualisation.has(this.contributorId);
 
-    this.cogVisualisationChange.next(this.getCurrentVisualisation());
+    this.cogVisualisationChangeSource.next(this.getCurrentVisualisation());
   }
 
   /**
@@ -113,10 +114,13 @@ export class CogService<L, S, M> {
     const searchResult = getItem(data.elementidentifier,
       this.collaborativeService.registry.get(this.contributorId).collection, this.collaborativeService);
 
-    // Fetch the detail of the item to replace the fields in the url
+    // Fetches the detail of the item to replace the fields in the url
     searchResult.subscribe(h => {
-      const itemData = h.hits[0].data;
+      if (!h.hits) {
+        return;
+      }
 
+      const itemData = h.hits[0].data;
       // Parses the array to get the visualisation previews
       let i = 0;
       this.currentCogVisualisationConfig.forEach((v, vidx) => {
@@ -178,7 +182,7 @@ export class CogService<L, S, M> {
   }
 
   /**
-   * Based on the visualisation given, try to recursively find the first data group with a titiler protocol for which at least one item exists.
+   * Based on the given visualisation, try to recursively find the first data group with a titiler protocol for which at least one item exists.
    * Its visualisation url is used to build the preview url that is then used for the desired goal, as well as stored for future uses.
    * @param v A COG visualisation
    * @param dgIdx The current data group index
@@ -229,8 +233,8 @@ export class CogService<L, S, M> {
   }
 
   /**
-   * Set the COG visualisation based on selection. If there were items that were visualized,
-   * remove them and if they match the new viusalisation, visualize them again
+   * Sets the COG visualisation based on selection. If there were items that were visualized,
+   * removes them and if they match the new viusalisation, visualizes them again
    * @param visualisation Configuration to visualize COGs
    * @param idx Id of the selected visualisation
    * @param preview Preview for the visualisation
@@ -256,7 +260,7 @@ export class CogService<L, S, M> {
       visualizeAction.filters = visualisation.dataGroups.map(dg => dg.filters);
     }
     this.listNotifier.refreshActions(itemId);
-    this.cogVisualisationChange.next({visualisation, idx, preview});
+    this.cogVisualisationChangeSource.next({visualisation, idx, preview});
 
     if (!visualisation) {
       // If no visualisation, clean up the rasters
@@ -294,8 +298,7 @@ export class CogService<L, S, M> {
 
   public getCogFiltersFromConfig(config: any): ActionFilter[][] {
     return config.visualisationsList
-      .map(v => v.dataGroups.map(dg => dg.filters))
-      // .filter(f => f.length > 0) => If there are no filters it means everyone can do it
+      .map((v: VisualisationInterface) => v.dataGroups.map(dg => dg.filters))
       .reduce((a, b) => a.concat(b), []);
   }
 
@@ -304,9 +307,9 @@ export class CogService<L, S, M> {
   }
 
   /**
-   * Visualize an item on the map from a list action.
+   * Visualizes an item on the map from a list action.
    * If no COG visualisation is chosen among the configured ones, then first open the COG selection screen.
-   * Otherwise, visualize the raster.
+   * Otherwise, visualizes the raster.
    * @param data Structure containing the action info and item informations for the element that triggered the COG visualisation selection
    * @param listContributor Resultlist tab's contributor
    * @param fitBounds Whether to zoom in on the footprint of the item

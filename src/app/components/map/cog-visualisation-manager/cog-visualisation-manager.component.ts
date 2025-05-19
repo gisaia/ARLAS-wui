@@ -90,7 +90,7 @@ export class CogVisualisationManagerComponent {
   }
 
   /**
-   * For each visualisation, compute how many of the currently visualised items are matching it.
+   * For each visualisation, compute how many of the currently visualized items are matching it.
    * If the item is matching and no preview is defined by default, sets it.
    * @param matches List of matches and data per item
    * @param visualisations List of visualisations
