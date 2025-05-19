@@ -99,7 +99,8 @@ export class VisualisationLegendComponent {
                       maximum: bands[0][1].max
                     });
                   }
-                  // If there are multiple bands, can't have a colormap => internal error for titiler
+                  // If there are multiple bands (for example TCI), titiler throws an internal error with a colormap
+                  // Because it needs to map numeric values and not an array to a color
                 });
               }
             }

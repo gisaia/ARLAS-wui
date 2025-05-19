@@ -26,7 +26,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SquareKilometer implements PipeTransform {
 
-  public transform(a: number) {
+  public transform(a: number): number {
     const oneSquareKM = 1000000;
     return Math.round(a / oneSquareKM * 10) / 10;
   }
@@ -38,7 +38,7 @@ export class SquareKilometer implements PipeTransform {
 })
 export class RoundKilometer implements PipeTransform {
 
-  public transform(a: number) {
+  public transform(a: number): number {
     return Math.round(a * 10) / 10;
   }
 }
