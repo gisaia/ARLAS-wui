@@ -1,5 +1,19 @@
 # Change Log
 
+## [v27.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.4) (2025-05-23)
+
+**New stuff:**
+
+- \[powerbars\] Create a dedicated tooltip for powerbars [\#506](https://github.com/gisaia/ARLAS-wui/issues/506)
+
+**Fixed bugs:**
+
+- Download/enrich window does not display the status any more [\#988](https://github.com/gisaia/ARLAS-wui/issues/988)
+
+**Miscellaneous:**
+
+- Change style files to scss [\#609](https://github.com/gisaia/ARLAS-wui/issues/609)
+
 ## [v27.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.3) (2025-04-29)
 
 **New stuff:**
