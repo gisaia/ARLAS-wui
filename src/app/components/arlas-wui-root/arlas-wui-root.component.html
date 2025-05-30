@@ -8,7 +8,7 @@
         <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
       }
       <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
-        [collectionToDescription]="resultlistService.collectionToDescription" (zoomEvent)="zoomToData($event)"
+        [collectionToDescription]="contributorService.collectionToDescription" (zoomEvent)="zoomToData($event)"
         [availableSpace]="availableSpaceCounts" [spacing]="spacing">
       </arlas-filter>
     </div>
@@ -42,8 +42,8 @@
         [showIndicators]="showIndicators"></arlas-left-menu>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content" *ngIf="!arlasStartupService.emptyMode; else emptyMode">
-      <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
-      </arlas-configs-list>
+      <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false"></arlas-configs-list>
+
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
         <div *ngIf="arlasStartupService.shouldRunApp">
@@ -138,7 +138,7 @@
                   [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
                   [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                   [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
-                  [activatedActionsPerItem]="resultlistService.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
+                  [activatedActionsPerItem]="actionManager.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
                   [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
                   [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
                   (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"

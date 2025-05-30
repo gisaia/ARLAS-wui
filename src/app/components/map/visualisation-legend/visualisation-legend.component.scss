@@ -17,28 +17,24 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
-@Pipe({
-  name: 'squareKm',
-  standalone: false
-})
-export class SquareKilometer implements PipeTransform {
+    &__item {
+        background-color: white;
+        border-radius: 4px;
 
-  public transform(a: number): number {
-    const oneSquareKM = 1000000;
-    return Math.round(a / oneSquareKM * 10) / 10;
-  }
-}
+        display: flex;
+        align-items: center;
 
-@Pipe({
-  name: 'roundKm',
-  standalone: false
-})
-export class RoundKilometer implements PipeTransform {
-
-  public transform(a: number): number {
-    return Math.round(a * 10) / 10;
-  }
+        ::ng-deep.legend {
+            height: $map-actions-width;
+        }
+    }
 }

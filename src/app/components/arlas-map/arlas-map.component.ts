@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,22 +25,29 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as helpers from '@turf/helpers';
+import { VisualisationPreview } from 'app/tools/cog';
 import {
   AoiEdition,
+  ArlasDataLayer,
   ArlasLngLat,
   ArlasLngLatBounds,
   ArlasMapComponent,
   ArlasMapFrameworkService,
-  BasemapStyle, BboxGeneratorComponent, GeoQuery,
-  MapImportComponent, MapSettingsComponent, SCROLLABLE_ARLAS_ID
+  BasemapStyle,
+  BboxGeneratorComponent,
+  GeoQuery,
+  MapImportComponent,
+  MapSettingsComponent,
+  SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
-import { MapContributor } from 'arlas-web-contributors';
-import { LegendData } from 'arlas-web-contributors/contributors/MapContributor';
+import { LegendData, MapContributor } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
-  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { CogService } from '../../services/cog.service';
+import { ContributorService } from '../../services/contributors.service';
 import { GeocodingResult } from '../../services/geocoding.service';
 import { ArlasWuiMapService } from '../../services/map.service';
 import { ResultlistService } from '../../services/resultlist.service';
@@ -118,6 +126,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
+  /** Cog visualisation **/
+  protected cogVisualisation = signal<VisualisationPreview | null>(null);
+
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
@@ -142,7 +153,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly domSanitizer: DomSanitizer,
     private readonly collectionService: ArlasCollectionService,
     private readonly authentService: AuthentificationService,
-    private readonly arlasIamService: ArlasIamService
+    private readonly arlasIamService: ArlasIamService,
+    private readonly cogService: CogService<L, S, M>,
+    private readonly contributorService: ContributorService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -235,7 +248,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     }
 
     this.updateMapTransformRequest();
-
+    this.listenVisualisationChange();
   }
 
   public ngAfterViewInit() {
@@ -359,6 +372,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           .filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
         this.resultlistService.updateVisibleItems();
       }
+
+      this.notifyHoveredCogs();
     }
   }
 
@@ -430,7 +445,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   public onMove(event) {
     // Update data only when the collections info are presents
-    if (this.resultlistService.collectionToDescription.size > 0) {
+    if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
       const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
@@ -521,7 +536,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
         .filter(c => feature.layer.metadata.collection === c.collection
           && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
       if (resultListContributor) {
-        const idFieldName = this.resultlistService.collectionToDescription.get(resultListContributor.collection).id_path;
+        const idFieldName = this.contributorService.collectionToDescription.get(resultListContributor.collection).id_path;
         const id = feature.properties[idFieldName.replace(/\./g, '_')];
         // Open the list panel if it's closed
         this.disableRecalculateExtent = true;
@@ -579,5 +594,45 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   private adjustMapOffset() {
     this.recalculateExtent = true;
     this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
+  }
+
+  public listenVisualisationChange (){
+    this.cogService.cogVisualisationChange$
+      .pipe(takeUntil(this._onDestroy$))
+      .subscribe(v => this.cogVisualisation.set(v));
+  }
+
+  /**
+   * If there is a COG visualisation, notify the CogService of all features of the visualised collection that are hovered
+   */
+  private notifyHoveredCogs() {
+    this.mapComponentConfig.mapLayers.layers
+      .filter((l: ArlasDataLayer) => l.source.startsWith('feature'))
+      .forEach((l: ArlasDataLayer) => {
+        // Multiple layers will send their values that are stored by the CogService and consumed by the VisualisationLegendComponent
+        this.mapFrameworkService.onLayerEvent('mousemove', this.mapglComponent.map, l.id, (e) => {
+          const collection = this.collaborativeService.registry.get(this.cogService.contributorId).collection;
+          // If the collection does not match the one of the vurrent viusalisation, skip the layer
+          // Also skip if there is no current COG visualisation
+          if (l.metadata?.collection !== collection || !this.cogService.getCurrentVisualisation()) {
+            return;
+          }
+
+          const hoveredIds = e.features.map(f => f.properties.id).filter(id => this.cogService.visualisedCogs.has(id));
+          // Notify the CogService of the visualized rasters that are hovered
+          this.cogService.hoverCogs(l.id, hoveredIds);
+        });
+        this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
+          // If the collection does not match the one of the vurrent viusalisation, skip the layer
+          // Also skip if there is no current COG visualisation
+          if (l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
+              || !this.cogService.getCurrentVisualisation()) {
+            return;
+          }
+
+          // Notify the CogService that no visualized rasters are hovered
+          this.cogService.hoverCogs(l.id, []);
+        });
+      });
   }
 }

@@ -18,7 +18,7 @@
  */
 
 import { Dialog, DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,28 +26,23 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
-import { ArlasCollaborativesearchService, ArlasCollectionService,
-  ArlasConfigService, ArlasSettingsService, ArlasStartupService } from 'arlas-wui-toolkit';
+import {
+  ArlasCollaborativesearchService, ArlasCollectionService,
+  ArlasConfigService, ArlasSettingsService, ArlasStartupService
+} from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
-import { MockArlasConfigService } from './tools/test';
+import { MockArlasConfigService, MockArlasStartupService } from './tools/test';
 
 describe('ArlasWuiComponent', () => {
   let component: ArlasWuiComponent<any, any, any>;
   let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
 
   beforeEach(async () => {
-    const mockArlasStartupService = jasmine.createSpyObj('ArlasStartupService', [], {
-      shouldRunApp: true,
-      emptyMode: false,
-      contributorRegistry: new Map(),
-      collectionsMap: new Map()
-    });
-
     const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket', 'getProcessSettings']);
     mockSettingsService.getHistogramMaxBucket.and.returnValue();
     mockSettingsService.getProcessSettings.and.returnValue({});
@@ -67,8 +62,7 @@ describe('ArlasWuiComponent', () => {
         }),
         MatTooltipModule,
         /** Needed for ResultlistService */
-        RouterTestingModule,
-        HttpClientModule
+        RouterTestingModule
         /** End */
       ],
       providers: [
@@ -79,7 +73,7 @@ describe('ArlasWuiComponent', () => {
         ArlasConfigService,
         {
           provide: ArlasStartupService,
-          useValue: mockArlasStartupService
+          useClass: MockArlasStartupService
         },
         {
           provide: ArlasSettingsService,
@@ -102,6 +96,7 @@ describe('ArlasWuiComponent', () => {
           provide: DIALOG_SCROLL_STRATEGY,
           useValue: {}
         },
+        provideHttpClient(withInterceptorsFromDi()),
         /** End */
         {
           provide: ColorGeneratorLoader,

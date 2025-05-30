@@ -38,3 +38,10 @@ export class MockArlasConfigService {
     }
   }
 }
+
+export class MockArlasStartupService {
+  public shouldRunApp = true;
+  public emptyMode = false;
+  public contributorRegistry = new Map();
+  public collectionsMap = new Map();
+}

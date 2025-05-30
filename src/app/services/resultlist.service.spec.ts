@@ -1,11 +1,13 @@
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ArlasCollaborativesearchService, ArlasCollectionService } from 'arlas-wui-toolkit';
+import { ArlasCollaborativesearchService, ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { MockArlasStartupService } from '../tools/test';
+import { ContributorService } from './contributors.service';
 import { ResultlistService } from './resultlist.service';
 import { VisualizeService } from './visualize.service';
 
@@ -21,7 +23,6 @@ describe('ResultlistService', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         OverlayModule,
         MatDialogModule
@@ -35,7 +36,13 @@ describe('ResultlistService', () => {
         {
           provide: ArlasCollectionService,
           useValue: mockArlasCollectionService
-        }
+        },
+        ContributorService,
+        {
+          provide: ArlasStartupService,
+          useClass: MockArlasStartupService
+        },
+        provideHttpClient(withInterceptorsFromDi())
       ],
       teardown: { destroyAfterEach: false }
     });

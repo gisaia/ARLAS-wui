@@ -18,17 +18,26 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VisualizeService } from '../../../services/visualize.service';
-import { ResultlistService } from '../../../services/resultlist.service';
-import { Subject, takeUntil } from 'rxjs';
-import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { Subject, takeUntil } from 'rxjs';
+import { ActionManagerService } from '../../../services/action-manager.service';
+import { CogService } from '../../../services/cog.service';
+import { VisualizeService } from '../../../services/visualize.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
   standalone: false,
-  styleUrls: ['./rasters-manager.component.scss']
+  styleUrls: ['./rasters-manager.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({ opacity: 0 })), // Initial state when element is not present
+      state('*', style({ opacity: 1 })), // Final state when element is present
+      transition(':enter', animate('500ms ease-in')), // Animation duration and easing
+    ])
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
@@ -41,14 +50,15 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
 
   public constructor(
     private readonly visualisationService: VisualizeService<L, S, M>,
-    private readonly resultlistService: ResultlistService<L, S, M>,
-    private readonly collaborativeSearchService: ArlasCollaborativesearchService
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService,
+    private readonly cogService: CogService<L, S, M>,
+    private readonly actionManager: ActionManagerService
   ) { }
 
   public ngOnInit(): void {
     this.visualisationService.rasterRemoved$.pipe(takeUntil(this._onDestroy$)).subscribe({
       next: (id) => {
-        this.resultlistService.removeItemActions(id, 'visualize');
+        this.actionManager.removeItemActions(id, 'visualize');
       }
     });
     /** Remove the raster once an arlas filter is applied */
@@ -64,7 +74,8 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
   /** Removes all raster layers from the map. */
   public removeLayers() {
     this.visualisationService.removeRasters();
-    this.resultlistService.removeActions('visualize');
+    this.actionManager.removeActions('visualize');
+    this.cogService.resetCogVisualisation();
   }
 
   public ngOnDestroy(): void {

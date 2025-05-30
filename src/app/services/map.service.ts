@@ -19,7 +19,8 @@
 
 import { Injectable } from '@angular/core';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
-import { ArlasMapComponent, AbstractArlasMapService, ArlasMapFrameworkService } from 'arlas-map';
+import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
+
 export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
@@ -42,9 +43,13 @@ export class ArlasWuiMapService<L, S, M> {
   public featuresToSelect: Array<ElementIdentifier> = [];
 
   public coordinatesHaveSpace: boolean;
+  public timeLineIsOpen: boolean;
 
-  public constructor(public mapService: ArlasMapFrameworkService<L, S, M>,
-    public mapLogicService: AbstractArlasMapService<L, S, M>) { }
+  public constructor(
+    private readonly mapService: ArlasMapFrameworkService<L, S, M>,
+    private readonly mapLogicService: AbstractArlasMapService<L, S, M>
+  ) {
+  }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -72,9 +77,9 @@ export class ArlasWuiMapService<L, S, M> {
 
   public getFeatureToHover(id: ElementIdentifier, mapContributor: MapContributor): FeatureHover {
     const f = mapContributor.getFeatureToHightLight(id);
-    if (mapContributor) {
-      f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-    }
+    f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+
+    this.featureToHightLight = f;
     return f;
   }
 

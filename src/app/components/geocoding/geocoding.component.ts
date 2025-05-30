@@ -18,13 +18,7 @@
  */
 
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -55,7 +49,7 @@ export class GeocodingComponent implements AfterViewInit {
   protected hasSearched = false;
   protected hasError = false;
   protected loading = false;
-  protected geocodingResult: MatTableDataSource<any>;
+  protected geocodingResult: MatTableDataSource<GeocodingResult>;
   protected searchFormControl = new FormControl('');
 
   private previousSearch: string;

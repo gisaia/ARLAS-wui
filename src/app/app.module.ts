@@ -44,12 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasMapModule } from 'arlas-map';
-import {
-  FormatNumberModule,
-  GetValueModule,
-  HistogramModule,
-  ResultsModule
-} from 'arlas-web-components';
+import { FormatNumberModule, GetValueModule, HistogramModule, ResultsModule, } from 'arlas-web-components';
 import {
   ArlasCollectionService,
   ArlasConfigService,
@@ -78,8 +73,13 @@ import { ArlasWuiRootComponent } from './components/arlas-wui-root/arlas-wui-roo
 import { ConfigsListComponent } from './components/configs-list/configs-list.component';
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import {
+  CogVisualisationManagerComponent
+} from './components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
+import { VisualisationLegendComponent } from './components/map/visualisation-legend/visualisation-legend.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
+import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
@@ -168,7 +168,9 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasTaggerModule,
     LoginModule,
     LazyLoadImageModule,
-    ArlasMapModule
+    ArlasMapModule,
+    CogVisualisationManagerComponent,
+    VisualisationLegendComponent
   ],
   providers: [
     VisualizeService,
@@ -185,7 +187,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
       multi: true
     },
     ArlasCollectionService,
-    ContributorService
+    ContributorService,
+    CogService
   ],
   bootstrap: [ArlasWuiComponent]
 })

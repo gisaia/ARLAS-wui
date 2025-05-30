@@ -24,22 +24,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { CollectionReferenceParameters, Expression } from 'arlas-api';
+import { isElementInViewport } from 'app/tools/utils';
+import { Expression } from 'arlas-api';
 import {
-  ActionHandler, CellBackgroundStyleEnum, Column, ElementIdentifier,
-  Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
 } from 'arlas-web-components';
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService,
-  DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME,
-  getParamValue, ProcessService
+  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 import { ArlasWuiMapService } from '../services/map.service';
 import { VisualizeService } from '../services/visualize.service';
-import { isElementInViewport } from '../tools/utils';
+import { CogService } from './cog.service';
+import { ContributorService } from './contributors.service';
 
 
 @Injectable({
@@ -50,11 +49,9 @@ import { isElementInViewport } from '../tools/utils';
  *  M: a Map configuration class/interface.
  */
 export class ResultlistService<L, S, M> {
-
   /** Resultlist configs */
   public resultlistConfigs = [];
   public resultlistConfigPerContId = new Map<string, any>();
-  public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
@@ -69,7 +66,6 @@ export class ResultlistService<L, S, M> {
   public listOpenChange = new Subject<boolean>();
   private currentClickedFeatureId: string = undefined;
   public resultlistIsExporting = false;
-  public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
   public selectedItems = new Array<ElementIdentifier>();
 
   /** Resullist component */
@@ -92,10 +88,12 @@ export class ResultlistService<L, S, M> {
     private readonly snackbar: MatSnackBar,
     private readonly visualizeService: VisualizeService<L, S, M>,
     private readonly translate: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly cogService: CogService<L, S, M>,
+    private readonly contributorService: ContributorService
   ) { }
 
-  public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: string[]) {
+  public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: any[]) {
     this.resultlistContributors = resultlistContributors;
 
     if (this.resultlistContributors.length > 0) {
@@ -142,10 +140,6 @@ export class ResultlistService<L, S, M> {
     this.declareGlobalRasterVisualisation();
   }
 
-  public setCollectionsDescription(collectionToDescription: Map<string, CollectionReferenceParameters>) {
-    this.collectionToDescription = collectionToDescription;
-  }
-
   public toggleList() {
     this.listOpen = !this.listOpen;
     this.listOpenChange.next(this.listOpen);
@@ -161,64 +155,6 @@ export class ResultlistService<L, S, M> {
 
   public isThumbnailProtected(): boolean {
     return this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails ?? false;
-  }
-
-  public addAction(contId: string, itemId: string, action: Action) {
-    if (ActionHandler.isReversible(action)) {
-      if (!this.activeActionsPerContId.get(contId)) {
-        this.activeActionsPerContId.set(contId, new Map());
-      }
-      const activeActions = this.activeActionsPerContId.get(contId);
-      if (!activeActions.get(itemId)) {
-        activeActions.set(itemId, new Set());
-      }
-      const actions = activeActions.get(itemId);
-      actions.add(action.id);
-      this.activeActionsPerContId.set(contId, new Map(activeActions));
-
-    }
-  }
-
-  /** Remove an activated action for a given item and given contributor */
-  public removeAction(contId: string, itemId: string, actionId: string) {
-    if (!this.activeActionsPerContId.get(contId)) {
-      return;
-    }
-    const activeActions = this.activeActionsPerContId.get(contId);
-    if (!activeActions.get(itemId)) {
-      return;
-    }
-    const actions = activeActions.get(itemId);
-    if (!actions) {
-      return;
-    }
-    actions.delete(actionId);
-    this.activeActionsPerContId.set(contId, new Map(activeActions));
-  }
-
-  /** Removes an activated action for all items and all contributors */
-  public removeActions(actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        actionsPerItem.forEach((actions, itemId) => {
-          actions.delete(actionId);
-        });
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
-      });
-    }
-  }
-
-  /** Removes an activated action for a given item in all contributors */
-  public removeItemActions(itemId: string, actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        const actions = actionsPerItem.get(itemId);
-        if (actions) {
-          actions.delete(actionId);
-        }
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
-      });
-    }
   }
 
   public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
@@ -254,10 +190,10 @@ export class ResultlistService<L, S, M> {
       let geoField: string | undefined;
       let geoOp: Expression.OpEnum;
       if (mapContributor.windowExtentGeometry === ExtentFilterGeometry.geometry_path) {
-        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.geometry_path;
+        geoField = this.contributorService.collectionToDescription.get(resultlistContributor.collection)?.geometry_path;
         geoOp = Expression.OpEnum.Intersects;
       } else {
-        geoField = this.collectionToDescription.get(resultlistContributor.collection)?.centroid_path;
+        geoField = this.contributorService.collectionToDescription.get(resultlistContributor.collection)?.centroid_path;
         geoOp = Expression.OpEnum.Within;
       }
       if (geoField) {
@@ -268,7 +204,7 @@ export class ResultlistService<L, S, M> {
 
   public highlightItems(hoveredFeatures: any[]) {
     this.resultlistContributors.forEach(c => {
-      const idFieldName = this.collectionToDescription.get(c.collection).id_path;
+      const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
       const highLightItems = hoveredFeatures
         .filter(f => f.layer.metadata.collection === c.collection)
         .map(f => f.properties[idFieldName.replace(/\./g, '_')])
@@ -288,8 +224,8 @@ export class ResultlistService<L, S, M> {
    * Update which elements from the list are visible on the map
    */
   public updateVisibleItems() {
-    if (this.previewListContrib && !!this.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.collectionToDescription.get(this.previewListContrib.collection).id_path;
+    if (this.previewListContrib && !!this.contributorService.collectionToDescription.get(this.previewListContrib.collection)) {
+      const idFieldName = this.contributorService.collectionToDescription.get(this.previewListContrib.collection).id_path;
       const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
         .filter(i => i !== undefined && isElementInViewport(document.getElementById(i.toString())));
       this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
@@ -301,8 +237,8 @@ export class ResultlistService<L, S, M> {
    * @param items List of items constituting the resultlist
    */
   public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
-    if (this.collectionToDescription.size > 0) {
-      const idFieldName = this.collectionToDescription.get(collection).id_path;
+    if (this.contributorService.collectionToDescription.size > 0) {
+      const idFieldName = this.contributorService.collectionToDescription.get(collection).id_path;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
           .filter(id => id !== undefined && isElementInViewport(document.getElementById(id.toString())));
@@ -404,16 +340,12 @@ export class ResultlistService<L, S, M> {
         break;
       case 'consultedItemEvent':
         if (mapContributor) {
-          const f = mapContributor.getFeatureToHightLight(event.data);
-          if (f) {
-            f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-          }
-          this.mapService.featureToHightLight = f;
+          mapContributor.getFeatureToHightLight(event.data);
         }
         break;
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
-        const idPath = this.collectionToDescription.get(currentCollection)?.id_path;
+        const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
         if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
@@ -443,8 +375,7 @@ export class ResultlistService<L, S, M> {
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
-                  this.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, currentCollection, false);
-                  this.addAction(event.origin, e.idValue, event.data.action);
+                  this.cogService.visualizeRaster({ action: event.data, elementidentifier: e }, resultListContributor, false);
                 }
               }
             });
@@ -483,7 +414,7 @@ export class ResultlistService<L, S, M> {
         }
         break;
       case 'visualize':
-        this.visualizeRaster(data, listContributor, collection);
+        this.cogService.visualizeRasterAction(data, listContributor, false);
         break;
       case 'download':
         if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
@@ -509,6 +440,10 @@ export class ResultlistService<L, S, M> {
     this.listComponent = listComponent;
   }
 
+  public getListComponent() {
+    return this.listComponent;
+  }
+
   public unsetListComponent() {
     this.listComponent = null;
   }
@@ -522,36 +457,17 @@ export class ResultlistService<L, S, M> {
     }, 100);
   }
 
-  private visualizeRaster(data: { action: Action; elementidentifier: ElementIdentifier; },
-    listContributor: ResultListContributor, collection: string, fitBounds = true) {
-
-    if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
-      const urlVisualisationTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).visualisationLink;
-      if (!data.action.activated) {
-        this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlVisualisationTemplate).subscribe(url => {
-          this.visualizeService.displayDataOnMap(url,
-            data.elementidentifier, this.collectionToDescription.get(collection).geometry_path,
-            this.collectionToDescription.get(collection).centroid_path, collection, fitBounds);
-        });
-        this.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
-      } else {
-        this.visualizeService.removeRasters(data.elementidentifier.idValue);
-        this.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-      }
-    }
-  }
-
   private process<T>(processName: string, ids: string[], collection: string, component: ComponentType<T>, additionalData?: any) {
     const maxItems = this.settingsService.getProcessSettings(processName).max_items;
     if (ids.length <= maxItems) {
       this.processService.load(processName).subscribe({
         next: () => {
           this.processService.getItemsDetail(
-            this.collectionToDescription.get(collection).id_path,
+            this.contributorService.collectionToDescription.get(collection).id_path,
             ids,
             collection
           ).subscribe({
-            next: (item: any) => {
+            next: item => {
               const data = { ids, collection, nbProducts: ids.length, itemDetail: item, ...additionalData };
 
               this.dialog
@@ -614,16 +530,22 @@ export class ResultlistService<L, S, M> {
     this.resultlistContributors.forEach(c => {
       const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
       const mapcontributor = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
-      if (this.resultlistConfigPerContId.get(c.identifier)) {
-        if (!!this.resultlistConfigPerContId.get(c.identifier).visualisationLink && !listActionsId.includes('visualize')) {
-          c.addAction({
+      const config = this.resultlistConfigPerContId.get(c.identifier);
+      if (config) {
+        if (!listActionsId.includes('visualize')) {
+          const action: Action = {
             id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
             reverseAction: {
               id: 'remove', label: marker('Remove from map'), cssClass: '', tooltip: marker('Remove from map'), icon: 'visibility_off'
-            },
-            fields: this.visualizeService.getVisuFields(this.resultlistConfigPerContId.get(c.identifier).visualisationLink),
-            hide: true
-          } as any);
+            }
+          };
+          if (config.visualisationLink) {
+            action.fields = this.visualizeService.getVisuFields(config.visualisationLink);
+            c.addAction(action);
+          } else if (config.visualisationsList) {
+            action.filters = this.cogService.getCogFiltersFromConfig(config);
+            c.addAction(action);
+          }
         }
         if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
           c.addAction({

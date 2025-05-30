@@ -44,9 +44,18 @@
       </div>
     </div>
 
-    <div class="arlas-rasters-manager" [class.arlas-rasters-manager--geocoding]="enableGeocodingFeature" *ngIf="visualizeService.isRasterOnMap">
+  <div class="arlas-cog-visualisation-manager"
+      [class.arlas-cog-visualisation-manager--tight]="!wuiMapService.coordinatesHaveSpace && !wuiMapService.timeLineIsOpen"
+      [class.arlas-cog-visualisation-manager--timeline-open]="wuiMapService.timeLineIsOpen && wuiMapService.coordinatesHaveSpace"
+      [class.arlas-cog-visualisation-manager--full]="wuiMapService.timeLineIsOpen && !wuiMapService.coordinatesHaveSpace">
+    @if (cogVisualisation()?.visualisation){
+      <arlas-visualisation-legend></arlas-visualisation-legend>
+      <arlas-cog-visualisation-manager [visualisation]="cogVisualisation().visualisation" [preview]="cogVisualisation().preview"></arlas-cog-visualisation-manager>
+    }
+    @if (visualizeService.isRasterOnMap) {
       <arlas-rasters-manager></arlas-rasters-manager>
-    </div>
+    }
+  </div>
 
     <arlas-map [id]="mapId" #map [dataSources]="mapDataSources" [redrawSource]="mapRedrawSources"
       [legendUpdater]="mapLegendUpdater" [visibilityUpdater]="mapVisibilityUpdater"

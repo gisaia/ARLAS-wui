@@ -62,20 +62,32 @@
     bottom: calc($map-actions-width + $xs-border) !important;
   }
 
-  .arlas-rasters-manager {
+  .arlas-cog-visualisation-manager {
     position: absolute;
-    top: calc(
-      $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
-      $sm-spacing + $map-settings-height + $sm-spacing
+    height: $map-actions-width;
+    bottom: calc(
+      $default-spacing + $map-scale-height
     );
     right: $sm-spacing;
     z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
 
-    &--geocoding {
-      top: calc(
-        $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
-        $sm-spacing + $map-settings-height + $map-actions-width + $sm-spacing
-      );
+    &--tight {
+      bottom: calc(
+        $default-spacing + $map-scale-height + $map-scale-height
+      )!important;
+    }
+    &--timeline-open {
+      bottom: calc(
+        $default-spacing + $map-scale-height + $sm-spacing + $timeline-height
+      )!important;
+    }
+    &--full {
+      bottom: calc(
+        $default-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
+      )!important;
     }
   }
 
@@ -118,8 +130,4 @@
         + $sm-spacing + $map-actions-width);
     z-index: 1;
   }
-}
-
-::ng-deep.arlas-bbox-generator-dialog .mdc-dialog__surface {
-  padding: 12px 24px;
 }
