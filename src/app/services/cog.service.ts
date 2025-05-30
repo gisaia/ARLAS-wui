@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
 import { getItem } from 'app/tools/utils';
@@ -59,6 +59,14 @@ export class CogService<L, S, M> {
   protected firstCogSelection  = true;
   /** Previews for each of the visualisations defined. Allows to query only once for default preview */
   private defaultPreviews = new Array<string>();
+  /** Map containing for each visualised COG its DataGroup */
+  public visualisedCogs = new Map<string, DataGroup>();
+
+  /** --- Hovered state for legend */
+  /** Map containing per layer id the list of item's id that are visualised and hovered */
+  private readonly hoveredCogs = new Map<string, Array<string>>();
+  /** Emits whenever hoveredCogs has a value change */
+  public hoverCogChange = new EventEmitter<void>();
 
   public constructor(
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -265,6 +273,7 @@ export class CogService<L, S, M> {
     if (!visualisation) {
       // If no visualisation, clean up the rasters
       this.visualizeService.removeRasters();
+      this.visualisedCogs.clear();
       this.actionManager.removeContributorAction(contributorId, 'visualize');
     } else if (previousVisualisation) {
       // If there is a visualisation and there are already visualisations, update them if they can be
@@ -277,6 +286,7 @@ export class CogService<L, S, M> {
             next: values => {
               action.matched = values.matched;
               this.visualizeService.removeRasters(item);
+              this.visualisedCogs.delete(item);
 
               // If we find a visualisationUrl, it means that we can continue viewing it, and we should switch to it
               if (this.getVisualisationUrl(action)) {
@@ -362,10 +372,16 @@ export class CogService<L, S, M> {
 
       if (!data.action.activated) {
         const collectionDescription = this.contributorsService.collectionToDescription.get(listContributor.collection);
-        this.visualizeService.getVisuInfo(data.elementidentifier, listContributor.collection, urlVisualisationTemplate).subscribe(url => {
-          this.visualizeService.displayDataOnMap(url, data.elementidentifier, collectionDescription.geometry_path,
-            collectionDescription.centroid_path, listContributor.collection, fitBounds);
-        });
+        this.visualizeService.getVisuInfo(data.elementidentifier, listContributor.collection, urlVisualisationTemplate)
+          .subscribe(url => {
+            this.visualizeService.displayDataOnMap(url, data.elementidentifier, collectionDescription.geometry_path,
+              collectionDescription.centroid_path, listContributor.collection, fitBounds);
+
+            // Edit visualisationUrl to be the one used by the product
+            const dataGroup = {...this.getDataGroup(data.action)};
+            dataGroup.visualisationUrl = url;
+            this.visualisedCogs.set(data.elementidentifier.idValue, dataGroup);
+          });
         this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
       } else {
         this.visualizeService.removeRasters(data.elementidentifier.idValue);
@@ -374,23 +390,45 @@ export class CogService<L, S, M> {
     }
   }
 
+  public hoverCogs(layerId: string, ids: Array<string>) {
+    this.hoveredCogs.set(layerId, ids);
+    this.hoverCogChange.next();
+  }
+
+  public getHoveredCogs() {
+    const uniqueIds = new Set<string>();
+    Array.from(this.hoveredCogs.values()).forEach(ids => {
+      ids.forEach(id => uniqueIds.add(id));
+    });
+    return uniqueIds;
+  }
+
   private getVisualisationUrl(action: Action) {
     if (action.matched) {
-      const v = this.getCurrentVisualisation();
-
-      // Find the start of the selected visualisation in the array of matches of the action
-      // Only needed if there are more matches in the action than there are dataGroups.
-      // It happens when this item is not the first one visualized
-      let firstVisuElement = 0;
-      if (action.matched.length > v.visualisation.dataGroups.length) {
-        for (let i= 0; i < v.idx; i++) {
-          firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
-        }
-      }
       // The url is the one of the first dataGroup for which the item matched the condition
-      return v.visualisation.dataGroups.find((_, i) => action.matched[firstVisuElement + i])?.visualisationUrl;
+      return this.getDataGroup(action)?.visualisationUrl;
     } else {
       return this.contributorConfig.visualisationLink;
     }
+  }
+
+  /**
+   * @param action Action for the item containing the matches for the visualisations
+   * @returns The first matching data group in the current visualisation
+   */
+  private getDataGroup(action: Action) {
+    const v = this.getCurrentVisualisation();
+
+    // Find the start of the selected visualisation in the array of matches of the action
+    // Only needed if there are more matches in the action than there are dataGroups.
+    // It happens when this item is not the first one visualized
+    let firstVisuElement = 0;
+    if (action.matched.length > v.visualisation.dataGroups.length) {
+      for (let i= 0; i < v.idx; i++) {
+        firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
+      }
+    }
+    // The url is the one of the first dataGroup for which the item matched the condition
+    return v.visualisation.dataGroups.find((_, i) => action.matched[firstVisuElement + i]);
   }
 }

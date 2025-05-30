@@ -52,8 +52,7 @@ export interface ExportDataDialogConfiguration {
 export class ExportDataDialogComponent implements  OnInit {
 
   protected dialogData = inject<Array<ExportDataDialogConfiguration>>(MAT_DIALOG_DATA);
-  protected componentsConf = signal<{key: string;enabled: boolean;
-    component: any;title: string;injector: any;}[]>([]);
+  protected componentsConf = signal<{key: string; enabled: boolean; component: any; title: string; injector: any;}[]>([]);
   protected selectedIndex = computed( () => this.componentsConf().findIndex(e => e.enabled));
   public ngOnInit() {
     const tabs = Object.keys(this.dialogData)

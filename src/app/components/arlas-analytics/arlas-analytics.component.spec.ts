@@ -1,6 +1,6 @@
 import { Dialog, DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,7 +21,6 @@ describe('ArlasAnalyticsComponent', () => {
       declarations: [ ArlasAnalyticsComponent ],
       imports: [
         RouterTestingModule,
-        HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       providers: [
@@ -44,7 +43,8 @@ describe('ArlasAnalyticsComponent', () => {
         },
         Overlay,
         ArlasCollectionService,
-        ContributorService
+        ContributorService,
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

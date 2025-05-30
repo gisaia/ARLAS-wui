@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -27,6 +28,7 @@ import * as helpers from '@turf/helpers';
 import { VisualisationPreview } from 'app/tools/cog';
 import {
   AoiEdition,
+  ArlasDataLayer,
   ArlasLngLat,
   ArlasLngLatBounds,
   ArlasMapComponent,
@@ -124,7 +126,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
-  /** show cog visualisation **/
+  /** Cog visualisation **/
   protected cogVisualisation = signal<VisualisationPreview | null>(null);
 
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
@@ -370,6 +372,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           .filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
         this.resultlistService.updateVisibleItems();
       }
+
+      this.notifyHoveredCogs();
     }
   }
 
@@ -596,5 +600,39 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     this.cogService.cogVisualisationChange$
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
+  }
+
+  /**
+   * If there is a COG visualisation, notify the CogService of all features of the visualised collection that are hovered
+   */
+  private notifyHoveredCogs() {
+    this.mapComponentConfig.mapLayers.layers
+      .filter((l: ArlasDataLayer) => l.source.startsWith('feature'))
+      .forEach((l: ArlasDataLayer) => {
+        // Multiple layers will send their values that are stored by the CogService and consumed by the VisualisationLegendComponent
+        this.mapFrameworkService.onLayerEvent('mousemove', this.mapglComponent.map, l.id, (e) => {
+          const collection = this.collaborativeService.registry.get(this.cogService.contributorId).collection;
+          // If the collection does not match the one of the vurrent viusalisation, skip the layer
+          // Also skip if there is no current COG visualisation
+          if (l.metadata?.collection !== collection || !this.cogService.getCurrentVisualisation()) {
+            return;
+          }
+
+          const hoveredIds = e.features.map(f => f.properties.id).filter(id => this.cogService.visualisedCogs.has(id));
+          // Notify the CogService of the visualized rasters that are hovered
+          this.cogService.hoverCogs(l.id, hoveredIds);
+        });
+        this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
+          // If the collection does not match the one of the vurrent viusalisation, skip the layer
+          // Also skip if there is no current COG visualisation
+          if (l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
+              || !this.cogService.getCurrentVisualisation()) {
+            return;
+          }
+
+          // Notify the CogService that no visualized rasters are hovered
+          this.cogService.hoverCogs(l.id, []);
+        });
+      });
   }
 }
