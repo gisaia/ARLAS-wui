@@ -14,6 +14,11 @@
     </div>
 
     <div right-menu class="right-menu-container" id="title">
+      @if (arlasMapComponent?.geojsondraw?.features.length > 0) {
+        <button mat-stroked-button (click)="openOrderForm()" class="order-form__button">
+          {{ orderFormService.config.text.button | translate }}
+        </button>
+      }
       <arlas-permissions-creator></arlas-permissions-creator>
       <mat-divider vertical class="vertical-divider"></mat-divider>
       <span class="title">{{appName | translate}}</span>

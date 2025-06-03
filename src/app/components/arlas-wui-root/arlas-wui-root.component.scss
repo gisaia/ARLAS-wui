@@ -466,6 +466,10 @@
   display: flex;
   align-items: center;
 
+  arlas-permissions-creator {
+    margin-left: $sm-margin;
+  }
+
   .title {
     margin: 0 5px;
   }
@@ -474,6 +478,13 @@
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
     --mdc-icon-button-state-layer-size: 34px;
     padding: 5px;
+  }
+
+  .order-form__button {
+    line-height: 30px !important;
+    padding: 0 $sm-margin !important;
+    height: 30px;
+    border-color: #a1a1a1 !important;
   }
 }
 

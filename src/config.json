@@ -1526,7 +1526,26 @@
           }
         ]
       },
-      "externalNode": {}
+      "externalNode": {
+        "order_form": {
+          "enabled": true,
+          "text": {
+            "button": "Order",
+            "form": "Order a product"
+          },
+          "endpoint": "https://cloud.arlas.io/arlas/server",
+          "payload": {
+            "area": "$AOI",
+            "md": {
+              "comment": "$COMMENT"
+            }
+          },
+          "response": {
+            "ok": "message",
+            "error": "error.isTrusted"
+          }
+        }
+      }
     },
     "server": {
       "url": "https://cloud.arlas.io/arlas/server",

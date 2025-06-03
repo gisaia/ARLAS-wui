@@ -38,6 +38,7 @@ import { ArlasListComponent } from '../arlas-list/arlas-list.component';
 import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
 import { MenuState } from '../left-menu/left-menu.component';
+import { OrderFormService } from 'app/services/order-form.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -146,7 +147,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     protected resultlistService: ResultlistService<L, S, M>,
     protected mapService: ArlasWuiMapService<L, S, M>,
     protected actionManager: ActionManagerService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    protected orderFormService: OrderFormService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -376,6 +378,10 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
         autoFocus: false
       }
     );
+  }
+
+  public openOrderForm() {
+    this.orderFormService.openForm$(this.arlasMapComponent.geojsondraw.features);
   }
 
   /**
