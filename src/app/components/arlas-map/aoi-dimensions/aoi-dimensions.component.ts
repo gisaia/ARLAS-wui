@@ -18,12 +18,21 @@
  */
 
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { AoiEdition } from 'arlas-map';
+import { FormatNumberModule } from 'arlas-web-components';
+import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
 
 @Component({
   selector: 'arlas-aoi-dimensions',
   templateUrl: './aoi-dimensions.component.html',
-  standalone: false,
+  standalone: true,
+  imports: [
+    TranslateModule,
+    SquareKilometer,
+    RoundKilometer,
+    FormatNumberModule
+  ],
   styleUrls: ['./aoi-dimensions.component.scss']
 })
 export class AoiDimensionComponent {

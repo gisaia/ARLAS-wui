@@ -86,17 +86,15 @@ import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 
 
 @NgModule({
   declarations: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     RastersManagerComponent,
     ArlasWuiMapComponent,
@@ -105,13 +103,10 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasAnalyticsComponent
   ],
   exports: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     ArlasWuiMapComponent,
     ArlasListComponent,
@@ -170,7 +165,11 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     LazyLoadImageModule,
     ArlasMapModule,
     CogVisualisationManagerComponent,
-    VisualisationLegendComponent
+    VisualisationLegendComponent,
+    AoiDimensionComponent,
+    RoundKilometer,
+    SquareKilometer,
+    OrderFormComponent
   ],
   providers: [
     VisualizeService,
