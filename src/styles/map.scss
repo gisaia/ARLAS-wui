@@ -110,6 +110,14 @@
       align-self: center;
     }
   }
+
+  .maplibregl-ctrl-group{
+    &:has(.maplibregl-ctrl-globe),
+    &:has(.maplibregl-ctrl-globe-enabled) {
+      // There are 3 buttons in the map settings/geo filter/basemap group
+      margin-top: calc($sm-spacing + 3 * $map-actions-width + $sm-spacing) !important;
+    }
+  }
 }
 
 .maplibregl-compact {
