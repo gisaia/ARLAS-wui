@@ -1,15 +1,15 @@
-<div class="arlas-map__container" [class.arlas-map__container--tight]="!wuiMapService.coordinatesHaveSpace">
+<div class="arlas-map__container" [class.arlas-map__container--geocoding]="enableGeocodingFeature">
     <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
-        <div class="arlas-map-settings-container" >
-          <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
-            <mat-icon (click)="openMapSettings()">settings</mat-icon>
-          </div>
-          <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-            <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
-          </div>
-          <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
+      <div class="arlas-map-settings-container">
+        <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
+          <mat-icon (click)="openMapSettings()">settings</mat-icon>
+        </div>
+        <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
+          <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+        </div>
+        <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
             (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
           <mat-icon>travel_explore</mat-icon>
         </div>
@@ -76,6 +76,7 @@
       [featureToHightLight]="wuiMapService.featureToHightLight" [featuresToSelect]="wuiMapService.featuresToSelect"
       [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
       [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
+      [enableGlobe]="mapComponentConfig?.enableGlobe"
       (onAoiChanged)="onChangeAoi($event)"
       (onAoiEdit)="onAoiEdit($event)"
       (onMove)="onMove($event)"

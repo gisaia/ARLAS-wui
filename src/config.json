@@ -737,6 +737,7 @@
             ],
             "displayScale": true,
             "displayCurrentCoordinates": true,
+            "enableGlobe": true,
             "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
