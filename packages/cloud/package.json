@@ -3,6 +3,6 @@
   "author": "gisaia",
   "license": "Apache-2.0",
   "dependencies": {
-    "arlas-mapbox": "27.1.0-beta.2"
+    "arlas-mapbox": "27.1.0-beta.3"
   }
 }

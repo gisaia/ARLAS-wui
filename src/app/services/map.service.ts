@@ -106,6 +106,21 @@ export class ArlasWuiMapService<L, S, M> {
       .forEach(source => contributor.clearData(source));
   }
 
+
+  public adjustOpacityByRange(sourceIdPrefix: string, field: string,
+    start: number, end: number, insideOpacity: number, outsideOpacity: number): void {
+    if (this.mapComponent?.map) {
+      this.mapLogicService.adjustOpacityByRange(this.mapComponent.map, sourceIdPrefix,
+        field, start, end, insideOpacity, outsideOpacity);
+    }
+  }
+
+  public resetOpacity(sourceIdPrefix: string): void {
+    if (this.mapComponent?.map) {
+      this.mapLogicService.resetOpacity(this.mapComponent.map, sourceIdPrefix);
+    }
+  }
+
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {

@@ -38,14 +38,16 @@ import {
   GeoQuery,
   MapImportComponent,
   MapSettingsComponent,
+  OnMoveResult,
   SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { LegendData, MapContributor } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue,
+  WidgetNotifierService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 import { CogService } from '../../services/cog.service';
 import { ContributorService } from '../../services/contributors.service';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -155,7 +157,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly authentService: AuthentificationService,
     private readonly arlasIamService: ArlasIamService,
     private readonly cogService: CogService<L, S, M>,
-    private readonly contributorService: ContributorService
+    private readonly contributorService: ContributorService,
+    private readonly widgetNotifier: WidgetNotifierService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -262,7 +265,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
         .subscribe(() => {
           /** Change map extent in the url */
           const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-          const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+          const queryParams = { ...this.activatedRoute.snapshot.queryParams };
           queryParams[this.MAP_EXTENT_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
@@ -374,6 +377,40 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
       }
 
       this.notifyHoveredCogs();
+
+      // The map is idle when no 'render' event has been sent, and 'idle' is sent
+      let isIdle = false;
+      this.mapglComponent.map.onIdle(() => {
+        isIdle = true;
+      });
+      this.mapglComponent.map.getMapProvider().on('render', () => {
+        isIdle = false;
+      });
+
+      // The very short debounce is to avoid, when switching from one bucket to an other one, the reset of the opacity
+      // Every time a value is received, if no value is received in the X ms following when the map is idle, then triggers latest bucket hovered
+      this.widgetNotifier.hoveredBucket$
+        .pipe(
+          takeUntil(this._onDestroy$),
+          audit(ev => interval(50).pipe(filter(v => isIdle), takeUntil(this._onDestroy$))))
+        .subscribe({
+          next: (b) => {
+            this.wuiMapService.mapContributors
+              .forEach(c => {
+                const sources = Array.from(c.visibleSources)
+                  .filter(s => s.startsWith('feature-'));
+                sources
+                  .forEach(source => {
+                    if (b) {
+                      this.wuiMapService.adjustOpacityByRange(source, '_arlas-timestamp_', b.start, b.end, 1, 0.05);
+                    } else {
+                      console.log('reset');
+                      this.wuiMapService.resetOpacity(source);
+                    }
+                  });
+              });
+          }
+        });
     }
   }
 
@@ -443,13 +480,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     this.aoiEdition = aoiEdit;
   }
 
-  public onMove(event) {
+  public onMove(event: OnMoveResult) {
     // Update data only when the collections info are presents
     if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
       const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-      const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+      const queryParams = { ...this.activatedRoute.snapshot.queryParams };
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
@@ -513,7 +550,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   public changeVisualisation(layers: Set<string>) {
     this.wuiMapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams };
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -596,7 +633,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
   }
 
-  public listenVisualisationChange (){
+  public listenVisualisationChange() {
     this.cogService.cogVisualisationChange$
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
@@ -626,7 +663,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
           if (l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
-              || !this.cogService.getCurrentVisualisation()) {
+            || !this.cogService.getCurrentVisualisation()) {
             return;
           }
 
