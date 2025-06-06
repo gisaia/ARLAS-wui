@@ -38,6 +38,7 @@ import {
   GeoQuery,
   MapImportComponent,
   MapSettingsComponent,
+  OnMoveResult,
   SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { LegendData, MapContributor } from 'arlas-web-contributors';
@@ -46,7 +47,7 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue,
   WidgetNotifierService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, debounceTime, fromEvent, last, merge, mergeMap, Observable, of, Subject, switchMap, takeLast, takeUntil } from 'rxjs';
+import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 import { CogService } from '../../services/cog.service';
 import { ContributorService } from '../../services/contributors.service';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -247,27 +248,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
       // eslint-disable-next-line max-len
       this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
-
-      this.widgetNotifier.hoveredBucket$.pipe(takeUntil(this._onDestroy$)).pipe().subscribe({
-        next: (b) => {
-          this.wuiMapService.mapContributors
-            .forEach(c => {
-              c.getConfigValue('layers_sources')
-                .filter(ls => ls.source.startsWith('feature-'))
-                .map(ls => ls.source)
-                .forEach(source => {
-                  if (b) {
-                    this.wuiMapService.adjustOpacityByRange(source, '_arlas-timestamp_', b.start, b.end, 1, 0.05);
-                  } else {
-                    console.log('reset');
-                    this.wuiMapService.resetOpacity(source);
-                  }
-
-                });
-
-            });
-        }
-      });
     }
 
     this.updateMapTransformRequest();
@@ -397,6 +377,40 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
       }
 
       this.notifyHoveredCogs();
+
+      // The map is idle when no 'render' event has been sent, and 'idle' is sent
+      let isIdle = false;
+      this.mapglComponent.map.onIdle(() => {
+        isIdle = true;
+      });
+      this.mapglComponent.map.getMapProvider().on('render', () => {
+        isIdle = false;
+      });
+
+      // The very short debounce is to avoid, when switching from one bucket to an other one, the reset of the opacity
+      // Every time a value is received, if no value is received in the X ms following when the map is idle, then triggers latest bucket hovered
+      this.widgetNotifier.hoveredBucket$
+        .pipe(
+          takeUntil(this._onDestroy$),
+          audit(ev => interval(50).pipe(filter(v => isIdle), takeUntil(this._onDestroy$))))
+        .subscribe({
+          next: (b) => {
+            this.wuiMapService.mapContributors
+              .forEach(c => {
+                const sources = Array.from(c.visibleSources)
+                  .filter(s => s.startsWith('feature-'));
+                sources
+                  .forEach(source => {
+                    if (b) {
+                      this.wuiMapService.adjustOpacityByRange(source, '_arlas-timestamp_', b.start, b.end, 1, 0.05);
+                    } else {
+                      console.log('reset');
+                      this.wuiMapService.resetOpacity(source);
+                    }
+                  });
+              });
+          }
+        });
     }
   }
 
@@ -466,7 +480,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     this.aoiEdition = aoiEdit;
   }
 
-  public onMove(event) {
+  public onMove(event: OnMoveResult) {
     // Update data only when the collections info are presents
     if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
