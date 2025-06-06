@@ -43,9 +43,10 @@ import {
 import { LegendData, MapContributor } from 'arlas-web-contributors';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
+  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue,
+  WidgetNotifierService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, debounceTime, fromEvent, last, merge, mergeMap, Observable, of, Subject, switchMap, takeLast, takeUntil } from 'rxjs';
 import { CogService } from '../../services/cog.service';
 import { ContributorService } from '../../services/contributors.service';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -155,7 +156,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly authentService: AuthentificationService,
     private readonly arlasIamService: ArlasIamService,
     private readonly cogService: CogService<L, S, M>,
-    private readonly contributorService: ContributorService
+    private readonly contributorService: ContributorService,
+    private readonly widgetNotifier: WidgetNotifierService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -245,6 +247,27 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
       // eslint-disable-next-line max-len
       this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
+
+      this.widgetNotifier.hoveredBucket$.pipe(takeUntil(this._onDestroy$)).pipe().subscribe({
+        next: (b) => {
+          this.wuiMapService.mapContributors
+            .forEach(c => {
+              c.getConfigValue('layers_sources')
+                .filter(ls => ls.source.startsWith('feature-'))
+                .map(ls => ls.source)
+                .forEach(source => {
+                  if (b) {
+                    this.wuiMapService.adjustOpacityByRange(source, '_arlas-timestamp_', b.start, b.end, 1, 0.05);
+                  } else {
+                    console.log('reset');
+                    this.wuiMapService.resetOpacity(source);
+                  }
+
+                });
+
+            });
+        }
+      });
     }
 
     this.updateMapTransformRequest();
@@ -262,7 +285,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
         .subscribe(() => {
           /** Change map extent in the url */
           const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-          const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+          const queryParams = { ...this.activatedRoute.snapshot.queryParams };
           queryParams[this.MAP_EXTENT_PARAM] = extend;
           this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
         });
@@ -449,7 +472,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
       /** Change map extent in the url */
       const bounds = this.mapglComponent.map.getBounds();
       const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-      const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+      const queryParams = { ...this.activatedRoute.snapshot.queryParams };
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
       queryParams['vs'] = visibileVisus;
@@ -513,7 +536,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   public changeVisualisation(layers: Set<string>) {
     this.wuiMapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams};
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams };
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
@@ -596,7 +619,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
   }
 
-  public listenVisualisationChange (){
+  public listenVisualisationChange() {
     this.cogService.cogVisualisationChange$
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(v => this.cogVisualisation.set(v));
@@ -626,7 +649,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
           if (l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
-              || !this.cogService.getCurrentVisualisation()) {
+            || !this.cogService.getCurrentVisualisation()) {
             return;
           }
 
