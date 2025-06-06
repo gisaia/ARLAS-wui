@@ -1,0 +1,81 @@
+<div class="order-form">
+    <div class="order-form__title">
+        {{ orderFormService.config?.text.form | translate }}
+    </div>
+
+    <div class="order-form__content">
+        <div class="order-form__content__group">
+            <div class="order-form__content__group__title">
+                {{ 'AOI Infos' | translate }}
+            </div>
+            <div class="order-form__content__group__info">
+                @for (f of data.aoi; track $index) {
+                    @let dimensions = f | aoiDimensions;
+                    <div class="dimensions">
+                        @if (dimensions?.area > 0) {
+                            <div class="info">
+                                <div class="info__key">
+                                    {{ 'Area' | translate }}
+                                </div>
+                                <div class="info__value">
+                                    {{ dimensions.area | squareKm | formatNumber }} km²
+                                </div>
+                            </div>
+                        }
+
+                        @if (dimensions?.envelope.width > 0) {
+                            <div class="info">
+                                <div class="info__key">
+                                    <span>{{'Width' | translate}}</span>
+                                    <span class="info__key__detail">({{'envelope' | translate}})</span>
+                                </div>
+                                <div class="info__value">
+                                    {{ dimensions.envelope.width | roundKm | formatNumber }} km
+                                </div>
+                            </div>
+                        }
+
+                        @if (dimensions?.envelope.height > 0) {
+                            <div class="info">
+                                <div class="info__key">
+                                    <span>{{'Height' | translate}}</span>
+                                    <span class="info__key__detail">({{'envelope' | translate}})</span>
+                                </div>
+                                <div class="info__value">
+                                    {{ dimensions.envelope.height | roundKm | formatNumber }} km
+                                </div>
+                            </div>
+                        }
+
+                        @if (!$last) {
+                            <div class="divider"></div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="order-form__content__group">
+            <div class="order-form__content__group__title">
+                {{ 'Comments' | translate }}
+            </div>
+            <textarea matInput class="order-form__content__group__input"
+                (input)="comment = $event.target.value"></textarea>
+        </div>
+
+        @if (orderSubmitted()) {
+            <arlas-aias-result [isProcessing]="isProcessing()"
+                [statusResult]="statusResult" [hasError]="hasError()"
+                [processName]="'Order' | marker" [processAction]="'Ordering...' | marker"></arlas-aias-result>
+        }
+    </div>
+
+    <div class="order-form__actions">
+        <button mat-flat-button class="order-form__actions__submit" (click)="submit()">
+            {{ 'Submit' | translate }}
+        </button>
+        <button mat-stroked-button class="order-form__actions__cancel" (click)="cancel()">
+            {{ 'Cancel' | translate }}
+        </button>
+    </div>
+</div>

@@ -12,7 +12,7 @@
     "serve-cloud": "ng serve --configuration=development-cloud",
     "postinstall": "patch-package --patch-dir node_modules/arlas-web-core/patches && patch-package --patch-dir node_modules/arlas-d3/patches",
     "start": "ng serve --configuration=development-opensource",
-    "start:iam": "ng serve --ssl --ssl-cert=$EXPLO_SSL_CERT --ssl-key=$EXPLO_SSL_KEY",
+    "start:iam": "ng serve --ssl --ssl-cert=$EXPLO_SSL_CERT --ssl-key=$EXPLO_SSL_KEY  --configuration=development-opensource",
     "build-opensource-stats": "ng build arlas-wui --configuration production-opensource --aot --base-href='$ARLAS_WUI_BASE_HREF/' --stats-json --metafile=meta.json",
     "build-opensource": "ng build arlas-wui --configuration production-opensource --aot --base-href='$ARLAS_WUI_BASE_HREF/'",
     "build-lib": "ng build arlas-wui-lib --configuration production",
