@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "^15.0.0",
-    "arlas-wui-toolkit": "~27.1.0-beta.1",
+    "arlas-wui-toolkit": "27.1.0-rc.1",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^18.2.1",
     "ngx-markdown": "^18.0.0",
@@ -81,7 +81,6 @@
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "overrides": {
-    "esbuild": "~0.25.1",
-    "arlas-web-contributors": "27.1.0-beta.1"
+    "esbuild": "~0.25.1"
   }
 }

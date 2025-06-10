@@ -463,8 +463,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
       const ratioToAutoSort = 0.1;
       this.wuiMapService.centerLatLng.lat = event.centerWithOffset[1];
       this.wuiMapService.centerLatLng.lng = event.centerWithOffset[0];
-      this.cumulatedXMoveRatio += event.xMoveRatio;
-      this.cumulatedYMoveRatio += event.yMoveRatio;
+      this.cumulatedXMoveRatio += event.xMoveRatio ?? 0;
+      this.cumulatedYMoveRatio += event.yMoveRatio ?? 0;
       if ((this.cumulatedXMoveRatio > ratioToAutoSort || this.cumulatedYMoveRatio > ratioToAutoSort || this.zoomChanged)) {
         this.recalculateExtent = true;
         this.cumulatedXMoveRatio = 0;
