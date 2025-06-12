@@ -1,5 +1,17 @@
 # Change Log
 
+## [v27.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.5) (2025-06-12)
+
+**Breaking changes:**
+
+- \[COG Visualisation\] State 2: A product visualisation has been added to the map [\#942](https://github.com/gisaia/ARLAS-wui/issues/942)
+- \[COG Visualisation\] State 1: no visualisation has been selected yet [\#941](https://github.com/gisaia/ARLAS-wui/issues/941)
+
+**New stuff:**
+
+- Labels on x-axes should handle the histogram size and resize [\#896](https://github.com/gisaia/ARLAS-wui/issues/896)
+- Add a configurable form for ordering [\#997](https://github.com/gisaia/ARLAS-wui/issues/997)
+
 ## [v27.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.4) (2025-05-23)
 
 **New stuff:**
