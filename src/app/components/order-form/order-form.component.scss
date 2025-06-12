@@ -1,0 +1,107 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+ @import '../../../styles/app/sizes.scss';
+
+.order-form {
+    gap: $lg-spacing;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px;
+
+    &__title {
+        font-size: $dialog-title-font-size;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        &__group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 160px;
+            overflow-y: auto;
+
+            &__title {
+                font-size: $title-font-size;
+            }
+
+            textarea {
+                min-height: 100px;
+                min-width: 350px;
+
+                font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+                font-size: 16px;
+            }
+
+            &__info {
+                max-height: 120px;
+                overflow-y: auto;
+
+                .info {
+                    display: flex;
+                    gap: $default-spacing;
+
+                    &__key {
+                        width: 50%;
+                        text-align: end;
+                        color: #a7a7a7;
+
+                        &__detail {
+                            font-size: $sm-font-size;
+                            padding-left: $sm-spacing;
+                        }
+                    }
+                }
+
+                .divider {
+                    border: 1px dashed #a7a7a766;
+                    margin-top: $default-spacing;
+                    width: 60%;
+                    justify-self: center;
+                }
+            }
+        }
+
+        ::ng-deep arlas-aias-result {
+            .close {
+                display: none;
+            }
+
+            .process-result {
+                margin-top: 0;
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: $lg-spacing;
+
+        &__submit {
+            --mdc-filled-button-container-color: #4f9fff;
+            --mdc-filled-button-label-text-color: white;
+        }
+    }
+}

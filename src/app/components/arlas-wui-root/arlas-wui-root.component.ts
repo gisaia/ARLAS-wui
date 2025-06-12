@@ -21,6 +21,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, 
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OrderFormService } from 'app/services/order-form.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
@@ -154,7 +155,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     protected analyticsService: AnalyticsService,
     protected resultlistService: ResultlistService<L, S, M>,
     private mapService: ArlasWuiMapService<L, S, M>,
-    public dialog: MatDialog
+    private readonly dialog: MatDialog,
+    protected orderFormService: OrderFormService
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
@@ -383,6 +385,10 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
         autoFocus: false
       }
     );
+  }
+
+  public openOrderForm() {
+    this.orderFormService.openForm$(this.arlasMapComponent.geojsondraw.features);
   }
 
   /**

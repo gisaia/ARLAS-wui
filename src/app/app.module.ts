@@ -79,6 +79,7 @@ import { ConfigsListComponent } from './components/configs-list/configs-list.com
 import { GeocodingComponent } from './components/geocoding/geocoding.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
@@ -90,13 +91,10 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 @NgModule({
   declarations: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     RastersManagerComponent,
     ArlasWuiMapComponent,
@@ -105,13 +103,10 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasAnalyticsComponent
   ],
   exports: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     ArlasWuiMapComponent,
     ArlasListComponent,
@@ -168,7 +163,11 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasTaggerModule,
     LoginModule,
     LazyLoadImageModule,
-    ArlasMapModule
+    ArlasMapModule,
+    AoiDimensionComponent,
+    RoundKilometer,
+    SquareKilometer,
+    OrderFormComponent
   ],
   providers: [
     VisualizeService,

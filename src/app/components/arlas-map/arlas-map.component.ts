@@ -16,7 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,11 +41,12 @@ import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, debounceTime, fromEvent, merge, mergeMap, Observable, of, Subject } from 'rxjs';
 import { GeocodingResult } from '../../services/geocoding.service';
 import { ArlasWuiMapService } from '../../services/map.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { updateAuthorizationHeaders$ } from '../../tools/authorization';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -115,9 +118,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
   protected showGeocodingPopup = new BehaviorSubject(false);
   protected enableGeocodingFeature = !!this.settingsService.getGeocodingSettings()?.enabled;
 
-  /** Destroy subscriptions */
-  private readonly _onDestroy$ = new Subject<boolean>();
-
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
@@ -142,12 +142,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     private readonly domSanitizer: DomSanitizer,
     private readonly collectionService: ArlasCollectionService,
     private readonly authentService: AuthentificationService,
-    private readonly arlasIamService: ArlasIamService
+    private readonly arlasIamService: ArlasIamService,
+    private readonly destroyRef: DestroyRef
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
       fromEvent(window, 'resize')
-        .pipe(debounceTime(100), takeUntil(this._onDestroy$))
+        .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
         .subscribe((event: Event) => {
           this.wuiMapService.resize();
         });
@@ -190,7 +191,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           ));
       const legendData = new Map<string, Map<string, LegendData>>();
       legendUpdaters
-        .pipe(takeUntil(this._onDestroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(lg => {
           legendData.set(lg.collection, lg.legendData);
           this.mapLegendUpdater.next(legendData);
@@ -244,7 +245,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
       this.mapEventListener
         .pipe(
-          takeUntil(this._onDestroy$),
+          takeUntilDestroyed(this.destroyRef),
           debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
@@ -258,42 +259,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
   /** Updates the map url headers at each refresh.*/
   public updateMapTransformRequest() {
-    const authentMode = this.settingsService.getAuthentSettings()?.auth_mode;
-    const isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
-    if (isAuthentActivated) {
-      if (authentMode === 'iam') {
-        this.arlasIamService.tokenRefreshed$.pipe(takeUntil(this._onDestroy$)).subscribe({
-          next: (loginData) => {
-            if (loginData) {
-              const org = this.arlasIamService.getOrganisation();
-              const iamHeader = {
-                Authorization: 'Bearer ' + loginData.access_token,
-              };
-              // Set the org filter only if the organisation is defined
-              if (org) {
-                iamHeader['arlas-org-filter'] = org;
-              }
-              this.setMapTransformRequest(iamHeader);
-            } else {
-              this.setMapTransformRequest();
-            }
-          }
-        });
-      } else {
-        this.authentService.canActivateProtectedRoutes.pipe(takeUntil(this._onDestroy$)).subscribe(isConnected => {
-          if (isConnected) {
-            const headers = {
-              Authorization: 'Bearer ' + this.authentService.accessToken
-            };
-            this.setMapTransformRequest(headers);
-          } else {
-            this.setMapTransformRequest();
-          }
-        });
-      }
-    } else {
-      this.setMapTransformRequest();
-    }
+    updateAuthorizationHeaders$(this.settingsService.getAuthentSettings(), this.arlasIamService, this.authentService, this.destroyRef)
+      .subscribe(h => this.setMapTransformRequest(h));
   }
 
   /** Enriches map url by an ARLAS header only if the map url is provided by ARLAS. */
@@ -360,11 +327,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
         this.resultlistService.updateVisibleItems();
       }
     }
-  }
-
-  public ngOnDestroy(): void {
-    this._onDestroy$.next(true);
-    this._onDestroy$.complete();
   }
 
   public openAoiGenerator() {
