@@ -47,7 +47,7 @@ import {
   ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue,
   WidgetNotifierService
 } from 'arlas-wui-toolkit';
-import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject } from 'rxjs';
 import { CogService } from '../../services/cog.service';
 import { ContributorService } from '../../services/contributors.service';
 import { GeocodingResult } from '../../services/geocoding.service';
@@ -219,7 +219,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
           'features': this.wuiMapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b), [])
             .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
         };
-        console.log(this.geojsondraw);
       }));
 
       if (this.allowMapExtent) {
@@ -613,8 +612,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
     // Every time a value is received, if no value is received in the X ms following when the map is idle, then triggers latest bucket hovered
     this.widgetNotifier.hoveredBucket$
       .pipe(
-        takeUntil(this._onDestroy$),
-        audit(ev => interval(10).pipe(filter(v => isIdle), takeUntil(this._onDestroy$))))
+        takeUntilDestroyed(this.destroyRef),
+        audit(ev => interval(10).pipe(filter(v => isIdle), takeUntilDestroyed(this.destroyRef))))
       .subscribe({
         next: (b) => {
           isIdle = false;

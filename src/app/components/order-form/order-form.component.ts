@@ -29,6 +29,7 @@ import { AoiDimensionsPipe } from '../../pipes/aoi-dimensions.pipe';
 import { OrderFormService } from '../../services/order-form.service';
 import { RoundKilometer, SquareKilometer } from '../arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 import { getObject } from 'arlas-web-core/utils/utils';
+import { finalize } from 'rxjs';
 
 export interface OrderFormDialogData {
   aoi: Array<Feature<Geometry>>;
@@ -79,19 +80,18 @@ export class OrderFormComponent {
     this.statusResult.status = ProcessStatus.running;
 
     this.orderFormService.submit$({ aoi: this.data.aoi, comment: this.comment })
+      .pipe(finalize(() => {
+        this.isProcessing.set(false);
+        this.statusResult.finished = Date.now();
+      }))
       .subscribe({
         next: (value) => {
-          console.log(value);
-          this.isProcessing.set(false);
-          this.statusResult.finished = Date.now();
           this.statusResult.status = ProcessStatus.successful;
           this.statusResult.message = this.getMessage(value, this.orderFormService.config.response.ok);
         },
         error: (err) => {
           console.error(err);
           this.hasError.set(true);
-          this.isProcessing.set(false);
-          this.statusResult.finished = Date.now();
           this.statusResult.status = ProcessStatus.failed;
           this.statusResult.message = this.getMessage(err, this.orderFormService.config.response.error);
         }

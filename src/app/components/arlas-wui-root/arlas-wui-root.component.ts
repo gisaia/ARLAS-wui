@@ -21,6 +21,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, 
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OrderFormService } from 'app/services/order-form.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
@@ -38,7 +39,6 @@ import { ArlasListComponent } from '../arlas-list/arlas-list.component';
 import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
 import { MenuState } from '../left-menu/left-menu.component';
-import { OrderFormService } from 'app/services/order-form.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -133,7 +133,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   public constructor(
     private readonly configService: ArlasConfigService,
-    protected settingsService: ArlasSettingsService,
+    private readonly settingsService: ArlasSettingsService,
     protected collaborativeService: ArlasCollaborativesearchService,
     protected contributorService: ContributorService,
     protected arlasStartupService: ArlasStartupService,

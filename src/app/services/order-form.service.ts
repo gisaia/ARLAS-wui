@@ -20,6 +20,7 @@
 import { HttpClient } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import * as helpers from '@turf/helpers';
 import { updateAuthorizationHeaders$ } from 'app/tools/authorization';
 import { ArlasConfigService, ArlasIamService, ArlasSettingsService, AuthentificationService } from 'arlas-wui-toolkit';
@@ -57,6 +58,11 @@ export class OrderFormService {
 
   public constructor() {
     this.config = this.configService.getValue('arlas.web.externalNode.order_form');
+    if (this.config?.enabled) {
+      // Check that everything needed is present
+      this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response.ok && !!this.config.response.error;
+      this.config.text = {button: marker('Order'), form: marker('Order a product'), ...this.config.text};
+    }
     this.setHeaders();
   }
 

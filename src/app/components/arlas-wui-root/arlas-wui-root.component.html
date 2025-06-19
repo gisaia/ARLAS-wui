@@ -14,7 +14,7 @@
     </div>
 
     <div right-menu class="right-menu-container" id="title">
-      @if (arlasMapComponent?.geojsondraw?.features.length > 0) {
+      @if (arlasMapComponent?.geojsondraw?.features.length > 0 && orderFormService.config?.enabled) {
         <button mat-stroked-button (click)="openOrderForm()" class="order-form__button">
           {{ orderFormService.config.text.button | translate }}
         </button>

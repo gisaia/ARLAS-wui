@@ -78,6 +78,7 @@ import {
 } from './components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 import { VisualisationLegendComponent } from './components/map/visualisation-legend/visualisation-legend.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
@@ -86,7 +87,6 @@ import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
-import { OrderFormComponent } from './components/order-form/order-form.component';
 
 
 @NgModule({
