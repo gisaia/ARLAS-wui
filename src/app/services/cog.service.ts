@@ -418,6 +418,9 @@ export class CogService<L, S, M> {
    */
   private getDataGroup(action: Action) {
     const v = this.getCurrentVisualisation();
+    if (!v?.visualisation?.dataGroups) {
+      return null;
+    }
 
     // Find the start of the selected visualisation in the array of matches of the action
     // Only needed if there are more matches in the action than there are dataGroups.

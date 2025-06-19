@@ -21,7 +21,7 @@ RUN npm run build-$WORKSPACE
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.25.3-alpine3.18-slim
+FROM nginx:1.28.0-alpine3.21-slim
 ARG version="latest"
 RUN chown -R nginx /etc/nginx
 RUN chown -R nginx /usr/share/nginx/html
