@@ -75,12 +75,25 @@ export class ArlasWuiMapService<L, S, M> {
     }
   }
 
+  /**
+   * Get the feature to be highlighted on the map
+   * @param id Identifier of the hovered element on the list.
+   * @param mapContributor Map contributor used to get the feature to highlight.
+   * @returns The highlighted feature.
+   */
   public getFeatureToHover(id: ElementIdentifier, mapContributor: MapContributor): FeatureHover {
     const f = mapContributor.getFeatureToHightLight(id);
     f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
-
-    this.featureToHightLight = f;
     return f;
+  }
+
+  /**
+   * Set the featureToHightLight used as input by the map component.
+   * @param id Identifier of the hovered element on the list.
+   * @param mapContributor Map contributor used to get the feature to highlight.
+   */
+  public setFeatureToHighlight(id: ElementIdentifier, mapContributor: MapContributor) {
+    this.featureToHightLight = this.getFeatureToHover(id, mapContributor);
   }
 
   public setMapConfig(mapComponentConfig) {

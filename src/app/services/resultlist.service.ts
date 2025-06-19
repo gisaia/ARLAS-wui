@@ -340,7 +340,7 @@ export class ResultlistService<L, S, M> {
         break;
       case 'consultedItemEvent':
         if (mapContributor) {
-          mapContributor.getFeatureToHightLight(event.data);
+          this.mapService.setFeatureToHighlight(event.data as ElementIdentifier, mapContributor);
         }
         break;
       case 'selectedItemsEvent': {
