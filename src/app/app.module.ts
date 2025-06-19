@@ -78,6 +78,7 @@ import {
 } from './components/map/cog-visualisation-manager/cog-visualisation-manager.component';
 import { RastersManagerComponent } from './components/map/raster-layers-manager/rasters-manager.component';
 import { VisualisationLegendComponent } from './components/map/visualisation-legend/visualisation-legend.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 import { GetResultlistConfigPipe } from './pipes/get-resultlist-config.pipe';
 import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
@@ -90,13 +91,10 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 @NgModule({
   declarations: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     RastersManagerComponent,
     ArlasWuiMapComponent,
@@ -105,13 +103,10 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ArlasAnalyticsComponent
   ],
   exports: [
-    AoiDimensionComponent,
     ArlasWuiComponent,
     ArlasWuiRootComponent,
     LeftMenuComponent,
     ConfigsListComponent,
-    RoundKilometer,
-    SquareKilometer,
     GeocodingComponent,
     ArlasWuiMapComponent,
     ArlasListComponent,
@@ -170,7 +165,11 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     LazyLoadImageModule,
     ArlasMapModule,
     CogVisualisationManagerComponent,
-    VisualisationLegendComponent
+    VisualisationLegendComponent,
+    AoiDimensionComponent,
+    RoundKilometer,
+    SquareKilometer,
+    OrderFormComponent
   ],
   providers: [
     VisualizeService,
