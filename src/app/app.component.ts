@@ -23,7 +23,6 @@ import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
-import { CogService } from './services/cog.service';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
@@ -64,8 +63,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
-    private readonly analyticsService: AnalyticsService,
-    private readonly cogService: CogService<L, S, M>
+    private readonly analyticsService: AnalyticsService
   ) {
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {

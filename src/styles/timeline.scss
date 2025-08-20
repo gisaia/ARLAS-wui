@@ -27,22 +27,22 @@
   left: $sm-spacing;
   right: $sm-spacing;
 
-  .arlas-timeline {  
+  .arlas-timeline {
     .histogram__description {
       font-size: 1em;
       font-weight: 300;
       display: none;
     }
-  
+
     .histogram__description--display {
       color: black;
       padding-top: 5px;
     }
-  
+
     .histogram__description__title {
       color: black;
     }
-  
+
     .histogram__description__startvalue--background,
     .histogram__description__endvalue--background {
       background-color: white;
@@ -210,7 +210,7 @@
 /* Date Picker */
 
 .arlas-date-picker-input-from, .arlas-date-picker-input-to {
-  background-color: #FF4081;
+  background-color: var(--arlas-theme-color);
   color: white;
   border: none;
 }
@@ -220,9 +220,9 @@
 }
 
 .owl-dt-calendar-table .owl-dt-calendar-cell-selected {
-  background-color: #FF4081;
+  background-color: var(--arlas-theme-color);
 }
 
 .owl-dt-container-buttons {
-  color: #FF4081;
+  color: var(--arlas-theme-color);
 }
