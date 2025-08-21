@@ -1,5 +1,17 @@
 # Change Log
 
+## [v27.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.6) (2025-08-21)
+
+**New stuff:**
+
+- Display cogs with different visualisations [\#940](https://github.com/gisaia/ARLAS-wui/issues/940)
+
+**Fixed bugs:**
+
+- Donuts are not properly built when containing a "None" bucket [\#986](https://github.com/gisaia/ARLAS-wui/issues/986)
+- \[PRIORITY\] Network analytics layer displays many geometries for a unique identifier [\#1006](https://github.com/gisaia/ARLAS-wui/issues/1006)
+- The error message “connection is lost” when opening a new dashboard [\#1004](https://github.com/gisaia/ARLAS-wui/issues/1004)
+
 ## [v27.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.5) (2025-06-12)
 
 **Breaking changes:**
