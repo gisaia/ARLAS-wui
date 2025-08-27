@@ -19,8 +19,6 @@
 
 import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { getTitilerPreviewUrl, VisualisationPreview } from 'app/tools/cog';
-import { getItem } from 'app/tools/utils';
 import { Expression, Filter, Search } from 'arlas-api';
 import {
   CogModalComponent, CogVisualisationData, DataGroup, ItemDataType, ResultlistNotifierService, VisualisationInterface
@@ -29,6 +27,8 @@ import { Action, ActionFilter, ElementIdentifier, ResultListContributor } from '
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { first, map, Observable, Subject, take } from 'rxjs';
+import { getTitilerPreviewUrl, VisualisationPreview } from '../tools/cog';
+import { getItem } from '../tools/utils';
 import { ActionManagerService } from './action-manager.service';
 import { ContributorService } from './contributors.service';
 import { VisualizeService } from './visualize.service';

@@ -23,8 +23,6 @@ import { TranslateService } from '@ngx-translate/core';
 import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
 import { BBox2d } from '@turf/helpers/dist/js/lib/geojson';
-import { flattenedMatchAndReplace } from 'app/tools/cog';
-import { getItem } from 'app/tools/utils';
 import { Expression, Filter, Search } from 'arlas-api';
 import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
 import { ElementIdentifier, getElementFromJsonObject } from 'arlas-web-contributors';
@@ -32,6 +30,8 @@ import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { map, Observable, Subject } from 'rxjs';
 import { parse } from 'wellknown';
+import { flattenedMatchAndReplace } from '../tools/cog';
+import { getItem } from '../tools/utils';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
