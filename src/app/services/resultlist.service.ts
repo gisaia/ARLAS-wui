@@ -24,7 +24,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { isElementInViewport } from 'app/tools/utils';
 import { Expression } from 'arlas-api';
 import {
   CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
@@ -37,6 +36,7 @@ import {
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 import { ArlasWuiMapService } from '../services/map.service';
 import { VisualizeService } from '../services/visualize.service';
+import { isElementInViewport } from '../tools/utils';
 import { CogService } from './cog.service';
 import { ContributorService } from './contributors.service';
 
