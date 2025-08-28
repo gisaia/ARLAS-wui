@@ -21,7 +21,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, 
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderFormService } from 'app/services/order-form.service';
 import { Item, ModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
@@ -43,6 +42,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ContributorService } from '../../services/contributors.service';
 import { ArlasWuiMapService } from '../../services/map.service';
+import { OrderFormService } from '../../services/order-form.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { ArlasListComponent } from '../arlas-list/arlas-list.component';
 import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
