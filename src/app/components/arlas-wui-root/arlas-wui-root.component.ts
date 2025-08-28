@@ -311,6 +311,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   public toggleList() {
     this.arlasListComponent.tabsList.realignInkBar();
     this.resultlistService.toggleList();
+    this.mapService.resize();
   }
 
   public toggleTimeline() {

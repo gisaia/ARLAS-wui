@@ -344,6 +344,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
       this.notifyHoveredCogs();
       this.initMapTimelineInteraction();
+
+      // Whenever the resultlist is toggled, the next onMove event should lead to a recalculation of the extent
+      this.resultlistService.listOpenChange.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(_ => this.recalculateExtent = true);
     }
   }
 
