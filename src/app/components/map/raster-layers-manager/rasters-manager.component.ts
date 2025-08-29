@@ -29,7 +29,6 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 @Component({
   selector: 'arlas-rasters-manager',
   templateUrl: './rasters-manager.component.html',
-  standalone: false,
   styleUrls: ['./rasters-manager.component.scss'],
   animations: [
     trigger('fadeIn', [

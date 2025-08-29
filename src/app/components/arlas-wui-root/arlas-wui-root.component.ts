@@ -43,7 +43,6 @@ import { MenuState } from '../left-menu/left-menu.component';
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './arlas-wui-root.component.html',
-  standalone: false,
   styleUrls: ['./arlas-wui-root.component.scss'],
 })
 /** L: a layer class/interface.

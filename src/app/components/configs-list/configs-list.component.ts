@@ -35,7 +35,6 @@ export interface Configuration {
 @Component({
   selector: 'arlas-configs-list',
   templateUrl: './configs-list.component.html',
-  standalone: false,
   styleUrls: ['./configs-list.component.scss']
 })
 export class ConfigsListComponent implements OnInit {
