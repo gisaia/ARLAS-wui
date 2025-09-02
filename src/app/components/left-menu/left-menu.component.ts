@@ -36,7 +36,6 @@ export interface MenuState {
 @Component({
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
-  standalone: false,
   styleUrls: ['./left-menu.component.scss']
 })
 export class LeftMenuComponent implements OnInit {

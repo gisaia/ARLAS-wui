@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, DestroyRef, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -27,19 +27,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as helpers from '@turf/helpers';
 import {
-  AoiEdition,
-  ArlasDataLayer,
-  ArlasLngLat,
-  ArlasLngLatBounds,
-  ArlasMapComponent,
-  ArlasMapFrameworkService,
-  BasemapStyle,
-  BboxGeneratorComponent,
-  GeoQuery,
-  MapImportComponent,
-  MapSettingsComponent,
-  OnMoveResult,
-  SCROLLABLE_ARLAS_ID
+  AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
+  BboxGeneratorComponent, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { ARLAS_TIMESTAMP, LegendData, MapContributor } from 'arlas-web-contributors';
 import {
@@ -65,14 +54,13 @@ const DEFAULT_BASEMAP: BasemapStyle = {
 @Component({
   selector: 'arlas-wui-map',
   templateUrl: './arlas-map.component.html',
-  standalone: false,
   styleUrls: ['./arlas-map.component.scss']
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
  *  M: a Map configuration class/interface.
  */
-export class ArlasWuiMapComponent<L, S, M> implements OnInit {
+export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   /** Map definition */
   public mapComponentConfig: any;
   public mapId = 'mapgl';
@@ -344,6 +332,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit {
 
       this.notifyHoveredCogs();
       this.initMapTimelineInteraction();
+
+      // Whenever the resultlist is toggled, the next onMove event should lead to a recalculation of the extent
+      this.resultlistService.listOpenChange.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(_ => this.recalculateExtent = true);
     }
   }
 

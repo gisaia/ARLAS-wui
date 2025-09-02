@@ -30,7 +30,6 @@ import { ResultlistService } from './services/resultlist.service';
 @Component({
   selector: 'arlas-root',
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrls: ['./app.component.scss']
 })
 /** L: a layer class/interface.
