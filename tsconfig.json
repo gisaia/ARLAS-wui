@@ -21,8 +21,9 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2016",
-      "dom"
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "esnext",
     "useDefineForClassFields": false
