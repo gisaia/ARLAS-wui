@@ -69,6 +69,12 @@
     "typescript": "~4.6.0"
   },
   "overrides": {
+    "ngx-markdown": {
+      "mermaid": "11.11.0"
+    },
+    "request": {
+      "form-data": "2.5.4"
+    },
     "portable-fetch": {
       "node-fetch": "3.3.0"
     },
