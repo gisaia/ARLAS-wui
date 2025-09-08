@@ -585,9 +585,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
-          if (!this.cogService.contributorId) {
-            return;
-          }
           if (!this.cogService.contributorId
             || l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
             || !this.cogService.getCurrentVisualisation()) {
