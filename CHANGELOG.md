@@ -1,10 +1,31 @@
 # Change Log
 
-## [v27.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.6) (2025-08-21)
+## [v27.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.0) (2025-09-08)
+
+**Breaking changes:**
+
+- \[COG Visualisation\] State 2: A product visualisation has been added to the map [\#942](https://github.com/gisaia/ARLAS-wui/issues/942)
+- \[COG Visualisation\] State 1: no visualisation has been selected yet [\#941](https://github.com/gisaia/ARLAS-wui/issues/941)
 
 **New stuff:**
 
 - Display cogs with different visualisations [\#940](https://github.com/gisaia/ARLAS-wui/issues/940)
+- Labels on x-axes should handle the histogram size and resize [\#896](https://github.com/gisaia/ARLAS-wui/issues/896)
+- Add an icon in the legend for h3 aggregations [\#888](https://github.com/gisaia/ARLAS-wui/issues/888)
+- Apply a temporal filter on features layers while hovering the timeline [\#514](https://github.com/gisaia/ARLAS-wui/issues/514)
+- \[powerbars\] Create a dedicated tooltip for powerbars [\#506](https://github.com/gisaia/ARLAS-wui/issues/506)
+
+**Fixed bugs:**
+
+- \[GLOBE\] Some geometries in the current extents are not fetched in the list [\#1005](https://github.com/gisaia/ARLAS-wui/issues/1005)
+
+**Miscellaneous:**
+
+- Change style files to scss [\#609](https://github.com/gisaia/ARLAS-wui/issues/609)
+
+## [v24.3.10](https://github.com/gisaia/ARLAS-WUI/tree/v24.3.10) (2025-09-05)
+
+## [v27.0.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.6) (2025-08-21)
 
 **Fixed bugs:**
 
@@ -14,29 +35,15 @@
 
 ## [v27.0.5](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.5) (2025-06-12)
 
-**Breaking changes:**
-
-- \[COG Visualisation\] State 2: A product visualisation has been added to the map [\#942](https://github.com/gisaia/ARLAS-wui/issues/942)
-- \[COG Visualisation\] State 1: no visualisation has been selected yet [\#941](https://github.com/gisaia/ARLAS-wui/issues/941)
-
 **New stuff:**
 
-- Labels on x-axes should handle the histogram size and resize [\#896](https://github.com/gisaia/ARLAS-wui/issues/896)
 - Add a configurable form for ordering [\#997](https://github.com/gisaia/ARLAS-wui/issues/997)
 
 ## [v27.0.4](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.4) (2025-05-23)
 
-**New stuff:**
-
-- \[powerbars\] Create a dedicated tooltip for powerbars [\#506](https://github.com/gisaia/ARLAS-wui/issues/506)
-
 **Fixed bugs:**
 
 - Download/enrich window does not display the status any more [\#988](https://github.com/gisaia/ARLAS-wui/issues/988)
-
-**Miscellaneous:**
-
-- Change style files to scss [\#609](https://github.com/gisaia/ARLAS-wui/issues/609)
 
 ## [v27.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.0.3) (2025-04-29)
 
