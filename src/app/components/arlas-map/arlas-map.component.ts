@@ -568,6 +568,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       .forEach((l: ArlasDataLayer) => {
         // Multiple layers will send their values that are stored by the CogService and consumed by the VisualisationLegendComponent
         this.mapFrameworkService.onLayerEvent('mousemove', this.mapglComponent.map, l.id, (e) => {
+          if (!this.cogService.contributorId) {
+            return;
+          }
           const collection = this.collaborativeService.registry.get(this.cogService.contributorId).collection;
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
@@ -582,7 +585,11 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
-          if (l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
+          if (!this.cogService.contributorId) {
+            return;
+          }
+          if (!this.cogService.contributorId
+            || l.metadata?.collection !== this.collaborativeService.registry.get(this.cogService.contributorId).collection
             || !this.cogService.getCurrentVisualisation()) {
             return;
           }
