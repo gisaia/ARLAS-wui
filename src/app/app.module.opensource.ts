@@ -33,7 +33,6 @@ import { ArlasWuiModule } from './app.module';
       provide: AbstractArlasMapService,
       useClass: ArlasMapService
     },
-    ArlasMaplibreService,
     {
       provide: BasemapService,
       useClass: MaplibreBasemapService

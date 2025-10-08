@@ -39,7 +39,9 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
  * This service is used to display any type of rasters on the ARLAS map.
  * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class VisualizeService<L, S, M> {
   private mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
