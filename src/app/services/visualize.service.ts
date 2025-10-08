@@ -73,8 +73,8 @@ export class VisualizeService<L, S, M> {
   }
 
 
-  public getVisuFields(urlTemplate): string[] {
-    if (urlTemplate.indexOf('{') >= 0) {
+  public getVisuFields(urlTemplate: string): string[] {
+    if (urlTemplate.includes('{')) {
       /** Fetch all elements between {} in the template. */
       const regex = new RegExp(/{([^}]+)}/g);
       const fields = [];
@@ -148,10 +148,10 @@ export class VisualizeService<L, S, M> {
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
     geometryPath: string, centroidPath: string, collection: string, fitBounds = true) {
-    if (url !== undefined && url.indexOf('{bbox-epsg-3857}{:bbox3857:}') >= 0) {
+    if (url !== undefined && url.includes('{bbox-epsg-3857}{:bbox3857:}')) {
       url = url.replace('{:bbox3857:}', '');
     }
-    if (url !== undefined && url.indexOf(':bbox3857:') >= 0) {
+    if (url !== undefined && url.includes(':bbox3857:')) {
       url = url.replace(':bbox3857:', 'bbox-epsg-3857');
     }
     if (url) {

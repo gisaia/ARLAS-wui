@@ -107,12 +107,14 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
       zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(cdrs => {
-          cdrs.forEach(cdr => {
+          for (const cdr of cdrs) {
             collectionToDescription.set(cdr.collection_name, cdr.params);
-          });
+          }
           this.contributorService.setCollectionsDescription(collectionToDescription);
           if (this.resultlistService.resultlistContributors.length > 0) {
-            this.resultlistService.resultlistContributors.forEach(c => c.sort = collectionToDescription.get(c.collection).id_path);
+            for (const c of this.resultlistService.resultlistContributors) {
+              c.sort = collectionToDescription.get(c.collection).id_path;
+            }
           }
         });
     }
@@ -141,18 +143,18 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
     const ids = new Set(resultListsConfig.map(c => c.contributorId));
     const resultlistContributors = new Array<ResultListContributor>();
-    this.arlasStartupService.contributorRegistry.forEach((v, k) => {
+    for (const v of this.arlasStartupService.contributorRegistry.values()) {
       if (v instanceof ResultListContributor) {
         v.updateData = ids.has(v.identifier);
         resultlistContributors.push(v);
       }
-    });
+    }
     this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
   }
 
   private initializeMap() {
     const mapContributors = [];
-    this.contributorService.getMapContributors().forEach(mapContrib => {
+    for (const mapContrib of this.contributorService.getMapContributors()) {
       mapContrib.colorGenerator = this.colorService.colorGenerator;
       if (this.resultlistService.resultlistContributors) {
         const resultlistContrbutor: ResultListContributor = this.resultlistService.resultlistContributors
@@ -165,7 +167,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
         }
       }
       mapContributors.push(mapContrib);
-    });
+    }
     this.mapService.setContributors(mapContributors);
   }
 
