@@ -288,6 +288,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         return ({ url });
       }
     };
+
+    if (this.mapglComponent?.map) {
+      this.mapFrameworkService.setTransformRequest(this.mapglComponent.map, this.transformMapRequest);
+    }
   }
 
 
