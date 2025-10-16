@@ -146,10 +146,10 @@ export class VisualizeService<L, S, M> {
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
     geometryPath: string, centroidPath: string, collection: string, fitBounds = true) {
-    if (url !== undefined && url.indexOf('{bbox-epsg-3857}{:bbox3857:}') >= 0) {
+    if (url?.indexOf('{bbox-epsg-3857}{:bbox3857:}') >= 0) {
       url = url.replace('{:bbox3857:}', '');
     }
-    if (url !== undefined && url.indexOf(':bbox3857:') >= 0) {
+    if (url?.indexOf(':bbox3857:') >= 0) {
       url = url.replace(':bbox3857:', 'bbox-epsg-3857');
     }
     if (url) {
@@ -245,10 +245,10 @@ export class VisualizeService<L, S, M> {
     );
   }
 
-  private getGeojsonFromEsGeom(geomData: string | String): any {
+  private getGeojsonFromEsGeom(geomData: string): any {
     let geojsonData = geomData;
     // Case geometryPath store WKT format
-    if (typeof geomData === 'string' || geomData instanceof String) {
+    if (typeof geomData === 'string') {
       geojsonData = parse(geomData);
       // if wkt parse return null, the geometryPath store text point format lat,lon
       if (geojsonData === null) {
