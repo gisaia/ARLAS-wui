@@ -208,7 +208,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           .subscribe(() => {
             this.geojsondraw = {
               'type': 'FeatureCollection',
-              'features': this.wuiMapService.mapContributors.map(c => c.geojsondraw.features).flat()
+              'features': this.wuiMapService.mapContributors.flatMap(c => c.geojsondraw.features)
                 .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
             };
           });
@@ -506,7 +506,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID));
       if (resultListContributor) {
         const idFieldName = this.contributorService.collectionToDescription.get(resultListContributor.collection).id_path;
-        const id = feature.properties[idFieldName.replaceAll(/\./g, '_')];
+        const id = feature.properties[idFieldName.replaceAll('.', '_')];
         // Open the list panel if it's closed
         this.disableRecalculateExtent = true;
         if (!this.resultlistService.listOpen) {
