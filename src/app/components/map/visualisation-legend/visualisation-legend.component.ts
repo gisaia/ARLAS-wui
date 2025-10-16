@@ -19,13 +19,14 @@
 
 import { KeyValuePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { CogLegendComponent, PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { debounceTime } from 'rxjs';
 import { CogService } from '../../../services/cog.service';
+import { CogPixelLegendComponent } from '../cog-pixel-legend/cog-pixel-legend.component';
 
 export interface CogLegendData {
-  url: string;
+  url?: string;
   name: string;
   minimum?: number;
   maximum?: string;
@@ -37,23 +38,28 @@ export interface CogLegendData {
   standalone: true,
   imports: [
     KeyValuePipe,
-    CogLegendComponent
+    CogLegendComponent,
+    CogPixelLegendComponent
   ],
   templateUrl: './visualisation-legend.component.html',
   styleUrl: './visualisation-legend.component.scss'
 })
 export class VisualisationLegendComponent {
-  public rasterHovered = new Map<string, CogLegendData>();
+  protected readonly rasterHovered = new Map<string, CogLegendData>();
 
-  /** Width of the colormap for the legend component */
+  /** Width of the colormap for the legend */
   public colormapWidth = input<number>(100);
+
+  /** Position at which the COGs were hovered */
+  protected readonly position = signal({lng: 0, lat: 0});
 
   private readonly cogService = inject(CogService);
   private readonly http = inject(HttpClient);
 
   public constructor() {
-    this.cogService.hoverCogChange.pipe(debounceTime(100)).subscribe(() => {
+    this.cogService.hoverCogChange.pipe(debounceTime(100)).subscribe(position => {
       const uniqueIds = this.cogService.getHoveredCogs();
+      this.position.set(position);
 
       // Reset raster hovered if none were hovered
       if (uniqueIds.size === 0) {
@@ -72,6 +78,10 @@ export class VisualisationLegendComponent {
         .forEach(id => {
           // Currently, we only generate a legend for the titler protocol
           const dataGroup = this.cogService.visualisedCogs.get(id);
+
+          this.rasterHovered.set(id, {
+            name: dataGroup.name
+          });
           if (dataGroup.protocol === 'titiler') {
             // Transform visualisation url into a legend url
             const queryParams = dataGroup.visualisationUrl.split('?', 2)[1];
@@ -81,7 +91,7 @@ export class VisualisationLegendComponent {
               // If there is no colorMap, then we can't plot the legend
               if (colorMap) {
                 const legendUrl = dataGroup.visualisationUrl.split('/cog/tiles/')[0] + '/colorMaps/'
-                  + colorMap + '?f=png&width=' + this.colormapWidth();
+                  + colorMap + `?f=png&width=${this.colormapWidth()}`;
                 this.rasterHovered.set(id, {
                   url: legendUrl,
                   name: dataGroup.name

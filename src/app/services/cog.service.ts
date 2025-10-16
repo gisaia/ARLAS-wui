@@ -21,7 +21,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Expression, Filter, Search } from 'arlas-api';
 import {
-  CogModalComponent, CogVisualisationData, DataGroup, ItemDataType, ResultlistNotifierService, VisualisationInterface
+  CogModalComponent, CogVisualisationData, DataGroup, ItemDataType,
+  ResultlistNotifierService, VisualisationInterface
 } from 'arlas-web-components';
 import { Action, ActionFilter, ElementIdentifier, ResultListContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
@@ -66,7 +67,7 @@ export class CogService<L, S, M> {
   /** Map containing per layer id the list of item's id that are visualised and hovered */
   private readonly hoveredCogs = new Map<string, Array<string>>();
   /** Emits whenever hoveredCogs has a value change */
-  public hoverCogChange = new EventEmitter<void>();
+  public hoverCogChange = new EventEmitter<{lng: number; lat: number;}>();
 
   public constructor(
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -390,9 +391,9 @@ export class CogService<L, S, M> {
     }
   }
 
-  public hoverCogs(layerId: string, ids: Array<string>) {
+  public hoverCogs(layerId: string, ids: Array<string>, coordinates: {lng: number; lat: number;}) {
     this.hoveredCogs.set(layerId, ids);
-    this.hoverCogChange.next();
+    this.hoverCogChange.next(coordinates);
   }
 
   public getHoveredCogs() {

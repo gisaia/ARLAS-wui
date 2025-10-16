@@ -74,7 +74,6 @@
 
   .arlas-cog-visualisation-manager {
     position: absolute;
-    height: $map-actions-width;
     bottom: calc(
       $default-spacing + $map-scale-height
     );
@@ -82,7 +81,8 @@
     z-index: 2;
     display: flex;
     align-items: flex-end;
-    gap: 5px;
+    flex-direction: column;
+    gap: $sm-spacing;
 
     &--tight {
       bottom: calc(
@@ -98,6 +98,11 @@
       bottom: calc(
         $default-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
       )!important;
+    }
+
+    &__manage {
+      display: flex;
+      gap: $sm-spacing;
     }
   }
 

@@ -46,19 +46,8 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { ArlasMapModule } from 'arlas-map';
 import { FormatNumberModule, GetValueModule, HistogramModule, ResultsModule } from 'arlas-web-components';
 import {
-  ArlasCollectionService,
-  ArlasConfigService,
-  ArlasIamService,
-  ArlasSettingsService,
-  ArlasTaggerModule,
-  ArlasToolKitModule,
-  ArlasToolkitSharedModule,
-  ArlasWalkthroughModule,
-  AuthentificationService,
-  JwtInterceptor,
-  LoginModule,
-  PersistenceService,
-  WalkthroughLoader
+  ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
+  ArlasToolkitSharedModule, ArlasWalkthroughModule, AuthentificationService, JwtInterceptor, LoginModule, PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkdownModule } from 'ngx-markdown';
