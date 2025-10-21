@@ -20,7 +20,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, input } from '@angular/core';
-import { CogLegendComponent } from 'arlas-web-components';
+import { CogLegendComponent, PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { debounceTime } from 'rxjs';
 import { CogService } from '../../../services/cog.service';
 
@@ -81,14 +81,14 @@ export class VisualisationLegendComponent {
               // If there is no colorMap, then we can't plot the legend
               if (colorMap) {
                 const legendUrl = dataGroup.visualisationUrl.split('/cog/tiles/')[0] + '/colorMaps/'
-                  + colorMap + '?format=png&width=' + this.colormapWidth();
+                  + colorMap + '?f=png&width=' + this.colormapWidth();
                 this.rasterHovered.set(id, {
                   url: legendUrl,
                   name: dataGroup.name
                 });
 
                 const statUrl = dataGroup.visualisationUrl.split('/tiles/')[0] + '/statistics?' + queryParams;
-                this.http.get(statUrl).subscribe((r: any) => {
+                this.http.get(statUrl, { headers: { [PROTECTED_IMAGE_HEADER]: 'true' }}).subscribe((r: any) => {
                   const bands: Array<[string, any]> = Object.entries(r);
                   // If there is one band => either an expression OR just one band in the TIF
                   if (bands.length === 1) {
