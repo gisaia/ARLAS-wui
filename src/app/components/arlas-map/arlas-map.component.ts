@@ -32,9 +32,8 @@ import {
 } from 'arlas-map';
 import { ARLAS_TIMESTAMP, LegendData, MapContributor } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
-  ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue,
-  WidgetNotifierService
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
+  ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue, WidgetNotifierService
 } from 'arlas-wui-toolkit';
 import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject } from 'rxjs';
 import { CogService } from '../../services/cog.service';
@@ -150,7 +149,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
-      fromEvent(window, 'resize')
+      fromEvent(globalThis, 'resize')
         .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
         .subscribe((event: Event) => {
           this.wuiMapService.resize();
@@ -168,7 +167,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         const queryParamVisibleVisualisations = getParamValue('vs');
         if (queryParamVisibleVisualisations) {
           const visibleVisuSet = new Set(queryParamVisibleVisualisations.split(';').map(n => decodeURI(n)));
-          this.mapComponentConfig.visualisations_sets.forEach(v => v.enabled = visibleVisuSet.has(v.name));
+          for (const v of this.mapComponentConfig.visualisations_sets) {
+            v.enabled = visibleVisuSet.has(v.name);
+          }
         }
       } else {
         this.defaultBasemap = DEFAULT_BASEMAP;
@@ -182,7 +183,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** Prepare map data */
       this.mainCollection = this.configService.getValue('arlas.server.collection.name');
-      this.mainMapContributor = this.wuiMapService.mapContributors.filter(m => !!m.collection || m.collection === this.mainCollection)[0];
+      this.mainMapContributor = this.wuiMapService.mapContributors.find(m => !!m.collection || m.collection === this.mainCollection);
       this.mapDataSources = this.wuiMapService.mapContributors.map(c => c.dataSources).length > 0 ?
         this.wuiMapService.mapContributors.map(c => c.dataSources).reduce((set1, set2) => new Set([...set1, ...set2]), new Set()) : new Set();
       this.mapRedrawSources = merge(...this.wuiMapService.mapContributors.map(c => c.redrawSource));
@@ -201,13 +202,17 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         });
 
       this.mapVisibilityUpdater = merge(...this.wuiMapService.mapContributors.map(c => c.visibilityUpdater));
-      this.wuiMapService.mapContributors.forEach(contrib => contrib.drawingsUpdate.subscribe(() => {
-        this.geojsondraw = {
-          'type': 'FeatureCollection',
-          'features': this.wuiMapService.mapContributors.map(c => c.geojsondraw.features).reduce((a, b) => a.concat(b), [])
-            .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
-        };
-      }));
+      for (const contrib of this.wuiMapService.mapContributors) {
+        contrib.drawingsUpdate
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => {
+            this.geojsondraw = {
+              'type': 'FeatureCollection',
+              'features': this.wuiMapService.mapContributors.map(c => c.geojsondraw.features).flat()
+                .filter((v, i, a) => a.findIndex(t => (t.properties.arlas_id === v.properties.arlas_id)) === i)
+            };
+          });
+      }
 
       if (this.allowMapExtent) {
         const extentValue = getParamValue(this.MAP_EXTENT_PARAM);
@@ -272,7 +277,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       /** Wrapping with a try block because the URL() mdn docs says : 'Throws if the passed arguments don't define a valid URL.' */
       try {
         const mapServiceUrl = new URL(url);
-        const appUrl = new URL(window.location.href);
+        const appUrl = new URL(globalThis.location.href);
         const mapServiceOrigin = mapServiceUrl.origin;
         const appOrigin = appUrl.origin;
         /** We enrich map url by an ARLAS header only if the map url is provided by ARLAS. */
@@ -318,15 +323,14 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       });
       this.adjustMapOffset();
       this.wuiMapService.adjustCoordinates();
-      this.wuiMapService.mapContributors.forEach(mapglContributor => {
+      for (const mapglContributor of this.wuiMapService.mapContributors) {
         mapglContributor.updateData = true;
         mapglContributor.fetchData(null);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
-      });
+      }
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-        this.mapComponentConfig.mapLayers.events.onHover
-          .filter(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l)).length > 0) {
+          this.mapComponentConfig.mapLayers.events.onHover.some(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l))) {
         this.resultlistService.updateVisibleItems();
       }
 
@@ -368,7 +372,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
    */
   public applySelectedGeoQuery(geoQueries: Map<string, GeoQuery>) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
-    const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
+    const debounceDuration = configDebounceTime === undefined ? 750 : configDebounceTime;
     const changedMapContributors = this.wuiMapService.mapContributors.filter(mc => !!geoQueries.has(mc.collection));
     for (let i = 0; i < changedMapContributors.length; i++) {
       setTimeout(() => {
@@ -430,7 +434,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       if (this.recalculateExtent && !this.disableRecalculateExtent) {
         this.resultlistService.applyMapExtent(pwithinRaw, pwithin);
 
-        this.wuiMapService.mapContributors.forEach(c => {
+        for (const c of this.wuiMapService.mapContributors) {
           if (this.resultlistService.resultlistContributors) {
             const resultlistContrbutor = this.resultlistService.resultlistContributors.find(v => v.collection === c.collection);
             if (resultlistContrbutor) {
@@ -443,19 +447,21 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
             }
           }
           this.wuiMapService.clearWindowData(c);
-        });
+        }
         this.zoomChanged = false;
       }
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;
-      this.wuiMapService.mapContributors.forEach(contrib => contrib.onMove(event, this.recalculateExtent));
+      for (const contrib of this.wuiMapService.mapContributors) {
+        contrib.onMove(event, this.recalculateExtent);
+      }
       this.recalculateExtent = false;
     }
   }
 
   public onChangeAoi(event) {
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
-    const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
+    const debounceDuration = configDebounceTime === undefined ? 750 : configDebounceTime;
     for (let i = 0; i < this.wuiMapService.mapContributors.length; i++) {
       setTimeout(() => {
         this.snackbar.open(this.translate.instant('Loading data of ',
@@ -469,7 +475,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public changeVisualisation(layers: Set<string>) {
-    this.wuiMapService.mapContributors.forEach(contrib => contrib.changeVisualisation(layers));
+    for (const contrib of this.wuiMapService.mapContributors) {
+      contrib.changeVisualisation(layers);
+    }
     const queryParams = { ...this.activatedRoute.snapshot.queryParams };
     const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
     queryParams['vs'] = visibileVisus;
@@ -490,11 +498,11 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     if (event.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistService.resultlistContributors
-        .filter(c => feature.layer.metadata.collection === c.collection
-          && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID))[0];
+        .find(c => feature.layer.metadata.collection === c.collection
+          && !feature.layer.id.includes(SCROLLABLE_ARLAS_ID));
       if (resultListContributor) {
         const idFieldName = this.contributorService.collectionToDescription.get(resultListContributor.collection).id_path;
-        const id = feature.properties[idFieldName.replace(/\./g, '_')];
+        const id = feature.properties[idFieldName.replaceAll(/\./g, '_')];
         // Open the list panel if it's closed
         this.disableRecalculateExtent = true;
         if (!this.resultlistService.listOpen) {
@@ -503,7 +511,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
 
         // Get index of list to display
         const contributorIds = this.resultlistService.resultlistContributors.map(c => c.identifier);
-        const listIdx = contributorIds.findIndex(id => id === resultListContributor.identifier);
+        const listIdx = contributorIds.indexOf(resultListContributor.identifier);
         this.resultlistService.selectedListTabIndex = listIdx;
 
         // Select the good tab if we have several
@@ -613,19 +621,18 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       .subscribe({
         next: (b) => {
           isIdle = false;
-          this.wuiMapService.mapContributors
-            .forEach(c => {
-              const sources = Array.from(c.visibleSources)
-                .filter(s => s.startsWith('feature-'));
-              sources
-                .forEach(source => {
-                  if (b) {
-                    this.wuiMapService.adjustOpacityByRange(source, ARLAS_TIMESTAMP, b.start, b.end, 1, 0.05);
-                  } else {
-                    this.wuiMapService.resetOpacity(source);
-                  }
-                });
-            });
+          for (const c of this.wuiMapService.mapContributors) {
+            const sources = Array.from(c.visibleSources)
+              .filter(s => s.startsWith('feature-'));
+
+            for (const source of sources) {
+              if (b) {
+                this.wuiMapService.adjustOpacityByRange(source, ARLAS_TIMESTAMP, b.start, b.end, 1, 0.05);
+              } else {
+                this.wuiMapService.resetOpacity(source);
+              }
+            }
+          }
         }
       });
   }

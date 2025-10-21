@@ -39,7 +39,9 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
  * This service is used to display any type of rasters on the ARLAS map.
  * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class VisualizeService<L, S, M> {
   private mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
@@ -71,8 +73,8 @@ export class VisualizeService<L, S, M> {
   }
 
 
-  public getVisuFields(urlTemplate): string[] {
-    if (urlTemplate.indexOf('{') >= 0) {
+  public getVisuFields(urlTemplate: string): string[] {
+    if (urlTemplate.includes('{')) {
       /** Fetch all elements between {} in the template. */
       const regex = new RegExp(/{([^}]+)}/g);
       const fields = [];
@@ -146,10 +148,10 @@ export class VisualizeService<L, S, M> {
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
     geometryPath: string, centroidPath: string, collection: string, fitBounds = true) {
-    if (url !== undefined && url.indexOf('{bbox-epsg-3857}{:bbox3857:}') >= 0) {
+    if (url !== undefined && url.includes('{bbox-epsg-3857}{:bbox3857:}')) {
       url = url.replace('{:bbox3857:}', '');
     }
-    if (url !== undefined && url.indexOf(':bbox3857:') >= 0) {
+    if (url !== undefined && url.includes(':bbox3857:')) {
       url = url.replace(':bbox3857:', 'bbox-epsg-3857');
     }
     if (url) {

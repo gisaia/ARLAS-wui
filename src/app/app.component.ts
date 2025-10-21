@@ -16,12 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
@@ -62,7 +63,9 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
-    private readonly analyticsService: AnalyticsService
+    private readonly analyticsService: AnalyticsService,
+    private readonly destroyRef: DestroyRef,
+    private readonly errorService: ErrorService
   ) {
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
@@ -77,6 +80,14 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
       /** Resultlist-Map interactions */
       this.resultlistService.setMapListInteractions();
+
+      /** Listen to map errors */
+      this.mapFrameworkService.errorBus$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(e => {
+          // Only configuration errors are sent for now
+          this.errorService.emitInvalidDashboardError(true, e);
+        });
     }
   }
 
@@ -96,12 +107,14 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
       zip(...this.collections.map(c => this.collaborativeService.describe(c)))
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(cdrs => {
-          cdrs.forEach(cdr => {
+          for (const cdr of cdrs) {
             collectionToDescription.set(cdr.collection_name, cdr.params);
-          });
+          }
           this.contributorService.setCollectionsDescription(collectionToDescription);
           if (this.resultlistService.resultlistContributors.length > 0) {
-            this.resultlistService.resultlistContributors.forEach(c => c.sort = collectionToDescription.get(c.collection).id_path);
+            for (const c of this.resultlistService.resultlistContributors) {
+              c.sort = collectionToDescription.get(c.collection).id_path;
+            }
           }
         });
     }
@@ -130,18 +143,18 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
     const ids = new Set(resultListsConfig.map(c => c.contributorId));
     const resultlistContributors = new Array<ResultListContributor>();
-    this.arlasStartupService.contributorRegistry.forEach((v, k) => {
+    for (const v of this.arlasStartupService.contributorRegistry.values()) {
       if (v instanceof ResultListContributor) {
         v.updateData = ids.has(v.identifier);
         resultlistContributors.push(v);
       }
-    });
+    }
     this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
   }
 
   private initializeMap() {
     const mapContributors = [];
-    this.contributorService.getMapContributors().forEach(mapContrib => {
+    for (const mapContrib of this.contributorService.getMapContributors()) {
       mapContrib.colorGenerator = this.colorService.colorGenerator;
       if (this.resultlistService.resultlistContributors) {
         const resultlistContrbutor: ResultListContributor = this.resultlistService.resultlistContributors
@@ -154,7 +167,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
         }
       }
       mapContributors.push(mapContrib);
-    });
+    }
     this.mapService.setContributors(mapContributors);
   }
 
