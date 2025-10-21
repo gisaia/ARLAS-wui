@@ -1,5 +1,24 @@
 # Change Log
 
+## [v27.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.1) (2025-10-21)
+
+**New stuff:**
+
+- Improve error message when the configuration is not valid [\#860](https://github.com/gisaia/ARLAS-wui/issues/860)
+
+**Fixed bugs:**
+
+- Polygon drawn on the map are not displayed in the top layer [\#602](https://github.com/gisaia/ARLAS-wui/issues/602)
+- Selection on histogram fails [\#1022](https://github.com/gisaia/ARLAS-wui/issues/1022)
+- outdated tokens are provided to cog visualization [\#1020](https://github.com/gisaia/ARLAS-wui/issues/1020)
+- Invalid parameter to titiler `colorMaps` endpoint [\#1019](https://github.com/gisaia/ARLAS-wui/issues/1019)
+- Headers not sent for `/cog/statistics` and `/cog/preview` [\#1018](https://github.com/gisaia/ARLAS-wui/issues/1018)
+- "AbortError: signal is aborted without reason" printed without obvious reason [\#1015](https://github.com/gisaia/ARLAS-wui/issues/1015)
+- Invalid error message [\#1014](https://github.com/gisaia/ARLAS-wui/issues/1014)
+- The permission creation button is only displayed if a filter is set. [\#966](https://github.com/gisaia/ARLAS-wui/issues/966)
+- Swimlane with custom bucket does not display [\#647](https://github.com/gisaia/ARLAS-wui/issues/647)
+- Map does not display analytics at zoom level 0 [\#632](https://github.com/gisaia/ARLAS-wui/issues/632)
+
 ## [v27.1.0](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.0) (2025-09-08)
 
 **Breaking changes:**
