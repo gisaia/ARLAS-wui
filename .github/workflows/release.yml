@@ -47,5 +47,10 @@ jobs:
         GOOGLE_CHAT_RELEASE_CHANEL: ${{ secrets.GOOGLE_CHAT_RELEASE_CHANEL }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        VERSION: ${{ inputs.version }}
+        STAGE: ${{ inputs.stage }}
+        ITERATION: ${{ inputs.stage_iteration }}
+        BRANCH: ${{ steps.extract_branch.outputs.branch }}
+        LATEST: ${{inputs.latest && ' ' || '--not-latest'}}
       run: |
-        bash release.sh -version=${{inputs.version}} -s=${{inputs.stage}} -i=${{inputs.stage_iteration}} -ref_branch=${{ steps.extract_branch.outputs.branch }} ${{inputs.latest && ' ' || '--not-latest'}}
+        bash release.sh -version=$VERSION -s=$STAGE -i=$ITERATION -ref_branch=$BRANCH $LATEST
