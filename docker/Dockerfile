@@ -32,17 +32,17 @@ LABEL vendor="Gisaïa"
 LABEL description="This container build and serve the ARLAS-wui app"
 
 ## Copy our default nginx config
-COPY nginx/default.conf /etc/nginx/conf.d/
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --chown=nginx nginx/default.conf /etc/nginx/conf.d/
+COPY --chown=nginx  nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY ./scripts/start.sh /usr/share/nginx/
+COPY --chown=nginx ./scripts/start.sh /usr/share/nginx/
 
 ## From 'builder' stage copy over the artifacts in dist folder to default nginx public folder
-COPY --from=builder /ng-app/dist /usr/share/nginx/html
+COPY --from=builder --chown=nginx /ng-app/dist /usr/share/nginx/html
 
 HEALTHCHECK CMD wget -O /dev/null http://127.0.0.1:8080/ || exit 1
 
-CMD /usr/share/nginx/start.sh
+CMD ["/usr/share/nginx/start.sh"]
