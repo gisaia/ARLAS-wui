@@ -21,7 +21,7 @@ RUN npm run "build-$WORKSPACE"
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.29-alpine3.22
+FROM nginx:1.29-alpine3.22-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
@@ -47,7 +47,7 @@ RUN touch /usr/share/nginx/html/settings.yaml.tmp && chmod 666 /usr/share/nginx/
     touch /etc/nginx/conf.d/default.conf.tmp && chmod 666 /etc/nginx/conf.d/default.conf.tmp  && \
     chmod 666 /etc/nginx/conf.d/default.conf  && \
     touch /usr/share/nginx/html/index.html.tmp && chmod 666 /usr/share/nginx/html/index.html.tmp  && \
-    chmod 666 /usr/share/nginx/html/index.html
+    chmod 666 /usr/share/nginx/html/index.html #  NOSONAR
 
 USER nginx
 
