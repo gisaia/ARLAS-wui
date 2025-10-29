@@ -43,12 +43,15 @@ COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
 ## Fix permissions for template filling at container startup
 ## Nginx user must be able to set variables in these files
-RUN touch /usr/share/nginx/html/settings.yaml.tmp && chmod 666 /usr/share/nginx/html/settings.yaml.tmp &&  \
-    chmod 666 /usr/share/nginx/html/settings.yaml &&  \
-    touch /etc/nginx/conf.d/default.conf.tmp && chmod 666 /etc/nginx/conf.d/default.conf.tmp &&  \
-    chmod 666 /etc/nginx/conf.d/default.conf &&  \
-    touch /usr/share/nginx/html/index.html.tmp && chmod 666 /usr/share/nginx/html/index.html.tmp &&  \
-    chmod 666 /usr/share/nginx/html/index.html
+RUN touch /usr/share/nginx/html/settings.yaml.tmp && \
+    touch /etc/nginx/conf.d/default.conf.tmp && \
+    touch /usr/share/nginx/html/index.html.tmp &&  \
+    chmod 666 /usr/share/nginx/html/settings.yaml.tmp \
+        /usr/share/nginx/html/settings.yaml \
+        /etc/nginx/conf.d/default.conf.tmp \
+        /etc/nginx/conf.d/default.conf \
+        /usr/share/nginx/html/index.html.tmp \
+        /usr/share/nginx/html/index.html
 
 USER nginx
 
