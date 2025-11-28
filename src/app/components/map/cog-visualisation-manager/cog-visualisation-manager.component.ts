@@ -84,6 +84,9 @@ export class CogVisualisationManagerComponent {
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {
+      if (!v) {
+        return;
+      }
       const idx = this.cogService.currentCogVisualisationConfig.findIndex(vis => v === vis);
       this.cogService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
     });
