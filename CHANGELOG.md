@@ -1,5 +1,15 @@
 # Change Log
 
+## [v27.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.2) (2025-11-28)
+
+**Fixed bugs:**
+
+- Texts for cog visualisation could be displayed with a better layout for more longer texts [\#1036](https://github.com/gisaia/ARLAS-wui/issues/1036)
+- ARLAS WUI is not redirected to login page when session is closed [\#1035](https://github.com/gisaia/ARLAS-wui/issues/1035)
+- No redirect once user session expired [\#1034](https://github.com/gisaia/ARLAS-wui/issues/1034)
+- COG Visualisation: when changing the visualisation, the visualisation list displays flashes with errors then disappear. [\#1033](https://github.com/gisaia/ARLAS-wui/issues/1033)
+- COG visualization : cogs are removed from map when clicking on "Change cog visualisation" , then Cancel [\#1032](https://github.com/gisaia/ARLAS-wui/issues/1032)
+
 ## [v27.1.1](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.1) (2025-10-21)
 
 **New stuff:**
