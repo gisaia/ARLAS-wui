@@ -1,6 +1,10 @@
 {
   "name": "arlas-wui",
   "author": "gisaia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gisaia/ARLAS-wui.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "arlas-maplibre": "~27.1.2"

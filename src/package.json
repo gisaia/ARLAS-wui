@@ -1,6 +1,10 @@
 {
-    "name": "arlas-wui",
-    "version": "27.1.2",
-    "author": "gisaia",
-    "license": "Apache-2.0"
+  "name": "arlas-wui",
+  "version": "27.2.0-dev",
+  "author": "gisaia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gisaia/ARLAS-wui.git"
+  },
+  "license": "Apache-2.0"
 }
