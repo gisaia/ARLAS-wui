@@ -22,7 +22,7 @@
 @import "app/mixin.scss";
 
 .mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch,
-.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois, .maplibregl-ctrl-group-pitch {
+.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois {
   display: none;
 }
 
@@ -114,8 +114,8 @@
   .maplibregl-ctrl-group{
     &:has(.maplibregl-ctrl-globe),
     &:has(.maplibregl-ctrl-globe-enabled) {
-      // There are 3 buttons in the map settings/geo filter/basemap group
-      margin-top: calc($sm-spacing + 3 * $map-actions-width + $sm-spacing) !important;
+      // There are 3 buttons in the map settings/geo filter/basemap/terrain group
+      margin-top: calc($sm-spacing + 4 * $map-actions-width + $sm-spacing) !important;
     }
   }
 }
