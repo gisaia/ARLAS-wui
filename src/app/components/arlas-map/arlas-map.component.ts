@@ -344,6 +344,22 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       // Whenever the resultlist is toggled, the next onMove event should lead to a recalculation of the extent
       this.resultlistService.listOpenChange.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(_ => this.recalculateExtent = true);
+
+      // Configure to ignore this url if there are any errors when zooming
+      this.mapFrameworkService.setSource('mapterhorn', {
+        type: 'raster-dem',
+        tiles: ['https://tiles.mapterhorn.com/{z}/{x}/{y}.webp'],
+        encoding: 'terrarium',
+        tileSize: 512
+      } as maplibregl.RasterDEMSourceSpecification as any, this.mapglComponent.map);
+
+      this.mapFrameworkService.addLayer(this.mapglComponent.map, {
+        id: 'hillshade',
+        type: 'hillshade',
+        source: 'mapterhorn'
+      } as any);
+
+      // TODO: add terrain
     }
   }
 

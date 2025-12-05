@@ -22,7 +22,7 @@
 @import "app/mixin.scss";
 
 .mapboxgl-ctrl-group-addgeobox, .mapboxgl-ctrl-group-removeaois, .mapboxgl-ctrl-group-pitch,
-.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois, .maplibregl-ctrl-group-pitch {
+.maplibregl-ctrl-group-addgeobox, .maplibregl-ctrl-group-removeaois {
   display: none;
 }
 
