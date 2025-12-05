@@ -1,6 +1,10 @@
 {
   "name": "arlas-wui-cloud",
   "author": "gisaia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gisaia/ARLAS-wui.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "arlas-mapbox": "~27.1.2"
