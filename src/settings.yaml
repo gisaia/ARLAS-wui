@@ -3,28 +3,35 @@
 ########################################################
 authentication:
   use_authent: false
-  auth_mode: iam
-  url: https://cloud.arlas.io/arlas/iam/
+  auth_mode: 'iam'
   force_connect: false
-  threshold: 60000
-  use_discovery: false
-  issuer: https://arlas-cloud-dev.eu.auth0.com/
-  client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
+  threshold: 5000
+  url: https://localhost/arlas_iam_server
+  sign_up_enabled: true
+
+  use_discovery: true
+  issuer: https://localhost:9443/auth/realms/arlas
+  client_id: arlas-front
   redirect_uri: http://localhost:4200/callback
-  scope: "openid profile"
   silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
-  require_https: true
-  response_type: "id_token token"
+  scope: profile
+  # token_endpoint:
+  # userinfo_endpoint: ${ARLAS_AUTHENT_USERINFO_ENDPOINT}
+  # jwks_endpoint: ${ARLAS_AUTHENT_JWKS_ENDPOINT}
+  login_url: https://localhost:9443/auth/realms/arlas
+  # logout_url: ${ARLAS_AUTHENT_LOGOUT_URL}
+  show_debug_information: true
+  require_https: false
+  response_type: code
   silent_refresh_timeout: 10000
   timeout_factor: 0.75
   session_checks_enabled: true
   clear_hash_after_login: true
-  disable_at_hash_check: false
-  show_debug_information: true
-  logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
-  storage: sessionstorage
-  custom_query_params: [{"audience":"http://arlas.io/api/server"}]
-  sign_up_enabled: true
+  storage: memorystorage
+  disable_at_hash_check: true
+  # dummy_client_secret: ${ARLAS_AUTHENT_DUMMY_CLIENT_SECRET}
+  # custom_query_params: ${ARLAS_AUTHENT_CUSTOM_QUERY_PARAMS}
+  # sign_up_enabled: ${ARLAS_AUTHENT_SIGN_UP_ENABLED}
 
 tab_name: "ARLAS Wui"
 
