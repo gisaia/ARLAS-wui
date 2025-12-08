@@ -1,5 +1,11 @@
 # Change Log
 
+## [v27.1.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.3) (2025-12-08)
+
+**New stuff:**
+
+- Upgrade protomaps protocol to v4 [\#1040](https://github.com/gisaia/ARLAS-wui/issues/1040)
+
 ## [v27.1.2](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.2) (2025-11-28)
 
 **Fixed bugs:**
