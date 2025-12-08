@@ -1,5 +1,5 @@
 {
-    "ignore": [".github/**", ".git/**", "e2e/**", "*", "**/*.sh", "*.yml", "**/*.yaml", "**/*.conf", "**/*.md", "**/*.svg", "**/*.spec.ts", "**/*.html", "**/*.woff2", "src/test.ts", "**/.DS_Store", "**/.gitkeep", "patches/*", "**/*.xml", "**/*.csv", "docker/*"],
+    "ignore": [".github/**", ".git/**", "e2e/**", "*", "**/*.sh", "*.yml", "**/*.yaml", "**/*.conf", "**/*.md", "**/*.svg", "**/*.spec.ts", "**/*.html", "**/*.woff2", "src/test.ts", "**/.DS_Store", "**/.gitkeep", "patches/*", "**/*.xml", "**/*.csv", "docker/*", "src/assets/basemap"],
     "license": "LICENSE",
     "trailingWhitespace": "TRIM",
     "licenseFormats": {
