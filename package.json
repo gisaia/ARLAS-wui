@@ -4,7 +4,7 @@
     "packages/cloud",
     "packages/opensource"
   ],
-  "version": "27.1.4",
+  "version": "27.2.0-dev",
   "author": "gisaia",
   "repository": {
     "type": "git",
