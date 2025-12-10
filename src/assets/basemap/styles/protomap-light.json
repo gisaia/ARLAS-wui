@@ -10,7 +10,7 @@
             "attribution": "Powered by ARLAS - <a href=\"https://protomaps.com/\" target=\"_blank\">Protomaps</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap</a>",
             "type": "pmtiles-type",
             "tiles": [
-                "pmtiles:///wui/assets/basemap/world.pmtiles/{z}/{x}/{y}"
+                "pmtiles:///wui/assets/basemap/data/world.pmtiles/{z}/{x}/{y}"
             ]
         }
   },
