@@ -20,7 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AoiEdition } from 'arlas-map';
-import { FormatNumberModule } from 'arlas-web-components';
+import { FormatNumberPipe } from 'arlas-web-components';
 import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
 
 @Component({
@@ -31,7 +31,7 @@ import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
     TranslateModule,
     SquareKilometer,
     RoundKilometer,
-    FormatNumberModule
+    FormatNumberPipe
   ],
   styleUrls: ['./aoi-dimensions.component.scss']
 })

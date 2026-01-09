@@ -23,6 +23,7 @@ import { ResultlistService } from '../services/resultlist.service';
 
 @Pipe({
   name: 'getResultlistConfig',
+  standalone: true
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

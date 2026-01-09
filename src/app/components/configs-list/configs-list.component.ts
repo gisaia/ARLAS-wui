@@ -35,7 +35,8 @@ export interface Configuration {
 @Component({
   selector: 'arlas-configs-list',
   templateUrl: './configs-list.component.html',
-  styleUrls: ['./configs-list.component.scss']
+  styleUrls: ['./configs-list.component.scss'],
+  standalone: false
 })
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();

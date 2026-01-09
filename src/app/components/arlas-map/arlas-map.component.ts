@@ -53,7 +53,8 @@ const DEFAULT_BASEMAP: BasemapStyle = {
 @Component({
   selector: 'arlas-wui-map',
   templateUrl: './arlas-map.component.html',
-  styleUrls: ['./arlas-map.component.scss']
+  styleUrls: ['./arlas-map.component.scss'],
+  standalone: false
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

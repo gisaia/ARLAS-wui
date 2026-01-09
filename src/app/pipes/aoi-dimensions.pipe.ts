@@ -22,7 +22,7 @@ import area from '@turf/area';
 import bbox from '@turf/bbox';
 import { Feature, lineString, Polygon } from '@turf/helpers';
 import length from '@turf/length';
-import { AoiDimensions } from 'arlas-map/lib/draw/draw.models';
+import { AoiDimensions } from 'arlas-map';
 
 @Pipe({
   name: 'aoiDimensions',

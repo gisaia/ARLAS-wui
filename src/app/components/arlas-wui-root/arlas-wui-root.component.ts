@@ -44,6 +44,7 @@ import { MenuState } from '../left-menu/left-menu.component';
   selector: 'arlas-wui-root',
   templateUrl: './arlas-wui-root.component.html',
   styleUrls: ['./arlas-wui-root.component.scss'],
+  standalone: false
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

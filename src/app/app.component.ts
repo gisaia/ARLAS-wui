@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
@@ -31,13 +31,15 @@ import { ResultlistService } from './services/resultlist.service';
 @Component({
   selector: 'arlas-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
  *  M: a Map configuration class/interface.
  */
 export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
+  private readonly destroyRef = inject(DestroyRef);
 
   public collections = new Array<string>();
   /**
@@ -64,7 +66,6 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly analyticsService: AnalyticsService,
-    private readonly destroyRef: DestroyRef,
     private readonly errorService: ErrorService
   ) {
     // Initialize the contributors and app wide services

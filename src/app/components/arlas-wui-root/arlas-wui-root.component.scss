@@ -456,7 +456,7 @@
   border-bottom: $menu-border;
 
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
-    --mdc-icon-button-state-layer-size: 34px;
+    --mat-icon-button-state-layer-size: 34px;
     padding: 5px;
 }
 }
@@ -476,7 +476,7 @@
 
   --mat-icon-color: #666;
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
-    --mdc-icon-button-state-layer-size: 34px;
+    --mat-icon-button-state-layer-size: 34px;
     padding: 5px;
   }
 

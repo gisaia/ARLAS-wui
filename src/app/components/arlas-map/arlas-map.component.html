@@ -7,7 +7,7 @@
           <mat-icon (click)="openMapSettings()">settings</mat-icon>
         </div>
         <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-          <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
+          <mat-icon (click)="mapglComponent.showBasemapSwitcher()">public</mat-icon>
         </div>
         <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
             (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
