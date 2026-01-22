@@ -108,7 +108,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     ConfigsListComponent,
     GeocodingComponent,
     ArlasWuiMapComponent,
-    ArlasListComponent
+    ArlasListComponent,
+    ArlasAnalyticsComponent
   ],
   imports: [
     BrowserModule,
