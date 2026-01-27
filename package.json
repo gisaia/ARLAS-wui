@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/eslint-plugin-tslint": "^7.0.2",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vendure/ngx-translate-extract": "^9.3.0",
+    "@vendure/ngx-translate-extract": "^10.1.2",
     "esbuild-visualizer": "^0.7.0",
     "eslint": "^8.57.0",
     "jasmine": "^5.1.0",

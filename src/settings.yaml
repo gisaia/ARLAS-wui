@@ -36,8 +36,9 @@ authentication:
 tab_name: "ARLAS Wui"
 
 persistence:
-  url: https://cloud.arlas.io/arlas/persistence
-  use_local_config: false
+  url: https://localhost/persist
+  # url: https://cloud.arlas.io/arlas/persistence
+  use_local_config: true
 histogram:
   max_buckets: 200
   export_nb_buckets: 1000
