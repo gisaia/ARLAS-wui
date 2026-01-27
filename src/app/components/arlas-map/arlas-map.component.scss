@@ -24,11 +24,19 @@
 .arlas-map__container {
   height: 100%;
 
-  &--geocoding {
+  &--four-actions {
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        // There are 4 buttons in the map settings/geo filter/basemap/terrain/geocoding group
+        margin-top: calc($sm-spacing + 4 * $map-actions-width + $sm-spacing) !important;
+      }
+    }
+  }
+
+  &--five-actions {
+    ::ng-deep.maplibregl-ctrl-group{
+      &:has(.maplibregl-ctrl-globe),
+      &:has(.maplibregl-ctrl-globe-enabled) {
         margin-top: calc($sm-spacing + 5 * $map-actions-width + $sm-spacing) !important;
       }
     }

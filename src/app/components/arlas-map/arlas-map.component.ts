@@ -117,10 +117,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   /** Cog visualisation **/
   protected cogVisualisation = signal<VisualisationPreview | null>(null);
 
-  /** Terrain and hillshade */
-  protected displayTerrain = signal(false);
-  private terrainSources = new Array<string>();
-
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
@@ -551,25 +547,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
 
   public drawCircle() {
     this.mapglComponent.switchToDrawMode('draw_radius_circle', { isFixedRadius: false, steps: 12 });
-  }
-
-  public toggleTerrain() {
-    this.displayTerrain.set(!this.displayTerrain());
-
-    // Configure to ignore this url if there are any errors when zooming
-    if (this.displayTerrain()) {
-      this.terrainSources = this.mapFrameworkService.setTerrain({
-        type: 'raster-dem',
-        tiles: ['https://tiles.mapterhorn.com/{z}/{x}/{y}.webp'],
-        encoding: 'terrarium',
-        tileSize: 512
-      } as any, this.mapglComponent.map, 5);
-    } else {
-      for (const source of this.terrainSources) {
-        this.mapFrameworkService.removeLayer(this.mapglComponent.map, source);
-        this.mapFrameworkService.removeSource(this.mapglComponent.map, source);
-      }
-    }
   }
 
   protected goToLocation(event: GeocodingResult) {

@@ -1,4 +1,7 @@
-<div class="arlas-map__container" [class.arlas-map__container--geocoding]="enableGeocodingFeature">
+@let enableTerrain = mapComponentConfig?.terrain?.enable;
+<div class="arlas-map__container"
+  [class.arlas-map__container--four-actions]="enableGeocodingFeature || !!enableTerrain"
+  [class.arlas-map__container--five-actions]="enableGeocodingFeature && !!enableTerrain">
     <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
@@ -13,10 +16,12 @@
           <mat-icon>public</mat-icon>
         </button>
 
-        <button mat-icon-button class="arlas-map-settings-items" matTooltipPosition="left" [matTooltip]="'Display terrain' | translate"
-            (click)="toggleTerrain()">
-          <mat-icon>terrain</mat-icon>
-        </button>
+        @if (enableTerrain) {
+          <button mat-icon-button class="arlas-map-settings-items" matTooltipPosition="left"
+              [matTooltip]="(map.hasTerrain() ? 'Hide terrain' : 'Display terrain') | translate" (click)="map.toggleTerrain()">
+            <mat-icon>terrain</mat-icon>
+          </button>
+        }
 
         <button mat-icon-button [matTooltip]="'Geo-filter tools' | translate" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'"
             class="arlas-map-settings-items geo-filter-item" (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
@@ -89,6 +94,7 @@
       [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
       [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
       [enableGlobe]="mapComponentConfig?.enableGlobe"
+      [terrain]="mapComponentConfig?.terrain"
       (onAoiChanged)="onChangeAoi($event)"
       (onAoiEdit)="onAoiEdit($event)"
       (onMove)="onMove($event)"
