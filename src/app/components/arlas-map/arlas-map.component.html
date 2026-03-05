@@ -1,22 +1,39 @@
-<div class="arlas-map__container" [class.arlas-map__container--geocoding]="enableGeocodingFeature">
+@let enableTerrain = mapComponentConfig?.terrain?.enable;
+<div class="arlas-map__container"
+  [class.arlas-map__container--four-actions]="enableGeocodingFeature || !!enableTerrain"
+  [class.arlas-map__container--five-actions]="enableGeocodingFeature && !!enableTerrain">
     <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
     <div id="arlas-map-settings" class="arlas-map-settings" *ngIf="!arlasStartupService.emptyMode" >
       <div class="arlas-map-settings-container">
-        <div class="arlas-map-settings-items map-settings-item" matTooltipPosition="left" matTooltip="{{'Map Settings' | translate}}">
-          <mat-icon (click)="openMapSettings()">settings</mat-icon>
-        </div>
-        <div class="arlas-map-settings-items basemaps-item" matTooltipPosition="left" matTooltip="{{'Basemaps' | translate}}" >
-          <mat-icon (click)="this.mapglComponent.showBasemapSwitcher()">public</mat-icon>
-        </div>
-        <div matTooltip="{{'Geo-filter tools' | translate}}" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'" class="arlas-map-settings-items geo-filter-item"
-            (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
+        <button mat-icon-button class="arlas-map-settings-items map-settings-item" matTooltipPosition="left"
+            [matTooltip]="'Map Settings' | translate" (click)="openMapSettings()">
+          <mat-icon>settings</mat-icon>
+        </button>
+
+        <button mat-icon-button class="arlas-map-settings-items basemaps-item" matTooltipPosition="left"
+            [matTooltip]="'Basemaps' | translate" (click)="mapglComponent.showBasemapSwitcher()">
+          <mat-icon>public</mat-icon>
+        </button>
+
+        @if (enableTerrain) {
+          <button mat-icon-button class="arlas-map-settings-items" matTooltipPosition="left"
+              [matTooltip]="(map.hasTerrain() ? 'Hide terrain' : 'Display terrain') | translate" (click)="map.toggleTerrain()">
+            <mat-icon>terrain</mat-icon>
+          </button>
+        }
+
+        <button mat-icon-button [matTooltip]="'Geo-filter tools' | translate" [matTooltipPosition]="enableGeocodingFeature ? 'above' : 'below'"
+            class="arlas-map-settings-items geo-filter-item" (mouseenter)="isMapMenuOpen = true;shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
           <mat-icon>travel_explore</mat-icon>
-        </div>
-        <div *ngIf="enableGeocodingFeature" class="arlas-map-settings-items geo-filter-item">
-          <mat-icon (click)="showGeocodingPopup.next(true)" matTooltip="{{'Search a place' | translate}}" matTooltipPosition="below">location_searching</mat-icon>
-          <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
-        </div>
+        </button>
+
+        <button mat-icon-button *ngIf="enableGeocodingFeature" class="arlas-map-settings-items geo-filter-item"
+            [matTooltip]="'Search a place' | translate" matTooltipPosition="below" (click)="showGeocodingPopup.next(true)">
+          <mat-icon>location_searching</mat-icon>
+        </button>
+
+        <arlas-geocoding *ngIf="(showGeocodingPopup | async)" (close)="showGeocodingPopup.next(false)" (zoomToAddress)="goToLocation($event)"></arlas-geocoding>
       </div>
 
       <div class="arlas-map-action-container" [class.if-geocoding-button]="enableGeocodingFeature" *ngIf="isMapMenuOpen" (mouseenter)="shouldCloseMapMenu = false" (mouseleave)="shouldCloseMapMenu = true;closeMapMenu()">
@@ -77,6 +94,7 @@
       [boundsToFit]="visualizeService.fitbounds" [drawPolygonVerticesLimit]="nbVerticesLimit"
       [drawButtonEnabled]="false" [mapAttributionPosition]="mapAttributionPosition"
       [enableGlobe]="mapComponentConfig?.enableGlobe"
+      [terrain]="mapComponentConfig?.terrain"
       (onAoiChanged)="onChangeAoi($event)"
       (onAoiEdit)="onAoiEdit($event)"
       (onMove)="onMove($event)"
