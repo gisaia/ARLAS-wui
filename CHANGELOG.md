@@ -2,6 +2,10 @@
 
 ## [v27.1.4](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.4) (2025-12-10)
 
+**Fixed bugs:**
+
+- ARLAS HUB does not display collections [\#1046](https://github.com/gisaia/ARLAS-wui/issues/1046)
+
 ## [v27.1.3](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.3) (2025-12-08)
 
 **New stuff:**

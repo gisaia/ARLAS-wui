@@ -37,7 +37,7 @@ import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
-import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
+import { firstValueFrom, forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
@@ -99,6 +99,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
 
   public getTranslation(lang: string): Observable<any> {
     const localI18nAdress = 'assets/i18n/' + lang + '.json?' + Date.now();
+    const localProjectI18nAdress = 'assets/i18n/custom/custom.' + lang + '.json?' + Date.now();
     const url = new URL(window.location.href);
     const settings = this.arlasSettings.getSettings();
     const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
@@ -113,57 +114,60 @@ export class ArlasTranslateLoader implements TranslateLoader {
     }
     if (usePersistence && configurationId) {
       const localI18nObs = this.http.get(localI18nAdress);
+      const localProjectI18nObs = this.http.get(localProjectI18nAdress);
       const externalI18nObs = this.persistenceService.get(configurationId)
         .pipe(mergeMap(configDoc => this.getI18n(lang, configDoc, of('{}'))));
       return new Observable(observer => {
-        forkJoin([localI18nObs, externalI18nObs]).subscribe(
+        forkJoin([localI18nObs, externalI18nObs, localProjectI18nObs]).subscribe(
           results => {
             const localI18n = results[0];
             const externalI18n = JSON.parse(results[1] as string);
+            const localProjectI18n = results[2];
             let merged = localI18n;
             // Properties in externalI18n will overwrite those in localI18n and frToolkit and frComponents .
             if (lang === 'fr') {
-              merged = { ...frComponents, ...frMap, ...frToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...frComponents, ...frMap, ...frToolkit, ...localI18n, ...externalI18n as Object, ...localProjectI18n };
             } else if (lang === 'en') {
-              merged = { ...enComponents, ...enMap, ...enToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...enComponents, ...enMap, ...enToolkit, ...localI18n, ...externalI18n as Object, ...localProjectI18n };
             } else if (lang === 'es') {
-              merged = { ...esComponents, ...esMap, ...esToolkit, ...localI18n, ...externalI18n as Object };
+              merged = { ...esComponents, ...esMap, ...esToolkit, ...localI18n, ...externalI18n as Object, ...localProjectI18n };
             }
             observer.next(merged);
             observer.complete();
           },
           error => {
-            this.mergeLocalI18n(localI18nAdress, lang, observer);
+            this.mergeLocalI18n(localI18nAdress, localProjectI18nAdress, lang, observer);
           }
         );
       });
     } else {
       return Observable.create(observer => {
-        this.mergeLocalI18n(localI18nAdress, lang, observer);
+        this.mergeLocalI18n(localI18nAdress, localProjectI18nAdress, lang, observer);
       });
     }
   }
 
-  private mergeLocalI18n(localI18nAdress, lang, observer) {
-    this.http.get(localI18nAdress).subscribe(
-      res => {
-        let merged = res;
-        // Properties in res will overwrite those in frToolkit and frComponents .
-        if (lang === 'fr') {
-          merged = { ...frComponents, ...frToolkit, ...res };
-        } else if (lang === 'en') {
-          merged = { ...enComponents, ...enToolkit, ...res };
-        } else if (lang === 'es') {
-          merged = { ...esComponents, ...esToolkit, ...res };
+  private mergeLocalI18n(localI18nAdress, localProjectI18nAdress, lang, observer) {
+    zip([this.http.get(localI18nAdress), this.http.get(localProjectI18nAdress)])
+      .subscribe({
+        next: res => {
+          let merged = { ...res[0], ...res[1] };
+          // Properties in res will overwrite those in frToolkit and frComponents .
+          if (lang === 'fr') {
+            merged = { ...frComponents, ...frToolkit, ...res[0], ...res[1] };
+          } else if (lang === 'en') {
+            merged = { ...enComponents, ...enToolkit, ...res[0], ...res[1] };
+          } else if (lang === 'es') {
+            merged = { ...esComponents, ...esToolkit, ...res[0], ...res[1] };
+          }
+          observer.next(merged);
+          observer.complete();
+        },
+        error: e => {
+          // failed to retrieve requested language file, use default
+          observer.complete(); // => Default language is already loaded
         }
-        observer.next(merged);
-        observer.complete();
-      },
-      error => {
-        // failed to retrieve requested language file, use default
-        observer.complete(); // => Default language is already loaded
-      }
-    );
+      });
   }
 
   private getI18n(lang: string, config: any, localTour: Observable<any>): Observable<string> {
