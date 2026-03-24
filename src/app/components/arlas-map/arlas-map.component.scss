@@ -24,12 +24,20 @@
 .arlas-map__container {
   height: 100%;
 
-  &--geocoding {
+  &--four-actions {
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        // There are 4 buttons in the map settings/geo filter/basemap group/geocoding
         margin-top: calc($sm-spacing + 4 * $map-actions-width + $sm-spacing) !important;
+      }
+    }
+  }
+
+  &--five-actions {
+    ::ng-deep.maplibregl-ctrl-group{
+      &:has(.maplibregl-ctrl-globe),
+      &:has(.maplibregl-ctrl-globe-enabled) {
+        margin-top: calc($sm-spacing + 5 * $map-actions-width + $sm-spacing) !important;
       }
     }
   }
@@ -51,11 +59,12 @@
       .arlas-map-settings-items {
         height: $map-actions-width;
         width: $map-actions-width;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        border-radius: 0;
         border-top: 1px solid #ddd;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
@@ -63,6 +72,11 @@
 
         &:first-child {
           border-top: none !important;
+        }
+
+        ::ng-deep .mat-mdc-button-touch-target {
+          width: $map-actions-width;
+          height: $map-actions-width;
         }
       }
     }

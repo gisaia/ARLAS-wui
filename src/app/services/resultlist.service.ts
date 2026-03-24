@@ -366,7 +366,7 @@ export class ResultlistService<L, S, M> {
             .pipe(finalize(() => this.resultlistIsExporting = false))
             .subscribe({
               next: (h) => this.exportService.exportResultlist(resultListContributor, h),
-              error: (e) => this.snackbar.open(marker('An error occured exporting the list'))
+              error: (e) => this.snackbar.open(this.translate.instant('An error occured exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
           this.selectedItems.forEach(e => {
