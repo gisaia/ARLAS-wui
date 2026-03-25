@@ -84,7 +84,42 @@
               ],
               "namedChunks": true,
               "extractLicenses": false,
-              "budgets": []
+              "budgets": [],
+              "assets": [
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "settings.yaml"
+                },
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "config.json"
+                },
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "config.map.json"
+                },
+                "src/assets",
+                "src/silent-refresh.html",
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-map/assets/icons/resize",
+                  "output": "/assets/icons/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-map/assets/icons/rotate",
+                  "output": "/assets/icons/rotate/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/environments/local/i18n",
+                  "output": "/assets/i18n/custom"
+                }
+              ]
             },
             "development-cloud": {
               "optimization": false,
@@ -105,7 +140,42 @@
               ],
               "namedChunks": true,
               "extractLicenses": false,
-              "budgets": []
+              "budgets": [],
+              "assets": [
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "settings.yaml"
+                },
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "config.json"
+                },
+                {
+                  "input": "src/",
+                  "output": "/",
+                  "glob": "config.map.json"
+                },
+                "src/assets",
+                "src/silent-refresh.html",
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-map/assets/icons/resize",
+                  "output": "/assets/icons/resize/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/arlas-map/assets/icons/rotate",
+                  "output": "/assets/icons/rotate/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/environments/local/i18n",
+                  "output": "/assets/i18n/custom"
+                }
+              ]
             },
             "production": {
               "optimization": true,
@@ -138,6 +208,11 @@
                   "glob": "**/*",
                   "input": "./node_modules/arlas-map/assets/icons/rotate",
                   "output": "/assets/icons/rotate/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/environments/prod/i18n",
+                  "output": "/assets/i18n/custom"
                 }
               ]
             },
@@ -186,6 +261,11 @@
                   "glob": "**/*",
                   "input": "./node_modules/arlas-map/assets/icons/rotate",
                   "output": "/assets/icons/rotate/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/environments/prod/i18n",
+                  "output": "/assets/i18n/custom"
                 }
               ]
             },
@@ -237,6 +317,11 @@
                   "glob": "**/*",
                   "input": "./node_modules/arlas-map/assets/icons/rotate",
                   "output": "/assets/icons/rotate/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/environments/prod/i18n",
+                  "output": "/assets/i18n/custom"
                 }
               ]
             }
