@@ -47,7 +47,7 @@
   "dependencies": {
     "@colsen1991/ngx-translate-extract-marker": "^3.0.1",
     "@ngx-translate/core": "^17.0.0",
-    "arlas-wui-toolkit": "28.0.0-beta.2",
+    "arlas-wui-toolkit": "28.0.0-rc.1",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^20.3.2",
     "ngx-markdown": "^20.0.0",
@@ -70,7 +70,7 @@
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.48.1",
     "@typescript-eslint/parser": "^8.48.1",
-    "@vendure/ngx-translate-extract": "^9.3.0",
+    "@vendure/ngx-translate-extract": "^10.1.3",
     "esbuild-visualizer": "^0.7.0",
     "eslint": "^9.39.1",
     "jasmine": "^5.1.0",
