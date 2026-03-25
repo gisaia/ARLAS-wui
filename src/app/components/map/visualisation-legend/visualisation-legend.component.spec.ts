@@ -1,6 +1,6 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasStartupService } from 'arlas-wui-toolkit';
 import { ContributorService } from '../../../services/contributors.service';
 import { VisualizeService } from '../../../services/visualize.service';
@@ -16,7 +16,7 @@ describe('VisualisationLegendComponent', () => {
       imports: [
         VisualisationLegendComponent,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         })
       ],
       providers: [
