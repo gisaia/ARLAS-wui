@@ -2,7 +2,7 @@
 ### STAGE 1: Build ###
 
 # We label our stage as 'builder'
-FROM node:18.20.8-slim AS builder
+FROM node:24.2.0-slim AS builder
 ARG WORKSPACE
 
 RUN mkdir /ng-app
