@@ -14,7 +14,6 @@ COPY package-lock.json .
 COPY ./src/ ./src/
 COPY angular.json .
 COPY tsconfig.json .
-COPY ./patches/ ./patches/
 
 # If package != opensource, remove src/assets/basemap
 RUN if [ "${WORKSPACE}" != "opensource" ]; then rm -rf ./src/assets/basemap; fi
