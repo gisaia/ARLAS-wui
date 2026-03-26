@@ -36,7 +36,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+RUN rm -rf /usr/share/nginx/html/* && rm -rf /var/cache/apk/* && apk add --no-cache 'zlib==1.3.2-r0'
 
 ## Copy the custom start script
 COPY ./scripts/start.sh /usr/share/nginx/
