@@ -24,7 +24,7 @@ import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService,
@@ -58,7 +58,7 @@ describe('ArlasWuiComponent', () => {
       declarations: [ArlasWuiComponent],
       imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         MatTooltipModule,
         /** Needed for ResultlistService */

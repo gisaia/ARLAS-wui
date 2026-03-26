@@ -22,7 +22,7 @@ import area from '@turf/area';
 import bbox from '@turf/bbox';
 import { Feature, lineString, Polygon } from '@turf/helpers';
 import length from '@turf/length';
-import { AoiDimensions } from 'arlas-map/lib/draw/draw.models';
+import { AoiEdition } from 'arlas-map';
 
 @Pipe({
   name: 'aoiDimensions',
@@ -30,7 +30,7 @@ import { AoiDimensions } from 'arlas-map/lib/draw/draw.models';
 })
 export class AoiDimensionsPipe implements PipeTransform {
 
-  public transform(feature: Feature<Polygon>): AoiDimensions {
+  public transform(feature: Feature<Polygon>): AoiEdition {
     const a = this.calculateArea(feature);
     const wh = this.calculateEnvelopeDimension(feature);
     return {

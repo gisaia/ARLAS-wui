@@ -2,7 +2,7 @@
 ### STAGE 1: Build ###
 
 # We label our stage as 'builder'
-FROM node:18.20.8-slim AS builder
+FROM node:24.2.0-slim AS builder
 ARG WORKSPACE
 
 RUN mkdir /ng-app
@@ -14,7 +14,6 @@ COPY package-lock.json .
 COPY ./src/ ./src/
 COPY angular.json .
 COPY tsconfig.json .
-COPY ./patches/ ./patches/
 
 # If package != opensource, remove src/assets/basemap
 RUN if [ "${WORKSPACE}" != "opensource" ]; then rm -rf ./src/assets/basemap; fi
@@ -25,7 +24,7 @@ RUN npm run "build-$WORKSPACE"
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.29-alpine3.22-slim
+FROM nginx:1.29-alpine3.23-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
@@ -37,7 +36,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+RUN rm -rf /usr/share/nginx/html/* && rm -rf /var/cache/apk/* && apk add --no-cache 'zlib==1.3.2-r0'
 
 ## Copy the custom start script
 COPY ./scripts/start.sh /usr/share/nginx/

@@ -44,7 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasMapModule } from 'arlas-map';
-import { FormatNumberModule, GetValueModule, HistogramModule, ResultsModule } from 'arlas-web-components';
+import { FormatNumberPipe, GetValuePipe, HistogramModule, ResultsModule } from 'arlas-web-components';
 import {
   ArlasCollectionService,
   ArlasConfigService,
@@ -99,7 +99,6 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     RastersManagerComponent,
     ArlasWuiMapComponent,
     ArlasListComponent,
-    GetResultlistConfigPipe,
     ArlasAnalyticsComponent
   ],
   exports: [
@@ -110,12 +109,12 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     GeocodingComponent,
     ArlasWuiMapComponent,
     ArlasListComponent,
-    GetResultlistConfigPipe
+    ArlasAnalyticsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    GetValueModule,
+    GetValuePipe,
     MatAutocompleteModule,
     MatButtonModule,
     MatChipsModule,
@@ -140,7 +139,7 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     MatListModule,
     MatSelectModule,
     MatSidenavModule,
-    FormatNumberModule,
+    FormatNumberPipe,
     HistogramModule,
     RouterModule,
     AppRoutingModule,
@@ -169,7 +168,8 @@ import { LazyLoadImageHooks } from './tools/lazy-loader';
     AoiDimensionComponent,
     RoundKilometer,
     SquareKilometer,
-    OrderFormComponent
+    OrderFormComponent,
+    GetResultlistConfigPipe
   ],
   providers: [
     VisualizeService,

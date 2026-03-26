@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
@@ -24,7 +25,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActionManagerService } from '../../../services/action-manager.service';
 import { CogService } from '../../../services/cog.service';
 import { VisualizeService } from '../../../services/visualize.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'arlas-rasters-manager',
@@ -36,7 +36,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       state('*', style({ opacity: 1 })), // Final state when element is present
       transition(':enter', animate('500ms ease-in')), // Animation duration and easing
     ])
-  ]
+  ],
+  standalone: false
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

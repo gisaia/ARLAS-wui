@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { GeocodingComponent } from './geocoding.component';
 
 describe('GeocodingComponent', () => {
@@ -19,7 +19,7 @@ describe('GeocodingComponent', () => {
         MatInputModule,
         MatIconModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         MatFormFieldModule,
         ReactiveFormsModule,
         MatTableModule

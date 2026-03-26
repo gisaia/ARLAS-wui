@@ -30,7 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { HistogramModule } from 'arlas-web-components';
 import {
   ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService,
@@ -68,12 +68,12 @@ describe('ArlasWuiRootComponent', () => {
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, HistogramModule,
         MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         ArlasTaggerModule, ArlasToolkitSharedModule,
+        GetResultlistConfigPipe
       ],
       declarations: [
-        ArlasWuiRootComponent,
-        GetResultlistConfigPipe
+        ArlasWuiRootComponent
       ],
       providers: [
         ArlasCollaborativesearchService,

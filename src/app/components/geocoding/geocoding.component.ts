@@ -28,7 +28,8 @@ import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../s
 @Component({
   selector: 'arlas-geocoding',
   templateUrl: './geocoding.component.html',
-  styleUrls: ['./geocoding.component.scss']
+  styleUrls: ['./geocoding.component.scss'],
+  standalone: false
 })
 export class GeocodingComponent implements AfterViewInit {
   /**

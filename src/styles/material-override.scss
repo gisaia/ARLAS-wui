@@ -28,18 +28,18 @@
 
 // Override dialog title variables
 .mdc-dialog__title {
-  --mdc-dialog-subhead-size: 20px;
-  --mdc-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --mdc-dialog-subhead-weight: bold;
-  --mdc-dialog-subhead-tracking: 0;
+  --mat-dialog-subhead-size: 20px;
+  --mat-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --mat-dialog-subhead-weight: bold;
+  --mat-dialog-subhead-tracking: 0;
   --mat-dialog-headline-padding: 0;
 }
 
 .mdc-dialog__content {
-  --mdc-dialog-supporting-text-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --mdc-dialog-supporting-text-tracking: 0;
+  --mat-dialog-supporting-text-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --mat-dialog-supporting-text-tracking: 0;
   // Avoid cropping _ and the bottom of letters in selects
-  --mdc-dialog-supporting-text-line-height: 16px;
+  --mat-dialog-supporting-text-line-height: 16px;
   --mat-dialog-content-padding: 0;
   --mat-dialog-with-actions-content-padding: 0;
 }

@@ -23,13 +23,13 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslateModule } from '@ngx-translate/core';
 import { Feature, Geometry } from '@turf/helpers';
-import { FormatNumberModule } from 'arlas-web-components';
+import { FormatNumberPipe } from 'arlas-web-components';
+import { getObject } from 'arlas-web-core/utils/utils';
 import { AiasResultComponent, ProcessOutput, ProcessStatus } from 'arlas-wui-toolkit';
+import { finalize } from 'rxjs';
 import { AoiDimensionsPipe } from '../../pipes/aoi-dimensions.pipe';
 import { OrderFormService } from '../../services/order-form.service';
 import { RoundKilometer, SquareKilometer } from '../arlas-map/aoi-dimensions/aoi-dimensions.pipes';
-import { getObject } from 'arlas-web-core/utils/utils';
-import { finalize } from 'rxjs';
 
 export interface OrderFormDialogData {
   aoi: Array<Feature<Geometry>>;
@@ -52,7 +52,7 @@ export interface OrderFormPayload {
     AoiDimensionsPipe,
     SquareKilometer,
     RoundKilometer,
-    FormatNumberModule,
+    FormatNumberPipe,
     MatDialogModule
   ],
   templateUrl: './order-form.component.html',
