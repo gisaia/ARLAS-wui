@@ -13,7 +13,6 @@
     "**/*.spec.ts"
   ],
   "files": [
-    "main-cloud.ts",
-    "polyfills.ts"
+    "main-cloud.ts"
   ]
 }

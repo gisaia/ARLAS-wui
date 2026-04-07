@@ -13,7 +13,6 @@
     "**/*.spec.ts"
   ],
   "files": [
-    "main-opensource.ts",
-    "polyfills.ts"
+    "main-opensource.ts"
   ]
 }
