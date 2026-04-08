@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
-import { ArlasToolKitModule, ArlasToolkitSharedModule } from 'arlas-wui-toolkit';
+import { ArlasCollectionService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS } from 'arlas-wui-toolkit';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { ArlasListComponent } from './arlas-list.component';
@@ -11,20 +13,33 @@ describe('ArlasListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
-        ArlasToolKitModule,
+      imports: [
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
-        ArlasToolkitSharedModule,
-        ArlasListComponent
-    ],
-    providers: [
+        ArlasListComponent,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
         VisualizeService,
-        ContributorService
-    ],
-    teardown: { destroyAfterEach: false }
-})
+        ContributorService,
+        ArlasCollectionService,
+        ArlasStartupService,
+        {
+          provide: FETCH_OPTIONS,
+          useValue: {}
+        },
+        {
+          provide: GET_OPTIONS,
+          useValue: () => {}
+        },
+        {
+          provide: CONFIG_UPDATER,
+          useValue: () => {}
+        }
+      ],
+      teardown: { destroyAfterEach: false }
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(ArlasListComponent);

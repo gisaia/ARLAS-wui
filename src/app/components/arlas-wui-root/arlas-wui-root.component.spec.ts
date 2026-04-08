@@ -19,86 +19,113 @@
 
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
-import { HistogramModule } from 'arlas-web-components';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { BasemapService } from 'arlas-map';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService,
-  ArlasStartupService, ArlasTaggerModule, ArlasToolKitModule, ArlasToolkitSharedModule
+    ArlasBookmarkService,
+    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings,
+    ArlasSettingsService, ArlasStartupService, ArlasTagService, ArlasWalkthroughModule, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS
 } from 'arlas-wui-toolkit';
-import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
+import { of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { VisualizeService } from '../../services/visualize.service';
+import { MockArlasConfigService } from '../../tools/test';
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 
 describe('ArlasWuiRootComponent', () => {
-  let component: ArlasWuiRootComponent<any, any, any>;
-  let fixture: ComponentFixture<ArlasWuiRootComponent<any, any, any>>;
+    let component: ArlasWuiRootComponent<any, any, any>;
+    let fixture: ComponentFixture<ArlasWuiRootComponent<any, any, any>>;
 
-  beforeEach(async () => {
-    const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService',
-      ['settings', 'getAuthentSettings', 'getPersistenceSettings', 'getPermissionSettings', 'getSettings', 'getArlasHubUrl', 'setSettings',
-        'getLinksSettings', 'getTicketingKey']);
-    mockSettingsService.settings = { tab_name: 'Test' };
-    mockSettingsService.getAuthentSettings.and.returnValue();
-    mockSettingsService.getPersistenceSettings.and.returnValue();
-    mockSettingsService.getPermissionSettings.and.returnValue();
-    mockSettingsService.getSettings.and.returnValue();
-    mockSettingsService.getArlasHubUrl.and.returnValue();
-    mockSettingsService.setSettings.and.returnValue();
-    mockSettingsService.getLinksSettings.and.returnValue();
-    mockSettingsService.getTicketingKey.and.returnValue();
+    beforeEach(async () => {
+        const mockSettingsService = {
+            settings: { tab_name: 'Test' },
+            getAuthentSettings: vi.fn().mockName('ArlasSettingsService.getAuthentSettings'),
+            getPersistenceSettings: vi.fn().mockName('ArlasSettingsService.getPersistenceSettings'),
+            getPermissionSettings: vi.fn().mockName('ArlasSettingsService.getPermissionSettings'),
+            getSettings: vi.fn().mockName('ArlasSettingsService.getSettings'),
+            getArlasHubUrl: vi.fn().mockName('ArlasSettingsService.getArlasHubUrl'),
+            setSettings: vi.fn().mockName('ArlasSettingsService.setSettings'),
+            getLinksSettings: vi.fn().mockName('ArlasSettingsService.getLinksSettings'),
+            getTicketingKey: vi.fn().mockName('ArlasSettingsService.getTicketingKey'),
+            getGeocodingSettings: vi.fn()
+        };
 
-    const mockContributorService = jasmine.createSpyObj('ContributorService', ['getSearchContributors']);
-    mockContributorService.getSearchContributors.and.returnValue();
+        const mockContributorService = {
+            getSearchContributors: vi.fn().mockName('ContributorService.getSearchContributors')
+        };
 
-    await TestBed.configureTestingModule({
-    imports: [
-        MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
-        FormsModule, MatChipsModule, MatTooltipModule, RouterModule, HistogramModule,
-        MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        ArlasTaggerModule, ArlasToolkitSharedModule,
-        GetResultlistConfigPipe,
-        ArlasWuiRootComponent
-    ],
-    providers: [
-        ArlasCollaborativesearchService,
-        ArlasConfigService,
-        {
-            provide: ContributorService,
-            useValue: mockContributorService
-        },
-        ArlasStartupService,
-        { provide: APP_BASE_HREF, useValue: '/' },
-        ResultlistService,
-        VisualizeService,
-        {
-            provide: ArlasSettingsService,
-            useValue: mockSettingsService
-        },
-        ArlasCollectionService
-    ],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        await TestBed.configureTestingModule({
+            imports: [
+                TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+                ArlasWuiRootComponent,
+                RouterModule.forRoot([]),
+                OAuthModule.forRoot(),
+                ColorGeneratorModule.forRoot({
+                    loader: {
+                        provide: ColorGeneratorLoader,
+                        useClass: AwcColorGeneratorLoader
+                    }
+                }),
+                ArlasWalkthroughModule.forRoot(),
+            ],
+            providers: [
+                ArlasCollaborativesearchService,
+                {
+                    provide: ContributorService,
+                    useValue: mockContributorService
+                },
+                ArlasStartupService,
+                { provide: APP_BASE_HREF, useValue: '/' },
+                ResultlistService,
+                VisualizeService,
+                {
+                    provide: ArlasSettingsService,
+                    useValue: mockSettingsService
+                },
+                ArlasCollectionService,
+                {
+                    provide: FETCH_OPTIONS,
+                    useValue: {}
+                },
+                {
+                    provide: GET_OPTIONS,
+                    useValue: () => {}
+                },
+                {
+                    provide: CONFIG_UPDATER,
+                    useValue: () => {}
+                },
+                ArlasMapSettings,
+                ArlasMapService,
+                ArlasBookmarkService,
+                ArlasTagService,
+                {
+                    provide: ArlasConfigService,
+                    useClass: MockArlasConfigService
+                },
+                {
+                    provide: BasemapService,
+                    useValue: {
+                        fetchSources$: () => of([]),
+                        protomapBasemapAdded$: of(),
+                        setBasemaps: (basemaps) => {}
+                    }
+                }
+            ],
+            teardown: { destroyAfterEach: false }
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(ArlasWuiRootComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ArlasWuiRootComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

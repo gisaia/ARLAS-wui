@@ -2,16 +2,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "baseUrl": "",
-    "types": [
-      "geojson",
-      "jasmine",
-      "node"
-    ]
+    "baseUrl": ""
   },
-  "files": [
-    "test.ts"
-  ],
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts"

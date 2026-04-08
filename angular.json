@@ -355,40 +355,10 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ],
-            "styles": [
-              "src/styles/arlas-wui-theme.scss",
-              "src/styles.scss",
-              "node_modules/iv-viewer/dist/iv-viewer.css",
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
-              "node_modules/maplibre-gl/dist/maplibre-gl.css",
-              "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/config.json",
-              "src/config.map.json",
-              "src/settings.yaml",
-              "src/silent-refresh.html",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/arlas-map/assets/icons/resize",
-                "output": "/assets/icons/resize/"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/arlas-map/assets/icons/rotate",
-                "output": "/assets/icons/rotate/"
-              }
-            ]
+            "watch": false
           }
         },
         "lint": {
