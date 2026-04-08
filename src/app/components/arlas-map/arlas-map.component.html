@@ -17,7 +17,7 @@
         </button>
         @if (enableTerrain) {
           <button mat-icon-button class="arlas-map-settings-items" matTooltipPosition="left"
-              [matTooltip]="(mapglComponent.hasTerrain() ? 'Hide terrain' : 'Display terrain') | translate" (click)="mapglComponent.toggleTerrain()">
+              [matTooltip]="(mapglComponent?.hasTerrain() ? 'Hide terrain' : 'Display terrain') | translate" (click)="mapglComponent.toggleTerrain()">
             <mat-icon>terrain</mat-icon>
           </button>
         }

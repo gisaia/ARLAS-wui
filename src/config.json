@@ -771,7 +771,19 @@
                 ],
                 "enabled": true
               }
-            ]
+            ],
+            "terrain": {
+              "enable": true,
+              "exaggeration": 2,
+              "source": {
+                "type": "raster-dem",
+                "tiles": [
+                  "https://tiles.mapterhorn.com/{z}/{x}/{y}.webp"
+                ],
+                "encoding": "terrarium",
+                "tileSize": 512
+              }
+            }
           }
         },
         "resultlists": [
