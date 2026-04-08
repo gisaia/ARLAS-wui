@@ -26,7 +26,7 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import {
-  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortedColumn, SortEnum
 } from 'arlas-web-components';
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
@@ -39,7 +39,6 @@ import { VisualizeService } from '../services/visualize.service';
 import { isElementInViewport } from '../tools/utils';
 import { CogService } from './cog.service';
 import { ContributorService } from './contributors.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +59,7 @@ export class ResultlistService<L, S, M> {
 
   /** Resultlist state */
   public isGeoSortActivated = new Map<string, boolean>();
-  public sortOutput = new Map<string, { fieldName: string; sortDirection: SortEnum; columnName?: string; }>();
+  public sortOutput = new Map<string, SortedColumn>();
   public selectedListTabIndex = 0;
   public listOpen = false;
   public listOpenChange = new Subject<boolean>();
@@ -100,7 +99,7 @@ export class ResultlistService<L, S, M> {
       this.resultlistConfigs = resultlistConfigs;
 
       this.resultlistConfigs.forEach(rlConf => {
-        rlConf.input.cellBackgroundStyle = !!rlConf.input.cellBackgroundStyle ?
+        rlConf.input.cellBackgroundStyle = rlConf.input.cellBackgroundStyle ?
           CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
         this.resultlistConfigPerContId.set(rlConf.contributorId, rlConf.input);
       });
@@ -186,7 +185,7 @@ export class ResultlistService<L, S, M> {
    */
   private setResultlistGeoFilter(resultlistContributor: ResultListContributor, mapContributor: MapContributor | undefined,
     rawExtent: string, wrappedExtent: string): void {
-    if (!!mapContributor) {
+    if (mapContributor) {
       let geoField: string | undefined;
       let geoOp: Expression.OpEnum;
       if (mapContributor.windowExtentGeometry === ExtentFilterGeometry.geometry_path) {
@@ -207,7 +206,7 @@ export class ResultlistService<L, S, M> {
       const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
       const highLightItems = hoveredFeatures
         .filter(f => f.layer.metadata.collection === c.collection)
-        .map(f => f.properties[idFieldName.replace(/\./g, '_')])
+        .map(f => f.properties[idFieldName.replaceAll('.', '_')])
         .filter(id => id !== undefined)
         .map(id => id.toString());
       c.setHighlightItems(highLightItems);
@@ -271,20 +270,12 @@ export class ResultlistService<L, S, M> {
       const isDetailledGridOpen = listConfig.isDetailledGridOpen;
       if (productTile) {
         productTile.click();
-        if (!isDetailledGridOpen) {
-          setTimeout(() => {
-            const detailGridButton = document.getElementById('show_details_gridmode_btn');
-            if (detailGridButton) {
-              detailGridButton.click();
-              isOpen.next(true);
-            }
-          }, 250);
-        } else {
+        if (isDetailledGridOpen) {
           // If image is displayed switch to detail data
           const gridDivs = document.getElementsByClassName('resultgrid__img');
           if (gridDivs.length > 0) {
             const imgDiv = gridDivs[0].parentElement;
-            if (window.getComputedStyle(imgDiv).display === 'block') {
+            if (globalThis.getComputedStyle(imgDiv).display === 'block') {
               setTimeout(() => {
                 const detailGridButton = document.getElementById('show_details_gridmode_btn');
                 if (detailGridButton) {
@@ -294,6 +285,14 @@ export class ResultlistService<L, S, M> {
               }, 1);
             }
           }
+        } else {
+          setTimeout(() => {
+            const detailGridButton = document.getElementById('show_details_gridmode_btn');
+            if (detailGridButton) {
+              detailGridButton.click();
+              isOpen.next(true);
+            }
+          }, 250);
         }
       }
 
@@ -317,7 +316,7 @@ export class ResultlistService<L, S, M> {
     } else {
       const idFieldName = resultListContributor.getConfigValue('fieldsConfiguration')['idFieldName'];
       this.sortOutput.set(resultListContributor.identifier,
-        { fieldName: idFieldName, sortDirection: SortEnum.none });
+        { fieldName: idFieldName, sortDirection: SortEnum.none, columnName: marker('Sorted by identifier') });
       /** Sort the list by the selected column and the id field name */
       resultListContributor.sortColumn({ fieldName: idFieldName, sortDirection: SortEnum.none }, true);
       mapContributor.searchSort = resultListContributor.sort;
@@ -362,7 +361,7 @@ export class ResultlistService<L, S, M> {
           this.aiasEnrich(this.selectedItems.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'export_csv') {
           this.resultlistIsExporting = true;
-          this.exportService.fetchResultlistData$(resultListContributor, undefined)
+          this.exportService.fetchResultlistData$(resultListContributor)
             .pipe(finalize(() => this.resultlistIsExporting = false))
             .subscribe({
               next: (h) => this.exportService.exportResultlist(resultListContributor, h),
@@ -528,11 +527,11 @@ export class ResultlistService<L, S, M> {
 
   private addActions() {
     this.resultlistContributors.forEach(c => {
-      const listActionsId = c.actionToTriggerOnClick.map(a => a.id);
+      const listActionsId = new Set(c.actionToTriggerOnClick.map(a => a.id));
       const mapcontributor = this.mapService.mapContributors.find(mc => mc.collection === c.collection);
       const config = this.resultlistConfigPerContId.get(c.identifier);
       if (config) {
-        if (!listActionsId.includes('visualize')) {
+        if (!listActionsId.has('visualize')) {
           const action: Action = {
             id: 'visualize', label: marker('Visualize'), icon: 'visibility', cssClass: '', tooltip: marker('Visualize on the map'),
             reverseAction: {
@@ -547,14 +546,14 @@ export class ResultlistService<L, S, M> {
             c.addAction(action);
           }
         }
-        if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.includes('download')) {
+        if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.has('download')) {
           c.addAction({
             id: 'download', label: marker('Download metadata'),
             cssClass: '', tooltip: marker('Download description of the item')
           });
         }
       }
-      if (!!mapcontributor && !listActionsId.includes('zoomToFeature')) {
+      if (!!mapcontributor && !listActionsId.has('zoomToFeature')) {
         c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to item') });
       }
     });

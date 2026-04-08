@@ -18,6 +18,8 @@
  */
 
 import { Component, OnInit, Output } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { TranslatePipe } from '@ngx-translate/core';
 import { UserOrgData } from 'arlas-iam-api';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasColorService } from 'arlas-web-components';
@@ -36,7 +38,10 @@ export interface Configuration {
   selector: 'arlas-configs-list',
   templateUrl: './configs-list.component.html',
   styleUrls: ['./configs-list.component.scss'],
-  standalone: false
+  imports: [
+    TranslatePipe,
+    MatTabsModule
+  ]
 })
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
@@ -56,11 +61,11 @@ export class ConfigsListComponent implements OnInit {
   @Output() public openHubEventEmitter: Subject<boolean> = new Subject();
 
   public constructor(
-    private persistenceService: PersistenceService,
-    private arlasColorService: ArlasColorService,
-    private arlasSettingsService: ArlasSettingsService,
-    private arlasIamService: ArlasIamService,
-    private arlasStartupService: ArlasStartupService
+    private readonly persistenceService: PersistenceService,
+    private readonly arlasColorService: ArlasColorService,
+    private readonly arlasSettingsService: ArlasSettingsService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly arlasStartupService: ArlasStartupService
   ) {
     this.hubUrl = this.arlasSettingsService.getArlasHubUrl();
     const authSettings = this.arlasSettingsService.getAuthentSettings();
@@ -77,7 +82,7 @@ export class ConfigsListComponent implements OnInit {
     if (this.authentMode === 'iam') {
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
-          if (!!userSubject) {
+          if (userSubject) {
             this.orgs = userSubject.user.organisations.map(org => {
               org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
               return org;
@@ -108,10 +113,10 @@ export class ConfigsListComponent implements OnInit {
   public switchConf(confId: string) {
     let url = '?config_id=' + confId;
     const currentOrg = this.arlasIamService.getOrganisation();
-    if (!!currentOrg) {
+    if (currentOrg) {
       url += '&org=' + currentOrg;
     }
-    window.location.search = url;
+    globalThis.location.search = url;
   }
 
   /**
@@ -123,7 +128,7 @@ export class ConfigsListComponent implements OnInit {
       .subscribe({
         next: (result: DataResource) => {
           this.listResolved = true;
-          if (!!result.data) {
+          if (result.data) {
             result.data.forEach((d: DataWithLinks) => {
               const config: Configuration = {
                 id: d.id,

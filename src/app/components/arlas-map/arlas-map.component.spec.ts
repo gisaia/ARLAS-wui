@@ -11,19 +11,20 @@ describe('ArlasWuiMapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArlasWuiMapComponent ],
-      imports: [
+    imports: [
         ArlasToolKitModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        ArlasToolkitSharedModule
-      ],
-      providers: [
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+        }),
+        ArlasToolkitSharedModule,
+        ArlasWuiMapComponent
+    ],
+    providers: [
         VisualizeService,
         ContributorService
-      ],
-      teardown: { destroyAfterEach: false }
-    })
+    ],
+    teardown: { destroyAfterEach: false }
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ArlasWuiMapComponent);

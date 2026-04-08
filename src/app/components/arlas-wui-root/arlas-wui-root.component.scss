@@ -147,6 +147,10 @@
   @include toggle();
   display: flex;
   align-items: center;
+
+  --mat-icon-button-touch-target-size: 24px;
+  --mat-icon-button-state-layer-size: 24px;
+  padding: 0;
 }
 
 .toggle-hidden {
@@ -239,10 +243,10 @@
       right: calc($result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {
-      right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
+      right: calc($result-list-width + $sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
     }
     ::ng-deep.basemap-container {
-      right: calc($result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
+      right: calc($result-list-width + $sm-spacing + var(--arlas-map-actions-width) + $sm-spacing) !important;
     }
 
     ::ng-deep.current-coordinate,
@@ -268,11 +272,11 @@
       right: calc($preview-result-list-width + $sm-spacing) !important;
     }
     ::ng-deep.aoi-dimensions {
-      right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing);
+      right: calc($preview-result-list-width + $sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
     }
 
     ::ng-deep.basemap-container {
-      right: calc($preview-result-list-width + $sm-spacing + $map-actions-width + $sm-spacing) !important;
+      right: calc($preview-result-list-width + $sm-spacing + var(--arlas-map-actions-width) + $sm-spacing) !important;
     }
 
     ::ng-deep.current-coordinate,
@@ -384,10 +388,10 @@
 
 .arlas-map ::ng-deep.basemap-container {
   top: calc(
-    $sm-spacing + $map-attributions-height + $sm-spacing + $map-actions-width + $sm-spacing + $map-actions-length +
+    $sm-spacing + $map-attributions-height + $sm-spacing + var(--arlas-map-actions-width) + $sm-spacing + $map-actions-length +
       $sm-spacing
   );
-  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
+  right: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
   z-index: 1;
 }
 

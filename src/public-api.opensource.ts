@@ -17,5 +17,5 @@
  * under the License.
  */
 
-export * from  'public-api';
 export { ArlasWuiOSModule } from './app/app.module.opensource';
+export * from './public-api';

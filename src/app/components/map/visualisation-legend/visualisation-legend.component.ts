@@ -28,13 +28,12 @@ export interface CogLegendData {
   url: string;
   name: string;
   minimum?: number;
-  maximum?: string;
+  maximum?: number;
 }
 
 
 @Component({
   selector: 'arlas-visualisation-legend',
-  standalone: true,
   imports: [
     KeyValuePipe,
     CogLegendComponent

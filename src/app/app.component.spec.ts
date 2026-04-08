@@ -55,60 +55,61 @@ describe('ArlasWuiComponent', () => {
     });
 
     await TestBed.configureTestingModule({
-      declarations: [ArlasWuiComponent],
-      imports: [
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         MatTooltipModule,
         /** Needed for ResultlistService */
         RouterTestingModule
         /** End */
-      ],
-      providers: [
+        ,
+        ArlasWuiComponent
+    ],
+    providers: [
         ResultlistService,
         ArlasWuiMapService,
         ArlasColorService,
         ArlasCollaborativesearchService,
         ArlasConfigService,
         {
-          provide: ArlasStartupService,
-          useClass: MockArlasStartupService
+            provide: ArlasStartupService,
+            useClass: MockArlasStartupService
         },
         {
-          provide: ArlasSettingsService,
-          useValue: mockSettingsService
+            provide: ArlasSettingsService,
+            useValue: mockSettingsService
         },
         {
-          provide: ContributorService,
-          useValue: mockContributorService
+            provide: ContributorService,
+            useValue: mockContributorService
         },
         /** Needed for ResultlistService */
         MatSnackBar,
         VisualizeService,
         MatDialog,
         {
-          provide: MAT_DIALOG_SCROLL_STRATEGY,
-          useValue: {}
+            provide: MAT_DIALOG_SCROLL_STRATEGY,
+            useValue: {}
         },
         Dialog,
         {
-          provide: DIALOG_SCROLL_STRATEGY,
-          useValue: {}
+            provide: DIALOG_SCROLL_STRATEGY,
+            useValue: {}
         },
         provideHttpClient(withInterceptorsFromDi()),
         /** End */
         {
-          provide: ColorGeneratorLoader,
-          useValue: mockColorGeneratorLoader
+            provide: ColorGeneratorLoader,
+            useValue: mockColorGeneratorLoader
         },
         ArlasCollectionService,
         {
-          provide: ArlasConfigService,
-          useClass: MockArlasConfigService
+            provide: ArlasConfigService,
+            useClass: MockArlasConfigService
         }
-      ]
-    }).compileComponents();
+    ]
+}).compileComponents();
   });
 
   beforeEach(() => {

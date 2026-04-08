@@ -17,15 +17,17 @@
  * under the License.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { environment } from './environments/environment';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { ArlasWuiComponent } from './app/app.component';
 import { ArlasWuiModule } from './app/app.module';
+import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(ArlasWuiModule)
+bootstrapApplication(ArlasWuiComponent, {
+    providers: [importProvidersFrom(ArlasWuiModule)]
+})
   .catch(err => console.log(err));

@@ -1,196 +1,206 @@
-<div>
-  <arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version" [showAboutButton]="true">
-    <div left-menu class="top-left-menu">
-      <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
-      @if (searchContributors) {
-        <arlas-search #search id="search" class="arlas-search"
-          [searchContributors]="searchContributors" [dialogPositionLeft]="46" [dialogPositionTop]="-1"></arlas-search>
-        <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
-      }
-      <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
-        [collectionToDescription]="contributorService.collectionToDescription" (zoomEvent)="zoomToData($event)"
-        [availableSpace]="availableSpaceCounts" [spacing]="spacing">
-      </arlas-filter>
-    </div>
+<arlas-top-menu [wuiName]="'ARLAS WUI'" [version]="version" [showAboutButton]="true">
+  <div left-menu class="top-left-menu">
+    <img src="assets/logo-only.png" [matTooltip]="appName | translate" class="img" alt="'ARLAS-wui logo' | translate">
+    @if (searchContributors) {
+      <arlas-search #search id="search" class="arlas-search"
+        [searchContributors]="searchContributors" [dialogPositionLeft]="46" [dialogPositionTop]="-1"></arlas-search>
+      <mat-divider vertical class="vertical-divider" id="menuDivider"></mat-divider>
+    }
+    <arlas-filter class="arlas-filters-chips-top" [showZoomToData]="showZoomToData" [zoomToStrategy]="zoomToStrategy"
+      [collectionToDescription]="contributorService.collectionToDescription" (zoomEvent)="zoomToData($event)"
+      [availableSpace]="availableSpaceCounts" [spacing]="spacing">
+    </arlas-filter>
+  </div>
 
-    <div right-menu class="right-menu-container" id="title">
-      @if (arlasMapComponent?.geojsondraw?.features.length > 0 && orderFormService.config?.enabled) {
-        <button mat-stroked-button (click)="openOrderForm()" class="order-form__button">
-          {{ orderFormService.config.text.button | translate }}
-        </button>
-      }
-      <arlas-permissions-creator></arlas-permissions-creator>
+  <div right-menu class="right-menu-container" id="title">
+    @if (arlasMapComponent?.geojsondraw?.features.length > 0 && orderFormService.config?.enabled) {
+      <button mat-stroked-button (click)="openOrderForm()" class="order-form__button">
+        {{ orderFormService.config.text.button | translate }}
+      </button>
+    }
+    <arlas-permissions-creator></arlas-permissions-creator>
+    <mat-divider vertical class="vertical-divider"></mat-divider>
+    <span class="title">{{ appName | translate }}</span>
+    @if (!arlasStartupService.emptyMode) {
       <mat-divider vertical class="vertical-divider"></mat-divider>
-      <span class="title">{{appName | translate}}</span>
-      @if (!arlasStartupService.emptyMode) {
-        <mat-divider vertical class="vertical-divider"></mat-divider>
 
-        @if(shareComponentConfig || downloadComponentConfig) {
-          <button mat-icon-button (click)="displayExportData()" [matTooltip]="'Export data' | translate">
+      @if (shareComponentConfig || downloadComponentConfig) {
+        <button mat-icon-button (click)="displayExportData()" [matTooltip]="'Export data' | translate">
           <mat-icon>get_app</mat-icon>
         </button>
-        }
-        <!-- Wait for map to be loaded to make bookmarks available -->
-        @if (mapService.mapComponent) {
-          <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">
-            <mat-icon>bookmark</mat-icon>
-          </button>
-        }
-        <mat-divider vertical class="vertical-divider"></mat-divider>
       }
-    </div>
-  </arlas-top-menu>
+      <!-- Wait for map to be loaded to make bookmarks available -->
+      @if (mapService.mapComponent) {
+        <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">
+          <mat-icon>bookmark</mat-icon>
+        </button>
+      }
+      <mat-divider vertical class="vertical-divider"></mat-divider>
+    }
+  </div>
+</arlas-top-menu>
 
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #leftSidenav mode="side" opened [disableClose]="true">
-      <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
-        [showIndicators]="showIndicators"></arlas-left-menu>
-    </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content" *ngIf="!arlasStartupService.emptyMode; else emptyMode">
-      <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false"></arlas-configs-list>
-
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #leftSidenav mode="side" opened [disableClose]="true">
+    <arlas-left-menu (menuEventEmitter)="consumeMenuEvents($event)" [toggleStates]="menuState"
+      [showIndicators]="showIndicators"></arlas-left-menu>
+  </mat-sidenav>
+  @if (!arlasStartupService.emptyMode) {
+    <mat-sidenav-content class="sidenav-content">
+      @if (menuState.configs) {
+        <arlas-configs-list (openHubEventEmitter)="menuState.configs = false"></arlas-configs-list>
+      }
       <div class="main_content">
         <arlas-tool-root></arlas-tool-root>
-        <div *ngIf="arlasStartupService.shouldRunApp">
-          <!-- reduce = list is open and analytics closed -->
-          <!-- with-list = list is closed but there is a preview and analytics closed -->
-          <!-- -analytics = analytics open in addition to previously mentionned state -->
-          <div class="app-container"
-            [class.app-container-reduce]="resultlistService.listOpen && analyticsService.activeTab === undefined"
-            [class.app-container-with-list]="resultlistService.rightListContributors.length > 0
-              && !resultlistService.listOpen
-              && (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode
-              && analyticsService.activeTab === undefined"
-            [class.app-container-reduce-analytics]="resultlistService.listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-with-list-analytics]="resultlistService.rightListContributors.length > 0
-              && !resultlistService.listOpen
-              && (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode
-              && analyticsService.activeTab !== undefined"
-            [class.app-container-analytics]="(resultlistService.rightListContributors.length === 0
-                || (resultlistService.rightListContributors.length > 0
-                  && !(resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode))
-              && !resultlistService.listOpen && analyticsService.activeTab !== undefined"
-            [class.app-container-timeline-hidden]="!showTimeline"
-            [class.app-container-timeline-legend]="showTimeline && timelineComponent
-              && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1 && showTimelineLegend">
+        @if (arlasStartupService.shouldRunApp) {
+          <div>
+            <!-- reduce = list is open and analytics closed -->
+            <!-- with-list = list is closed but there is a preview and analytics closed -->
+            <!-- -analytics = analytics open in addition to previously mentionned state -->
+            @let hasGridMode = (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode;
+            @let hasList = resultlistService.rightListContributors.length > 0;
+            @let analyticsClosed = analyticsService.activeTab === undefined;
+            <div class="app-container"
+                [class.app-container-reduce]="resultlistService.listOpen && analyticsClosed"
+                [class.app-container-with-list]="hasList && !resultlistService.listOpen && hasGridMode && analyticsClosed"
+                [class.app-container-reduce-analytics]="resultlistService.listOpen && !analyticsClosed"
+                [class.app-container-with-list-analytics]="hasList && !resultlistService.listOpen && hasGridMode && !analyticsClosed"
+                [class.app-container-analytics]="(!hasList || (hasList && !hasGridMode)) && !resultlistService.listOpen && !analyticsClosed"
+                [class.app-container-timeline-hidden]="!showTimeline"
+                [class.app-container-timeline-legend]="showTimeline && timelineComponent
+                  && timelineComponent.timelineLegend && timelineComponent.timelineLegend.length > 1 && showTimelineLegend">
 
-            <div class="shortcut-list" *ngIf="showShortcuts || analyticsService.activeTab === undefined">
-              <ng-container *ngFor="let shortcut of shortcuts; let idx=index">
-                <arlas-filter-shortcut id="shortcut-{{idx}}" class="shortcut" [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
-                  [isOpen]="idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, idx)"
-                  [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-              </ng-container>
-              <div class="extra-shortcuts" *ngIf="showShortcuts || (extraShortcuts && extraShortcuts.length > 0)">
-                <section class="title" id="extra-shortcuts-title" (click)="toggleExtraShortcuts()" [style.width.px]="showMoreShortcutsWidth">
-                    <div class="text">{{ isExtraShortcutsOpen ? ('See less' | translate) : ('See more' | translate) }}</div>
-                    <div class="info">
-                        <span class="tablet" *ngIf="extraShortcutsFiltered !== 0">
-                          {{ extraShortcutsFiltered }}
-                        </span>
-                        <mat-icon class="chevron">
+              @if (showShortcuts() || analyticsClosed) {
+                <div class="shortcut-list">
+                  @for (shortcut of shortcuts; track shortcut; let idx = $index) {
+                    <arlas-filter-shortcut id="shortcut-{{idx}}" class="shortcut" [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
+                      [isOpen]="idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, idx)"
+                      [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+                  }
+
+                  @if (showShortcuts() || extraShortcuts.length > 0) {
+                    <div class="extra-shortcuts">
+                      <section class="title" id="extra-shortcuts-title" (click)="toggleExtraShortcuts()" [style.width.px]="showMoreShortcutsWidth">
+                        <div class="text">{{ (isExtraShortcutsOpen ? 'See less' : 'See more') | translate }}</div>
+                        <div class="info">
+                          @if (extraShortcutsFiltered !== 0) {
+                            <span class="tablet">
+                              {{ extraShortcutsFiltered }}
+                            </span>
+                          }
+                          <mat-icon class="chevron">
                             {{isExtraShortcutsOpen ? 'expand_less' : 'expand_more'}}
-                        </mat-icon>
+                          </mat-icon>
+                        </div>
+                      </section>
+                      <section [class.hidden]="!isExtraShortcutsOpen" class="extra-shortcuts-list"  [style.transform]="'translate(calc(' + showMoreShortcutsWidth + 'px - 100%), 0)'">
+                        @for (shortcut of extraShortcuts; track shortcut; let idx = $index) {
+                          <div class="shortcut">
+                            <arlas-filter-shortcut [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
+                              [isOpen]="shortcuts.length + idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, shortcuts.length + idx)"
+                              [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+                          </div>
+                        }
+                      </section>
                     </div>
-                </section>
-                <section [class.hidden]="!isExtraShortcutsOpen" class="extra-shortcuts-list"  [style.transform]="'translate(calc(' + showMoreShortcutsWidth + 'px - 100%), 0)'">
-                    <div *ngFor="let shortcut of extraShortcuts; let idx=index" class="shortcut">
-                        <arlas-filter-shortcut [shortcutWidth]="shortcutWidth" [shortcut]="shortcut"
-                          [isOpen]="shortcuts.length + idx === shortcutOpen" (isOpenChange)="onOpenShortcut($event, shortcut.length + idx)"
-                          [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-                    </div>
-                </section>
+                  }
+                </div>
+              }
+              <div class="arlas-map" [class.arlas-map--tight]="!mapService.coordinatesHaveSpace"
+                  [class.arlas-map--tight-reduce]="!mapService.coordinatesHaveSpace && resultlistService.listOpen"
+                  [class.arlas-map--tight-with-list]="!mapService.coordinatesHaveSpace && !resultlistService.listOpen
+                    && hasList && hasGridMode">
+                <button mat-icon-button class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
+                    [matTooltip]="'Close analytics board' | translate" matTooltipPosition="right">
+                  <mat-icon class="primary">keyboard_arrow_left</mat-icon>
+            </button>
+                @if (analyticsService.activeTab !== undefined) {
+                  <div class="arlas-analytics--wrapper">
+                    <arlas-analytics></arlas-analytics>
+                  </div>
+                }
+                <arlas-wui-map #arlasMap></arlas-wui-map>
+                @if (hasList) {
+                  <div class="resultlist__toggle" (click)="toggleList()"
+                      [class.resultlist__toggle--open]="resultlistService.listOpen"
+                      [class.resultlist__toggle--no-grid]="!resultlistService.listOpen && !hasGridMode">
+                    <mat-icon [matTooltip]="(resultlistService.listOpen ? 'Close data table' : 'Open data table') | translate" matTooltipPosition="before">
+                      {{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
+                  </div>
+                }
+
+                @if (!resultlistService.listOpen && !!resultlistService.previewListContrib && hasGridMode) {
+                  <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen">
+                    <arlas-result-list [rowItemList]="resultlistService.previewListContrib.data"
+                      [fieldsList]="resultlistService.previewListContrib.fieldsList"
+                      [detailedDataRetriever]="resultlistService.previewListContrib.detailedDataRetriever"
+                      [fieldsConfiguration]="resultlistService.previewListContrib.fieldsConfiguration"
+                      [dropDownMapValues]="resultlistService.previewListContrib.dropDownMapValues"
+                      [filtersMap]="resultlistService.previewListContrib.filtersMap" [highlightItems]="resultlistService.previewListContrib.highlightItems"
+                      [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="previewListWidth" [defautMode]="1"
+                      [fetchState]="resultlistService.previewListContrib.fetchState" [globalActionsList]="[]"
+                      [isGeoSortEnabled]="(resultlistService.previewListContrib | getResultlistConfig)?.isGeoSortActived"
+                      [options]="(resultlistService.previewListContrib | getResultlistConfig)?.options"
+                      [displayFilters]="false"
+                      [useColorService]="(resultlistService.previewListContrib | getResultlistConfig)?.useColorService"
+                      [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
+                      [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
+                      [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
+                      [activatedActionsPerItem]="actionManager.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
+                      [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
+                      [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
+                      (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
+                      (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
+                      (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"
+                      (clickOnTile)="clickOnTile($event)"
+                      (paginationEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'paginationEvent', data: $event })"
+                      (geoSortEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'geoSortEvent', data: $event })"
+                      (geoAutoSortEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'geoAutoSortEvent', data: $event })"
+                      (selectedItemsEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'selectedItemsEvent', data: $event })"
+                      (consultedItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
+                      (actionOnItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
+                      (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
+                    </arlas-result-list>
+                  </div>
+                }
+                @if (hasList) {
+                  <div class="resultlist__wrapper mat-elevation-z1"
+                      [class.one-tab]="resultlistService.rightListContributors.length === 1"
+                      [class.resultlist__wrapper--open]="resultlistService.listOpen">
+                    <arlas-list #arlasList [previewListWidth]="previewListWidth" [listWidth]="listWidth" [resultListGridColumns]="resultListGridColumns"></arlas-list>
+                  </div>
+                }
               </div>
+
+              @if (timelineComponentConfig) {
+                <arlas-timeline #timeline
+                  class="arlas-timeline-toolkit" [class.timeline__legend--hidden]="!showTimelineLegend"
+                  [isDisplayHistogram]="showTimeline" (isDisplayHistogramChange)="toggleTimeline()"
+                  [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+                  [detailedTimelineComponent]="detailedTimelineComponentConfig">
+                </arlas-timeline>
+              }
+              @if (collaborativeService.totalSubscribe > 0) {
+                <mat-progress-bar class="arlas-progression" color="primary" mode="indeterminate"></mat-progress-bar>
+              }
             </div>
-
-            <div class="arlas-map" [class.arlas-map--tight]="!mapService.coordinatesHaveSpace"
-                [class.arlas-map--tight-reduce]="!mapService.coordinatesHaveSpace && resultlistService.listOpen"
-                [class.arlas-map--tight-with-list]="!mapService.coordinatesHaveSpace && !resultlistService.listOpen
-                  && resultlistService.rightListContributors.length > 0
-                  && (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode">
-              <div class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
-                matTooltip="{{'Close analytics board' | translate}}" matTooltipPosition="right">
-                <mat-icon class="primary">keyboard_arrow_left</mat-icon>
-              </div>
-              <div *ngIf="analyticsService.activeTab !== undefined" class="arlas-analytics--wrapper">
-                <arlas-analytics></arlas-analytics>
-              </div>
-
-              <arlas-wui-map #arlasMap></arlas-wui-map>
-
-              <div *ngIf="resultlistService.rightListContributors.length > 0" class="resultlist__toggle" (click)="toggleList()"
-                [class.resultlist__toggle--open]="resultlistService.listOpen"
-                [class.resultlist__toggle--no-grid]="!resultlistService.listOpen
-                  && !(resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode">
-                <mat-icon [matTooltip]="resultlistService.listOpen ? ('Close data table' | translate) : ('Open data table' | translate)" matTooltipPosition="before">
-                  {{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
-              </div>
-
-              <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen"
-                *ngIf="!resultlistService.listOpen && !!resultlistService.previewListContrib
-                  && (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode">
-                <arlas-result-list [rowItemList]="resultlistService.previewListContrib.data"
-                  [fieldsList]="resultlistService.previewListContrib.fieldsList"
-                  [detailedDataRetriever]="resultlistService.previewListContrib.detailedDataRetriever"
-                  [fieldsConfiguration]="resultlistService.previewListContrib.fieldsConfiguration"
-                  [dropDownMapValues]="resultlistService.previewListContrib.dropDownMapValues"
-                  [filtersMap]="resultlistService.previewListContrib.filtersMap" [highlightItems]="resultlistService.previewListContrib.highlightItems"
-                  [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="previewListWidth" [defautMode]="1"
-                  [fetchState]="resultlistService.previewListContrib.fetchState" [globalActionsList]="[]"
-                  [isGeoSortEnabled]="(resultlistService.previewListContrib | getResultlistConfig)?.isGeoSortActived"
-                  [options]="(resultlistService.previewListContrib | getResultlistConfig)?.options"
-                  [displayFilters]="false"
-                  [useColorService]="(resultlistService.previewListContrib | getResultlistConfig)?.useColorService"
-                  [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
-                  [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
-                  [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
-                  [activatedActionsPerItem]="actionManager.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
-                  [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
-                  [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
-                  (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
-                  (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
-                  (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"
-                  (clickOnTile)="clickOnTile($event)"
-                  (paginationEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'paginationEvent', data: $event })"
-                  (geoSortEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'geoSortEvent', data: $event })"
-                  (geoAutoSortEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'geoAutoSortEvent', data: $event })"
-                  (selectedItemsEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'selectedItemsEvent', data: $event })"
-                  (consultedItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
-                  (actionOnItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
-                  (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
-                </arlas-result-list>
-              </div>
-              <div *ngIf="resultlistService.rightListContributors.length > 0" class="resultlist__wrapper mat-elevation-z1"
-                  [class.one-tab]="resultlistService.rightListContributors.length === 1"
-                  [class.resultlist__wrapper--open]="resultlistService.listOpen">
-                <arlas-list #arlasList [previewListWidth]="previewListWidth" [listWidth]="listWidth" [resultGridColumns]="resultListGridColumns"></arlas-list>
-              </div>
-            </div>
-
-            <arlas-timeline #timeline *ngIf="timelineComponentConfig"
-              class="arlas-timeline-toolkit" [class.timeline__legend--hidden]="!showTimelineLegend"
-              [isDisplayHistogram]="showTimeline" (isDisplayHistogramChange)="toggleTimeline()"
-              [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-              [detailedTimelineComponent]="detailedTimelineComponentConfig">
-            </arlas-timeline>
-
-            <mat-progress-bar class="arlas-progression" *ngIf="collaborativeService.totalSubscribe > 0" color="primary"
-              mode="indeterminate"></mat-progress-bar>
           </div>
-        </div>
+        }
       </div>
     </mat-sidenav-content>
-    <ng-template #emptyMode>
-      <mat-sidenav-content class="sidenav-content">
-        <arlas-configs-list *ngIf="menuState.configs" (openHubEventEmitter)="menuState.configs = false">
+  } @else {
+    <mat-sidenav-content class="sidenav-content">
+      @if (menuState.configs) {
+        <arlas-configs-list (openHubEventEmitter)="menuState.configs = false">
         </arlas-configs-list>
-        <div class="empty_mode">
-          <div class="welcome">{{'Welcome to ARLAS-Exploration' | translate}}</div>
-          <img class="img" src="assets/logo-only.png" [matTooltip]="appName | translate" [alt]="'ARLAS-wui logo' | translate">
-          <div class="action" (click)="goToArlasHub()">{{'go to arlas hub' | translate}}</div>
-        </div>
-      </mat-sidenav-content>
-    </ng-template>
-  </mat-sidenav-container>
-</div>
+      }
+      <div class="empty_mode">
+        <div class="welcome">{{'Welcome to ARLAS-Exploration' | translate}}</div>
+        <img class="img" src="assets/logo-only.png" [matTooltip]="appName | translate" [alt]="'ARLAS-wui logo' | translate">
+        <div class="action" (click)="goToArlasHub()">{{'go to arlas hub' | translate}}</div>
+      </div>
+    </mat-sidenav-content>
+  }
+</mat-sidenav-container>
 
 <arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>

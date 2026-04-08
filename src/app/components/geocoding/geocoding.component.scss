@@ -23,8 +23,8 @@
 
 :host {
   position: absolute;
-  right: calc($sm-spacing + $map-actions-width + $sm-spacing);
-  top: calc(3 * $map-actions-width);
+  right: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
+  top: calc(3 * var(--arlas-map-actions-width));
   background: white;
   width: 375px;
   box-sizing: border-box;
@@ -38,6 +38,12 @@
   .geocode-header {
     display: flex;
     justify-content: space-between;
+
+    &__close {
+      --mat-icon-button-touch-target-size: 24px;
+      --mat-icon-button-state-layer-size: 24px;
+      padding: 0;
+    }
   }
 
   .geocode-content {
@@ -102,6 +108,10 @@
   .error {
     font-size: $sm-font-size;
     color: $errorColor;
+  }
+
+  td {
+    cursor: pointer;
   }
 
   ::ng-deep td.mat-mdc-cell:last-of-type,

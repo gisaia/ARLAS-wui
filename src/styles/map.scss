@@ -56,16 +56,16 @@
     align-items: flex-end;
 
     .map__legend-button {
-      width: $map-actions-width;
-      height: $map-actions-width;
+      width: var(--arlas-map-actions-width);
+      height: var(--arlas-map-actions-width);
       margin-bottom: $sm-spacing;
       @include box-border();
       box-shadow: none;
       padding: 0;
 
       .mat-icon {
-        height: $map-actions-width;
-        width: $map-actions-width;
+        height: var(--arlas-map-actions-width);
+        width: var(--arlas-map-actions-width);
         padding: 0;
         display: flex;
         align-items: center;
@@ -100,9 +100,9 @@
   .mapboxgl-ctrl-group,
   .maplibregl-ctrl-group {
     // Leave space to insert map layers button between attributions and map controls
-    margin-top: calc($sm-spacing + $map-actions-width + $sm-spacing) !important;
+    margin-top: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing) !important;
     margin-right: 0 !important;
-    width: $map-actions-width;
+    width: var(--arlas-map-actions-width);
     @include box-border();
     box-shadow: none !important;
 
@@ -115,7 +115,7 @@
     &:has(.maplibregl-ctrl-globe),
     &:has(.maplibregl-ctrl-globe-enabled) {
       // There are 3 buttons in the map settings/geo filter/basemap/terrain group
-      margin-top: calc($sm-spacing + 4 * $map-actions-width + $sm-spacing) !important;
+      margin-top: calc($sm-spacing + 4 * var(--arlas-map-actions-width) + $sm-spacing) !important;
     }
   }
 }

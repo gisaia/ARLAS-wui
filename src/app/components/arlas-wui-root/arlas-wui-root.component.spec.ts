@@ -64,36 +64,34 @@ describe('ArlasWuiRootComponent', () => {
     mockContributorService.getSearchContributors.and.returnValue();
 
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         MatIconModule, MatAutocompleteModule, MatInputModule, ReactiveFormsModule, ArlasToolKitModule,
         FormsModule, MatChipsModule, MatTooltipModule, RouterModule, HistogramModule,
         MatSelectModule, MatMenuModule, MatProgressBarModule, MatRadioModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         ArlasTaggerModule, ArlasToolkitSharedModule,
-        GetResultlistConfigPipe
-      ],
-      declarations: [
+        GetResultlistConfigPipe,
         ArlasWuiRootComponent
-      ],
-      providers: [
+    ],
+    providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,
         {
-          provide: ContributorService,
-          useValue: mockContributorService
+            provide: ContributorService,
+            useValue: mockContributorService
         },
         ArlasStartupService,
         { provide: APP_BASE_HREF, useValue: '/' },
         ResultlistService,
         VisualizeService,
         {
-          provide: ArlasSettingsService,
-          useValue: mockSettingsService
+            provide: ArlasSettingsService,
+            useValue: mockSettingsService
         },
         ArlasCollectionService
-      ],
-      teardown: { destroyAfterEach: false }
-    }).compileComponents();
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
 
     fixture = TestBed.createComponent(ArlasWuiRootComponent);
     component = fixture.componentInstance;

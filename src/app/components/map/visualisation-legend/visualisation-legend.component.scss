@@ -34,7 +34,7 @@
         align-items: center;
 
         ::ng-deep.legend {
-            height: $map-actions-width;
+            height: var(--arlas-map-actions-width);
         }
     }
 }

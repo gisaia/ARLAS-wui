@@ -17,14 +17,17 @@
  * under the License.
  */
 
+import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, DestroyRef, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as helpers from '@turf/helpers';
 import {
   AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
@@ -44,6 +47,11 @@ import { ResultlistService } from '../../services/resultlist.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { updateAuthorizationHeaders$ } from '../../tools/authorization';
 import { VisualisationPreview } from '../../tools/cog';
+import { GeocodingComponent } from '../geocoding/geocoding.component';
+import { CogVisualisationManagerComponent } from '../map/cog-visualisation-manager/cog-visualisation-manager.component';
+import { RastersManagerComponent } from '../map/raster-layers-manager/rasters-manager.component';
+import { VisualisationLegendComponent } from '../map/visualisation-legend/visualisation-legend.component';
+import { AoiDimensionComponent } from './aoi-dimensions/aoi-dimensions.component';
 
 const DEFAULT_BASEMAP: BasemapStyle = {
   styleFile: 'https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4',
@@ -54,7 +62,21 @@ const DEFAULT_BASEMAP: BasemapStyle = {
   selector: 'arlas-wui-map',
   templateUrl: './arlas-map.component.html',
   styleUrls: ['./arlas-map.component.scss'],
-  standalone: false
+  imports: [
+    MapSettingsComponent,
+    MatTooltipModule,
+    TranslatePipe,
+    MatIconModule,
+    MatButtonModule,
+    AsyncPipe,
+    GeocodingComponent,
+    VisualisationLegendComponent,
+    CogVisualisationManagerComponent,
+    RastersManagerComponent,
+    ArlasMapComponent,
+    MapImportComponent,
+    AoiDimensionComponent
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
@@ -100,7 +122,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
   public aoiEdition: AoiEdition;
-  public geojsondraw: { type: string; features: Array<helpers.Feature<helpers.Geometry>>; } = {
+  public geojsondraw: helpers.FeatureCollection = {
     'type': 'FeatureCollection',
     'features': []
   };

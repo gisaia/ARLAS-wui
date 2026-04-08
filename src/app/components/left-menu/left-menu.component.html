@@ -3,33 +3,40 @@
     @if (!arlasStartupService.emptyMode) {
       <arlas-analytics-menu [showIndicators]="showIndicators"></arlas-analytics-menu>
       <mat-divider></mat-divider>
-      <ng-container *ngIf="isRefreshAnalyticsButton">
+      @if (isRefreshAnalyticsButton) {
         <button mat-icon-button class="arlas-analytics-refresh" (click)="refreshComponents()"
-          matTooltip="{{'Refresh components' | translate}}" matTooltipPosition="right">
+          [matTooltip]="'Refresh components' | translate" matTooltipPosition="right">
           <mat-icon>refresh</mat-icon>
         </button>
         <mat-divider></mat-divider>
-      </ng-container>
+      }
     }
   </div>
 
   <div class="action-list">
     <mat-divider></mat-divider>
-    <mat-nav-list *ngIf="showDashboardsList">
-      <mat-list-item *ngIf="persistenceService.isAvailable" (click)="show('configs')" [class.active-menu]="!!toggleStates.configs"
-        matTooltip="{{'Switch dashboard' | translate}}" matTooltipPosition="right">
-        <button mat-icon-button>
-          <mat-icon>apps</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-nav-list>
+    @if (showDashboardsList) {
+      <mat-nav-list>
+        @if (persistenceService.isAvailable) {
+          <mat-list-item [class.active-menu]="!!toggleStates.configs" [matTooltip]="'Switch dashboard' | translate" matTooltipPosition="right">
+            <button mat-icon-button (click)="show('configs')">
+              <mat-icon>apps</mat-icon>
+            </button>
+          </mat-list-item>
+        }
+      </mat-nav-list>
+    }
     @if (!arlasStartupService.emptyMode) {
-      <button mat-icon-button *ngIf="tagComponentConfig" [matMenuTriggerFor]="tagMenu" [matTooltip]="'Tag data' | translate" [matTooltipPosition]="'right'">
-        <mat-icon>local_offer</mat-icon>
-      </button>
-      <button mat-icon-button *ngIf="walkthroughService.isActivable" (click)="replayTour()" [matTooltip]="'Replay tour' | translate" [matTooltipPosition]="'right'">
-        <mat-icon>slideshow</mat-icon>
-      </button>
+      @if (tagComponentConfig) {
+        <button mat-icon-button [matMenuTriggerFor]="tagMenu" [matTooltip]="'Tag data' | translate" [matTooltipPosition]="'right'">
+          <mat-icon>local_offer</mat-icon>
+        </button>
+      }
+      @if (walkthroughService.isActivable) {
+        <button mat-icon-button (click)="replayTour()" [matTooltip]="'Replay tour' | translate" [matTooltipPosition]="'right'">
+          <mat-icon>slideshow</mat-icon>
+        </button>
+      }
     }
   </div>
 </div>

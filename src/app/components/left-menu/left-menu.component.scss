@@ -43,6 +43,10 @@
     flex-direction: column;
     justify-content: center;
 
+    button {
+      padding: 0;
+    }
+
     .mdc-list-item {
       padding-left: 0;
       padding-right: 0;

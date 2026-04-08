@@ -18,6 +18,7 @@
  */
 import { Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterOutlet } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
@@ -32,7 +33,9 @@ import { ResultlistService } from './services/resultlist.service';
   selector: 'arlas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  imports: [
+    RouterOutlet
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

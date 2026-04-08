@@ -15,20 +15,20 @@ describe('GeocodingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         MatInputModule,
         MatIconModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         MatFormFieldModule,
         ReactiveFormsModule,
-        MatTableModule
-      ],
-      declarations: [ GeocodingComponent ],
-      providers: [
+        MatTableModule,
+        GeocodingComponent
+    ],
+    providers: [
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(GeocodingComponent);

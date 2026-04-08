@@ -18,35 +18,35 @@ describe('ArlasAnalyticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArlasAnalyticsComponent ],
-      imports: [
+    imports: [
         RouterTestingModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
-      ],
-      providers: [
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        ArlasAnalyticsComponent
+    ],
+    providers: [
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: MockArlasStartupService
+            provide: ArlasStartupService,
+            useClass: MockArlasStartupService
         },
         MatSnackBar,
         VisualizeService,
         MatDialog,
         {
-          provide: MAT_DIALOG_SCROLL_STRATEGY,
-          useValue: {}
+            provide: MAT_DIALOG_SCROLL_STRATEGY,
+            useValue: {}
         },
         Dialog,
         {
-          provide: DIALOG_SCROLL_STRATEGY,
-          useValue: {}
+            provide: DIALOG_SCROLL_STRATEGY,
+            useValue: {}
         },
         Overlay,
         ArlasCollectionService,
         ContributorService,
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ArlasAnalyticsComponent);

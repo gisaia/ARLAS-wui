@@ -28,7 +28,6 @@ import { ResultlistService } from '../../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-cog-visualisation-manager',
-  standalone: true,
   imports: [
     CogPreviewComponent,
     MatTooltipModule,

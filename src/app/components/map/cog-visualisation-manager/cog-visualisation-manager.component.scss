@@ -24,7 +24,7 @@
 .manager__button {
   display: flex;
   align-items: center;
-  height: $map-actions-width;
+  height: var(--arlas-map-actions-width);
   cursor: pointer;
   background-color: white;
   padding: 0;

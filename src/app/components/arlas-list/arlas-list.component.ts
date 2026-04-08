@@ -18,10 +18,15 @@
  */
 
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
-import { Action, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent } from 'arlas-web-components';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Action, ElementIdentifier, GetValuePipe, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Subject, takeUntil } from 'rxjs';
+import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
 import { ActionManagerService } from '../../services/action-manager.service';
 import { CogService } from '../../services/cog.service';
 import { ResultlistService } from '../../services/resultlist.service';
@@ -30,7 +35,16 @@ import { ResultlistService } from '../../services/resultlist.service';
   selector: 'arlas-list',
   templateUrl: './arlas-list.component.html',
   styleUrls: ['./arlas-list.component.scss'],
-  standalone: false
+  imports: [
+    MatProgressBarModule,
+    MatTabsModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslatePipe,
+    GetResultlistConfigPipe,
+    ResultListComponent,
+    GetValuePipe
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
@@ -58,7 +72,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
 
   /** Destroy subscriptions */
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
     protected resultlistService: ResultlistService<L, S, M>,
@@ -106,7 +120,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     }, 0);
   }
 
-  public sortColumn(listContributor: ResultListContributor, column: Column) {
+  public sortColumn(listContributor: ResultListContributor, column: { fieldName: string; sortDirection: SortEnum; }) {
     this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'sortColumnEvent', data: column });
   }
 

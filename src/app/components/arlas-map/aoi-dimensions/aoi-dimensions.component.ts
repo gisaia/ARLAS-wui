@@ -26,7 +26,6 @@ import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
 @Component({
   selector: 'arlas-aoi-dimensions',
   templateUrl: './aoi-dimensions.component.html',
-  standalone: true,
   imports: [
     TranslateModule,
     SquareKilometer,

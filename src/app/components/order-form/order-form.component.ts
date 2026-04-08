@@ -18,10 +18,11 @@
  */
 
 import { Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Feature, Geometry } from '@turf/helpers';
 import { FormatNumberPipe } from 'arlas-web-components';
 import { getObject } from 'arlas-web-core/utils/utils';
@@ -43,9 +44,8 @@ export interface OrderFormPayload {
 
 @Component({
   selector: 'arlas-order-form',
-  standalone: true,
   imports: [
-    TranslateModule,
+    TranslatePipe,
     MatButtonModule,
     MarkerModule,
     AiasResultComponent,
@@ -53,7 +53,8 @@ export interface OrderFormPayload {
     SquareKilometer,
     RoundKilometer,
     FormatNumberPipe,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.scss'
@@ -64,9 +65,9 @@ export class OrderFormComponent {
   private readonly dialogRef = inject(MatDialogRef<OrderFormComponent>);
 
   protected comment = '';
-  protected statusResult: Partial<ProcessOutput> = {
-    processID: 'order' as any
-  };
+  protected statusResult = {
+    processID: 'download'
+  } as ProcessOutput;
 
   protected orderSubmitted = signal<boolean>(false);
   protected isProcessing = signal<boolean>(false);

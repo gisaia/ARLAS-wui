@@ -25,8 +25,7 @@ import length from '@turf/length';
 import { AoiEdition } from 'arlas-map';
 
 @Pipe({
-  name: 'aoiDimensions',
-  standalone: true
+  name: 'aoiDimensions'
 })
 export class AoiDimensionsPipe implements PipeTransform {
 

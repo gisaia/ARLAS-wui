@@ -1,18 +1,7 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "baseUrl": "",
-    "types": [
-      "geojson",
-      "node"
-    ]
-  },
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
-  ],
-  "files": [
-    "main.ts"
   ]
 }
