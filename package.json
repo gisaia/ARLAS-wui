@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@ngx-translate/core": "^15.0.0",
-    "arlas-wui-toolkit": "27.2.0-rc.1",
+    "arlas-wui-toolkit": "27.2.0-rc.2",
     "hammerjs": "^2.0.8",
     "ng-packagr": "^18.2.1",
     "ngx-markdown": "^18.0.0",
@@ -87,6 +87,8 @@
   "overrides": {
     "esbuild": "~0.25.0",
     "webpack-dev-server": "~5.2.2",
-    "tmp": "~0.2.4"
+    "tmp": "~0.2.4",
+    "picomatch": "4.0.4",
+    "underscore": "^1.13.8"
   }
 }
