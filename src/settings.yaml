@@ -85,3 +85,6 @@ geocoding:
   enabled: true
   find_place_url: "https://nominatim.openstreetmap.org/"
   find_place_zoom_to: 11
+
+whitelistedUrls:
+  - https://tiles.mapterhorn.com/
