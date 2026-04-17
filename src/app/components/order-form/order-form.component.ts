@@ -23,21 +23,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Feature, Geometry } from '@turf/helpers';
 import { FormatNumberPipe } from 'arlas-web-components';
 import { getObject } from 'arlas-web-core/utils/utils';
 import { AiasResultComponent, ProcessOutput, ProcessStatus } from 'arlas-wui-toolkit';
+import { Feature, Polygon } from 'geojson';
 import { finalize } from 'rxjs';
 import { AoiDimensionsPipe } from '../../pipes/aoi-dimensions.pipe';
 import { OrderFormService } from '../../services/order-form.service';
 import { RoundKilometer, SquareKilometer } from '../arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 
 export interface OrderFormDialogData {
-  aoi: Array<Feature<Geometry>>;
+  aoi: Array<Feature<Polygon>>;
 }
 
 export interface OrderFormPayload {
-  aoi: Array<Feature<Geometry>>;
+  aoi: Array<Feature<Polygon>>;
   comment: string;
 }
 

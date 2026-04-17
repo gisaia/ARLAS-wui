@@ -20,9 +20,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import area from '@turf/area';
 import bbox from '@turf/bbox';
-import { Feature, lineString, Polygon } from '@turf/helpers';
+import { lineString } from '@turf/helpers';
 import length from '@turf/length';
 import { AoiEdition } from 'arlas-map';
+import { Feature, Polygon } from 'geojson';
 
 @Pipe({
   name: 'aoiDimensions'

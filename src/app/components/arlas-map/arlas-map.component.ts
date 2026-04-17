@@ -28,7 +28,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import * as helpers from '@turf/helpers';
 import {
   AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
   BboxGeneratorComponent, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
@@ -122,7 +121,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public isMapMenuOpen = false;
   public shouldCloseMapMenu = true;
   public aoiEdition: AoiEdition;
-  public geojsondraw: helpers.FeatureCollection = {
+  public geojsondraw: GeoJSON.FeatureCollection = {
     'type': 'FeatureCollection',
     'features': []
   };
