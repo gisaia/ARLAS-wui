@@ -113,7 +113,7 @@
                 <button mat-icon-button class="arlas-analytics-toggle" [class.toggle-hidden]="analyticsService.activeTab === undefined" (click)="closeAnalytics()"
                     [matTooltip]="'Close analytics board' | translate" matTooltipPosition="right">
                   <mat-icon class="primary">keyboard_arrow_left</mat-icon>
-            </button>
+                </button>
                 @if (analyticsService.activeTab !== undefined) {
                   <div class="arlas-analytics--wrapper">
                     <arlas-analytics></arlas-analytics>
@@ -121,12 +121,12 @@
                 }
                 <arlas-wui-map #arlasMap></arlas-wui-map>
                 @if (hasList) {
-                  <div class="resultlist__toggle" (click)="toggleList()"
+                  <button mat-icon-button class="resultlist__toggle" (click)="toggleList()"
                       [class.resultlist__toggle--open]="resultlistService.listOpen"
-                      [class.resultlist__toggle--no-grid]="!resultlistService.listOpen && !hasGridMode">
-                    <mat-icon [matTooltip]="(resultlistService.listOpen ? 'Close data table' : 'Open data table') | translate" matTooltipPosition="before">
-                      {{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
-                  </div>
+                      [class.resultlist__toggle--no-grid]="!resultlistService.listOpen && !hasGridMode"
+                      [matTooltip]="(resultlistService.listOpen ? 'Close data table' : 'Open data table') | translate" matTooltipPosition="before">
+                    <mat-icon>{{ resultlistService.listOpen ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
+                  </button>
                 }
 
                 @if (!resultlistService.listOpen && !!resultlistService.previewListContrib && hasGridMode) {
