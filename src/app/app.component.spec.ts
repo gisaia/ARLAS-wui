@@ -22,15 +22,14 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService,
-  ArlasConfigService, ArlasSettingsService, ArlasStartupService
+    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService, ArlasStartupService
 } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
@@ -39,85 +38,83 @@ import { VisualizeService } from './services/visualize.service';
 import { MockArlasConfigService, MockArlasStartupService } from './tools/test';
 
 describe('ArlasWuiComponent', () => {
-  let component: ArlasWuiComponent<any, any, any>;
-  let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
+    let component: ArlasWuiComponent<any, any, any>;
+    let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
 
-  beforeEach(async () => {
-    const mockSettingsService = jasmine.createSpyObj('ArlasSettingsService', ['getHistogramMaxBucket', 'getProcessSettings']);
-    mockSettingsService.getHistogramMaxBucket.and.returnValue();
-    mockSettingsService.getProcessSettings.and.returnValue({});
+    beforeEach(async () => {
+        const mockSettingsService = {
+            getHistogramMaxBucket: vi.fn().mockName('ArlasSettingsService.getHistogramMaxBucket'),
+            getProcessSettings: vi.fn(() => {}).mockName('ArlasSettingsService.getProcessSettings')
+        };
 
-    const mockContributorService = jasmine.createSpyObj('ContributorService', ['getMapContributors']);
-    mockContributorService.getMapContributors.and.returnValue([]);
+        const mockContributorService = {
+            getMapContributors: vi.fn(() => []).mockName('ContributorService.getMapContributors')
+        };
 
-    const mockColorGeneratorLoader = jasmine.createSpyObj('ColorGeneratorLoader', [], {
-      changekeysToColors$: of()
+        const mockColorGeneratorLoader = {
+            changekeysToColors$: of()
+        };
+
+        await TestBed.configureTestingModule({
+            imports: [
+                TranslateModule.forRoot({
+                    loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+                }),
+                ArlasWuiComponent,
+                RouterModule.forRoot([]),
+            ],
+            providers: [
+                ResultlistService,
+                ArlasWuiMapService,
+                ArlasColorService,
+                ArlasCollaborativesearchService,
+                {
+                    provide: ArlasStartupService,
+                    useClass: MockArlasStartupService
+                },
+                {
+                    provide: ArlasSettingsService,
+                    useValue: mockSettingsService
+                },
+                {
+                    provide: ContributorService,
+                    useValue: mockContributorService
+                },
+                /** Needed for ResultlistService */
+                MatSnackBar,
+                VisualizeService,
+                MatDialog,
+                {
+                    provide: MAT_DIALOG_SCROLL_STRATEGY,
+                    useValue: {}
+                },
+                Dialog,
+                {
+                    provide: DIALOG_SCROLL_STRATEGY,
+                    useValue: {}
+                },
+                provideHttpClient(withInterceptorsFromDi()),
+                /** End */
+                {
+                    provide: ColorGeneratorLoader,
+                    useValue: mockColorGeneratorLoader
+                },
+                ArlasCollectionService,
+                {
+                    provide: ArlasConfigService,
+                    useClass: MockArlasConfigService
+                }
+            ]
+        }).compileComponents();
     });
 
-    await TestBed.configureTestingModule({
-      declarations: [ArlasWuiComponent],
-      imports: [
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
-        }),
-        MatTooltipModule,
-        /** Needed for ResultlistService */
-        RouterTestingModule
-        /** End */
-      ],
-      providers: [
-        ResultlistService,
-        ArlasWuiMapService,
-        ArlasColorService,
-        ArlasCollaborativesearchService,
-        ArlasConfigService,
-        {
-          provide: ArlasStartupService,
-          useClass: MockArlasStartupService
-        },
-        {
-          provide: ArlasSettingsService,
-          useValue: mockSettingsService
-        },
-        {
-          provide: ContributorService,
-          useValue: mockContributorService
-        },
-        /** Needed for ResultlistService */
-        MatSnackBar,
-        VisualizeService,
-        MatDialog,
-        {
-          provide: MAT_DIALOG_SCROLL_STRATEGY,
-          useValue: {}
-        },
-        Dialog,
-        {
-          provide: DIALOG_SCROLL_STRATEGY,
-          useValue: {}
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        /** End */
-        {
-          provide: ColorGeneratorLoader,
-          useValue: mockColorGeneratorLoader
-        },
-        ArlasCollectionService,
-        {
-          provide: ArlasConfigService,
-          useClass: MockArlasConfigService
-        }
-      ]
-    }).compileComponents();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ArlasWuiComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ArlasWuiComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

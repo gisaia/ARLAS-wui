@@ -23,7 +23,9 @@ import { MapContributor, SearchContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 import { ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ContributorService {
   public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 

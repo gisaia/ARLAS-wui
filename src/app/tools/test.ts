@@ -36,6 +36,24 @@ export class MockArlasConfigService {
     if(key === 'arlas-wui.web.app.units'){
       return [];
     }
+    if (key === 'arlas.web.components.mapgl.input') {
+      return {
+        basemapStyles: [],
+        mapLayers: {
+          layers: [],
+          externalEventLayers: [],
+          events: {
+            onHover: new Set(),
+            emitOnClick: new Set(),
+            zoomOnClick: new Set()
+          }
+        }
+      };
+    }
+  }
+
+  public getConfig() {
+    return {};
   }
 }
 

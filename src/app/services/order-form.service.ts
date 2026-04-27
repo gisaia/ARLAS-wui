@@ -21,7 +21,6 @@ import { HttpClient } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import * as helpers from '@turf/helpers';
 import { ArlasConfigService, ArlasIamService, ArlasSettingsService, AuthentificationService } from 'arlas-wui-toolkit';
 import { OrderFormComponent, OrderFormPayload } from '../components/order-form/order-form.component';
 import { updateAuthorizationHeaders$ } from '../tools/authorization';
@@ -66,7 +65,7 @@ export class OrderFormService {
     this.setHeaders();
   }
 
-  public openForm$(aoi: Array<helpers.Feature<helpers.Geometry>>) {
+  public openForm$(aoi: Array<GeoJSON.Feature<GeoJSON.Geometry>>) {
     return this.dialog.open(OrderFormComponent, {
       data: {
         aoi: aoi

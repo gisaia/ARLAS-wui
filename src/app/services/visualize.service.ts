@@ -21,14 +21,14 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import bbox from '@turf/bbox';
-import { BBox, BBox2d } from '@turf/helpers';
 import { Expression, Filter, Search } from 'arlas-api';
 import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
 import { ElementIdentifier, getElementFromJsonObject } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
+import { wktToGeoJSON } from 'betterknown';
+import { BBox } from 'geojson';
 import { map, Observable, Subject } from 'rxjs';
-import { parse } from 'wellknown';
 import { flattenedMatchAndReplace } from '../tools/cog';
 import { getItem } from '../tools/utils';
 
@@ -246,23 +246,23 @@ export class VisualizeService<L, S, M> {
     );
   }
 
-  private getGeojsonFromEsGeom(geomData: string): any {
-    let geojsonData = geomData;
+  private getGeojsonFromEsGeom(geomData: string) {
+    let geojsonData;
     // Case geometryPath store WKT format
     if (typeof geomData === 'string') {
-      geojsonData = parse(geomData);
+      geojsonData = wktToGeoJSON(geomData);
       // if wkt parse return null, the geometryPath store text point format lat,lon
       if (geojsonData === null) {
         const lat = geomData.split(',')[0];
         const lon = geomData.split(',')[1];
-        geojsonData = parse(`POINT (${lon} ${lat})`);
+        geojsonData = wktToGeoJSON(`POINT (${lon} ${lat})`);
       }
     }
     return geojsonData;
   }
 
-  public getBbox(geoJson: any): BBox2d {
-    return bbox(geoJson) as BBox2d;
+  public getBbox(geoJson: any): number[] {
+    return bbox(geoJson) as number[];
   }
 
   public addGeocodingPreviewLayer(geoJson: any) {

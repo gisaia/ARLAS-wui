@@ -52,11 +52,11 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
     private readonly translateService: TranslateService) {
   }
   public loader(): Promise<any> {
-    const lang = this.translateService.currentLang ? this.translateService.currentLang : 'en';
+    const lang = this.translateService.getCurrentLang() ?? 'en';
     const localTourAdress = 'assets/tour/tour_' + lang + '.json?' + Date.now();
     const localTour = this.http.get(localTourAdress);
     const settings = this.arlasSettings.getSettings();
-    const url = new URL(window.location.href);
+    const url = new URL(globalThis.location.href);
     const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
       && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
@@ -100,7 +100,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
   public getTranslation(lang: string): Observable<any> {
     const localI18nAdress = 'assets/i18n/' + lang + '.json?' + Date.now();
     const localProjectI18nAdress = 'assets/i18n/custom/custom.' + lang + '.json?' + Date.now();
-    const url = new URL(window.location.href);
+    const url = new URL(globalThis.location.href);
     const settings = this.arlasSettings.getSettings();
     const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
       && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
@@ -121,7 +121,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
         forkJoin([localI18nObs, externalI18nObs, localProjectI18nObs]).subscribe(
           results => {
             const localI18n = results[0];
-            const externalI18n = JSON.parse(results[1] as string);
+            const externalI18n = JSON.parse(results[1]);
             const localProjectI18n = results[2];
             let merged = localI18n;
             // Properties in externalI18n will overwrite those in localI18n and frToolkit and frComponents .
@@ -141,7 +141,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
         );
       });
     } else {
-      return Observable.create(observer => {
+      return new Observable(observer => {
         this.mergeLocalI18n(localI18nAdress, localProjectI18nAdress, lang, observer);
       });
     }

@@ -18,7 +18,15 @@
  */
 
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
+  AnalyticsMenuComponent,
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasSettingsService,
@@ -37,7 +45,17 @@ export interface MenuState {
   selector: 'arlas-left-menu',
   templateUrl: './left-menu.component.html',
   styleUrls: ['./left-menu.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    AnalyticsMenuComponent,
+    MatDividerModule,
+    MatTooltipModule,
+    TranslatePipe,
+    MatListModule,
+    MatMenuModule,
+    TagComponent,
+    MatButtonModule
+  ]
 })
 export class LeftMenuComponent implements OnInit {
   /**
@@ -68,7 +86,7 @@ export class LeftMenuComponent implements OnInit {
   public showDashboardsList = false;
 
   public constructor(
-    private readonly walkthroughService: ArlasWalkthroughService,
+    protected readonly walkthroughService: ArlasWalkthroughService,
     private readonly settings: ArlasSettingsService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly configService: ArlasConfigService,

@@ -4,9 +4,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_SCROLL_STRATEGY, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService, ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
 import { VisualizeService } from '../../services/visualize.service';
 import { MockArlasStartupService } from '../../tools/test';
@@ -18,34 +19,34 @@ describe('ArlasAnalyticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArlasAnalyticsComponent ],
-      imports: [
-        RouterTestingModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
-      ],
-      providers: [
-        ArlasCollaborativesearchService,
-        {
-          provide: ArlasStartupService,
-          useClass: MockArlasStartupService
-        },
-        MatSnackBar,
-        VisualizeService,
-        MatDialog,
-        {
-          provide: MAT_DIALOG_SCROLL_STRATEGY,
-          useValue: {}
-        },
-        Dialog,
-        {
-          provide: DIALOG_SCROLL_STRATEGY,
-          useValue: {}
-        },
-        Overlay,
-        ArlasCollectionService,
-        ContributorService,
-        provideHttpClient(withInterceptorsFromDi())
-      ]
+        imports: [
+            TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+            ArlasAnalyticsComponent,
+            RouterModule.forRoot([])
+        ],
+        providers: [
+            ArlasCollaborativesearchService,
+            {
+                provide: ArlasStartupService,
+                useClass: MockArlasStartupService
+            },
+            MatSnackBar,
+            VisualizeService,
+            MatDialog,
+            {
+                provide: MAT_DIALOG_SCROLL_STRATEGY,
+                useValue: {}
+            },
+            Dialog,
+            {
+                provide: DIALOG_SCROLL_STRATEGY,
+                useValue: {}
+            },
+            Overlay,
+            ArlasCollectionService,
+            ContributorService,
+            provideHttpClient(withInterceptorsFromDi())
+        ]
     })
       .compileComponents();
 

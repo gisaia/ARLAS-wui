@@ -28,7 +28,7 @@
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        margin-top: calc($sm-spacing + 4 * $map-actions-width + $sm-spacing) !important;
+        margin-top: calc($sm-spacing + 4 * var(--arlas-map-actions-width) + $sm-spacing) !important;
       }
     }
   }
@@ -37,7 +37,7 @@
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        margin-top: calc($sm-spacing + 5 * $map-actions-width + $sm-spacing) !important;
+        margin-top: calc($sm-spacing + 5 * var(--arlas-map-actions-width) + $sm-spacing) !important;
       }
     }
   }
@@ -45,7 +45,7 @@
   .arlas-map-settings {
     position: absolute;
     top: calc( $sm-spacing + $map-attributions-height + $sm-spacing
-        + $map-actions-width + $sm-spacing
+        + var(--arlas-map-actions-width) + $sm-spacing
         + $map-actions-length + $sm-spacing);
     right: $sm-spacing;
     z-index: 2;
@@ -57,8 +57,8 @@
       background-color: white;
 
       .arlas-map-settings-items {
-        height: $map-actions-width;
-        width: $map-actions-width;
+        height: var(--arlas-map-actions-width);
+        width: var(--arlas-map-actions-width);
         border-radius: 0;
         border-top: 1px solid #ddd;
         padding: 0;
@@ -75,20 +75,20 @@
         }
 
         ::ng-deep .mat-mdc-button-touch-target {
-          width: $map-actions-width;
-          height: $map-actions-width;
+          width: var(--arlas-map-actions-width);
+          height: var(--arlas-map-actions-width);
         }
       }
     }
   }
 
   .if-geocoding-button {
-    bottom: calc($map-actions-width + $xs-border) !important;
+    bottom: calc(var(--arlas-map-actions-width) + $xs-border) !important;
   }
 
   .arlas-cog-visualisation-manager {
     position: absolute;
-    height: $map-actions-width;
+    height: var(--arlas-map-actions-width);
     bottom: calc(
       $default-spacing + $map-scale-height
     );
@@ -117,7 +117,7 @@
 
   .arlas-map-action-container {
     position: absolute;
-    right: calc($map-actions-width + $xs-border);
+    right: calc(var(--arlas-map-actions-width) + $xs-border);
     bottom: 0;
     display: flex;
     flex-direction: row-reverse;
@@ -125,14 +125,24 @@
     @include box-border();
 
     .arlas-map-action-items {
-      height: $map-actions-width;
-      width: $map-actions-width;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       border-right: $xs-border solid #ddd;
       color: black;
+
+      // For icon button
+      --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
+      --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
+      padding: 0;
+      border-radius: 0;
+
+      // For text button
+      min-width: unset;
+      white-space: nowrap;
+      --mat-button-filled-touch-target-size: var(--arlas-map-actions-width);
+      --mat-button-filled-container-height: var(--arlas-map-actions-width);
+      --mat-button-filled-container-color: transparent;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
@@ -141,17 +151,21 @@
       &:first-child {
         border-right: unset;
       }
+
+      mat-icon {
+        display: flex;
+      }
     }
   }
 
   .aoi-dimensions {
     position: absolute;
 
-    right: calc($sm-spacing + $map-actions-width + $sm-spacing);
+    right: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
     top: calc($sm-spacing + $map-attributions-height
-        + $sm-spacing + $map-actions-width
+        + $sm-spacing + var(--arlas-map-actions-width)
         + $sm-spacing + $map-actions-length
-        + $sm-spacing + $map-actions-width);
+        + $sm-spacing + var(--arlas-map-actions-width));
     z-index: 1;
   }
 }

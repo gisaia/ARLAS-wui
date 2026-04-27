@@ -18,9 +18,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ArlasWuiComponent } from './app.component';
-import { ArlasMapFrameworkService, AbstractArlasMapService, BasemapService, LegendService } from 'arlas-map';
-import { ArlasMaplibreService, MaplibreBasemapService, MaplibreLegendService, ArlasMapService } from 'arlas-maplibre';
+import { AbstractArlasMapService, ArlasMapFrameworkService, BasemapService, LegendService } from 'arlas-map';
+import { ArlasMaplibreService, ArlasMapService, MaplibreBasemapService, MaplibreLegendService } from 'arlas-maplibre';
 import { ArlasWuiModule } from './app.module';
 
 
@@ -46,8 +45,7 @@ import { ArlasWuiModule } from './app.module';
       useClass: ArlasMaplibreService
     },
     ArlasMapService,
-  ],
-  bootstrap: [ArlasWuiComponent],
+  ]
 })
 export class ArlasWuiOSModule {
 }

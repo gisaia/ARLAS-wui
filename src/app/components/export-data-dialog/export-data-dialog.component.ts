@@ -38,7 +38,6 @@ export interface ExportDataDialogConfiguration {
 
 @Component({
   selector: 'arlas-export-data-dialog',
-  standalone: true,
   imports: [
     MatTabGroup,
     MatTab,

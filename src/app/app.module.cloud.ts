@@ -20,7 +20,6 @@
 import { NgModule } from '@angular/core';
 import { AbstractArlasMapService, ArlasMapFrameworkService, BasemapService, LegendService } from 'arlas-map';
 import { ArlasMapboxService, ArlasMapService, MapboxBasemapService, MapboxLegendService } from 'arlas-mapbox';
-import { ArlasWuiComponent } from './app.component';
 import { ArlasWuiModule } from './app.module';
 
 @NgModule({
@@ -44,9 +43,7 @@ import { ArlasWuiModule } from './app.module';
       provide: ArlasMapFrameworkService,
       useClass: ArlasMapboxService
     }
-  ],
-  bootstrap: [ArlasWuiComponent],
-
+  ]
 })
 export class ArlasWuiCloudModule {
 }

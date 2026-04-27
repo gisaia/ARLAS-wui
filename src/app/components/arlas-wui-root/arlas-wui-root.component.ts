@@ -17,34 +17,71 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Item, ModeEnum } from 'arlas-web-components';
+import { TranslatePipe } from '@ngx-translate/core';
+import { GetValuePipe, Item, ModeEnum, ResultListComponent } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService,
-  ArlasStartupService, FilterShortcutConfiguration, getParamValue, NOT_CONFIGURED, TimelineComponent, ZoomToDataStrategy
+  ArlasStartupService, BookmarkMenuComponent, FiltersComponent, FilterShortcutComponent, FilterShortcutConfiguration, getParamValue,
+  NOT_CONFIGURED, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
 import { ActionManagerService } from '../../services/action-manager.service';
 import { ContributorService } from '../../services/contributors.service';
 import { ArlasWuiMapService } from '../../services/map.service';
 import { OrderFormService } from '../../services/order-form.service';
 import { ResultlistService } from '../../services/resultlist.service';
+import { ArlasAnalyticsComponent } from '../arlas-analytics/arlas-analytics.component';
 import { ArlasListComponent } from '../arlas-list/arlas-list.component';
 import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
+import { ConfigsListComponent } from '../configs-list/configs-list.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
-import { MenuState } from '../left-menu/left-menu.component';
+import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
 
 @Component({
   selector: 'arlas-wui-root',
   templateUrl: './arlas-wui-root.component.html',
   styleUrls: ['./arlas-wui-root.component.scss'],
-  standalone: false
+  imports: [
+    TopMenuComponent,
+    MatTooltipModule,
+    TranslatePipe,
+    SearchComponent,
+    MatDividerModule,
+    FiltersComponent,
+    PermissionsCreatorComponent,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSidenavModule,
+    LeftMenuComponent,
+    ConfigsListComponent,
+    ToolkitComponent,
+    GetResultlistConfigPipe,
+    FilterShortcutComponent,
+    ArlasAnalyticsComponent,
+    ArlasWuiMapComponent,
+    ResultListComponent,
+    ArlasListComponent,
+    TimelineComponent,
+    MatProgressBarModule,
+    BookmarkMenuComponent,
+    GetValuePipe
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
@@ -111,7 +148,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   /**
    * @description Whether to exceptionally display the shortcuts for size computing
    */
-  public showShortcuts = false;
+  public showShortcuts = signal(false);
   public showMoreShortcutsWidth: number;
 
   /** Collection counts */
@@ -152,7 +189,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
-      fromEvent(window, 'resize').pipe(debounceTime(100))
+      fromEvent(globalThis, 'resize').pipe(debounceTime(100))
         .subscribe((event: Event) => {
           this.resizeCollectionCounts();
           this.adjustVisibleShortcuts();
@@ -404,12 +441,12 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   private adjustGrids() {
-    if (!this.resultlistService.listOpen) {
-      const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
-      config.isDetailledGridOpen = false;
-    } else {
+    if (this.resultlistService.listOpen) {
       this.resultlistService.selectedListTabIndex =
         this.resultlistService.rightListContributors.indexOf(this.resultlistService.previewListContrib);
+    } else {
+      const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
+      config.isDetailledGridOpen = false;
     }
   }
 
@@ -447,7 +484,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
     this.shortcuts = [...this.shortcuts, ...this.extraShortcuts];
     this.extraShortcuts = new Array();
-    this.showShortcuts = true;
+    this.showShortcuts.set(true);
     this.cdr.detectChanges();
 
     // The threshold is based on the window inner size and the available size for the shortcuts
@@ -485,6 +522,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
       this.isExtraShortcutsOpen = true;
     }
 
-    this.showShortcuts = false;
+    this.showShortcuts.set(false);
+    this.cdr.detectChanges();
   }
 }

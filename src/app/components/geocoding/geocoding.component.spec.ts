@@ -1,12 +1,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { GeocodingComponent } from './geocoding.component';
 
 describe('GeocodingComponent', () => {
@@ -16,15 +11,9 @@ describe('GeocodingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatInputModule,
-        MatIconModule,
-        BrowserAnimationsModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatTableModule
+        GeocodingComponent
       ],
-      declarations: [ GeocodingComponent ],
       providers: [
         provideHttpClient(withInterceptorsFromDi())
       ]

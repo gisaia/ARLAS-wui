@@ -1,36 +1,40 @@
 <div class="wrapper">
-    <div class="title_wrapper">
-        <span>{{'Current AOI' | translate}}</span>
+  <div class="title_wrapper">
+    <span>{{'Current AOI' | translate}}</span>
+  </div>
+  <div class="content">
+    <div class="line">
+      <div class="title">
+        {{'Area' | translate}}
+      </div>
+
+      @if (aoiEdition?.area === 0) {
+        <div class="message">
+          {{ aoiEdition?.areaMessage | translate}}
+        </div>
+      } @else if (aoiEdition?.area > 0) {
+        <div class="dimension">
+          {{ aoiEdition?.area | squareKm | formatNumber}}  km²
+        </div>
+      }
     </div>
-    <div class="content">
-        <div class="line">
-            <div class="title">
-                {{'Area' | translate}}
-            </div>
-            <div class="dimension" *ngIf="aoiEdition?.area > 0">
-                {{ aoiEdition?.area | squareKm | formatNumber}}  km²
-            </div>
-            <div class="message" *ngIf="aoiEdition?.area === 0">
-                {{ aoiEdition?.areaMessage | translate}}
-            </div>
-        </div>
-        <div class="line marged_line">
-            <div class="title">
-                <span>{{'Width' | translate}}</span>
-                <span class="envelope">({{'envelope' | translate}})</span>
-            </div>
-            <div class="dimension">
-                <span>{{ aoiEdition?.envelope?.width | roundKm | formatNumber}} km</span>
-            </div>
-        </div>
-        <div class="line">
-            <div class="title">
-                <span>{{'Height' | translate}}</span>
-                <span class="envelope">({{'envelope' | translate}})</span>
-            </div>
-            <div class="dimension">
-                <span>{{ aoiEdition?.envelope?.height | roundKm | formatNumber}} km</span>
-            </div>
-        </div>
+    <div class="line marged_line">
+      <div class="title">
+        <span>{{'Width' | translate}}</span>
+        <span class="envelope">({{'envelope' | translate}})</span>
+      </div>
+      <div class="dimension">
+        <span>{{ aoiEdition?.envelope?.width | roundKm | formatNumber}} km</span>
+      </div>
     </div>
+    <div class="line">
+      <div class="title">
+        <span>{{'Height' | translate}}</span>
+        <span class="envelope">({{'envelope' | translate}})</span>
+      </div>
+      <div class="dimension">
+        <span>{{ aoiEdition?.envelope?.height | roundKm | formatNumber}} km</span>
+      </div>
+    </div>
+  </div>
 </div>

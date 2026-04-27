@@ -27,6 +27,7 @@ export { ArlasWuiRootComponent } from './app/components/arlas-wui-root/arlas-wui
 export { ConfigsListComponent } from './app/components/configs-list/configs-list.component';
 export { GeocodingComponent } from './app/components/geocoding/geocoding.component';
 export { LeftMenuComponent } from './app/components/left-menu/left-menu.component';
+export { RastersManagerComponent } from './app/components/map/raster-layers-manager/rasters-manager.component';
 export { GetResultlistConfigPipe } from './app/pipes/get-resultlist-config.pipe';
 export { ContributorService } from './app/services/contributors.service';
 export { GeocodingService } from './app/services/geocoding.service';

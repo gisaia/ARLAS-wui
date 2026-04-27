@@ -59,8 +59,7 @@
             <div class="order-form__content__group__title">
                 {{ 'Comments' | translate }}
             </div>
-            <textarea matInput class="order-form__content__group__input"
-                (input)="comment = $event.target.value"></textarea>
+            <textarea matInput class="order-form__content__group__input" [(ngModel)]="comment"></textarea>
         </div>
 
         @if (orderSubmitted()) {

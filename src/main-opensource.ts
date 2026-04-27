@@ -17,15 +17,38 @@
  * under the License.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { environment } from './environments/environment';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AbstractArlasMapService, ArlasMapFrameworkService, BasemapService, LegendService } from 'arlas-map';
+import { ArlasMaplibreService, ArlasMapService, MaplibreBasemapService, MaplibreLegendService } from 'arlas-maplibre';
+import { ArlasWuiComponent } from './app/app.component';
 import { ArlasWuiOSModule } from './app/app.module.opensource';
+import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(ArlasWuiOSModule)
+bootstrapApplication(ArlasWuiComponent, {
+    providers: [
+        importProvidersFrom(ArlasWuiOSModule),
+        {
+            provide: AbstractArlasMapService,
+            useClass: ArlasMapService
+        },
+        {
+            provide: BasemapService,
+            useClass: MaplibreBasemapService
+        },
+        {
+            provide: LegendService,
+            useClass: MaplibreLegendService
+        },
+        {
+            provide: ArlasMapFrameworkService,
+            useClass: ArlasMaplibreService
+        },
+        ArlasMapService,
+    ]
+})
   .catch(err => console.log(err));

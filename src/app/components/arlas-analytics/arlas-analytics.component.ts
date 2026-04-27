@@ -19,14 +19,17 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { AnalyticsContributor } from 'arlas-web-contributors';
-import { AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
+import { AnalyticsBoardComponent, AnalyticsMenuComponent, AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { ResultlistService } from '../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-analytics',
   templateUrl: './arlas-analytics.component.html',
   styleUrls: ['./arlas-analytics.component.scss'],
-  standalone: false
+  imports: [
+    AnalyticsMenuComponent,
+    AnalyticsBoardComponent
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

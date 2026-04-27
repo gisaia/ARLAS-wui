@@ -19,6 +19,10 @@
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';
@@ -37,7 +41,12 @@ import { VisualizeService } from '../../../services/visualize.service';
       transition(':enter', animate('500ms ease-in')), // Animation duration and easing
     ])
   ],
-  standalone: false
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslatePipe
+  ]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.

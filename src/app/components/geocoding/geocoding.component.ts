@@ -20,29 +20,43 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../services/geocoding.service';
 
 @Component({
   selector: 'arlas-geocoding',
   templateUrl: './geocoding.component.html',
   styleUrls: ['./geocoding.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    TranslatePipe,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatButtonModule,
+    MatInputModule
+  ]
 })
 export class GeocodingComponent implements AfterViewInit {
   /**
    * @Output : Angular
    * Emits an event when the geocoding popup needs to be closed
    */
-  @Output() private close = new EventEmitter<boolean>();
+  @Output() public close = new EventEmitter<boolean>();
   /**
    * @Output : Angular
    * Emits an event when the map needs to zoom on the given location
    */
-  @Output() private zoomToAddress = new EventEmitter<GeocodingResult>();
-  @ViewChild('searchInput') private searchInput: ElementRef;
+  @Output() public zoomToAddress = new EventEmitter<GeocodingResult>();
+  @ViewChild('searchInput') private readonly searchInput: ElementRef;
 
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
@@ -55,9 +69,9 @@ export class GeocodingComponent implements AfterViewInit {
   private previousSearch: string;
 
   public constructor(
-    private geocodingService: GeocodingService,
-    private translateService: TranslateService,
-    private cdr: ChangeDetectorRef
+    private readonly geocodingService: GeocodingService,
+    private readonly translateService: TranslateService,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   public ngAfterViewInit(): void {

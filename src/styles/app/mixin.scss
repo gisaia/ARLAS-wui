@@ -32,6 +32,8 @@
     box-sizing: border-box;
     background-color: white;
     cursor: pointer;
+    --mdc-icon-button-state-layer-size: $toggle-height;
+    --mat-icon-button-touch-target-size: $toggle-height;
 }
 
 @mixin tablet() {

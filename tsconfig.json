@@ -4,7 +4,6 @@
     "skipLibCheck": true,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
@@ -13,13 +12,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "ES2022",
-    "types": [
-      "node",
-      "geojson"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "lib": [
       "ESNext",
       "DOM",
@@ -27,5 +19,8 @@
     ],
     "module": "esnext",
     "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
   }
 }

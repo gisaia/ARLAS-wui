@@ -2,9 +2,9 @@
   <span class="title">
     {{ 'Find a place' | translate }}
   </span>
-  <mat-icon (click)="closePopup()">
-    close
-  </mat-icon>
+  <button mat-icon-button (click)="closePopup()" class="geocode-header__close">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 
 <div class="geocode-content">
@@ -19,8 +19,10 @@
     {{'Search for place' | translate }}
   </button>
 </div>
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-<ng-container *ngIf="displayTable; else noResult">
+@if (loading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+@if (displayTable) {
   <div class="geocode-tip">
     {{ 'Click on search result to zoom on it' | translate }}
   </div>
@@ -30,17 +32,22 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell (click)="onSearchLocation(element)" *matCellDef="let element">
           {{element.display_name }}
-          <span *ngIf="element.addresstype"> - {{element.addresstype}}</span>
+          @if (element.addresstype) {
+            <span> - {{element.addresstype}}</span>
+          }
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
     </table>
   </div>
-</ng-container>
+} @else {
+  @if (hasSearched) {
+    <span class="no-result">{{'No results' | translate}}</span>
+  }
+  @if (hasError) {
+    <span class="error">{{'Unable to access find location service' | translate}}</span>
+  }
+}
 
-<ng-template #noResult>
-  <span *ngIf="hasSearched" class="no-result">{{'No results' | translate}}</span>
-  <span *ngIf="hasError" class="error">{{'Unable to access find location service' | translate}}</span>
-</ng-template>
 

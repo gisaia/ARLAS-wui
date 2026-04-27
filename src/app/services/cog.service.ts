@@ -221,7 +221,7 @@ export class CogService<L, S, M> {
     this.collaborativeService.resolveHits(
       [projType.search, search], this.collaborativeService.collaborations,
       contributor.collection, contributor.identifier, filterExpression,
-      /** flat */ true, contributor.cacheDuration
+      /** flat */ true, contributor.getCacheDuration()
     ).pipe(take(1))
       .subscribe(hits => {
         if (hits.hits.length > 0) {

@@ -17,5 +17,5 @@
  * under the License.
  */
 
-export * from  'public-api';
 export { ArlasWuiCloudModule } from './app/app.module.cloud';
+export * from './public-api';
