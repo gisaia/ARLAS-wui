@@ -19,7 +19,7 @@ describe('ArlasWuiMapComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         ArlasWuiMapComponent,
         RouterModule.forRoot([]),
@@ -44,7 +44,8 @@ describe('ArlasWuiMapComponent', () => {
           useValue: {
             fetchSources$: () => of([]),
             protomapBasemapAdded$: of(),
-            setBasemaps: (basemaps) => {}
+            setBasemaps: (basemaps) => { },
+            basemapChanged$: of()
           }
         }
       ],
