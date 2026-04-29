@@ -24,7 +24,7 @@ RUN npm run "build-$WORKSPACE"
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.29-alpine3.23-slim
+FROM nginx:1.30-alpine3.23-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
