@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
@@ -41,7 +41,7 @@ jobs:
           failure-threshold: fatal
           accept-keywords:	KEY_SHA512
       - name: Run Trivy vulnerability scanner on opensource image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         env:
           TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
         with:
@@ -53,7 +53,7 @@ jobs:
           severity: "CRITICAL,HIGH"
           trivyignores: .github/workflows/.trivyignore
       - name: Run Trivy vulnerability scanner on cloud image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         env:
           TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
         with:

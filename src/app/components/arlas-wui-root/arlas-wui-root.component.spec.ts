@@ -94,11 +94,11 @@ describe('ArlasWuiRootComponent', () => {
                 },
                 {
                     provide: GET_OPTIONS,
-                    useValue: () => {}
+                    useValue: () => { }
                 },
                 {
                     provide: CONFIG_UPDATER,
-                    useValue: () => {}
+                    useValue: () => { }
                 },
                 ArlasMapSettings,
                 ArlasMapService,
@@ -113,7 +113,9 @@ describe('ArlasWuiRootComponent', () => {
                     useValue: {
                         fetchSources$: () => of([]),
                         protomapBasemapAdded$: of(),
-                        setBasemaps: (basemaps) => {}
+                        setBasemaps: (basemaps) => { },
+                        basemapChanged$: of()
+
                     }
                 }
             ],

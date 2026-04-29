@@ -24,22 +24,21 @@ RUN npm run "build-$WORKSPACE"
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.29-alpine3.23-slim
+FROM nginx:1.30-alpine3.23-slim
 ARG version="latest"
 
 LABEL io.arlas.wui.version=${version}
 LABEL vendor="Gisaïa"
 LABEL description="This container build and serve the ARLAS-wui app"
 
-RUN apk add  --no-cache --upgrade bash curl jq libcrypto3 libssl3 netcat-openbsd \
-    && rm -rf /var/cache/apk/* && apk add --no-cache 'libxml2==2.13.9-r0' 'zlib==1.3.2-r0'
+RUN apk update && apk upgrade && apk add --no-cache bash curl jq netcat-openbsd && rm -rf /var/cache/apk/*
 
 ## Copy our default nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/* && rm -rf /var/cache/apk/* && apk add --no-cache 'zlib==1.3.2-r0'
+RUN rm -rf /usr/share/nginx/html/*
 
 ## Copy the custom start script
 COPY ./scripts/start.sh /usr/share/nginx/
