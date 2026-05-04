@@ -32,12 +32,10 @@ import {
   ArlasWalkthroughModule,
   AuthentificationService,
   JwtInterceptor,
-  LoginModule,
   PersistenceService,
   WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
-import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { ArlasWuiComponent } from './app.component';
 import { ArlasAnalyticsComponent } from './components/arlas-analytics/arlas-analytics.component';
@@ -71,7 +69,6 @@ const COMPONENTS = [
 @NgModule({
   exports: COMPONENTS,
   imports: [
-    MarkdownModule.forRoot(),
     RouterModule,
     AppRoutingModule,
     ArlasToolkitSharedModule,
@@ -91,7 +88,6 @@ const COMPONENTS = [
       }
     }),
     ArlasTaggerModule,
-    LoginModule,
     ...COMPONENTS
   ],
   providers: [

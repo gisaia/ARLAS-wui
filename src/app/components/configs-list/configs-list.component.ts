@@ -18,6 +18,7 @@
  */
 
 import { Component, OnInit, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UserOrgData } from 'arlas-iam-api';
@@ -40,7 +41,8 @@ export interface Configuration {
   styleUrls: ['./configs-list.component.scss'],
   imports: [
     TranslatePipe,
-    MatTabsModule
+    MatTabsModule,
+    MatButtonModule
   ]
 })
 export class ConfigsListComponent implements OnInit {
