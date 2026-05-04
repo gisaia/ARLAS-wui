@@ -20,6 +20,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { getIssues } from '@placemarkio/check-geojson';
 import bbox from '@turf/bbox';
 import { Expression, Filter, Search } from 'arlas-api';
 import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
@@ -246,7 +247,7 @@ export class VisualizeService<L, S, M> {
     );
   }
 
-  private getGeojsonFromEsGeom(geomData: string) {
+  private getGeojsonFromEsGeom(geomData: string | Object | number[]) {
     let geojsonData;
     // Case geometryPath store WKT format
     if (typeof geomData === 'string') {
@@ -257,6 +258,10 @@ export class VisualizeService<L, S, M> {
         const lon = geomData.split(',')[1];
         geojsonData = wktToGeoJSON(`POINT (${lon} ${lat})`);
       }
+    } else if (getIssues(JSON.stringify(geomData)).length === 0) {
+      geojsonData = geomData;
+    } else if (Array.isArray(geomData) && geomData.length === 2) {
+      geojsonData = wktToGeoJSON(`POINT (${geomData[1]} ${geomData[0]})`);
     }
     return geojsonData;
   }
