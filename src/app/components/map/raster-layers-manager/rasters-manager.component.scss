@@ -23,13 +23,14 @@
 
 .wrapper {
     cursor: pointer;
-    width: var(--arlas-map-actions-width);
-    height: var(--arlas-map-actions-width);
+    --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
+    --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
     @include box-border();
     box-shadow: none;
     padding: 0;
     background-color: white;
     box-sizing: border-box;
+    display: flex;
 
     .icon {
       height: var(--arlas-map-actions-width);

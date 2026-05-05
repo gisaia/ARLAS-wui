@@ -18,8 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
 import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
+import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
 
 export interface FeatureHover {
   isleaving: boolean;
