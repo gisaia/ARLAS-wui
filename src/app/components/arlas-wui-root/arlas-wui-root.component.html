@@ -180,9 +180,8 @@
                   [detailedTimelineComponent]="detailedTimelineComponentConfig">
                 </arlas-timeline>
               }
-              @if (collaborativeService.totalSubscribe > 0) {
-                <mat-progress-bar class="arlas-progression" color="primary" mode="indeterminate"></mat-progress-bar>
-              }
+
+              <arlas-loading-bar></arlas-loading-bar>
             </div>
           </div>
         }
