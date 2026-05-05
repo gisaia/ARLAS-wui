@@ -122,6 +122,8 @@ export class CogService<L, S, M> {
     const searchResult = getItem(data.elementidentifier,
       this.collaborativeService.registry.get(this.contributorId).collection, this.collaborativeService);
 
+    const dialogRef = this.openCogModal(visualisations, false);
+
     // Fetches the detail of the item to replace the fields in the url
     searchResult.subscribe(h => {
       if (!h.hits) {
@@ -134,6 +136,7 @@ export class CogService<L, S, M> {
       this.currentCogVisualisationConfig.forEach((v, vidx) => {
         v.dataGroups.forEach(dg => {
           this.setDefaultPreview(data.action.matched[i], itemData, dg, visualisations[vidx], vidx);
+          dialogRef.componentInstance.update(visualisations, false);
           i++;
         });
       });
@@ -142,8 +145,6 @@ export class CogService<L, S, M> {
     visualisations.filter((v, idx) => v.match === 'none' && this.getDefaultPreview(idx) === undefined).forEach(v => {
       this.findPreviewForVisualisation(v, 0);
     });
-
-    const dialogRef = this.openCogModal(visualisations, false);
 
     return dialogRef.afterClosed().pipe(first(),
       map((v: VisualisationInterface) => {
@@ -234,6 +235,9 @@ export class CogService<L, S, M> {
       });
   }
 
+  /**
+   * Resets the currently selected COG visualisation
+   */
   public resetCogVisualisation() {
     if (this.currentCogVisualisationConfig) {
       this.setSelectedCogVisualisation(null, 0, '');

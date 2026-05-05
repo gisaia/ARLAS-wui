@@ -79,7 +79,7 @@ export class CogVisualisationManagerComponent {
       });
 
       // Update the input data of the dialog
-      dialogRef.componentInstance.data = { visualisations, loading: false };
+      dialogRef.componentInstance.update(visualisations, false);
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {

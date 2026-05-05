@@ -49,9 +49,9 @@ export class VisualizeService<L, S, M> {
   private readonly _isRasterOnMap = signal(false);
   public readonly isRasterOnMap = this._isRasterOnMap.asReadonly();
 
-  /** emits the item's identifier of removed raster */
+  /** Emits the item's identifier of removed raster */
   private readonly rasterRemovedSource = new Subject<string>();
-  public rasterRemoved$ = this.rasterRemovedSource.asObservable();
+  public readonly rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   /** Map containing the (item id, url) of visualised products to be able to remove the listening events */
   private readonly visualizedRasters = new Map<string, string>();
@@ -105,6 +105,10 @@ export class VisualizeService<L, S, M> {
   }
 
   public removeRasters(id?: string) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     if (id) {
       this.visualizedRasters.delete(id);
 
