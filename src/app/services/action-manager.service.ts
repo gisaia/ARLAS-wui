@@ -17,17 +17,17 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { Action, ActionHandler } from 'arlas-web-components';
+import { inject, Injectable } from '@angular/core';
+import { Action, ActionHandler, ResultlistNotifierService } from 'arlas-web-components';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActionManagerService {
+  private readonly notifier = inject(ResultlistNotifierService);
+
   /** Map of (contributorId, (itemId, actions)) */
   public activeActionsPerContId = new Map<string, Map<string, Set<string>>>();
-
-  public constructor() { }
 
   public addAction(contId: string, itemId: string, action: Action) {
     if (ActionHandler.isReversible(action)) {
@@ -41,6 +41,7 @@ export class ActionManagerService {
       const actions = activeActions.get(itemId);
       actions.add(action.id);
       this.activeActionsPerContId.set(contId, new Map(activeActions));
+      this.notifier.refreshActions(itemId);
     }
   }
 
@@ -59,31 +60,30 @@ export class ActionManagerService {
     }
     actions.delete(actionId);
     this.activeActionsPerContId.set(contId, new Map(activeActions));
+    this.notifier.refreshActions(itemId);
   }
 
   /** Removes an activated action for all items and all contributors */
   public removeActions(actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        actionsPerItem.forEach((actions, itemId) => {
-          actions.delete(actionId);
-        });
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
+    this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
+      actionsPerItem.forEach((actions, itemId) => {
+        actions.delete(actionId);
       });
-    }
+      this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
+    });
+    this.notifier.refreshActions();
   }
 
   /** Removes an activated action for a given item in all contributors */
   public removeItemActions(itemId: string, actionId: string) {
-    if (this.activeActionsPerContId) {
-      this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
-        const actions = actionsPerItem.get(itemId);
-        if (actions) {
-          actions.delete(actionId);
-        }
-        this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
-      });
-    }
+    this.activeActionsPerContId.forEach((actionsPerItem, contId) => {
+      const actions = actionsPerItem.get(itemId);
+      if (actions) {
+        actions.delete(actionId);
+      }
+      this.activeActionsPerContId.set(contId, new Map(actionsPerItem));
+    });
+    this.notifier.refreshActions(itemId);
   }
 
   /** Removes an activated action for all the items of a given contributor */
@@ -92,6 +92,7 @@ export class ActionManagerService {
     if (activeActions) {
       activeActions.forEach(actions => actions.delete(actionId));
       this.activeActionsPerContId.set(contId, new Map(activeActions));
+      this.notifier.refreshActions();
     }
   }
 }
