@@ -22,6 +22,9 @@
               "browser": ""
             },
             "index": "src/index.html",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "assets": [
               "src/assets",
               "src/favicon.ico",
@@ -45,7 +48,8 @@
               "src/styles/arlas-wui-theme.scss",
               "src/styles.scss",
               "node_modules/iv-viewer/dist/iv-viewer.css",
-              "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
+              "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
+              "node_modules/arlas-web-components/assets/styles.css"
             ]
           },
           "configurations": {
@@ -77,7 +81,8 @@
                 "src/styles.scss",
                 "node_modules/iv-viewer/dist/iv-viewer.css",
                 "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
-                "node_modules/maplibre-gl/dist/maplibre-gl.css"
+                "node_modules/maplibre-gl/dist/maplibre-gl.css",
+                "node_modules/arlas-web-components/assets/styles.css"
               ],
               "namedChunks": true,
               "extractLicenses": false,
@@ -133,7 +138,8 @@
                 "src/styles.scss",
                 "node_modules/iv-viewer/dist/iv-viewer.css",
                 "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
-                "node_modules/mapbox-gl/dist/mapbox-gl.css"
+                "node_modules/mapbox-gl/dist/mapbox-gl.css",
+                "node_modules/arlas-web-components/assets/styles.css"
               ],
               "namedChunks": true,
               "extractLicenses": false,
@@ -224,7 +230,8 @@
                 "src/styles.scss",
                 "node_modules/iv-viewer/dist/iv-viewer.css",
                 "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
-                "node_modules/maplibre-gl/dist/maplibre-gl.css"
+                "node_modules/maplibre-gl/dist/maplibre-gl.css",
+                "node_modules/arlas-web-components/assets/styles.css"
               ],
               "index": {
                 "input": "src/index-without-analytics.html",
@@ -277,7 +284,8 @@
                 "src/styles.scss",
                 "node_modules/iv-viewer/dist/iv-viewer.css",
                 "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
-                "node_modules/mapbox-gl/dist/mapbox-gl.css"
+                "node_modules/mapbox-gl/dist/mapbox-gl.css",
+                "node_modules/arlas-web-components/assets/styles.css"
               ],
               "scripts": [
                 "node_modules/mapbox-gl/dist/mapbox-gl.js"

@@ -2,5 +2,9 @@
   "extends": "../tsconfig.json",
   "exclude": [
     "**/*.spec.ts"
+  ],
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ]
 }

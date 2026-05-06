@@ -404,15 +404,14 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
         data: {
           share: {
             data: this.mapService.mapComponent?.visibilityStatus ?? [],
-            enabled: this.shareComponentConfig
+            enabled: !!this.shareComponentConfig
           },
           download: {
             data: this.collections,
-            enabled: this.downloadComponentConfig
+            enabled: !!this.downloadComponentConfig
           }
         },
         width: '80vw',
-        minHeight: '60vh',
         autoFocus: false
       }
     );

@@ -16,7 +16,7 @@
     {
       "title": "Barre de recherche",
       "content": "Effectuer une recherche Fulltext pour filtrer les données",
-      "target": "arlas-search",
+      "target": ".arlas-search",
       "placement": "bottom"
     },
     {

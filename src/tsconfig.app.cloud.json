@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "files": [
-    "main-cloud.ts"
+    "main-cloud.ts",
+    "polyfills.ts"
   ]
 }

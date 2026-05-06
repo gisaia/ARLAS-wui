@@ -19,7 +19,7 @@
 
 import { NgComponentOutlet } from '@angular/common';
 import { Component, computed, inject, Injector, OnInit, signal } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTab, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -53,14 +53,26 @@ export class ExportDataDialogComponent implements  OnInit {
   protected dialogData = inject<Array<ExportDataDialogConfiguration>>(MAT_DIALOG_DATA);
   protected componentsConf = signal<{key: string; enabled: boolean; component: any; title: string; injector: any;}[]>([]);
   protected selectedIndex = computed( () => this.componentsConf().findIndex(e => e.enabled));
+
   public ngOnInit() {
     const tabs = Object.keys(this.dialogData)
-      .map((key) => ({
+      .map(key => ({
         key,
         enabled: this.dialogData[key].enabled,
         component: key === 'share' ? ShareDialogComponent : DownloadDialogComponent,
         title: key === 'share' ? marker('Download geo-data') : marker('Download data'),
-        injector:  Injector.create({providers: [{provide: MAT_DIALOG_DATA, useValue: this.dialogData[key].data}] })
+        injector:  Injector.create({
+          providers: [
+            {
+              provide: MAT_DIALOG_DATA,
+              useValue: this.dialogData[key].data
+            },
+            {
+              provide: MatDialogRef,
+              useValue: {}
+            }
+          ]
+        })
       }));
     this.componentsConf.set(tabs);
   }

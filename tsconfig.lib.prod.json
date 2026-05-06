@@ -13,6 +13,7 @@
     "**/*.spec.ts"
   ],
   "files": [
-    "main.ts"
+    "src/main.ts",
+    "src/polyfills.ts"
   ]
 }
