@@ -12,7 +12,7 @@
     <mat-label>{{'Type an address' | translate}}</mat-label>
     <input matInput #searchInput (keyup.enter)="search()" [formControl]="searchFormControl"/>
   </mat-form-field>
-  <button mat-stroked-button (click)="search()" class="geocode-search">
+  <button matButton="outlined" (click)="search()" class="geocode-search">
     <mat-icon>
       location_searching
     </mat-icon>
