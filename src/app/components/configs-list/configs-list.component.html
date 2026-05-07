@@ -1,7 +1,7 @@
 <div class="configs-list_wrapper">
   <h4 class="title">{{'Choose a dashboard to load' | translate}}</h4>
   @if (hubUrl) {
-    <button class="manage-config" matButton="outlined" (click)="navigate(hubUrl)">
+    <button class="manage-config" color="primary" matButton="outlined" (click)="navigate(hubUrl)">
       {{'Manage dashboards' | translate}}</button>
   }
   @if (orgs.length > 0) {
