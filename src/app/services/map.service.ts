@@ -135,9 +135,7 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
   public updateMapStyle(ids: Array<string | number>, collection: string) {
-    if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover
-          && Array.isArray(this.mapComponentConfig.mapLayers.events.onHover)) {
-      console.log(this.mapComponentConfig.mapLayers.events.onHover);
+    if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
         this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection);
       });
