@@ -19,7 +19,7 @@
 
 import { Component, inject, input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CogPreviewComponent, CogVisualisationData, MatchInfo, VisualisationInterface } from 'arlas-web-components';
 import { first, zip } from 'rxjs';
 import { ActionManagerService } from '../../../services/action-manager.service';
@@ -31,7 +31,7 @@ import { ResultlistService } from '../../../services/resultlist.service';
   imports: [
     CogPreviewComponent,
     MatTooltipModule,
-    TranslateModule
+    TranslatePipe
   ],
   templateUrl: './cog-visualisation-manager.component.html',
   styleUrl: './cog-visualisation-manager.component.scss'
@@ -79,7 +79,7 @@ export class CogVisualisationManagerComponent {
       });
 
       // Update the input data of the dialog
-      dialogRef.componentInstance.data = { visualisations, loading: false };
+      dialogRef.componentInstance.update(visualisations, false);
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((v: VisualisationInterface) => {

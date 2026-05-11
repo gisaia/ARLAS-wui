@@ -17,9 +17,10 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { getIssues } from '@placemarkio/check-geojson';
 import bbox from '@turf/bbox';
 import { Expression, Filter, Search } from 'arlas-api';
 import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
@@ -44,13 +45,13 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 export class VisualizeService<L, S, M> {
   private mapInstance: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
-  /**  @deprecated. Use isRasterOnMap instead. */
-  public isWMTSOnMap = false;
-  public isRasterOnMap = false;
 
-  /** emits the item's identifier of removed raster */
+  private readonly _isRasterOnMap = signal(false);
+  public readonly isRasterOnMap = this._isRasterOnMap.asReadonly();
+
+  /** Emits the item's identifier of removed raster */
   private readonly rasterRemovedSource = new Subject<string>();
-  public rasterRemoved$ = this.rasterRemovedSource.asObservable();
+  public readonly rasterRemoved$ = this.rasterRemovedSource.asObservable();
 
   /** Map containing the (item id, url) of visualised products to be able to remove the listening events */
   private readonly visualizedRasters = new Map<string, string>();
@@ -104,6 +105,10 @@ export class VisualizeService<L, S, M> {
   }
 
   public removeRasters(id?: string) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     if (id) {
       this.visualizedRasters.delete(id);
 
@@ -115,13 +120,7 @@ export class VisualizeService<L, S, M> {
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
     }
-    this.isRasterOnMap = this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-');
-    this.isWMTSOnMap = this.isRasterOnMap;
-  }
-
-  /** @deprecated Use add raster instead. */
-  public addWMTS(urlWmts: string, maxZoom: number, bounds: Array<number>, id: string, beforeId?: string) {
-    this.addRaster(urlWmts, maxZoom, bounds, id, beforeId);
+    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-'));
   }
 
   /**
@@ -139,8 +138,7 @@ export class VisualizeService<L, S, M> {
     this.mapFrameworkService.addRasterLayer(this.mapInstance, layerId, url, bounds, maxZoom,
       /** tilesize */ 256, beforeId);
     if (id !== 'external') {
-      this.isWMTSOnMap = true;
-      this.isRasterOnMap = true;
+      this._isRasterOnMap.set(true);
     }
     this.addCrossToRemove(bounds[2], bounds[3], id);
   }
@@ -246,7 +244,7 @@ export class VisualizeService<L, S, M> {
     );
   }
 
-  private getGeojsonFromEsGeom(geomData: string) {
+  private getGeojsonFromEsGeom(geomData: string | Object | number[]) {
     let geojsonData;
     // Case geometryPath store WKT format
     if (typeof geomData === 'string') {
@@ -257,6 +255,10 @@ export class VisualizeService<L, S, M> {
         const lon = geomData.split(',')[1];
         geojsonData = wktToGeoJSON(`POINT (${lon} ${lat})`);
       }
+    } else if (getIssues(JSON.stringify(geomData)).length === 0) {
+      geojsonData = geomData;
+    } else if (Array.isArray(geomData) && geomData.length === 2) {
+      geojsonData = wktToGeoJSON(`POINT (${geomData[1]} ${geomData[0]})`);
     }
     return geojsonData;
   }

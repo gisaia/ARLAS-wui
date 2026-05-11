@@ -18,7 +18,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AoiEdition } from 'arlas-map';
 import { FormatNumberPipe } from 'arlas-web-components';
 import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
@@ -27,7 +27,7 @@ import { RoundKilometer, SquareKilometer } from './aoi-dimensions.pipes';
   selector: 'arlas-aoi-dimensions',
   templateUrl: './aoi-dimensions.component.html',
   imports: [
-    TranslateModule,
+    TranslatePipe,
     SquareKilometer,
     RoundKilometer,
     FormatNumberPipe

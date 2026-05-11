@@ -18,6 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { TranslateLoader, TranslateService } from '@ngx-translate/core';
 import enMap from 'arlas-map/assets/i18n/en.json';
 import esMap from 'arlas-map/assets/i18n/es.json';
@@ -89,13 +90,10 @@ export class ArlasWalkthroughLoader implements WalkthroughLoader {
 }
 
 export class ArlasTranslateLoader implements TranslateLoader {
-
-  public constructor(
-    private readonly http: HttpClient,
-    private readonly arlasSettings: ArlasSettingsService,
-    private readonly persistenceService: PersistenceService,
-    private readonly configService: ArlasConfigService
-  ) { }
+  private readonly http = inject(HttpClient);
+  private readonly arlasSettings = inject(ArlasSettingsService);
+  private readonly persistenceService = inject(PersistenceService);
+  private readonly configService = inject(ArlasConfigService);
 
   public getTranslation(lang: string): Observable<any> {
     const localI18nAdress = 'assets/i18n/' + lang + '.json?' + Date.now();
@@ -154,11 +152,11 @@ export class ArlasTranslateLoader implements TranslateLoader {
           let merged = { ...res[0], ...res[1] };
           // Properties in res will overwrite those in frToolkit and frComponents .
           if (lang === 'fr') {
-            merged = { ...frComponents, ...frToolkit, ...res[0], ...res[1] };
+            merged = { ...frComponents, ...frMap, ...frToolkit, ...res[0], ...res[1] };
           } else if (lang === 'en') {
-            merged = { ...enComponents, ...enToolkit, ...res[0], ...res[1] };
+            merged = { ...enComponents, ...enMap, ...enToolkit, ...res[0], ...res[1] };
           } else if (lang === 'es') {
-            merged = { ...esComponents, ...esToolkit, ...res[0], ...res[1] };
+            merged = { ...esComponents, ...esMap, ...esToolkit, ...res[0], ...res[1] };
           }
           observer.next(merged);
           observer.complete();

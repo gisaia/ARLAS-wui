@@ -22,7 +22,7 @@ import { Component, computed, inject, Injector, OnInit, signal } from '@angular/
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTab, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DownloadDialogComponent, ShareDialogComponent } from 'arlas-wui-toolkit';
 
 export interface ExportDataDialogConfiguration {
@@ -43,7 +43,7 @@ export interface ExportDataDialogConfiguration {
     MatTab,
     MatTabContent,
     NgComponentOutlet,
-    TranslateModule
+    TranslatePipe
   ],
   templateUrl: './export-data-dialog.component.html',
   styleUrl: './export-data-dialog.component.scss'

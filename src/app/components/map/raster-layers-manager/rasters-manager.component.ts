@@ -18,14 +18,14 @@
  */
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
-import { Subject, takeUntil } from 'rxjs';
 import { ActionManagerService } from '../../../services/action-manager.service';
 import { CogService } from '../../../services/cog.service';
 import { VisualizeService } from '../../../services/visualize.service';
@@ -52,26 +52,28 @@ import { VisualizeService } from '../../../services/visualize.service';
  *  S: a source class/interface.
  *  M: a Map configuration class/interface.
  */
-export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
-
-  /** Destroy subscriptions */
-  private readonly _onDestroy$ = new Subject<boolean>();
+export class RastersManagerComponent<L, S, M> {
 
   public constructor(
-    private readonly visualisationService: VisualizeService<L, S, M>,
+    protected readonly visualizeService: VisualizeService<L, S, M>,
     private readonly collaborativeSearchService: ArlasCollaborativesearchService,
     private readonly cogService: CogService<L, S, M>,
     private readonly actionManager: ActionManagerService
-  ) { }
-
-  public ngOnInit(): void {
-    this.visualisationService.rasterRemoved$.pipe(takeUntil(this._onDestroy$)).subscribe({
+  ) {
+    /** Remove the raster once the cross is clicked */
+    this.visualizeService.rasterRemoved$.pipe(takeUntilDestroyed()).subscribe({
       next: (id) => {
         this.actionManager.removeItemActions(id, 'visualize');
+
+        // If there are no more rasters on the map, reset the selected cog visualisation
+        if (!this.visualizeService.isRasterOnMap()) {
+          this.cogService.resetCogVisualisation();
+        }
       }
     });
+
     /** Remove the raster once an arlas filter is applied */
-    this.collaborativeSearchService.collaborationBus.pipe(takeUntil(this._onDestroy$)).subscribe({
+    this.collaborativeSearchService.collaborationBus.pipe(takeUntilDestroyed()).subscribe({
       next: (ce: CollaborationEvent) => {
         if (ce.operation === OperationEnum.add) {
           this.removeLayers();
@@ -82,14 +84,8 @@ export class RastersManagerComponent<L, S, M> implements OnInit, OnDestroy {
 
   /** Removes all raster layers from the map. */
   public removeLayers() {
-    this.visualisationService.removeRasters();
+    this.visualizeService.removeRasters();
     this.actionManager.removeActions('visualize');
     this.cogService.resetCogVisualisation();
   }
-
-  public ngOnDestroy(): void {
-    this._onDestroy$.next(true);
-    this._onDestroy$.complete();
-  }
-
 }

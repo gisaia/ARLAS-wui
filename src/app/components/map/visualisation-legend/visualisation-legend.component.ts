@@ -19,7 +19,7 @@
 
 import { KeyValuePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 import { CogLegendComponent, PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { debounceTime } from 'rxjs';
 import { CogService } from '../../../services/cog.service';
@@ -49,6 +49,7 @@ export class VisualisationLegendComponent {
 
   private readonly cogService = inject(CogService);
   private readonly http = inject(HttpClient);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public constructor() {
     this.cogService.hoverCogChange.pipe(debounceTime(100)).subscribe(() => {
@@ -65,6 +66,7 @@ export class VisualisationLegendComponent {
           this.rasterHovered.delete(k);
         }
       });
+      this.cdr.detectChanges();
 
       // For new keys, process them to get legend url
       Array.from(uniqueIds.values()).filter(id => !this.rasterHovered.has(id))
@@ -80,11 +82,12 @@ export class VisualisationLegendComponent {
               // If there is no colorMap, then we can't plot the legend
               if (colorMap) {
                 const legendUrl = dataGroup.visualisationUrl.split('/cog/tiles/')[0] + '/colorMaps/'
-                  + colorMap + '?f=png&width=' + this.colormapWidth();
+                  + colorMap + '?format=png&width=' + this.colormapWidth();
                 this.rasterHovered.set(id, {
                   url: legendUrl,
                   name: dataGroup.name
                 });
+                this.cdr.detectChanges();
 
                 const statUrl = dataGroup.visualisationUrl.split('/tiles/')[0] + '/statistics?' + queryParams;
                 this.http.get(statUrl, { headers: { [PROTECTED_IMAGE_HEADER]: 'true' }}).subscribe((r: any) => {
@@ -97,6 +100,7 @@ export class VisualisationLegendComponent {
                       minimum: bands[0][1].min,
                       maximum: bands[0][1].max
                     });
+                    this.cdr.detectChanges();
                   }
                   // If there are multiple bands (for example TCI), titiler throws an internal error with a colormap
                   // Because it needs to map numeric values and not an array to a color
