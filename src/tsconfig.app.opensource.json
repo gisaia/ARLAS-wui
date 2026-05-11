@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "files": [
-    "main-opensource.ts"
+    "main-opensource.ts",
+    "polyfills.ts"
   ]
 }

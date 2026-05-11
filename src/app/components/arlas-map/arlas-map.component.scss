@@ -155,6 +155,10 @@
       mat-icon {
         display: flex;
       }
+
+      &__bbox {
+        width: var(--arlas-map-actions-width);
+      }
     }
   }
 

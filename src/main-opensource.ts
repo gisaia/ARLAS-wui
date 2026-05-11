@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AbstractArlasMapService, ArlasMapFrameworkService, BasemapService, LegendService } from 'arlas-map';
 import { ArlasMaplibreService, ArlasMapService, MaplibreBasemapService, MaplibreLegendService } from 'arlas-maplibre';
@@ -49,6 +49,7 @@ bootstrapApplication(ArlasWuiComponent, {
             useClass: ArlasMaplibreService
         },
         ArlasMapService,
+        provideZoneChangeDetection()
     ]
 })
   .catch(err => console.log(err));

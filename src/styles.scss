@@ -156,31 +156,61 @@ button:focus {
   padding: 0;
 }
 
+// Reduce the size of the mat-hint
+arlas-share-dialog {
+  --mat-form-field-subscript-text-size: 12px;
+}
+
+// Align the tabs icon in the middle of their button
+arlas-analytics-menu {
+  .mdc-list-item__primary-text {
+    display: flex;
+  }
+}
+
+arlas-histogram-tooltip-overlay {
+  .tooltip__yValue {
+    tr {
+      line-height: normal;
+    }
+  }
+}
+
 /* Walkthrough */
-div.hopscotch-bubble .hopscotch-nav-button.next {
-  border-color: var(--arlas-theme-color);
-  color: #ffffff;
-  background: none;
-  background-color: var(--arlas-theme-color);
-  text-shadow: none !important;
+.hopscotch-prev, .hopscotch-next {
+  cursor: pointer;
 }
 
-div.hopscotch-bubble .hopscotch-nav-button.next:hover {
-  color: var(--arlas-theme-color);
-  background: none;
+.hopscotch-next {
+  color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+  background-color: var(--mat-button-filled-container-color, var(--mat-sys-primary));
+  border-radius: var(--mat-button-filled-container-shape, var(--mat-sys-corner-full));
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  height: var(--mat-button-filled-container-height, 40px);
+  font-family: var(--mat-button-filled-label-text-font, var(--mat-sys-label-large-font));
+  font-size: var(--mat-button-filled-label-text-size, var(--mat-sys-label-large-size));
+  letter-spacing: var(--mat-button-filled-label-text-tracking, var(--mat-sys-label-large-tracking));
+  text-transform: var(--mat-button-filled-label-text-transform);
+  font-weight: var(--mat-button-filled-label-text-weight, var(--mat-sys-label-large-weight));
+  padding: 0 var(--mat-button-filled-horizontal-padding, 24px);
+  border: 0;
 }
 
-div.hopscotch-bubble .hopscotch-nav-button.prev {
-  border-color: #000;
-  color: #000;
-  background: none;
-  background-color: #fff;
-  text-shadow: none !important;
-}
-
-div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
-  background: none;
-  background-color: #f1f1f1;
+.hopscotch-prev {
+  color: var(--mat-button-outlined-label-text-color, var(--mat-sys-primary));
+  border-color: var(--mat-button-outlined-outline-color, var(--mat-sys-outline));
+  border-style: solid;
+  transition: border 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  height: var(--mat-button-outlined-container-height, 40px);
+  font-family: var(--mat-button-outlined-label-text-font, var(--mat-sys-label-large-font));
+  font-size: var(--mat-button-outlined-label-text-size, var(--mat-sys-label-large-size));
+  letter-spacing: var(--mat-button-outlined-label-text-tracking, var(--mat-sys-label-large-tracking));
+  text-transform: var(--mat-button-outlined-label-text-transform);
+  font-weight: var(--mat-button-outlined-label-text-weight, var(--mat-sys-label-large-weight));
+  border-radius: var(--mat-button-outlined-container-shape, var(--mat-sys-corner-full));
+  border-width: var(--mat-button-outlined-outline-width, 1px);
+  padding: 0 var(--mat-button-outlined-horizontal-padding, 24px);
+  background-color: white;
 }
 
 div.hopscotch-bubble .hopscotch-bubble-number {

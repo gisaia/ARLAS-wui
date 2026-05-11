@@ -16,7 +16,7 @@
     {
       "title": "Search box",
       "content": "Here you can search anything to filter the data.",
-      "target": "arlas-search",
+      "target": ".arlas-search",
       "placement": "bottom"
     },
     {

@@ -13,7 +13,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "postinstall": "patch-package --patch-dir node_modules/arlas-web-core/patches && patch-package --patch-dir node_modules/arlas-d3/patches && patch-package --patch-dir node_modules/arlas-map/patches",
+    "postinstall": "patch-package && patch-package --patch-dir node_modules/arlas-web-core/patches && patch-package --patch-dir node_modules/arlas-d3/patches && patch-package --patch-dir node_modules/arlas-map/patches",
     "start": "ng serve --configuration=development-opensource",
     "start:cloud": "ng serve --configuration=development-cloud",
     "start:cloud-kc": "ng serve --ssl --ssl-cert=$EXPLO_SSL_CERT --ssl-key=$EXPLO_SSL_KEY --configuration=development-cloud",

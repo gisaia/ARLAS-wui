@@ -220,9 +220,6 @@
 }
 
 .owl-dt-calendar-table .owl-dt-calendar-cell-selected {
-  background-color: var(--arlas-theme-color);
-}
-
-.owl-dt-container-buttons {
-  color: var(--arlas-theme-color);
+  background-color: var(--mat-datepicker-calendar-date-selected-state-background-color);
+  color: var(--mat-datepicker-calendar-date-selected-state-text-color);
 }

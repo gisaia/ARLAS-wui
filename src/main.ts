@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { ArlasWuiComponent } from './app/app.component';
 import { ArlasWuiModule } from './app/app.module';
@@ -28,6 +28,9 @@ if (environment.production) {
 }
 
 bootstrapApplication(ArlasWuiComponent, {
-    providers: [importProvidersFrom(ArlasWuiModule)]
+  providers: [
+    importProvidersFrom(ArlasWuiModule),
+    provideZoneChangeDetection()
+  ]
 })
   .catch(err => console.log(err));
