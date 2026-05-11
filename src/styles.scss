@@ -156,6 +156,26 @@ button:focus {
   padding: 0;
 }
 
+// Reduce the size of the mat-hint
+arlas-share-dialog {
+  --mat-form-field-subscript-text-size: 12px;
+}
+
+// Align the tabs icon in the middle of their button
+arlas-analytics-menu {
+  .mdc-list-item__primary-text {
+    display: flex;
+  }
+}
+
+arlas-histogram-tooltip-overlay {
+  .tooltip__yValue {
+    tr {
+      line-height: normal;
+    }
+  }
+}
+
 /* Walkthrough */
 .hopscotch-prev, .hopscotch-next {
   cursor: pointer;
