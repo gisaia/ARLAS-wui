@@ -79,8 +79,6 @@
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "overrides": {
-    "vite": "7.3.2",
-    "underscore": "^1.13.8",
-    "shpjs": "^6.2.0"
+    "underscore": "^1.13.8"
   }
 }

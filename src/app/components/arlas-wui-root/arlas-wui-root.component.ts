@@ -23,7 +23,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Title } from '@angular/platform-browser';
@@ -51,6 +50,7 @@ import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
 import { ConfigsListComponent } from '../configs-list/configs-list.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
 import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
+import { LoadingBarComponent } from '../loading-bar/loading-bar.component';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -78,10 +78,10 @@ import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
     ResultListComponent,
     ArlasListComponent,
     TimelineComponent,
-    MatProgressBarModule,
     BookmarkMenuComponent,
-    GetValuePipe
-  ]
+    GetValuePipe,
+    LoadingBarComponent
+]
 })
 /** L: a layer class/interface.
  *  S: a source class/interface.
