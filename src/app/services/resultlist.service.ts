@@ -18,7 +18,7 @@
  */
 
 import { ComponentType } from '@angular/cdk/portal';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ import {
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, getParamValue, ProcessService
+  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, ErrorService, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
 import { ArlasWuiMapService } from '../services/map.service';
@@ -74,6 +74,8 @@ export class ResultlistService<L, S, M> {
    * Event emitted when an action is performed on the list
    */
   public actionOnList = new Subject<{ origin: string; event: string; data?: any; }>();
+
+  private readonly errorService = inject(ErrorService);
 
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -128,6 +130,8 @@ export class ResultlistService<L, S, M> {
       }
 
       this.declareResultlistExportCsv();
+
+      this.handleProcessErrors();
     }
   }
 
@@ -365,7 +369,7 @@ export class ResultlistService<L, S, M> {
             .pipe(finalize(() => this.resultlistIsExporting = false))
             .subscribe({
               next: (h) => this.exportService.exportResultlist(resultListContributor, h),
-              error: (e) => this.snackbar.open(this.translate.instant('An error occured exporting the list'))
+              error: (e) => this.snackbar.open(this.translate.instant('An error occurred exporting the list'))
             });
         } else if (event.data.id === 'visualize') {
           this.selectedItems.forEach(e => {
@@ -621,6 +625,23 @@ export class ResultlistService<L, S, M> {
           fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink), reverseAction
         });
       }
+    });
+  }
+
+  private handleProcessErrors() {
+    this.resultlistContributors.forEach(c => {
+      c.processErrorBus.subscribe(e => {
+        console.error(e.error);
+        if (e.context === 'create') {
+          // This is a configuration error
+          this.errorService.emitInvalidDashboardError(true,
+            this.translate.instant('An error occurred when creating the process for the ##column##.', { column: e.column }));
+        } else if (e.context === 'apply') {
+          // This is a usage error
+          this.snackbar.open(this.translate.instant('An error occurred when applying the process of the ##column## to ##value##',
+            { column: e.column, value: e.value }));
+        }
+      });
     });
   }
 }
