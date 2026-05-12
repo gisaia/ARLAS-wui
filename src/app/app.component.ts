@@ -24,10 +24,12 @@ import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
+import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
 import { ResultlistService } from './services/resultlist.service';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 @Component({
   selector: 'arlas-root',
@@ -35,6 +37,13 @@ import { ResultlistService } from './services/resultlist.service';
   styleUrls: ['./app.component.scss'],
   imports: [
     RouterOutlet
+  ],
+  providers: [
+    // Provide lazyload hook here to override the lib built-in one
+    {
+      provide: LAZYLOAD_IMAGE_HOOKS,
+      useClass: LazyLoadImageHooks
+    }
   ]
 })
 /** L: a layer class/interface.

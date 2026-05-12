@@ -153,7 +153,7 @@ export class ResultlistService<L, S, M> {
   }
 
   public isThumbnailProtected(): boolean {
-    return this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails ?? false;
+    return !!this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails;
   }
 
   public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
