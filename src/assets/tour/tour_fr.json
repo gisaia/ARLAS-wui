@@ -20,10 +20,26 @@
       "placement": "bottom"
     },
     {
-      "title": "Tableau de board et Filtres",
-      "content": "Ce tableau de board vous donne une vue globale de la donnée grâce aux différents analytiques. <br> Vous pouvez intéragir avec ces widgets pour filtrer la donnée.",
+      "title": "Tableau de bord et Filtres",
+      "content": "<strong>ACTION :</strong> Cliquez sur une icône pour ouvrir le tableau de bord",
+      "target": ".analytics-menu--unselected",
+      "placement": "right",
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Tableau de bord et Filtres",
+      "content": "Ce tableau de bord vous donne une vue globale de la donnée grâce aux différents analytiques. <br> Vous pouvez intéragir avec ces widgets pour filtrer la donnée.",
       "target": ".arlas-analytics--container",
       "placement": "right"
+    },
+    {
+      "title": "Afficher la frise temporelle",
+      "content": "<strong>ACTION :</strong> Cliquez sur le bouton pour afficher la frise temporelle",
+      "target": ".arlas-timeline-toggle--open",
+      "placement": "top",
+      "showNextButton": false,
+      "nextOnTargetClick": true
     },
     {
       "title": "Frise temporelle",
@@ -40,10 +56,19 @@
       "yOffset": -15
     },
     {
-      "title": "Configuration de la carte",
-      "content": " <strong>ACTION :</strong> Cliquez sur le bouton 'Configuration de la carte' (icône de Loupe)",
+      "title": "Outils de filtres géographiques",
+      "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée. Vous pouvez aussi changer la façon dont les filtres géographiques sont appliqués. <br> <strong>ACTION :</strong> Cliquez sur le bouton",
       "placement": "left",
-      "target": ".arlas-map-settings-container",
+      "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
+      "yOffset": -15,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Configuration des filtres de la carte",
+      "content": " <strong>ACTION :</strong> Cliquez sur le bouton 'Configuration des filtres de la carte'",
+      "placement": "left",
+      "target": ".arlas-map-action-items__settings",
       "yOffset": -15,
       "showNextButton": false,
       "nextOnTargetClick": true
@@ -51,24 +76,17 @@
     {
       "title": "Appliquer les changements",
       "content": "<br> - Définir comment rechercher géograhiquement la donnée (onglet Requêtes Géographiques). <br><br>  <strong>ACTION :</strong> Cliquez pour appliquer les changements.",
-      "target": ".apply-displayed-geometries",
+      "target": ".mapgl-settings__actions--apply:nth-of-type(2)",
       "placement": "left",
       "yOffset": -10,
       "showNextButton": false,
       "nextOnTargetClick": true
     },
     {
-      "title": "Outils de filtres géographiques",
-      "content": "Vous pouvez dessiner un polygone/bbox ou importer un fichier KML, GeoJson ou un Shapefile compressé pour filtrer géographiquement la donnée.",
-      "placement": "left",
-      "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
-      "yOffset": -15
-    },
-    {
       "title": "Légende des couches cartographiques",
       "content": "les couches cartographiques sont placées dans différents sets de visualisation que vous pouvez afficher/masquer séparément. <br><br> Vous pouvez réordonner les sets de visualisations ainsi que les couches cartographiques par 'drag & drop'. <br><br> Chaque couche cartographique a sa propre légende dépliable.",
       "placement": "left",
-      "target": ".map__visu-container",
+      "target": ".map__visu-list",
       "yOffset": -15
     }
   ]

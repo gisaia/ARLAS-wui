@@ -21,9 +21,25 @@
     },
     {
       "title": "Analytics and Filters",
+      "content": "<strong>ACTION:</strong> Click on an icon to open the analytics board",
+      "target": ".analytics-menu--unselected",
+      "placement": "right",
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
+      "title": "Analytics and Filters",
       "content": "This board gives you a global view of your data thanks to the different analytics. <br> You can interact with them directly to filter the data.",
       "target": ".arlas-analytics--container",
       "placement": "right"
+    },
+    {
+      "title": "Open the timeline",
+      "content": "<strong>ACTION:</strong> Click on the toggle to open the timeline",
+      "target": ".arlas-timeline-toggle--open",
+      "placement": "top",
+      "showNextButton": false,
+      "nextOnTargetClick": true
     },
     {
       "title": "Timeline filter",
@@ -40,35 +56,37 @@
       "yOffset": -15
     },
     {
-      "title": "Maps settings",
-      "content": " <strong>ACTION :</strong> Click on the Map settings button",
+      "title": "Filters and drawing tools",
+      "content": "You can draw or remove a bbox/polygon or import it as KML, Geojson or Zipped Shapefile to filter data. You can also change how the geographical filters are applied. <br> <strong>ACTION:</strong> Click on the button",
       "placement": "left",
-      "target": ".arlas-map-settings-container",
+      "target": ".geo-filter-item",
       "yOffset": -15,
       "showNextButton": false,
       "nextOnTargetClick": true
     },
     {
+      "title": "Map filters settings",
+      "content": " <strong>ACTION:</strong> Click on the Map filters settings button",
+      "placement": "bottom",
+      "target": ".arlas-map-action-items__settings",
+      "xOffset": -15,
+      "showNextButton": false,
+      "nextOnTargetClick": true
+    },
+    {
       "title": "Apply change",
-      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> <strong>ACTION :</strong> Click to apply changes",
-      "target": ".apply-displayed-geometries",
+      "content": "<br><br> - Choose how to query geographically the elements (Geo-queries tab). <br><br> <strong>ACTION:</strong> Click to apply changes",
+      "target": ".mapgl-settings__actions--apply:nth-of-type(2)",
       "placement": "left",
       "yOffset": -10,
       "showNextButton": false,
       "nextOnTargetClick": true
     },
     {
-      "title": "Filters and drawing tools",
-      "content": "You can draw or remove a bbox/polygon or import it as KML, Geojson or Zipped Shapefile to filter data.",
-      "placement": "left",
-      "target": ".arlas-map-settings .arlas-map-settings-items:last-child",
-      "yOffset": -15
-    },
-    {
       "title": "Layers legend",
       "content": "Layers are placed in different Visualisation sets that you can hide/display separately. <br><br> You can reorder Visualisation sets and the layers within by dragging and dropping them. <br><br> Each layer has its own legend that you can fold/unfold ",
       "placement": "left",
-      "target": ".map__visu-container",
+      "target": ".map__visu-list",
       "yOffset": -15
     }
   ]
