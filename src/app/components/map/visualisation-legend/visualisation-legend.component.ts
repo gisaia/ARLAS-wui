@@ -82,7 +82,7 @@ export class VisualisationLegendComponent {
               // If there is no colorMap, then we can't plot the legend
               if (colorMap) {
                 const legendUrl = dataGroup.visualisationUrl.split('/cog/tiles/')[0] + '/colorMaps/'
-                  + colorMap + '?format=png&width=' + this.colormapWidth();
+                  + colorMap + '?f=png&width=' + this.colormapWidth();
                 this.rasterHovered.set(id, {
                   url: legendUrl,
                   name: dataGroup.name
