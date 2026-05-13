@@ -24,20 +24,20 @@
 .arlas-map__container {
   height: 100%;
 
+  &--three-actions {
+    ::ng-deep.maplibregl-ctrl-group{
+      &:has(.maplibregl-ctrl-globe),
+      &:has(.maplibregl-ctrl-globe-enabled) {
+        margin-top: calc($sm-spacing + 3 * var(--arlas-map-actions-width) + $sm-spacing) !important;
+      }
+    }
+  }
+
   &--four-actions {
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
         margin-top: calc($sm-spacing + 4 * var(--arlas-map-actions-width) + $sm-spacing) !important;
-      }
-    }
-  }
-
-  &--five-actions {
-    ::ng-deep.maplibregl-ctrl-group{
-      &:has(.maplibregl-ctrl-globe),
-      &:has(.maplibregl-ctrl-globe-enabled) {
-        margin-top: calc($sm-spacing + 5 * var(--arlas-map-actions-width) + $sm-spacing) !important;
       }
     }
   }

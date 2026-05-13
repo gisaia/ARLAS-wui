@@ -1,16 +1,12 @@
 @let enableTerrain = mapComponentConfig?.terrain?.enable;
 <div class="arlas-map__container"
-  [class.arlas-map__container--four-actions]="enableGeocodingFeature || !!enableTerrain"
-  [class.arlas-map__container--five-actions]="enableGeocodingFeature && !!enableTerrain">
+  [class.arlas-map__container--three-actions]="enableGeocodingFeature || !!enableTerrain"
+  [class.arlas-map__container--four-actions]="enableGeocodingFeature && !!enableTerrain">
   <arlas-map-settings #mapSettings (geoQueryEmitter)="applySelectedGeoQuery($event)"></arlas-map-settings>
 
   @if (!arlasStartupService.emptyMode) {
     <div id="arlas-map-settings" class="arlas-map-settings">
       <div class="arlas-map-settings-container">
-        <button mat-icon-button class="arlas-map-settings-items map-settings-item" matTooltipPosition="left"
-          [matTooltip]="'Map Settings' | translate" (click)="openMapSettings()">
-          <mat-icon>settings</mat-icon>
-        </button>
         <button mat-icon-button class="arlas-map-settings-items basemaps-item" matTooltipPosition="left"
           [matTooltip]="'Basemaps' | translate" (click)="mapglComponent.showBasemapSwitcher()">
           <mat-icon>public</mat-icon>
@@ -26,7 +22,7 @@
           <mat-icon>travel_explore</mat-icon>
         </button>
         @if (enableGeocodingFeature) {
-          <button mat-icon-button class="arlas-map-settings-items geo-filter-item"
+          <button mat-icon-button class="arlas-map-settings-items"
             [matTooltip]="'Search a place' | translate" matTooltipPosition="left" (click)="showGeocodingPopup.next(true)">
             <mat-icon>location_searching</mat-icon>
           </button>
@@ -64,6 +60,10 @@
           <button mat-flat-button class="arlas-map-action-items arlas-map-action-items__bbox" [matTooltip]="'BBox from coordinates' | translate"
               matTooltipPosition="below" (click)="openAoiGenerator()">
             ° ' "
+          </button>
+          <button mat-icon-button class="arlas-map-action-items arlas-map-action-items__settings" [matTooltip]="'Map Settings' | translate"
+              matTooltipPosition="below" (click)="openMapSettings()">
+            <mat-icon>settings</mat-icon>
           </button>
         </div>
       }
