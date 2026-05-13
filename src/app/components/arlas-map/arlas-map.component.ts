@@ -18,7 +18,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, effect, inject, Injector, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -136,12 +136,14 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   protected showGeocodingPopup = new BehaviorSubject(false);
   protected enableGeocodingFeature = !!this.settingsService.getGeocodingSettings()?.enabled;
 
-  /** Cog visualisation **/
+  /** Cog visualisation */
   protected cogVisualisation = signal<VisualisationPreview | null>(null);
 
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
+
+  private readonly injector = inject(Injector);
 
   public constructor(
     protected wuiMapService: ArlasWuiMapService<L, S, M>,
@@ -588,6 +590,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public listenVisualisationChange() {
+    effect(() => {
+      if (!this.visualizeService.isRasterOnMap()) {
+        this.cogVisualisation.set(null);
+        this.cogService.resetCogVisualisation();
+      }
+    }, { injector: this.injector });
+
     this.cogService.cogVisualisationChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(v => this.cogVisualisation.set(v));
