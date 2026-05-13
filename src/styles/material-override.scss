@@ -48,11 +48,6 @@
   --mat-dialog-actions-padding: 0;
 }
 
-// Align left edge of dialog
-.mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
-  padding-left: 6px !important;
-}
-
 // Avoid overlap of collection count and divider
 .mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
   margin-left: 0 !important;
