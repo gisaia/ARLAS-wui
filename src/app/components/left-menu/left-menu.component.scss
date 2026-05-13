@@ -25,6 +25,8 @@
   flex-direction: column;
   justify-content: space-between;
 
+  --mat-list-list-item-focus-state-layer-color: transparent;
+
   mat-icon {
     color: #666;
   }
