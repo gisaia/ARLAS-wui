@@ -20,7 +20,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
-import { CogLegendComponent, PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
+import { CogLegendComponent, PROTECTED_REQUEST_HEADER } from 'arlas-web-components';
 import { debounceTime } from 'rxjs';
 import { CogService } from '../../../services/cog.service';
 
@@ -90,7 +90,7 @@ export class VisualisationLegendComponent {
                 this.cdr.detectChanges();
 
                 const statUrl = dataGroup.visualisationUrl.split('/tiles/')[0] + '/statistics?' + queryParams;
-                this.http.get(statUrl, { headers: { [PROTECTED_IMAGE_HEADER]: 'true' }}).subscribe((r: any) => {
+                this.http.get(statUrl, { headers: { [PROTECTED_REQUEST_HEADER]: 'true' }}).subscribe((r: any) => {
                   const bands: Array<[string, any]> = Object.entries(r);
                   // If there is one band => either an expression OR just one band in the TIF
                   if (bands.length === 1) {

@@ -19,7 +19,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
+import { PROTECTED_REQUEST_HEADER } from 'arlas-web-components';
 import { Attributes, IntersectionObserverHooks } from 'ng-lazyload-image';
 import { map, ObservableInput } from 'rxjs';
 import { ResultlistService } from '../services/resultlist.service';
@@ -49,7 +49,7 @@ export class LazyLoadImageHooks<L, S, M> extends IntersectionObserverHooks {
         headers?: HttpHeaders | { [header: string]: string | string[]; };
         responseType: 'blob';
       } = { responseType: 'blob' };
-      getParams.headers = { [PROTECTED_IMAGE_HEADER]: 'true' };
+      getParams.headers = { [PROTECTED_REQUEST_HEADER]: 'true' };
       return this.http.get(attributes.imagePath, getParams).pipe(map(blob => URL.createObjectURL(blob)));
     } else {
       // If the thumbnail is not protected, lazyload it normally
