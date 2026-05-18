@@ -17,9 +17,8 @@
  * under the License.
  */
 
-@import "../../../../styles/variables.scss";
-@import "../../../../styles/app/sizes.scss";
-@import "../../../../styles/app/mixin.scss";
+@use "../../../../styles/app/sizes.scss" as sizes;
+@use "../../../../styles/app/mixin.scss" as mixin;
 
 .manager__button {
   display: flex;
@@ -28,7 +27,7 @@
   cursor: pointer;
   background-color: white;
   padding: 0;
-  @include box-border();
+  @include mixin.box-border();
 
   & ::ng-deep {
     .visualisation {
@@ -44,7 +43,7 @@
     }
 
     .visualisation__info__title {
-      font-size: $default-font-size;
+      font-size: sizes.$default-font-size;
       padding-bottom: 0;
     }
   }

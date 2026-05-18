@@ -17,7 +17,7 @@
  * under the License.
  */
 
-@import 'app/sizes.scss';
+@use "app/sizes.scss" as sizes;
 
 .analytics-board-card {
   box-shadow: none !important;
@@ -52,17 +52,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: $default-spacing;
+    padding: sizes.$default-spacing;
     box-sizing: border-box;
 
     .arlas-metric-value {
       font-weight: 400;
-      font-size: $metric-value-font-size;
-      padding: $sm-spacing 0;
+      font-size: sizes.$metric-value-font-size;
+      padding: sizes.$sm-spacing 0;
     }
 
     .arlas-metric-description {
-      font-size: $title-font-size;
+      font-size: sizes.$title-font-size;
       font-weight: 100;
       text-align: center;
     }

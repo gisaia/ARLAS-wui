@@ -17,7 +17,7 @@
  * under the License.
  */
 
- @import "../../../styles/variables.scss";
+@use "../../../styles/variables.scss" as var;
 
 .arlas-progression {
     width: 100%;
@@ -45,7 +45,7 @@
 
     .list__container {
         // 50px is the height of the tab group
-        height: calc(100vh - 50px - $top-menu-height);
+        height: calc(100vh - 50px - var.$top-menu-height);
         overflow: hidden;
     }
 }

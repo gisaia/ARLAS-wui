@@ -17,25 +17,25 @@
  * under the License.
  */
 
- @import '../../../../styles/app/sizes.scss';
- @import '../../../../styles/app/mixin.scss';
+@use "../../../../styles/app/sizes.scss" as sizes;
+@use "../../../../styles/app/mixin.scss" as mixin;
 
 .wrapper {
-    border-radius: $default-border-radius;
+    border-radius: sizes.$default-border-radius;
     min-width: 215px;
     background-color: white;
-    @include box-border();
-    padding: $sm-spacing;
+    @include mixin.box-border();
+    padding: sizes.$sm-spacing;
     .title_wrapper {
         display: flex;
         justify-content: space-between;
-        font-size: $default-font-size;
+        font-size: sizes.$default-font-size;
         align-items: center;
-        margin-bottom: $sm-margin;
+        margin-bottom: sizes.$sm-margin;
         mat-icon {
-            height: $default-font-size;
-            width: $default-font-size;
-            font-size: $default-font-size;
+            height: sizes.$default-font-size;
+            width: sizes.$default-font-size;
+            font-size: sizes.$default-font-size;
         }
         font-weight: bold;
 
@@ -45,36 +45,36 @@
     }
     .content {
         .marged_line {
-            margin: $sm-spacing 0;
+            margin: sizes.$sm-spacing 0;
         }
         .line, .marged_line {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: $sm-font-size;
+            font-size: sizes.$sm-font-size;
             .title {
                 .envelope {
                     font-style: italic;
                     font-weight: 100;
-                    font-size: $xs-font-size;
-                    margin-left: $sm-spacing;
-                    margin-right: calc(2 * $default-spacing);
+                    font-size: sizes.$xs-font-size;
+                    margin-left: sizes.$sm-spacing;
+                    margin-right: calc(2 * sizes.$default-spacing);
                 }
                 font-weight: 600;
             }
             .dimension {
                 font-weight: 100;
                 .multiply {
-                    margin-right: $default-spacing;
-                    margin-left: $default-spacing;
+                    margin-right: sizes.$default-spacing;
+                    margin-left: sizes.$default-spacing;
                 }
             }
 
             .message {
                 color: rgb(143, 143, 143);
                 font-weight: 100;
-                font-size: $sm-font-size;
-                margin-left: calc(2 * $default-spacing);
+                font-size: sizes.$sm-font-size;
+                margin-left: calc(2 * sizes.$default-spacing);
             }
         }
     }

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-@import "../../../styles/variables.scss";
-@import "../../../styles/app/sizes.scss";
-@import "../../../styles/app/mixin.scss";
+@use "../../../styles/variables.scss" as var;
+@use "../../../styles/app/sizes.scss" as sizes;
+@use "../../../styles/app/mixin.scss" as mixin;
 
 .arlas-map__container {
   height: 100%;
@@ -27,7 +27,7 @@
   ::ng-deep.maplibregl-ctrl-group{
     &:has(.maplibregl-ctrl-globe),
     &:has(.maplibregl-ctrl-globe-enabled) {
-      @include margin-top-for-x-actions(2);
+      @include mixin.margin-top-for-x-actions(2);
     }
   }
 
@@ -35,7 +35,7 @@
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        @include margin-top-for-x-actions(3);
+        @include mixin.margin-top-for-x-actions(3);
       }
     }
   }
@@ -44,23 +44,23 @@
     ::ng-deep.maplibregl-ctrl-group{
       &:has(.maplibregl-ctrl-globe),
       &:has(.maplibregl-ctrl-globe-enabled) {
-        @include margin-top-for-x-actions(4);
+        @include mixin.margin-top-for-x-actions(4);
       }
     }
   }
 
   .arlas-map-settings {
     position: absolute;
-    top: calc( $sm-spacing + $map-attributions-height + $sm-spacing
-        + var(--arlas-map-actions-width) + $sm-spacing
-        + $map-actions-length + $sm-spacing);
-    right: $sm-spacing;
+    top: calc(sizes.$sm-spacing + var.$map-attributions-height + sizes.$sm-spacing
+        + var(--arlas-map-actions-width) + sizes.$sm-spacing
+        + var.$map-actions-length + sizes.$sm-spacing);
+    right: sizes.$sm-spacing;
     z-index: 2;
 
     .arlas-map-settings-container {
       display: flex;
       flex-direction: column;
-      @include box-border();
+      @include mixin.box-border();
       background-color: white;
 
       .arlas-map-settings-items {
@@ -90,16 +90,16 @@
   }
 
   .if-geocoding-button {
-    bottom: calc(var(--arlas-map-actions-width) + $xs-border) !important;
+    bottom: calc(var(--arlas-map-actions-width) + sizes.$xs-border) !important;
   }
 
   .arlas-cog-visualisation-manager {
     position: absolute;
     height: var(--arlas-map-actions-width);
     bottom: calc(
-      $default-spacing + $map-scale-height
+      sizes.$default-spacing + var.$map-scale-height
     );
-    right: $sm-spacing;
+    right: sizes.$sm-spacing;
     z-index: 2;
     display: flex;
     align-items: flex-end;
@@ -107,35 +107,35 @@
 
     &--tight {
       bottom: calc(
-        $default-spacing + $map-scale-height + $map-scale-height
+        sizes.$default-spacing + var.$map-scale-height + var.$map-scale-height
       )!important;
     }
     &--timeline-open {
       bottom: calc(
-        $default-spacing + $map-scale-height + $sm-spacing + $timeline-height
+        sizes.$default-spacing + var.$map-scale-height + sizes.$sm-spacing + var.$timeline-height
       )!important;
     }
     &--full {
       bottom: calc(
-        $default-spacing + $map-scale-height + $map-scale-height + $sm-spacing + $timeline-height
+        sizes.$default-spacing + var.$map-scale-height + var.$map-scale-height + sizes.$sm-spacing + var.$timeline-height
       )!important;
     }
   }
 
   .arlas-map-action-container {
     position: absolute;
-    right: calc(var(--arlas-map-actions-width) + $xs-border);
+    right: calc(var(--arlas-map-actions-width) + sizes.$xs-border);
     bottom: 0;
     display: flex;
     flex-direction: row-reverse;
     background-color: white;
-    @include box-border();
+    @include mixin.box-border();
 
     .arlas-map-action-items {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-right: $xs-border solid #ddd;
+      border-right: sizes.$xs-border solid #ddd;
       color: black;
 
       // For icon button
@@ -172,11 +172,11 @@
   .aoi-dimensions {
     position: absolute;
 
-    right: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
-    top: calc($sm-spacing + $map-attributions-height
-        + $sm-spacing + var(--arlas-map-actions-width)
-        + $sm-spacing + $map-actions-length
-        + $sm-spacing + var(--arlas-map-actions-width));
+    right: calc(sizes.$sm-spacing + var(--arlas-map-actions-width) + sizes.$sm-spacing);
+    top: calc(sizes.$sm-spacing + var.$map-attributions-height
+        + sizes.$sm-spacing + var(--arlas-map-actions-width)
+        + sizes.$sm-spacing + var.$map-actions-length
+        + sizes.$sm-spacing + var(--arlas-map-actions-width));
     z-index: 1;
   }
 }

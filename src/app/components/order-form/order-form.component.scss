@@ -17,16 +17,16 @@
  * under the License.
  */
 
- @import '../../../styles/app/sizes.scss';
+@use "../../../styles/app/sizes.scss" as sizes;
 
 .order-form {
-    gap: $lg-spacing;
+    gap: sizes.$lg-spacing;
     display: flex;
     flex-direction: column;
     padding: 12px 24px;
 
     &__title {
-        font-size: $dialog-title-font-size;
+        font-size: sizes.$dialog-title-font-size;
     }
 
     &__content {
@@ -42,7 +42,7 @@
             overflow-y: auto;
 
             &__title {
-                font-size: $title-font-size;
+                font-size:sizes.$title-font-size;
             }
 
             textarea {
@@ -59,7 +59,7 @@
 
                 .info {
                     display: flex;
-                    gap: $default-spacing;
+                    gap: sizes.$default-spacing;
 
                     &__key {
                         width: 50%;
@@ -67,15 +67,15 @@
                         color: #a7a7a7;
 
                         &__detail {
-                            font-size: $sm-font-size;
-                            padding-left: $sm-spacing;
+                            font-size: sizes.$sm-font-size;
+                            padding-left: sizes.$sm-spacing;
                         }
                     }
                 }
 
                 .divider {
                     border: 1px dashed #a7a7a766;
-                    margin-top: $default-spacing;
+                    margin-top: sizes.$default-spacing;
                     width: 60%;
                     justify-self: center;
                 }
@@ -97,7 +97,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: $lg-spacing;
+        gap: sizes.$lg-spacing;
 
         &__submit {
             --mat-button-filled-container-color: #4f9fff;

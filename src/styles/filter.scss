@@ -17,16 +17,16 @@
  * under the License.
  */
 
-@import 'variables.scss';
-@import 'app/sizes.scss';
+@use 'variables.scss' as var;
+@use 'app/sizes.scss' as sizes;
 
 .count-container {
   .value-unit .unit {
     font-weight: 200;
-    font-size: $default-font-size;
+    font-size: sizes.$default-font-size;
   }
 
   .filter-chip {
-    height: calc($filter-height - $xs-border * 2);
+    height: calc(var.$filter-height - sizes.$xs-border * 2);
   }
 }
