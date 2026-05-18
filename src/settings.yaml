@@ -12,8 +12,8 @@ authentication:
   use_discovery: true
   issuer: https://localhost:9443/auth/realms/arlas
   client_id: arlas-front
-  redirect_uri: http://localhost:4200/callback
-  silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
+  redirect_uri: https://localhost:4200/callback
+  silent_refresh_redirect_uri: https://localhost:4200/silent-refresh.html
   scope: profile
   # token_endpoint:
   # userinfo_endpoint: ${ARLAS_AUTHENT_USERINFO_ENDPOINT}
