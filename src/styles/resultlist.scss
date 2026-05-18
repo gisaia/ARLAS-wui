@@ -17,7 +17,7 @@
  * under the License.
  */
 
-@import 'variables.scss';
+@use 'variables.scss' as var;
 
 .analytics-board-card .resultlist__header--columns__geosort-action-button {
   width: 24px;
@@ -95,7 +95,7 @@
 
 .resultlist__preview {
   table.resultlist>tbody {
-    height: calc(100vh - $top-menu-height) !important;
+    height: calc(100vh - var.$top-menu-height) !important;
   }
 
   table.resultlist>thead,

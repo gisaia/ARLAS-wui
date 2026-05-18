@@ -17,15 +17,15 @@
  * under the License.
  */
 
-@import 'variables.scss';
-@import 'app/sizes.scss';
-@import 'app/mixin.scss';
+@use "variables.scss" as var;
+@use "app/sizes.scss" as sizes;
+@use "app/mixin.scss" as mixin;
 
 .arlas-timeline--container {
   position: absolute;
   bottom: 0;
-  left: $sm-spacing;
-  right: $sm-spacing;
+  left: sizes.$sm-spacing;
+  right: sizes.$sm-spacing;
 
   .arlas-timeline {
     .histogram__description {
@@ -187,12 +187,12 @@
 .arlas-timeline-toolkit {
   .arlas-time-shortcuts--container {
     padding: 0;
-    bottom: $timeline-height;
+    bottom: var.$timeline-height;
     overflow: hidden;
     position: absolute;
 
     .arlas-timeline-toggle {
-      @include toggle();
+      @include mixin.toggle();
       align-items: center;
     }
   }

@@ -17,15 +17,13 @@
  * under the License.
  */
 
-@import "../../../../styles/variables.scss";
-@import "../../../../styles/app/sizes.scss";
-@import "../../../../styles/app/mixin.scss";
+@use "styles/app/mixin.scss" as mixin;
 
 .wrapper {
     cursor: pointer;
     --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
     --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
-    @include box-border();
+    @include mixin.box-border();
     box-shadow: none;
     padding: 0;
     background-color: white;

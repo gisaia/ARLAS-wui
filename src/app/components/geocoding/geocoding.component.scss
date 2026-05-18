@@ -17,13 +17,12 @@
  * under the License.
  */
 
-@import "../../../styles/variables.scss";
-@import "../../../styles/app/sizes.scss";
-@import "../../../styles/app/mixin.scss";
+@use "styles/app/sizes.scss" as sizes;
+@use "styles/app/colors.scss" as colors;
 
 :host {
   position: absolute;
-  right: calc($sm-spacing + var(--arlas-map-actions-width) + $sm-spacing);
+  right: calc(sizes.$sm-spacing + var(--arlas-map-actions-width) + sizes.$sm-spacing);
   top: calc(3 * var(--arlas-map-actions-width));
   background: white;
   width: 375px;
@@ -31,9 +30,9 @@
   display: flex;
   flex-direction: column;
   z-index: 100;
-  padding: $default-spacing;
+  padding: sizes.$default-spacing;
   border-radius: 5px;
-  border: 1px solid $map-settings-border-color;
+  border: 1px solid colors.$map-settings-border-color;
 
   .geocode-header {
     display: flex;
@@ -47,7 +46,7 @@
   }
 
   .geocode-content {
-    margin-top: $sm-spacing;
+    margin-top: sizes.$sm-spacing;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,8 +54,8 @@
     .geocode-search {
       display: flex;
       justify-content: center;
-      padding: 0 $default-spacing;
-      margin-left: $default-spacing
+      padding: 0 sizes.$default-spacing;
+      margin-left: sizes.$default-spacing
     }
   }
 
@@ -79,17 +78,17 @@
   }
 
   .geocode-tip {
-    font-size: $sm-font-size;
+    font-size: sizes.$sm-font-size;
     color: grey;
     font-style: italic;
-    margin-bottom: $xs-spacing;
+    margin-bottom: sizes.$xs-spacing;
   }
 
   .geocode-table-container {
     max-height: 150px;
     overflow-y: auto;
-    margin-top: $sm-spacing;
-    font-size: $default-font-size;
+    margin-top: sizes.$sm-spacing;
+    font-size: sizes.$default-font-size;
   }
 
   .table {
@@ -106,8 +105,8 @@
   }
 
   .error {
-    font-size: $sm-font-size;
-    color: $errorColor;
+    font-size: sizes.$sm-font-size;
+    color: colors.$errorColor;
   }
 
   td {
