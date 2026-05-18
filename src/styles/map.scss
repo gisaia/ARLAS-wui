@@ -110,14 +110,6 @@
       align-self: center;
     }
   }
-
-  .maplibregl-ctrl-group{
-    &:has(.maplibregl-ctrl-globe),
-    &:has(.maplibregl-ctrl-globe-enabled) {
-      // There are 3 buttons in the map settings/geo filter/basemap/terrain group
-      margin-top: calc($sm-spacing + 4 * var(--arlas-map-actions-width) + $sm-spacing) !important;
-    }
-  }
 }
 
 .maplibregl-compact {

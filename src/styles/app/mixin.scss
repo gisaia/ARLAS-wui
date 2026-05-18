@@ -46,3 +46,7 @@
     justify-content: center;
     font-size: $sm-font-size;
 }
+
+@mixin margin-top-for-x-actions($x) {
+    margin-top: calc($sm-spacing + $x * var(--arlas-map-actions-width) + $sm-spacing) !important;
+}
