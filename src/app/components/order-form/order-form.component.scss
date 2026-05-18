@@ -17,7 +17,7 @@
  * under the License.
  */
 
-@use "../../../styles/app/sizes.scss" as sizes;
+@use "styles/app/sizes.scss" as sizes;
 
 .order-form {
     gap: sizes.$lg-spacing;

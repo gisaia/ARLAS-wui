@@ -17,8 +17,8 @@
  * under the License.
  */
 
-@use "../../../styles/app/sizes.scss" as sizes;
-@use "../../../styles/app/colors.scss" as colors;
+@use "styles/app/sizes.scss" as sizes;
+@use "styles/app/colors.scss" as colors;
 
 :host {
   position: absolute;
