@@ -631,6 +631,10 @@ export class ResultlistService<L, S, M> {
   private handleProcessErrors() {
     this.resultlistContributors.forEach(c => {
       c.processErrorBus.subscribe(e => {
+        if (!e) {
+          return;
+        }
+
         console.error(e.error);
         if (e.context === 'create') {
           // This is a configuration error
