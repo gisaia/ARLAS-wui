@@ -390,6 +390,11 @@ export class CogService<L, S, M> {
       } else {
         this.visualizeService.removeRasters(data.elementidentifier.idValue);
         this.actionManager.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+
+        // If the last raster on the map is removed, then reset selected visualisation
+        if (!this.visualizeService.isRasterOnMap()) {
+          this.resetCogVisualisation();
+        }
       }
     }
   }
