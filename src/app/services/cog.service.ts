@@ -366,15 +366,16 @@ export class CogService<L, S, M> {
     listContributor: ResultListContributor, fitBounds = true) {
 
     if (this.contributorConfig) {
-      const urlVisualisationTemplate = this.getVisualisationUrl(data.action);
-      // If there is no visualisation url, then no visualisation can be done
-      //  Can be caused by the item not matching any visualisation rule
-      if (!urlVisualisationTemplate) {
-        this.actionManager.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
-        return;
-      }
 
       if (!data.action.activated) {
+        const urlVisualisationTemplate = this.getVisualisationUrl(data.action);
+        // If there is no visualisation url, then no visualisation can be done
+        // Can be caused by the item not matching any visualisation rule
+        if (!urlVisualisationTemplate) {
+          this.actionManager.removeAction(listContributor.identifier, data.elementidentifier.idValue, data.action.id);
+          return;
+        }
+
         const collectionDescription = this.contributorsService.collectionToDescription.get(listContributor.collection);
         this.visualizeService.getVisuInfo(data.elementidentifier, listContributor.collection, urlVisualisationTemplate)
           .subscribe(url => {
