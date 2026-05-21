@@ -1,5 +1,41 @@
 # Change Log
 
+## [v28.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.0) (2026-05-21)
+
+**New stuff:**
+
+- Terrain enhancement and some bugs [\#1057](https://github.com/gisaia/ARLAS-wui/issues/1057)
+- Use material symbols instead of material icons [\#1028](https://github.com/gisaia/ARLAS-wui/issues/1028)
+
+**Fixed bugs:**
+
+- ARLAS WUI/ Cog visualization: display/hide button on the thumbnail does not work if zoom/dezoom [\#1107](https://github.com/gisaia/ARLAS-wui/issues/1107)
+- ARLAS WUI/cog visualization: change visualisation makes the selector disapear [\#1105](https://github.com/gisaia/ARLAS-wui/issues/1105)
+- ARLAS WUI/COG visualisation: legend does not disappear once cog deselected [\#1102](https://github.com/gisaia/ARLAS-wui/issues/1102)
+- ARLAS WUI/COG visualisation: invalid parameter sent to titiler for legend [\#1101](https://github.com/gisaia/ARLAS-wui/issues/1101)
+- ARLAS Wui/geo filter parameters dialog: button not homogeneous [\#1099](https://github.com/gisaia/ARLAS-wui/issues/1099)
+- ARLAS Wui/powerbars/legend: it does not appear always at the same location [\#1098](https://github.com/gisaia/ARLAS-wui/issues/1098)
+- ARLAS Wui/ tagging: action name is not correct [\#1094](https://github.com/gisaia/ARLAS-wui/issues/1094)
+- ARLAS Wui/left analytic bar: icon background remains grey [\#1093](https://github.com/gisaia/ARLAS-wui/issues/1093)
+- ARLAS Wui/popup disconnected: little layout problem [\#1092](https://github.com/gisaia/ARLAS-wui/issues/1092)
+- Loading spinner on scroll down in list is not center [\#1091](https://github.com/gisaia/ARLAS-wui/issues/1091)
+- ARLAS Wui/Multiline Chart: Filtering in multiline chart is not visible [\#1090](https://github.com/gisaia/ARLAS-wui/issues/1090)
+- ARLAS Wui/Multiline Chart: Wrong legend values in multiline chart when a metric is used [\#1089](https://github.com/gisaia/ARLAS-wui/issues/1089)
+- ARLAS WUI/grid view: icons truncated [\#1086](https://github.com/gisaia/ARLAS-wui/issues/1086)
+- Shortcuts don't display their content once they are done loading [\#1078](https://github.com/gisaia/ARLAS-wui/issues/1078)
+- Check marks are now pink [\#1074](https://github.com/gisaia/ARLAS-wui/issues/1074)
+- ARLAS Explo: Rework sort component in the download window [\#1073](https://github.com/gisaia/ARLAS-wui/issues/1073)
+- Button styles in arlas exploration [\#1072](https://github.com/gisaia/ARLAS-wui/issues/1072)
+- COG not displayed in 28 rc3 [\#1065](https://github.com/gisaia/ARLAS-wui/issues/1065)
+- Layers order with terrain [\#1064](https://github.com/gisaia/ARLAS-wui/issues/1064)
+- Add retro-compatibility to terrain configuration [\#1056](https://github.com/gisaia/ARLAS-wui/issues/1056)
+- Invalid legend for configuring the geo filters [\#1054](https://github.com/gisaia/ARLAS-wui/issues/1054)
+- Progress bar does not disappear [\#1023](https://github.com/gisaia/ARLAS-wui/issues/1023)
+
+**Miscellaneous:**
+
+- Migrate WUI to Angular 20 [\#1045](https://github.com/gisaia/ARLAS-wui/issues/1045)
+
 ## [v27.1.6](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.6) (2026-04-13)
 
 ## [v27.1.5](https://github.com/gisaia/ARLAS-WUI/tree/v27.1.5) (2026-03-06)
