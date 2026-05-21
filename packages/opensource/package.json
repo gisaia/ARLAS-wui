@@ -7,7 +7,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "arlas-maplibre": "28.0.0-rc.5"
+    "arlas-maplibre": "^28.0.0"
   },
   "peerDependencies": {
     "@angular/animations": "^21.2.7",
