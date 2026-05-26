@@ -1,5 +1,11 @@
 # Change Log
 
+## [v28.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.1) (2026-05-26)
+
+**Fixed bugs:**
+
+- ARLAS Exploration/Analytics: Right filter handle in histogram not visable [\#1111](https://github.com/gisaia/ARLAS-wui/issues/1111)
+
 ## [v28.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.0) (2026-05-21)
 
 **New stuff:**
