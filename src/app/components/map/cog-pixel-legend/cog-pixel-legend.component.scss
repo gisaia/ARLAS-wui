@@ -17,14 +17,13 @@
  * under the License.
  */
 
-@import "../../../../styles/app/sizes.scss";
-@import "../../../../styles/app/mixin.scss";
+@use "styles/app/mixin.scss" as mixin;
 
 .cog-pixel {
   background-color: white;
   border-radius: 4px;
   padding: 3px;
-  @include box-border();
+  @include mixin.box-border();
   font-size: 14px;
 
   &__band {
