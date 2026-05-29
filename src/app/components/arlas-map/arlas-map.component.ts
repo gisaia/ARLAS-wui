@@ -648,9 +648,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         next: (b) => {
           isIdle = false;
           for (const c of this.wuiMapService.mapContributors) {
-            const sources = Array.from(c.visibleSources)
-              .filter(s => s.startsWith('feature-'));
-
+            const sources = Array.from(c.visibleSources).filter(
+              s => s.startsWith('feature-') && !s.startsWith('feature-metric')
+            );
             for (const source of sources) {
               if (b) {
                 this.wuiMapService.adjustOpacityByRange(source, ARLAS_TIMESTAMP, b.start, b.end, 1, 0.05);
