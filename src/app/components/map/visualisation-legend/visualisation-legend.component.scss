@@ -16,18 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@use "styles/app/sizes.scss" as sizes;
 
 .legend {
     display: flex;
     // Reversing as the newest raster is the topmost
     flex-direction: column-reverse;
-    gap: $sm-spacing;
+    gap: sizes.$sm-spacing;
 
     &__item {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: $sm-spacing;
+        gap: sizes.$sm-spacing;
 
         arlas-cog-legend {
             background-color: white;
@@ -35,6 +36,7 @@
 
             display: flex;
             align-items: center;
+        }
 
         ::ng-deep.legend {
             height: var(--arlas-map-actions-width);

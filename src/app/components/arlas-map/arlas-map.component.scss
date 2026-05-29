@@ -103,8 +103,7 @@
     z-index: 2;
     display: flex;
     align-items: flex-end;
-    flex-direction: column;
-    gap: $sm-spacing;
+    gap: sizes.$sm-spacing;
 
     &--tight {
       bottom: calc(
@@ -124,7 +123,7 @@
 
     &__manage {
       display: flex;
-      gap: $sm-spacing;
+      gap: sizes.$sm-spacing;
     }
   }
 

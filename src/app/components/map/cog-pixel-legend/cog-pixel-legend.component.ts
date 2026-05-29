@@ -19,8 +19,8 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component, effect, inject, input, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { PROTECTED_IMAGE_HEADER, ShortenNumberModule } from 'arlas-web-components';
+import { TranslatePipe } from '@ngx-translate/core';
+import { PROTECTED_REQUEST_HEADER, ShortenNumberPipe } from 'arlas-web-components';
 import { CogService } from '../../../services/cog.service';
 
 interface HoveredCogValue {
@@ -28,15 +28,17 @@ interface HoveredCogValue {
   value: number;
 }
 
+/** Pattern in titiler COG visualisation to fetch a XYZ tile */
+const tilePattern = 'tiles/WebMercatorQuad/{z}/{x}/{y}.png';
+
 /**
  * Displays the values of the pixel of a hovered COG
  */
 @Component({
   selector: 'arlas-cog-pixel-legend',
-  standalone: true,
   imports: [
-    TranslateModule,
-    ShortenNumberModule
+    TranslatePipe,
+    ShortenNumberPipe
   ],
   templateUrl: './cog-pixel-legend.component.html',
   styleUrl: './cog-pixel-legend.component.scss'
@@ -52,18 +54,23 @@ export class CogPixelLegendComponent {
 
   public constructor() {
     effect(() => {
-      // TODO: Use pixelUrl instead
-      const pointInfoUrl = this.cogService.visualisedCogs.get(this.cogId()).visualisationUrl
-        .replace('tiles/WebMercatorQuad/{z}/{x}/{y}.png', `point/${this.position().lng},${this.position().lat}`);
-      this.http.get(pointInfoUrl, { headers: { [PROTECTED_IMAGE_HEADER]: 'true' }})
-        .subscribe((r: {band_names: string[]; values: number[];}) => {
-          const values = new Array<HoveredCogValue>();
-          for (let i = 0; i < r.band_names.length; i++) {
-            values.push({ band: r.band_names[i], value: r.values[i] });
-          }
+      const cog = this.cogService.visualisedCogs.get(this.cogId());
 
-          this.cogValues.set(values);
-        });
+      if (cog.protocol === 'titiler' && cog.visualisationUrl.includes(tilePattern)) {
+        // Replace tile pattern with pixel value pattern
+        const pixelUrl = cog.visualisationUrl
+          .replace(tilePattern, `point/${this.position().lng},${this.position().lat}`);
+
+        this.http.get(pixelUrl, { headers: { [PROTECTED_REQUEST_HEADER]: 'true' }})
+          .subscribe((r: {band_names: string[]; values: number[];}) => {
+            const values = new Array<HoveredCogValue>();
+            for (let i = 0; i < r.band_names.length; i++) {
+              values.push({ band: r.band_names[i], value: r.values[i] });
+            }
+
+            this.cogValues.set(values);
+          });
+      }
     });
   }
 }

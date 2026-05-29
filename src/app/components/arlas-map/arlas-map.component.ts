@@ -110,7 +110,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public mapDataSources: Set<string>;
   public mapRedrawSources;
   public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
-  public mapVisibilityUpdater: Observable<Map<string, boolean>>;
+  public mapVisibilityUpdater;
 
   /** Map Url enricher */
   public transformMapRequest;
@@ -222,6 +222,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           legendData.set(lg.collection, lg.legendData);
           this.mapLegendUpdater.next(legendData);
         });
+
 
       this.mapVisibilityUpdater = merge(...this.wuiMapService.mapContributors.map(c => c.visibilityUpdater));
       for (const contrib of this.wuiMapService.mapContributors) {

@@ -25,10 +25,15 @@ import { debounceTime } from 'rxjs';
 import { CogService } from '../../../services/cog.service';
 import { CogPixelLegendComponent } from '../cog-pixel-legend/cog-pixel-legend.component';
 
+/** Data structure representing the legend of a hovered COG */
 export interface CogLegendData {
-  url?: string;
+  /** Name of the visualisation */
   name: string;
+  /** URL to fetch colormap */
+  url?: string;
+  /** Minimum of the COG */
   minimum?: number;
+  /** Maximum of the COG */
   maximum?: number;
 }
 
@@ -56,6 +61,9 @@ export class VisualisationLegendComponent {
   private readonly http = inject(HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
 
+  /**
+   * Listens to changes in hovered COG to build the legend data
+   */
   public constructor() {
     this.cogService.hoverCogChange.pipe(debounceTime(100)).subscribe(position => {
       const uniqueIds = this.cogService.getHoveredCogs();
