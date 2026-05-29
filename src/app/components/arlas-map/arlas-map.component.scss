@@ -103,7 +103,8 @@
     z-index: 2;
     display: flex;
     align-items: flex-end;
-    gap: 5px;
+    flex-direction: column;
+    gap: $sm-spacing;
 
     &--tight {
       bottom: calc(
@@ -119,6 +120,11 @@
       bottom: calc(
         sizes.$default-spacing + var.$map-scale-height + var.$map-scale-height + sizes.$sm-spacing + var.$timeline-height
       )!important;
+    }
+
+    &__manage {
+      display: flex;
+      gap: $sm-spacing;
     }
   }
 

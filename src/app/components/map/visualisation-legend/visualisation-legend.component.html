@@ -1,6 +1,12 @@
 <div class="legend">
     @for (raster of rasterHovered | keyvalue; track raster.key) {
-        <arlas-cog-legend class="legend__item" [colormapUrl]="raster.value.url" [name]="raster.value.name"
-            [minimum]="raster.value.minimum" [maximum]="raster.value.maximum" [colormapWidth]="100"></arlas-cog-legend>
+        <div class="legend__item">
+            <arlas-cog-pixel-legend [cogId]="raster.key" [position]="position()"></arlas-cog-pixel-legend>
+
+            @if (raster.value.url) {
+                <arlas-cog-legend [colormapUrl]="raster.value.url" [name]="raster.value.name"
+                    [minimum]="raster.value.minimum" [maximum]="raster.value.maximum"></arlas-cog-legend>
+            }
+        </div>
     }
 </div>

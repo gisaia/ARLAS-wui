@@ -17,27 +17,25 @@
  * under the License.
  */
 
-.legend {
-    display: flex;
-    // Reversing as the newest raster is the topmost
-    flex-direction: column-reverse;
-    gap: $sm-spacing;
+@import "../../../../styles/app/sizes.scss";
+@import "../../../../styles/app/mixin.scss";
 
-    &__item {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: $sm-spacing;
+.cog-pixel {
+  background-color: white;
+  border-radius: 4px;
+  padding: 3px;
+  @include box-border();
 
-        arlas-cog-legend {
-            background-color: white;
-            border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(10px, auto));
+  gap: 0 $sm-margin;
+  font-size: 14px;
 
-            display: flex;
-            align-items: center;
+  &__band {
+    text-align: end;
+  }
 
-        ::ng-deep.legend {
-            height: var(--arlas-map-actions-width);
-        }
-    }
+  &__value {
+    font-weight: bold;
+  }
 }

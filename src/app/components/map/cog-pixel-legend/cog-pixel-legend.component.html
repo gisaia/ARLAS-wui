@@ -1,0 +1,10 @@
+<div class="cog-pixel" [style.grid-template-rows]="'repeat(' + cogValues().length + '1fr)'">
+    @for (c of cogValues(); track c.band) {
+        <div class="cog-pixel__band">
+            {{ c.band | translate }}
+        </div>
+        <div class="cog-pixel__value">
+            {{ c.value | shortenNumber }}
+        </div>
+    }
+</div>
