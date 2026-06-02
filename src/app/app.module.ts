@@ -22,8 +22,21 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
-  ArlasToolkitSharedModule, ArlasWalkthroughModule, AuthentificationService, JwtInterceptor, PersistenceService, WalkthroughLoader
+  ARLAS_DATE_TIME_FORMATS,
+  ArlasCollectionService,
+  ArlasConfigService,
+  ArlasIamService,
+  ArlasSettingsService,
+  ArlasTaggerModule,
+  ArlasToolKitModule,
+  ArlasToolkitSharedModule,
+  ArlasWalkthroughModule,
+  AuthentificationService,
+  DEFAULT_OWL_DATE_TIME_FORMATS_VALUE,
+  JwtInterceptor,
+  PersistenceService,
+  WalkthroughLoader,
+  ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { AppRoutingModule } from './app-routing.module';
@@ -43,6 +56,50 @@ import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
+import { OwlDateTimeFormats } from '@danielmoncada/angular-datetime-picker';
+import { OwlMomentDateTimeAdapterOptions } from '@danielmoncada/angular-datetime-picker-moment-adapter';
+
+
+export const MY_CUSTOM_FORMATS_FR = {
+  parseInput: 'DD MMM YYYY HH:mm:ss',
+  fullPickerInput: 'DD MMM yyyy HH:mm:ss',
+  datePickerInput: 'DD MMM YYYY HH:mm:ss',
+  timePickerInput: 'HH:mm:ss',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY'
+};
+
+export const MY_CUSTOM_FORMATS_EN = {
+  parseInput: 'MMM DD YYYY HH:mm:ss',
+  fullPickerInput: 'MMM DD YYYY HH:mm:ss',
+  datePickerInput: 'MMM DD YYYY HH:mm:ss',
+  timePickerInput: 'HH:mm:ss',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY'
+};
+
+export function getOwlDateFormatFactory(configService: ArlasConfigService): OwlDateTimeFormats {
+  const format = (configService.getConfig() as any)?.arlas?.web?.components?.timeline?.input?.ticksDateFormat;
+  // '%d %b %Y  %H:%M' and '%b %d %Y  %H:%M' are the two formats available in the builder, the first for FR the second for ENG
+  if (format === '%d %b %Y  %H:%M') {
+    return MY_CUSTOM_FORMATS_FR;
+  } else if (format === '%b %d %Y  %H:%M') {
+    return MY_CUSTOM_FORMATS_EN;
+  } else {
+    return DEFAULT_OWL_DATE_TIME_FORMATS_VALUE;
+  }
+}
+
+export function getOwlMomentAdapterFactory(configService: ArlasConfigService): Partial<OwlMomentDateTimeAdapterOptions> {
+  const useUtc = (configService.getConfig() as any)?.arlas?.web?.contributors?.find((c: any) => c.name === 'Timeline')?.useUtc;
+  if (!!useUtc) {
+    return { useUtc };
+  } else {
+    return { useUtc: false };
+  }
+}
 
 const COMPONENTS = [
   ArlasWuiComponent,
@@ -93,6 +150,16 @@ const COMPONENTS = [
       useClass: JwtInterceptor,
       deps: [AuthentificationService, ArlasIamService, ArlasSettingsService],
       multi: true
+    },
+    {
+      provide: ARLAS_DATE_TIME_FORMATS,
+      useFactory: getOwlDateFormatFactory,
+      deps: [ArlasConfigService]
+    },
+    {
+      provide: ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE,
+      useFactory: getOwlMomentAdapterFactory,
+      deps: [ArlasConfigService]
     },
     ArlasCollectionService,
     ContributorService,
