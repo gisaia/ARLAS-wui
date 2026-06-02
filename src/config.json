@@ -670,6 +670,7 @@
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
+            "valuesDateFormat": "%b %d %Y  %H:%M",
             "chartType": "bars",
             "chartHeight": 128,
             "chartWidth": null,
@@ -900,6 +901,7 @@
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
+            "valuesDateFormat": "%b %d %Y  %H:%M",
             "chartType": "bars",
             "chartHeight": 60,
             "chartWidth": null,
@@ -1241,6 +1243,7 @@
                 "barWeight": 0.8,
                 "dataType": "time",
                 "ticksDateFormat": "%d %b %Y  %H:%M",
+                "valuesDateFormat": "%d %b %Y  %H:%M",
                 "customizedCssClass": "arlas-timeline-analytics",
                 "isSmoothedCurve": false
               },
