@@ -343,7 +343,7 @@ export class ResultlistService<L, S, M> {
         break;
       case 'consultedItemEvent':
         if (mapContributor) {
-          this.mapService.setFeatureToHighlight(event.data as ElementIdentifier, mapContributor);
+          this.mapService.highlightHoveredFeature(event.data as ElementIdentifier, mapContributor);
         }
         break;
       case 'selectedItemsEvent': {

@@ -146,7 +146,7 @@
                       [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
                       [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                       [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
-                      [activatedActionsPerItem]="actionManager.activeActionsPerContId?.get(resultlistService.previewListContrib.identifier)"
+                      [activatedActionsPerItem]="resultlistService.previewListContrib.identifier | getValue:actionManager.activeActionsPerContId"
                       [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
                       [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
                       (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"

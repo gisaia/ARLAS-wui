@@ -39,7 +39,6 @@ export class ArlasWuiMapService<L, S, M> {
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
 
-  public featureToHightLight: FeatureHover;
   public featuresToSelect: Array<ElementIdentifier> = [];
 
   public coordinatesHaveSpace: boolean;
@@ -88,12 +87,21 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
   /**
-   * Set the featureToHightLight used as input by the map component.
+   * Highlights the hovered feature by applying a higher opacity to it
    * @param id Identifier of the hovered element on the list.
    * @param mapContributor Map contributor used to get the feature to highlight.
    */
-  public setFeatureToHighlight(id: ElementIdentifier, mapContributor: MapContributor) {
-    this.featureToHightLight = this.getFeatureToHover(id, mapContributor);
+  public highlightHoveredFeature(id: ElementIdentifier, mapContributor: MapContributor) {
+    const f = this.getFeatureToHover(id, mapContributor);
+
+    const sources = Array.from(mapContributor.visibleSources).filter(s => s.startsWith('feature-'));
+    for (const source of sources) {
+      if (f.isleaving) {
+        this.resetOpacity(source);
+      } else {
+        this.adjustOpacityByValue(source, f.elementidentifier.idFieldName, [f.elementidentifier.idValue], 1, 0.05);
+      }
+    }
   }
 
   public setMapConfig(mapComponentConfig) {
@@ -120,11 +128,17 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
 
-  public adjustOpacityByRange(sourceIdPrefix: string, field: string,
-    start: number, end: number, insideOpacity: number, outsideOpacity: number): void {
+  public adjustOpacityByRange(sourceIdPrefix: string, field: string, start: number, end: number, insideOpacity: number, outsideOpacity: number) {
     if (this.mapComponent?.map) {
       this.mapLogicService.adjustOpacityByRange(this.mapComponent.map, sourceIdPrefix,
         field, start, end, insideOpacity, outsideOpacity);
+    }
+  }
+
+  public adjustOpacityByValue(sourceIdPrefix: string, field: string, values: string[], insideOpacity: number, outsideOpacity: number) {
+    if (this.mapComponent?.map) {
+      this.mapLogicService.adjustOpacityByValue(this.mapComponent.map, sourceIdPrefix,
+        field, values, insideOpacity, outsideOpacity);
     }
   }
 
