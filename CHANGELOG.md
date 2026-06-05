@@ -1,5 +1,11 @@
 # Change Log
 
+## [v28.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.2) (2026-06-01)
+
+**Fixed bugs:**
+
+- ARLAS WUI: bugs with hover on timeline and sync with map [\#1110](https://github.com/gisaia/ARLAS-wui/issues/1110)
+
 ## [v28.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.1) (2026-05-26)
 
 **Fixed bugs:**
