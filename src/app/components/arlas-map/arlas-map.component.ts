@@ -30,7 +30,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
-  BboxGeneratorComponent, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
+  BboxGeneratorComponent, DrawTheme, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { ARLAS_TIMESTAMP, LegendData, MapContributor } from 'arlas-web-contributors';
 import {
@@ -139,6 +139,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   /** Cog visualisation */
   protected cogVisualisation = signal<VisualisationPreview | null>(null);
 
+  /** Draw theme */
+  protected drawTheme: DrawTheme = {};
+
   @ViewChild('map', { static: false }) public mapglComponent: ArlasMapComponent<L, S, M>;
   @ViewChild('import', { static: false }) public mapImportComponent: MapImportComponent<L, S, M>;
   @ViewChild('mapSettings', { static: false }) public mapSettings: MapSettingsComponent;
@@ -196,6 +199,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       } else {
         this.defaultBasemap = DEFAULT_BASEMAP;
       }
+      this.drawTheme = this.settingsService.getDrawTheme();
     } else {
       this.defaultBasemap = DEFAULT_BASEMAP;
     }

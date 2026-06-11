@@ -88,3 +88,13 @@ geocoding:
 
 whitelistedUrls:
   - https://tiles.mapterhorn.com/
+
+drawTheme:
+  active:
+    color: '#f00'
+    opacity: 0.1
+    dash: [2, 5]
+  inactive:
+    color: '#0f0'
+    opacity: 0.1
+    dash: [1]
