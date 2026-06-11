@@ -1,0 +1,20 @@
+@if (cogValues().length > 0) {
+    <div class="cog-pixel">
+        @for (c of cogValues(); track c.band) {
+            @if (cogValues().length > 1) {
+                <span class="cog-pixel__band">
+                    {{ c.band | translate }}:
+                </span>
+            }
+            <span class="cog-pixel__value">
+                {{ c.value | shortenNumber }}
+            </span>
+
+            @if (!$last) {
+                <span class="cog-pixel__divider">
+                    /
+                </span>
+            }
+        }
+    </div>
+}

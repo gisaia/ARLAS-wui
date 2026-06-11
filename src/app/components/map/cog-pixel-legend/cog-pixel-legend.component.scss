@@ -16,30 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-@use "styles/app/sizes.scss" as sizes;
 
-.legend {
-    display: flex;
-    // Reversing as the newest raster is the topmost
-    flex-direction: column-reverse;
-    gap: sizes.$sm-spacing;
+@use "styles/app/mixin.scss" as mixin;
 
-    &__item {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: sizes.$sm-spacing;
+.cog-pixel {
+  background-color: white;
+  border-radius: 4px;
+  padding: 3px;
+  @include mixin.box-border();
+  font-size: 14px;
 
-        arlas-cog-legend {
-            background-color: white;
-            border-radius: 4px;
+  &__band {
+    text-align: end;
+  }
 
-            display: flex;
-            align-items: center;
-        }
-
-        ::ng-deep.legend {
-            height: var(--arlas-map-actions-width);
-        }
-    }
+  &__value {
+    font-weight: bold;
+  }
 }

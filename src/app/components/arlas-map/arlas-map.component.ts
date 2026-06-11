@@ -107,7 +107,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   private MAP_EXTENT_PARAM = 'extend';
 
   /** Map data  */
-  public mapDataSources;
+  public mapDataSources: Set<string>;
   public mapRedrawSources;
   public mapLegendUpdater = new Subject<Map<string, Map<string, LegendData>>>();
   public mapVisibilityUpdater;
@@ -222,6 +222,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           legendData.set(lg.collection, lg.legendData);
           this.mapLegendUpdater.next(legendData);
         });
+
 
       this.mapVisibilityUpdater = merge(...this.wuiMapService.mapContributors.map(c => c.visibilityUpdater));
       for (const contrib of this.wuiMapService.mapContributors) {
@@ -614,7 +615,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
 
           const hoveredIds = e.features.map(f => f.properties.id).filter(id => this.cogService.visualisedCogs.has(id));
           // Notify the CogService of the visualized rasters that are hovered
-          this.cogService.hoverCogs(l.id, hoveredIds);
+          this.cogService.hoverCogs(l.id, hoveredIds, e.lngLat);
         });
         this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
@@ -626,7 +627,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           }
 
           // Notify the CogService that no visualized rasters are hovered
-          this.cogService.hoverCogs(l.id, []);
+          this.cogService.hoverCogs(l.id, [], e.lngLat);
         });
       });
   }

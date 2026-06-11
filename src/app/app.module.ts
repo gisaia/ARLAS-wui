@@ -22,18 +22,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  ArlasCollectionService,
-  ArlasConfigService,
-  ArlasIamService,
-  ArlasSettingsService,
-  ArlasTaggerModule,
-  ArlasToolKitModule,
-  ArlasToolkitSharedModule,
-  ArlasWalkthroughModule,
-  AuthentificationService,
-  JwtInterceptor,
-  PersistenceService,
-  WalkthroughLoader
+  ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasSettingsService, ArlasTaggerModule, ArlasToolKitModule,
+  ArlasToolkitSharedModule, ArlasWalkthroughModule, AuthentificationService, JwtInterceptor, PersistenceService, WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { AppRoutingModule } from './app-routing.module';
