@@ -20,9 +20,12 @@
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { OwlDateTimeFormats } from '@danielmoncada/angular-datetime-picker';
+import { OwlMomentDateTimeAdapterOptions } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   ARLAS_DATE_TIME_FORMATS,
+  ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE,
   ArlasCollectionService,
   ArlasConfigService,
   ArlasIamService,
@@ -35,8 +38,7 @@ import {
   DEFAULT_OWL_DATE_TIME_FORMATS_VALUE,
   JwtInterceptor,
   PersistenceService,
-  WalkthroughLoader,
-  ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE
+  WalkthroughLoader
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { AppRoutingModule } from './app-routing.module';
@@ -56,8 +58,6 @@ import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { ArlasTranslateLoader, ArlasWalkthroughLoader } from './tools/customLoader';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
-import { OwlDateTimeFormats } from '@danielmoncada/angular-datetime-picker';
-import { OwlMomentDateTimeAdapterOptions } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 
 
 export const MY_CUSTOM_FORMATS_FR = {
@@ -94,11 +94,7 @@ export function getOwlDateFormatFactory(configService: ArlasConfigService): OwlD
 
 export function getOwlMomentAdapterFactory(configService: ArlasConfigService): Partial<OwlMomentDateTimeAdapterOptions> {
   const useUtc = (configService.getConfig() as any)?.arlas?.web?.contributors?.find((c: any) => c.name === 'Timeline')?.useUtc;
-  if (!!useUtc) {
-    return { useUtc };
-  } else {
-    return { useUtc: false };
-  }
+  return { useUtc: !!useUtc };
 }
 
 const COMPONENTS = [
