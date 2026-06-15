@@ -309,8 +309,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   public setAppTitle() {
-    const prefixTitle = (!!this.settingsService.settings.tab_name && this.settingsService.settings.tab_name !== NOT_CONFIGURED) ?
-      this.settingsService.settings.tab_name : '';
+    const settings = this.settingsService.getSettings();
+    const prefixTitle = (settings.tab_name && settings.tab_name !== NOT_CONFIGURED) ? settings.tab_name : '';
     this.titleService.setTitle(prefixTitle === '' ? this.appName :
       prefixTitle.concat(' - ').concat(this.appName));
   }

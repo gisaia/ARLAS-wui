@@ -17,6 +17,8 @@
  * under the License.
  */
 
+import { vi } from 'vitest';
+
 export class MockArlasConfigService {
 
   public getValue(key: string): any {
@@ -63,3 +65,14 @@ export class MockArlasStartupService {
   public contributorRegistry = new Map();
   public collectionsMap = new Map();
 }
+
+export const mockArlasSettingsService = {
+  getDrawTheme: vi.fn(),
+  getGeocodingSettings: vi.fn(),
+  getAuthentSettings: vi.fn(),
+  getPersistenceSettings: vi.fn(),
+  getPermissionSettings: vi.fn(),
+  getSettings: vi.fn(() => ({ tab_name: 'ARLAS-wui' })),
+  getLinksSettings: vi.fn(),
+  getTicketingKey: vi.fn()
+};

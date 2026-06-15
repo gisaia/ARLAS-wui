@@ -3,12 +3,14 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { BasemapService } from 'arlas-map';
-import { ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasStartupService } from 'arlas-wui-toolkit';
+import {
+  ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService
+} from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
 import { VisualizeService } from '../../services/visualize.service';
-import { MockArlasConfigService, MockArlasStartupService } from '../../tools/test';
+import { MockArlasConfigService, mockArlasSettingsService, MockArlasStartupService } from '../../tools/test';
 import { ArlasWuiMapComponent } from './arlas-map.component';
 
 describe('ArlasWuiMapComponent', () => {
@@ -47,6 +49,10 @@ describe('ArlasWuiMapComponent', () => {
             setBasemaps: (basemaps) => { },
             basemapChanged$: of()
           }
+        },
+        {
+          provide: ArlasSettingsService,
+          useValue: mockArlasSettingsService
         }
       ],
       teardown: { destroyAfterEach: false }
