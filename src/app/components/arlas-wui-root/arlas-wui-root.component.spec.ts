@@ -34,7 +34,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { VisualizeService } from '../../services/visualize.service';
-import { MockArlasConfigService } from '../../tools/test';
+import { MockArlasConfigService, mockArlasSettingsService } from '../../tools/test';
 import { ArlasWuiRootComponent } from './arlas-wui-root.component';
 
 describe('ArlasWuiRootComponent', () => {
@@ -117,6 +117,10 @@ describe('ArlasWuiRootComponent', () => {
                         basemapChanged$: of()
 
                     }
+                },
+                {
+                    provide: ArlasSettingsService,
+                    useValue: mockArlasSettingsService
                 }
             ],
             teardown: { destroyAfterEach: false }

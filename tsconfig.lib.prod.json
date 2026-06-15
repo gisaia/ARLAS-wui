@@ -10,7 +10,8 @@
   "exclude": [
     "src/app/app.module.cloud.ts",
     "src/app/app.module.opensource.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "src/app/tools/test.ts"
   ],
   "files": [
     "src/main.ts",

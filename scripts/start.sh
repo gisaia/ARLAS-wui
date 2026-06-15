@@ -87,6 +87,14 @@ set_default_env_variable ARLAS_HUB_URL "http://localhost:8095"
 
 set_default_env_variable ARLAS_WHITELISTED_URLS "[]"
 
+set_default_env_variable ARLAS_DRAW_ACTIVE_COLOR "#fbb03b"
+set_default_env_variable ARLAS_DRAW_ACTIVE_OPACITY "0.1"
+set_default_env_variable ARLAS_DRAW_ACTIVE_DASHES "[1]"
+set_default_env_variable ARLAS_DRAW_INACTIVE_COLOR "#3bb2d0"
+set_default_env_variable ARLAS_DRAW_INACTIVE_OPACITY "0.1"
+set_default_env_variable ARLAS_DRAW_INACTIVE_DASHES "[1]"
+
+
 # All variables that need to be substituted in settings.yaml
 SETTINGS_VARS="ARLAS_SERVER_URL
     ARLAS_SERVER_COLLECTION
@@ -144,7 +152,13 @@ SETTINGS_VARS="ARLAS_SERVER_URL
     ARLAS_STATIC_LINKS
     ARLAS_HUB_URL
     ARLAS_TICKETING_KEY
-    ARLAS_WHITELISTED_URLS"
+    ARLAS_WHITELISTED_URLS
+    ARLAS_DRAW_ACTIVE_COLOR
+    ARLAS_DRAW_ACTIVE_OPACITY
+    ARLAS_DRAW_ACTIVE_DASHES
+    ARLAS_DRAW_INACTIVE_COLOR
+    ARLAS_DRAW_INACTIVE_OPACITY
+    ARLAS_DRAW_INACTIVE_DASHES"
 
 SETTINGS_SUBST=$(printf '$%s ' $SETTINGS_VARS)
 envsubst "$SETTINGS_SUBST" < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp

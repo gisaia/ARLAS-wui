@@ -67,3 +67,13 @@ geocoding:
   find_place_zoom_to: ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}
 
 whitelistedUrls: ${ARLAS_WHITELISTED_URLS}
+
+drawTheme:
+  active:
+    color: ${ARLAS_DRAW_ACTIVE_COLOR}
+    opacity: ${ARLAS_DRAW_ACTIVE_OPACITY}
+    dash: ${ARLAS_DRAW_ACTIVE_DASHES}
+  inactive:
+    color: ${ARLAS_DRAW_INACTIVE_COLOR}
+    opacity: ${ARLAS_DRAW_INACTIVE_OPACITY}
+    dash: ${ARLAS_DRAW_INACTIVE_DASHES}

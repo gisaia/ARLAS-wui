@@ -101,7 +101,7 @@ export class LeftMenuComponent implements OnInit {
       this.zendeskActive = !!this.settings.getTicketingKey();
       this.isRefreshAnalyticsButton = this.configService.getValue('arlas-wui.web.app.refresh');
     }
-    this.showDashboardsList = this.settings.settings.dashboards_shortcut ?? false;
+    this.showDashboardsList = this.settings.getSettings().dashboards_shortcut ?? false;
   }
 
   /**
