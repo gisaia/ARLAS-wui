@@ -57,7 +57,8 @@
             <!-- reduce = list is open and analytics closed -->
             <!-- with-list = list is closed but there is a preview and analytics closed -->
             <!-- -analytics = analytics open in addition to previously mentionned state -->
-            @let hasGridMode = (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode;
+            @let hasGridMode = (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode ??
+              (resultlistService.previewListContrib | getResultlistConfig)?.hasGridView;
             @let hasList = resultlistService.rightListContributors.length > 0;
             @let analyticsClosed = analyticsService.activeTab === undefined;
             <div class="app-container"

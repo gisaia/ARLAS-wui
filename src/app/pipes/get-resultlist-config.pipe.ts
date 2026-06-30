@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { ResultListContributor } from 'arlas-web-contributors';
-import { ResultlistService } from '../services/resultlist.service';
+import {Pipe, PipeTransform} from '@angular/core';
+import {ResultListContributor} from 'arlas-web-contributors';
+import {ResultlistService} from '../services/resultlist.service';
 
 @Pipe({
   name: 'getResultlistConfig'

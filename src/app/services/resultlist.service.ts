@@ -17,28 +17,45 @@
  * under the License.
  */
 
-import { ComponentType } from '@angular/cdk/portal';
-import { inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
-import { Expression } from 'arlas-api';
+import {ComponentType} from '@angular/cdk/portal';
+import {inject, Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {marker} from '@colsen1991/ngx-translate-extract-marker';
+import {TranslateService} from '@ngx-translate/core';
+import {Expression} from 'arlas-api';
 import {
-  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortedColumn, SortEnum
+  CellBackgroundStyleEnum,
+  Column,
+  ElementIdentifier,
+  Item,
+  ModeEnum,
+  PageQuery,
+  ResultListComponent,
+  SortedColumn,
+  SortEnum
 } from 'arlas-web-components';
-import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
+import {Action, ExtentFilterGeometry, MapContributor, ResultListContributor} from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, ErrorService, getParamValue, ProcessService
+  AiasDownloadComponent,
+  AiasEnrichComponent,
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasExportCsvService,
+  ArlasSettingsService,
+  DOWNLOAD_PROCESS_NAME,
+  ENRICH_PROCESS_NAME,
+  ErrorService,
+  getParamValue,
+  ProcessService
 } from 'arlas-wui-toolkit';
-import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
-import { ArlasWuiMapService } from '../services/map.service';
-import { VisualizeService } from '../services/visualize.service';
-import { isElementInViewport } from '../tools/utils';
-import { CogService } from './cog.service';
-import { ContributorService } from './contributors.service';
+import {BehaviorSubject, finalize, Subject, take} from 'rxjs';
+import {ArlasWuiMapService} from '../services/map.service';
+import {VisualizeService} from '../services/visualize.service';
+import {isElementInViewport} from '../tools/utils';
+import {CogService} from './cog.service';
+import {ContributorService} from './contributors.service';
 
 @Injectable({
   providedIn: 'root'
@@ -103,6 +120,9 @@ export class ResultlistService<L, S, M> {
       this.resultlistConfigs.forEach(rlConf => {
         rlConf.input.cellBackgroundStyle = rlConf.input.cellBackgroundStyle ?
           CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+        // To correct typo error at source.
+        rlConf.input['defaultMode'] = rlConf.input?.defaultMode ?? rlConf.input?.defautMode;
+
         this.resultlistConfigPerContId.set(rlConf.contributorId, rlConf.input);
       });
 
@@ -110,14 +130,7 @@ export class ResultlistService<L, S, M> {
         .filter(c => this.resultlistConfigs.some((rc) => c.identifier === rc.contributorId))
         .map(rlcontrib => {
           (rlcontrib as any).name = rlcontrib.getName();
-          const sortColumn = rlcontrib.fieldsList.find(c => !!(c as any).sort && (c as any).sort !== '');
-          if (sortColumn) {
-            this.sortOutput.set(rlcontrib.identifier, {
-              columnName: sortColumn.columnName,
-              fieldName: sortColumn.fieldName,
-              sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
-            });
-          }
+          this.setDefaultSort(rlcontrib);
           return rlcontrib;
         });
 
@@ -132,6 +145,37 @@ export class ResultlistService<L, S, M> {
       this.declareResultlistExportCsv();
 
       this.handleProcessErrors();
+    }
+  }
+
+  /**
+   * Method to set default sort
+   *    - If the user lands on the table view first (default view),
+   *    the sort order from the table view is used by default;
+   *    if the user switches to card mode,
+   *    the sort order from the table view is retained
+   *    - If user land on the card view first (default view: card),
+   *    the sorting from the card view is used by default;
+   *    if the user switches to table mode,
+   *    the sorting from the card view is retained
+   * @param rlcontrib
+   */
+  public setDefaultSort(rlcontrib: ResultListContributor){
+    const conf = this.resultlistConfigPerContId.get(rlcontrib.identifier);
+    const defaultMode = conf?.defaultMode;
+    const isCardMode = defaultMode === 'card' || defaultMode === '2';
+    const fieldList = isCardMode
+      ? rlcontrib.cardViewProperties
+      : rlcontrib.fieldsList;
+
+    const sortColumn = fieldList.find(c => !!(c as any).sort && (c as any).sort !== '');
+    if (sortColumn) {
+      this.sortOutput.set(rlcontrib.identifier, {
+        columnName:  isCardMode && 'prettyName' in sortColumn ?
+          sortColumn.prettyName : (sortColumn as {columnName: string;})?.columnName,
+        fieldName: sortColumn.fieldName,
+        sortDirection: (sortColumn as any).sort === 'asc' ? SortEnum.asc : SortEnum.desc
+      });
     }
   }
 
@@ -253,8 +297,9 @@ export class ResultlistService<L, S, M> {
   public openDetail(id: string): BehaviorSubject<boolean> {
     const isOpen = new BehaviorSubject<boolean>(false);
     const listConfig = this.resultlistConfigPerContId.get(this.previewListContrib.identifier);
-    const isListMode = listConfig.defautMode === ModeEnum.list;
-
+    const defaultMode = listConfig?.defaultMode;
+    const isListMode = defaultMode === ModeEnum.list
+      || defaultMode === ModeEnum.card;
     if (isListMode) {
       const detailListButton = document.getElementById('open-detail-' + id);
       if (detailListButton) {

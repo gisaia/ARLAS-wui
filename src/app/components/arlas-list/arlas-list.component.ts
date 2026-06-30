@@ -17,19 +17,28 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslatePipe } from '@ngx-translate/core';
-import { Action, ElementIdentifier, GetValuePipe, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
-import { ResultListContributor } from 'arlas-web-contributors';
-import { Subject, takeUntil } from 'rxjs';
-import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
-import { ActionManagerService } from '../../services/action-manager.service';
-import { CogService } from '../../services/cog.service';
-import { ResultlistService } from '../../services/resultlist.service';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {TranslatePipe} from '@ngx-translate/core';
+import {
+  Action,
+  ElementIdentifier,
+  GetValuePipe,
+  Item,
+  ModeEnum,
+  PageQuery,
+  ResultListComponent,
+  SortEnum
+} from 'arlas-web-components';
+import {ResultListContributor} from 'arlas-web-contributors';
+import {Subject, takeUntil} from 'rxjs';
+import {GetResultlistConfigPipe} from '../../pipes/get-resultlist-config.pipe';
+import {ActionManagerService} from '../../services/action-manager.service';
+import {CogService} from '../../services/cog.service';
+import {ResultlistService} from '../../services/resultlist.service';
 
 @Component({
   selector: 'arlas-list',
@@ -113,7 +122,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);
-    config.defautMode = mode;
+    config.defaultMode = mode;
     this.resultlistService.resultlistConfigPerContId.set(identifier, config);
     setTimeout(() => {
       this.resultlistService.updateVisibleItems();

@@ -21,12 +21,16 @@
       <div class="list__container">
         @if (resultlistService.listOpen && listIdx === resultlistService.selectedListTabIndex) {
           <arlas-result-list
-            #resultList [rowItemList]="list.data" [tableFields]="list.fieldsList"
+            #resultList [rowItemList]="list.data" 
+            [tableFields]="list.fieldsList"
+            [cardViewProperties]="list.cardViewProperties"
             [detailedDataRetriever]="list.detailedDataRetriever" [fieldsConfiguration]="list.fieldsConfiguration"
             [dropDownMapValues]="list.dropDownMapValues" [filtersMap]="list.filtersMap"
             [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10" [nbGridColumns]="resultListGridColumns"
             [tableWidth]="listWidth"
-            [defautMode]="listConfig?.defautMode"
+            [hasGridMode]=" listConfig?.hasGridMode ?? listConfig?.hasGridView"
+            [hasCardMode]="listConfig?.hasCardView ?? false"
+            [defautMode]="listConfig?.defaultMode"
             [selectedGridItem]="listConfig?.selectedGridItem"
             [fetchState]="list.fetchState"
             [globalActionsList]="listConfig?.globalActionsList"
