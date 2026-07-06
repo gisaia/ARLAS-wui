@@ -181,7 +181,7 @@ export class CogService<L, S, M> {
    * @param visualisation The visualisation containing the datagroup
    * @param visIdx The index of the visualisation
    */
-  public setDefaultPreview(match: boolean, itemData: Map<string, ItemDataType>,
+  public setDefaultPreview(match: boolean, itemData: Record<string, ItemDataType>,
     dg: DataGroup, visualisation: CogVisualisationData, visIdx: number) {
 
     // For titiler protocol, take the first datagroup that matches to create a preview url

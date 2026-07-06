@@ -30,11 +30,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
-  BboxGeneratorComponent, DrawTheme, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
+  BboxGeneratorComponent, DrawTheme, GeoQuery, InteractedFeatures, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { ARLAS_TIMESTAMP, LegendData, MapContributor } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue, WidgetNotifierService
 } from 'arlas-wui-toolkit';
 import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject } from 'rxjs';
@@ -149,7 +149,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public constructor(
     protected wuiMapService: ArlasWuiMapService<L, S, M>,
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
-    private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService<L, S, M>,
     private readonly configService: ArlasConfigService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -284,10 +283,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
-          const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-          const queryParams = { ...this.activatedRoute.snapshot.queryParams };
-          queryParams[this.MAP_EXTENT_PARAM] = extend;
-          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          const map = this.mapglComponent.map();
+          if (map) {
+            const extend = this.mapFrameworkService.getBoundsAsString(map);
+            const queryParams = { ...this.activatedRoute.snapshot.queryParams };
+            queryParams[this.MAP_EXTENT_PARAM] = extend;
+            this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          }
         });
     }
   }
@@ -321,8 +323,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       }
     };
 
-    if (this.mapglComponent?.map) {
-      this.mapFrameworkService.setTransformRequest(this.mapglComponent.map, this.transformMapRequest);
+    const map = this.mapglComponent?.map();
+    if (map) {
+      this.mapFrameworkService.setTransformRequest(map, this.transformMapRequest);
     }
   }
 
@@ -335,17 +338,22 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     if (isLoaded && !this.arlasStartupService.emptyMode) {
       this.mapLoaded = true;
       this.wuiMapService.setMapComponent(this.mapglComponent);
-      this.toolkitMapService.setMap(this.mapglComponent.map);
-      this.visualizeService.setMap(this.mapglComponent.map);
+      const map = this.mapglComponent.map();
+      if (!map) {
+        console.error('[ARLAS][MAP] Map not found but declared loaded');
+        return;
+      }
+
+      this.visualizeService.setMap(map);
       if (this.mapBounds && this.allowMapExtent) {
-        this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
+        map.fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
-      this.mapglComponent.map.on('movestart', (e) => {
-        this.zoomStart = this.mapglComponent.map.getZoom();
+      map.on('movestart', (e) => {
+        this.zoomStart = map.getZoom();
       });
-      this.mapglComponent.map.on('moveend', (e) => {
-        if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+      map.on('moveend', (e) => {
+        if (Math.abs(map.getZoom() - this.zoomStart) > 1) {
           this.zoomChanged = true;
         }
         if (this.allowMapExtent) {
@@ -356,12 +364,12 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       this.wuiMapService.adjustCoordinates();
       for (const mapglContributor of this.wuiMapService.mapContributors) {
         mapglContributor.updateData = true;
-        mapglContributor.fetchData(null);
+        mapglContributor.fetchData(undefined);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       }
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.some(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l))) {
+          this.mapComponentConfig.mapLayers.events.onHover.some(l => this.mapFrameworkService.getLayer(map, l))) {
         this.resultlistService.updateVisibleItems();
       }
 
@@ -389,7 +397,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public downloadLayerSource(d) {
     const mc = this.wuiMapService.mapContributors.find(mc => mc.collection === d.collection);
     if (mc) {
-      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
+      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.getDisplayFieldNameMap());
     }
   }
 
@@ -428,7 +436,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public reloadMapImages() {
-    this.visualizeService.setMap(this.mapglComponent.map);
+    const map = this.mapglComponent.map();
+    if (map) {
+      this.visualizeService.setMap(map);
+    }
   }
 
   public onAoiEdit(aoiEdit: AoiEdition) {
@@ -436,11 +447,16 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public onMove(event: OnMoveResult) {
+    const map = this.mapglComponent.map();
+    if (!map) {
+      return;
+    }
+
     // Update data only when the collections info are presents
     if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
-      const bounds = this.mapglComponent.map.getBounds();
-      const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
+      const bounds = map.getBounds();
+      const extend = this.mapFrameworkService.getBoundsAsString(map);
       const queryParams = { ...this.activatedRoute.snapshot.queryParams };
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
@@ -484,7 +500,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;
       for (const contrib of this.wuiMapService.mapContributors) {
-        contrib.onMove(event, this.recalculateExtent);
+        contrib.onMapMoved(event, this.recalculateExtent);
       }
       this.recalculateExtent = false;
     }
@@ -515,8 +531,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
-  public emitFeaturesOnHover(event) {
-    if (event.features) {
+  public emitFeaturesOnHover(event: InteractedFeatures | undefined) {
+    if (event?.features) {
       this.wuiMapService.setCursor('pointer');
       this.resultlistService.highlightItems(event.features);
     } else {
@@ -525,8 +541,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     }
   }
 
-  public emitFeaturesOnClick(event) {
-    if (event.features) {
+  public emitFeaturesOnClick(event: InteractedFeatures | undefined) {
+    if (event?.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistService.resultlistContributors
         .find(c => feature.layer.metadata.collection === c.collection
@@ -581,15 +597,18 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.visualizeService.handleGeojsonPreview(event.geojson);
     if (event.geojson.type === 'Point') {
       const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      this.mapglComponent.map.fitBounds(bbox, { maxZoom: zoom });
+      this.mapglComponent.map()?.fitBounds(bbox, { maxZoom: zoom });
     } else {
-      this.mapglComponent.map.fitBounds(bbox);
+      this.mapglComponent.map()?.fitBounds(bbox);
     }
   }
 
   private adjustMapOffset() {
     this.recalculateExtent = true;
-    this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
+    const map = this.mapglComponent.map();
+    if (map) {
+      this.mapFrameworkService.fitMapBounds(map);
+    }
   }
 
   public listenVisualisationChange() {
@@ -605,8 +624,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.mapComponentConfig.mapLayers.layers
       .filter((l: ArlasDataLayer) => l.source.startsWith('feature'))
       .forEach((l: ArlasDataLayer) => {
+        const map = this.mapglComponent.map();
+        if (!map) {
+          return;
+        }
+
         // Multiple layers will send their values that are stored by the CogService and consumed by the VisualisationLegendComponent
-        this.mapFrameworkService.onLayerEvent('mousemove', this.mapglComponent.map, l.id, (e) => {
+        this.mapFrameworkService.onLayerEvent('mousemove', map, l.id, (e) => {
           if (!this.cogService.contributorId) {
             return;
           }
@@ -621,7 +645,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           // Notify the CogService of the visualized rasters that are hovered
           this.cogService.hoverCogs(l.id, hoveredIds, e.lngLat);
         });
-        this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
+        this.mapFrameworkService.onLayerEvent('mouseleave', map, l.id, (e) => {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
           if (!this.cogService.contributorId
@@ -639,7 +663,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   private initMapTimelineInteraction() {
     // The map is idle when no 'render' event has been sent, and 'idle' is sent
     let isIdle = false;
-    this.mapglComponent.map.onIdle(() => {
+    this.mapglComponent.map()?.onIdle(() => {
       isIdle = true;
     });
 

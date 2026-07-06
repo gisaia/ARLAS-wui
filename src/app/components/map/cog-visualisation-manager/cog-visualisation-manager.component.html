@@ -1,5 +1,7 @@
+@let visu = visualisation();
+@let previewImg = preview();
+@if (visu && previewImg) {
 <button class="manager__button" (click)="openModal()" [matTooltip]="'Change visualisation' | translate" matTooltipPosition="above">
-    @if (visualisation() && preview()) {
-        <arlas-cog-preview [title]="visualisation().name" [preview]="preview()"></arlas-cog-preview>
-    }
+    <arlas-cog-preview [title]="visu.name" [preview]="previewImg"></arlas-cog-preview>
 </button>
+}

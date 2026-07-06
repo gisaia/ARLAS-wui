@@ -403,7 +403,7 @@ export class ResultlistService<L, S, M> {
         } else if (event.data.id === 'visualize') {
           this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
-            this.listComponent.detailedDataRetriever.getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
+            this.listComponent.detailedDataRetriever().getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {

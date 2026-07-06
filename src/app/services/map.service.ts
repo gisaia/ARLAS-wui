@@ -113,7 +113,10 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
   public setCursor(cursor: string) {
-    this.mapService.setMapCursor(this.mapComponent.map, cursor);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapService.setMapCursor(map, cursor);
+    }
   }
 
   public setMapComponent(mapComponent: ArlasMapComponent<L, S, M>) {
@@ -128,36 +131,40 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
 
-  public adjustOpacityByRange(sourceIdPrefix: string, field: string, start: number, end: number, insideOpacity: number, outsideOpacity: number) {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.adjustOpacityByRange(this.mapComponent.map, sourceIdPrefix,
-        field, start, end, insideOpacity, outsideOpacity);
+  public adjustOpacityByRange(sourceIdPrefix: string, field: string,
+    start: number, end: number, insideOpacity: number, outsideOpacity: number
+  ): void {
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.adjustOpacityByRange(map, sourceIdPrefix, field, start, end, insideOpacity, outsideOpacity);
     }
   }
 
   public adjustOpacityByValue(sourceIdPrefix: string, field: string, values: string[], insideOpacity: number, outsideOpacity: number) {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.adjustOpacityByValue(this.mapComponent.map, sourceIdPrefix,
-        field, values, insideOpacity, outsideOpacity);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.adjustOpacityByValue(map, sourceIdPrefix, field, values, insideOpacity, outsideOpacity);
     }
   }
 
   public resetOpacity(sourceIdPrefix: string): void {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.resetOpacity(this.mapComponent.map, sourceIdPrefix);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.resetOpacity(map, sourceIdPrefix);
     }
   }
 
   public updateMapStyle(ids: Array<string | number>, collection: string) {
-    if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
+    const map = this.mapComponent?.map();
+    if (map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
       this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection);
+        this.mapLogicService.updateMapStyle(map, l, ids, collection);
       });
     }
   }
 
   public resize() {
-    this.mapComponent?.map?.resize();
+    this.mapComponent?.map()?.resize();
     this.adjustCoordinates();
   }
 
@@ -180,7 +187,7 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
   public getContributorByCollection(collection: string): MapContributor {
-    let mapContributor: MapContributor;
+    let mapContributor;
     if (this.mapContributors) {
       mapContributor = this.mapContributors.find(mc => mc.collection === collection);
     }

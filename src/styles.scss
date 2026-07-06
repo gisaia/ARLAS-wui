@@ -32,7 +32,11 @@
 @use '@angular/material' as mat;
 @use "styles/arlas-wui-theme.scss" as theme;
 
+@include mat.elevation-classes();
+@include mat.app-background();
 @include mat.all-component-themes(theme.$app-theme);
+@include mat.m2-theme(theme.$app-theme);
+@include mat.system-classes();
 
 /* Material Icons */
 
