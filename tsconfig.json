@@ -19,7 +19,8 @@
       "DOM.Iterable"
     ],
     "module": "esnext",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "strict": true
   },
   "angularCompilerOptions": {
     "strictTemplates": true

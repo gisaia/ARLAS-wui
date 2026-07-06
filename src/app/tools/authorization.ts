@@ -25,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 
 
 export function updateAuthorizationHeaders$(
-  authentSetting: AuthentSetting, arlasIamService: ArlasIamService,
+  authentSetting: AuthentSetting | undefined, arlasIamService: ArlasIamService,
   authentService: AuthentificationService, destroyRef: DestroyRef
 ) {
   const obs = new BehaviorSubject<null | { [name: string]: string; }>(null);
@@ -38,7 +38,7 @@ export function updateAuthorizationHeaders$(
         next: (loginData) => {
           if (loginData) {
             const org = arlasIamService.getOrganisation();
-            const iamHeader = {
+            const iamHeader: Record<string, any> = {
               Authorization: 'Bearer ' + loginData.access_token,
             };
             // Set the org filter only if the organisation is defined

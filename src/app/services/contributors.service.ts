@@ -51,7 +51,7 @@ export class ContributorService {
     const mapcontributors = new Array<MapContributor>();
     if (mapContributorsConfig !== undefined) {
       mapContributorsConfig
-        .forEach(config => {
+        .forEach((config: any) => {
           const contrib = this.arlasStartupService.contributorRegistry.get(config.identifier) as MapContributor;
 
           this.arlasContributors.set(config.identifier, contrib);
@@ -82,7 +82,7 @@ export class ContributorService {
     return this.arlasContributors;
   }
 
-  public getContributor(contributorId: string): Contributor {
+  public getContributor(contributorId: string): Contributor | undefined {
     return this.arlasContributors.get(contributorId);
   }
 
@@ -91,7 +91,7 @@ export class ContributorService {
       if (v !== undefined) {
         this.contributorsIcons.set(
           k,
-          this.configService.getValue(this.CONTRIBUTORS_PATH).find(contrib => contrib.identifier === k).icon
+          this.configService.getValue(this.CONTRIBUTORS_PATH).find((contrib: Contributor) => contrib.identifier === k).icon
         );
       }
     });
@@ -100,7 +100,7 @@ export class ContributorService {
 
   private getMapContributorConfigs() {
     return this.arlasStartupService.emptyMode ? undefined : this.configService.getValue('arlas')['web']['contributors'].filter(
-      contrib => (contrib.type === 'map')
+      (contrib: any) => (contrib.type === 'map')
     );
   }
 

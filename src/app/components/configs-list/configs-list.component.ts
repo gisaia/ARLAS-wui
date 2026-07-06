@@ -47,14 +47,14 @@ export interface Configuration {
 })
 export class ConfigsListComponent implements OnInit {
   public configurations: Array<Configuration> = new Array();
-  public hubUrl: string;
+  public hubUrl?: string;
   public listResolved = false;
   public retrieveData = true;
 
   public isAuthentActivated: boolean;
-  public authentMode = 'false';
+  public authentMode?: 'openid' | 'iam';
   public orgs: UserOrgData[] = [];
-  public currentOrg: string;
+  public currentOrg?: string;
 
   /**
    * @Output : Angular
@@ -73,7 +73,7 @@ export class ConfigsListComponent implements OnInit {
     const authSettings = this.arlasSettingsService.getAuthentSettings();
     this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
     if (this.isAuthentActivated) {
-      this.authentMode = authSettings.auth_mode;
+      this.authentMode = authSettings?.auth_mode;
       if (!this.authentMode) {
         this.authentMode = 'openid';
       }
@@ -85,10 +85,11 @@ export class ConfigsListComponent implements OnInit {
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
           if (userSubject) {
-            this.orgs = userSubject.user.organisations.map(org => {
-              org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
+            // TODO: should user be always defined
+            this.orgs = userSubject.user?.organisations?.map(org => {
+              org.displayName = org.name === userSubject.user?.id ? userSubject.user?.email?.split('@')[0] : org.name;
               return org;
-            });
+            }) ?? [];
             this.currentOrg = this.arlasIamService.getOrganisation();
           } else {
             this.orgs = [];
@@ -133,9 +134,9 @@ export class ConfigsListComponent implements OnInit {
           if (result.data) {
             result.data.forEach((d: DataWithLinks) => {
               const config: Configuration = {
-                id: d.id,
+                id: d.id ?? '',
                 name: d.doc_key,
-                color: this.arlasColorService.getColor(d.id.concat(d.doc_key))
+                color: this.arlasColorService.getColor(d.id?.concat(d.doc_key) ?? '')
               };
               this.configurations.push(config);
             });

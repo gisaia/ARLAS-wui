@@ -91,7 +91,7 @@ export class VisualisationLegendComponent {
           this.rasterHovered.set(id, {
             name: dataGroup.name
           });
-          if (dataGroup.protocol === 'titiler') {
+          if (dataGroup?.protocol === 'titiler') {
             // Transform visualisation url into a legend url
             const queryParams = dataGroup.visualisationUrl.split('?', 2)[1];
             if (queryParams) {

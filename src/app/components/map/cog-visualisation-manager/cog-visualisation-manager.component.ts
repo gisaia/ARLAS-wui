@@ -45,7 +45,7 @@ export class CogVisualisationManagerComponent {
   private readonly actionManager = inject(ActionManagerService);
 
   public openModal() {
-    const currentVisualisation = this.cogService.getCurrentVisualisation().visualisation;
+    const currentVisualisation = this.cogService.getCurrentVisualisation()?.visualisation;
 
     const visualisations: Array<CogVisualisationData> = this.cogService.currentCogVisualisationConfig
       .map((v, idx) => ({
@@ -62,7 +62,7 @@ export class CogVisualisationManagerComponent {
     const filters = this.cogService.getCogFiltersFromConfig(this.resultListService.resultlistConfigPerContId.get(contributorId));
     const dataRetriever = contributor.detailedDataRetriever;
 
-    const itemsVisualized = (new Array(...this.actionManager.activeActionsPerContId.get(contributorId).entries()))
+    const itemsVisualized = (new Array(...(this.actionManager.activeActionsPerContId.get(contributorId)?.entries() ?? [])))
       .filter(v => v[1].has('visualize'));
     const visualizedItemsMatches = zip(itemsVisualized.map(v => dataRetriever.getMatch(v[0], filters)));
 
@@ -87,7 +87,7 @@ export class CogVisualisationManagerComponent {
         return;
       }
       const idx = this.cogService.currentCogVisualisationConfig.findIndex(vis => v === vis);
-      this.cogService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview);
+      this.cogService.setSelectedCogVisualisation(v, idx, visualisations[idx]?.preview ?? '');
     });
   }
 

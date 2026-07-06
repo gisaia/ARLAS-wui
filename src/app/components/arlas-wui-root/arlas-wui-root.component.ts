@@ -101,11 +101,11 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    * @Input : Angular
    * Current version of ARLAS WUI
    */
-  @Input() public version: string;
+  @Input() public version?: string;
 
-  public searchContributors: SearchContributor[];
+  public searchContributors: SearchContributor[] = [];
 
-  public appName: string;
+  public appName = 'ARLAS';
 
   // Component config
   public timelineComponentConfig: any;
@@ -142,15 +142,15 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    * @description Number of columns in the grid result list
    */
   @Input() public resultListGridColumns = 4;
-  public collections: string[];
-  @ViewChild('timeline', {static: false}) public timelineComponent: TimelineComponent;
-  @ViewChild('arlasMap', {static: false}) public arlasMapComponent: ArlasWuiMapComponent<L, S, M>;
-  @ViewChild('arlasList', {static: false}) public arlasListComponent: ArlasListComponent<L, S, M>;
+  public collections: string[] = [];
+  @ViewChild('timeline', {static: false}) public timelineComponent?: TimelineComponent;
+  @ViewChild('arlasMap', {static: false}) public arlasMapComponent?: ArlasWuiMapComponent<L, S, M>;
+  @ViewChild('arlasList', {static: false}) public arlasListComponent?: ArlasListComponent<L, S, M>;
 
   /** Shortcuts */
   public shortcuts = new Array<FilterShortcutConfiguration>();
   public extraShortcuts = new Array<FilterShortcutConfiguration>();
-  public shortcutOpen: number;
+  public shortcutOpen = -1;
   public isExtraShortcutsOpen = false;
   public extraShortcutsFiltered = 0;
   public shortcutWidth = 250;
@@ -158,13 +158,13 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    * @description Whether to exceptionally display the shortcuts for size computing
    */
   public showShortcuts = signal(false);
-  public showMoreShortcutsWidth: number;
+  public showMoreShortcutsWidth = 0;
 
   /** Collection counts */
   /**
    * @description Space available to display the counts in the top bar
    */
-  public availableSpaceCounts: number;
+  public availableSpaceCounts = 0;
   /**
    * @description Spacing used in the WUI to separate elements
    */
@@ -308,7 +308,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
             this.resultlistService.selectList(index);
 
             const queryParams = {...this.activatedRoute.snapshot.queryParams};
-            queryParams['rt'] = this.resultlistService.previewListContrib.getName();
+            queryParams['rt'] = this.resultlistService.previewListContrib?.getName();
             this.router.navigate([], {replaceUrl: true, queryParams: queryParams});
             this.adjustGrids();
             this.adjustComponentsSize();
@@ -332,24 +332,28 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     if (!this.mapSettingsService.mapContributors || this.mapSettingsService.mapContributors.length === 0) {
       this.mapSettingsService.mapContributors = this.mapService.mapContributors;
     }
-    let fieldPath: string;
+    let fieldPath: string | undefined;
     if (
       this.zoomToStrategy === ZoomToDataStrategy.CENTROID
       || this.configService.getValue('arlas.web.options.zoom_to_data') // for backward compatibility
     ) {
-      fieldPath = this.contributorService.collectionToDescription.get(collection).centroid_path;
+      fieldPath = this.contributorService.collectionToDescription.get(collection)?.centroid_path;
     } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
-      fieldPath = this.contributorService.collectionToDescription.get(collection).geometry_path;
+      fieldPath = this.contributorService.collectionToDescription.get(collection)?.geometry_path;
     }
 
-    const map = this.arlasMapComponent.mapglComponent.map();
-    if (map) {
+    const map = this.arlasMapComponent?.mapglComponent?.map();
+    if (map && fieldPath) {
       this.toolkitMapService.zoomToData(collection, fieldPath, map, 0.2);
     }
   }
 
   public clickOnTile(item: Item) {
-    this.arlasListComponent.tabsList.realignInkBar();
+    this.arlasListComponent?.tabsList?.realignInkBar();
+    if (!this.resultlistService.previewListContrib) {
+      return;
+    }
+
     const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
     config.defaultMode = ModeEnum.grid;
     config.selectedGridItem = item;
@@ -359,7 +363,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   public toggleList() {
-    this.arlasListComponent.tabsList.realignInkBar();
+    this.arlasListComponent?.tabsList?.realignInkBar();
     this.resultlistService.toggleList();
     this.mapService.resize();
   }
@@ -394,7 +398,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   public toggleExtraShortcuts(): void {
     this.isExtraShortcutsOpen = !this.isExtraShortcutsOpen;
-    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
+    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title')?.getBoundingClientRect().width ?? 0;
     // If the extra shortcuts are opened, and the open shortcut is the last visible one, close it for visibility reasons
     if (this.isExtraShortcutsOpen && this.shortcutOpen === this.shortcuts.length - 1) {
       this.shortcutOpen = -1;
@@ -431,14 +435,14 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   public openOrderForm() {
-    this.orderFormService.openForm$(this.arlasMapComponent.geojsondraw.features);
+    this.orderFormService.openForm$(this.arlasMapComponent?.geojsondraw.features ?? []);
   }
 
   /**
    * Compute the space available between the divider after the search and the title of the application
    */
   private resizeCollectionCounts() {
-    const checkElement = async selector => {
+    const checkElement = async (selector: string) => {
       while (document.getElementById(selector) === null) {
         await new Promise(resolve => requestAnimationFrame(resolve));
       }
@@ -446,19 +450,21 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     };
     Promise.all([checkElement('menuDivider'), checkElement('title'),]).then((valArray) => {
       // Add padding to the left of the divider and right of the title
-      const start = valArray[0].getBoundingClientRect().right + this.spacing;
-      const end = valArray[1].getBoundingClientRect().left - this.spacing;
+      const start = valArray[0]?.getBoundingClientRect().right ?? 0 + this.spacing;
+      const end = valArray[1]?.getBoundingClientRect().left ?? 0 - this.spacing;
       this.availableSpaceCounts = end - start;
     });
   }
 
   private adjustGrids() {
-    if (this.resultlistService.listOpen) {
-      this.resultlistService.selectedListTabIndex =
-        this.resultlistService.rightListContributors.indexOf(this.resultlistService.previewListContrib);
-    } else {
-      const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
-      config.isDetailledGridOpen = false;
+    if (this.resultlistService.previewListContrib) {
+      if (this.resultlistService.listOpen) {
+        this.resultlistService.selectedListTabIndex =
+          this.resultlistService.rightListContributors.indexOf(this.resultlistService.previewListContrib);
+      } else {
+        const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
+        config.isDetailledGridOpen = false;
+      }
     }
   }
 
@@ -506,12 +512,12 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
       && this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier)?.hasGridMode;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
-    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title').getBoundingClientRect().width;
+    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title')?.getBoundingClientRect().width ?? 0;
     const threshold = window.innerWidth - leftMenuWidth
       - (this.resultlistService.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
       - this.spacing - this.showMoreShortcutsWidth - this.spacing - mapActionsAndLegendWidth;
 
-    const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`).getBoundingClientRect().width);
+    const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`)?.getBoundingClientRect().width ?? 0);
     let cumulativeWidth = 0;
     let breakOffIndex = 0;
 

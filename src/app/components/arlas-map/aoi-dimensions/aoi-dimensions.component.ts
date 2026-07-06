@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AoiEdition } from 'arlas-map';
 import { FormatNumberPipe } from 'arlas-web-components';
@@ -39,7 +39,5 @@ export class AoiDimensionComponent {
    * @Input : Angular
    * Current dimensions of the AOI being edited
    */
-  @Input() public aoiEdition: AoiEdition;
-
-  public constructor() { }
+  public aoiEdition = input.required<AoiEdition>();
 }

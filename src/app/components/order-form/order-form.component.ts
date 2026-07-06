@@ -103,7 +103,7 @@ export class OrderFormComponent {
     this.dialogRef.close();
   }
 
-  private getMessage(conf: Object, key: string) {
+  private getMessage(conf: Record<string, any>, key: string) {
     if (key.includes('.')) {
       return getObject(conf, 'conf.' + key);
     }

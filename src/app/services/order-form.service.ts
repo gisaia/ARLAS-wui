@@ -29,8 +29,8 @@ import { updateAuthorizationHeaders$ } from '../tools/authorization';
 export interface OrderFormConfig {
   enabled: boolean;
   text: {
-    button: string;
-    form: string;
+    button?: string;
+    form?: string;
   };
   endpoint: string;
   payload: { [key: string]: any; };
@@ -53,7 +53,7 @@ export class OrderFormService {
   private readonly destroyRef = inject(DestroyRef);
 
   public config: OrderFormConfig;
-  private headers: { [name: string]: string; };
+  private headers: { [name: string]: string; } = {};
 
   public constructor() {
     this.config = this.configService.getValue('arlas.web.externalNode.order_form');
