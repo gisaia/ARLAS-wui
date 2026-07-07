@@ -30,7 +30,7 @@ function getValueOrFirstArrayValue(data: Record<string, ItemDataType>, flattened
   if (data[flattenedField] !== undefined) {
     return data[flattenedField];
   }
-  return data.get(flattenedField + '_0');
+  return data[flattenedField + '_0'];
 }
 
 /**
