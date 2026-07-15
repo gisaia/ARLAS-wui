@@ -14,9 +14,12 @@ not kaios 3.0-3.1
 not and_qq 14.9
 not and_uc 15.5
 not op_mob 80
-not chrome 109
+not chrome 109-116
 not opera 127-131
-not samsung 28-29
+not samsung 28-30
 not op_mini all
 not kaios 2.5
-not android 148
+not android 150
+not ios_saf 26.5
+not ios_saf 11.0-11.2
+not safari 26.5

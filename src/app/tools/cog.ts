@@ -20,9 +20,9 @@
 import { ItemDataType, VisualisationInterface } from 'arlas-web-components';
 
 export interface VisualisationPreview {
-    visualisation: VisualisationInterface;
-    preview: string;
-    idx: number;
+  visualisation: VisualisationInterface;
+  preview?: string;
+  idx: number;
 }
 
 
