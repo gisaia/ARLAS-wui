@@ -131,9 +131,7 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
 
-  public adjustOpacityByRange(sourceIdPrefix: string, field: string,
-    start: number, end: number, insideOpacity: number, outsideOpacity: number
-  ): void {
+  public adjustOpacityByRange(sourceIdPrefix: string, field: string, start: number, end: number, insideOpacity: number, outsideOpacity: number) {
     const map = this.mapComponent?.map();
     if (map) {
       this.mapLogicService.adjustOpacityByRange(map, sourceIdPrefix, field, start, end, insideOpacity, outsideOpacity);

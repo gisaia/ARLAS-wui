@@ -22,6 +22,7 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ArlasConfigService, ArlasIamService, ArlasSettingsService, AuthentificationService } from 'arlas-wui-toolkit';
+import { throwError } from 'rxjs';
 import { OrderFormComponent, OrderFormPayload } from '../components/order-form/order-form.component';
 import { updateAuthorizationHeaders$ } from '../tools/authorization';
 
@@ -52,7 +53,7 @@ export class OrderFormService {
   private readonly authentService = inject(AuthentificationService);
   private readonly destroyRef = inject(DestroyRef);
 
-  public config: OrderFormConfig;
+  public config?: OrderFormConfig;
   private headers: { [name: string]: string; } = {};
 
   public constructor() {
@@ -60,7 +61,11 @@ export class OrderFormService {
     if (this.config?.enabled) {
       // Check that everything needed is present
       this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response.ok && !!this.config.response.error;
-      this.config.text = {button: marker('Order'), form: marker('Order a product'), ...this.config.text};
+      this.config.text = {
+        button: marker('Order'),
+        form: marker('Order a product'),
+        ...this.config.text
+      };
     }
     this.setHeaders();
   }
@@ -74,6 +79,10 @@ export class OrderFormService {
   }
 
   public submit$(formPayload: OrderFormPayload) {
+    if (!this.config) {
+      return throwError(() => new Error('[ARLAS][ORDER] No configuration was set'));
+    }
+
     const payload = JSON.stringify(this.config.payload)
       .replace('"$AOI"', JSON.stringify(formPayload.aoi))
       .replace('$COMMENT', formPayload.comment);

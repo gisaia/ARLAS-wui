@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { BasemapService } from 'arlas-map';
+import { ArlasBasemaps, BasemapService } from 'arlas-map';
 import {
   ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService
 } from 'arlas-wui-toolkit';
@@ -46,7 +46,7 @@ describe('ArlasWuiMapComponent', () => {
           useValue: {
             fetchSources$: () => of([]),
             protomapBasemapAdded$: of(),
-            setBasemaps: (basemaps) => { },
+            setBasemaps: (basemaps: ArlasBasemaps) => { },
             basemapChanged$: of()
           }
         },

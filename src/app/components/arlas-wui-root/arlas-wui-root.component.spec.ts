@@ -22,7 +22,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { BasemapService } from 'arlas-map';
+import { ArlasBasemaps, BasemapService } from 'arlas-map';
 import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import {
     ArlasBookmarkService,
@@ -113,9 +113,8 @@ describe('ArlasWuiRootComponent', () => {
                     useValue: {
                         fetchSources$: () => of([]),
                         protomapBasemapAdded$: of(),
-                        setBasemaps: (basemaps) => { },
+                        setBasemaps: (basemaps: ArlasBasemaps) => { },
                         basemapChanged$: of()
-
                     }
                 },
                 {

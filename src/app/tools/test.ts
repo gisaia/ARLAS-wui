@@ -35,7 +35,7 @@ export class MockArlasConfigService {
     if (key === 'arlas.web.externalNode') {
       return {};
     }
-    if(key === 'arlas-wui.web.app.units'){
+    if (key === 'arlas-wui.web.app.units') {
       return [];
     }
     if (key === 'arlas.web.components.mapgl.input') {
@@ -75,5 +75,6 @@ export const mockArlasSettingsService = {
   getPermissionSettings: vi.fn(),
   getSettings: vi.fn(() => ({ tab_name: 'ARLAS-wui' })),
   getLinksSettings: vi.fn(),
-  getTicketingKey: vi.fn()
+  getTicketingKey: vi.fn(),
+  getArlasHubUrl: vi.fn()
 };

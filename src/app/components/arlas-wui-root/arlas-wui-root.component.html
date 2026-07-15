@@ -14,9 +14,9 @@
 
   <div right-menu class="right-menu-container" id="title">
     @let drawFeatures = arlasMapComponent?.geojsondraw?.features;
-    @if (drawFeatures && drawFeatures.length > 0 && orderFormService.config.enabled) {
+    @if (drawFeatures && drawFeatures.length > 0 && orderFormService.config?.enabled) {
       <button matButton="outlined" (click)="openOrderForm()" class="order-form__button">
-        {{ orderFormService.config.text.button | translate }}
+        {{ orderFormService.config?.text?.button | translate }}
       </button>
     }
     <arlas-permissions-creator></arlas-permissions-creator>
