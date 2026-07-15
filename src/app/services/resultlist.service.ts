@@ -17,45 +17,28 @@
  * under the License.
  */
 
-import {ComponentType} from '@angular/cdk/portal';
-import {inject, Injectable} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute, Router} from '@angular/router';
-import {marker} from '@colsen1991/ngx-translate-extract-marker';
-import {TranslateService} from '@ngx-translate/core';
-import {Expression} from 'arlas-api';
+import { ComponentType } from '@angular/cdk/portal';
+import { inject, Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
+import { Expression } from 'arlas-api';
 import {
-  CellBackgroundStyleEnum,
-  Column,
-  ElementIdentifier,
-  Item,
-  ModeEnum,
-  PageQuery,
-  ResultListComponent,
-  SortedColumn,
-  SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortedColumn, SortEnum
 } from 'arlas-web-components';
-import {Action, ExtentFilterGeometry, MapContributor, ResultListContributor} from 'arlas-web-contributors';
+import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent,
-  AiasEnrichComponent,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasExportCsvService,
-  ArlasSettingsService,
-  DOWNLOAD_PROCESS_NAME,
-  ENRICH_PROCESS_NAME,
-  ErrorService,
-  getParamValue,
-  ProcessService
+  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, ErrorService, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
-import {BehaviorSubject, finalize, Subject, take} from 'rxjs';
-import {ArlasWuiMapService} from '../services/map.service';
-import {VisualizeService} from '../services/visualize.service';
-import {isElementInViewport} from '../tools/utils';
-import {CogService} from './cog.service';
-import {ContributorService} from './contributors.service';
+import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
+import { ArlasWuiMapService } from '../services/map.service';
+import { VisualizeService } from '../services/visualize.service';
+import { isElementInViewport } from '../tools/utils';
+import { CogService } from './cog.service';
+import { ContributorService } from './contributors.service';
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +105,7 @@ export class ResultlistService<L, S, M> {
           CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
         // To correct typo error at source.
         rlConf.input['defaultMode'] = rlConf.input?.defaultMode ?? rlConf.input?.defautMode;
+        rlConf.input['hasGridView'] = rlConf.input?.hasGridMode ?? rlConf.input?.hasGridView;
 
         this.resultlistConfigPerContId.set(rlConf.contributorId, rlConf.input);
       });

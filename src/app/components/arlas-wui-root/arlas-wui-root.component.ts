@@ -17,56 +17,40 @@
  * under the License.
  */
 
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatDialog} from '@angular/material/dialog';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TranslatePipe} from '@ngx-translate/core';
-import {GetValuePipe, Item, ModeEnum, ResultListComponent} from 'arlas-web-components';
-import {SearchContributor} from 'arlas-web-contributors';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { GetValuePipe, Item, ModeEnum, ResultListComponent } from 'arlas-web-components';
+import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AnalyticsService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasMapService,
-  ArlasMapSettings,
-  ArlasSettingsService,
-  ArlasStartupService,
-  BookmarkMenuComponent,
-  FiltersComponent,
-  FilterShortcutComponent,
-  FilterShortcutConfiguration,
-  getParamValue,
-  NOT_CONFIGURED,
-  PermissionsCreatorComponent,
-  SearchComponent,
-  TimelineComponent,
-  ToolkitComponent,
-  TopMenuComponent,
-  ZoomToDataStrategy
+  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService,
+  ArlasStartupService, BookmarkMenuComponent, FiltersComponent, FilterShortcutComponent, FilterShortcutConfiguration, getParamValue,
+  NOT_CONFIGURED, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent, ZoomToDataStrategy
 } from 'arlas-wui-toolkit';
-import {fromEvent, Subject} from 'rxjs';
-import {debounceTime, takeUntil} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
-import {GetResultlistConfigPipe} from '../../pipes/get-resultlist-config.pipe';
-import {ActionManagerService} from '../../services/action-manager.service';
-import {ContributorService} from '../../services/contributors.service';
-import {ArlasWuiMapService} from '../../services/map.service';
-import {OrderFormService} from '../../services/order-form.service';
-import {ResultlistService} from '../../services/resultlist.service';
-import {ArlasAnalyticsComponent} from '../arlas-analytics/arlas-analytics.component';
-import {ArlasListComponent} from '../arlas-list/arlas-list.component';
-import {ArlasWuiMapComponent} from '../arlas-map/arlas-map.component';
-import {ConfigsListComponent} from '../configs-list/configs-list.component';
-import {ExportDataDialogComponent} from '../export-data-dialog/export-data-dialog.component';
-import {LeftMenuComponent, MenuState} from '../left-menu/left-menu.component';
-import {LoadingBarComponent} from '../loading-bar/loading-bar.component';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
+import { ActionManagerService } from '../../services/action-manager.service';
+import { ContributorService } from '../../services/contributors.service';
+import { ArlasWuiMapService } from '../../services/map.service';
+import { OrderFormService } from '../../services/order-form.service';
+import { ResultlistService } from '../../services/resultlist.service';
+import { ArlasAnalyticsComponent } from '../arlas-analytics/arlas-analytics.component';
+import { ArlasListComponent } from '../arlas-list/arlas-list.component';
+import { ArlasWuiMapComponent } from '../arlas-map/arlas-map.component';
+import { ConfigsListComponent } from '../configs-list/configs-list.component';
+import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
+import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
+import { LoadingBarComponent } from '../loading-bar/loading-bar.component';
 
 @Component({
   selector: 'arlas-wui-root',

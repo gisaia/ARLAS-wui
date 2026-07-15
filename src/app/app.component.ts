@@ -16,26 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {RouterOutlet} from '@angular/router';
-import {CollectionReferenceParameters} from 'arlas-api';
-import {ArlasMapFrameworkService} from 'arlas-map';
-import {ArlasColorService} from 'arlas-web-components';
-import {ResultListContributor} from 'arlas-web-contributors';
-import {
-  AnalyticsService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasStartupService,
-  ErrorService
-} from 'arlas-wui-toolkit';
-import {LAZYLOAD_IMAGE_HOOKS} from 'ng-lazyload-image';
-import {Subject, takeUntil, zip} from 'rxjs';
-import {ContributorService} from './services/contributors.service';
-import {ArlasWuiMapService} from './services/map.service';
-import {ResultlistService} from './services/resultlist.service';
-import {LazyLoadImageHooks} from './tools/lazy-loader';
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterOutlet } from '@angular/router';
+import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasMapFrameworkService } from 'arlas-map';
+import { ArlasColorService } from 'arlas-web-components';
+import { ResultListContributor } from 'arlas-web-contributors';
+import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
+import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
+import { Subject, takeUntil, zip } from 'rxjs';
+import { ContributorService } from './services/contributors.service';
+import { ArlasWuiMapService } from './services/map.service';
+import { ResultlistService } from './services/resultlist.service';
+import { LazyLoadImageHooks } from './tools/lazy-loader';
 
 @Component({
   selector: 'arlas-root',
