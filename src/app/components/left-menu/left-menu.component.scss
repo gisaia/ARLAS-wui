@@ -17,6 +17,10 @@
  * under the License.
  */
 
+:host {
+  --arlas-left-menu-icon-color: var(--mat-sys-on-background);
+}
+
 .menu_container {
   height: 100%;
   display: flex;
@@ -26,7 +30,7 @@
   --mat-list-list-item-focus-state-layer-color: transparent;
 
   mat-icon {
-    color: #666;
+    color: var(--arlas-left-menu-icon-color, #666);
   }
 
   .arlas-analytics {
@@ -55,7 +59,7 @@
 }
 
 .active-menu {
-  background-color: rgba(255, 64, 129, 0.1);
+  background-color: var(--arlas-left-menu-active-bg, rgba(255, 64, 129, 0.1));
   mat-icon {
     color: var(--arlas-theme-color);
   }

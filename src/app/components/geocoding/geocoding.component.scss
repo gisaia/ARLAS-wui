@@ -21,18 +21,24 @@
 @use "styles/app/colors.scss" as colors;
 
 :host {
+  --arlas-geocoding-bg: var(--mat-sys-background);
+  --arlas-geocoding-fg: var(--mat-sys-on-background);
+
   position: absolute;
   right: calc(sizes.$sm-spacing + var(--arlas-map-actions-width) + sizes.$sm-spacing);
   top: calc(3 * var(--arlas-map-actions-width));
-  background: white;
   width: 375px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  padding: sizes.$default-spacing;
-  border-radius: 5px;
-  border: 1px solid colors.$map-settings-border-color;
+
+  .geocode-wrapper{
+    border-radius: 5px;
+    padding: sizes.$default-spacing;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border: 1px solid colors.$map-settings-border-color;
+    background: var(--arlas-geocoding-bg, white);
+  }
 
   .geocode-header {
     display: flex;
@@ -79,7 +85,7 @@
 
   .geocode-tip {
     font-size: sizes.$sm-font-size;
-    color: grey;
+    color: var(--arlas-geocoding-fg, grey);
     font-style: italic;
     margin-bottom: sizes.$xs-spacing;
   }

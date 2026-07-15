@@ -35,12 +35,12 @@
     }
 
     .histogram__description--display {
-      color: black;
+      color: var(--arlas-text-color, black);
       padding-top: 5px;
     }
 
     .histogram__description__title {
-      color: black;
+      color: var(--arlas-text-color, black);;
     }
 
     .histogram__description__startvalue--background,
@@ -149,7 +149,7 @@
       font-family: "Roboto", "Helvetica Neue", sans-serif;
       font-size: 0.9em;
       font-weight: normal;
-      color: #757575;
+      color: var(--mat-sys-on-background, #757575);
     }
 
     .histogram__ticks {
@@ -177,7 +177,7 @@
   .arlas-timeline-not-selectable {
     .tick {
       text {
-        fill: #757575;
+        fill: var(--mat-sys-on-background, #757575);
         font-size: 1em;
       }
     }

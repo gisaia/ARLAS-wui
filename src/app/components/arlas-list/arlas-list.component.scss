@@ -19,6 +19,9 @@
 
 @use "styles/variables.scss" as var;
 
+:host {
+  --arlas-list-active-fg: var(--mat-sys-on-background);
+}
 .arlas-progression {
     width: 100%;
     position: absolute;
@@ -30,7 +33,7 @@
         padding: 0 16px;
     }
     ::ng-deep.mdc-tab--active .mdc-tab__text-label {
-        color: rgba(0, 0, 0, 0.6);
+        color: var(--arlas-list-active-fg, rgba(0, 0, 0, 0.6));
     }
     ::ng-deep.mdc-tab__text-label {
         display: flex;

@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+  .mapboxgl-ctrl-group, .maplibregl-ctrl-group {
+    background: var(--mat-sys-background) !important;
+  }
+
+  .dark-theme {
+      .arlas-map-settings-items:hover {
+        background-color: rgba(255, 255, 255, 0.5) !important;
+      }
+
+    .maplibregl-ctrl button:not(:disabled):hover, .mapboxgl-ctrl button:not(:disabled):hover{
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .maplibregl-ctrl.maplibregl-ctrl-attrib, .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
+      background-color: var(--mat-sys-background);
+      opacity: 0.5;
+    }
+
+    .maplibregl-ctrl-group button + button, .mapboxgl-ctrl-group button + button {
+      border-top: 1px solid var(--mat-sys-surface-variant);
+    }
+
+
+    .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+    .maplibregl-ctrl button.maplibregl-ctrl-globe .maplibregl-ctrl-icon,
+    .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon,
+    .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+    .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+      filter: invert(100%)!important;
+    }
+    .mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon,
+    .maplibregl-ctrl button.maplibregl-ctrl-compass .maplibregl-ctrl-icon {
+      background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyOScgaGVpZ2h0PScyOScgZmlsbD0nd2hpdGUnIHZpZXdCb3g9JzAgMCAyOSAyOSc+PHBhdGggZD0nbTEwLjUgMTQgNC04IDQgOHonLz48cGF0aCBmaWxsPScjRDNEM0QzJyBkPSdtMTAuNSAxNiA0IDggNC04eicvPjwvc3ZnPgo=) ;
+    }
+}

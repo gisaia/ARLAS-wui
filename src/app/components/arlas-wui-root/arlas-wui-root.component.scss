@@ -20,9 +20,22 @@
 @use "styles/variables.scss" as var;
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
-@use "styles/app/colors.scss" as colors;
 
-.app-container {
+:host {
+  --arlas-wui-bg: white;
+  --arlas-toggle-bg: var(--mat-sys-background);
+  --arlas-wui-fg: var(--mat-sys-on-background);
+  --arlas-wui-scrollbar-thumb: #{rgba(var(--mat-sys-on-background), 0.3)};
+}
+
+.dark-theme{
+  :host{
+    --arlas-wui-bg: var(--mat-sys-surface);
+  }
+
+}
+
+  .app-container {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -96,7 +109,7 @@
   position: absolute;
   right: 0;
   display: block;
-  background-color: white;
+  background-color: var(--arlas-wui-bg, white);
 
   &--closed {
     display: none;
@@ -109,7 +122,7 @@
   position: absolute;
   right: 0;
   visibility: hidden;
-  background-color: white;
+  background-color: var(--arlas-wui-bg, white);
   overflow: hidden;
 
   &--open {
@@ -166,17 +179,17 @@
 
 ::-webkit-scrollbar {
   width: 6px;
-  background-color: #f5f5f5;
+  background-color: var(--arlas-wui-bg, #f5f5f5);
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
-  box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
-  background-color: #f5f5f5;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--arlas-wui-bg, #f5f5f5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #b1aeae;
+  background-color: var(--arlas-wui-scrollbar-thumb, #b1aeae);
 }
 
 .arlas-map-action {
@@ -456,6 +469,10 @@
   border-bottom: sizes.$menu-border;
 }
 
+.theme-mode{
+  --mat-icon-color: var(--arlas-wui-fg, #666);
+}
+
 .right-menu-container {
   font-size: sizes.$title-font-size;
   display: flex;
@@ -469,7 +486,7 @@
     margin: 0 5px;
   }
 
-  --mat-icon-color: #666;
+  --mat-icon-color: var(--arlas-wui-fg, #666);
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
     --mat-icon-button-state-layer-size: 34px;
     padding: 5px;
@@ -573,7 +590,7 @@
       height: calc(var.$filter-height + 2 * sizes.$xs-border);
       font-size: sizes.$default-font-size;
       @include mixin.box-border();
-      background-color: colors.$default-background-color;
+      background-color: var(--arlas-wui-bg, white);
       // Necessary to maintain same alignement with extra shortcuts when open and closed
       box-sizing: border-box;
 
@@ -674,3 +691,4 @@
     cursor: pointer;
   }
 }
+

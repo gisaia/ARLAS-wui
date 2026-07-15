@@ -20,10 +20,15 @@
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
 
-.wrapper {
+:host {
+  --arlas-aoi-dimensions-bg: var(--mat-sys-background);
+  --arlas-aoi-dimensions-fg: var(--mat-sys-on-background);
+}
+
+  .wrapper {
     border-radius: sizes.$default-border-radius;
     min-width: 215px;
-    background-color: white;
+    background-color: var(--arlas-aoi-dimensions-bg, white);
     @include mixin.box-border();
     padding: sizes.$sm-spacing;
     .title_wrapper {
@@ -71,7 +76,7 @@
             }
 
             .message {
-                color: rgb(143, 143, 143);
+                color: var(--arlas-aoi-dimensions-fg, rgb(143, 143, 143));
                 font-weight: 100;
                 font-size: sizes.$sm-font-size;
                 margin-left: calc(2 * sizes.$default-spacing);

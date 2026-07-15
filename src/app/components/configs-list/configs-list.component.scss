@@ -17,6 +17,11 @@
  * under the License.
  */
 
+:host {
+  --arlas-configs-list-bg: var(--mat-sys-background);
+  --arlas-configs-list-fg: var(--mat-sys-on-background);
+}
+
 .configs-list_wrapper {
   max-width: 400px;
   min-width: 130px;
@@ -25,7 +30,7 @@
   bottom: 5px;
   left: 5px;
   border-radius: 5px;
-  background-color: white;
+  background-color: var(--arlas-configs-list-bg, white);
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   z-index: 2000;
 
@@ -44,7 +49,7 @@
     flex-direction: column;
 
     .loading {
-      color: #999;
+      color: var(--arlas-configs-list-fg, #999);
       font-style: italic;
       text-align: center;
     }
@@ -62,7 +67,7 @@
       border-radius: 5px;
       cursor: pointer;
       text-decoration: unset;
-      color: black;
+      color: var(--arlas-configs-list-fg, black);
 
       &:hover {
         background-color: rgba(100, 100, 100, 0.1);
@@ -87,8 +92,8 @@
     justify-content: center;
 
     button {
-      color: #3f51b5;
-      background-color: #fff;
+      color: var(--arlas-configs-list-fg, #3f51b5);
+      background-color: var(--arlas-configs-list-bg, #fff);
     }
   }
 
