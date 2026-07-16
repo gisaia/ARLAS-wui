@@ -1,0 +1,15 @@
+@mixin flicker() {
+    animation: flicker-animation 1s linear infinite;
+    animation-direction: alternate;
+}
+
+@mixin no-flicker() {
+    animation: unset;
+    animation-direction: alternate;
+}
+
+@keyframes flicker-animation {
+    to {
+        opacity: 0.3;
+    }
+}
