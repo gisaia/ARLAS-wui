@@ -29,7 +29,7 @@ import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { first, map, Observable, Subject, take } from 'rxjs';
 import { getTitilerPreviewUrl, VisualisationPreview } from '../tools/cog';
-import { getItem } from '../tools/utils';
+import { getItem$ } from '../tools/utils';
 import { ActionManagerService } from './action-manager.service';
 import { ContributorService } from './contributors.service';
 import { VisualizeService } from './visualize.service';
@@ -109,7 +109,7 @@ export class CogService<L, S, M> {
     const visualisations = this.initializeCogVisualisationData();
 
     const dialogRef = this.openCogModal(visualisations, false);
-    this.fetchPreviews(visualisations, data, dialogRef).subscribe();
+    this.fetchPreviews$(visualisations, data, dialogRef).subscribe();
 
     // Find the missing visualisations
     visualisations.filter((v, idx) => v.match === 'none' && this.getDefaultPreview(idx) === undefined).forEach(v => {
@@ -124,7 +124,7 @@ export class CogService<L, S, M> {
     );
   }
 
-  private fetchPreviews(visualisations: CogVisualisationData[],
+  private fetchPreviews$(visualisations: CogVisualisationData[],
     data: { action: Action; elementidentifier: ElementIdentifier; }, dialogRef?: any
   ) {
     // Parses the array to find out which visualisations are enabled
@@ -138,11 +138,11 @@ export class CogService<L, S, M> {
       });
     });
 
-    const searchResult = getItem(data.elementidentifier,
+    const searchResult$ = getItem$(data.elementidentifier,
       this.collaborativeService.registry.get(this.contributorId).collection, this.collaborativeService);
 
     // Fetches the detail of the item to replace the fields in the url
-    return searchResult.pipe(map(h => {
+    return searchResult$.pipe(map(h => {
       if (!h.hits) {
         return;
       }
@@ -352,7 +352,7 @@ export class CogService<L, S, M> {
         // Set the preview as undefined first
         this.setSelectedCogVisualisation(conf, defaultConfigurationIdx, undefined, data.elementidentifier.idValue);
         // Then compute async the preview for the selected default visualisation
-        this.fetchPreviews(visualisations, data).subscribe(() => {
+        this.fetchPreviews$(visualisations, data).subscribe(() => {
           this.setSelectedCogVisualisation(conf, defaultConfigurationIdx,
             this.getDefaultPreview(defaultConfigurationIdx), data.elementidentifier.idValue);
         });
