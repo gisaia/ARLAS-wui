@@ -31,7 +31,7 @@ import { wktToGeoJSON } from 'betterknown';
 import { BBox } from 'geojson';
 import { map, Observable, Subject } from 'rxjs';
 import { flattenedMatchAndReplace } from '../tools/cog';
-import { getItem } from '../tools/utils';
+import { getItem$ } from '../tools/utils';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
@@ -95,7 +95,7 @@ export class VisualizeService<L, S, M> {
   public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
     Observable<string> {
 
-    const searchResult = getItem(elementidentifier, collection, this.collaborativeService);
+    const searchResult = getItem$(elementidentifier, collection, this.collaborativeService);
     return searchResult.pipe(map(data => flattenedMatchAndReplace(data.hits[0].data, urlTemplate)));
   }
 

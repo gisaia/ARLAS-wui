@@ -35,7 +35,7 @@ export function isElementInViewport(el: HTMLElement) {
 }
 
 
-export function getItem(elementidentifier: ElementIdentifier, collection: string, collaborativeService: ArlasCollaborativesearchService) {
+export function getItem$(elementidentifier: ElementIdentifier, collection: string, collaborativeService: ArlasCollaborativesearchService) {
   const search: Search = {
     page: { size: 1 },
     form: { pretty: false, flat: true }
@@ -50,5 +50,5 @@ export function getItem(elementidentifier: ElementIdentifier, collection: string
   };
   return collaborativeService.resolveHits(
     [projType.search, search], collaborativeService.collaborations,
-    collection, null, filterExpression, true);
+    collection, undefined, filterExpression, true);
 }

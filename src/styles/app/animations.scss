@@ -17,31 +17,22 @@
  * under the License.
  */
 
-@use "styles/app/mixin.scss" as mixin;
-@use "styles/app/animations.scss" as animations;
+@use '@angular/material' as mat;
+@use "../arlas-wui-theme.scss" as theme;
 
-.wrapper {
-    cursor: pointer;
-    --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
-    --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
-    @include mixin.box-border();
-    box-shadow: none;
-    padding: 0;
-    background-color: white;
-    box-sizing: border-box;
-    display: flex;
-    @include animations.blink();
+@mixin blink() {
+    animation: blink-animation 1s steps(2, jump-none) 3;
+    animation-direction: alternate;
+}
 
-    &:hover {
-      @include animations.no-blink();
-    }
+@mixin no-blink() {
+    animation: unset;
+    animation-direction: alternate;
+}
 
-    .icon {
-      height: var(--arlas-map-actions-width);
-      width: var(--arlas-map-actions-width);
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+@keyframes blink-animation {
+    to {
+        --mat-icon-color: white;
+        background-color: mat.get-theme-color(theme.$app-theme, primary, 500);
     }
 }

@@ -21,7 +21,7 @@
       <div class="list__container">
         @if (resultlistService.listOpen && listIdx === resultlistService.selectedListTabIndex) {
           <arlas-result-list
-            #resultList [rowItemList]="list.data" [fieldsList]="list.fieldsList"
+            #resultList [rowItemList]="list.data" [tableFields]="list.fieldsList"
             [detailedDataRetriever]="list.detailedDataRetriever" [fieldsConfiguration]="list.fieldsConfiguration"
             [dropDownMapValues]="list.dropDownMapValues" [filtersMap]="list.filtersMap"
             [highlightItems]="list.highlightItems" [nbLinesBeforeFetch]="10" [nbGridColumns]="resultListGridColumns"

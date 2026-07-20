@@ -7,7 +7,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "arlas-mapbox": "28.1.0-rc.1"
+    "arlas-mapbox": "29.0.0-rc.1"
   },
   "peerDependencies": {
     "@angular/animations": "^21.2.7",

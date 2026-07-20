@@ -29,7 +29,7 @@ import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 import { first, map, Observable, Subject, take } from 'rxjs';
 import { getTitilerPreviewUrl, VisualisationPreview } from '../tools/cog';
-import { getItem } from '../tools/utils';
+import { getItem$ } from '../tools/utils';
 import { ActionManagerService } from './action-manager.service';
 import { ContributorService } from './contributors.service';
 import { VisualizeService } from './visualize.service';
@@ -46,20 +46,20 @@ export class CogService<L, S, M> {
   /** Input field of the contributor configuration */
   public contributorConfig: any;
   /** Contributor Id */
-  public contributorId: string;
+  public contributorId!: string;
   /** Current configuration for the visualisation of COGs */
-  public currentCogVisualisationConfig: VisualisationInterface[];
+  public currentCogVisualisationConfig: VisualisationInterface[] = [];
 
   /** --- Visualisation state */
   /** Current COG visualisation */
   private readonly selectedCogVisualisation = new Map<string, VisualisationPreview>();
-  private readonly cogVisualisationChangeSource = new Subject<VisualisationPreview>();
+  private readonly cogVisualisationChangeSource = new Subject<VisualisationPreview | undefined>();
   /** Emits any change to the visualisation used for the COGs */
   public cogVisualisationChange$ = this.cogVisualisationChangeSource.asObservable();
   /** Whether this is the first selection of a COG */
   protected firstCogSelection  = true;
   /** Previews for each of the visualisations defined. Allows to query only once for default preview */
-  private defaultPreviews = new Array<string>();
+  private defaultPreviews = new Array<string | undefined>();
   /** Map containing for each visualised COG its DataGroup */
   public visualisedCogs = new Map<string, DataGroup>();
 
@@ -106,27 +106,43 @@ export class CogService<L, S, M> {
    * @returns An observable emitting the selected visualisation
    */
   public openCogSelectionDialog(data: { action: Action; elementidentifier: ElementIdentifier; }): Observable<VisualisationPreview> {
-    const visualisations: Array<CogVisualisationData> = this.currentCogVisualisationConfig.map((v, idx) => (
-      { visualisation: v, match: 'none', preview: this.getDefaultPreview(idx)}));
+    const visualisations = this.initializeCogVisualisationData();
 
+    const dialogRef = this.openCogModal(visualisations, false);
+    this.fetchPreviews$(visualisations, data, dialogRef).subscribe();
+
+    // Find the missing visualisations
+    visualisations.filter((v, idx) => v.match === 'none' && this.getDefaultPreview(idx) === undefined).forEach(v => {
+      this.findPreviewForVisualisation(v, 0);
+    });
+
+    return dialogRef.afterClosed().pipe(first(),
+      map((v: VisualisationInterface) => {
+        const idx = this.currentCogVisualisationConfig.indexOf(v);
+        return {visualisation: v, preview: visualisations[idx]?.preview, idx};
+      })
+    );
+  }
+
+  private fetchPreviews$(visualisations: CogVisualisationData[],
+    data: { action: Action; elementidentifier: ElementIdentifier; }, dialogRef?: any
+  ) {
     // Parses the array to find out which visualisations are enabled
     let i = 0;
     this.currentCogVisualisationConfig.forEach((v, vidx) => {
       v.dataGroups.forEach(_ => {
-        if (data.action.matched[i]) {
+        if (data.action.matched?.[i]) {
           visualisations[vidx].match = 'all';
         }
         i++;
       });
     });
 
-    const searchResult = getItem(data.elementidentifier,
+    const searchResult$ = getItem$(data.elementidentifier,
       this.collaborativeService.registry.get(this.contributorId).collection, this.collaborativeService);
 
-    const dialogRef = this.openCogModal(visualisations, false);
-
     // Fetches the detail of the item to replace the fields in the url
-    searchResult.subscribe(h => {
+    return searchResult$.pipe(map(h => {
       if (!h.hits) {
         return;
       }
@@ -136,23 +152,12 @@ export class CogService<L, S, M> {
       let i = 0;
       this.currentCogVisualisationConfig.forEach((v, vidx) => {
         v.dataGroups.forEach(dg => {
-          this.setDefaultPreview(data.action.matched[i], itemData, dg, visualisations[vidx], vidx);
-          dialogRef.componentInstance.update(visualisations, false);
+          this.setDefaultPreview(!!data.action.matched?.[i], itemData, dg, visualisations[vidx], vidx);
+          dialogRef?.componentInstance.update(visualisations, false);
           i++;
         });
       });
-    });
-
-    visualisations.filter((v, idx) => v.match === 'none' && this.getDefaultPreview(idx) === undefined).forEach(v => {
-      this.findPreviewForVisualisation(v, 0);
-    });
-
-    return dialogRef.afterClosed().pipe(first(),
-      map((v: VisualisationInterface) => {
-        const idx = this.currentCogVisualisationConfig.findIndex(vis => v === vis);
-        return {visualisation: v, preview: visualisations[idx]?.preview, idx};
-      })
-    );
+    }));
   }
 
   public openCogModal(visualisations: Array<CogVisualisationData>, loading: boolean) {
@@ -226,10 +231,10 @@ export class CogService<L, S, M> {
       /** flat */ true, contributor.getCacheDuration()
     ).pipe(take(1))
       .subscribe(hits => {
-        if (hits.hits.length > 0) {
+        if (hits.hits && hits.hits.length > 0) {
           const previewUrl = getTitilerPreviewUrl(v.visualisation.dataGroups[dgIdx].visualisationUrl, hits.hits[0].data);
           v.preview = previewUrl;
-          this.defaultPreviews[this.currentCogVisualisationConfig.findIndex(vis => vis === v.visualisation)] = previewUrl;
+          this.defaultPreviews[this.currentCogVisualisationConfig.indexOf(v.visualisation)] = previewUrl;
         } else if (dgIdx + 1 < v.visualisation.dataGroups.length) {
           this.findPreviewForVisualisation(v, dgIdx + 1);
         }
@@ -250,14 +255,14 @@ export class CogService<L, S, M> {
    * removes them and if they match the new viusalisation, visualizes them again
    * @param visualisation Configuration to visualize COGs
    * @param idx Id of the selected visualisation
-   * @param preview Preview for the visualisation
+   * @param preview Preview for the visualisation. Can be undefined if it has not yet been computed
    * @param itemId Id of the item that triggered the change of viusalisation. Only present when first selecting a visualisation
    */
-  public setSelectedCogVisualisation(visualisation: VisualisationInterface, idx: number, preview: string, itemId?: string) {
+  public setSelectedCogVisualisation(visualisation: VisualisationInterface | null, idx: number, preview?: string, itemId?: string) {
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
     const contributorId = contributor.identifier;
     const previousVisualisation = this.selectedCogVisualisation.get(contributorId)?.visualisation;
-    const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize');
+    const visualizeAction = contributor.actionToTriggerOnClick.find(a => a.id === 'visualize') as Action;
 
     if (!visualisation) {
       this.selectedCogVisualisation.delete(contributorId);
@@ -273,7 +278,7 @@ export class CogService<L, S, M> {
       visualizeAction.filters = visualisation.dataGroups.map(dg => dg.filters);
     }
     this.listNotifier.refreshActions(itemId);
-    this.cogVisualisationChangeSource.next({visualisation, idx, preview});
+    this.cogVisualisationChangeSource.next(visualisation ? {visualisation, idx, preview} : undefined);
 
     if (!visualisation) {
       // If no visualisation, clean up the rasters
@@ -287,7 +292,7 @@ export class CogService<L, S, M> {
           const action: Action = {
             id: 'visualize', label: ''
           };
-          contributor.detailedDataRetriever.getMatch(item, visualizeAction.filters).pipe(take(1)).subscribe({
+          contributor.detailedDataRetriever.getMatch(item, visualizeAction.filters ?? []).pipe(take(1)).subscribe({
             next: values => {
               action.matched = values.matched;
               this.visualizeService.removeRasters(item);
@@ -312,9 +317,8 @@ export class CogService<L, S, M> {
   }
 
   public getCogFiltersFromConfig(config: any): ActionFilter[][] {
-    return config.visualisationsList
-      .map((v: VisualisationInterface) => v.dataGroups.map(dg => dg.filters))
-      .reduce((a, b) => a.concat(b), []);
+    return (config.visualisationsList as VisualisationInterface[])
+      .flatMap(v => v.dataGroups.map(dg => dg.filters));
   }
 
   public getCurrentVisualisation() {
@@ -336,25 +340,57 @@ export class CogService<L, S, M> {
     this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
 
     if (this.currentCogVisualisationConfig && this.firstCogSelection && !data.action.activated) {
-      this.openCogSelectionDialog(data)
-        .subscribe(cogStyle =>  {
-          if (!cogStyle) {
-            this.actionManager.removeAction(listContributor.identifier, data.elementidentifier.idValue, 'visualize');
-          }
+      const defaultConfigurationIdx = this.currentCogVisualisationConfig
+        .findIndex((visu, idx) => !!visu.default && data.action.matched?.[idx]);
 
-          this.firstCogSelection = !cogStyle;
-          const idx = this.currentCogVisualisationConfig.findIndex(vis => cogStyle.visualisation === vis);
-          this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview, data.elementidentifier.idValue);
+      // If there is a default visualisation that the item matches, launch the visualisation directly
+      if (defaultConfigurationIdx >= 0) {
+        this.firstCogSelection = false;
+        const visualisations = this.initializeCogVisualisationData();
 
-          if (cogStyle.visualisation) {
-            // Necessary to properly launch the visualisation
-            data.action.activated = false;
-            this.visualizeRaster(data, listContributor, fitBounds);
-          }
+        const conf = this.currentCogVisualisationConfig[defaultConfigurationIdx];
+        // Set the preview as undefined first
+        this.setSelectedCogVisualisation(conf, defaultConfigurationIdx, undefined, data.elementidentifier.idValue);
+        // Then compute async the preview for the selected default visualisation
+        this.fetchPreviews$(visualisations, data).subscribe(() => {
+          this.setSelectedCogVisualisation(conf, defaultConfigurationIdx,
+            this.getDefaultPreview(defaultConfigurationIdx), data.elementidentifier.idValue);
         });
+
+        // Necessary to properly launch the visualisation
+        data.action.activated = false;
+        this.visualizeRaster(data, listContributor, fitBounds);
+      } else {
+        // No default visualisation, so open the selection dialog
+        this.openCogSelectionDialog(data)
+          .subscribe(cogStyle =>  {
+            if (!cogStyle) {
+              this.actionManager.removeAction(listContributor.identifier, data.elementidentifier.idValue, 'visualize');
+            }
+
+            this.firstCogSelection = !cogStyle;
+            const idx = this.currentCogVisualisationConfig.indexOf(cogStyle.visualisation);
+            this.setSelectedCogVisualisation(cogStyle.visualisation, idx, cogStyle.preview, data.elementidentifier.idValue);
+
+            if (cogStyle.visualisation) {
+              // Necessary to properly launch the visualisation
+              data.action.activated = false;
+              this.visualizeRaster(data, listContributor, fitBounds);
+            }
+          });
+      }
     } else {
       this.visualizeRaster(data, listContributor, fitBounds);
     }
+  }
+
+  /**
+   * Creates a list of COG visualisations with no matches and default previews.
+   * This list is then filled when the info becomes available
+   */
+  private initializeCogVisualisationData(): CogVisualisationData[] {
+    return this.currentCogVisualisationConfig.map((v, idx) => (
+      { visualisation: v, match: 'none', preview: this.getDefaultPreview(idx)}));
   }
 
   /**
@@ -367,7 +403,6 @@ export class CogService<L, S, M> {
     listContributor: ResultListContributor, fitBounds = true) {
 
     if (this.contributorConfig) {
-
       if (!data.action.activated) {
         const urlVisualisationTemplate = this.getVisualisationUrl(data.action);
         // If there is no visualisation url, then no visualisation can be done
@@ -384,9 +419,11 @@ export class CogService<L, S, M> {
               collectionDescription.centroid_path, listContributor.collection, fitBounds);
 
             // Edit visualisationUrl to be the one used by the product
-            const dataGroup = {...this.getDataGroup(data.action)};
-            dataGroup.visualisationUrl = url;
-            this.visualisedCogs.set(data.elementidentifier.idValue, dataGroup);
+            const dataGroup = this.getDataGroup(data.action);
+            if (dataGroup) {
+              const updatedDataGroup: DataGroup = { ...dataGroup, visualisationUrl: url };
+              this.visualisedCogs.set(data.elementidentifier.idValue, updatedDataGroup);
+            }
           });
         this.actionManager.addAction(listContributor.identifier, data.elementidentifier.idValue, data.action);
       } else {
@@ -430,19 +467,19 @@ export class CogService<L, S, M> {
   private getDataGroup(action: Action) {
     const v = this.getCurrentVisualisation();
     if (!v?.visualisation?.dataGroups) {
-      return null;
+      return undefined;
     }
 
     // Find the start of the selected visualisation in the array of matches of the action
     // Only needed if there are more matches in the action than there are dataGroups.
     // It happens when this item is not the first one visualized
     let firstVisuElement = 0;
-    if (action.matched.length > v.visualisation.dataGroups.length) {
+    if (action.matched && action.matched.length > v.visualisation.dataGroups.length) {
       for (let i= 0; i < v.idx; i++) {
         firstVisuElement += this.currentCogVisualisationConfig[i].dataGroups.length;
       }
     }
     // The url is the one of the first dataGroup for which the item matched the condition
-    return v.visualisation.dataGroups.find((_, i) => action.matched[firstVisuElement + i]);
+    return v.visualisation.dataGroups.find((_, i) => action.matched?.[firstVisuElement + i]);
   }
 }
