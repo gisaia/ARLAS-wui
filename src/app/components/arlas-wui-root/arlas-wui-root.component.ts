@@ -338,7 +338,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   public clickOnTile(item: Item) {
     this.arlasListComponent.tabsList.realignInkBar();
     const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
-    config.defautMode = ModeEnum.grid;
+    config.defaultMode = ModeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultlistService.resultlistConfigPerContId.set(this.resultlistService.previewListContrib.identifier, config);

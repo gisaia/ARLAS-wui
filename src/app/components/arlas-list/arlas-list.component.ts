@@ -113,7 +113,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
 
   public changeListResultMode(mode: ModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);
-    config.defautMode = mode;
+    config.defaultMode = mode;
     this.resultlistService.resultlistConfigPerContId.set(identifier, config);
     setTimeout(() => {
       this.resultlistService.updateVisibleItems();
