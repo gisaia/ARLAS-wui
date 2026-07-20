@@ -29,6 +29,10 @@
 @use "styles/filter.scss" as *;
 @use "styles/material-override.scss" as *;
 @use "styles/analytics.scss" as *;
+@use '@angular/material' as mat;
+@use "styles/arlas-wui-theme.scss" as theme;
+
+@include mat.all-component-themes(theme.$app-theme);
 
 /* Material Icons */
 

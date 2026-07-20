@@ -1,15 +1,19 @@
-@mixin flicker() {
-    animation: flicker-animation 1s linear infinite;
+@use '@angular/material' as mat;
+@use "../arlas-wui-theme.scss" as theme;
+
+@mixin blink() {
+    animation: blink-animation 1s steps(2, jump-none) 3;
     animation-direction: alternate;
 }
 
-@mixin no-flicker() {
+@mixin no-blink() {
     animation: unset;
     animation-direction: alternate;
 }
 
-@keyframes flicker-animation {
+@keyframes blink-animation {
     to {
-        opacity: 0.3;
+        --mat-icon-color: white;
+        background-color: mat.get-theme-color(theme.$app-theme, primary, 500);
     }
 }

@@ -30,10 +30,10 @@
     background-color: white;
     box-sizing: border-box;
     display: flex;
-    @include animations.flicker();
+    @include animations.blink();
 
     &:hover {
-      @include animations.no-flicker();
+      @include animations.no-blink();
     }
 
     .icon {
