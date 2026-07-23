@@ -628,17 +628,15 @@ export class ResultlistService<L, S, M> {
   }
 
   private declareResultlistExportCsv() {
-    if (this.settingsService.isResultListExportEnabled()) {
-      this.resultlistContributors.forEach(c => {
-        const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
-        if (resultConfig) {
-          if (!resultConfig.globalActionsList) {
-            resultConfig.globalActionsList = [];
-          }
-          (resultConfig.globalActionsList as Array<Action>).push({ 'id': 'export_csv', 'label': marker('Export csv'), 'alwaysEnabled': true });
+    this.resultlistContributors.forEach(c => {
+      const resultConfig = this.resultlistConfigPerContId.get(c.identifier);
+      if (resultConfig?.isExportEnabled) {
+        if (!resultConfig.globalActionsList) {
+          resultConfig.globalActionsList = [];
         }
-      });
-    }
+        (resultConfig.globalActionsList as Array<Action>).push({ 'id': 'export_csv', 'label': marker('Export csv'), 'alwaysEnabled': true });
+      }
+    });
   }
 
   private declareGlobalRasterVisualisation() {
