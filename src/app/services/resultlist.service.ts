@@ -594,12 +594,12 @@ export class ResultlistService<L, S, M> {
         if (!!this.resultlistConfigPerContId.get(c.identifier).downloadLink && !listActionsId.has('download')) {
           c.addAction({
             id: 'download', label: marker('Download metadata'),
-            cssClass: '', tooltip: marker('Download description of the item')
+            cssClass: '', tooltip: marker('Download description of the item'), icon: 'cloud_download'
           });
         }
       }
       if (!!mapcontributor && !listActionsId.has('zoomToFeature')) {
-        c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to item') });
+        c.addAction({ id: 'zoomToFeature', label: marker('Zoom to'), cssClass: '', tooltip: marker('Zoom to item'), icon: 'zoom_in' });
       }
     });
 
