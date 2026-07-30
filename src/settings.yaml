@@ -34,6 +34,7 @@ authentication:
   # sign_up_enabled: ${ARLAS_AUTHENT_SIGN_UP_ENABLED}
 
 tab_name: "ARLAS Wui"
+dark_theme_enabled: true
 
 persistence:
   url: https://localhost/persist

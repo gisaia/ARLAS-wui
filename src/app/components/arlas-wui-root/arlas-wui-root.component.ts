@@ -20,9 +20,8 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, computed,
-  inject,
-  Input, linkedSignal,
+  Component,
+  Input,
   OnDestroy,
   OnInit,
   signal,
@@ -61,7 +60,6 @@ import { ConfigsListComponent } from '../configs-list/configs-list.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
 import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
 import { LoadingBarComponent } from '../loading-bar/loading-bar.component';
-import {ThemeService} from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -178,10 +176,6 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
-
-  private readonly themeService = inject(ThemeService);
-
-  public isDarkMode = computed(() => this.themeService.isDarkMode());
 
   public constructor(
     private readonly configService: ArlasConfigService,
@@ -538,9 +532,5 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
 
     this.showShortcuts.set(false);
     this.cdr.detectChanges();
-  }
-
-  protected toggleDarkMode() {
-    this.themeService.toggleThemeMode();
   }
 }
