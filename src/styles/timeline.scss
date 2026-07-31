@@ -35,12 +35,12 @@
     }
 
     .histogram__description--display {
-      color: var(--arlas-text-color, black);
+      color: var(--mat-sys-on-surface, black);
       padding-top: 5px;
     }
 
     .histogram__description__title {
-      color: var(--arlas-text-color, black);;
+      color: var(--mat-sys-on-surface, black);
     }
 
     .histogram__description__startvalue--background,

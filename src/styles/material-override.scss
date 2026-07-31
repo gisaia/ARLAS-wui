@@ -19,7 +19,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin materialOverride {
+
   .mat-mdc-text-field-wrapper {
     background-color: var(--mat-sys-surface-variant) !important;
     padding: 0 !important;
@@ -59,14 +59,8 @@
   .mat-mdc-dialog-container {
     max-height: 85vh !important;
   }
-}
 
 .arlas-cog-modal, .arlas-bbox-generator-dialog{
   --mat-dialog-container-color: var(--mat-sys-background);
 }
 
-@include materialOverride();
-
-.dark-theme{
-  @include materialOverride();
-}
