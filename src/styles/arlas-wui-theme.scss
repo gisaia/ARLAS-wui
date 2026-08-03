@@ -47,11 +47,10 @@ $app-theme: mat.m2-define-light-theme((
     density: 0
 ));
 
-// TODO: refine to avoid useless imports ?
-// -> only fab, badge, bottom sheet, sort, tree not used
 @include mat.all-component-themes($app-theme);
 @include mat.m2-theme($app-theme);
 @include mat.system-classes();
+
 // Dark theme
 $mat-dark-theme-background: (background: #303030);
 $dark-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette);
