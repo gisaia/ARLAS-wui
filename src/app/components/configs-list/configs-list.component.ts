@@ -85,9 +85,8 @@ export class ConfigsListComponent implements OnInit {
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (userSubject) => {
           if (userSubject) {
-            // TODO: should user be always defined
-            this.orgs = userSubject.user?.organisations?.map(org => {
-              org.displayName = org.name === userSubject.user?.id ? userSubject.user?.email?.split('@')[0] : org.name;
+            this.orgs = userSubject.user.organisations?.map(org => {
+              org.displayName = org.name === userSubject.user.id ? userSubject.user.email.split('@')[0] : org.name;
               return org;
             }) ?? [];
             this.currentOrg = this.arlasIamService.getOrganisation();
