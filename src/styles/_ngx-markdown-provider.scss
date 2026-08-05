@@ -16,33 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-@use "styles/app/sizes.scss" as sizes;
-:host {
-  --arlas-vis-legend-bg: var(--mat-sys-background);
-}
 
-.legend {
-    display: flex;
-    // Reversing as the newest raster is the topmost
-    flex-direction: column-reverse;
-    gap: sizes.$sm-spacing;
+@use 'sass:map';
+@use '@angular/material' as mat;
 
-    &__item {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: sizes.$sm-spacing;
+.dark-theme {
+    markdown {
+      color:  var(--mat-sys-on-background);
+      background: inherit;
+    }
 
-        arlas-cog-legend {
-            background-color: var(--arlas-vis-legend-bg, white);
-            border-radius: 4px;
+    markdown pre,
+    markdown code {
+      background: var(--mat-sys-background);
+      color: var(--mat-sys-on-background);
+    }
 
-            display: flex;
-            align-items: center;
-        }
+    markdown a {
+      color: #6ab0f3;
+    }
 
-        ::ng-deep.legend {
-            height: var(--arlas-map-actions-width);
-        }
+    markdown blockquote {
+      border-left-color: #555;
+      color: #aaa;
     }
 }

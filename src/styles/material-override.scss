@@ -16,43 +16,51 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@use 'sass:map';
+@use '@angular/material' as mat;
 
-// Avoid whitesmoke background of input
-.mat-mdc-text-field-wrapper {
-  background-color: white !important;
-  padding: 0 !important;
-}
-.mat-mdc-form-field-focus-overlay {
-  opacity: 0 !important;
+
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--mat-sys-surface-variant) !important;
+    padding: 0 !important;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    opacity: 0 !important;
+  }
+
+  // Override dialog title variables
+  .mdc-dialog__title {
+    --mat-dialog-subhead-size: 20px;
+    --mat-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --mat-dialog-subhead-weight: bold;
+    --mat-dialog-subhead-tracking: 0;
+    --mat-dialog-headline-padding: 0;
+  }
+
+  .mdc-dialog__content {
+    --mat-dialog-supporting-text-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --mat-dialog-supporting-text-tracking: 0;
+    // Avoid cropping _ and the bottom of letters in selects
+    --mat-dialog-supporting-text-line-height: 16px;
+    --mat-dialog-content-padding: 0;
+    --mat-dialog-with-actions-content-padding: 0;
+  }
+
+  .mdc-dialog__actions {
+    --mat-dialog-actions-padding: 0;
+  }
+
+  // Avoid overlap of collection count and divider
+  .mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
+    margin-left: 0 !important;
+  }
+
+  .mat-mdc-dialog-container {
+    max-height: 85vh !important;
+  }
+
+.arlas-cog-modal, .arlas-bbox-generator-dialog{
+  --mat-dialog-container-color: var(--mat-sys-background);
 }
 
-// Override dialog title variables
-.mdc-dialog__title {
-  --mat-dialog-subhead-size: 20px;
-  --mat-dialog-subhead-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --mat-dialog-subhead-weight: bold;
-  --mat-dialog-subhead-tracking: 0;
-  --mat-dialog-headline-padding: 0;
-}
-
-.mdc-dialog__content {
-  --mat-dialog-supporting-text-font: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --mat-dialog-supporting-text-tracking: 0;
-  // Avoid cropping _ and the bottom of letters in selects
-  --mat-dialog-supporting-text-line-height: 16px;
-  --mat-dialog-content-padding: 0;
-  --mat-dialog-with-actions-content-padding: 0;
-}
-
-.mdc-dialog__actions {
-  --mat-dialog-actions-padding: 0;
-}
-
-// Avoid overlap of collection count and divider
-.mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
-  margin-left: 0 !important;
-}
-
-.mat-mdc-dialog-container {
-  max-height: 85vh !important;
-}

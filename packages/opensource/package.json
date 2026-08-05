@@ -7,19 +7,19 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "arlas-maplibre": "29.0.0-rc.1"
+    "arlas-maplibre": "29.0.0-rc.5"
   },
   "peerDependencies": {
-    "@angular/animations": "^21.2.7",
-    "@angular/cdk": "^21.2.5",
-    "@angular/common": "^21.2.7",
-    "@angular/compiler": "^21.2.7",
-    "@angular/core": "^21.2.7",
-    "@angular/forms": "^21.2.7",
-    "@angular/material": "^21.2.5",
-    "@angular/platform-browser": "^21.2.7",
-    "@angular/platform-browser-dynamic": "^21.2.7",
-    "@angular/router": "^21.2.7",
+    "@angular/animations": "^21.2.19",
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.19",
+    "@angular/compiler": "^21.2.19",
+    "@angular/core": "^21.2.19",
+    "@angular/forms": "^21.2.19",
+    "@angular/material": "^21.2.14",
+    "@angular/platform-browser": "^21.2.19",
+    "@angular/platform-browser-dynamic": "^21.2.19",
+    "@angular/router": "^21.2.19",
     "rxjs": "^7.4.0",
     "zone.js": "^0.15.1"
   }

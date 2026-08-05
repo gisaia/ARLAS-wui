@@ -49,7 +49,8 @@ export class MockArlasConfigService {
             emitOnClick: new Set(),
             zoomOnClick: new Set()
           }
-        }
+        },
+        visualisations_sets: []
       };
     }
   }

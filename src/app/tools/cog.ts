@@ -26,7 +26,7 @@ export interface VisualisationPreview {
 }
 
 
-function getValueOrFirstArrayValue(data: Map<string, ItemDataType>, flattenedField: string) {
+function getValueOrFirstArrayValue(data: Record<string, ItemDataType>, flattenedField: string) {
   if (data[flattenedField] !== undefined) {
     return data[flattenedField];
   }
@@ -36,7 +36,7 @@ function getValueOrFirstArrayValue(data: Map<string, ItemDataType>, flattenedFie
 /**
  * Replace in a template url the fields by getting the corresponding value from a Hit
  */
-export function flattenedMatchAndReplace(data: Map<string, ItemDataType>, template: string) {
+export function flattenedMatchAndReplace(data: Record<string, ItemDataType>, template: string) {
   let replaced = template;
   // Regex is more secured by checking that we don't match if there are multiple '{' in a row
   template.match(/{([^{]+?)}/g)?.forEach(t => {
@@ -54,7 +54,11 @@ export function flattenedMatchAndReplace(data: Map<string, ItemDataType>, templa
  * Based in a visualisation url of a data group and on the data of the corresponding item,
  * generate the titiler preview url by replacing the fields that need replacing
  */
-export function getTitilerPreviewUrl(visualisationUrl: string, itemData: Map<string, ItemDataType>) {
+export function getTitilerPreviewUrl(visualisationUrl: string, itemData: Record<string, ItemDataType>) {
+  if (!visualisationUrl?.includes('/tiles/')) {
+    return '';
+  }
+
   const [baseUrl, path] = visualisationUrl.split('/tiles/', 2);
 
   // Keep all query parameters but buffer and padding

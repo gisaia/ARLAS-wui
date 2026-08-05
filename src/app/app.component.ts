@@ -112,8 +112,9 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (this.mapService.mapComponent) {
-        this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
+      const map = this.mapService.mapComponent?.map();
+      if (map) {
+        this.mapFrameworkService.fitMapBounds(map);
       }
 
       const collectionToDescription = new Map<string, CollectionReferenceParameters>();

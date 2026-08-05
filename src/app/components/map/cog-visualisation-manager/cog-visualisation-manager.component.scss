@@ -19,13 +19,15 @@
 
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
-
+:host {
+  --arlas-cog-vis-manager-bg: var(--mat-sys-background);
+}
 .manager__button {
   display: flex;
   align-items: center;
   height: var(--arlas-map-actions-width);
   cursor: pointer;
-  background-color: white;
+  background-color: var(--arlas-cog-vis-manager-bg, white);
   padding: 0;
   @include mixin.box-border();
 

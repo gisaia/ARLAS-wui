@@ -20,28 +20,32 @@
 @use "styles/app/mixin.scss" as mixin;
 @use "styles/app/animations.scss" as animations;
 
+:host {
+  --arlas-rasters-manager-bg: var(--mat-sys-background);
+}
+
 .wrapper {
-    cursor: pointer;
-    --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
-    --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
-    @include mixin.box-border();
-    box-shadow: none;
+  cursor: pointer;
+  --mat-icon-button-state-layer-size: var(--arlas-map-actions-width);
+  --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);
+  @include mixin.box-border();
+  box-shadow: none;
+  padding: 0;
+  background-color: var(--arlas-rasters-manager-bg, white);
+  box-sizing: border-box;
+  display: flex;
+  @include animations.blink();
+
+  &:hover {
+    @include animations.no-blink();
+  }
+
+  .icon {
+    height: var(--arlas-map-actions-width);
+    width: var(--arlas-map-actions-width);
     padding: 0;
-    background-color: white;
-    box-sizing: border-box;
     display: flex;
-    @include animations.blink();
-
-    &:hover {
-      @include animations.no-blink();
-    }
-
-    .icon {
-      height: var(--arlas-map-actions-width);
-      width: var(--arlas-map-actions-width);
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    align-items: center;
+    justify-content: center;
+  }
 }

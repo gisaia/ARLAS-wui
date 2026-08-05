@@ -21,6 +21,18 @@
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
 
+:host {
+  --arlas-map-bg: var(--mat-sys-background);
+  --arlas-map-fg: var(--mat-sys-on-background);
+  --arlas-map-setting-border-color: var(--mat-sys-surface-variant);
+}
+
+.dark-theme{
+  .arlas-map-settings-items:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
 .arlas-map__container {
   height: 100%;
 
@@ -61,13 +73,13 @@
       display: flex;
       flex-direction: column;
       @include mixin.box-border();
-      background-color: white;
+      background-color: var(--arlas-map-bg, white);
 
       .arlas-map-settings-items {
         height: var(--arlas-map-actions-width);
         width: var(--arlas-map-actions-width);
         border-radius: 0;
-        border-top: 1px solid #ddd;
+        border-top: 1px solid var(--arlas-map-setting-border-color, #ddd);
         padding: 0;
         display: flex;
         align-items: center;
@@ -133,15 +145,20 @@
     bottom: 0;
     display: flex;
     flex-direction: row-reverse;
-    background-color: white;
+    background-color: var(--arlas-map-bg, white);
     @include mixin.box-border();
 
     .arlas-map-action-items {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-right: sizes.$xs-border solid #ddd;
-      color: black;
+      border-right: sizes.$xs-border solid var(--arlas-map-bg, #ddd);
+      color: var(--arlas-map-fg, black);
+      fill: var(--arlas-map-fg, black);
+
+      &--stroke {
+        stroke: var(--arlas-map-fg, black);
+      }
 
       // For icon button
       --mat-icon-button-touch-target-size: var(--arlas-map-actions-width);

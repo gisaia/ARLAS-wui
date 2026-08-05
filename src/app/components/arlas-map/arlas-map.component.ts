@@ -30,11 +30,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   AoiEdition, ArlasDataLayer, ArlasLngLat, ArlasLngLatBounds, ArlasMapComponent, ArlasMapFrameworkService, BasemapStyle,
-  BboxGeneratorComponent, DrawTheme, GeoQuery, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
+  BboxGeneratorComponent, DrawTheme, GeoQuery, InteractedFeatures, MapImportComponent, MapSettingsComponent, OnMoveResult, SCROLLABLE_ARLAS_ID
 } from 'arlas-map';
 import { ARLAS_TIMESTAMP, LegendData, MapContributor } from 'arlas-web-contributors';
 import {
-  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService, ArlasMapService,
+  ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasIamService,
   ArlasMapSettings, ArlasSettingsService, ArlasStartupService, AuthentificationService, getParamValue, WidgetNotifierService
 } from 'arlas-wui-toolkit';
 import { audit, BehaviorSubject, debounceTime, filter, fromEvent, interval, merge, mergeMap, Observable, of, Subject } from 'rxjs';
@@ -149,7 +149,6 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public constructor(
     protected wuiMapService: ArlasWuiMapService<L, S, M>,
     private readonly mapFrameworkService: ArlasMapFrameworkService<L, S, M>,
-    private readonly toolkitMapService: ArlasMapService,
     protected visualizeService: VisualizeService<L, S, M>,
     private readonly configService: ArlasConfigService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -255,19 +254,19 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       }
 
       // eslint-disable-next-line max-len
-      this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
+      this.iconRegistry.addSvgIconLiteral('bbox', this.domSanitizer.bypassSecurityTrustHtml('<svg  height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'));
 
       // eslint-disable-next-line max-len
-      this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
+      this.iconRegistry.addSvgIconLiteral('draw_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   viewBox="0 0 20 20"   id="svg19167"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="square.svg">  <defs     id="defs19169" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="11.313708"     inkscape:cx="11.681634"     inkscape:cy="9.2857143"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     units="px"     inkscape:window-width="1280"     inkscape:window-height="751"     inkscape:window-x="0"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid19715" />  </sodipodi:namedview>  <metadata     id="metadata19172">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       inkscape:connector-curvature="0"       style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"       d="m 5,1039.3622 0,6 2,2 6,0 2,-2 0,-6 -2,-2 -6,0 z m 3,0 4,0 1,1 0,4 -1,1 -4,0 -1,-1 0,-4 z" id="rect7797" sodipodi:nodetypes="cccccccccccccccccc" /><circle style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4364" cx="6" cy="1046.3622" r="2" /><circle id="path4368" style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="14" cy="1046.3622" r="2" /><circle id="path4370" style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" cx="6" cy="1038.3622" r="2" /><circle style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;marker:none;enable-background:accumulate" id="path4372" cx="14" cy="1038.3622" r="2" /> </g></svg>'));
 
       // eslint-disable-next-line max-len
-      this.iconRegistry.addSvgIconLiteral('draw_circle', this.domSanitizer.bypassSecurityTrustHtml('<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="black" fill="transparent" stroke-width="3"/><circle r="2" cx="12" cy="12" fill="black" /></svg>'));
+      this.iconRegistry.addSvgIconLiteral('draw_circle', this.domSanitizer.bypassSecurityTrustHtml('<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="transparent" stroke-width="3"/><circle r="2" cx="12" cy="12"  /></svg>'));
 
       // eslint-disable-next-line max-len
-      this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
+      this.iconRegistry.addSvgIconLiteral('remove_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   width="20"   height="20"   id="svg5738"   version="1.1"   inkscape:version="0.91+devel+osxmenu r12911"   sodipodi:docname="trash.svg"   viewBox="0 0 20 20">  <defs     id="defs5740" />  <sodipodi:namedview     id="base"     pagecolor="#ffffff"     bordercolor="#666666"     borderopacity="1.0"     inkscape:pageopacity="0.0"     inkscape:pageshadow="2"     inkscape:zoom="22.627417"     inkscape:cx="12.128184"     inkscape:cy="8.8461307"     inkscape:document-units="px"     inkscape:current-layer="layer1"     showgrid="true"     inkscape:window-width="1033"     inkscape:window-height="751"     inkscape:window-x="20"     inkscape:window-y="23"     inkscape:window-maximized="0"     inkscape:snap-smooth-nodes="true"     inkscape:object-nodes="true">    <inkscape:grid       type="xygrid"       id="grid5746"       empspacing="5"       visible="true"       enabled="true"       snapvisiblegridlinesonly="true" />  </sodipodi:namedview>  <metadata     id="metadata5743">    <rdf:RDF>      <cc:Work         rdf:about="">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label="Layer 1"     inkscape:groupmode="layer"     id="layer1"     transform="translate(0,-1032.3622)">    <path       style="display:inline;overflow:visible;visibility:visible;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999982;marker:none;enable-background:accumulate" d="m 10,1035.7743 c -0.7849253,8e-4 -1.4968376,0.4606 -1.8203125,1.1758 l -3.1796875,0 -1,1 0,1 12,0 0,-1 -1,-1 -3.179688,0 c -0.323475,-0.7152 -1.035387,-1.175 -1.820312,-1.1758 z m -5,4.5879 0,7 c 0,1 1,2 2,2 l 6,0 c 1,0 2,-1 2,-2 l 0,-7 -2,0 0,5.5 -1.5,0 0,-5.5 -3,0 0,5.5 -1.5,0 0,-5.5 z"       id="rect2439-7"       inkscape:connector-curvature="0"       sodipodi:nodetypes="ccccccccccccccccccccccccc" />  </g></svg>'));
 
       // eslint-disable-next-line max-len
-      this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
+      this.iconRegistry.addSvgIconLiteral('import_polygon', this.domSanitizer.bypassSecurityTrustHtml('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1"><g id="surface1"><path style=" stroke:none;fill-rule:nonzero;fill-opacity:1;" d="M 9 16 L 15 16 L 15 10 L 19 10 L 12 3 L 5 10 L 9 10 Z M 5 18 L 19 18 L 19 20 L 5 20 Z M 5 18 "/></g></svg>'));
     }
 
     this.updateMapTransformRequest();
@@ -284,10 +283,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           debounceTime(this.mapExtentTimer))
         .subscribe(() => {
           /** Change map extent in the url */
-          const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
-          const queryParams = { ...this.activatedRoute.snapshot.queryParams };
-          queryParams[this.MAP_EXTENT_PARAM] = extend;
-          this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          const map = this.mapglComponent.map();
+          if (map) {
+            const extend = this.mapFrameworkService.getBoundsAsString(map);
+            const queryParams = { ...this.activatedRoute.snapshot.queryParams };
+            queryParams[this.MAP_EXTENT_PARAM] = extend;
+            this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
+          }
         });
     }
   }
@@ -321,8 +323,9 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       }
     };
 
-    if (this.mapglComponent?.map) {
-      this.mapFrameworkService.setTransformRequest(this.mapglComponent.map, this.transformMapRequest);
+    const map = this.mapglComponent?.map();
+    if (map) {
+      this.mapFrameworkService.setTransformRequest(map, this.transformMapRequest);
     }
   }
 
@@ -335,17 +338,22 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     if (isLoaded && !this.arlasStartupService.emptyMode) {
       this.mapLoaded = true;
       this.wuiMapService.setMapComponent(this.mapglComponent);
-      this.toolkitMapService.setMap(this.mapglComponent.map);
-      this.visualizeService.setMap(this.mapglComponent.map);
+      const map = this.mapglComponent.map();
+      if (!map) {
+        console.error('[ARLAS][MAP] Map not found but declared loaded');
+        return;
+      }
+
+      this.visualizeService.setMap(map);
       if (this.mapBounds && this.allowMapExtent) {
-        this.mapglComponent.map.fitBounds(this.mapBounds, { duration: 0 });
+        map.fitBounds(this.mapBounds, { duration: 0 });
         this.mapBounds = null;
       }
-      this.mapglComponent.map.on('movestart', (e) => {
-        this.zoomStart = this.mapglComponent.map.getZoom();
+      map.on('movestart', (e) => {
+        this.zoomStart = map.getZoom();
       });
-      this.mapglComponent.map.on('moveend', (e) => {
-        if (Math.abs(this.mapglComponent.map.getZoom() - this.zoomStart) > 1) {
+      map.on('moveend', (e) => {
+        if (Math.abs(map.getZoom() - this.zoomStart) > 1) {
           this.zoomChanged = true;
         }
         if (this.allowMapExtent) {
@@ -356,12 +364,12 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       this.wuiMapService.adjustCoordinates();
       for (const mapglContributor of this.wuiMapService.mapContributors) {
         mapglContributor.updateData = true;
-        mapglContributor.fetchData(null);
+        mapglContributor.fetchData(undefined);
         mapglContributor.setSelection(null, this.collaborativeService.getCollaboration(mapglContributor.identifier));
       }
 
       if (!!this.resultlistService.previewListContrib && this.resultlistService.previewListContrib.data.length > 0 &&
-          this.mapComponentConfig.mapLayers.events.onHover.some(l => this.mapFrameworkService.getLayer(this.mapglComponent.map, l))) {
+          this.mapComponentConfig.mapLayers.events.onHover.some(l => this.mapFrameworkService.getLayer(map, l))) {
         this.resultlistService.updateVisibleItems();
       }
 
@@ -389,7 +397,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   public downloadLayerSource(d) {
     const mc = this.wuiMapService.mapContributors.find(mc => mc.collection === d.collection);
     if (mc) {
-      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.displayFieldName);
+      mc.downloadLayerSource(d.sourceName, d.layerName, d.downloadType, this.collectionService.getDisplayFieldNameMap());
     }
   }
 
@@ -428,7 +436,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public reloadMapImages() {
-    this.visualizeService.setMap(this.mapglComponent.map);
+    const map = this.mapglComponent.map();
+    if (map) {
+      this.visualizeService.setMap(map);
+    }
   }
 
   public onAoiEdit(aoiEdit: AoiEdition) {
@@ -436,11 +447,16 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   }
 
   public onMove(event: OnMoveResult) {
+    const map = this.mapglComponent.map();
+    if (!map) {
+      return;
+    }
+
     // Update data only when the collections info are presents
     if (this.contributorService.collectionToDescription.size > 0) {
       /** Change map extent in the url */
-      const bounds = this.mapglComponent.map.getBounds();
-      const extend = this.mapFrameworkService.getBoundsAsString(this.mapglComponent.map);
+      const bounds = map.getBounds();
+      const extend = this.mapFrameworkService.getBoundsAsString(map);
       const queryParams = { ...this.activatedRoute.snapshot.queryParams };
       const visibileVisus = this.mapglComponent.visualisationSetsConfig.filter(v => v.enabled).map(v => v.name).join(';');
       queryParams[this.MAP_EXTENT_PARAM] = extend;
@@ -484,7 +500,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       event.extendForTest = newMapExtent;
       event.rawExtendForTest = newMapExtentRaw;
       for (const contrib of this.wuiMapService.mapContributors) {
-        contrib.onMove(event, this.recalculateExtent);
+        contrib.onMapMoved(event, this.recalculateExtent);
       }
       this.recalculateExtent = false;
     }
@@ -515,8 +531,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
-  public emitFeaturesOnHover(event) {
-    if (event.features) {
+  public emitFeaturesOnHover(event: InteractedFeatures | undefined) {
+    if (event?.features) {
       this.wuiMapService.setCursor('pointer');
       this.resultlistService.highlightItems(event.features);
     } else {
@@ -525,8 +541,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     }
   }
 
-  public emitFeaturesOnClick(event) {
-    if (event.features) {
+  public emitFeaturesOnClick(event: InteractedFeatures | undefined) {
+    if (event?.features) {
       const feature = event.features[0];
       const resultListContributor = this.resultlistService.resultlistContributors
         .find(c => feature.layer.metadata.collection === c.collection
@@ -581,15 +597,18 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.visualizeService.handleGeojsonPreview(event.geojson);
     if (event.geojson.type === 'Point') {
       const zoom = this.settingsService.getGeocodingSettings().find_place_zoom_to;
-      this.mapglComponent.map.fitBounds(bbox, { maxZoom: zoom });
+      this.mapglComponent.map()?.fitBounds(bbox, { maxZoom: zoom });
     } else {
-      this.mapglComponent.map.fitBounds(bbox);
+      this.mapglComponent.map()?.fitBounds(bbox);
     }
   }
 
   private adjustMapOffset() {
     this.recalculateExtent = true;
-    this.mapFrameworkService.fitMapBounds(this.mapglComponent.map);
+    const map = this.mapglComponent.map();
+    if (map) {
+      this.mapFrameworkService.fitMapBounds(map);
+    }
   }
 
   public listenVisualisationChange() {
@@ -605,8 +624,13 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
     this.mapComponentConfig.mapLayers.layers
       .filter((l: ArlasDataLayer) => l.source.startsWith('feature'))
       .forEach((l: ArlasDataLayer) => {
+        const map = this.mapglComponent.map();
+        if (!map) {
+          return;
+        }
+
         // Multiple layers will send their values that are stored by the CogService and consumed by the VisualisationLegendComponent
-        this.mapFrameworkService.onLayerEvent('mousemove', this.mapglComponent.map, l.id, (e) => {
+        this.mapFrameworkService.onLayerEvent('mousemove', map, l.id, (e) => {
           if (!this.cogService.contributorId) {
             return;
           }
@@ -621,7 +645,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
           // Notify the CogService of the visualized rasters that are hovered
           this.cogService.hoverCogs(l.id, hoveredIds, e.lngLat);
         });
-        this.mapFrameworkService.onLayerEvent('mouseleave', this.mapglComponent.map, l.id, (e) => {
+        this.mapFrameworkService.onLayerEvent('mouseleave', map, l.id, (e) => {
           // If the collection does not match the one of the vurrent viusalisation, skip the layer
           // Also skip if there is no current COG visualisation
           if (!this.cogService.contributorId
@@ -639,7 +663,7 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
   private initMapTimelineInteraction() {
     // The map is idle when no 'render' event has been sent, and 'idle' is sent
     let isIdle = false;
-    this.mapglComponent.map.onIdle(() => {
+    this.mapglComponent.map()?.onIdle(() => {
       isIdle = true;
     });
 

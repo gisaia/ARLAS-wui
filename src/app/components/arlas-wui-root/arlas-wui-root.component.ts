@@ -17,7 +17,16 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -332,7 +341,11 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     } else if (this.zoomToStrategy === ZoomToDataStrategy.GEOMETRY) {
       fieldPath = this.contributorService.collectionToDescription.get(collection).geometry_path;
     }
-    this.toolkitMapService.zoomToData(collection, fieldPath, this.arlasMapComponent.mapglComponent.map, 0.2);
+
+    const map = this.arlasMapComponent.mapglComponent.map();
+    if (map) {
+      this.toolkitMapService.zoomToData(collection, fieldPath, map, 0.2);
+    }
   }
 
   public clickOnTile(item: Item) {
@@ -465,7 +478,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
           this.timelineComponent.detailedTimelineHistogramComponent.resizeHistogram();
         }
       }
-      this.mapService.mapComponent?.map?.resize();
+      this.mapService.mapComponent?.map()?.resize();
       this.mapService.adjustCoordinates();
 
       this.resultlistService.updateVisibleItems();
