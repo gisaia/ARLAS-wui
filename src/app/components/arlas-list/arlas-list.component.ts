@@ -68,8 +68,8 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
    */
   @Input() public resultListGridColumns = 4;
 
-  @ViewChild('resultList', { static: false }) public resultListComponent: ResultListComponent;
-  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+  @ViewChild('resultList', { static: false }) public resultListComponent?: ResultListComponent;
+  @ViewChild('tabsList', { static: false }) public tabsList?: MatTabGroup;
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
@@ -89,11 +89,13 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   }
 
   public ngAfterViewInit(): void {
-    this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
+    this.tabsList?.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
-      this.cogService.updateCogVisualisation(
-        this.resultlistService.previewListContrib.identifier,
-        this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+      if (this.resultlistService.previewListContrib) {
+        this.cogService.updateCogVisualisation(
+          this.resultlistService.previewListContrib.identifier,
+          this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+      }
     });
   }
 
@@ -104,9 +106,10 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   }
 
   public onListLoaded(loaded: boolean) {
-    if (loaded) {
+    const comp = this.resultListComponent;
+    if (loaded && comp) {
       setTimeout(() => {
-        this.resultlistService.setListComponent(this.resultListComponent);
+        this.resultlistService.setListComponent(comp);
       }, 0);
     }
   }

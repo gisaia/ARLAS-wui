@@ -87,11 +87,14 @@ export class VisualisationLegendComponent {
         .forEach(id => {
           // Currently, we only generate a legend for the titler protocol
           const dataGroup = this.cogService.visualisedCogs.get(id);
+          if (!dataGroup) {
+            return;
+          }
 
           this.rasterHovered.set(id, {
             name: dataGroup.name
           });
-          if (dataGroup.protocol === 'titiler') {
+          if (dataGroup?.protocol === 'titiler') {
             // Transform visualisation url into a legend url
             const queryParams = dataGroup.visualisationUrl.split('?', 2)[1];
             if (queryParams) {

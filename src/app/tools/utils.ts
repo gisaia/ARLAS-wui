@@ -22,7 +22,7 @@ import { ElementIdentifier } from 'arlas-web-components';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
 
-export function isElementInViewport(el: HTMLElement) {
+export function isElementInViewport(el: HTMLElement | null) {
   if (el) {
     const rect = el.getBoundingClientRect();
     return (rect.top >= 0 &&

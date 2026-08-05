@@ -139,7 +139,8 @@ export class CogService<L, S, M> {
     });
 
     const searchResult$ = getItem$(data.elementidentifier,
-      this.collaborativeService.registry.get(this.contributorId).collection, this.collaborativeService);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.collaborativeService.registry.get(this.contributorId)!.collection, this.collaborativeService);
 
     // Fetches the detail of the item to replace the fields in the url
     return searchResult$.pipe(map(h => {
@@ -218,9 +219,10 @@ export class CogService<L, S, M> {
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
 
     v.visualisation.dataGroups[dgIdx].filters.forEach(f => {
+      filterExpression.f ??= [];
       filterExpression.f.push([{
         field: f.field,
-        op: Expression.OpEnum[f.op.toString()],
+        op: Expression.OpEnum[f.op.toString() as keyof typeof Expression.OpEnum],
         value: f.value
       }]);
     });
@@ -246,7 +248,7 @@ export class CogService<L, S, M> {
    */
   public resetCogVisualisation() {
     if (this.currentCogVisualisationConfig) {
-      this.setSelectedCogVisualisation(null, 0, '');
+      this.setSelectedCogVisualisation(undefined, 0, '');
     }
   }
 
@@ -258,7 +260,9 @@ export class CogService<L, S, M> {
    * @param preview Preview for the visualisation. Can be undefined if it has not yet been computed
    * @param itemId Id of the item that triggered the change of viusalisation. Only present when first selecting a visualisation
    */
-  public setSelectedCogVisualisation(visualisation: VisualisationInterface | null, idx: number, preview?: string, itemId?: string) {
+  public setSelectedCogVisualisation(
+    visualisation: VisualisationInterface | undefined, idx: number, preview: string | undefined, itemId?: string
+  ) {
     const contributor = this.collaborativeService.registry.get(this.contributorId) as ResultListContributor;
     const contributorId = contributor.identifier;
     const previousVisualisation = this.selectedCogVisualisation.get(contributorId)?.visualisation;
@@ -413,6 +417,10 @@ export class CogService<L, S, M> {
         }
 
         const collectionDescription = this.contributorsService.collectionToDescription.get(listContributor.collection);
+        if (!collectionDescription) {
+          return;
+        }
+
         this.visualizeService.getVisuInfo(data.elementidentifier, listContributor.collection, urlVisualisationTemplate)
           .subscribe(url => {
             this.visualizeService.displayDataOnMap(url, data.elementidentifier, collectionDescription.geometry_path,

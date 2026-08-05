@@ -49,13 +49,13 @@ import { ContributorService } from './contributors.service';
  */
 export class ResultlistService<L, S, M> {
   /** Resultlist configs */
-  public resultlistConfigs = [];
+  public resultlistConfigs = new Array<any>();
   public resultlistConfigPerContId = new Map<string, any>();
 
   /** Resultlist contributors */
   public resultlistContributors: Array<ResultListContributor> = new Array();
   public rightListContributors: Array<ResultListContributor> = new Array();
-  public previewListContrib: ResultListContributor = null;
+  public previewListContrib?: ResultListContributor;
 
   /** Resultlist state */
   public isGeoSortActivated = new Map<string, boolean>();
@@ -63,12 +63,12 @@ export class ResultlistService<L, S, M> {
   public selectedListTabIndex = 0;
   public listOpen = false;
   public listOpenChange = new Subject<boolean>();
-  private currentClickedFeatureId: string = undefined;
+  private currentClickedFeatureId?: string;
   public resultlistIsExporting = false;
   public selectedItems = new Array<ElementIdentifier>();
 
   /** Resullist component */
-  private listComponent: ResultListComponent;
+  private listComponent?: ResultListComponent;
 
   /**
    * Event emitted when an action is performed on the list
@@ -102,7 +102,7 @@ export class ResultlistService<L, S, M> {
 
       this.resultlistConfigs.forEach(rlConf => {
         rlConf.input.cellBackgroundStyle = rlConf.input.cellBackgroundStyle ?
-          CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle] : undefined;
+          CellBackgroundStyleEnum[rlConf.input.cellBackgroundStyle as keyof typeof CellBackgroundStyleEnum] : undefined;
         // To correct typo error at source.
         rlConf.input['defaultMode'] = rlConf.input?.defaultMode ?? rlConf.input?.defautMode;
         rlConf.input['hasGridView'] = rlConf.input?.hasGridMode ?? rlConf.input?.hasGridView;
@@ -118,7 +118,7 @@ export class ResultlistService<L, S, M> {
           return rlcontrib;
         });
 
-      const selectedResultlistTab = getParamValue('rt');
+      const selectedResultlistTab = getParamValue('rt') ?? '';
       const listIdx = this.rightListContributors.findIndex(r => r.getName() === decodeURI(selectedResultlistTab));
       if (listIdx >= 0) {
         this.selectList(listIdx);
@@ -203,7 +203,7 @@ export class ResultlistService<L, S, M> {
       if (this.isGeoSortActivated.get(c.identifier)) {
         c.geoSort(this.mapService.centerLatLng.lat, this.mapService.centerLatLng.lng, true);
       } else {
-        c.sortColumn(this.sortOutput.get(c.identifier), true);
+        c.sortColumn(this.sortOutput.get(c.identifier) as SortedColumn, true);
       }
     });
   }
@@ -235,7 +235,7 @@ export class ResultlistService<L, S, M> {
 
   public highlightItems(hoveredFeatures: any[]) {
     this.resultlistContributors.forEach(c => {
-      const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
+      const idFieldName = this.contributorService.collectionToDescription.get(c.collection)?.id_path as string;
       const highLightItems = hoveredFeatures
         .filter(f => f.layer.metadata.collection === c.collection)
         .map(f => f.properties[idFieldName.replaceAll('.', '_')])
@@ -255,11 +255,14 @@ export class ResultlistService<L, S, M> {
    * Update which elements from the list are visible on the map
    */
   public updateVisibleItems() {
-    if (this.previewListContrib && !!this.contributorService.collectionToDescription.get(this.previewListContrib.collection)) {
-      const idFieldName = this.contributorService.collectionToDescription.get(this.previewListContrib.collection).id_path;
-      const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
-        .filter(i => i !== undefined && isElementInViewport(document.getElementById(i.toString())));
-      this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
+    if (this.previewListContrib) {
+      const description = this.contributorService.collectionToDescription.get(this.previewListContrib.collection);
+      if (description) {
+        const idFieldName = description.id_path;
+        const visibleItems = this.previewListContrib.data.map(i => (i.get(idFieldName) as number | string))
+          .filter(i => i !== undefined && isElementInViewport(document.getElementById(i.toString())));
+        this.mapService.updateMapStyle(visibleItems, this.previewListContrib.collection);
+      }
     }
   }
 
@@ -269,16 +272,21 @@ export class ResultlistService<L, S, M> {
    */
   public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
     if (this.contributorService.collectionToDescription.size > 0) {
-      const idFieldName = this.contributorService.collectionToDescription.get(collection).id_path;
+      const idFieldName = this.contributorService.collectionToDescription.get(collection)?.id_path as string;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
-          .filter(id => id !== undefined && isElementInViewport(document.getElementById(id.toString())));
+          .filter(id => id !== undefined)
+          .filter(id => isElementInViewport(document.getElementById(id.toString())));
         this.mapService.updateMapStyle(visibleItems, collection);
       }, 200);
     }
   }
 
   public openDetail(id: string): BehaviorSubject<boolean> {
+    if (!this.previewListContrib) {
+      throw new Error('[ARLAS][LIST] No preview list is defined');
+    }
+
     const isOpen = new BehaviorSubject<boolean>(false);
     const listConfig = this.resultlistConfigPerContId.get(this.previewListContrib.identifier);
     const defaultMode = listConfig?.defaultMode;
@@ -308,7 +316,7 @@ export class ResultlistService<L, S, M> {
           const gridDivs = document.getElementsByClassName('resultgrid__img');
           if (gridDivs.length > 0) {
             const imgDiv = gridDivs[0].parentElement;
-            if (globalThis.getComputedStyle(imgDiv).display === 'block') {
+            if (imgDiv && globalThis.getComputedStyle(imgDiv).display === 'block') {
               setTimeout(() => {
                 const detailGridButton = document.getElementById('show_details_gridmode_btn');
                 if (detailGridButton) {
@@ -328,14 +336,18 @@ export class ResultlistService<L, S, M> {
           }, 250);
         }
       }
-
-      return isOpen;
     }
+
+    return isOpen;
   }
 
   public toggleGeosort(isGeosort: boolean, resultListContributor: ResultListContributor): void {
     this.isGeoSortActivated.set(resultListContributor.identifier, isGeosort);
     const mapContributor = this.mapService.getContributorByCollection(resultListContributor.collection);
+    if (!mapContributor) {
+      return;
+    }
+
     if (isGeosort) {
       /** Apply geosort in list */
       const lat = this.mapService.centerLatLng.lat;
@@ -378,7 +390,7 @@ export class ResultlistService<L, S, M> {
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
         const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
-        if (idPath) {
+        if (idPath && mapContributor) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
         }
@@ -403,7 +415,7 @@ export class ResultlistService<L, S, M> {
         } else if (event.data.id === 'visualize') {
           this.selectedItems.forEach(e => {
             // For each element, check if the necessary fields for the visualisation are present
-            this.listComponent.detailedDataRetriever().getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
+            this.listComponent?.detailedDataRetriever().getValues(e.idValue, event.data.fields).pipe(take(1)).subscribe({
               next: (values: string[]) => {
                 // If no field is missing, visualize the raster
                 if (values.filter(v => !v).length === 0) {
@@ -436,7 +448,7 @@ export class ResultlistService<L, S, M> {
   }
 
   public actionOnItemEvent(data: { action: Action; elementidentifier: ElementIdentifier; },
-    mapContributor: MapContributor, listContributor: ResultListContributor, collection: string) {
+    mapContributor: MapContributor | undefined, listContributor: ResultListContributor, collection: string) {
 
     switch (data.action.id) {
       case 'zoomToFeature':
@@ -454,7 +466,7 @@ export class ResultlistService<L, S, M> {
           if (urlDownloadTemplate) {
             this.visualizeService.getVisuInfo(data.elementidentifier, collection, urlDownloadTemplate).subscribe(url => {
               const win = window.open(url, '_blank');
-              win.focus();
+              win?.focus();
             });
           }
         }
@@ -477,7 +489,7 @@ export class ResultlistService<L, S, M> {
   }
 
   public unsetListComponent() {
-    this.listComponent = null;
+    this.listComponent = undefined;
   }
 
   public waitForList(callback: () => any) {
@@ -490,12 +502,12 @@ export class ResultlistService<L, S, M> {
   }
 
   private process<T>(processName: string, ids: string[], collection: string, component: ComponentType<T>, additionalData?: any) {
-    const maxItems = this.settingsService.getProcessSettings(processName).max_items;
-    if (ids.length <= maxItems) {
+    const maxItems = this.settingsService.getProcessSettings(processName)?.max_items;
+    if (maxItems && ids.length <= maxItems) {
       this.processService.load(processName).subscribe({
         next: () => {
           this.processService.getItemsDetail(
-            this.contributorService.collectionToDescription.get(collection).id_path,
+            this.contributorService.collectionToDescription.get(collection)?.id_path as string,
             ids,
             collection
           ).subscribe({
@@ -528,7 +540,7 @@ export class ResultlistService<L, S, M> {
 
   private aiasDownload(ids: string[], collection: string) {
     this.process(DOWNLOAD_PROCESS_NAME, ids, collection, AiasDownloadComponent,
-      { wktAoi: this.mapService.mapComponent.getAllPolygon('wkt') });
+      { wktAoi: this.mapService.mapComponent?.getAllPolygon('wkt') });
   }
 
   private aiasEnrich(ids: string[], collection: string) {
@@ -646,7 +658,7 @@ export class ResultlistService<L, S, M> {
         if (!resultConfig.globalActionsList) {
           resultConfig.globalActionsList = [];
         }
-        const reverseAction = c.actionToTriggerOnClick.find(a => a.id === 'visualize').reverseAction;
+        const reverseAction = c.actionToTriggerOnClick.find(a => a.id === 'visualize')?.reverseAction;
         (resultConfig.globalActionsList as Array<Action>).push({
           id: 'visualize', label: marker('Visualize products'),
           fields: this.visualizeService.getVisuFields(resultConfig.visualisationLink), reverseAction

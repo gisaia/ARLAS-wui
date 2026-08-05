@@ -8,13 +8,13 @@
         {{'Area' | translate}}
       </div>
 
-      @if (aoiEdition?.area === 0) {
+      @if (aoiEdition().area === 0) {
         <div class="message">
-          {{ aoiEdition?.areaMessage | translate}}
+          {{ aoiEdition().areaMessage | translate}}
         </div>
-      } @else if (aoiEdition?.area > 0) {
+      } @else if (aoiEdition().area > 0) {
         <div class="dimension">
-          {{ aoiEdition?.area | squareKm | formatNumber}}  km²
+          {{ aoiEdition().area | squareKm | formatNumber}}  km²
         </div>
       }
     </div>
@@ -24,7 +24,7 @@
         <span class="envelope">({{'envelope' | translate}})</span>
       </div>
       <div class="dimension">
-        <span>{{ aoiEdition?.envelope?.width | roundKm | formatNumber}} km</span>
+        <span>{{ aoiEdition().envelope.width | roundKm | formatNumber}} km</span>
       </div>
     </div>
     <div class="line">
@@ -33,7 +33,7 @@
         <span class="envelope">({{'envelope' | translate}})</span>
       </div>
       <div class="dimension">
-        <span>{{ aoiEdition?.envelope?.height | roundKm | formatNumber}} km</span>
+        <span>{{ aoiEdition().envelope.height | roundKm | formatNumber}} km</span>
       </div>
     </div>
   </div>

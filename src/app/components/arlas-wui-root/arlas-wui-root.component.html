@@ -13,9 +13,10 @@
   </div>
 
   <div right-menu class="right-menu-container" id="title">
-    @if (arlasMapComponent?.geojsondraw?.features.length > 0 && orderFormService.config?.enabled) {
+    @let drawFeatures = arlasMapComponent?.geojsondraw?.features;
+    @if (drawFeatures && drawFeatures.length > 0 && orderFormService.config?.enabled) {
       <button matButton="outlined" (click)="openOrderForm()" class="order-form__button">
-        {{ orderFormService.config.text.button | translate }}
+        {{ orderFormService.config?.text?.button | translate }}
       </button>
     }
     <arlas-permissions-creator></arlas-permissions-creator>
@@ -30,7 +31,7 @@
         </button>
       }
       <!-- Wait for map to be loaded to make bookmarks available -->
-      @if (mapService.mapComponent) {
+      @if (mapService.mapComponent && bookmarkMenu.matMenu) {
         <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">
           <mat-icon>bookmark</mat-icon>
         </button>
@@ -146,9 +147,9 @@
                       [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
                       [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                       [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
-                      [activatedActionsPerItem]="resultlistService.previewListContrib.identifier | getValue:actionManager.activeActionsPerContId"
+                      [activatedActionsPerItem]="actionManager.activeActionsPerContId.get(resultlistService.previewListContrib.identifier)!"
                       [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
-                      [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
+                      [isGeoSortActivated]="!!(resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated)"
                       (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
                       (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
                       (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"

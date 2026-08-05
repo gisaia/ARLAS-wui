@@ -34,15 +34,15 @@ export interface FeatureHover {
  *  M: a Map configuration class/interface.
  */
 export class ArlasWuiMapService<L, S, M> {
-  public mapComponent: ArlasMapComponent<L, S, M>;
+  public mapComponent?: ArlasMapComponent<L, S, M>;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
 
   public featuresToSelect: Array<ElementIdentifier> = [];
 
-  public coordinatesHaveSpace: boolean;
-  public timeLineIsOpen: boolean;
+  public coordinatesHaveSpace = true;
+  public timeLineIsOpen = true;
 
   public constructor(
     private readonly mapService: ArlasMapFrameworkService<L, S, M>,
@@ -64,7 +64,7 @@ export class ArlasWuiMapService<L, S, M> {
           }
           return {
             idFieldName: idFieldName,
-            idValue: id
+            idValue: id.toString()
           };
         });
         this.mapComponent.selectFeaturesByCollection(this.featuresToSelect, mapContributor.collection);
@@ -104,7 +104,7 @@ export class ArlasWuiMapService<L, S, M> {
     }
   }
 
-  public setMapConfig(mapComponentConfig) {
+  public setMapConfig(mapComponentConfig: any) {
     this.mapComponentConfig = mapComponentConfig;
   }
 
@@ -125,15 +125,13 @@ export class ArlasWuiMapService<L, S, M> {
 
   public clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
-      .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
-      .map(ls => ls.source)
-      .forEach(source => contributor.clearData(source));
+      .filter((ls: any) => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
+      .map((ls: any) => ls.source)
+      .forEach((source: string) => contributor.clearData(source));
   }
 
 
-  public adjustOpacityByRange(sourceIdPrefix: string, field: string,
-    start: number, end: number, insideOpacity: number, outsideOpacity: number
-  ): void {
+  public adjustOpacityByRange(sourceIdPrefix: string, field: string, start: number, end: number, insideOpacity: number, outsideOpacity: number) {
     const map = this.mapComponent?.map();
     if (map) {
       this.mapLogicService.adjustOpacityByRange(map, sourceIdPrefix, field, start, end, insideOpacity, outsideOpacity);
@@ -157,7 +155,7 @@ export class ArlasWuiMapService<L, S, M> {
   public updateMapStyle(ids: Array<string | number>, collection: string) {
     const map = this.mapComponent?.map();
     if (map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
-      this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
+      this.mapComponentConfig.mapLayers.events.onHover.forEach((l: string) => {
         this.mapLogicService.updateMapStyle(map, l, ids, collection);
       });
     }
@@ -186,7 +184,7 @@ export class ArlasWuiMapService<L, S, M> {
     }
   }
 
-  public getContributorByCollection(collection: string): MapContributor {
+  public getContributorByCollection(collection: string): MapContributor | undefined {
     let mapContributor;
     if (this.mapContributors) {
       mapContributor = this.mapContributors.find(mc => mc.collection === collection);
@@ -194,8 +192,8 @@ export class ArlasWuiMapService<L, S, M> {
     return mapContributor;
   }
 
-  public getContributorById(identifier: string): MapContributor {
-    let mapContributor: MapContributor;
+  public getContributorById(identifier: string): MapContributor | undefined {
+    let mapContributor;
     if (this.mapContributors) {
       mapContributor = this.mapContributors.find(mc => mc.identifier === identifier);
     }

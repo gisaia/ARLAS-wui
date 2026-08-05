@@ -88,13 +88,13 @@ export class OrderFormComponent {
       .subscribe({
         next: (value) => {
           this.statusResult.status = ProcessStatus.successful;
-          this.statusResult.message = this.getMessage(value, this.orderFormService.config.response.ok);
+          this.statusResult.message = this.getMessage(value, this.orderFormService.config?.response.ok);
         },
         error: (err) => {
           console.error(err);
           this.hasError.set(true);
           this.statusResult.status = ProcessStatus.failed;
-          this.statusResult.message = this.getMessage(err, this.orderFormService.config.response.error);
+          this.statusResult.message = this.getMessage(err, this.orderFormService.config?.response.error);
         }
       });
   }
@@ -103,7 +103,11 @@ export class OrderFormComponent {
     this.dialogRef.close();
   }
 
-  private getMessage(conf: Object, key: string) {
+  private getMessage(conf: Record<string, any>, key: string | undefined) {
+    if (key === undefined) {
+      return null;
+    }
+
     if (key.includes('.')) {
       return getObject(conf, 'conf.' + key);
     }
