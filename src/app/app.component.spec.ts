@@ -26,7 +26,9 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 import {
-    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService, ArlasStartupService
+    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasSettingsService, ArlasStartupService,
+    ArlasTaskService,
+    GET_OPTIONS
 } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -44,7 +46,7 @@ describe('ArlasWuiComponent', () => {
     beforeEach(async () => {
         const mockSettingsService = {
             getHistogramMaxBucket: vi.fn().mockName('ArlasSettingsService.getHistogramMaxBucket'),
-            getProcessSettings: vi.fn(() => {}).mockName('ArlasSettingsService.getProcessSettings')
+            getProcessSettings: vi.fn(() => { }).mockName('ArlasSettingsService.getProcessSettings')
         };
 
         const mockContributorService = {
@@ -99,11 +101,16 @@ describe('ArlasWuiComponent', () => {
                     provide: ColorGeneratorLoader,
                     useValue: mockColorGeneratorLoader
                 },
+                {
+                    provide: GET_OPTIONS,
+                    useValue: () => { }
+                },
                 ArlasCollectionService,
                 {
                     provide: ArlasConfigService,
                     useClass: MockArlasConfigService
-                }
+                },
+                ArlasTaskService
             ]
         }).compileComponents();
     });

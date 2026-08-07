@@ -24,7 +24,10 @@ import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
-import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
+import {
+  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasStartupService, ArlasTaskService, ErrorService, TaskSettings
+} from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
@@ -69,6 +72,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
+  private readonly taskService = inject(ArlasTaskService);
   public constructor(
     private readonly arlasStartupService: ArlasStartupService,
     private readonly configService: ArlasConfigService,
@@ -168,6 +172,13 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
       }
     }
     this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
+
+    /** Setup AIAS tasks display */
+    const taskSettings = this.configService.getValue('arlas.web.externalNode.tasks') as TaskSettings | undefined;
+    if (taskSettings?.enabled) {
+      taskSettings.enabled = !!taskSettings.url && taskSettings.collections && taskSettings.collections.length > 0;
+      this.taskService.setSettings(taskSettings);
+    }
   }
 
   private initializeMap() {

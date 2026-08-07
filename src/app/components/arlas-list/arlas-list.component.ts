@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Action, ElementIdentifier, GetValuePipe, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
+import { ArlasTaskService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';
 import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
 import { ActionManagerService } from '../../services/action-manager.service';
@@ -74,10 +75,11 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
+  protected readonly taskService = inject(ArlasTaskService);
   public constructor(
-    protected resultlistService: ResultlistService<L, S, M>,
+    protected readonly resultlistService: ResultlistService<L, S, M>,
     private readonly cogService: CogService<L, S, M>,
-    protected actionManager: ActionManagerService
+    protected readonly actionManager: ActionManagerService
   ) { }
 
   public ngOnInit(): void {
