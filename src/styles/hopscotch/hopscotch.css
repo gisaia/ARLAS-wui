@@ -55,6 +55,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+.dark-theme {
+  div.hopscotch-bubble h3, .hopscotch-content {
+    color: var(--mat-sys-on-surface)
+  }
+
+  .hopscotch-bubble-container {
+    background: var(--mat-sys-surface)
+  }
+
+
+  div.hopscotch-bubble .hopscotch-bubble-arrow-container.up .hopscotch-bubble-arrow {
+    border-bottom: 19px solid  var(--mat-sys-surface);
+  }
+
+  div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-arrow {
+    border-top: 19px solid  var(--mat-sys-surface);
+  }
+
+  div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-arrow {
+    border-right: 19px solid  var(--mat-sys-surface);
+  }
+
+  div.hopscotch-bubble .hopscotch-bubble-arrow-container.right .hopscotch-bubble-arrow {
+    border-left: 17px solid var(--mat-sys-surface);
+  }
+
+  .hopscotch-prev{
+    --mat-button-outlined-label-text-color: black;
+  }
+}
+
  .animated {
   -webkit-animation-fill-mode: both;
   -moz-animation-fill-mode: both;

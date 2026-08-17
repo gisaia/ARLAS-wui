@@ -20,7 +20,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "styles/timeline.scss" as *;
 @use "styles/powerbars.css" as *;
-@use "styles/histogram.css" as *;
+@use "styles/histogram" as *;
 @use "styles/hopscotch/hopscotch.css" as *;
 @use "styles/swimlane.css" as *;
 @use "styles/donut.css" as *;
@@ -46,6 +46,10 @@
   font-style: normal;
   font-weight: 400;
   src: url("./assets/fonts/material-symbols-outlined.woff2") format("woff2")
+}
+
+body.dark-theme {
+  background: var(--mat-sys-surface);
 }
 
 body {

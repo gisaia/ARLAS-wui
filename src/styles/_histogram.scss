@@ -17,6 +17,48 @@
  * under the License.
  */
 
+.dark-theme{
+  .arlas-histogram-analytics .tick text, .histogram__labels {
+    fill: white!important;
+  }
+  .histogram {
+    --arlas-histogram-bar-fill: #616b79;
+  }
+
+  .arlas-histogram-analytics .histogram__chart--bar__currentselection{
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-histogram-analytics .histogram__chart--bar__partlyselected
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-histogram-analytics .histogram__chart--bar__fullyselected
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-histogram-analytics .histogram__chart--bar
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+
+  /** TIMELINE BARS**/
+  .arlas-timeline-analytics .histogram__chart--bar__currentselection{
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-timeline-analytics .histogram__chart--bar__partlyselected
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-timeline-analytics .histogram__chart--bar__fullyselected
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+  .arlas-timeline-analytics .histogram__chart--bar
+  {
+    fill: var(--arlas-histogram-bar-fill) !important;
+  }
+}
+
 .arlas-histogram-analytics .histogram__description {
   display: none;
 }

@@ -21,6 +21,23 @@
 @use "app/sizes.scss" as sizes;
 @use "app/mixin.scss" as mixin;
 
+.dark-theme{
+  .histogram {
+    --arlas-histogram-bar-fill: #616b79!important;
+  }
+
+  /** TIMELINE BARS**/
+
+  .arlas-timeline--container .arlas-timeline {
+    .histogram__chart--bar__currentselection,
+    .histogram__chart--bar__partlyselected,
+    .histogram__chart--bar__fullyselected,
+    .histogram__chart--bar {
+      fill: var(--arlas-histogram-bar-fill) !important;
+    }
+  }
+}
+
 .arlas-timeline--container {
   position: absolute;
   bottom: 0;
