@@ -21,7 +21,7 @@
 @use '@angular/material' as mat;
 
   .mapboxgl-ctrl-group, .maplibregl-ctrl-group {
-    background: var(--mat-sys-background) !important;
+    background: var(--mat-sys-surface) !important;
   }
 
   .dark-theme {
@@ -34,7 +34,7 @@
     }
 
     .maplibregl-ctrl.maplibregl-ctrl-attrib, .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
-      background-color: var(--mat-sys-background);
+      background-color: var(--mat-sys-surface);
       opacity: 0.5;
     }
 

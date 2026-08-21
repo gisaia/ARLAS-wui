@@ -23,8 +23,6 @@
 
 :host {
   --arlas-wui-bg: white;
-  --arlas-toggle-bg: var(--mat-sys-background);
-  --arlas-wui-fg: var(--mat-sys-on-background);
   --arlas-wui-scrollbar-thumb: #{rgba(var(--mat-sys-on-background), 0.3)};
 }
 
@@ -470,7 +468,7 @@
 }
 
 .theme-mode{
-  --mat-icon-color: var(--arlas-wui-fg, #666);
+  --mat-icon-color: var(--mat-sys-on-background);
 }
 
 .right-menu-container {
@@ -486,7 +484,7 @@
     margin: 0 5px;
   }
 
-  --mat-icon-color: var(--arlas-wui-fg, #666);
+  --mat-icon-color: var(--mat-sys-on-background);
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
     --mat-icon-button-state-layer-size: 34px;
     padding: 5px;
