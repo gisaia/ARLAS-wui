@@ -37,7 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GetValuePipe, Item, ModeEnum, ResultListComponent } from 'arlas-web-components';
+import { GetValuePipe, Item, ResultListComponent, ResultlistModeEnum } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
   AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasMapService, ArlasMapSettings, ArlasSettingsService,
@@ -173,6 +173,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   /** Download & Share */
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
+
+  public readonly ResultlistModeEnum = ResultlistModeEnum;
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
@@ -355,7 +357,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     }
 
     const config = this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier);
-    config.defaultMode = ModeEnum.grid;
+    config.defaultMode = ResultlistModeEnum.grid;
     config.selectedGridItem = item;
     config.isDetailledGridOpen = true;
     this.resultlistService.resultlistConfigPerContId.set(this.resultlistService.previewListContrib.identifier, config);

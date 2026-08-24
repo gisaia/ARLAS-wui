@@ -72,22 +72,34 @@ If one of the mandatory field is not set, then `order_form.enabled` is set to fa
 
 ### Task status
 
+Multiple Task retrievals can be configured. For each one of them, here are the available options:
+
 | Path in external node    | Default | Description                                                                     |
 |--------------------------|---------|---------------------------------------------------------------------------------|
 | tasks.enabled            | false   | Enables the task retrieval                                                      |
+| tasks.service            |         | Name of the service to display in the item's details                            |
 | tasks.url                |         | URL of the `APROC` service                                                      |
 | tasks.collections        |         | Collections for which the task retrieval is allowed                             |
 | tasks.ignoredProcess     | []      | Processes to hide to the user. The list of available processes can be found [here](../../aias/aproc/aproc_doc/) |
 | tasks.taskRetrievalTimer | 5000    | If one task is not in a final state, interval in ms before refreshing the tasks |
+| tasks.processIcons       | {}      | Map to customize the icon used to represent a processId. The list of possible icons can be found [here](https://fonts.google.com/icons) |
+
+If one of the mandatory field is not set, then `tasks.enabled` is set to false.
 
 #### Example
 
 ```json
 {
-    "tasks": {
-        "enabled": true,
-        "url": "https://localhost/aproc",
-        "collections": ["main"]
-    }
+    "tasks": [
+        {
+            "enabled": true,
+            "service": "AIAS APROC Service",
+            "url": "https://localhost/aproc",
+            "collections": ["main"],
+            "processIcons": {
+                "order": "satellite_alt"
+            }
+        }
+    ]
 }
 ```

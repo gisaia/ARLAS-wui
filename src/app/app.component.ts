@@ -21,12 +21,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, TaskSettings } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
 import {
   AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService,
-  ArlasStartupService, ArlasTaskService, ErrorService, TaskSettings
+  ArlasStartupService, ArlasTaskService, ErrorService
 } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { Subject, takeUntil, zip } from 'rxjs';
@@ -174,10 +174,14 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
 
     /** Setup AIAS tasks display */
-    const taskSettings = this.configService.getValue('arlas.web.externalNode.tasks') as TaskSettings | undefined;
-    if (taskSettings?.enabled) {
-      taskSettings.enabled = !!taskSettings.url && taskSettings.collections && taskSettings.collections.length > 0;
-      this.taskService.setSettings(taskSettings);
+    const tasks = this.configService.getValue('arlas.web.externalNode.tasks') as TaskSettings[] | undefined;
+    if (tasks && Array.isArray(tasks)) {
+      for (const taskSettings of tasks) {
+        if (taskSettings.enabled) {
+          taskSettings.enabled = !!taskSettings.url && !!taskSettings.service && taskSettings.collections && taskSettings.collections.length > 0;
+          this.taskService.addService(taskSettings);
+        }
+      }
     }
   }
 

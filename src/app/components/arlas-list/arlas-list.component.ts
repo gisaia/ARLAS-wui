@@ -23,7 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Action, ElementIdentifier, GetValuePipe, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
+import { Action, ElementIdentifier, GetValuePipe, Item, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { ArlasTaskService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';
@@ -116,7 +116,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     }
   }
 
-  public changeListResultMode(mode: ModeEnum, identifier: string) {
+  public changeListResultMode(mode: ResultlistModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);
     config.defaultMode = mode;
     this.resultlistService.resultlistConfigPerContId.set(identifier, config);
