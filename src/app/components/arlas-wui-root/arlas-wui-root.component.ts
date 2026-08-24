@@ -158,7 +158,7 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
    * @description Whether to exceptionally display the shortcuts for size computing
    */
   public showShortcuts = signal(false);
-  public showMoreShortcutsWidth = 0;
+  public showMoreShortcutsWidth: number | undefined;
 
   /** Collection counts */
   /**
@@ -509,22 +509,26 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
     // The shortcuts are spaced on the left from the menu, and must not overflow on the legend on the right,
     // with a minimum spacing equal to the one on the left.
     const previewListOpen = !!this.resultlistService.previewListContrib && !this.resultlistService.listOpen
-      && this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier)?.hasGridMode;
+      && !!this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier)?.hasGridMode;
+    const previewListWidth = previewListOpen ? this.previewListWidth : 0;
     const mapActionsAndLegendWidth = 270;
     const leftMenuWidth = 48;
-    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title')?.getBoundingClientRect().width ?? 0;
+    this.showMoreShortcutsWidth = document.getElementById('extra-shortcuts-title')?.getBoundingClientRect().width;
+
     const threshold = window.innerWidth - leftMenuWidth
-      - (this.resultlistService.listOpen ? this.listWidth : previewListOpen ? this.previewListWidth : 0)
-      - this.spacing - this.showMoreShortcutsWidth - this.spacing - mapActionsAndLegendWidth;
+      - (this.resultlistService.listOpen ? this.listWidth : previewListWidth)
+      - this.spacing - mapActionsAndLegendWidth;
 
     const widths = this.shortcuts.map((_, idx) => document.getElementById(`shortcut-${idx}`)?.getBoundingClientRect().width ?? 0);
     let cumulativeWidth = 0;
     let breakOffIndex = 0;
 
     // Find the index of the first shortcut that does not fit
-    for (const width of widths) {
-      cumulativeWidth += width;
-      if (cumulativeWidth > threshold) {
+    for (let i = 0; i < widths.length; i++) {
+      cumulativeWidth += widths[i];
+      // If it overflows, then cut off
+      // If it is not the last one and it overflows with the 'Show more', then cut off
+      if (cumulativeWidth > threshold || (i !== widths.length - 1 && cumulativeWidth + (this.showMoreShortcutsWidth ?? 0) > threshold)) {
         break;
       }
       breakOffIndex++;
