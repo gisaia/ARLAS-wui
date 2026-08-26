@@ -10,8 +10,29 @@
       "schema": {
         "type": "string",
         "enum": [
-          "Geotiff",
-          "JPEG2000"
+          {
+            "label": "native",
+            "value": "native"
+          },
+          {
+            "label": "Jpeg2000",
+            "value": "Jpeg2000"
+          },
+          {
+            "label": "Geotiff",
+            "value": "Geotiff"
+          },
+          {
+            "label": "ZARR",
+            "value": "ZARR",
+            "if": [
+              {
+                "field": "properties.item_format",
+                "op": "eq",
+                "value": "SAFE"
+              }
+            ]
+          }
         ],
         "required": true
       }
@@ -25,21 +46,23 @@
           {
             "label": "WGS 84",
             "value": "epsg:4326",
-            "bbox": [
-              -180.0,
-              -90.0,
-              180.0,
-              90.0
+            "if": [
+              {
+                "field": "_geometry_wkt",
+                "op": "within",
+                "value": "-180.0,-90.0,180.0,90.0"
+              }
             ]
           },
           {
             "label": "EPSG:3857",
             "value": "epsg:3857",
-            "bbox": [
-              -180.0,
-              -90.0,
-              180.0,
-              90.0
+            "if": [
+              {
+                "field": "_geometry_wkt",
+                "op": "within",
+                "value": "-180.0,-90.0,180.0,90.0"
+              }
             ]
           }
         ]

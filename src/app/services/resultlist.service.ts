@@ -33,7 +33,7 @@ import {
 } from 'arlas-web-components';
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent, AiasEnrichComponent, ArlasCollaborativesearchService, ArlasConfigService,
+  AiasDownloadComponent, AiasEnrichComponent, AiasProcessDialogData, ArlasCollaborativesearchService, ArlasConfigService,
   ArlasExportCsvService, ArlasSettingsService, DOWNLOAD_PROCESS_NAME, ENRICH_PROCESS_NAME, ErrorService, getParamValue, ProcessService
 } from 'arlas-wui-toolkit';
 import { BehaviorSubject, finalize, Subject, take } from 'rxjs';
@@ -509,23 +509,16 @@ export class ResultlistService<L, S, M> {
     if (maxItems && ids.length <= maxItems) {
       this.processService.load(processName).subscribe({
         next: () => {
-          this.processService.getItemsDetail(
-            this.contributorService.collectionToDescription.get(collection)?.id_path as string,
-            ids,
-            collection
-          ).subscribe({
-            next: item => {
-              const data = { ids, collection, nbProducts: ids.length, itemDetail: item, ...additionalData };
+          const idFieldName = this.contributorService.collectionToDescription.get(collection)?.id_path as string;
+          const data: AiasProcessDialogData = { ids, collection, nbProducts: ids.length, idFieldName, ...additionalData };
 
-              this.dialog
-                .open(component, {
-                  minWidth: '520px',
-                  maxWidth: '60vw',
-                  data: data,
-                  panelClass: 'arlas-aias-dialog'
-                });
-            }
-          });
+          this.dialog
+            .open(component, {
+              minWidth: '520px',
+              maxWidth: '60vw',
+              data: data,
+              panelClass: 'arlas-aias-dialog'
+            });
         }
       });
     } else {
@@ -614,6 +607,16 @@ export class ResultlistService<L, S, M> {
       marker('Enrich product with more assets'), 'add_photo_alternate');
   }
 
+  /**
+   * Registers a process to add to the resultlist actions.
+   * Checks in the dashboard's externalNode that the process is enabled, and gets the process configuration from the settings.yaml file
+   * @param processName Name of the process
+   * @param id Id of the action to create
+   * @param label Label of the action
+   * @param cssClass CSS class of the action
+   * @param tooltip Tooltip of the action
+   * @param icon Icon of the action
+   */
   private addProcess(processName: string, id: string, label: string, cssClass: string, tooltip: string, icon: string) {
     const processSettings = this.settingsService.getProcessSettings(processName);
     const externalNode = new Map(Object.entries(this.configService.getValue('arlas.web.externalNode')));
