@@ -28,15 +28,25 @@ import { updateAuthorizationHeaders$ } from '../tools/authorization';
 
 
 export interface OrderFormConfig {
+  /** Whether the order form is enabled */
   enabled: boolean;
   text: {
+    /** Text of the button to trigger the order */
     button?: string;
+    /** Title of the form */
     form?: string;
   };
+  /** URL of the endpoint where the POST for the order will be sent */
   endpoint: string;
+  /**
+   * Structure of the payload to send. Can contain pre-defined values.
+   * If one of the value is "$AOI" or "$COMMENT" they will be replaced with the order's aoi and user defined comments respectively
+   */
   payload: { [key: string]: any; };
   response: {
+    /** Message to display when the order is a success */
     ok: string;
+    /** Message to display when the order failed */
     error: string;
   };
 };
@@ -60,7 +70,8 @@ export class OrderFormService {
     this.config = this.configService.getValue('arlas.web.externalNode.order_form');
     if (this.config?.enabled) {
       // Check that everything needed is present
-      this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response.ok && !!this.config.response.error;
+      this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response
+        && !!this.config.response.ok && !!this.config.response.error;
       this.config.text = {
         button: marker('Order'),
         form: marker('Order a product'),

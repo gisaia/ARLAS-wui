@@ -45,8 +45,6 @@
             [currentSortedColumn]="list.identifier | getValue:resultlistService.sortOutput"
             [isGeoSortActivated]="!!(list.identifier | getValue:resultlistService.isGeoSortActivated)"
             [activatedActionsPerItem]="actionManager.activeActionsPerContId.get(list.identifier)!"
-            [ignoredProcesses]="taskService.ignoredProcess"
-            [taskRetrievalTimer]="taskService.taskRetrievalTimer"
             (visibleItems)="updateMapStyleFromScroll($event, list.collection)"
             (onChangeItems)="updateMapStyleFromChange($event, list.collection)"
             (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(list.identifier).fitThumbnail = $event"

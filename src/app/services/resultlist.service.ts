@@ -26,7 +26,10 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import {
-  CellBackgroundStyleEnum, Column, ElementIdentifier, Item, ModeEnum, PageQuery, ResultListComponent, SortedColumn, SortEnum
+  CellBackgroundStyleEnum, Column, ElementIdentifier, Item,
+  PageQuery, ResultListComponent,
+  ResultlistModeEnum,
+  SortedColumn, SortEnum
 } from 'arlas-web-components';
 import { Action, ExtentFilterGeometry, MapContributor, ResultListContributor } from 'arlas-web-contributors';
 import {
@@ -290,8 +293,8 @@ export class ResultlistService<L, S, M> {
     const isOpen = new BehaviorSubject<boolean>(false);
     const listConfig = this.resultlistConfigPerContId.get(this.previewListContrib.identifier);
     const defaultMode = listConfig?.defaultMode;
-    const isListMode = defaultMode === ModeEnum.list
-      || defaultMode === ModeEnum.card;
+    const isListMode = defaultMode === ResultlistModeEnum.list
+      || defaultMode === ResultlistModeEnum.card;
     if (isListMode) {
       const detailListButton = document.getElementById('open-detail-' + id);
       if (detailListButton) {
