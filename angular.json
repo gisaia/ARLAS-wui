@@ -69,8 +69,7 @@
                 "node_modules/iv-viewer/dist/iv-viewer.css",
                 "node_modules/arlas-web-components/assets/styles.css",
                 "node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css",
-                "node_modules/prismjs/themes/prism.css",
-                "node_modules/arlas-wui-toolkit/theme/toolkit-dark-theme.scss"
+                "node_modules/prismjs/themes/prism.css"
               ],
               "namedChunks": true,
               "extractLicenses": false,
@@ -91,8 +90,7 @@
                 "node_modules/maplibre-gl/dist/maplibre-gl.css",
                 "node_modules/arlas-web-components/assets/styles.css",
                 "node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css",
-                "node_modules/prismjs/themes/prism.css",
-                "node_modules/arlas-wui-toolkit/theme/toolkit-dark-theme.scss"
+                "node_modules/prismjs/themes/prism.css"
               ],
               "namedChunks": true,
               "extractLicenses": false,
@@ -151,8 +149,7 @@
                 "node_modules/mapbox-gl/dist/mapbox-gl.css",
                 "node_modules/arlas-web-components/assets/styles.css",
                 "node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css",
-                "node_modules/prismjs/themes/prism.css",
-                "node_modules/arlas-wui-toolkit/theme/toolkit-dark-theme.scss"
+                "node_modules/prismjs/themes/prism.css"
               ],
               "namedChunks": true,
               "extractLicenses": false,
@@ -246,8 +243,7 @@
                 "node_modules/maplibre-gl/dist/maplibre-gl.css",
                 "node_modules/arlas-web-components/assets/styles.css",
                 "node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css",
-                "node_modules/prismjs/themes/prism.css",
-                "node_modules/arlas-wui-toolkit/theme/toolkit-dark-theme.scss"
+                "node_modules/prismjs/themes/prism.css"
               ],
               "index": {
                 "input": "src/index-without-analytics.html",
@@ -303,8 +299,7 @@
                 "node_modules/mapbox-gl/dist/mapbox-gl.css",
                 "node_modules/arlas-web-components/assets/styles.css",
                 "node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css",
-                "node_modules/prismjs/themes/prism.css",
-                "node_modules/arlas-wui-toolkit/theme/toolkit-dark-theme.scss"
+                "node_modules/prismjs/themes/prism.css"
               ],
               "scripts": [
                 "node_modules/mapbox-gl/dist/mapbox-gl.js"

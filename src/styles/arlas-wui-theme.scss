@@ -20,7 +20,7 @@
 @use "./ngx-date-picker-provider";
 @use "./map-provider" as mapProvider;
 @use "./ngx-markdown-provider" as ngxMarkDown;
-@use "arlas-wui-toolkit/theme" as darkTheme;
+@use "arlas-web-components/assets/theme" as darkTheme;
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
