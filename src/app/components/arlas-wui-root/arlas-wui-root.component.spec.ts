@@ -25,9 +25,9 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { ArlasBasemaps, BasemapService } from 'arlas-map';
 import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import {
-    ArlasBookmarkService,
-    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings,
-    ArlasSettingsService, ArlasStartupService, ArlasTagService, ArlasWalkthroughModule, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS
+    ArlasBookmarkService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService,
+    ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, ArlasTagService,
+    ArlasWalkthroughModule, ArlasWalkthroughService, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS
 } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -120,6 +120,13 @@ describe('ArlasWuiRootComponent', () => {
                 {
                     provide: ArlasSettingsService,
                     useValue: mockArlasSettingsService
+                },
+                {
+                    provide: ArlasWalkthroughService,
+                    useValue: {
+                        isActivable: true,
+                        load: vi.fn()
+                    }
                 }
             ],
             teardown: { destroyAfterEach: false }
