@@ -20,7 +20,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use "styles/timeline.scss" as *;
 @use "styles/powerbars.css" as *;
-@use "styles/histogram.css" as *;
 @use "styles/hopscotch/hopscotch.css" as *;
 @use "styles/swimlane.css" as *;
 @use "styles/donut.css" as *;
@@ -69,8 +68,6 @@ app {
 
 html {
   height: 100%;
-
-  --arlas-theme-color: #FF4081;
 }
 
 button:focus {
@@ -213,7 +210,7 @@ arlas-histogram-tooltip-overlay {
 }
 
 div.hopscotch-bubble .hopscotch-bubble-number {
-  background-color: var(--arlas-theme-color);
+  background-color: var(--mat-sys-secondary);
   background-image: none;
   padding: 0 !important;
   border-radius: 15px;
@@ -261,7 +258,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
 }
 
 .gif {
-  background-color: var(--arlas-theme-color);
+  background-color: var(--mat-sys-secondary);
   border-radius: 50%;
   width: 100px;
   height: 100px;

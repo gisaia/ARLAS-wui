@@ -55,13 +55,17 @@
     flex-direction: row-reverse;
     align-items: flex-end;
 
-    .map__legend-button {
+    .map__legend-wrapper {
       width: var(--arlas-map-actions-width);
       height: var(--arlas-map-actions-width);
-      margin-bottom: sizes.$sm-spacing;
       @include mixin.box-border();
       box-shadow: none;
       padding: 0;
+
+      .map__legend-button{
+        height: 100%;
+        padding: 0;
+      }
 
       .mat-icon {
         height: var(--arlas-map-actions-width);

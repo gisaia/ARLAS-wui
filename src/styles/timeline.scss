@@ -21,6 +21,7 @@
 @use "app/sizes.scss" as sizes;
 @use "app/mixin.scss" as mixin;
 
+
 .arlas-timeline--container {
   position: absolute;
   bottom: 0;
@@ -210,7 +211,7 @@
 /* Date Picker */
 
 .arlas-date-picker-input-from, .arlas-date-picker-input-to {
-  background-color: var(--arlas-theme-color);
+  background-color: var(--mat-sys-secondary);
   color: white;
   border: none;
 }

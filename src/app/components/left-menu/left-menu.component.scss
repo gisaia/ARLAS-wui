@@ -61,6 +61,6 @@
 .active-menu {
   background-color: var(--arlas-left-menu-active-bg, rgba(255, 64, 129, 0.1));
   mat-icon {
-    color: var(--arlas-theme-color);
+    color: var(--mat-sys-secondary);
   }
 }
