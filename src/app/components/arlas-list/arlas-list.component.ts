@@ -23,7 +23,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Action, ElementIdentifier, GetValuePipe, Item, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum } from 'arlas-web-components';
+import {
+  Action, ElementIdentifier, GetValuePipe, Item, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum
+} from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { ArlasTaskService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';

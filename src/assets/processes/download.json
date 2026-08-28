@@ -48,7 +48,7 @@
             "value": "epsg:4326",
             "if": [
               {
-                "field": "_geometry_wkt",
+                "field": "geometry",
                 "op": "within",
                 "value": "-180.0,-90.0,180.0,90.0"
               }
@@ -59,7 +59,7 @@
             "value": "epsg:3857",
             "if": [
               {
-                "field": "_geometry_wkt",
+                "field": "geometry",
                 "op": "within",
                 "value": "-180.0,-90.0,180.0,90.0"
               }
