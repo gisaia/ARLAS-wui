@@ -20,7 +20,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
-import { MapLibreMap } from 'maplibre-gl';
 import { CogService } from './cog.service';
 import { getRasterOnMapLayerId } from './visualize.service';
 

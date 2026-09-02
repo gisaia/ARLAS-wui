@@ -36,8 +36,9 @@ import { getItem$ } from '../tools/utils';
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
 
+export const ARLAS_RASTER_SOURCE_PREFIX = 'arlas-raster-source-';
 export function getRasterOnMapLayerId(itemId: string) {
-  return 'arlas-raster-source-' + itemId;
+  return ARLAS_RASTER_SOURCE_PREFIX + itemId;
 }
 
 /**
@@ -117,15 +118,15 @@ export class VisualizeService<L, S, M> {
     if (id) {
       this.visualizedRasters.delete(id);
 
-      this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+      this.mapFrameworkService.removeLayer(this.mapInstance, getRasterOnMapLayerId(id));
       this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     } else {
       this.visualizedRasters.clear();
 
-      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
+      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX);
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
     }
-    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-'));
+    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX));
   }
 
   /**
