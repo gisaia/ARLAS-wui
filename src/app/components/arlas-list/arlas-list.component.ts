@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit, viewChild, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
@@ -71,7 +71,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
    */
   @Input() public resultListGridColumns = 4;
 
-  @ViewChild('resultList', { static: false }) public resultListComponent?: ResultListComponent;
+  public resultListComponent = viewChild<ResultListComponent>('resultList');
   @ViewChild('tabsList', { static: false }) public tabsList?: MatTabGroup;
 
   /** Destroy subscriptions */
@@ -110,7 +110,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   }
 
   public onListLoaded(loaded: boolean) {
-    const comp = this.resultListComponent;
+    const comp = this.resultListComponent();
     if (loaded && comp) {
       setTimeout(() => {
         this.resultlistService.setListComponent(comp);

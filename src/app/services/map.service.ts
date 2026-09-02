@@ -17,14 +17,21 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
+import { MapLibreMap } from 'maplibre-gl';
+import { CogService } from './cog.service';
+import { getRasterOnMapLayerId } from './visualize.service';
 
 export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
 };
+
+export function getQuicklookOnMapLayerId(id: string) {
+  return `arlas-quicklook-source-${id}`;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -44,11 +51,14 @@ export class ArlasWuiMapService<L, S, M> {
   public coordinatesHaveSpace = true;
   public timeLineIsOpen = true;
 
+  /** List of ids of items with their quicklooks on the map */
+  private readonly quicklooksOnMap = new Set<string>();
+
+  private readonly cogService = inject(CogService);
   public constructor(
     private readonly mapService: ArlasMapFrameworkService<L, S, M>,
     private readonly mapLogicService: AbstractArlasMapService<L, S, M>
-  ) {
-  }
+  ) { }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -90,6 +100,7 @@ export class ArlasWuiMapService<L, S, M> {
    * Highlights the hovered feature by applying a higher opacity to it
    * @param id Identifier of the hovered element on the list.
    * @param mapContributor Map contributor used to get the feature to highlight.
+   * @returns The hovered feature
    */
   public highlightHoveredFeature(id: ElementIdentifier, mapContributor: MapContributor) {
     const f = this.getFeatureToHover(id, mapContributor);
@@ -100,6 +111,30 @@ export class ArlasWuiMapService<L, S, M> {
         this.resetOpacity(source);
       } else {
         this.adjustOpacityByValue(source, f.elementidentifier.idFieldName, [f.elementidentifier.idValue], 1, 0.05);
+      }
+    }
+
+    return f;
+  }
+
+  public displayQuicklookOnMap(idValue: string, remove: boolean, imageURL: string,
+    bounds: [[number, number], [number, number], [number, number], [number, number]]
+  ) {
+    const map = this.mapComponent?.map();
+    if (map) {
+      const layerId = getQuicklookOnMapLayerId(idValue);
+      if (remove) {
+        this.mapService.removeLayer(map, layerId, true);
+        this.quicklooksOnMap.delete(idValue);
+      } else if (!this.quicklooksOnMap.has(idValue)) {
+        // If the item's COG is being visualized, then we want the quicklook to be displayed below the COG
+        let beforeId;
+        if (this.cogService.visualisedCogs.has(idValue)) {
+          beforeId = getRasterOnMapLayerId(idValue);
+        }
+
+        this.mapService.addImageLayer(map, layerId, imageURL, bounds, beforeId);
+        this.quicklooksOnMap.add(idValue);
       }
     }
   }

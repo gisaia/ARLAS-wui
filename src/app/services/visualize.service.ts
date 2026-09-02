@@ -35,6 +35,11 @@ import { getItem$ } from '../tools/utils';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
+
+export function getRasterOnMapLayerId(itemId: string) {
+  return 'arlas-raster-source-' + itemId;
+}
+
 /**
  * This service is used to display any type of rasters on the ARLAS map.
  * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
@@ -136,7 +141,7 @@ export class VisualizeService<L, S, M> {
       return;
     }
 
-    const layerId = 'raster-source-' + id;
+    const layerId = getRasterOnMapLayerId(id);
     this.mapFrameworkService.removeLayer(this.mapInstance, layerId);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     this.mapFrameworkService.addRasterLayer(this.mapInstance, layerId, url, bounds, maxZoom,
