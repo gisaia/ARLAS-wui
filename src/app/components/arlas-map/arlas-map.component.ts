@@ -324,8 +324,8 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
          * - the map url is provided by ARLAS
          * - if the resource required is an image (quicklook) and it is protected
          */
-        // TODO: if the origin does not match, and the quicklook is protected, should we still add the headersd?
-        if (!!headers && appOrigin === mapServiceOrigin && (resourceType !== 'Image' || this.resultlistService.isQuicklookProtected())) {
+        if (!!headers && ((resourceType === 'Image' && this.resultlistService.isQuicklookProtected())
+            || (resourceType !== 'Image' && appOrigin === mapServiceOrigin))) {
           return ({
             url,
             headers,
