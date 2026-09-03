@@ -394,7 +394,7 @@ export class ResultlistService<L, S, M> {
           const f = this.mapService.highlightHoveredFeature(event.data as ElementIdentifier, mapContributor);
 
           const isSelected = this.selectedItems.find(e => e.idValue === f.elementidentifier.idValue);
-          this.displayQuicklookOnMap(f.elementidentifier.idValue, f.elementidentifier.idFieldName, f.isleaving && !isSelected);
+          this.displayQuicklookOnMap(f.elementidentifier.idValue, f.elementidentifier.idFieldName, /** remove */ f.isleaving && !isSelected);
         }
         break;
       case 'selectedItemsEvent': {
@@ -408,8 +408,8 @@ export class ResultlistService<L, S, M> {
           const deselectedIds = this.selectedItems
             .filter(e => !ids.includes(e.idValue))
             .map(e => e.idValue);
-          deselectedIds.forEach(id => this.displayQuicklookOnMap(id, idPath, true));
-          ids.forEach(id => this.displayQuicklookOnMap(id, idPath, false));
+          deselectedIds.forEach(id => this.displayQuicklookOnMap(id, idPath, /** remove */ true));
+          ids.forEach(id => this.displayQuicklookOnMap(id, idPath, /** remove */ false));
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
         }
         break;
@@ -709,6 +709,12 @@ export class ResultlistService<L, S, M> {
     });
   }
 
+  /**
+   * Displays an item's quicklook on the map through the ResultlistService
+   * @param idValue Item's id
+   * @param idPath Path to the id
+   * @param remove Whether to remove the quicklook from the map
+   */
   private displayQuicklookOnMap(idValue: string, idPath: string, remove: boolean) {
     const displayQuicklookOnMap = this.listComponent?.fieldsConfiguration().displayQuicklookOnMap;
     if (displayQuicklookOnMap?.enabled && displayQuicklookOnMap.boundsFieldName) {

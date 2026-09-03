@@ -116,6 +116,13 @@ export class ArlasWuiMapService<L, S, M> {
     return f;
   }
 
+  /**
+   * Displays an item's quicklook on the map
+   * @param idValue Item's id
+   * @param remove Whether to remove the layer
+   * @param imageURL URL of the quicklook
+   * @param bounds Corners of the quicklook
+   */
   public displayQuicklookOnMap(idValue: string, remove: boolean, imageURL: string,
     bounds: [[number, number], [number, number], [number, number], [number, number]]
   ) {
