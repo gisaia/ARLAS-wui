@@ -35,6 +35,12 @@ import { getItem$ } from '../tools/utils';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
+
+export const ARLAS_RASTER_SOURCE_PREFIX = 'arlas-raster-source-';
+export function getRasterOnMapLayerId(itemId: string) {
+  return ARLAS_RASTER_SOURCE_PREFIX + itemId;
+}
+
 /**
  * This service is used to display any type of rasters on the ARLAS map.
  * It acts as the direct interface with those raster objects, but does not interact with the resultlist.
@@ -112,15 +118,15 @@ export class VisualizeService<L, S, M> {
     if (id) {
       this.visualizedRasters.delete(id);
 
-      this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+      this.mapFrameworkService.removeLayer(this.mapInstance, getRasterOnMapLayerId(id));
       this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     } else {
       this.visualizedRasters.clear();
 
-      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
+      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX);
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
     }
-    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-'));
+    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX));
   }
 
   /**
@@ -136,7 +142,7 @@ export class VisualizeService<L, S, M> {
       return;
     }
 
-    const layerId = 'raster-source-' + id;
+    const layerId = getRasterOnMapLayerId(id);
     this.mapFrameworkService.removeLayer(this.mapInstance, layerId);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     this.mapFrameworkService.addRasterLayer(this.mapInstance, layerId, url, bounds, maxZoom,

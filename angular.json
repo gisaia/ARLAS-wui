@@ -41,6 +41,16 @@
                 "glob": "**/*",
                 "input": "./node_modules/arlas-map/assets/icons/rotate",
                 "output": "/assets/icons/rotate/"
+              },
+              {
+                "glob": "maplibre-gl-worker.mjs",
+                "input": "node_modules/maplibre-gl/dist",
+                "output": "/"
+              },
+              {
+                "glob": "maplibre-gl-shared.mjs",
+                "input": "node_modules/maplibre-gl/dist",
+                "output": "/"
               }
             ],
             "styles": [
@@ -128,6 +138,16 @@
                   "glob": "**/*",
                   "input": "src/environments/local/i18n",
                   "output": "/assets/i18n/custom"
+                },
+                {
+                  "glob": "maplibre-gl-worker.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
+                },
+                {
+                  "glob": "maplibre-gl-shared.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
                 }
               ]
             },
@@ -226,6 +246,16 @@
                   "glob": "**/*",
                   "input": "src/environments/prod/i18n",
                   "output": "/assets/i18n/custom"
+                },
+                {
+                  "glob": "maplibre-gl-worker.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
+                },
+                {
+                  "glob": "maplibre-gl-shared.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
                 }
               ]
             },
@@ -282,6 +312,16 @@
                   "glob": "**/*",
                   "input": "src/environments/prod/i18n",
                   "output": "/assets/i18n/custom"
+                },
+                {
+                  "glob": "maplibre-gl-worker.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
+                },
+                {
+                  "glob": "maplibre-gl-shared.mjs",
+                  "input": "node_modules/maplibre-gl/dist",
+                  "output": "/"
                 }
               ]
             },
