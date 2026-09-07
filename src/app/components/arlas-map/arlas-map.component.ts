@@ -318,8 +318,14 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
         const appUrl = new URL(globalThis.location.href);
         const mapServiceOrigin = mapServiceUrl.origin;
         const appOrigin = appUrl.origin;
-        /** We enrich map url by an ARLAS header only if the map url is provided by ARLAS. */
-        if (appOrigin === mapServiceOrigin && !!headers) {
+
+        /**
+         * We enrich map url by an ARLAS header only if:
+         * - the map url is provided by ARLAS
+         * - if the resource required is an image (quicklook) and it is protected
+         */
+        if (!!headers && ((resourceType === 'Image' && this.resultlistService.isQuicklookProtected())
+            || (resourceType !== 'Image' && appOrigin === mapServiceOrigin))) {
           return ({
             url,
             headers,
@@ -388,6 +394,10 @@ export class ArlasWuiMapComponent<L, S, M> implements OnInit, AfterViewInit {
       // Whenever the resultlist is toggled, the next onMove event should lead to a recalculation of the extent
       this.resultlistService.listOpenChange.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(_ => this.recalculateExtent = true);
+
+      if (this.transformMapRequest) {
+        this.mapFrameworkService.setTransformRequest(map, this.transformMapRequest);
+      }
     }
   }
 

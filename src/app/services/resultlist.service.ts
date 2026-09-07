@@ -27,6 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import {
   CellBackgroundStyleEnum, Column, ElementIdentifier, Item,
+  ItemDataType,
   PageQuery, ResultListComponent,
   ResultlistModeEnum,
   SortedColumn, SortEnum
@@ -191,6 +192,10 @@ export class ResultlistService<L, S, M> {
     return !!this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpThumbnails;
   }
 
+  public isQuicklookProtected(): boolean {
+    return !!this.resultlistContributors[this.selectedListTabIndex].fieldsConfiguration?.useHttpQuicklooks;
+  }
+
   public updateMapStyleFromScroll(items: Array<Item>, collection: string) {
     this.mapService.updateMapStyle(items.map(i => i.identifier), collection);
   }
@@ -273,14 +278,14 @@ export class ResultlistService<L, S, M> {
    * Updates features style on map after repopulating the resultlist with data
    * @param items List of items constituting the resultlist
    */
-  public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
+  public updateMapStyleFromChange(items: Array<Map<string, ItemDataType>>, collection: string) {
     if (this.contributorService.collectionToDescription.size > 0) {
       const idFieldName = this.contributorService.collectionToDescription.get(collection)?.id_path as string;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
           .filter(id => id !== undefined)
           .filter(id => isElementInViewport(document.getElementById(id.toString())));
-        this.mapService.updateMapStyle(visibleItems, collection);
+        this.mapService.updateMapStyle(visibleItems as string[], collection);
       }, 200);
     }
   }
@@ -387,14 +392,25 @@ export class ResultlistService<L, S, M> {
         break;
       case 'consultedItemEvent':
         if (mapContributor) {
-          this.mapService.highlightHoveredFeature(event.data as ElementIdentifier, mapContributor);
+          const f = this.mapService.highlightHoveredFeature(event.data as ElementIdentifier, mapContributor);
+
+          const isSelected = this.selectedItems.find(e => e.idValue === f.elementidentifier.idValue);
+          this.displayQuicklookOnMap(f.elementidentifier.idValue, f.elementidentifier.idFieldName, /** remove */ f.isleaving && !isSelected);
         }
         break;
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
         const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
+
         if (idPath && mapContributor) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
+
+          // Update visualized elements
+          const deselectedIds = this.selectedItems
+            .filter(e => !ids.includes(e.idValue))
+            .map(e => e.idValue);
+          deselectedIds.forEach(id => this.displayQuicklookOnMap(id, idPath, /** remove */ true));
+          ids.forEach(id => this.displayQuicklookOnMap(id, idPath, /** remove */ false));
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
         }
         break;
@@ -692,5 +708,25 @@ export class ResultlistService<L, S, M> {
         }
       });
     });
+  }
+
+  /**
+   * Displays an item's quicklook on the map through the ResultlistService
+   * @param idValue Item's id
+   * @param idPath Path to the id
+   * @param remove Whether to remove the quicklook from the map
+   */
+  private displayQuicklookOnMap(idValue: string, idPath: string, remove: boolean) {
+    const displayQuicklookOnMap = this.listComponent?.fieldsConfiguration().displayQuicklookOnMap;
+    if (displayQuicklookOnMap?.enabled && displayQuicklookOnMap.boundsFieldName) {
+      const item = this.listComponent?.items.find(i => i.itemData.get(idPath) === idValue);
+      if (item) {
+        const quicklookUrl = item.urlImages.at(0);
+        const bounds = item.itemData.get(displayQuicklookOnMap.boundsFieldName);
+        if (quicklookUrl && bounds) {
+          this.mapService.displayQuicklookOnMap(idValue, remove, quicklookUrl, bounds as any);
+        }
+      }
+    }
   }
 }

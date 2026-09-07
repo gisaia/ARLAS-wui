@@ -132,7 +132,7 @@
 
                 @if (!resultlistService.listOpen && !!resultlistService.previewListContrib && hasGridMode) {
                   <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen">
-                    <arlas-result-list [rowItemList]="resultlistService.previewListContrib.data"
+                    <arlas-result-list #previewList [rowItemList]="resultlistService.previewListContrib.data"
                       [tableFields]="resultlistService.previewListContrib.fieldsList"
                       [detailedDataRetriever]="resultlistService.previewListContrib.detailedDataRetriever"
                       [fieldsConfiguration]="resultlistService.previewListContrib.fieldsConfiguration"
@@ -160,7 +160,8 @@
                       (selectedItemsEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'selectedItemsEvent', data: $event })"
                       (consultedItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
                       (actionOnItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
-                      (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
+                      (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })"
+                      (onListLoaded)="resultlistService.setListComponent(previewList)">
                     </arlas-result-list>
                   </div>
                 }
