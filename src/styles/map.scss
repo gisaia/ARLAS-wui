@@ -83,7 +83,7 @@
 
       .map__visu-item {
         @include mixin.box-border();
-        margin: 1px 1px 3px;
+        margin: 1px 1px 0px;
 
         .map__visu-content {
           overflow: hidden;
