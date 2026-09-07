@@ -20,7 +20,6 @@
 @use "./ngx-date-picker-provider";
 @use "./map-provider" as mapProvider;
 @use "./ngx-markdown-provider" as ngxMarkDown;
-@use "arlas-web-components/assets/theme" as darkTheme;
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
@@ -41,6 +40,3 @@ $app-theme: mat.m2-define-light-theme((
     ),
     density: 0
 ));
-
-@include darkTheme.theme-token($app-theme);
-@include darkTheme.m2-dark-theme-custom-override();
