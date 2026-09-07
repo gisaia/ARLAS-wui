@@ -63,55 +63,6 @@
         }
       }
     }
-
-    /** TIMELINE BARS**/
-    .histogram__chart--bar__currentselection,
-    .histogram__chart--bar__partlyselected,
-    .histogram__chart--bar__fullyselected {
-      fill: #FFF !important;
-      stroke: #a5a5a5 !important;
-      stroke-width: 0.4px;
-    }
-
-    .histogram__chart--bar {
-      fill: #FFF !important;
-      stroke: #b7b7b7 !important;
-      stroke-width: 0.4px;
-      stroke-opacity: 1;
-    }
-
-    /** TIMELINE HEADBANDS**/
-    .headband_currentselection,
-    .headband_currentselection_max,
-    .headband_partlyselected,
-    .headband_fullyselected {
-      fill: #2196F3 !important;
-      stroke: #2196F3 !important;
-      stroke-width: 0.4px !important;
-      height: 1.5px !important;
-    }
-
-    .headband_currentselection_max {
-      fill: rgb(201, 0, 100) !important;
-      stroke: rgb(201, 0, 100) !important;
-    }
-
-    .headband_notselected {
-      fill: #FFF !important;
-      stroke: #b7b7b7 !important;
-      stroke-width: 0 !important;
-      height: 0 !important;
-    }
-
-    .histogram__axis {
-      stroke: #bdbdbd;
-      stroke-width: 1px;
-    }
-
-    .histogram__brush--handles {
-      stroke: #78909C;
-      fill: white;
-    }
   }
 
   .arlas-detailed-timeline {
