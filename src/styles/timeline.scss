@@ -29,12 +29,6 @@
   right: sizes.$sm-spacing;
 
   .arlas-timeline {
-    .histogram__description {
-      font-size: 1em;
-      font-weight: 300;
-      display: none;
-    }
-
     .histogram__description--display {
       color: var(--mat-sys-on-surface, black);
       padding-top: 5px;
