@@ -27,6 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import {
   CellBackgroundStyleEnum, Column, ElementIdentifier, Item,
+  ItemDataType,
   PageQuery, ResultListComponent,
   ResultlistModeEnum,
   SortedColumn, SortEnum
@@ -277,14 +278,14 @@ export class ResultlistService<L, S, M> {
    * Updates features style on map after repopulating the resultlist with data
    * @param items List of items constituting the resultlist
    */
-  public updateMapStyleFromChange(items: Array<Map<string, string>>, collection: string) {
+  public updateMapStyleFromChange(items: Array<Map<string, ItemDataType>>, collection: string) {
     if (this.contributorService.collectionToDescription.size > 0) {
       const idFieldName = this.contributorService.collectionToDescription.get(collection)?.id_path as string;
       setTimeout(() => {
         const visibleItems = items.map(item => item.get(idFieldName))
           .filter(id => id !== undefined)
           .filter(id => isElementInViewport(document.getElementById(id.toString())));
-        this.mapService.updateMapStyle(visibleItems, collection);
+        this.mapService.updateMapStyle(visibleItems as string[], collection);
       }, 200);
     }
   }

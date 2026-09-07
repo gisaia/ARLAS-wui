@@ -24,7 +24,7 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
-  Action, ElementIdentifier, GetValuePipe, Item, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum
+  Action, ElementIdentifier, GetValuePipe, Item, ItemDataType, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum
 } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { ArlasTaskService } from 'arlas-wui-toolkit';
@@ -163,7 +163,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     this.resultlistService.updateMapStyleFromScroll(items, collection);
   }
 
-  public updateMapStyleFromChange(items: Map<string, string>[], collection: string) {
+  public updateMapStyleFromChange(items: Map<string, ItemDataType>[], collection: string) {
     this.resultlistService.updateMapStyleFromChange(items, collection);
   }
 
