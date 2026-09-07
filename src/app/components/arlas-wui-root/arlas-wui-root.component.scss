@@ -548,11 +548,6 @@
     ::ng-deep.histogram__brush-tooltip__horizontal--right {
       top: 92px !important;
     }
-
-    ::ng-deep.histogram {
-      // Leave enough space for the histogram tooltip
-      padding-bottom: 7px;
-    }
   }
 
   .extra-shortcuts {
