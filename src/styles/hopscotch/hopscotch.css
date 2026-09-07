@@ -83,7 +83,8 @@
   }
 
   .hopscotch-prev{
-    --mat-button-outlined-label-text-color: black;
+    --mat-button-outlined-label-text-color: white;
+    background: transparent;
   }
 }
 
