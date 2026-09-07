@@ -30,12 +30,16 @@
 @use "styles/analytics.scss" as *;
 @use '@angular/material' as mat;
 @use "styles/arlas-wui-theme.scss" as theme;
+@use "arlas-web-components/assets/theme" as darkTheme;
 
 @include mat.elevation-classes();
 @include mat.app-background();
 @include mat.all-component-themes(theme.$app-theme);
 @include mat.m2-theme(theme.$app-theme);
 @include mat.system-classes();
+
+@include darkTheme.theme-token(theme.$app-theme);
+@include darkTheme.m2-dark-theme-custom-override();
 
 /* Material Icons */
 

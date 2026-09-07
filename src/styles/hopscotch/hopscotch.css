@@ -88,7 +88,7 @@
   }
 }
 
- .animated {
+.animated {
   -webkit-animation-fill-mode: both;
   -moz-animation-fill-mode: both;
   -ms-animation-fill-mode: both;
