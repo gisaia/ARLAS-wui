@@ -45,7 +45,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: sizes.$sm-font-size;
+    // Maybe minor?
+    font-size: var(--arlas-sys-content-font-size);
 }
 
 @mixin margin-top-for-x-actions($x) {

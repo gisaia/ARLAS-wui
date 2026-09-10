@@ -460,7 +460,7 @@
 }
 
 .right-menu-container {
-  font-size: sizes.$title-font-size;
+  font-size: var(--arlas-sys-subtitle-font-size);
   display: flex;
   align-items: center;
 
@@ -502,7 +502,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  font-size: sizes.$default-font-size;
+  font-size: var(--arlas-sys-content-font-size);
   height: var.$filter-height;
   z-index: 2;
   position: absolute;
@@ -569,7 +569,7 @@
       padding: 0 sizes.$sm-spacing;
       // Due to box sizing on this element and not other filters, it is necessary to add the border width
       height: calc(var.$filter-height + 2 * sizes.$xs-border);
-      font-size: sizes.$default-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       @include mixin.box-border();
       background-color: var(--arlas-wui-background, var(--mat-sys-surface));
       // Necessary to maintain same alignement with extra shortcuts when open and closed
@@ -586,8 +586,8 @@
         }
 
         .chevron {
-          height: sizes.$icon-size;
-          width: sizes.$icon-size;
+          height: var(--arlas-sys-title-icon-size);
+          width: var(--arlas-sys-title-icon-size);
         }
       }
     }
@@ -659,7 +659,7 @@
   height: calc(100vh - var.$top-menu-height);
   .welcome {
     margin-bottom: calc(2 * sizes.$default-spacing);
-    font-size: sizes.$title-font-size;
+    font-size: var(--arlas-sys-dialog-title-font-size);
     font-weight: bold;
   }
   .img {
@@ -667,7 +667,7 @@
   }
   .action {
     display: flex;
-    font-size: sizes.$sm-font-size;
+    font-size: var(--arlas-sys-content-font-size);
     text-decoration: underline;
     cursor: pointer;
   }

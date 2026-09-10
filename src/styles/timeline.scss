@@ -93,7 +93,7 @@
     .histogram__no-chart__key,
     .histogram__no-chart__value {
       font-family: "Roboto", "Helvetica Neue", sans-serif;
-      font-size: 0.9em;
+      font-size: var(--arlas-sys-subtitle-font-size);
       font-weight: normal;
       color: var(--mat-sys-on-background, #757575);
     }
@@ -124,7 +124,6 @@
     .tick {
       text {
         fill: var(--mat-sys-on-background, #757575);
-        font-size: 1em;
       }
     }
   }

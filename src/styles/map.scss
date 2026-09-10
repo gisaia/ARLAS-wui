@@ -145,18 +145,6 @@ arlas-coordinates {
 
   .current-coordinate,
   .current-coordinate-edition {
-    position: absolute;
-    right: calc(var.$map-scale-max-width + sizes.$default-spacing);
-    bottom: calc(var.$timeline-height + sizes.$sm-spacing);
-    background-color: white;
-    color: black;
-    font-size: smaller;
-    padding: 0 sizes.$sm-spacing;
-    // Height to match the height of the map scale
-    height: var.$map-scale-height;
-    display: flex;
-    align-items: center;
-    @include mixin.box-border();
     box-sizing: border-box;
 
     .lat {
