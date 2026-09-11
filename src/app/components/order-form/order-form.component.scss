@@ -32,7 +32,7 @@
     padding: 12px 24px;
 
     &__title {
-        font-size: sizes.$dialog-title-font-size;
+        font-size: var(--arlas-sys-dialog-title-font-size);
     }
 
     &__content {
@@ -48,7 +48,7 @@
             overflow-y: auto;
 
             &__title {
-                font-size:sizes.$title-font-size;
+                font-size: var(--arlas-sys-subtitle-font-size);
             }
 
             textarea {
@@ -56,7 +56,7 @@
                 min-width: 350px;
 
                 font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-                font-size: 16px;
+                font-size: var(--arlas-sys-content-font-size);
             }
 
             &__info {
@@ -73,7 +73,7 @@
                         color: var(--arlas-order-form-fg, #a7a7a7);
 
                         &__detail {
-                            font-size: sizes.$sm-font-size;
+                            font-size: var(--arlas-sys-content-font-size);
                             padding-left: sizes.$sm-spacing;
                         }
                     }

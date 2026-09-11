@@ -28,7 +28,7 @@
   border-radius: 4px;
   padding: 3px;
   @include mixin.box-border();
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
 
   &__band {
     text-align: end;

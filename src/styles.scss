@@ -58,7 +58,7 @@ body {
   overflow: hidden;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 1rem;
+  font-size: var(--arlas-sys-content-font-size);
   line-height: 1.5;
 
   --arlas-map-actions-width: 29px;
@@ -82,7 +82,7 @@ button:focus {
   font-family: "Material Symbols Outlined", "Roboto", "Helvetica Neue", sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
+  font-size: var(--arlas-sys-title-icon-size);
   /* Preferred icon size */
   display: inline-block;
   line-height: 1;
@@ -127,10 +127,6 @@ button:focus {
 .arlas-tag-box {
   top: -10px !important;
   left: calc(50vw - 100px) !important;
-}
-
-.arlas-search .full-width-input {
-  font-size: .9rem;
 }
 
 .bookmark-chip {
