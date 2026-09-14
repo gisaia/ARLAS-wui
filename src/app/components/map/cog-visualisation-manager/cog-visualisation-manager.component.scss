@@ -45,7 +45,7 @@
     }
 
     .visualisation__info__title {
-      font-size: sizes.$default-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       padding-bottom: 0;
     }
   }

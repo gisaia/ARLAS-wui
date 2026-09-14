@@ -34,14 +34,9 @@
     .title_wrapper {
         display: flex;
         justify-content: space-between;
-        font-size: sizes.$default-font-size;
+        font-size: var(--arlas-sys-subtitle-font-size);
         align-items: center;
         margin-bottom: sizes.$sm-margin;
-        mat-icon {
-            height: sizes.$default-font-size;
-            width: sizes.$default-font-size;
-            font-size: sizes.$default-font-size;
-        }
         font-weight: bold;
 
         .clear {
@@ -56,12 +51,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: sizes.$sm-font-size;
+            font-size: var(--arlas-sys-content-font-size);
             .title {
                 .envelope {
                     font-style: italic;
                     font-weight: 100;
-                    font-size: sizes.$xs-font-size;
+                    font-size: var(--arlas-sys-minor-font-size);
                     margin-left: sizes.$sm-spacing;
                     margin-right: calc(2 * sizes.$default-spacing);
                 }
@@ -78,7 +73,7 @@
             .message {
                 color: var(--arlas-aoi-dimensions-fg, rgb(143, 143, 143));
                 font-weight: 100;
-                font-size: sizes.$sm-font-size;
+                font-size: var(--arlas-sys-content-font-size);
                 margin-left: calc(2 * sizes.$default-spacing);
             }
         }

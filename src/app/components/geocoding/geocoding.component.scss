@@ -67,6 +67,7 @@
 
   .title {
     font-weight: bold;
+    font-size: var(--arlas-sys-subtitle-font-size)
   }
 
   .geocode-input {
@@ -84,7 +85,7 @@
   }
 
   .geocode-tip {
-    font-size: sizes.$sm-font-size;
+    font-size: var(--arlas-sys-minor-font-size);
     color: var(--arlas-geocoding-fg, grey);
     font-style: italic;
     margin-bottom: sizes.$xs-spacing;
@@ -94,7 +95,7 @@
     max-height: 150px;
     overflow-y: auto;
     margin-top: sizes.$sm-spacing;
-    font-size: sizes.$default-font-size;
+    font-size: var(--arlas-sys-content-font-size);
   }
 
   .table {
@@ -111,7 +112,7 @@
   }
 
   .error {
-    font-size: sizes.$sm-font-size;
+    font-size: var(--arlas-sys-minor-font-size);
     color: colors.$errorColor;
   }
 

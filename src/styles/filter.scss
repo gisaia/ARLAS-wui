@@ -23,7 +23,7 @@
 .count-container {
   .value-unit .unit {
     font-weight: 200;
-    font-size: sizes.$default-font-size;
+    font-size: var(--arlas-sys-content-font-size);
   }
 
   .filter-chip {
