@@ -76,5 +76,6 @@ export const mockArlasSettingsService = {
   getSettings: vi.fn(() => ({ tab_name: 'ARLAS-wui' })),
   getLinksSettings: vi.fn(),
   getTicketingKey: vi.fn(),
-  getArlasHubUrl: vi.fn()
+  getArlasHubUrl: vi.fn(),
+  isDarkThemeEnabled: vi.fn()
 };
