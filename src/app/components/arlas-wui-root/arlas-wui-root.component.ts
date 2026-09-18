@@ -60,6 +60,7 @@ import { ConfigsListComponent } from '../configs-list/configs-list.component';
 import { ExportDataDialogComponent } from '../export-data-dialog/export-data-dialog.component';
 import { LeftMenuComponent, MenuState } from '../left-menu/left-menu.component';
 import { LoadingBarComponent } from '../loading-bar/loading-bar.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'arlas-wui-root',
@@ -200,11 +201,19 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   ) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       /** resize the map */
-      fromEvent(globalThis, 'resize').pipe(debounceTime(100))
+      fromEvent(globalThis, 'resize').pipe(
+        debounceTime(100),
+        takeUntilDestroyed()
+      )
         .subscribe((event: Event) => {
           this.resizeCollectionCounts();
           this.adjustVisibleShortcuts();
           this.adjustComponentsSize();
+        });
+
+      this.analyticsService.isOpen$.pipe(takeUntilDestroyed())
+        .subscribe(_ => {
+         this.adjustComponentsSize();
         });
 
       this.appName = this.configService.appName ?? (this.configService.getValue('arlas-wui.web.app.name') ?? 'ARLAS');
