@@ -717,6 +717,10 @@ export class ResultlistService<L, S, M> {
    * @param remove Whether to remove the quicklook from the map
    */
   private displayQuicklookOnMap(idValue: string, idPath: string, remove: boolean) {
+    if (remove) {
+      this.mapService.removeQuicklookOnMap(idValue);
+    }
+
     const displayQuicklookOnMap = this.listComponent?.fieldsConfiguration().displayQuicklookOnMap;
     if (displayQuicklookOnMap?.enabled && displayQuicklookOnMap.boundsFieldName) {
       const item = this.listComponent?.items.find(i => i.itemData.get(idPath) === idValue);
@@ -724,7 +728,7 @@ export class ResultlistService<L, S, M> {
         const quicklookUrl = item.urlImages.at(0);
         const bounds = item.itemData.get(displayQuicklookOnMap.boundsFieldName);
         if (quicklookUrl && bounds) {
-          this.mapService.displayQuicklookOnMap(idValue, remove, quicklookUrl, bounds as any);
+          this.mapService.displayQuicklookOnMap(idValue, quicklookUrl, bounds as any);
         }
       }
     }
