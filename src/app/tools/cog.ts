@@ -40,7 +40,7 @@ export function flattenedMatchAndReplace(data: Record<string, ItemDataType>, tem
   let replaced = template;
   // Regex is more secured by checking that we don't match if there are multiple '{' in a row
   template.match(/{([^{]+?)}/g)?.forEach(t => {
-    const flattenedKey: string = t.replace('{', '').replace('}', '').replace('.', '_');
+    const flattenedKey: string = t.replaceAll('{', '').replaceAll('}', '').replaceAll('.', '_');
     const value = getValueOrFirstArrayValue(data, flattenedKey);
     if (value !== undefined) {
       replaced = replaced.replace(t, value.toString());

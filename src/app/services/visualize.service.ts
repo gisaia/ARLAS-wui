@@ -82,7 +82,7 @@ export class VisualizeService<L, S, M> {
   public getVisuFields(urlTemplate: string): string[] {
     if (urlTemplate.includes('{')) {
       /** Fetch all elements between {} in the template. */
-      const regex = new RegExp(/{([^}]+)}/g);
+      const regex = new RegExp(/{([^{]+?)}/g);
       const fields = new Array<string>();
       const matches = [...urlTemplate.matchAll(regex)];
       if (matches) {
