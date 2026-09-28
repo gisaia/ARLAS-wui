@@ -28,8 +28,10 @@ export interface FeatureHover {
   elementidentifier: ElementIdentifier;
 };
 
+export const QUICKLOOK_ON_MAP_LAYER_PREFIX = 'arlas-quicklook-source';
+
 export function getQuicklookOnMapLayerId(id: string) {
-  return `arlas-quicklook-source-${id}`;
+  return `${QUICKLOOK_ON_MAP_LAYER_PREFIX}-${id}`;
 }
 
 @Injectable({
@@ -119,20 +121,16 @@ export class ArlasWuiMapService<L, S, M> {
   /**
    * Displays an item's quicklook on the map
    * @param idValue Item's id
-   * @param remove Whether to remove the layer
    * @param imageURL URL of the quicklook
    * @param bounds Corners of the quicklook
    */
-  public displayQuicklookOnMap(idValue: string, remove: boolean, imageURL: string,
+  public displayQuicklookOnMap(idValue: string, imageURL: string,
     bounds: [[number, number], [number, number], [number, number], [number, number]]
   ) {
     const map = this.mapComponent?.map();
     if (map) {
       const layerId = getQuicklookOnMapLayerId(idValue);
-      if (remove) {
-        this.mapService.removeLayer(map, layerId, true);
-        this.quicklooksOnMap.delete(idValue);
-      } else if (!this.quicklooksOnMap.has(idValue)) {
+      if (!this.quicklooksOnMap.has(idValue)) {
         // If the item's COG is being visualized, then we want the quicklook to be displayed below the COG
         let beforeId;
         if (this.cogService.visualisedCogs.has(idValue)) {
@@ -142,6 +140,18 @@ export class ArlasWuiMapService<L, S, M> {
         this.mapService.addImageLayer(map, layerId, imageURL, bounds, beforeId);
         this.quicklooksOnMap.add(idValue);
       }
+    }
+  }
+
+  /**
+   * Removes the quicklook of an item from the map
+   * @param idValue Item's id
+   */
+  public removeQuicklookOnMap(idValue: string) {
+    this.quicklooksOnMap.delete(idValue);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapService.removeLayer(map, getQuicklookOnMapLayerId(idValue), true);
     }
   }
 
