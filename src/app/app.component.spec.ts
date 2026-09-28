@@ -44,7 +44,8 @@ describe('ArlasWuiComponent', () => {
     beforeEach(async () => {
         const mockSettingsService = {
             getHistogramMaxBucket: vi.fn().mockName('ArlasSettingsService.getHistogramMaxBucket'),
-            getProcessSettings: vi.fn(() => {}).mockName('ArlasSettingsService.getProcessSettings')
+            getProcessSettings: vi.fn(() => {}).mockName('ArlasSettingsService.getProcessSettings'),
+            getSettings: vi.fn(() => ({})).mockName('ArlasSettingsService.getSettings')
         };
 
         const mockContributorService = {

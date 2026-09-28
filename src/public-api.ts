@@ -32,6 +32,7 @@ export { GetResultlistConfigPipe } from './app/pipes/get-resultlist-config.pipe'
 export { ContributorService } from './app/services/contributors.service';
 export { GeocodingService } from './app/services/geocoding.service';
 export { ArlasWuiMapService as MapService } from './app/services/map.service';
+export { OpentelemetryService } from './app/services/opentelemetry.service';
 export { ResultlistService } from './app/services/resultlist.service';
 export { VisualizeService } from './app/services/visualize.service';
 export { ArlasTranslateLoader } from './app/tools/customLoader';

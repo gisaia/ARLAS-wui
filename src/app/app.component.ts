@@ -28,6 +28,7 @@ import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
+import { OpentelemetryService } from './services/opentelemetry.service';
 import { ResultlistService } from './services/resultlist.service';
 import { LazyLoadImageHooks } from './tools/lazy-loader';
 
@@ -78,7 +79,8 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly colorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly analyticsService: AnalyticsService,
-    private readonly errorService: ErrorService
+    private readonly errorService: ErrorService,
+    private readonly opentelemetryService: OpentelemetryService
   ) {
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
