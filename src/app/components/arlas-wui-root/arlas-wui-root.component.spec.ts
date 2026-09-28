@@ -42,6 +42,10 @@ describe('ArlasWuiRootComponent', () => {
     let fixture: ComponentFixture<ArlasWuiRootComponent<any, any, any>>;
 
     beforeEach(async () => {
+      const mockColorGeneratorLoader = {
+        changekeysToColors$: of()
+      };
+
         const mockSettingsService = {
             settings: { tab_name: 'Test' },
             getAuthentSettings: vi.fn().mockName('ArlasSettingsService.getAuthentSettings'),
@@ -52,7 +56,8 @@ describe('ArlasWuiRootComponent', () => {
             setSettings: vi.fn().mockName('ArlasSettingsService.setSettings'),
             getLinksSettings: vi.fn().mockName('ArlasSettingsService.getLinksSettings'),
             getTicketingKey: vi.fn().mockName('ArlasSettingsService.getTicketingKey'),
-            getGeocodingSettings: vi.fn()
+            getGeocodingSettings: vi.fn(),
+            isDarkThemeEnabled: vi.fn().mockName('ArlasSettingsService.isDarkThemeEnabled')
         };
 
         const mockContributorService = {
@@ -65,15 +70,13 @@ describe('ArlasWuiRootComponent', () => {
                 ArlasWuiRootComponent,
                 RouterModule.forRoot([]),
                 OAuthModule.forRoot(),
-                ColorGeneratorModule.forRoot({
-                    loader: {
-                        provide: ColorGeneratorLoader,
-                        useClass: AwcColorGeneratorLoader
-                    }
-                }),
                 ArlasWalkthroughModule.forRoot(),
             ],
             providers: [
+              {
+                provide: ColorGeneratorLoader,
+                useValue: mockColorGeneratorLoader
+              },
                 ArlasCollaborativesearchService,
                 {
                     provide: ContributorService,
@@ -132,9 +135,9 @@ describe('ArlasWuiRootComponent', () => {
             teardown: { destroyAfterEach: false }
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ArlasWuiRootComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+      fixture = TestBed.createComponent(ArlasWuiRootComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
     });
 
     it('should create', () => {
