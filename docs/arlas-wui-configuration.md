@@ -66,6 +66,9 @@ If you don't mount a `settings.yaml` file to the container, nor serve it with `A
 |ARLAS_ENRICH_PROCESS_STATUS_URL | processes[].status.url | - | URL to an endpoint that check the enrich process ongoing status|
 |ARLAS_ENRICH_PROCESS_MAX_ITEMS | processes[].max_items | - | Maximum number of items that can be handled with one execution of the enrich process.|
 |ARLAS_WUI_DASHBOARDS_SHORTCUT| dashboards_shortcut | false | Whether to display a shortcut component to switch between dashboards. To be used for dev purposes only. |
+|ARLAS_OPENTELEMETRY_ENABLED| opentelemetry.enabled | false | Whether OpenTelemetry tracing is enabled. |
+|ARLAS_OPENTELEMETRY_URL| opentelemetry.url | http://localhost:4318/v1/traces | OTLP HTTP trace collector endpoint URL. |
+|ARLAS_OPENTELEMETRY_SERVICE_NAME| opentelemetry.service_name | arlas-wui | Service name reported in OpenTelemetry spans. |
 
 ## ARLAS-wui assets
 

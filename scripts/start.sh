@@ -94,6 +94,10 @@ set_default_env_variable ARLAS_DRAW_INACTIVE_COLOR "#3bb2d0"
 set_default_env_variable ARLAS_DRAW_INACTIVE_OPACITY "0.1"
 set_default_env_variable ARLAS_DRAW_INACTIVE_DASHES "[1]"
 
+set_default_env_variable ARLAS_OPENTELEMETRY_ENABLED "false"
+set_default_env_variable ARLAS_OPENTELEMETRY_URL "http://localhost:4318/v1/traces"
+set_default_env_variable ARLAS_OPENTELEMETRY_SERVICE_NAME "arlas-wui"
+
 
 # All variables that need to be substituted in settings.yaml
 SETTINGS_VARS="ARLAS_SERVER_URL
@@ -158,7 +162,10 @@ SETTINGS_VARS="ARLAS_SERVER_URL
     ARLAS_DRAW_ACTIVE_DASHES
     ARLAS_DRAW_INACTIVE_COLOR
     ARLAS_DRAW_INACTIVE_OPACITY
-    ARLAS_DRAW_INACTIVE_DASHES"
+    ARLAS_DRAW_INACTIVE_DASHES
+    ARLAS_OPENTELEMETRY_ENABLED
+    ARLAS_OPENTELEMETRY_URL
+    ARLAS_OPENTELEMETRY_SERVICE_NAME"
 
 SETTINGS_SUBST=$(printf '$%s ' $SETTINGS_VARS)
 envsubst "$SETTINGS_SUBST" < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp

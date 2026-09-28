@@ -77,3 +77,8 @@ drawTheme:
     color: ${ARLAS_DRAW_INACTIVE_COLOR}
     opacity: ${ARLAS_DRAW_INACTIVE_OPACITY}
     dash: ${ARLAS_DRAW_INACTIVE_DASHES}
+
+opentelemetry:
+  enabled: ${ARLAS_OPENTELEMETRY_ENABLED}
+  url: ${ARLAS_OPENTELEMETRY_URL}
+  service_name: ${ARLAS_OPENTELEMETRY_SERVICE_NAME}
