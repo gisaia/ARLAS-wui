@@ -394,7 +394,7 @@ export class ResultlistService<L, S, M> {
         if (mapContributor) {
           const f = this.mapService.highlightHoveredFeature(event.data as ElementIdentifier, mapContributor);
 
-          const isSelected = this.selectedItems.find(e => e.idValue === f.elementidentifier.idValue);
+          const isSelected = this.selectedItems.some(e => e.idValue === f.elementidentifier.idValue);
           this.displayQuicklookOnMap(f.elementidentifier.idValue, f.elementidentifier.idFieldName, /** remove */ f.isleaving && !isSelected);
         }
         break;
@@ -719,6 +719,7 @@ export class ResultlistService<L, S, M> {
   private displayQuicklookOnMap(idValue: string, idPath: string, remove: boolean) {
     if (remove) {
       this.mapService.removeQuicklookOnMap(idValue);
+      return;
     }
 
     const displayQuicklookOnMap = this.listComponent?.fieldsConfiguration().displayQuicklookOnMap;

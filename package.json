@@ -82,7 +82,7 @@
   "overrides": {
     "underscore": "^1.13.8",
     "esbuild": "0.28.1",
-    "undici": "7.29.0",
+    "undici": "7.29.1",
     "@hono/node-server": "2.0.10"
   }
 }
