@@ -17,18 +17,20 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { ZoneContextManager } from '@opentelemetry/context-zone-peer-dep';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { Resource } from '@opentelemetry/resources';
-import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
-import { trace, Span, context, Tracer } from '@opentelemetry/api';
-import { ArlasSettingsService } from 'arlas-wui-toolkit';
+import {Injectable} from '@angular/core';
+import {
+  BatchSpanProcessor,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+  WebTracerProvider
+} from '@opentelemetry/sdk-trace-web';
+import {OTLPTraceExporter} from '@opentelemetry/exporter-trace-otlp-http';
+import {ZoneContextManager} from '@opentelemetry/context-zone-peer-dep';
+import {registerInstrumentations} from '@opentelemetry/instrumentation';
+import {XMLHttpRequestInstrumentation} from '@opentelemetry/instrumentation-xml-http-request';
+import {DocumentLoadInstrumentation} from '@opentelemetry/instrumentation-document-load';
+import {context, Span, trace, Tracer} from '@opentelemetry/api';
+import {ArlasSettingsService} from 'arlas-wui-toolkit';
 
 export interface OpentelemetrySettings {
   enabled?: boolean;
@@ -59,22 +61,35 @@ export class OpentelemetryService {
     const serviceName = otelSettings.service_name || 'arlas-wui-frontend';
     const exporterUrl = otelSettings.url || 'http://localhost:4318/v1/traces';
 
-    const provider = new WebTracerProvider();
-
-    const exporter = new OTLPTraceExporter({
-      url: exporterUrl,
+    const collectorOptions = {
+      url: exporterUrl, // url is optional and can be omitted - default is http://localhost:4318/v1/traces
+      headers: {}, // an optional object containing custom headers to be sent with each request
+      concurrencyLimit: 10, // an optional limit on pending requests
+    };
+    const exporter = new OTLPTraceExporter(collectorOptions);
+    const provider = new WebTracerProvider({
+      spanProcessors: [
+        new BatchSpanProcessor(exporter, {
+          // The maximum queue size. After the size is reached spans are dropped.
+          maxQueueSize: 100,
+          // The maximum batch size of every export. It must be smaller or equal to maxQueueSize.
+          maxExportBatchSize: 10,
+          // The interval between two consecutive exports
+          scheduledDelayMillis: 500,
+          // How long the export can run before it is cancelled
+          exportTimeoutMillis: 30000,
+        })
+      ]
     });
-
-   // provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
     provider.register({
       contextManager: new ZoneContextManager(),
     });
 
+    // Here we have all the instrument we want to spy.
     registerInstrumentations({
       instrumentations: [
-        new DocumentLoadInstrumentation(),
-        new XMLHttpRequestInstrumentation(),
+        new DocumentLoadInstrumentation()
       ],
     });
 

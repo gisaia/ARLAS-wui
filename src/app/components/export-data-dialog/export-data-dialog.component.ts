@@ -24,6 +24,7 @@ import { MatTab, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DownloadDialogComponent, ShareDialogComponent } from 'arlas-wui-toolkit';
+import { OpentelemetryService } from '../../services/opentelemetry.service';
 
 export interface ExportDataDialogConfiguration {
   share: {
@@ -53,6 +54,7 @@ export class ExportDataDialogComponent implements  OnInit {
   protected dialogData = inject<Array<ExportDataDialogConfiguration>>(MAT_DIALOG_DATA);
   protected componentsConf = signal<{key: string; enabled: boolean; component: any; title: string; injector: any;}[]>([]);
   protected selectedIndex = computed( () => this.componentsConf().findIndex(e => e.enabled));
+  private readonly opentelemetryService = inject(OpentelemetryService);
 
   public ngOnInit() {
     const tabs = Object.keys(this.dialogData)
@@ -75,5 +77,20 @@ export class ExportDataDialogComponent implements  OnInit {
         })
       }));
     this.componentsConf.set(tabs);
+
+    this.opentelemetryService.sendCustomMessage('form_started', {
+      form_id: 'export_data_dialog',
+      available_tabs: tabs.filter(t => t.enabled).map(t => t.key)
+    });
+  }
+
+  public onTabChange(index: number): void {
+    const tab = this.componentsConf()[index];
+    if (tab) {
+      this.opentelemetryService.sendCustomMessage('cta_click', {
+        cta_id: 'export_dialog_tab_switch',
+        tab_key: tab.key
+      });
+    }
   }
 }

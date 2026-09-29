@@ -100,6 +100,6 @@ drawTheme:
     dash: [1]
 
 opentelemetry:
-  enabled: false
+  enabled: true
   url: 'http://localhost:4318/v1/traces'
   service_name: 'arlas-wui'

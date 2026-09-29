@@ -18,7 +18,7 @@
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Output, ViewChild
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +29,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { GeocodingQueryParams, GeocodingResult, GeocodingService } from '../../services/geocoding.service';
+import { OpentelemetryService } from '../../services/opentelemetry.service';
 
 @Component({
   selector: 'arlas-geocoding',
@@ -66,6 +67,7 @@ export class GeocodingComponent implements AfterViewInit {
   protected geocodingResult: MatTableDataSource<GeocodingResult>;
   protected searchFormControl = new FormControl('');
 
+  private readonly opentelemetryService = inject(OpentelemetryService);
   private previousSearch: string;
 
   public constructor(
@@ -80,10 +82,17 @@ export class GeocodingComponent implements AfterViewInit {
   }
 
   public closePopup(): void {
+    this.opentelemetryService.sendCustomMessage('cta_click', {
+      cta_id: 'close_geocoding_popup'
+    });
     this.close.next(true);
   }
 
   public onSearchLocation($event: GeocodingResult): void {
+    this.opentelemetryService.sendCustomMessage('core_feature_used', {
+      feature: 'geocoding_result_selected',
+      address: $event?.display_name
+    });
     this.zoomToAddress.next($event);
   }
 
@@ -95,6 +104,11 @@ export class GeocodingComponent implements AfterViewInit {
     if (!!this.previousSearch && (this.previousSearch.trim() === this.searchFormControl.value.trim())) {
       return;
     }
+
+    this.opentelemetryService.sendCustomMessage('core_feature_used', {
+      feature: 'geocoding_search',
+      query_length: this.searchFormControl.value.length
+    });
 
     this.displayTable = true;
     this.loading = true;
@@ -114,6 +128,10 @@ export class GeocodingComponent implements AfterViewInit {
         this.hasError = true;
         this.displayTable = false;
         this.loading = false;
+        this.opentelemetryService.sendCustomMessage('user_error_encountered', {
+          error_type: 'geocoding_search_failed',
+          query: this.previousSearch
+        });
       }
     });
   }

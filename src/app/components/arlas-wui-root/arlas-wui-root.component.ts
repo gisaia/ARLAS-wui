@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -42,6 +42,7 @@ import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe'
 import { ActionManagerService } from '../../services/action-manager.service';
 import { ContributorService } from '../../services/contributors.service';
 import { ArlasWuiMapService } from '../../services/map.service';
+import { OpentelemetryService } from '../../services/opentelemetry.service';
 import { OrderFormService } from '../../services/order-form.service';
 import { ResultlistService } from '../../services/resultlist.service';
 import { ArlasAnalyticsComponent } from '../arlas-analytics/arlas-analytics.component';
@@ -164,6 +165,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   /** Download & Share */
   public shareComponentConfig: any;
   public downloadComponentConfig: any;
+
+  private readonly opentelemetryService = inject(OpentelemetryService);
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
@@ -389,6 +392,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   public goToArlasHub() {
+    this.opentelemetryService.sendCustomMessage('cta_click', {
+      cta_id: 'go_to_arlas_hub'
+    });
     const hubUrl = this.settingsService.getArlasHubUrl();
     if (hubUrl) {
       window.open(hubUrl);
@@ -398,6 +404,9 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   /** When opening the dialog of layers to share, we specify the visibility status of all
    * layers so that we choose only the displayed ones */
   public displayExportData() {
+    this.opentelemetryService.sendCustomMessage('cta_click', {
+      cta_id: 'display_export_data'
+    });
     this.dialog.open(
       ExportDataDialogComponent,
       {
@@ -418,6 +427,10 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
   }
 
   public openOrderForm() {
+    this.opentelemetryService.sendCustomMessage('cta_click', {
+      cta_id: 'open_order_form',
+      features_count: this.arlasMapComponent?.geojsondraw?.features?.length ?? 0
+    });
     this.orderFormService.openForm$(this.arlasMapComponent.geojsondraw.features);
   }
 

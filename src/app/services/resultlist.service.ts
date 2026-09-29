@@ -39,6 +39,7 @@ import { VisualizeService } from '../services/visualize.service';
 import { isElementInViewport } from '../tools/utils';
 import { CogService } from './cog.service';
 import { ContributorService } from './contributors.service';
+import {OpentelemetryService} from './opentelemetry.service';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +92,8 @@ export class ResultlistService<L, S, M> {
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
     private readonly cogService: CogService<L, S, M>,
-    private readonly contributorService: ContributorService
+    private readonly contributorService: ContributorService,
+    private readonly opentelemetryService: OpentelemetryService
   ) { }
 
   public setContributors(resultlistContributors: Array<ResultListContributor>, resultlistConfigs: any[]) {
@@ -190,6 +192,7 @@ export class ResultlistService<L, S, M> {
   private setResultlistGeoFilter(resultlistContributor: ResultListContributor, mapContributor: MapContributor | undefined,
     rawExtent: string, wrappedExtent: string): void {
     if (mapContributor) {
+      this.opentelemetryService.sendCustomMessage('result-list-geofiler', {rawExtent, wrappedExtent});
       let geoField: string | undefined;
       let geoOp: Expression.OpEnum;
       if (mapContributor.windowExtentGeometry === ExtentFilterGeometry.geometry_path) {
@@ -206,6 +209,7 @@ export class ResultlistService<L, S, M> {
   }
 
   public highlightItems(hoveredFeatures: any[]) {
+    this.opentelemetryService.sendCustomMessage('highlight-items');
     this.resultlistContributors.forEach(c => {
       const idFieldName = this.contributorService.collectionToDescription.get(c.collection).id_path;
       const highLightItems = hoveredFeatures
@@ -336,9 +340,20 @@ export class ResultlistService<L, S, M> {
     const mapContributor = this.mapService.getContributorByCollection(currentCollection);
     switch (event.event) {
       case 'paginationEvent':
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'paginate_list',
+          origin: event.origin,
+          which_page: event.data?.whichPage
+        });
         this.paginate(resultListContributor, event.data);
         break;
       case 'sortColumnEvent':
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'sort_column',
+          origin: event.origin,
+          field_name: event.data?.fieldName,
+          direction: event.data?.direction
+        });
         this.sortColumnEvent(event.origin, event.data);
         break;
       case 'consultedItemEvent':
@@ -349,6 +364,11 @@ export class ResultlistService<L, S, M> {
       case 'selectedItemsEvent': {
         const ids: Array<string> = event.data;
         const idPath = this.contributorService.collectionToDescription.get(currentCollection)?.id_path;
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'select_items',
+          origin: event.origin,
+          count: ids?.length ?? 0
+        });
         if (idPath) {
           this.mapService.selectFeatures(idPath, ids, mapContributor);
           this.selectedItems = ids.map(id => ({ idFieldName: idPath, idValue: id }));
@@ -356,20 +376,52 @@ export class ResultlistService<L, S, M> {
         break;
       }
       case 'actionOnItemEvent':
+        this.opentelemetryService.sendCustomMessage('cta_click', {
+          cta_id: 'action_on_item',
+          action_id: event.data?.action?.id,
+          origin: event.origin,
+          collection: currentCollection
+        });
         this.actionOnItemEvent(event.data, mapContributor, resultListContributor, currentCollection);
         break;
       case 'globalActionEvent':
+        this.opentelemetryService.sendCustomMessage('cta_click', {
+          cta_id: 'global_action',
+          action_id: event.data?.id,
+          origin: event.origin,
+          collection: currentCollection,
+          selected_count: this.selectedItems?.length ?? 0
+        });
         if (event.data.id === 'production') {
           this.aiasDownload(this.selectedItems.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'enrich') {
           this.aiasEnrich(this.selectedItems.map(i => i.idValue), currentCollection);
         } else if (event.data.id === 'export_csv') {
+          const exportStart = Date.now();
+          this.opentelemetryService.sendCustomMessage('task_started', {
+            task_name: 'export_csv',
+            collection: currentCollection
+          });
           this.resultlistIsExporting = true;
           this.exportService.fetchResultlistData$(resultListContributor)
             .pipe(finalize(() => this.resultlistIsExporting = false))
             .subscribe({
-              next: (h) => this.exportService.exportResultlist(resultListContributor, h),
-              error: (e) => this.snackbar.open(this.translate.instant('An error occurred exporting the list'))
+              next: (h) => {
+                this.exportService.exportResultlist(resultListContributor, h);
+                this.opentelemetryService.sendCustomMessage('task_completed', {
+                  task_name: 'export_csv',
+                  collection: currentCollection,
+                  duration_ms: Date.now() - exportStart
+                });
+              },
+              error: (e) => {
+                this.opentelemetryService.sendCustomMessage('user_error_encountered', {
+                  error_type: 'export_csv_failed',
+                  collection: currentCollection,
+                  error_message: e?.message ?? 'unknown'
+                });
+                this.snackbar.open(this.translate.instant('An error occurred exporting the list'));
+              }
             });
         } else if (event.data.id === 'visualize') {
           this.selectedItems.forEach(e => {
@@ -387,6 +439,11 @@ export class ResultlistService<L, S, M> {
         break;
       case 'geoSortEvent':
       case 'geoAutoSortEvent':
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'geo_sort',
+          origin: event.origin,
+          enabled: !!event.data
+        });
         this.toggleGeosort(event.data, resultListContributor);
         break;
     }
@@ -411,15 +468,30 @@ export class ResultlistService<L, S, M> {
 
     switch (data.action.id) {
       case 'zoomToFeature':
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'zoom_to_feature',
+          collection,
+          element_id: data.elementidentifier?.idValue
+        });
         if (mapContributor) {
           mapContributor.getBoundsToFit(data.elementidentifier, collection)
             .subscribe(bounds => this.visualizeService.fitbounds = bounds);
         }
         break;
       case 'visualize':
+        this.opentelemetryService.sendCustomMessage('core_feature_used', {
+          feature: 'visualize_raster',
+          collection,
+          element_id: data.elementidentifier?.idValue
+        });
         this.cogService.visualizeRasterAction(data, listContributor, false);
         break;
       case 'download':
+        this.opentelemetryService.sendCustomMessage('cta_click', {
+          cta_id: 'download_item_url',
+          collection,
+          element_id: data.elementidentifier?.idValue
+        });
         if (this.resultlistConfigPerContId.get(listContributor.identifier)) {
           const urlDownloadTemplate = this.resultlistConfigPerContId.get(listContributor.identifier).downloadLink;
           if (urlDownloadTemplate) {
@@ -431,9 +503,19 @@ export class ResultlistService<L, S, M> {
         }
         break;
       case 'production':
+        this.opentelemetryService.sendCustomMessage('cta_click', {
+          cta_id: 'aias_download_item',
+          collection,
+          element_id: data.elementidentifier?.idValue
+        });
         this.aiasDownload([data.elementidentifier.idValue], collection);
         break;
       case 'enrich':
+        this.opentelemetryService.sendCustomMessage('cta_click', {
+          cta_id: 'aias_enrich_item',
+          collection,
+          element_id: data.elementidentifier?.idValue
+        });
         this.aiasEnrich([data.elementidentifier.idValue], collection);
         break;
     }

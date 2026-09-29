@@ -19,21 +19,35 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { OpentelemetryService } from '../../services/opentelemetry.service';
 import { ExportDataDialogComponent } from './export-data-dialog.component';
 
 describe('ExportDataDialogComponent', () => {
   let component: ExportDataDialogComponent;
   let fixture: ComponentFixture<ExportDataDialogComponent>;
+  let mockOpentelemetryService: { sendCustomMessage: ReturnType<typeof vi.fn>; };
 
   beforeEach(async () => {
+    mockOpentelemetryService = {
+      sendCustomMessage: vi.fn()
+    };
+
     await TestBed.configureTestingModule({
-      imports: [ExportDataDialogComponent],
+      imports: [
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        ExportDataDialogComponent
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
           useValue: {}
         },
+        {
+          provide: OpentelemetryService,
+          useValue: mockOpentelemetryService
+        }
       ]
     })
       .compileComponents();
@@ -43,7 +57,20 @@ describe('ExportDataDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create and record form_started telemetry', () => {
     expect(component).toBeTruthy();
+    expect(mockOpentelemetryService.sendCustomMessage).toHaveBeenCalledWith(
+      'form_started',
+      expect.objectContaining({ form_id: 'export_data_dialog', available_tabs: [] })
+    );
+  });
+
+  it('should record tab change telemetry', () => {
+    (component as any).componentsConf.set([{ key: 'download' }]);
+    component.onTabChange(0);
+    expect(mockOpentelemetryService.sendCustomMessage).toHaveBeenCalledWith(
+      'cta_click',
+      expect.objectContaining({ cta_id: 'export_dialog_tab_switch', tab_key: 'download' })
+    );
   });
 });

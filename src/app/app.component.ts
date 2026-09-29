@@ -16,12 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
 import { ArlasColorService } from 'arlas-web-components';
+import { CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ResultListContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
@@ -82,6 +83,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     private readonly errorService: ErrorService,
     private readonly opentelemetryService: OpentelemetryService
   ) {
+
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
@@ -102,6 +104,13 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
         .subscribe(e => {
           // Only configuration errors are sent for now
           this.errorService.emitInvalidDashboardError(true, e);
+        });
+
+      /** Listen to collaborations for Core Feature metrics & Aha moment */
+      this.collaborativeService.collaborationBus
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(ce => {
+          this.trackCollaborationTelemetry(ce);
         });
     }
   }
@@ -190,5 +199,66 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     const hiddenAnalyticsTabsSet = new Set(this.hiddenAnalyticsTabs);
     const allAnalytics = this.arlasStartupService.analytics;
     this.analyticsService.initializeGroups((allAnalytics ?? []).filter(a => !hiddenAnalyticsTabsSet.has(a.tab)));
+  }
+
+  private hasTriggeredAhaMoment = false;
+
+  private trackCollaborationTelemetry(ce: CollaborationEvent): void {
+    this.opentelemetryService.sendCustomMessage('core_feature_used', {
+      feature: 'collaboration_filter',
+      contributor_id: ce.id,
+      operation: ce.operation
+    });
+
+    if (!this.hasTriggeredAhaMoment && ce.operation === OperationEnum.add) {
+      const collaborations = Array.from(this.collaborativeService.collaborations.keys());
+      const hasSpatial = collaborations.some(id => id.startsWith('map') || id.includes('bbox') || id.includes('geometry'));
+      const hasTemporalOrAnalytic = collaborations.some(id =>
+        id.startsWith('timeline') || id.includes('date') || id.includes('histo') || id.includes('analytics')
+      );
+
+      if (hasSpatial && hasTemporalOrAnalytic) {
+        this.hasTriggeredAhaMoment = true;
+        this.opentelemetryService.sendCustomMessage('user_activation_aha_moment', {
+          activation_type: 'spatial_and_temporal_crossfilter',
+          contributor_trigger_id: ce.id,
+          total_collaborations: collaborations.length
+        });
+      }
+    }
+  }
+
+  private clickHistory: { time: number; x: number; y: number; }[] = [];
+  private lastRageClickSent = 0;
+
+  @HostListener('document:click', ['$event'])
+  public onDocumentClick(event: MouseEvent): void {
+    const now = Date.now();
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Retain clicks within the last 800ms window
+    this.clickHistory = this.clickHistory.filter(c => now - c.time <= 800);
+    this.clickHistory.push({ time: now, x, y });
+
+    if (this.clickHistory.length >= 3) {
+      const first = this.clickHistory[0];
+      const isWithinRadius = this.clickHistory.every(c => Math.hypot(c.x - first.x, c.y - first.y) <= 30);
+
+      // Debounce rage click events (minimum 1s between successive alerts)
+      if (isWithinRadius && (now - this.lastRageClickSent > 1000)) {
+        this.lastRageClickSent = now;
+        const target = event.target as HTMLElement | null;
+        this.opentelemetryService.sendCustomMessage('rage_click_detected', {
+          click_count: this.clickHistory.length,
+          target_tag: target?.tagName?.toLowerCase() ?? 'unknown',
+          target_class: target?.className ?? '',
+          target_id: target?.id ?? '',
+          x,
+          y
+        });
+        this.clickHistory = [];
+      }
+    }
   }
 }

@@ -6,18 +6,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService, ArlasCollectionService, ArlasStartupService } from 'arlas-wui-toolkit';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MockArlasStartupService } from '../tools/test';
 import { ContributorService } from './contributors.service';
+import { OpentelemetryService } from './opentelemetry.service';
 import { ResultlistService } from './resultlist.service';
 import { VisualizeService } from './visualize.service';
 
 describe('ResultlistService', () => {
     let service: ResultlistService<any, any, any>;
+    let mockOpentelemetryService: { sendCustomMessage: ReturnType<typeof vi.fn>; };
 
     beforeEach(() => {
         const mockArlasCollectionService = {
             appUnits: new Map()
+        };
+        mockOpentelemetryService = {
+            sendCustomMessage: vi.fn()
         };
 
         TestBed.configureTestingModule({
@@ -40,6 +45,10 @@ describe('ResultlistService', () => {
                     provide: ArlasStartupService,
                     useClass: MockArlasStartupService
                 },
+                {
+                    provide: OpentelemetryService,
+                    useValue: mockOpentelemetryService
+                },
                 provideHttpClient(withInterceptorsFromDi())
             ],
             teardown: { destroyAfterEach: false }
@@ -49,5 +58,16 @@ describe('ResultlistService', () => {
 
     it('should be created', () => {
         expect(service).toBeTruthy();
+    });
+
+    it('should track actionOnItemEvent with telemetry', () => {
+        const dummyAction = { id: 'download' } as any;
+        const dummyElement = { idFieldName: 'id', idValue: 'item-123' };
+        service.actionOnItemEvent({ action: dummyAction, elementidentifier: dummyElement }, null as any, { identifier: 'c1' } as any, 'col1');
+
+        expect(mockOpentelemetryService.sendCustomMessage).toHaveBeenCalledWith(
+            'cta_click',
+            expect.objectContaining({ cta_id: 'download_item_url', collection: 'col1', element_id: 'item-123' })
+        );
     });
 });

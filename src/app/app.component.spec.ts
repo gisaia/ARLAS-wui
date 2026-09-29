@@ -33,6 +33,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ArlasWuiComponent } from './app.component';
 import { ContributorService } from './services/contributors.service';
 import { ArlasWuiMapService } from './services/map.service';
+import { OpentelemetryService } from './services/opentelemetry.service';
 import { ResultlistService } from './services/resultlist.service';
 import { VisualizeService } from './services/visualize.service';
 import { MockArlasConfigService, MockArlasStartupService } from './tools/test';
@@ -40,8 +41,12 @@ import { MockArlasConfigService, MockArlasStartupService } from './tools/test';
 describe('ArlasWuiComponent', () => {
     let component: ArlasWuiComponent<any, any, any>;
     let fixture: ComponentFixture<ArlasWuiComponent<any, any, any>>;
+    let mockOpentelemetryService: { sendCustomMessage: ReturnType<typeof vi.fn>; };
 
     beforeEach(async () => {
+        mockOpentelemetryService = {
+            sendCustomMessage: vi.fn()
+        };
         const mockSettingsService = {
             getHistogramMaxBucket: vi.fn().mockName('ArlasSettingsService.getHistogramMaxBucket'),
             getProcessSettings: vi.fn(() => {}).mockName('ArlasSettingsService.getProcessSettings'),
@@ -104,6 +109,10 @@ describe('ArlasWuiComponent', () => {
                 {
                     provide: ArlasConfigService,
                     useClass: MockArlasConfigService
+                },
+                {
+                    provide: OpentelemetryService,
+                    useValue: mockOpentelemetryService
                 }
             ]
         }).compileComponents();
@@ -117,5 +126,27 @@ describe('ArlasWuiComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should detect rage clicks and send telemetry', () => {
+        const dummyEvent = {
+            clientX: 100,
+            clientY: 100,
+            target: { tagName: 'BUTTON', className: 'btn', id: 'zoom' }
+        } as unknown as MouseEvent;
+
+        component.onDocumentClick(dummyEvent);
+        component.onDocumentClick(dummyEvent);
+        component.onDocumentClick(dummyEvent);
+
+        expect(mockOpentelemetryService.sendCustomMessage).toHaveBeenCalledWith(
+            'rage_click_detected',
+            expect.objectContaining({
+                target_tag: 'button',
+                target_id: 'zoom',
+                x: 100,
+                y: 100
+            })
+        );
     });
 });

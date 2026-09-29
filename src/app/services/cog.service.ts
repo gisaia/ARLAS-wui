@@ -33,6 +33,7 @@ import { getItem } from '../tools/utils';
 import { ActionManagerService } from './action-manager.service';
 import { ContributorService } from './contributors.service';
 import { VisualizeService } from './visualize.service';
+import {OpentelemetryService} from './opentelemetry.service';
 
 /**
  * This service is the interface between the ResultlistService and the VisualizeService for the viusalisation of COGs.

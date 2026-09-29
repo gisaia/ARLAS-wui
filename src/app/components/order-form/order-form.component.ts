@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -29,6 +29,7 @@ import { AiasResultComponent, ProcessOutput, ProcessStatus } from 'arlas-wui-too
 import { Feature, Polygon } from 'geojson';
 import { finalize } from 'rxjs';
 import { AoiDimensionsPipe } from '../../pipes/aoi-dimensions.pipe';
+import { OpentelemetryService } from '../../services/opentelemetry.service';
 import { OrderFormService } from '../../services/order-form.service';
 import { RoundKilometer, SquareKilometer } from '../arlas-map/aoi-dimensions/aoi-dimensions.pipes';
 
@@ -59,10 +60,11 @@ export interface OrderFormPayload {
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.scss'
 })
-export class OrderFormComponent {
+export class OrderFormComponent implements OnInit {
   protected orderFormService = inject(OrderFormService);
   protected data = inject<OrderFormDialogData>(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef<OrderFormComponent>);
+  private readonly opentelemetryService = inject(OpentelemetryService);
 
   protected comment = '';
   protected statusResult = {
@@ -73,12 +75,28 @@ export class OrderFormComponent {
   protected isProcessing = signal<boolean>(false);
   protected hasError = signal<boolean>(false);
 
+  private formStartTimestamp = Date.now();
+
+  public ngOnInit(): void {
+    this.opentelemetryService.sendCustomMessage('form_started', {
+      form_id: 'order_form',
+      process_id: this.statusResult.processID,
+      aoi_count: this.data?.aoi?.length ?? 0
+    });
+  }
+
   public submit() {
     this.orderSubmitted.set(true);
     this.isProcessing.set(true);
     this.hasError.set(false);
     this.statusResult.started = Date.now();
     this.statusResult.status = ProcessStatus.running;
+
+    this.opentelemetryService.sendCustomMessage('cta_click', {
+      cta_id: 'order_submit_button',
+      form_id: 'order_form',
+      process_id: this.statusResult.processID
+    });
 
     this.orderFormService.submit$({ aoi: this.data.aoi, comment: this.comment })
       .pipe(finalize(() => {
@@ -89,17 +107,41 @@ export class OrderFormComponent {
         next: (value) => {
           this.statusResult.status = ProcessStatus.successful;
           this.statusResult.message = this.getMessage(value, this.orderFormService.config.response.ok);
+          const durationMs = Date.now() - this.formStartTimestamp;
+          this.opentelemetryService.sendCustomMessage('form_completed', {
+            form_id: 'order_form',
+            process_id: this.statusResult.processID,
+            duration_ms: durationMs
+          });
+          this.opentelemetryService.sendCustomMessage('task_completed', {
+            task_name: 'order_submission',
+            process_id: this.statusResult.processID,
+            duration_ms: durationMs
+          });
         },
         error: (err) => {
           console.error(err);
           this.hasError.set(true);
           this.statusResult.status = ProcessStatus.failed;
           this.statusResult.message = this.getMessage(err, this.orderFormService.config.response.error);
+          this.opentelemetryService.sendCustomMessage('user_error_encountered', {
+            error_type: 'order_submission_failed',
+            process_id: this.statusResult.processID,
+            error_message: typeof err === 'string' ? err : err?.message
+          });
         }
       });
   }
 
   public cancel() {
+    if (!this.orderSubmitted()) {
+      this.opentelemetryService.sendCustomMessage('funnel_abandoned', {
+        funnel_name: 'order_process',
+        step: 'configuration',
+        time_spent_ms: Date.now() - this.formStartTimestamp,
+        has_comment: !!this.comment && this.comment.trim().length > 0
+      });
+    }
     this.dialogRef.close();
   }
 

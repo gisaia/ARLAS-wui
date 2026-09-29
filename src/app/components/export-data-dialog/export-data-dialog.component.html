@@ -1,4 +1,4 @@
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [disableRipple]="true" [selectedIndex]="selectedIndex()" >
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [disableRipple]="true" [selectedIndex]="selectedIndex()" (selectedIndexChange)="onTabChange($event)">
   @for (tab of componentsConf(); track tab.key){
       <mat-tab [label]="tab.title | translate" [disabled]="!tab.enabled">
         <ng-template matTabContent>
