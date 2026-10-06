@@ -65,22 +65,14 @@ processes:
     status:
       url: 'https://localhost/aproc/jobs'
 links:
-  - name: Explorer
-    icon: landscape
-    check_url: https://google.com
-    url: https://google.com
-  - name: ARLAS Builder
-    icon: build
-    check_url: http://localhost/arlas_iam_server
-    url: http://localhost:81/builder
   - name: ARLAS Hub
     icon: hub
-    check_url: http://localhost/arlas/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
-    url: http://localhost/hub
+    check_url: https://localhost/arlas_persistence_server/healthcheck
+    url: https://localhost/hub
   - name: Fam
     icon: satellite_alt
-    url: https://demo.cloud.arlas.io/
-    check_url: http://localhost/arlas_iam_server
+    url: https://localhost/fam-wui/
+    check_url: https://localhost/fam/healthcheck
 geocoding:
   enabled: true
   find_place_url: "https://nominatim.openstreetmap.org/"

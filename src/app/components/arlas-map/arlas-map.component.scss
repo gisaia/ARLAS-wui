@@ -195,4 +195,10 @@
         + sizes.$sm-spacing + var(--arlas-map-actions-width));
     z-index: 1;
   }
+
+  ::ng-deep arlas-coordinates {
+    .mat-mdc-text-field-wrapper {
+      padding: 0 !important;
+    }
+  }
 }
