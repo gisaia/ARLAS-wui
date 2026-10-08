@@ -54,16 +54,16 @@ export class CogPixelLegendComponent {
 
   public constructor() {
     effect(() => {
-      const cog = this.cogService.visualisedCogs.get(this.cogId());
+      const dataGroup = this.cogService.visualisedCogs.get(this.cogId());
 
-      if (cog?.protocol === 'titiler' && cog.visualisationUrl.includes(tilePattern)) {
+      if (dataGroup?.protocol === 'titiler' && dataGroup.visualisationUrl.includes(tilePattern)) {
         // Replace tile pattern with pixel value pattern
-        const pixelUrl = cog.visualisationUrl
+        const pixelUrl = dataGroup.visualisationUrl
           .replace(tilePattern, `point/${this.position().lng},${this.position().lat}`);
 
         this.http.get(pixelUrl, { headers: { [PROTECTED_REQUEST_HEADER]: 'true' }})
           .subscribe(r => {
-            const bands = r as {band_names: string[]; values: number[];};
+            const bands = r as { band_names: string[]; values: number[]; };
             const values = new Array<HoveredCogValue>();
             for (let i = 0; i < bands.band_names.length; i++) {
               values.push({ band: bands.band_names[i], value: bands.values[i] });

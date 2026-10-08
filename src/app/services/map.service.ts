@@ -71,7 +71,7 @@ export class ArlasWuiMapService<L, S, M> {
         this.featuresToSelect = ids.map(id => {
           let idFieldName = idPath;
           if (mapContributor.isFlat) {
-            idFieldName = idFieldName.replace(/\./g, '_');
+            idFieldName = idFieldName.replaceAll('.', '_');
           }
           return {
             idFieldName: idFieldName,

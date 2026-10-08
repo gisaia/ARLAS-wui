@@ -19,9 +19,11 @@
 
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
+
 :host {
   --arlas-cog-vis-manager-bg: var(--mat-sys-background);
 }
+
 .manager__button {
   display: flex;
   align-items: center;
@@ -42,6 +44,11 @@
     .visualisation__preview {
       height: 25px !important;
       width: 25px !important;
+
+      img {
+        height: 25px !important;
+        width: 25px !important;
+      }
     }
 
     .visualisation__info__title {
