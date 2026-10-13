@@ -16,10 +16,10 @@ set_default_env_variable() {
 }
 
 # Initialize environment variables using set_default_env_variable
-set_default_env_variable ARLAS_SERVER_URL "http://demo.arlas.io/arlas/"
+set_default_env_variable ARLAS_SERVER_URL "NOT_CONFIGURED"
 set_default_env_variable ARLAS_SERVER_COLLECTION "foobar"
 set_default_env_variable ARLAS_TAGGER_URL "http://localhost:9998"
-set_default_env_variable ARLAS_MAP_STYLE "http://demo.arlas.io:82/styles/positron/style.json"
+set_default_env_variable ARLAS_MAP_STYLE "NOT_CONFIGURED"
 set_default_env_variable ARLAS_GOOGLE_ANALYTICS_KEY "XX-XXXXXXXXX-X"
 set_default_env_variable ARLAS_TICKETING_KEY "NOT_CONFIGURED"
 set_default_env_variable ARLAS_TAB_NAME "NOT_CONFIGURED"
