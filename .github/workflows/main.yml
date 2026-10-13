@@ -37,18 +37,21 @@ jobs:
       - name: Build lib
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspaces=false --include-workspace-root=true
+          npm install --ignore-scripts --workspaces=false --include-workspace-root=true
+          npm run postinstall
           npm run build-lib
       - name: Build cloud
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspace=packages/cloud --include-workspace-root=true
+          npm install --ignore-scripts --workspace=packages/cloud --include-workspace-root=true
+          npm run postinstall
           npm rebuild node-sass
           npm run build-cloud
       - name: Build open source
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspace=packages/opensource --include-workspace-root=true
+          npm install --ignore-scripts --workspace=packages/opensource --include-workspace-root=true
+          npm run postinstall
           npm rebuild node-sass
           npm run build-opensource
       - name: Docker build
