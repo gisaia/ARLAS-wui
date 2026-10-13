@@ -1,5 +1,43 @@
 # Change Log
 
+## [v29.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v29.0.0) (2026-10-13)
+
+**New stuff:**
+
+- Add a dark layout mode [\#1127](https://github.com/gisaia/ARLAS-wui/issues/1127)
+- Implémentation du mode hybride de liste de résultats [\#1121](https://github.com/gisaia/ARLAS-wui/issues/1121)
+- Activate/deactivate resultlist csv export by dashboard configuration [\#799](https://github.com/gisaia/ARLAS-wui/issues/799)
+
+**Fixed bugs:**
+
+- Invalid message when logged out [\#1186](https://github.com/gisaia/ARLAS-wui/issues/1186)
+- Full text search requires two clicks on the textfield before we can type text [\#1176](https://github.com/gisaia/ARLAS-wui/issues/1176)
+- Timeline not extended after hiding analytic board [\#1175](https://github.com/gisaia/ARLAS-wui/issues/1175)
+- Remove filter from bar does not update filter in shortcut or analytics [\#1173](https://github.com/gisaia/ARLAS-wui/issues/1173)
+- Layout problem in selected power bar [\#1172](https://github.com/gisaia/ARLAS-wui/issues/1172)
+- Result set list: actions layout on Thumbnail [\#1169](https://github.com/gisaia/ARLAS-wui/issues/1169)
+- Result set list fonts not homogeneous [\#1163](https://github.com/gisaia/ARLAS-wui/issues/1163)
+- Dynamic links to other tabs not working [\#1162](https://github.com/gisaia/ARLAS-wui/issues/1162)
+- Item overview broken [\#1161](https://github.com/gisaia/ARLAS-wui/issues/1161)
+- Visualisations that are not applicable should be presented differently [\#1158](https://github.com/gisaia/ARLAS-wui/issues/1158)
+- Delay on highlight [\#1157](https://github.com/gisaia/ARLAS-wui/issues/1157)
+- Show more more short cut is croped [\#1152](https://github.com/gisaia/ARLAS-wui/issues/1152)
+- Filter input are not displayed into result list. Only three input is visible. [\#1151](https://github.com/gisaia/ARLAS-wui/issues/1151)
+- Darkmode: resultset list detail separator are too bright [\#1148](https://github.com/gisaia/ARLAS-wui/issues/1148)
+- Darkmode: login page background is not dark [\#1147](https://github.com/gisaia/ARLAS-wui/issues/1147)
+- Darkmode: histogram and timeline are not in dark mode [\#1146](https://github.com/gisaia/ARLAS-wui/issues/1146)
+- Adding a field with numerals in the resultlist details throws an error [\#1142](https://github.com/gisaia/ARLAS-wui/issues/1142)
+- Interpolate extrusion opacity does not work [\#1139](https://github.com/gisaia/ARLAS-wui/issues/1139)
+- Add missing enrichments parameter for AIAS enrich calls [\#1136](https://github.com/gisaia/ARLAS-wui/issues/1136)
+- List cards view improvement [\#1132](https://github.com/gisaia/ARLAS-wui/issues/1132)
+- The item details are displayed incorrectly. [\#1131](https://github.com/gisaia/ARLAS-wui/issues/1131)
+- When hovering over an element on the map, the rows in the results table change size. [\#1129](https://github.com/gisaia/ARLAS-wui/issues/1129)
+
+**Miscellaneous:**
+
+- \[Doc\] Add documentatin for custom externalNode [\#1144](https://github.com/gisaia/ARLAS-wui/issues/1144) [[documentation](https://github.com/gisaia/ARLAS-wui/labels/documentation)]
+- Apply strictType in tsconfig in order to consolidate the code [\#1063](https://github.com/gisaia/ARLAS-wui/issues/1063)
+
 ## [v28.0.3](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.3) (2026-06-12)
 
 ## [v28.0.2](https://github.com/gisaia/ARLAS-WUI/tree/v28.0.2) (2026-06-05)
