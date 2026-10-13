@@ -32,6 +32,8 @@ jobs:
         run: npm run license-check
       - name: Test
         run: npm run test
+      - name: Audit npm
+        run: npm audit --audit-level=high --omit=dev
       - name: Build lib
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
