@@ -38,7 +38,7 @@ import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
-import { firstValueFrom, forkJoin, Observable, of, zip } from 'rxjs';
+import { firstValueFrom, forkJoin, Observable, of, Subscriber, zip } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/internal/operators/map';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
@@ -145,7 +145,7 @@ export class ArlasTranslateLoader implements TranslateLoader {
     }
   }
 
-  private mergeLocalI18n(localI18nAdress, localProjectI18nAdress, lang, observer) {
+  private mergeLocalI18n(localI18nAdress: string, localProjectI18nAdress: string, lang: string, observer: Subscriber<any>) {
     zip([this.http.get(localI18nAdress), this.http.get(localProjectI18nAdress)])
       .subscribe({
         next: res => {

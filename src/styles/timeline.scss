@@ -21,6 +21,7 @@
 @use "app/sizes.scss" as sizes;
 @use "app/mixin.scss" as mixin;
 
+
 .arlas-timeline--container {
   position: absolute;
   bottom: 0;
@@ -28,19 +29,13 @@
   right: sizes.$sm-spacing;
 
   .arlas-timeline {
-    .histogram__description {
-      font-size: 1em;
-      font-weight: 300;
-      display: none;
-    }
-
     .histogram__description--display {
-      color: black;
+      color: var(--mat-sys-on-surface, black);
       padding-top: 5px;
     }
 
     .histogram__description__title {
-      color: black;
+      color: var(--mat-sys-on-surface, black);
     }
 
     .histogram__description__startvalue--background,
@@ -61,55 +56,6 @@
           }
         }
       }
-    }
-
-    /** TIMELINE BARS**/
-    .histogram__chart--bar__currentselection,
-    .histogram__chart--bar__partlyselected,
-    .histogram__chart--bar__fullyselected {
-      fill: #FFF !important;
-      stroke: #a5a5a5 !important;
-      stroke-width: 0.4px;
-    }
-
-    .histogram__chart--bar {
-      fill: #FFF !important;
-      stroke: #b7b7b7 !important;
-      stroke-width: 0.4px;
-      stroke-opacity: 1;
-    }
-
-    /** TIMELINE HEADBANDS**/
-    .headband_currentselection,
-    .headband_currentselection_max,
-    .headband_partlyselected,
-    .headband_fullyselected {
-      fill: #2196F3 !important;
-      stroke: #2196F3 !important;
-      stroke-width: 0.4px !important;
-      height: 1.5px !important;
-    }
-
-    .headband_currentselection_max {
-      fill: rgb(201, 0, 100) !important;
-      stroke: rgb(201, 0, 100) !important;
-    }
-
-    .headband_notselected {
-      fill: #FFF !important;
-      stroke: #b7b7b7 !important;
-      stroke-width: 0 !important;
-      height: 0 !important;
-    }
-
-    .histogram__axis {
-      stroke: #bdbdbd;
-      stroke-width: 1px;
-    }
-
-    .histogram__brush--handles {
-      stroke: #78909C;
-      fill: white;
     }
   }
 
@@ -147,9 +93,9 @@
     .histogram__no-chart__key,
     .histogram__no-chart__value {
       font-family: "Roboto", "Helvetica Neue", sans-serif;
-      font-size: 0.9em;
+      font-size: var(--arlas-sys-subtitle-font-size);
       font-weight: normal;
-      color: #757575;
+      color: var(--mat-sys-on-background, #757575);
     }
 
     .histogram__ticks {
@@ -177,8 +123,7 @@
   .arlas-timeline-not-selectable {
     .tick {
       text {
-        fill: #757575;
-        font-size: 1em;
+        fill: var(--mat-sys-on-background, #757575);
       }
     }
   }
@@ -210,7 +155,7 @@
 /* Date Picker */
 
 .arlas-date-picker-input-from, .arlas-date-picker-input-to {
-  background-color: var(--arlas-theme-color);
+  background-color: var(--mat-sys-secondary);
   color: white;
   border: none;
 }

@@ -31,9 +31,15 @@ import { wktToGeoJSON } from 'betterknown';
 import { BBox } from 'geojson';
 import { map, Observable, Subject } from 'rxjs';
 import { flattenedMatchAndReplace } from '../tools/cog';
-import { getItem } from '../tools/utils';
+import { getItem$ } from '../tools/utils';
 
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
+
+
+export const ARLAS_RASTER_SOURCE_PREFIX = 'arlas-raster-source-';
+export function getRasterOnMapLayerId(itemId: string) {
+  return ARLAS_RASTER_SOURCE_PREFIX + itemId;
+}
 
 /**
  * This service is used to display any type of rasters on the ARLAS map.
@@ -43,7 +49,7 @@ const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
   providedIn: 'root'
 })
 export class VisualizeService<L, S, M> {
-  private mapInstance: AbstractArlasMapGL;
+  private mapInstance?: AbstractArlasMapGL;
   public fitbounds: Array<Array<number>> = [];
 
   private readonly _isRasterOnMap = signal(false);
@@ -76,8 +82,8 @@ export class VisualizeService<L, S, M> {
   public getVisuFields(urlTemplate: string): string[] {
     if (urlTemplate.includes('{')) {
       /** Fetch all elements between {} in the template. */
-      const regex = new RegExp(/{([^}]+)}/g);
-      const fields = [];
+      const regex = new RegExp(/{([^{]+?)}/g);
+      const fields = new Array<string>();
       const matches = [...urlTemplate.matchAll(regex)];
       if (matches) {
         matches.filter(m => !!m && Array.isArray(m) && m.length > 1).forEach(m => fields.push(m[1]));
@@ -95,8 +101,8 @@ export class VisualizeService<L, S, M> {
   public getVisuInfo(elementidentifier: ElementIdentifier, collection: string, urlTemplate: string):
     Observable<string> {
 
-    const searchResult = getItem(elementidentifier, collection, this.collaborativeService);
-    return searchResult.pipe(map(data => flattenedMatchAndReplace(data.hits[0].data, urlTemplate)));
+    const searchResult = getItem$(elementidentifier, collection, this.collaborativeService);
+    return searchResult.pipe(map(data => flattenedMatchAndReplace(data.hits?.[0].data, urlTemplate)));
   }
 
   /** @deprecated Use removeRasters instead. */
@@ -112,15 +118,15 @@ export class VisualizeService<L, S, M> {
     if (id) {
       this.visualizedRasters.delete(id);
 
-      this.mapFrameworkService.removeLayer(this.mapInstance, 'raster-source-' + id);
+      this.mapFrameworkService.removeLayer(this.mapInstance, getRasterOnMapLayerId(id));
       this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     } else {
       this.visualizedRasters.clear();
 
-      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, 'raster-source-');
+      this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX);
       this.mapFrameworkService.removeLayersFromPattern(this.mapInstance, CROSS_LAYER_PREFIX);
     }
-    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, 'raster-source-'));
+    this._isRasterOnMap.set(this.mapFrameworkService.hasLayersFromPattern(this.mapInstance, ARLAS_RASTER_SOURCE_PREFIX));
   }
 
   /**
@@ -132,7 +138,11 @@ export class VisualizeService<L, S, M> {
    * @param beforeId Insert before a given raster id.
    */
   public addRaster(url: string, maxZoom: number, bounds: Array<number>, id: string, beforeId?: string) {
-    const layerId = 'raster-source-' + id;
+    if (!this.mapInstance) {
+      return;
+    }
+
+    const layerId = getRasterOnMapLayerId(id);
     this.mapFrameworkService.removeLayer(this.mapInstance, layerId);
     this.mapFrameworkService.removeLayer(this.mapInstance, CROSS_LAYER_PREFIX + id);
     this.mapFrameworkService.addRasterLayer(this.mapInstance, layerId, url, bounds, maxZoom,
@@ -167,6 +177,10 @@ export class VisualizeService<L, S, M> {
   }
 
   public addCrossToRemove(lat: number, lng: number, id: string) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     const crossPosition = {
       type: 'FeatureCollection',
       'features': [
@@ -185,10 +199,10 @@ export class VisualizeService<L, S, M> {
       this.notifyRasterRemoved(id);
     });
     this.mapFrameworkService.onLayerEvent('mousemove', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
-      this.mapFrameworkService.setMapCursor(this.mapInstance, 'pointer');
+      this.mapFrameworkService.setMapCursor(this.mapInstance as AbstractArlasMapGL, 'pointer');
     });
     this.mapFrameworkService.onLayerEvent('mouseleave', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
-      this.mapFrameworkService.setMapCursor(this.mapInstance, '');
+      this.mapFrameworkService.setMapCursor(this.mapInstance as AbstractArlasMapGL, '');
     });
     this.handlePopup(lat, lng, id);
   }
@@ -198,17 +212,21 @@ export class VisualizeService<L, S, M> {
   }
 
   public handlePopup(lat: number, lng: number, id: string) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     const tooltipMsg = this.translateService.instant('Remove visualisation');
     const popup = this.mapFrameworkService.createPopup(lng, lat, tooltipMsg);
     this.mapFrameworkService.onLayerEvent('mouseenter', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
-      this.mapFrameworkService.addPopup(this.mapInstance, popup);
+      this.mapFrameworkService.addPopup(this.mapInstance as AbstractArlasMapGL, popup);
     });
     this.mapFrameworkService.onLayerEvent('mouseleave', this.mapInstance, CROSS_LAYER_PREFIX + id, () => {
-      this.mapFrameworkService.removePopup(this.mapInstance, popup);
+      this.mapFrameworkService.removePopup(this.mapInstance as AbstractArlasMapGL, popup);
     });
   }
 
-  public getBoundsAndCenter(idField: string, idValue: string, geometryPath: string, centroidPath: string, collection): Observable<{
+  public getBoundsAndCenter(idField: string, idValue: string, geometryPath: string, centroidPath: string, collection: string): Observable<{
     bounds: Array<Array<number>>;
     center: Array<number>;
     box: BBox;
@@ -226,10 +244,10 @@ export class VisualizeService<L, S, M> {
       .resolveHits([projType.search, search], this.collaborativeService.collaborations, collection, '', filter);
     return searchResult.pipe(
       map(h => {
-        const geomData = getElementFromJsonObject(h.hits[0].data, geometryPath);
-        const centerData = getElementFromJsonObject(h.hits[0].data, centroidPath);
-        const geojsonData = this.getGeojsonFromEsGeom(geomData);
-        const geojsonCenter = this.getGeojsonFromEsGeom(centerData);
+        const geomData = getElementFromJsonObject(h.hits?.[0].data, geometryPath);
+        const centerData = getElementFromJsonObject(h.hits?.[0].data, centroidPath);
+        const geojsonData = this.getGeojsonFromEsGeom(geomData) as GeoJSON.GeoJSON;
+        const geojsonCenter = this.getGeojsonFromEsGeom(centerData) as any;
         const box = bbox(geojsonData);
         const minX = box[0] - 0.1 / 100 * box[0];
         const minY = box[1] - 0.1 / 100 * box[1];
@@ -268,6 +286,10 @@ export class VisualizeService<L, S, M> {
   }
 
   public addGeocodingPreviewLayer(geoJson: any) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
     const circlePaint: ArlasPaint = {
       'circle-radius': 4,
@@ -284,10 +306,16 @@ export class VisualizeService<L, S, M> {
 
   }
   public removeGeocodingPreviewLayer() {
-    this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
+    if (this.mapInstance) {
+      this.mapFrameworkService.removeLayer(this.mapInstance, GEOCODING_PREVIEW_ID);
+    }
   }
 
   public handleGeojsonPreview(geojson: any) {
+    if (!this.mapInstance) {
+      return;
+    }
+
     this.addGeocodingPreviewLayer(geojson);
     this.mapFrameworkService.onMapEvent('zoomend', this.mapInstance, () => {
       this.removeGeocodingPreviewLayer();

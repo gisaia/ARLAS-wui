@@ -22,20 +22,31 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ArlasConfigService, ArlasIamService, ArlasSettingsService, AuthentificationService } from 'arlas-wui-toolkit';
+import { throwError } from 'rxjs';
 import { OrderFormComponent, OrderFormPayload } from '../components/order-form/order-form.component';
 import { updateAuthorizationHeaders$ } from '../tools/authorization';
 
 
 export interface OrderFormConfig {
+  /** Whether the order form is enabled */
   enabled: boolean;
   text: {
-    button: string;
-    form: string;
+    /** Text of the button to trigger the order */
+    button?: string;
+    /** Title of the form */
+    form?: string;
   };
+  /** URL of the endpoint where the POST for the order will be sent */
   endpoint: string;
+  /**
+   * Structure of the payload to send. Can contain pre-defined values.
+   * If one of the value is "$AOI" or "$COMMENT" they will be replaced with the order's aoi and user defined comments respectively
+   */
   payload: { [key: string]: any; };
   response: {
+    /** Message to display when the order is a success */
     ok: string;
+    /** Message to display when the order failed */
     error: string;
   };
 };
@@ -52,15 +63,20 @@ export class OrderFormService {
   private readonly authentService = inject(AuthentificationService);
   private readonly destroyRef = inject(DestroyRef);
 
-  public config: OrderFormConfig;
-  private headers: { [name: string]: string; };
+  public config?: OrderFormConfig;
+  private headers: { [name: string]: string; } = {};
 
   public constructor() {
     this.config = this.configService.getValue('arlas.web.externalNode.order_form');
     if (this.config?.enabled) {
       // Check that everything needed is present
-      this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response.ok && !!this.config.response.error;
-      this.config.text = {button: marker('Order'), form: marker('Order a product'), ...this.config.text};
+      this.config.enabled = !!this.config.endpoint && !!this.config.payload && !!this.config.response
+        && !!this.config.response.ok && !!this.config.response.error;
+      this.config.text = {
+        button: marker('Order'),
+        form: marker('Order a product'),
+        ...this.config.text
+      };
     }
     this.setHeaders();
   }
@@ -74,6 +90,10 @@ export class OrderFormService {
   }
 
   public submit$(formPayload: OrderFormPayload) {
+    if (!this.config) {
+      return throwError(() => new Error('[ARLAS][ORDER] No configuration was set'));
+    }
+
     const payload = JSON.stringify(this.config.payload)
       .replace('"$AOI"', JSON.stringify(formPayload.aoi))
       .replace('$COMMENT', formPayload.comment);

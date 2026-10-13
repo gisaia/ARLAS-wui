@@ -50,7 +50,7 @@ export interface ExportDataDialogConfiguration {
 })
 export class ExportDataDialogComponent implements  OnInit {
 
-  protected dialogData = inject<Array<ExportDataDialogConfiguration>>(MAT_DIALOG_DATA);
+  protected dialogData = inject<ExportDataDialogConfiguration>(MAT_DIALOG_DATA);
   protected componentsConf = signal<{key: string; enabled: boolean; component: any; title: string; injector: any;}[]>([]);
   protected selectedIndex = computed( () => this.componentsConf().findIndex(e => e.enabled));
 
@@ -58,14 +58,14 @@ export class ExportDataDialogComponent implements  OnInit {
     const tabs = Object.keys(this.dialogData)
       .map(key => ({
         key,
-        enabled: this.dialogData[key].enabled,
+        enabled: this.dialogData[key as 'share' | 'download'].enabled,
         component: key === 'share' ? ShareDialogComponent : DownloadDialogComponent,
         title: key === 'share' ? marker('Download geo-data') : marker('Download data'),
         injector:  Injector.create({
           providers: [
             {
               provide: MAT_DIALOG_DATA,
-              useValue: this.dialogData[key].data
+              useValue: this.dialogData[key as 'share' | 'download'].data
             },
             {
               provide: MatDialogRef,

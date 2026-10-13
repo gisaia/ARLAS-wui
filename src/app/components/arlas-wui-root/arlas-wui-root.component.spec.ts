@@ -22,12 +22,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { BasemapService } from 'arlas-map';
+import { ArlasBasemaps, BasemapService } from 'arlas-map';
 import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import {
-    ArlasBookmarkService,
-    ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService, ArlasMapService, ArlasMapSettings,
-    ArlasSettingsService, ArlasStartupService, ArlasTagService, ArlasWalkthroughModule, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS
+    ArlasBookmarkService, ArlasCollaborativesearchService, ArlasCollectionService, ArlasConfigService,
+    ArlasMapService, ArlasMapSettings, ArlasSettingsService, ArlasStartupService, ArlasTagService,
+    ArlasWalkthroughModule, ArlasWalkthroughService, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS
 } from 'arlas-wui-toolkit';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -42,6 +42,10 @@ describe('ArlasWuiRootComponent', () => {
     let fixture: ComponentFixture<ArlasWuiRootComponent<any, any, any>>;
 
     beforeEach(async () => {
+      const mockColorGeneratorLoader = {
+        changekeysToColors$: of()
+      };
+
         const mockSettingsService = {
             settings: { tab_name: 'Test' },
             getAuthentSettings: vi.fn().mockName('ArlasSettingsService.getAuthentSettings'),
@@ -52,7 +56,8 @@ describe('ArlasWuiRootComponent', () => {
             setSettings: vi.fn().mockName('ArlasSettingsService.setSettings'),
             getLinksSettings: vi.fn().mockName('ArlasSettingsService.getLinksSettings'),
             getTicketingKey: vi.fn().mockName('ArlasSettingsService.getTicketingKey'),
-            getGeocodingSettings: vi.fn()
+            getGeocodingSettings: vi.fn(),
+            isDarkThemeEnabled: vi.fn().mockName('ArlasSettingsService.isDarkThemeEnabled')
         };
 
         const mockContributorService = {
@@ -65,15 +70,13 @@ describe('ArlasWuiRootComponent', () => {
                 ArlasWuiRootComponent,
                 RouterModule.forRoot([]),
                 OAuthModule.forRoot(),
-                ColorGeneratorModule.forRoot({
-                    loader: {
-                        provide: ColorGeneratorLoader,
-                        useClass: AwcColorGeneratorLoader
-                    }
-                }),
                 ArlasWalkthroughModule.forRoot(),
             ],
             providers: [
+              {
+                provide: ColorGeneratorLoader,
+                useValue: mockColorGeneratorLoader
+              },
                 ArlasCollaborativesearchService,
                 {
                     provide: ContributorService,
@@ -113,22 +116,28 @@ describe('ArlasWuiRootComponent', () => {
                     useValue: {
                         fetchSources$: () => of([]),
                         protomapBasemapAdded$: of(),
-                        setBasemaps: (basemaps) => { },
+                        setBasemaps: (basemaps: ArlasBasemaps) => { },
                         basemapChanged$: of()
-
                     }
                 },
                 {
                     provide: ArlasSettingsService,
                     useValue: mockArlasSettingsService
+                },
+                {
+                    provide: ArlasWalkthroughService,
+                    useValue: {
+                        isActivable: true,
+                        load: vi.fn()
+                    }
                 }
             ],
             teardown: { destroyAfterEach: false }
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ArlasWuiRootComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+      fixture = TestBed.createComponent(ArlasWuiRootComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
     });
 
     it('should create', () => {

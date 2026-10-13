@@ -55,13 +55,17 @@
     flex-direction: row-reverse;
     align-items: flex-end;
 
-    .map__legend-button {
+    .map__legend-wrapper {
       width: var(--arlas-map-actions-width);
       height: var(--arlas-map-actions-width);
-      margin-bottom: sizes.$sm-spacing;
       @include mixin.box-border();
       box-shadow: none;
       padding: 0;
+
+      .map__legend-button{
+        height: 100%;
+        padding: 0;
+      }
 
       .mat-icon {
         height: var(--arlas-map-actions-width);
@@ -79,7 +83,7 @@
 
       .map__visu-item {
         @include mixin.box-border();
-        margin: 1px 1px 3px;
+        margin: 1px 1px 0px;
 
         .map__visu-content {
           overflow: hidden;
@@ -141,18 +145,6 @@ arlas-coordinates {
 
   .current-coordinate,
   .current-coordinate-edition {
-    position: absolute;
-    right: calc(var.$map-scale-max-width + sizes.$default-spacing);
-    bottom: calc(var.$timeline-height + sizes.$sm-spacing);
-    background-color: white;
-    color: black;
-    font-size: smaller;
-    padding: 0 sizes.$sm-spacing;
-    // Height to match the height of the map scale
-    height: var.$map-scale-height;
-    display: flex;
-    align-items: center;
-    @include mixin.box-border();
     box-sizing: border-box;
 
     .lat {

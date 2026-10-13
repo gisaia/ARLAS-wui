@@ -19,6 +19,12 @@
 
 @use "styles/app/sizes.scss" as sizes;
 
+:host {
+  --arlas-order-form-fg: var(--mat-sys-on-background);
+  --arlas-order-form-primary: var(--mat-sys-secondary);
+  --arlas-order-form-bg: var(--mat-sys-background);
+}
+
 .order-form {
     gap: sizes.$lg-spacing;
     display: flex;
@@ -26,7 +32,7 @@
     padding: 12px 24px;
 
     &__title {
-        font-size: sizes.$dialog-title-font-size;
+        font-size: var(--arlas-sys-dialog-title-font-size);
     }
 
     &__content {
@@ -42,7 +48,7 @@
             overflow-y: auto;
 
             &__title {
-                font-size:sizes.$title-font-size;
+                font-size: var(--arlas-sys-subtitle-font-size);
             }
 
             textarea {
@@ -50,7 +56,7 @@
                 min-width: 350px;
 
                 font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-                font-size: 16px;
+                font-size: var(--arlas-sys-content-font-size);
             }
 
             &__info {
@@ -64,10 +70,10 @@
                     &__key {
                         width: 50%;
                         text-align: end;
-                        color: #a7a7a7;
+                        color: var(--arlas-order-form-fg, #a7a7a7);
 
                         &__detail {
-                            font-size: sizes.$sm-font-size;
+                            font-size: var(--arlas-sys-content-font-size);
                             padding-left: sizes.$sm-spacing;
                         }
                     }
@@ -100,8 +106,8 @@
         gap: sizes.$lg-spacing;
 
         &__submit {
-            --mat-button-filled-container-color: #4f9fff;
-            --mat-button-filled-label-text-color: white;
+            --mat-button-filled-container-color: var(--arlas-order-form-primary, #4f9fff);
+            --mat-button-filled-label-text-color: var(--arlas-order-form-bg, white);
         }
     }
 }

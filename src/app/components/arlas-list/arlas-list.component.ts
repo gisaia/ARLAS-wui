@@ -17,14 +17,17 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit, viewChild, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Action, ElementIdentifier, GetValuePipe, Item, ModeEnum, PageQuery, ResultListComponent, SortEnum } from 'arlas-web-components';
+import {
+  Action, ElementIdentifier, GetValuePipe, Item, ItemDataType, PageQuery, ResultListComponent, ResultlistModeEnum, SortEnum
+} from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
+import { ArlasTaskService } from 'arlas-wui-toolkit';
 import { Subject, takeUntil } from 'rxjs';
 import { GetResultlistConfigPipe } from '../../pipes/get-resultlist-config.pipe';
 import { ActionManagerService } from '../../services/action-manager.service';
@@ -68,16 +71,17 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
    */
   @Input() public resultListGridColumns = 4;
 
-  @ViewChild('resultList', { static: false }) public resultListComponent: ResultListComponent;
-  @ViewChild('tabsList', { static: false }) public tabsList: MatTabGroup;
+  public resultListComponent = viewChild<ResultListComponent>('resultList');
+  @ViewChild('tabsList', { static: false }) public tabsList?: MatTabGroup;
 
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
+  protected readonly taskService = inject(ArlasTaskService);
   public constructor(
-    protected resultlistService: ResultlistService<L, S, M>,
+    protected readonly resultlistService: ResultlistService<L, S, M>,
     private readonly cogService: CogService<L, S, M>,
-    protected actionManager: ActionManagerService
+    protected readonly actionManager: ActionManagerService
   ) { }
 
   public ngOnInit(): void {
@@ -89,11 +93,13 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   }
 
   public ngAfterViewInit(): void {
-    this.tabsList.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
+    this.tabsList?.selectedIndexChange?.pipe(takeUntil(this._onDestroy$)).subscribe(e => {
       this.resultlistService.selectedListTabIndex = e;
-      this.cogService.updateCogVisualisation(
-        this.resultlistService.previewListContrib.identifier,
-        this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+      if (this.resultlistService.previewListContrib) {
+        this.cogService.updateCogVisualisation(
+          this.resultlistService.previewListContrib.identifier,
+          this.resultlistService.resultlistConfigPerContId.get(this.resultlistService.previewListContrib.identifier));
+      }
     });
   }
 
@@ -104,16 +110,17 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
   }
 
   public onListLoaded(loaded: boolean) {
-    if (loaded) {
+    const comp = this.resultListComponent();
+    if (loaded && comp) {
       setTimeout(() => {
-        this.resultlistService.setListComponent(this.resultListComponent);
+        this.resultlistService.setListComponent(comp);
       }, 0);
     }
   }
 
-  public changeListResultMode(mode: ModeEnum, identifier: string) {
+  public changeListResultMode(mode: ResultlistModeEnum, identifier: string) {
     const config = this.resultlistService.resultlistConfigPerContId.get(identifier);
-    config.defautMode = mode;
+    config.defaultMode = mode;
     this.resultlistService.resultlistConfigPerContId.set(identifier, config);
     setTimeout(() => {
       this.resultlistService.updateVisibleItems();
@@ -156,7 +163,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     this.resultlistService.updateMapStyleFromScroll(items, collection);
   }
 
-  public updateMapStyleFromChange(items: Map<string, string>[], collection: string) {
+  public updateMapStyleFromChange(items: Map<string, ItemDataType>[], collection: string) {
     this.resultlistService.updateMapStyleFromChange(items, collection);
   }
 

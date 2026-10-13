@@ -25,30 +25,35 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts && npm run postinstall
       - name: Lint
         run: npm run lint
       - name: License check
         run: npm run license-check
       - name: Test
         run: npm run test
+      - name: Audit npm
+        run: npm audit --audit-level=high --omit=dev
       - name: Build lib
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspaces=false --include-workspace-root=true
-          npm run build-lib
+          npm ci --ignore-scripts --workspaces=false --include-workspace-root=true
+          npm run postinstall
+          npm run build-lib --ignore-scripts
       - name: Build cloud
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspace=packages/cloud --include-workspace-root=true
+          npm ci --ignore-scripts --workspace=packages/cloud --include-workspace-root=true
+          npm run postinstall
           npm rebuild node-sass
-          npm run build-cloud
+          npm run build-cloud --ignore-scripts
       - name: Build open source
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --workspace=packages/opensource --include-workspace-root=true
+          npm ci --ignore-scripts --workspace=packages/opensource --include-workspace-root=true
+          npm run postinstall
           npm rebuild node-sass
-          npm run build-opensource
+          npm run build-opensource --ignore-scripts
       - name: Docker build
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;

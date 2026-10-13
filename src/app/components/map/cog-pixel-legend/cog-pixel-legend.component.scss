@@ -19,12 +19,16 @@
 
 @use "styles/app/mixin.scss" as mixin;
 
+:host {
+  --arlas-cog-pixel-legend-bg: var(--mat-sys-background);
+}
+
 .cog-pixel {
-  background-color: white;
+  background-color: var(--arlas-cog-pixel-legend-bg, white);
   border-radius: 4px;
   padding: 3px;
   @include mixin.box-border();
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
 
   &__band {
     text-align: end;

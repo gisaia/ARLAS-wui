@@ -31,16 +31,18 @@ export class ActionManagerService {
 
   public addAction(contId: string, itemId: string, action: Action) {
     if (ActionHandler.isReversible(action)) {
-      if (!this.activeActionsPerContId.get(contId)) {
-        this.activeActionsPerContId.set(contId, new Map());
+      let contributorActiveActions = this.activeActionsPerContId.get(contId);
+      if (!contributorActiveActions) {
+        contributorActiveActions = new Map();
+        this.activeActionsPerContId.set(contId, contributorActiveActions);
       }
-      const activeActions = this.activeActionsPerContId.get(contId);
-      if (!activeActions.get(itemId)) {
-        activeActions.set(itemId, new Set());
+      let actions = contributorActiveActions.get(itemId);
+      if (!actions) {
+        actions = new Set();
+        contributorActiveActions.set(itemId, actions);
       }
-      const actions = activeActions.get(itemId);
       actions.add(action.id);
-      this.activeActionsPerContId.set(contId, new Map(activeActions));
+      this.activeActionsPerContId.set(contId, new Map(contributorActiveActions));
       this.notifier.refreshActions(itemId);
     }
   }
@@ -51,7 +53,7 @@ export class ActionManagerService {
       return;
     }
     const activeActions = this.activeActionsPerContId.get(contId);
-    if (!activeActions.get(itemId)) {
+    if (!activeActions?.get(itemId)) {
       return;
     }
     const actions = activeActions.get(itemId);

@@ -62,7 +62,7 @@ export class GeocodingService {
   }
 
   private buildSearchUrl(query: GeocodingQueryParams): string {
-    let url = `${this.arlasSettingsService.getGeocodingSettings().find_place_url}/search?q=${query.q}`;
+    let url = `${this.arlasSettingsService.getGeocodingSettings()?.find_place_url}/search?q=${query.q}`;
     url += `&accept-language=${query['accept-language']}`;
     url += `&limit=${query.limit ?? 20}`;
     url += `&format=${query.format ?? 'jsonv2'}`;

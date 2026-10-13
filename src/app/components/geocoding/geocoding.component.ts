@@ -56,17 +56,17 @@ export class GeocodingComponent implements AfterViewInit {
    * Emits an event when the map needs to zoom on the given location
    */
   @Output() public zoomToAddress = new EventEmitter<GeocodingResult>();
-  @ViewChild('searchInput') private readonly searchInput: ElementRef;
+  @ViewChild('searchInput') private readonly searchInput?: ElementRef;
 
   protected displayedColumns: string[] = ['address'];
   protected displayTable = false;
   protected hasSearched = false;
   protected hasError = false;
   protected loading = false;
-  protected geocodingResult: MatTableDataSource<GeocodingResult>;
+  protected geocodingResult = new MatTableDataSource<GeocodingResult>();
   protected searchFormControl = new FormControl('');
 
-  private previousSearch: string;
+  private previousSearch?: string;
 
   public constructor(
     private readonly geocodingService: GeocodingService,
@@ -75,7 +75,7 @@ export class GeocodingComponent implements AfterViewInit {
   ) { }
 
   public ngAfterViewInit(): void {
-    this.searchInput.nativeElement.focus();
+    this.searchInput?.nativeElement.focus();
     this.cdr.detectChanges();
   }
 

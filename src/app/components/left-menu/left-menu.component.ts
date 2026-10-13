@@ -69,20 +69,20 @@ export class LeftMenuComponent implements OnInit {
    * @Input : Angular
    * Whether to show the filter indicators on the Analytics Menu icons
    */
-  @Input() public showIndicators: boolean;
+  @Input() public showIndicators = true;
   /**
    * @Output : Angular
    * Emits an event when the menu's buttons toggle state changes
    */
   @Output() public menuEventEmitter: Subject<MenuState> = new Subject();
 
-  @ViewChild('tag', { static: false }) private readonly tagComponent: TagComponent;
+  @ViewChild('tag', { static: false }) private readonly tagComponent?: TagComponent;
 
   public tagComponentConfig: any;
 
   public zendeskActive = false;
 
-  public isRefreshAnalyticsButton: boolean;
+  public isRefreshAnalyticsButton = false;
   public showDashboardsList = false;
 
   public constructor(
@@ -127,10 +127,10 @@ export class LeftMenuComponent implements OnInit {
   }
 
   public displayTag() {
-    this.tagComponent.openDialog();
+    this.tagComponent?.openDialog();
   }
 
   public displayTagManagement() {
-    this.tagComponent.openManagement();
+    this.tagComponent?.openManagement();
   }
 }

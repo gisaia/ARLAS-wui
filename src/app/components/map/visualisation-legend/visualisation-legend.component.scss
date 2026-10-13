@@ -17,6 +17,9 @@
  * under the License.
  */
 @use "styles/app/sizes.scss" as sizes;
+:host {
+  --arlas-vis-legend-bg: var(--mat-sys-background);
+}
 
 .legend {
     display: flex;
@@ -31,7 +34,7 @@
         gap: sizes.$sm-spacing;
 
         arlas-cog-legend {
-            background-color: white;
+            background-color: var(--arlas-vis-legend-bg, white);
             border-radius: 4px;
 
             display: flex;

@@ -16,15 +16,14 @@ set_default_env_variable() {
 }
 
 # Initialize environment variables using set_default_env_variable
-set_default_env_variable ARLAS_SERVER_URL "http://demo.arlas.io/arlas/"
+set_default_env_variable ARLAS_SERVER_URL "NOT_CONFIGURED"
 set_default_env_variable ARLAS_SERVER_COLLECTION "foobar"
 set_default_env_variable ARLAS_TAGGER_URL "http://localhost:9998"
-set_default_env_variable ARLAS_MAP_STYLE "http://demo.arlas.io:82/styles/positron/style.json"
+set_default_env_variable ARLAS_MAP_STYLE "NOT_CONFIGURED"
 set_default_env_variable ARLAS_GOOGLE_ANALYTICS_KEY "XX-XXXXXXXXX-X"
 set_default_env_variable ARLAS_TICKETING_KEY "NOT_CONFIGURED"
 set_default_env_variable ARLAS_TAB_NAME "NOT_CONFIGURED"
 
-set_default_env_variable RESULTLIST_ENABLE_EXPORT "false"
 set_default_env_variable RESULTLIST_EXPORT_SIZE "1000"
 
 set_default_env_variable ARLAS_HISTOGRAMS_MAX_BUCKETS "200"
@@ -86,6 +85,7 @@ set_default_env_variable ARLAS_STATIC_LINKS "[]"
 set_default_env_variable ARLAS_HUB_URL "http://localhost:8095"
 
 set_default_env_variable ARLAS_WHITELISTED_URLS "[]"
+set_default_env_variable ARLAS_DARK_THEME_ENABLED "false"
 
 set_default_env_variable ARLAS_DRAW_ACTIVE_COLOR "#fbb03b"
 set_default_env_variable ARLAS_DRAW_ACTIVE_OPACITY "0.1"
@@ -103,7 +103,6 @@ SETTINGS_VARS="ARLAS_SERVER_URL
     ARLAS_GOOGLE_ANALYTICS_KEY
     ARLAS_TICKETING_KEY
     ARLAS_TAB_NAME
-    RESULTLIST_ENABLE_EXPORT
     RESULTLIST_EXPORT_SIZE
     ARLAS_HISTOGRAMS_MAX_BUCKETS
     ARLAS_EXPORT_HISTOGRAMS_NB_BUCKETS
@@ -158,7 +157,8 @@ SETTINGS_VARS="ARLAS_SERVER_URL
     ARLAS_DRAW_ACTIVE_DASHES
     ARLAS_DRAW_INACTIVE_COLOR
     ARLAS_DRAW_INACTIVE_OPACITY
-    ARLAS_DRAW_INACTIVE_DASHES"
+    ARLAS_DRAW_INACTIVE_DASHES
+    ARLAS_DARK_THEME_ENABLED"
 
 SETTINGS_SUBST=$(printf '$%s ' $SETTINGS_VARS)
 envsubst "$SETTINGS_SUBST" < /usr/share/nginx/html/settings.yaml > /usr/share/nginx/html/settings.yaml.tmp

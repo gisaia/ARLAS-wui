@@ -811,6 +811,7 @@
               "globalActionEvent": 300,
               "useColorService": true,
               "cellBackgroundStyle": "filled",
+              "isExportEnabled": true,
               "options": {
                 "showActionsOnhover": "true",
                 "showDetailIconName": "keyboard_arrow_down",

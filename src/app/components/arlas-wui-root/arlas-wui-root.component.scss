@@ -20,9 +20,8 @@
 @use "styles/variables.scss" as var;
 @use "styles/app/sizes.scss" as sizes;
 @use "styles/app/mixin.scss" as mixin;
-@use "styles/app/colors.scss" as colors;
 
-.app-container {
+  .app-container {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -96,7 +95,7 @@
   position: absolute;
   right: 0;
   display: block;
-  background-color: white;
+  background-color: var(--arlas-wui-background, var(--mat-sys-surface));
 
   &--closed {
     display: none;
@@ -109,7 +108,7 @@
   position: absolute;
   right: 0;
   visibility: hidden;
-  background-color: white;
+  background-color: var(--arlas-wui-background, var(--mat-sys-surface));
   overflow: hidden;
 
   &--open {
@@ -166,17 +165,17 @@
 
 ::-webkit-scrollbar {
   width: 6px;
-  background-color: #f5f5f5;
+  background-color: var(--arlas-wui-background, var(--mat-sys-surface));
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
-  box-shadow: inset 0 0 6px rgba(105, 105, 105, 0.3);
-  background-color: #f5f5f5;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--arlas-wui-background, var(--mat-sys-surface));
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #b1aeae;
+  background-color: var(--arlas-wui-scrollbar-thumb, var(--arlas-sys-light-surface));
 }
 
 .arlas-map-action {
@@ -456,8 +455,12 @@
   border-bottom: sizes.$menu-border;
 }
 
+.theme-mode{
+  --mat-icon-color: var(--mat-sys-on-background);
+}
+
 .right-menu-container {
-  font-size: sizes.$title-font-size;
+  font-size: var(--arlas-sys-subtitle-font-size);
   display: flex;
   align-items: center;
 
@@ -469,7 +472,7 @@
     margin: 0 5px;
   }
 
-  --mat-icon-color: #666;
+  --mat-icon-color: var(--mat-sys-on-background);
   ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
     --mat-icon-button-state-layer-size: 34px;
     padding: 5px;
@@ -499,7 +502,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  font-size: sizes.$default-font-size;
+  font-size: var(--arlas-sys-content-font-size);
   height: var.$filter-height;
   z-index: 2;
   position: absolute;
@@ -545,11 +548,6 @@
     ::ng-deep.histogram__brush-tooltip__horizontal--right {
       top: 92px !important;
     }
-
-    ::ng-deep.histogram {
-      // Leave enough space for the histogram tooltip
-      padding-bottom: 7px;
-    }
   }
 
   .extra-shortcuts {
@@ -571,9 +569,9 @@
       padding: 0 sizes.$sm-spacing;
       // Due to box sizing on this element and not other filters, it is necessary to add the border width
       height: calc(var.$filter-height + 2 * sizes.$xs-border);
-      font-size: sizes.$default-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       @include mixin.box-border();
-      background-color: colors.$default-background-color;
+      background-color: var(--arlas-wui-background, var(--mat-sys-surface));
       // Necessary to maintain same alignement with extra shortcuts when open and closed
       box-sizing: border-box;
 
@@ -588,8 +586,8 @@
         }
 
         .chevron {
-          height: sizes.$icon-size;
-          width: sizes.$icon-size;
+          height: var(--arlas-sys-title-icon-size);
+          width: var(--arlas-sys-title-icon-size);
         }
       }
     }
@@ -661,7 +659,7 @@
   height: calc(100vh - var.$top-menu-height);
   .welcome {
     margin-bottom: calc(2 * sizes.$default-spacing);
-    font-size: sizes.$title-font-size;
+    font-size: var(--arlas-sys-dialog-title-font-size);
     font-weight: bold;
   }
   .img {
@@ -669,8 +667,9 @@
   }
   .action {
     display: flex;
-    font-size: sizes.$sm-font-size;
+    font-size: var(--arlas-sys-content-font-size);
     text-decoration: underline;
     cursor: pointer;
   }
 }
+

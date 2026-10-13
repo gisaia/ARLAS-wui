@@ -21,9 +21,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasMapFrameworkService } from 'arlas-map';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, TaskSettings } from 'arlas-web-components';
 import { ResultListContributor } from 'arlas-web-contributors';
-import { AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, ErrorService } from 'arlas-wui-toolkit';
+import { Contributor } from 'arlas-web-core';
+import {
+  AnalyticsService, ArlasCollaborativesearchService, ArlasConfigService,
+  ArlasStartupService, ArlasTaskService, ErrorService
+} from 'arlas-wui-toolkit';
 import { LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { Subject, takeUntil, zip } from 'rxjs';
 import { ContributorService } from './services/contributors.service';
@@ -68,6 +72,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
   /** Destroy subscriptions */
   private readonly _onDestroy$ = new Subject<boolean>();
 
+  private readonly taskService = inject(ArlasTaskService);
   public constructor(
     private readonly arlasStartupService: ArlasStartupService,
     private readonly configService: ArlasConfigService,
@@ -112,8 +117,9 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
 
     // Initialize the contributors and app wide services
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (this.mapService.mapComponent) {
-        this.mapFrameworkService.fitMapBounds(this.mapService.mapComponent.map);
+      const map = this.mapService.mapComponent?.map();
+      if (map) {
+        this.mapFrameworkService.fitMapBounds(map);
       }
 
       const collectionToDescription = new Map<string, CollectionReferenceParameters>();
@@ -126,7 +132,10 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
           this.contributorService.setCollectionsDescription(collectionToDescription);
           if (this.resultlistService.resultlistContributors.length > 0) {
             for (const c of this.resultlistService.resultlistContributors) {
-              c.sort = collectionToDescription.get(c.collection).id_path;
+              const description = collectionToDescription.get(c.collection);
+              if (description) {
+                c.sort = description.id_path;
+              }
             }
           }
         });
@@ -148,13 +157,13 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     const hiddenListsTabsSet = new Set(this.hiddenResultlistTabs);
     const allResultlists = this.configService.getValue('arlas.web.components.resultlists');
     const allContributors = this.configService.getValue('arlas.web.contributors');
-    const resultListsConfig = (allResultlists ?? []).filter(a => {
+    const resultListsConfig = (allResultlists ?? []).filter((a: any) => {
       const contId = a.contributorId;
-      const tab = allContributors.find(c => c.identifier === contId).name;
+      const tab = allContributors.find((c: Contributor) => c.identifier === contId).name;
       return !hiddenListsTabsSet.has(tab);
     });
 
-    const ids = new Set(resultListsConfig.map(c => c.contributorId));
+    const ids = new Set(resultListsConfig.map((c: any) => c.contributorId));
     const resultlistContributors = new Array<ResultListContributor>();
     for (const v of this.arlasStartupService.contributorRegistry.values()) {
       if (v instanceof ResultListContributor) {
@@ -163,6 +172,17 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
       }
     }
     this.resultlistService.setContributors(resultlistContributors, resultListsConfig);
+
+    /** Setup AIAS tasks display */
+    const tasks = this.configService.getValue('arlas.web.externalNode.tasks') as TaskSettings[] | undefined;
+    if (tasks && Array.isArray(tasks)) {
+      for (const taskSettings of tasks) {
+        if (taskSettings.enabled) {
+          taskSettings.enabled = !!taskSettings.url && !!taskSettings.service && taskSettings.collections && taskSettings.collections.length > 0;
+          this.taskService.addService(taskSettings);
+        }
+      }
+    }
   }
 
   private initializeMap() {
@@ -170,7 +190,7 @@ export class ArlasWuiComponent<L, S, M> implements OnInit, OnChanges {
     for (const mapContrib of this.contributorService.getMapContributors()) {
       mapContrib.colorGenerator = this.colorService.colorGenerator;
       if (this.resultlistService.resultlistContributors) {
-        const resultlistContrbutor: ResultListContributor = this.resultlistService.resultlistContributors
+        const resultlistContrbutor = this.resultlistService.resultlistContributors
           .find(resultlistContrib => resultlistContrib.collection === mapContrib.collection);
         if (resultlistContrbutor) {
           mapContrib.searchSize = resultlistContrbutor.pageSize;

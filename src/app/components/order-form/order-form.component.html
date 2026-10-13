@@ -1,6 +1,6 @@
 <div class="order-form">
     <div class="order-form__title">
-        {{ orderFormService.config?.text.form | translate }}
+        {{ orderFormService.config?.text?.form | translate }}
     </div>
 
     <div class="order-form__content">
@@ -12,7 +12,7 @@
                 @for (f of data.aoi; track $index) {
                     @let dimensions = f | aoiDimensions;
                     <div class="dimensions">
-                        @if (dimensions?.area > 0) {
+                        @if (dimensions.area > 0) {
                             <div class="info">
                                 <div class="info__key">
                                     {{ 'Area' | translate }}
@@ -23,7 +23,7 @@
                             </div>
                         }
 
-                        @if (dimensions?.envelope.width > 0) {
+                        @if (dimensions.envelope.width > 0) {
                             <div class="info">
                                 <div class="info__key">
                                     <span>{{'Width' | translate}}</span>
@@ -35,7 +35,7 @@
                             </div>
                         }
 
-                        @if (dimensions?.envelope.height > 0) {
+                        @if (dimensions.envelope.height > 0) {
                             <div class="info">
                                 <div class="info__key">
                                     <span>{{'Height' | translate}}</span>

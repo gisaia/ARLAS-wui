@@ -39,7 +39,6 @@ ticketing_key: ${ARLAS_TICKETING_KEY}
 tab_name:  ${ARLAS_TAB_NAME}
 dashboards_shortcut: ${ARLAS_WUI_DASHBOARDS_SHORTCUT}
 resultlist:
-  enable_export: ${RESULTLIST_ENABLE_EXPORT}
   export_size: ${RESULTLIST_EXPORT_SIZE}
 histogram:
   max_buckets: ${ARLAS_HISTOGRAMS_MAX_BUCKETS}
@@ -67,6 +66,7 @@ geocoding:
   find_place_zoom_to: ${ARLAS_GEOCODING_FIND_PLACE_ZOOM_TO}
 
 whitelistedUrls: ${ARLAS_WHITELISTED_URLS}
+dark_theme_enabled: ${ARLAS_DARK_THEME_ENABLED}
 
 drawTheme:
   active:

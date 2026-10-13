@@ -13,9 +13,10 @@
   </div>
 
   <div right-menu class="right-menu-container" id="title">
-    @if (arlasMapComponent?.geojsondraw?.features.length > 0 && orderFormService.config?.enabled) {
+    @let drawFeatures = arlasMapComponent?.geojsondraw?.features;
+    @if (drawFeatures && drawFeatures.length > 0 && orderFormService.config?.enabled) {
       <button matButton="outlined" (click)="openOrderForm()" class="order-form__button">
-        {{ orderFormService.config.text.button | translate }}
+        {{ orderFormService.config?.text?.button | translate }}
       </button>
     }
     <arlas-permissions-creator></arlas-permissions-creator>
@@ -30,7 +31,7 @@
         </button>
       }
       <!-- Wait for map to be loaded to make bookmarks available -->
-      @if (mapService.mapComponent) {
+      @if (mapService.mapComponent && bookmarkMenu.matMenu) {
         <button mat-icon-button [matMenuTriggerFor]="bookmarkMenu.matMenu" [matTooltip]="'Bookmarks' | translate">
           <mat-icon>bookmark</mat-icon>
         </button>
@@ -57,7 +58,7 @@
             <!-- reduce = list is open and analytics closed -->
             <!-- with-list = list is closed but there is a preview and analytics closed -->
             <!-- -analytics = analytics open in addition to previously mentionned state -->
-            @let hasGridMode = (resultlistService.previewListContrib | getResultlistConfig)?.hasGridMode;
+            @let hasGridMode = (resultlistService.previewListContrib | getResultlistConfig)?.hasGridView;
             @let hasList = resultlistService.rightListContributors.length > 0;
             @let analyticsClosed = analyticsService.activeTab === undefined;
             <div class="app-container"
@@ -131,13 +132,13 @@
 
                 @if (!resultlistService.listOpen && !!resultlistService.previewListContrib && hasGridMode) {
                   <div class="resultlist__preview mat-elevation-z1" [class.resultlist__preview--closed]="resultlistService.listOpen">
-                    <arlas-result-list [rowItemList]="resultlistService.previewListContrib.data"
-                      [fieldsList]="resultlistService.previewListContrib.fieldsList"
+                    <arlas-result-list #previewList [rowItemList]="resultlistService.previewListContrib.data"
+                      [tableFields]="resultlistService.previewListContrib.fieldsList"
                       [detailedDataRetriever]="resultlistService.previewListContrib.detailedDataRetriever"
                       [fieldsConfiguration]="resultlistService.previewListContrib.fieldsConfiguration"
                       [dropDownMapValues]="resultlistService.previewListContrib.dropDownMapValues"
                       [filtersMap]="resultlistService.previewListContrib.filtersMap" [highlightItems]="resultlistService.previewListContrib.highlightItems"
-                      [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="previewListWidth" [defautMode]="1"
+                      [nbLinesBeforeFetch]="10" [nbGridColumns]="1" [tableWidth]="previewListWidth" [defautMode]="ResultlistModeEnum.grid"
                       [fetchState]="resultlistService.previewListContrib.fetchState" [globalActionsList]="[]"
                       [isGeoSortEnabled]="(resultlistService.previewListContrib | getResultlistConfig)?.isGeoSortActived"
                       [options]="(resultlistService.previewListContrib | getResultlistConfig)?.options"
@@ -146,9 +147,9 @@
                       [cellBackgroundStyle]="(resultlistService.previewListContrib | getResultlistConfig)?.cellBackgroundStyle"
                       [colorsSaturationWeight]="(resultlistService.previewListContrib | getResultlistConfig)?.colorsSaturationWeight"
                       [keysToColors]="(resultlistService.previewListContrib | getResultlistConfig)?.keysToColors"
-                      [activatedActionsPerItem]="resultlistService.previewListContrib.identifier | getValue:actionManager.activeActionsPerContId"
+                      [activatedActionsPerItem]="actionManager.activeActionsPerContId.get(resultlistService.previewListContrib.identifier)!"
                       [currentSortedColumn]="resultlistService.previewListContrib.identifier | getValue:resultlistService.sortOutput"
-                      [isGeoSortActivated]="resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated"
+                      [isGeoSortActivated]="!!(resultlistService.previewListContrib.identifier | getValue:resultlistService.isGeoSortActivated)"
                       (thumbnailFitEvent)="resultlistService.resultlistConfigPerContId.get(resultlistService.previewListContrib.identifier).fitThumbnail = $event"
                       (visibleItems)="resultlistService.updateMapStyleFromScroll($event, resultlistService.previewListContrib.collection)"
                       (onChangeItems)="resultlistService.updateMapStyleFromChange($event, resultlistService.previewListContrib.collection)"
@@ -159,7 +160,8 @@
                       (selectedItemsEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'selectedItemsEvent', data: $event })"
                       (consultedItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
                       (actionOnItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
-                      (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })">
+                      (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })"
+                      (onListLoaded)="resultlistService.setListComponent(previewList)">
                     </arlas-result-list>
                   </div>
                 }

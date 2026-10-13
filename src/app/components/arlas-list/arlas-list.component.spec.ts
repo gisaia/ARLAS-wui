@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { OAuthModule } from 'angular-oauth2-oidc';
 import { ArlasCollectionService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, GET_OPTIONS } from 'arlas-wui-toolkit';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ContributorService } from '../../services/contributors.service';
@@ -19,6 +20,7 @@ describe('ArlasListComponent', () => {
         }),
         ArlasListComponent,
         RouterModule.forRoot([]),
+        OAuthModule.forRoot()
       ],
       providers: [
         VisualizeService,

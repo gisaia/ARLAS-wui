@@ -17,14 +17,22 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
+import { CogService } from './cog.service';
+import { getRasterOnMapLayerId } from './visualize.service';
 
 export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
 };
+
+export const QUICKLOOK_ON_MAP_LAYER_PREFIX = 'arlas-quicklook-source';
+
+export function getQuicklookOnMapLayerId(id: string) {
+  return `${QUICKLOOK_ON_MAP_LAYER_PREFIX}-${id}`;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -34,21 +42,24 @@ export interface FeatureHover {
  *  M: a Map configuration class/interface.
  */
 export class ArlasWuiMapService<L, S, M> {
-  public mapComponent: ArlasMapComponent<L, S, M>;
+  public mapComponent?: ArlasMapComponent<L, S, M>;
   private mapComponentConfig: any;
   public mapContributors: Array<MapContributor> = new Array();
   public centerLatLng: { lat: number; lng: number; } = { lat: 0, lng: 0 };
 
   public featuresToSelect: Array<ElementIdentifier> = [];
 
-  public coordinatesHaveSpace: boolean;
-  public timeLineIsOpen: boolean;
+  public coordinatesHaveSpace = true;
+  public timeLineIsOpen = true;
 
+  /** List of ids of items with their quicklooks on the map */
+  private readonly quicklooksOnMap = new Set<string>();
+
+  private readonly cogService = inject(CogService);
   public constructor(
     private readonly mapService: ArlasMapFrameworkService<L, S, M>,
     private readonly mapLogicService: AbstractArlasMapService<L, S, M>
-  ) {
-  }
+  ) { }
 
   public setContributors(mapContributors: Array<MapContributor>) {
     this.mapContributors = mapContributors;
@@ -60,11 +71,11 @@ export class ArlasWuiMapService<L, S, M> {
         this.featuresToSelect = ids.map(id => {
           let idFieldName = idPath;
           if (mapContributor.isFlat) {
-            idFieldName = idFieldName.replace(/\./g, '_');
+            idFieldName = idFieldName.replaceAll('.', '_');
           }
           return {
             idFieldName: idFieldName,
-            idValue: id
+            idValue: id.toString()
           };
         });
         this.mapComponent.selectFeaturesByCollection(this.featuresToSelect, mapContributor.collection);
@@ -90,6 +101,7 @@ export class ArlasWuiMapService<L, S, M> {
    * Highlights the hovered feature by applying a higher opacity to it
    * @param id Identifier of the hovered element on the list.
    * @param mapContributor Map contributor used to get the feature to highlight.
+   * @returns The hovered feature
    */
   public highlightHoveredFeature(id: ElementIdentifier, mapContributor: MapContributor) {
     const f = this.getFeatureToHover(id, mapContributor);
@@ -102,9 +114,48 @@ export class ArlasWuiMapService<L, S, M> {
         this.adjustOpacityByValue(source, f.elementidentifier.idFieldName, [f.elementidentifier.idValue], 1, 0.05);
       }
     }
+
+    return f;
   }
 
-  public setMapConfig(mapComponentConfig) {
+  /**
+   * Displays an item's quicklook on the map
+   * @param idValue Item's id
+   * @param imageURL URL of the quicklook
+   * @param bounds Corners of the quicklook
+   */
+  public displayQuicklookOnMap(idValue: string, imageURL: string,
+    bounds: [[number, number], [number, number], [number, number], [number, number]]
+  ) {
+    const map = this.mapComponent?.map();
+    if (map) {
+      const layerId = getQuicklookOnMapLayerId(idValue);
+      if (!this.quicklooksOnMap.has(idValue)) {
+        // If the item's COG is being visualized, then we want the quicklook to be displayed below the COG
+        let beforeId;
+        if (this.cogService.visualisedCogs.has(idValue)) {
+          beforeId = getRasterOnMapLayerId(idValue);
+        }
+
+        this.mapService.addImageLayer(map, layerId, imageURL, bounds, beforeId);
+        this.quicklooksOnMap.add(idValue);
+      }
+    }
+  }
+
+  /**
+   * Removes the quicklook of an item from the map
+   * @param idValue Item's id
+   */
+  public removeQuicklookOnMap(idValue: string) {
+    this.quicklooksOnMap.delete(idValue);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapService.removeLayer(map, getQuicklookOnMapLayerId(idValue), true);
+    }
+  }
+
+  public setMapConfig(mapComponentConfig: any) {
     this.mapComponentConfig = mapComponentConfig;
   }
 
@@ -113,7 +164,10 @@ export class ArlasWuiMapService<L, S, M> {
   }
 
   public setCursor(cursor: string) {
-    this.mapService.setMapCursor(this.mapComponent.map, cursor);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapService.setMapCursor(map, cursor);
+    }
   }
 
   public setMapComponent(mapComponent: ArlasMapComponent<L, S, M>) {
@@ -122,42 +176,44 @@ export class ArlasWuiMapService<L, S, M> {
 
   public clearWindowData(contributor: MapContributor) {
     contributor.getConfigValue('layers_sources')
-      .filter(ls => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
-      .map(ls => ls.source)
-      .forEach(source => contributor.clearData(source));
+      .filter((ls: any) => ls.source.startsWith('feature-') && ls.render_mode === FeatureRenderMode.window)
+      .map((ls: any) => ls.source)
+      .forEach((source: string) => contributor.clearData(source));
   }
 
 
   public adjustOpacityByRange(sourceIdPrefix: string, field: string, start: number, end: number, insideOpacity: number, outsideOpacity: number) {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.adjustOpacityByRange(this.mapComponent.map, sourceIdPrefix,
-        field, start, end, insideOpacity, outsideOpacity);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.adjustOpacityByRange(map, sourceIdPrefix, field, start, end, insideOpacity, outsideOpacity);
     }
   }
 
   public adjustOpacityByValue(sourceIdPrefix: string, field: string, values: string[], insideOpacity: number, outsideOpacity: number) {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.adjustOpacityByValue(this.mapComponent.map, sourceIdPrefix,
-        field, values, insideOpacity, outsideOpacity);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.adjustOpacityByValue(map, sourceIdPrefix, field, values, insideOpacity, outsideOpacity);
     }
   }
 
   public resetOpacity(sourceIdPrefix: string): void {
-    if (this.mapComponent?.map) {
-      this.mapLogicService.resetOpacity(this.mapComponent.map, sourceIdPrefix);
+    const map = this.mapComponent?.map();
+    if (map) {
+      this.mapLogicService.resetOpacity(map, sourceIdPrefix);
     }
   }
 
   public updateMapStyle(ids: Array<string | number>, collection: string) {
-    if (!!this.mapComponent && !!this.mapComponent.map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
-      this.mapComponentConfig.mapLayers.events.onHover.forEach(l => {
-        this.mapLogicService.updateMapStyle(this.mapComponent.map, l, ids, collection);
+    const map = this.mapComponent?.map();
+    if (map && !!this.mapComponentConfig && !!this.mapComponentConfig.mapLayers.events.onHover) {
+      this.mapComponentConfig.mapLayers.events.onHover.forEach((l: string) => {
+        this.mapLogicService.updateMapStyle(map, l, ids, collection);
       });
     }
   }
 
   public resize() {
-    this.mapComponent?.map?.resize();
+    this.mapComponent?.map()?.resize();
     this.adjustCoordinates();
   }
 
@@ -179,16 +235,16 @@ export class ArlasWuiMapService<L, S, M> {
     }
   }
 
-  public getContributorByCollection(collection: string): MapContributor {
-    let mapContributor: MapContributor;
+  public getContributorByCollection(collection: string): MapContributor | undefined {
+    let mapContributor;
     if (this.mapContributors) {
       mapContributor = this.mapContributors.find(mc => mc.collection === collection);
     }
     return mapContributor;
   }
 
-  public getContributorById(identifier: string): MapContributor {
-    let mapContributor: MapContributor;
+  public getContributorById(identifier: string): MapContributor | undefined {
+    let mapContributor;
     if (this.mapContributors) {
       mapContributor = this.mapContributors.find(mc => mc.identifier === identifier);
     }

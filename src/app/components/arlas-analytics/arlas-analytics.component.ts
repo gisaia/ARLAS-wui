@@ -18,7 +18,6 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { AnalyticsContributor } from 'arlas-web-contributors';
 import { AnalyticsBoardComponent, AnalyticsMenuComponent, AnalyticsService, ArlasConfigService, ArlasStartupService } from 'arlas-wui-toolkit';
 import { ResultlistService } from '../../services/resultlist.service';
 
@@ -42,8 +41,8 @@ export class ArlasAnalyticsComponent<L, S, M> implements OnInit {
    */
   @Input() public showMenu = false;
 
-  public analyticsContributor: AnalyticsContributor;
-  public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; };
+  public spinner: { show: boolean; diameter: string; color: string; strokeWidth: number; }
+    = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
   public showIndicators = false;
 
   public constructor(
@@ -67,8 +66,6 @@ export class ArlasAnalyticsComponent<L, S, M> implements OnInit {
     const spinnerConfiguration = this.configService.getValue('arlas.web.options.spinner');
     if (!!spinnerConfiguration) {
       this.spinner = spinnerConfiguration;
-    } else {
-      this.spinner = { show: false, diameter: '60', color: 'accent', strokeWidth: 5 };
     }
   }
 }
