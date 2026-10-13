@@ -25,7 +25,9 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm run postinstall
       - name: Lint
         run: npm run lint
       - name: License check
@@ -37,20 +39,20 @@ jobs:
       - name: Build lib
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --ignore-scripts --workspaces=false --include-workspace-root=true
+          npm ci --ignore-scripts --workspaces=false --include-workspace-root=true
           npm run postinstall
           npm run build-lib
       - name: Build cloud
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --ignore-scripts --workspace=packages/cloud --include-workspace-root=true
+          npm ci --ignore-scripts --workspace=packages/cloud --include-workspace-root=true
           npm run postinstall
           npm rebuild node-sass
           npm run build-cloud
       - name: Build open source
         run: |
           export NODE_OPTIONS=--max_old_space_size=8192;
-          npm install --ignore-scripts --workspace=packages/opensource --include-workspace-root=true
+          npm ci --ignore-scripts --workspace=packages/opensource --include-workspace-root=true
           npm run postinstall
           npm rebuild node-sass
           npm run build-opensource
