@@ -464,6 +464,8 @@ export class ArlasWuiRootComponent<L, S, M> implements OnInit, AfterViewInit, On
       const start = valArray[0]?.getBoundingClientRect().right ?? 0 + this.spacing;
       const end = valArray[1]?.getBoundingClientRect().left ?? 0 - this.spacing;
       this.availableSpaceCounts = end - start;
+    }).catch(() => {
+      console.log('an error happened while resizing the collection count');
     });
   }
 
