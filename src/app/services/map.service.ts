@@ -18,7 +18,9 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService } from 'arlas-map';
+import {
+  AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, QUICKLOOK_ON_MAP_LAYER_PREFIX
+} from 'arlas-map';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
 import { CogService } from './cog.service';
 import { getRasterOnMapLayerId } from './visualize.service';
@@ -27,8 +29,6 @@ export interface FeatureHover {
   isleaving: boolean;
   elementidentifier: ElementIdentifier;
 };
-
-export const QUICKLOOK_ON_MAP_LAYER_PREFIX = 'arlas-quicklook-source';
 
 export function getQuicklookOnMapLayerId(id: string) {
   return `${QUICKLOOK_ON_MAP_LAYER_PREFIX}-${id}`;
@@ -93,7 +93,7 @@ export class ArlasWuiMapService<L, S, M> {
    */
   public getFeatureToHover(id: ElementIdentifier, mapContributor: MapContributor): FeatureHover {
     const f = mapContributor.getFeatureToHightLight(id);
-    f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replace(/\./g, '_');
+    f.elementidentifier.idFieldName = f.elementidentifier.idFieldName.replaceAll('.', '_');
     return f;
   }
 
@@ -135,6 +135,9 @@ export class ArlasWuiMapService<L, S, M> {
         let beforeId;
         if (this.cogService.visualisedCogs.has(idValue)) {
           beforeId = getRasterOnMapLayerId(idValue);
+        } else {
+          // To reintroduce if the cross are reintroduced
+          // beforeId = this.mapService.getLayerIdsFromPattern(map, CROSS_LAYER_PREFIX)[0];
         }
 
         this.mapService.addImageLayer(map, layerId, imageURL, bounds, beforeId);
