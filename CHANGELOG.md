@@ -1,5 +1,12 @@
 # Change Log
 
+## [v29.0.1](https://github.com/gisaia/ARLAS-WUI/tree/v29.0.1) (2026-11-03)
+
+**Fixed bugs:**
+
+- Remove the word in full search text component does not remove the filter [\#1199](https://github.com/gisaia/ARLAS-wui/issues/1199)
+- Timeline: tooltip is partially visible [\#1196](https://github.com/gisaia/ARLAS-wui/issues/1196)
+
 ## [v29.0.0](https://github.com/gisaia/ARLAS-WUI/tree/v29.0.0) (2026-10-13)
 
 **New stuff:**
@@ -11,6 +18,9 @@
 **Fixed bugs:**
 
 - Invalid message when logged out [\#1186](https://github.com/gisaia/ARLAS-wui/issues/1186)
+- ARLAS WUI - Visualisation URL for COGs does not accept variables replacement except for `id` and `collection` [\#1181](https://github.com/gisaia/ARLAS-wui/issues/1181)
+- ARLAS Builder: footprint property to display overview on map is not lost over save/load [\#1180](https://github.com/gisaia/ARLAS-wui/issues/1180)
+- In the visualisation choice, the cancel button is not like the other buttons [\#1179](https://github.com/gisaia/ARLAS-wui/issues/1179)
 - Full text search requires two clicks on the textfield before we can type text [\#1176](https://github.com/gisaia/ARLAS-wui/issues/1176)
 - Timeline not extended after hiding analytic board [\#1175](https://github.com/gisaia/ARLAS-wui/issues/1175)
 - Remove filter from bar does not update filter in shortcut or analytics [\#1173](https://github.com/gisaia/ARLAS-wui/issues/1173)
@@ -26,9 +36,11 @@
 - Darkmode: resultset list detail separator are too bright [\#1148](https://github.com/gisaia/ARLAS-wui/issues/1148)
 - Darkmode: login page background is not dark [\#1147](https://github.com/gisaia/ARLAS-wui/issues/1147)
 - Darkmode: histogram and timeline are not in dark mode [\#1146](https://github.com/gisaia/ARLAS-wui/issues/1146)
+- Darkmode: tutorial is not in darkmode [\#1145](https://github.com/gisaia/ARLAS-wui/issues/1145)
 - Adding a field with numerals in the resultlist details throws an error [\#1142](https://github.com/gisaia/ARLAS-wui/issues/1142)
 - Interpolate extrusion opacity does not work [\#1139](https://github.com/gisaia/ARLAS-wui/issues/1139)
 - Add missing enrichments parameter for AIAS enrich calls [\#1136](https://github.com/gisaia/ARLAS-wui/issues/1136)
+- Bad layout for login/regist/verify page [\#1133](https://github.com/gisaia/ARLAS-wui/issues/1133)
 - List cards view improvement [\#1132](https://github.com/gisaia/ARLAS-wui/issues/1132)
 - The item details are displayed incorrectly. [\#1131](https://github.com/gisaia/ARLAS-wui/issues/1131)
 - When hovering over an element on the map, the rows in the results table change size. [\#1129](https://github.com/gisaia/ARLAS-wui/issues/1129)
