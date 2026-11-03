@@ -38,10 +38,7 @@ import { timeFormatDefaultLocale } from 'd3-time-format';
 import enD3TimeLocal from 'd3-time-format/locale/en-US.json';
 import esD3TimeLocal from 'd3-time-format/locale/es-ES.json';
 import frD3TimeLocal from 'd3-time-format/locale/fr-FR.json';
-import { firstValueFrom, forkJoin, Observable, of, Subscriber, zip } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { map } from 'rxjs/internal/operators/map';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { catchError, firstValueFrom, forkJoin, map, mergeMap, Observable, of, Subscriber, zip } from 'rxjs';
 
 
 export class ArlasWalkthroughLoader implements WalkthroughLoader {
