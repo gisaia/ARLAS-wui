@@ -23,7 +23,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { getIssues } from '@placemarkio/check-geojson';
 import bbox from '@turf/bbox';
 import { Expression, Filter, Search } from 'arlas-api';
-import { AbstractArlasMapGL, ArlasMapFrameworkService, ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum } from 'arlas-map';
+import {
+  AbstractArlasMapGL, ARLAS_RASTER_SOURCE_PREFIX, ArlasMapFrameworkService,
+  ArlasPaint, CROSS_LAYER_PREFIX, VectorStyle, VectorStyleEnum
+} from 'arlas-map';
 import { ElementIdentifier, getElementFromJsonObject } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from 'arlas-wui-toolkit';
@@ -36,7 +39,6 @@ import { getItem$ } from '../tools/utils';
 const GEOCODING_PREVIEW_ID = 'geojson-geocoding-preview';
 
 
-export const ARLAS_RASTER_SOURCE_PREFIX = 'arlas-raster-source-';
 export function getRasterOnMapLayerId(itemId: string) {
   return ARLAS_RASTER_SOURCE_PREFIX + itemId;
 }
@@ -150,22 +152,31 @@ export class VisualizeService<L, S, M> {
     if (id !== 'external') {
       this._isRasterOnMap.set(true);
     }
-    this.addCrossToRemove(bounds[2], bounds[3], id);
+
+    // For now, do not add the cross anymore
+    // this.addCrossToRemove(bounds[2], bounds[3], id);
   }
 
   public displayDataOnMap(url: string, elementidentifier: ElementIdentifier,
-    geometryPath: string, centroidPath: string, collection: string, fitBounds = true) {
+    geometryPath: string, centroidPath: string, collection: string, fitBounds = true
+  ) {
+    const map = this.mapInstance;
+
     if (url?.includes('{bbox-epsg-3857}{:bbox3857:}')) {
       url = url.replace('{:bbox3857:}', '');
     }
     if (url?.includes(':bbox3857:')) {
       url = url.replace(':bbox3857:', 'bbox-epsg-3857');
     }
-    if (url) {
+    if (url && map) {
       this.getBoundsAndCenter(elementidentifier.idFieldName, elementidentifier.idValue,
         geometryPath, centroidPath, collection)
         .subscribe(d => {
-          this.addRaster(url, 25, d.box, elementidentifier.idValue);
+          // To reintroduce if the cross are reintroduced
+          // const beforeId = this.mapFrameworkService.getLayerIdsFromPattern(map, CROSS_LAYER_PREFIX)[0];
+          const beforeId = undefined;
+          this.addRaster(url, 25, d.box, elementidentifier.idValue, beforeId);
+
           if (fitBounds) {
             this.fitbounds = d.bounds;
           }
