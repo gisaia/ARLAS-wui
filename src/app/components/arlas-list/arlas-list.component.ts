@@ -167,4 +167,7 @@ export class ArlasListComponent<L, S, M> implements OnInit, OnDestroy, AfterView
     this.resultlistService.updateMapStyleFromChange(items, collection);
   }
 
+  public onResultListUpdate(listContributor: ResultListContributor) {
+    this.resultlistService.getBoardEvents({ origin: listContributor.identifier, event: 'update' });
+  }
 }

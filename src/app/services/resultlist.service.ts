@@ -449,6 +449,9 @@ export class ResultlistService<L, S, M> {
       case 'geoAutoSortEvent':
         this.toggleGeosort(event.data, resultListContributor);
         break;
+      case 'update':
+        this.mapService.clearQuicklooksBut(this.selectedItems);
+        break;
     }
     this.actionOnList.next(event);
   }

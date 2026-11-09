@@ -19,7 +19,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import {
-  AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService, CROSS_LAYER_PREFIX, QUICKLOOK_ON_MAP_LAYER_PREFIX
+  AbstractArlasMapService, ArlasMapComponent, ArlasMapFrameworkService, QUICKLOOK_ON_MAP_LAYER_PREFIX
 } from 'arlas-map';
 import { ElementIdentifier, FeatureRenderMode, MapContributor } from 'arlas-web-contributors';
 import { CogService } from './cog.service';
@@ -155,6 +155,19 @@ export class ArlasWuiMapService<L, S, M> {
     const map = this.mapComponent?.map();
     if (map) {
       this.mapService.removeLayer(map, getQuicklookOnMapLayerId(idValue), true);
+    }
+  }
+
+  /**
+   * Remove all the quicklooks off of the map, except the ones corresponding to the given ids
+   * @param selectedItems Selected items to keep on the map
+   */
+  public clearQuicklooksBut(selectedItems: ElementIdentifier[]) {
+    const selectedIds = new Set(selectedItems.map(ei => ei.idValue));
+    for (const id of this.quicklooksOnMap) {
+      if (!selectedIds.has(id)) {
+        this.removeQuicklookOnMap(id);
+      }
     }
   }
 

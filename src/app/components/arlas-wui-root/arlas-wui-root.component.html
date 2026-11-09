@@ -161,7 +161,8 @@
                       (consultedItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'consultedItemEvent', data: $event })"
                       (actionOnItemEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'actionOnItemEvent', data: $event })"
                       (globalActionEvent)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'globalActionEvent', data: $event })"
-                      (onListLoaded)="resultlistService.setListComponent(previewList)">
+                      (onListLoaded)="resultlistService.setListComponent(previewList)"
+                      (onResultListUpdate)="resultlistService.getBoardEvents({ origin: resultlistService.previewListContrib.identifier, event: 'update' })">
                     </arlas-result-list>
                   </div>
                 }

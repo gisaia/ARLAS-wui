@@ -1,129 +1,38 @@
 {
   "layers": [
     {
-      "id": "arlas_id:Distribution:1741629939921",
-      "type": "fill",
-      "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
+      "id": "arlas_id:Earth Observation Products:1793867412206",
+      "type": "line",
+      "source": "feature-geometry-wide-eoaws",
       "minzoom": 0,
-      "maxzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.7,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "get",
-            "count_:normalized"
-          ],
-          0,
-          "#53d9e8",
-          0.15,
-          "#29AFFB",
-          0.3,
-          "#2874FA",
-          0.45,
-          "#8a77fb",
-          0.65,
-          "#eb79fc",
-          1,
-          "#ef586c"
-        ]
-      },
-      "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
-        "cell-shape": "hexagonal",
-        "stroke": {
-          "color": "#fff",
-          "width": 0,
-          "opacity": 0
-        }
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Distribution:1726495334494",
-      "type": "fill",
-      "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
-      "minzoom": 12,
       "maxzoom": 23,
       "layout": {
-        "visibility": "visible"
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
-        "fill-opacity": 0.7,
-        "fill-color": [
-          "interpolate",
-          [
-            "linear"
-          ],
+        "line-opacity": 0.7,
+        "line-color": [
+          "match",
           [
             "get",
-            "count_:normalized"
+            "properties_constellation"
           ],
-          0,
-          "#53d9e8",
-          0.15,
-          "#29AFFB",
-          0.3,
-          "#2874FA",
-          0.45,
-          "#8a77fb",
-          0.65,
-          "#eb79fc",
-          1,
-          "#ef586c"
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
+        "line-width": 1,
+        "line-dasharray": [
+          2,
+          5
         ]
       },
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
-        "cell-shape": "hexagonal",
-        "stroke": {
-          "color": "#fff",
-          "width": 0,
-          "opacity": 0
-        }
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Bounding box:1725898236413",
-      "type": "fill",
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "minzoom": 12,
-      "maxzoom": 23,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0,
-        "fill-color": "#ffffff"
-      },
-      "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "cell-shape": "square",
-        "stroke": {
-          "color": "#c00000",
-          "width": 2,
-          "opacity": 1
-        },
         "is-scrollable-layer": false
       },
       "filter": [
@@ -134,94 +43,44 @@
       ]
     },
     {
-      "id": "arlas_id:Boundig box:1725955678342",
+      "id": "arlas_id:Visible Products:1793867402676",
       "type": "fill",
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "minzoom": 12,
+      "source": "feature-geometry-window-eoaws",
+      "minzoom": 0,
       "maxzoom": 23,
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0,
-        "fill-color": "#ffffff"
+        "fill-opacity": 0.1,
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ]
       },
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "cell-shape": "square",
         "stroke": {
           "color": [
-            "get",
-            "type_id_arlas__color"
+            "match",
+            [
+              "get",
+              "properties_constellation"
+            ],
+            "sentinel-2",
+            "#ffc780",
+            "#9d9ca9"
           ],
-          "width": 2,
-          "opacity": 1
-        },
-        "is-scrollable-layer": false
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Boundig box (preview):1782111528647",
-      "type": "fill",
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "minzoom": 12,
-      "maxzoom": 23,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0,
-        "fill-color": "#ffffff"
-      },
-      "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
-        "cell-shape": "square",
-        "stroke": {
-          "color": [
-            "get",
-            "type_id_arlas__color"
-          ],
-          "width": 4,
-          "opacity": 1
-        },
-        "is-scrollable-layer": false
-      },
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ]
-    },
-    {
-      "id": "arlas_id:Info:1782111538860",
-      "type": "fill",
-      "source": "feature-geometry-window-demo_eo_objects",
-      "minzoom": 12,
-      "maxzoom": 23,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-opacity": 0.3,
-        "fill-color": "#b4b3b3"
-      },
-      "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
-        "cell-shape": "square",
-        "stroke": {
-          "color": "#fff",
-          "width": 0,
-          "opacity": 0
+          "width": 2.5,
+          "opacity": 0.8
         },
         "is-scrollable-layer": true
       },
@@ -233,28 +92,73 @@
       ]
     },
     {
-      "id": "arlas_id:Bounding Box:1727193982726",
-      "type": "line",
-      "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
+      "id": "arlas_id:Density of Products:1794221740786",
+      "type": "heatmap",
+      "source": "cluster-centroid-Finest-tile-centroid-eoaws",
       "minzoom": 0,
       "maxzoom": 23,
       "layout": {
-        "visibility": "visible",
-        "line-cap": "round",
-        "line-join": "round"
+        "visibility": "visible"
       },
       "paint": {
-        "line-opacity": 0.8,
-        "line-color": "#960000",
-        "line-width": 0.5,
-        "line-dasharray": [
-          2,
-          5
-        ]
+        "heatmap-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "heatmap-density"
+          ],
+          0,
+          "rgba(0, 0, 0, 0)",
+          1e-12,
+          "#140e37",
+          0.05,
+          "#3b0f6f",
+          0.1,
+          "#641a80",
+          0.15,
+          "#8c2981",
+          0.2,
+          "#b63679",
+          0.3,
+          "#de4969",
+          0.45,
+          "#f76e5c",
+          0.65,
+          "#fece91",
+          1,
+          "#fcfdbf"
+        ],
+        "heatmap-opacity": 0.2,
+        "heatmap-intensity": 3,
+        "heatmap-weight": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          1,
+          1
+        ],
+        "heatmap-radius": 77
       },
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "cell-shape": "square"
       },
       "filter": [
@@ -265,26 +169,129 @@
       ]
     },
     {
-      "id": "arlas_id:Bounding Box background:1727194160874",
-      "type": "fill",
-      "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
+      "id": "arlas_id:Density of Products:1794225196541",
+      "type": "circle",
+      "source": "cluster-centroid-Fine-tile-centroid-eoaws",
       "minzoom": 0,
       "maxzoom": 23,
       "layout": {
-        "visibility": "visible"
+        "visibility": "visible",
+        "circle-sort-key": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0,
+          1,
+          8
+        ]
       },
       "paint": {
-        "fill-opacity": 0.05,
-        "fill-color": "#c40000"
+        "circle-stroke-opacity": 0,
+        "circle-stroke-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.01,
+          "#9dc95b",
+          0.02,
+          "#4bc71e",
+          0.04,
+          "#1bc473",
+          0.08,
+          "#16ccc9",
+          0.16,
+          "#3619cf",
+          0.32,
+          "#9317d1",
+          0.64,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          0.3,
+          0.2,
+          0.33999999999999997,
+          0.4,
+          0.38,
+          0.6,
+          0.42000000000000004,
+          0.8,
+          0.45999999999999996,
+          1,
+          0.5
+        ],
+        "circle-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#cee897",
+          0.01,
+          "#9dc95b",
+          0.02,
+          "#4bc71e",
+          0.04,
+          "#1bc473",
+          0.08,
+          "#16ccc9",
+          0.16,
+          "#3619cf",
+          0.32,
+          "#9317d1",
+          0.64,
+          "#d11799",
+          1,
+          "#cf1919"
+        ],
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          0,
+          35,
+          23,
+          45
+        ],
+        "circle-blur": 1
       },
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "cell-shape": "square",
-        "stroke": {
-          "color": "#fff",
-          "width": 1.5,
-          "opacity": 0.8
+        "hidden-props": {
+          "geom-type": "circle-heatmap"
         }
       },
       "filter": [
@@ -295,44 +302,113 @@
       ]
     },
     {
-      "id": "arlas_id:Type:1727338872737",
-      "type": "symbol",
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "minzoom": 19,
+      "id": "arlas_id:Grid density:1794225375471",
+      "type": "fill",
+      "source": "cluster-geometry-Fine-tile-cell-eoaws",
+      "minzoom": 0,
       "maxzoom": 23,
       "layout": {
-        "visibility": "visible",
-        "text-field": [
-          "get",
-          "type_id"
-        ],
-        "text-font": [
-          "Open Sans Bold",
-          "Arial Unicode MS Bold"
-        ],
-        "text-size": 12,
-        "text-rotate": 0,
-        "text-allow-overlap": true,
-        "text-anchor": "center",
-        "symbol-placement": "point"
+        "visibility": "visible"
       },
       "paint": {
-        "text-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "text-opacity": 1,
-        "text-halo-color": "#000",
-        "text-halo-width": 0,
-        "text-halo-blur": 0,
-        "text-translate": [
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count"
+          ],
           0,
-          0
+          0.3,
+          3273.2,
+          0.36,
+          6546.4,
+          0.42,
+          9819.6,
+          0.48,
+          13092.8,
+          0.54,
+          16366,
+          0.6
+        ],
+        "fill-color": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "count_:normalized"
+          ],
+          0,
+          "#fcfdbf",
+          0.01,
+          "#fece91",
+          0.02,
+          "#f76e5c",
+          0.04,
+          "#de4969",
+          0.08,
+          "#b63679",
+          0.16,
+          "#8c2981",
+          0.32,
+          "#641a80",
+          0.64,
+          "#3b0f6f",
+          1,
+          "#140e37"
         ]
       },
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
+        "cell-shape": "square",
+        "stroke": {
+          "color": "#fff",
+          "width": 0.5,
+          "opacity": 0.4
+        }
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "id": "arlas-select-arlas_id:Earth Observation Products:1793867412206",
+      "type": "line",
+      "source": "feature-geometry-wide-eoaws",
+      "minzoom": 0,
+      "maxzoom": 23,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
+        "line-width": 13,
+        "line-dasharray": [
+          2,
+          5
+        ]
+      },
+      "metadata": {
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "cell-shape": "square",
         "is-scrollable-layer": false
       },
@@ -344,320 +420,8 @@
       ]
     },
     {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-select-arlas-fill_stroke-Bounding box:1725898236413",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "#c00000",
-        "line-opacity": 1,
-        "line-width": 14
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-select-arlas-fill_stroke-Boundig box:1725955678342",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 14
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-select-arlas-fill_stroke-Boundig box (preview):1782111528647",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 16
-      }
-    },
-    {
-      "source": "feature-geometry-window-demo_eo_objects",
-      "id": "arlas-select-arlas-fill_stroke-Info:1782111538860",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "#fff",
-        "line-opacity": 0,
-        "line-width": 12
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-hover-arlas-fill_stroke-Bounding box:1725898236413",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "#c00000",
-        "line-opacity": 1,
-        "line-width": 14
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-hover-arlas-fill_stroke-Boundig box:1725955678342",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 14
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-hover-arlas-fill_stroke-Boundig box (preview):1782111528647",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 16
-      }
-    },
-    {
-      "source": "feature-geometry-window-demo_eo_objects",
-      "id": "arlas-hover-arlas-fill_stroke-Info:1782111538860",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "#fff",
-        "line-opacity": 0,
-        "line-width": 12
-      }
-    },
-    {
-      "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
-      "id": "arlas-fill_stroke-Distribution:1741629939921",
-      "type": "line",
-      "maxzoom": 12,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 0,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#fff",
-        "line-opacity": 0,
-        "line-width": 0
-      }
-    },
-    {
-      "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
-      "id": "arlas-fill_stroke-Distribution:1726495334494",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#fff",
-        "line-opacity": 0,
-        "line-width": 0
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-fill_stroke-Bounding box:1725898236413",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#c00000",
-        "line-opacity": 1,
-        "line-width": 2
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-fill_stroke-Boundig box:1725955678342",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 2
-      }
-    },
-    {
-      "source": "feature-geometry-wide-demo_eo_objects",
-      "id": "arlas-fill_stroke-Boundig box (preview):1782111528647",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": [
-          "get",
-          "type_id_arlas__color"
-        ],
-        "line-opacity": 1,
-        "line-width": 4
-      }
-    },
-    {
-      "source": "feature-geometry-window-demo_eo_objects",
-      "id": "arlas-fill_stroke-Info:1782111538860",
-      "type": "line",
-      "maxzoom": 23,
-      "filter": [
-        "all",
-        [
-          "all"
-        ]
-      ],
-      "minzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#fff",
-        "line-opacity": 0,
-        "line-width": 0
-      }
-    },
-    {
-      "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
-      "id": "arlas-fill_stroke-Bounding Box background:1727194160874",
+      "source": "feature-geometry-window-eoaws",
+      "id": "arlas-select-arlas-fill_stroke-Visible Products:1793867402676",
       "type": "line",
       "maxzoom": 23,
       "filter": [
@@ -668,23 +432,153 @@
       ],
       "minzoom": 0,
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
-        "line-color": "#fff",
+        "line-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
         "line-opacity": 0.8,
-        "line-width": 1.5
+        "line-width": 14.5
       }
     },
     {
-      "source": "feature-geometry-window-demo_eo_objects",
-      "id": "scrollable_arlas_id:Info:1782111538860",
+      "id": "arlas-hover-arlas_id:Earth Observation Products:1793867412206",
+      "type": "line",
+      "source": "feature-geometry-wide-eoaws",
+      "minzoom": 0,
+      "maxzoom": 23,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
+        "line-width": 13,
+        "line-dasharray": [
+          2,
+          5
+        ]
+      },
+      "metadata": {
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
+        "cell-shape": "square",
+        "is-scrollable-layer": false
+      },
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ]
+    },
+    {
+      "source": "feature-geometry-window-eoaws",
+      "id": "arlas-hover-arlas-fill_stroke-Visible Products:1793867402676",
+      "type": "line",
+      "maxzoom": 23,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
+        "line-opacity": 0.8,
+        "line-width": 14.5
+      }
+    },
+    {
+      "source": "feature-geometry-window-eoaws",
+      "id": "arlas-fill_stroke-Visible Products:1793867402676",
+      "type": "line",
+      "maxzoom": 23,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ],
+        "line-opacity": 0.8,
+        "line-width": 2.5
+      }
+    },
+    {
+      "source": "cluster-geometry-Fine-tile-cell-eoaws",
+      "id": "arlas-fill_stroke-Grid density:1794225375471",
+      "type": "line",
+      "maxzoom": 23,
+      "filter": [
+        "all",
+        [
+          "all"
+        ]
+      ],
+      "minzoom": 0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#fff",
+        "line-opacity": 0.4,
+        "line-width": 0.5
+      }
+    },
+    {
+      "source": "feature-geometry-window-eoaws",
+      "id": "scrollable_arlas_id:Visible Products:1793867402676",
       "type": "fill",
       "maxzoom": 23,
-      "minzoom": 12,
+      "minzoom": 0,
       "metadata": {
-        "collection": "demo_eo_objects",
-        "collection-display-name": "EO Objects",
+        "collection": "eoaws",
+        "collection-display-name": "eoaws",
         "is-scrollable-layer": false,
         "cell-shape": "square"
       },
@@ -698,42 +592,35 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-opacity": 0.3,
-        "fill-color": "#b4b3b3"
+        "fill-opacity": 0.1,
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "properties_constellation"
+          ],
+          "sentinel-2",
+          "#ffc780",
+          "#9d9ca9"
+        ]
       }
     }
   ],
   "external-event-layers": [
     {
-      "id": "arlas-hover-arlas-fill_stroke-Bounding box:1725898236413",
+      "id": "arlas-hover-arlas_id:Earth Observation Products:1793867412206",
       "on": "hover"
     },
     {
-      "id": "arlas-hover-arlas-fill_stroke-Boundig box:1725955678342",
+      "id": "arlas-hover-arlas-fill_stroke-Visible Products:1793867402676",
       "on": "hover"
     },
     {
-      "id": "arlas-hover-arlas-fill_stroke-Boundig box (preview):1782111528647",
-      "on": "hover"
-    },
-    {
-      "id": "arlas-hover-arlas-fill_stroke-Info:1782111538860",
-      "on": "hover"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Bounding box:1725898236413",
+      "id": "arlas-select-arlas_id:Earth Observation Products:1793867412206",
       "on": "select"
     },
     {
-      "id": "arlas-select-arlas-fill_stroke-Boundig box:1725955678342",
-      "on": "select"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Boundig box (preview):1782111528647",
-      "on": "select"
-    },
-    {
-      "id": "arlas-select-arlas-fill_stroke-Info:1782111538860",
+      "id": "arlas-select-arlas-fill_stroke-Visible Products:1793867402676",
       "on": "select"
     }
   ],
