@@ -4,195 +4,113 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "demo_eo_objects",
-          "name": "Map demo_eo_objects",
-          "collection": "demo_eo_objects",
+          "identifier": "eoaws",
+          "name": "Map eoaws",
+          "collection": "eoaws",
           "geo_query_op": "Intersects",
-          "geo_query_field": "center_geom",
+          "geo_query_field": "geometry",
           "window_extent_geometry": "geometry_path",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Distribution:1741629939921",
-              "name": "Distribution",
-              "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
-              "minzoom": 0,
-              "maxzoom": 12,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                }
-              ],
-              "agg_geo_field": "center_geom",
-              "aggType": "h3",
-              "granularity": "Medium",
-              "minfeatures": 0,
-              "aggregated_geometry": "cell"
-            },
-            {
-              "id": "arlas_id:Distribution:1726495334494",
-              "name": "Distribution",
-              "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
-              "minzoom": 12,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                }
-              ],
-              "agg_geo_field": "center_geom",
-              "aggType": "h3",
-              "granularity": "Medium",
-              "minfeatures": 5000,
-              "aggregated_geometry": "cell"
-            },
-            {
-              "id": "arlas_id:Bounding box:1725898236413",
-              "name": "Bounding box",
-              "source": "feature-geometry-wide-demo_eo_objects",
-              "minzoom": 12,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "geometry",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Boundig box:1725955678342",
-              "name": "Boundig box",
-              "source": "feature-geometry-wide-demo_eo_objects",
-              "minzoom": 12,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [
-                "type_id"
-              ],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "geometry",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Boundig box (preview):1782111528647",
-              "name": "Boundig box (preview)",
-              "source": "feature-geometry-wide-demo_eo_objects",
-              "minzoom": 12,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [
-                "type_id"
-              ],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "geometry",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Info:1782111538860",
-              "name": "Info",
-              "source": "feature-geometry-window-demo_eo_objects",
-              "minzoom": 12,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "returned_geometry": "geometry",
-              "render_mode": "window"
-            },
-            {
-              "id": "arlas_id:Bounding Box:1727193982726",
-              "name": "Bounding Box",
-              "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
+              "id": "arlas_id:Earth Observation Products:1793867412206",
+              "name": "Earth Observation Products",
+              "source": "feature-geometry-wide-eoaws",
               "minzoom": 0,
               "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 10000,
-              "raw_geometry": {
-                "geometry": "image_geom",
-                "sort": ""
-              },
-              "geometry_id": "image_id",
-              "network_fetching_level": 1
-            },
-            {
-              "id": "arlas_id:Bounding Box background:1727194160874",
-              "name": "Bounding Box background",
-              "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
-              "minzoom": 0,
-              "maxzoom": 23,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 10000,
-              "raw_geometry": {
-                "geometry": "image_geom",
-                "sort": ""
-              },
-              "geometry_id": "image_id",
-              "network_fetching_level": 1
-            },
-            {
-              "id": "arlas_id:Type:1727338872737",
-              "name": "Type",
-              "source": "feature-geometry-wide-demo_eo_objects",
-              "minzoom": 19,
-              "maxzoom": 23,
+              "maxfeatures": 1000,
+              "returned_geometry": "geometry",
+              "render_mode": "wide",
               "include_fields": [
-                "type_id"
-              ],
-              "short_form_fields": [],
-              "colors_from_fields": [
-                "type_id"
-              ],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 5000,
+                "properties.constellation"
+              ]
+            },
+            {
+              "id": "arlas_id:Visible Products:1793867402676",
+              "name": "Visible Products",
+              "source": "feature-geometry-window-eoaws",
+              "minzoom": 0,
+              "maxzoom": 23,
               "returned_geometry": "geometry",
-              "render_mode": "wide"
+              "render_mode": "window",
+              "include_fields": [
+                "properties.constellation",
+                "properties.constellation"
+              ]
+            },
+            {
+              "id": "arlas_id:Density of Products:1794221740786",
+              "name": "Density of Products",
+              "source": "cluster-centroid-Finest-tile-centroid-eoaws",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "agg_geo_field": "centroid",
+              "aggType": "tile",
+              "granularity": "Finest",
+              "minfeatures": 1000,
+              "aggregated_geometry": "centroid",
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ]
+            },
+            {
+              "id": "arlas_id:Density of Products:1794225196541",
+              "name": "Density of Products",
+              "source": "cluster-centroid-Fine-tile-centroid-eoaws",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "agg_geo_field": "centroid",
+              "aggType": "tile",
+              "granularity": "Fine",
+              "minfeatures": 1000,
+              "aggregated_geometry": "centroid",
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ]
+            },
+            {
+              "id": "arlas_id:Grid density:1794225375471",
+              "name": "Grid density",
+              "source": "cluster-geometry-Fine-tile-cell-eoaws",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "agg_geo_field": "geometry",
+              "aggType": "tile",
+              "granularity": "Fine",
+              "minfeatures": 1000,
+              "aggregated_geometry": "cell",
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": false
+                }
+              ]
             }
           ]
         },
         {
           "type": "search",
-          "identifier": "search_demo_eo_objects_internal.fulltext_internal.autocomplete",
-          "collection": "demo_eo_objects",
+          "identifier": "search_eoaws_internal.fulltext_internal.autocomplete",
+          "collection": "eoaws",
           "search_field": "internal.fulltext",
           "name": "Search...",
           "icon": "search",
@@ -202,130 +120,406 @@
         {
           "type": "histogram",
           "identifier": "timeline",
-          "collection": "demo_eo_objects",
+          "collection": "eoaws",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
           "useUtc": true,
-          "numberOfBuckets": 50,
+          "numberOfBuckets": 100,
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "timestamp"
+              "field": "properties.datetime"
             }
           ],
           "additionalCollections": []
         },
         {
-          "identifier": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
-          "name": "Objects",
-          "title": "Objects",
-          "collection": "demo_eo_objects",
+          "identifier": "eoaws-id-50-Constellation-Acquisition-Source-Data-Acquisition properties-Timeline-Bands-Lifecycle within catalog-Metadata-MGRS-",
+          "name": "Images",
+          "title": "Images",
+          "collection": "eoaws",
           "icon": "table_chart",
           "type": "resultlist",
-          "search_size": 100,
+          "search_size": 50,
           "fieldsConfiguration": {
-            "idFieldName": "object_id",
+            "idFieldName": "id",
             "titleFieldNames": [
               {
-                "fieldPath": "type_id",
-                "process": ""
+                "fieldPath": "properties.datetime",
+                "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '').substring(0,12) :'undefined'"
               }
             ],
             "tooltipFieldNames": [
               {
-                "fieldPath": "object_id",
+                "fieldPath": "properties.constellation",
                 "process": ""
               }
             ],
-            "iconColorFieldName": "type_id",
+            "iconColorFieldName": "properties.constellation",
             "useHttpQuicklooks": false,
             "useHttpThumbnails": false,
-            "urlThumbnailTemplate": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/objects_thumbnail/jpg/{object_id}.jpg",
+            "displayQuicklookOnMap": {
+              "enabled": false,
+              "boundsFieldName": "properties.generated__tltrbrbl"
+            },
+            "detailsTitleTemplate": "EO Product datasheet of {properties.secondary_id}",
+            "urlThumbnailTemplate": "https://storage.googleapis.com/airs-storage/{collection}/items/{id}/assets/thumbnail",
             "urlImageTemplates": [
               {
-                "url": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/objects_thumbnail/jpg/{object_id}.jpg",
-                "description": "Object"
-              },
-              {
-                "url": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/train_images_jpg/{image_number}.jpg",
-                "description": "Image"
+                "url": "https://storage.googleapis.com/airs-storage/{collection}/items/{id}/assets/thumbnail",
+                "description": "Product Overview"
               }
             ]
           },
           "columns": [
             {
-              "columnName": "Identifier",
-              "fieldName": "object_id",
-              "dataType": "",
-              "process": "",
-              "useColorService": false,
-              "sort": ""
-            },
-            {
-              "columnName": "Ingest time",
-              "fieldName": "ingest_time",
-              "dataType": "",
-              "process": "",
-              "useColorService": false,
-              "sort": ""
-            },
-            {
-              "columnName": "Type",
-              "fieldName": "type_id",
+              "columnName": "Constellation",
+              "fieldName": "properties.constellation",
               "dataType": "",
               "process": "",
               "useColorService": true,
               "sort": ""
+            },
+            {
+              "columnName": "Acquisition",
+              "fieldName": "properties.datetime",
+              "dataType": "",
+              "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
+              "useColorService": false,
+              "sort": "desc"
             }
           ],
           "details": [
             {
-              "name": "Object",
+              "name": "Source",
               "order": 1,
               "fields": [
                 {
-                  "path": "object_id",
+                  "path": "properties.constellation",
+                  "label": "Constellation",
+                  "process": ""
+                },
+                {
+                  "path": "properties.instrument",
+                  "label": "Instrument",
+                  "process": ""
+                },
+                {
+                  "path": "properties.sensor",
+                  "label": "Sensor",
+                  "process": ""
+                },
+                {
+                  "path": "properties.sensor_type",
+                  "label": "Sensor type",
+                  "process": ""
+                },
+                {
+                  "path": "id",
                   "label": "Identifier",
                   "process": ""
                 },
                 {
-                  "path": "type_id",
-                  "label": "Type",
+                  "path": "properties.secondary_id",
+                  "label": "Source identifier",
                   "process": ""
                 },
                 {
-                  "path": "edited_by",
-                  "label": "Edited by",
+                  "path": "properties.provider",
+                  "label": "Provider",
                   "process": ""
                 },
                 {
-                  "path": "ingest_time",
-                  "label": "Ingest time",
+                  "path": "properties.satellite",
+                  "label": "Satellite",
                   "process": ""
                 },
                 {
-                  "path": "bounds_imcoords",
-                  "label": "Coordinates in image",
+                  "path": "properties.platform",
+                  "label": "Platform",
                   "process": ""
                 }
               ]
             },
             {
-              "name": "Image",
+              "name": "Data",
               "order": 2,
               "fields": [
                 {
-                  "path": "dataset_source",
-                  "label": "Dataset",
+                  "path": "properties.item_format",
+                  "label": "Source format",
                   "process": ""
                 },
                 {
-                  "path": "image_id",
-                  "label": "Identifier",
+                  "path": "properties.eoaws_asset_format",
+                  "label": "File format",
+                  "process": ""
+                },
+                {
+                  "path": "properties.observation_type",
+                  "label": "Acquisition type",
+                  "process": ""
+                },
+                {
+                  "path": "properties.processing__level",
+                  "label": "Processing level",
+                  "process": ""
+                },
+                {
+                  "path": "properties.item_type",
+                  "label": "Data type",
+                  "process": ""
+                },
+                {
+                  "path": "properties.annotations",
+                  "label": "Annotations",
+                  "process": ""
+                },
+                {
+                  "path": "assets.visual.href",
+                  "label": "Visual link",
+                  "process": ""
+                },
+                {
+                  "path": "assets.visual.title",
+                  "label": "Visual description",
+                  "process": ""
+                },
+                {
+                  "path": "assets.visual.type",
+                  "label": "Visual type",
+                  "process": ""
+                },
+                {
+                  "path": "assets.data.href",
+                  "label": "Data link",
+                  "process": ""
+                },
+                {
+                  "path": "assets.data.title",
+                  "label": "Visual description",
+                  "process": ""
+                },
+                {
+                  "path": "assets.data.type",
+                  "label": "Data type",
+                  "process": ""
+                },
+                {
+                  "path": "assets.data.roles",
+                  "label": "Data roles",
                   "process": ""
                 }
               ]
+            },
+            {
+              "name": "Acquisition properties",
+              "order": 3,
+              "fields": [
+                {
+                  "path": "properties.eo__cloud_cover",
+                  "label": "Cloud cover",
+                  "process": "Math.round(result * 100) / 100 +\"%\""
+                },
+                {
+                  "path": "properties.view__incidence_angle",
+                  "label": "Incidence angle",
+                  "process": "Math.round(result * 100) / 100 +\"°\""
+                },
+                {
+                  "path": "properties.view__azimuth",
+                  "label": "Azimut",
+                  "process": "Math.round(result * 100) / 100 +\"°\""
+                },
+                {
+                  "path": "properties.view__sun_azimuth",
+                  "label": "Sun azimut",
+                  "process": "Math.round(result * 100) / 100 +\"°\""
+                },
+                {
+                  "path": "properties.view__sun_elevation",
+                  "label": "Sun elevation",
+                  "process": "Math.round(result * 100) / 100 +\"°\""
+                },
+                {
+                  "path": "properties.gsd",
+                  "label": "GSD",
+                  "process": "Math.round(result * 100) / 100 +\"m\""
+                }
+              ]
+            },
+            {
+              "name": "Timeline",
+              "order": 4,
+              "fields": [
+                {
+                  "path": "properties.datetime",
+                  "label": "Acquisition date",
+                  "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "properties.start_datetime",
+                  "label": "Start",
+                  "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "properties.end_datetime",
+                  "label": "End",
+                  "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "properties.generated__season",
+                  "label": "Season",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Bands",
+              "order": 5,
+              "fields": [
+                {
+                  "path": "properties.eo__bands.name",
+                  "label": "Names",
+                  "process": ""
+                },
+                {
+                  "path": "properties.eo__bands.common_name",
+                  "label": "Common names",
+                  "process": ""
+                },
+                {
+                  "path": "properties.eo__bands.center_wavelength",
+                  "label": "Wavelength",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Lifecycle within catalog",
+              "order": 6,
+              "fields": [
+                {
+                  "path": "airs__lifecycle.add_datetime",
+                  "label": "Creation in catalog",
+                  "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "airs__lifecycle.version",
+                  "label": "Version",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Metadata",
+              "order": 7,
+              "fields": [
+                {
+                  "path": "assets.tileinfo_metadata.href",
+                  "label": "AWS Tile info metadata link",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "MGRS",
+              "order": 8,
+              "fields": [
+                {
+                  "path": "properties.mgrs__utm_zone",
+                  "label": "UTM Zone",
+                  "process": ""
+                },
+                {
+                  "path": "properties.mgrs__latitude_band",
+                  "label": "Latitude band",
+                  "process": ""
+                },
+                {
+                  "path": "properties.mgrs__grid_square",
+                  "label": "Grid square",
+                  "process": ""
+                },
+                {
+                  "path": "properties.grid__code",
+                  "label": "Grid code",
+                  "process": ""
+                }
+              ]
+            }
+          ],
+          "cardViewProperties": [
+            {
+              "fieldName": "id",
+              "lineNumber": 0,
+              "prettyName": "Identifier",
+              "icon": "fingerprint",
+              "dataType": "",
+              "process": "result.slice(-15)",
+              "isTitle": true,
+              "sort": ""
+            },
+            {
+              "fieldName": "properties.datetime",
+              "lineNumber": 0,
+              "prettyName": "Acquisition time",
+              "icon": "access_time",
+              "dataType": "",
+              "process": "(new Date(1000*result)).toUTCString().split(',')[1] !== undefined ? (new Date(1000*result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
+              "isTitle": false,
+              "sort": "desc"
+            },
+            {
+              "fieldName": "properties.generated__season",
+              "lineNumber": 0,
+              "prettyName": "Season",
+              "icon": "sunny_snowing",
+              "dataType": "",
+              "process": "",
+              "isTitle": false,
+              "sort": ""
+            },
+            {
+              "fieldName": "properties.satellite",
+              "lineNumber": 1,
+              "prettyName": "Satellite",
+              "icon": "satellite_alt",
+              "dataType": "",
+              "process": "",
+              "isTitle": false,
+              "sort": ""
+            },
+            {
+              "fieldName": "properties.eo__cloud_cover",
+              "lineNumber": 1,
+              "prettyName": "Cloud cover",
+              "icon": "cloud",
+              "dataType": "%",
+              "process": "Math.round(result * 100) / 100",
+              "isTitle": false,
+              "sort": ""
+            },
+            {
+              "fieldName": "properties.item_format",
+              "lineNumber": 2,
+              "prettyName": "Format",
+              "icon": "folder_data",
+              "dataType": "",
+              "process": "",
+              "isTitle": false,
+              "sort": ""
+            },
+            {
+              "fieldName": "properties.eoaws_asset_format",
+              "lineNumber": 2,
+              "prettyName": "File format",
+              "icon": "insert_drive_file",
+              "dataType": "",
+              "process": "",
+              "isTitle": false,
+              "sort": ""
             }
           ],
           "includeMetadata": []
@@ -333,16 +527,16 @@
         {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
-          "collection": "demo_eo_objects",
+          "collection": "eoaws",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
           "useUtc": true,
-          "numberOfBuckets": 50,
+          "numberOfBuckets": 100,
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "timestamp"
+              "field": "properties.datetime"
             }
           ],
           "annexedContributorId": "timeline",
@@ -350,33 +544,38 @@
           "additionalCollections": []
         },
         {
-          "identifier": "demo_eo_objects-type_id-30-",
-          "name": "Object type",
-          "title": "Object type",
-          "collection": "demo_eo_objects",
-          "icon": "emoji_transportation",
+          "identifier": "eoaws-properties.sensor_type-10-properties.constellation-10-",
+          "name": "Constellation",
+          "title": "Constellation",
+          "collection": "eoaws",
+          "icon": "satellite_alt",
           "type": "tree",
           "aggregationmodels": [
             {
-              "field": "type_id",
-              "size": 30,
+              "field": "properties.sensor_type",
+              "size": 10,
+              "type": "term"
+            },
+            {
+              "field": "properties.constellation",
+              "size": 10,
               "type": "term"
             }
           ]
         },
         {
-          "identifier": "demo_eo_objects-type_id-500-Count-desc-count",
-          "name": "Object type",
-          "title": "Object type",
-          "collection": "demo_eo_objects",
-          "icon": "emoji_transportation",
+          "identifier": "eoaws-properties.constellation-21-Count-desc-count",
+          "name": "Constellation",
+          "title": "Constellation",
+          "collection": "eoaws",
+          "icon": "satellite_alt",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "type_id",
-              "size": 500,
+              "field": "properties.constellation",
+              "size": 21,
               "order": "desc",
               "on": "count"
             }
@@ -385,17 +584,17 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo_objects-dataset_source-10-Count-desc-count",
-          "name": "Source",
-          "title": "Source",
-          "collection": "demo_eo_objects",
-          "icon": "storage",
+          "identifier": "eoaws-properties.sensor-10-Count-desc-count",
+          "name": "Sensor",
+          "title": "Sensor",
+          "collection": "eoaws",
+          "icon": "camera",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "dataset_source",
+              "field": "properties.sensor",
               "size": 10,
               "order": "desc",
               "on": "count"
@@ -405,18 +604,18 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo_objects-image_id-500-Count-desc-count",
-          "name": "Identifier",
-          "title": "Identifier",
-          "collection": "demo_eo_objects",
-          "icon": "image",
+          "identifier": "eoaws-properties.sensor_type-10-Count-desc-count",
+          "name": "Sensor Type",
+          "title": "Sensor Type",
+          "collection": "eoaws",
+          "icon": "camera",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "image_id",
-              "size": 500,
+              "field": "properties.sensor_type",
+              "size": 10,
               "order": "desc",
               "on": "count"
             }
@@ -425,18 +624,18 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo_objects-edited_by-500-Count-desc-count",
-          "name": "Edited by",
-          "title": "Edited by",
-          "collection": "demo_eo_objects",
-          "icon": "person",
+          "identifier": "eoaws-properties.instrument-10-Count-desc-count",
+          "name": "Instrument",
+          "title": "Instrument",
+          "collection": "eoaws",
+          "icon": "camera",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "edited_by",
-              "size": 500,
+              "field": "properties.instrument",
+              "size": 10,
               "order": "desc",
               "on": "count"
             }
@@ -445,64 +644,152 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo_objects-timestamp-time-bucket-Count--50dataset_source",
-          "name": "Swimlane",
-          "title": "Swimlane",
-          "collection": "demo_eo_objects",
-          "icon": "poll",
-          "type": "swimlane",
+          "identifier": "eoaws-properties.view__incidence_angle-numeric-bucket-Count--50",
+          "name": "Incidence Angle",
+          "title": "Incidence Angle",
+          "collection": "eoaws",
+          "icon": "airline_stops",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
           "numberOfBuckets": 50,
-          "swimlanes": [
+          "jsonpath": "$.count",
+          "aggregationmodels": [
             {
-              "id": 1,
-              "name": "Swimlane",
-              "xAxisField": "timestamp",
-              "termField": "dataset_source",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "dataset_source",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "timestamp"
-                }
-              ],
-              "useUtc": true,
-              "jsonpath": "$.count"
+              "type": "histogram",
+              "field": "properties.view__incidence_angle"
             }
           ]
         },
         {
-          "identifier": "demo_eo_objects-timestamp-time-bucket-Count--50image_id",
-          "name": "Image id",
-          "title": "Image id",
-          "collection": "demo_eo_objects",
-          "icon": "poll",
-          "type": "swimlane",
+          "identifier": "eoaws-properties.view__sun_elevation-numeric-bucket-Count--50",
+          "name": "Sun Elevation",
+          "title": "Sun Elevation",
+          "collection": "eoaws",
+          "icon": "sunny_snowing",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
           "numberOfBuckets": 50,
-          "swimlanes": [
+          "jsonpath": "$.count",
+          "aggregationmodels": [
             {
-              "id": 1,
-              "name": "Image id",
-              "xAxisField": "timestamp",
-              "termField": "image_id",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "image_id",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "timestamp"
-                }
-              ],
-              "useUtc": true,
-              "jsonpath": "$.count"
+              "type": "histogram",
+              "field": "properties.view__sun_elevation"
             }
           ]
+        },
+        {
+          "identifier": "eoaws-properties.view__azimuth-numeric-bucket-Count--50",
+          "name": "Azimuth",
+          "title": "Azimuth",
+          "collection": "eoaws",
+          "icon": "explore",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "properties.view__azimuth"
+            }
+          ]
+        },
+        {
+          "identifier": "eoaws-properties.view__sun_azimuth-numeric-bucket-Count--50",
+          "name": "Sun Azimuth",
+          "title": "Sun Azimuth",
+          "collection": "eoaws",
+          "icon": "explore",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "properties.view__sun_azimuth"
+            }
+          ]
+        },
+        {
+          "identifier": "4fef8be4-b803-4bf2-af91-cd561fb75dd5",
+          "name": "Cloud Cover",
+          "title": "Cloud Cover",
+          "collection": "eoaws",
+          "icon": "cloud",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 20,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "properties.eo__cloud_cover"
+            }
+          ],
+          "linked_contributor_id": "eoaws-properties.eo__cloud_cover-numeric-bucket-Count--50"
+        },
+        {
+          "identifier": "eoaws-properties.eo__cloud_cover-numeric-bucket-Count--50",
+          "name": "Cloud Cover",
+          "title": "Cloud Cover",
+          "collection": "eoaws",
+          "icon": "cloud",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "properties.eo__cloud_cover"
+            }
+          ],
+          "linked_contributor_id": "4fef8be4-b803-4bf2-af91-cd561fb75dd5"
+        },
+        {
+          "identifier": "eoaws-properties.s2__snow_ice_percentage-numeric-bucket-Count--50",
+          "name": "Snow cover",
+          "title": "Snow cover",
+          "collection": "eoaws",
+          "icon": "weather_snowy",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "properties.s2__snow_ice_percentage"
+            }
+          ]
+        },
+        {
+          "identifier": "eoaws-properties.generated__season-10-Count-desc-count",
+          "name": "Season",
+          "title": "Season",
+          "collection": "eoaws",
+          "icon": "nest_farsight_seasonal",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "properties.generated__season",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         }
       ],
       "components": {
@@ -549,9 +836,9 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Satellite Hybrid",
-              "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-              "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png",
+              "name": "Streets-dark",
+              "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+              "image": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
               "type": null
             },
             "basemapStyles": [
@@ -565,6 +852,12 @@
                 "name": "Bright",
                 "styleFile": "https://api.maptiler.com/maps/bright/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://cloud.maptiler.com/static/img/maps/bright.png",
+                "type": null
+              },
+              {
+                "name": "Outdoor",
+                "styleFile": "https://api.maptiler.com/maps/outdoor/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/outdoor.png",
                 "type": null
               },
               {
@@ -586,6 +879,12 @@
                 "type": null
               },
               {
+                "name": "Toner",
+                "styleFile": "https://api.maptiler.com/maps/toner/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/toner.png",
+                "type": null
+              },
+              {
                 "name": "Topo",
                 "styleFile": "https://api.maptiler.com/maps/topo/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://cloud.maptiler.com/static/img/maps/topo.png",
@@ -604,6 +903,12 @@
                 "type": null
               },
               {
+                "name": "Positron",
+                "styleFile": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+                "type": null
+              },
+              {
                 "name": "Streets-dark",
                 "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
@@ -614,53 +919,68 @@
                 "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
                 "type": null
+              },
+              {
+                "name": "Streets-light - No label",
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+                "type": null
               }
             ],
             "terrain": {
-              "enable": false
+              "enable": true,
+              "source": {
+                "type": "raster-dem",
+                "url": "https://tiles.mapterhorn.com/tilejson.json"
+              },
+              "exaggeration": 3
             },
             "margePanForLoad": 5,
             "margePanForTest": 5,
-            "initZoom": 2,
+            "initZoom": 5,
             "initCenter": [
-              0,
-              0
+              10,
+              47
             ],
             "displayScale": true,
-            "displayCurrentCoordinates": false,
+            "displayCurrentCoordinates": true,
+            "enableGlobe": true,
             "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
               "events": {
                 "zoomOnClick": [],
                 "emitOnClick": [
-                  "arlas_id:Info:1782111538860",
-                  "scrollable_arlas_id:Info:1782111538860"
+                  "arlas_id:Visible Products:1793867402676",
+                  "scrollable_arlas_id:Visible Products:1793867402676"
                 ],
                 "onHover": [
-                  "arlas_id:Info:1782111538860",
-                  "scrollable_arlas_id:Info:1782111538860"
+                  "arlas_id:Visible Products:1793867402676",
+                  "scrollable_arlas_id:Visible Products:1793867402676"
                 ]
               },
               "externalEventLayers": []
             },
             "visualisations_sets": [
               {
-                "name": "Objects Type",
+                "name": "Earth Observation Products",
                 "layers": [
-                  "arlas_id:Distribution:1741629939921",
-                  "arlas_id:Boundig box:1725955678342",
-                  "arlas_id:Distribution:1726495334494",
-                  "arlas_id:Type:1727338872737",
-                  "arlas_id:Info:1782111538860"
+                  "arlas_id:Earth Observation Products:1793867412206",
+                  "arlas_id:Visible Products:1793867402676"
                 ],
                 "enabled": true
               },
               {
-                "name": "Source Images",
+                "name": "Product density heatmap",
                 "layers": [
-                  "arlas_id:Bounding Box:1727193982726",
-                  "arlas_id:Bounding Box background:1727194160874"
+                  "arlas_id:Density of Products:1794225196541"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Product density grid",
+                "layers": [
+                  "arlas_id:Grid density:1794225375471"
                 ],
                 "enabled": false
               }
@@ -671,19 +991,22 @@
           {
             "componentType": "resultlist",
             "input": {
-              "id": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
+              "id": "eoaws-id-50-Constellation-Acquisition-Source-Data-Acquisition properties-Timeline-Bands-Lifecycle within catalog-Metadata-MGRS-",
               "tableWidth": 445,
               "globalActionsList": [],
-              "searchSize": 100,
+              "searchSize": 50,
               "nLastLines": 3,
               "detailedGridHeight": 300,
               "nbGridColumns": 3,
               "displayFilters": false,
-              "hasGridMode": true,
-              "defautMode": "grid",
-              "downloadLink": "",
+              "hasListView": true,
+              "hasCardView": true,
+              "hasGridView": true,
+              "defaultMode": "card",
+              "downloadLink": "https://cloud.arlas.io/arlas/server/explore/eoaws/_search?f=id%3Aeq%3A{id}&pretty=true",
               "isBodyHidden": false,
               "isGeoSortActived": true,
+              "isExportEnabled": false,
               "isAutoGeoSortActived": null,
               "selectedItemsEvent": null,
               "consultedItemEvent": null,
@@ -691,18 +1014,401 @@
               "globalActionEvent": 300,
               "useColorService": true,
               "cellBackgroundStyle": "filled",
-              "visualisationsList": [],
+              "visualisationsList": [
+                {
+                  "name": "Overview",
+                  "description": "Image overview",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "assets.overview_cog.name",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "overview_cog"
+                          ]
+                        }
+                      ],
+                      "name": "Has COG overview",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url=http://arlas-stack-seaweedfs-s3:8333/airs-storage/{collection}/items/{id}/assets/overview_cog"
+                    }
+                  ],
+                  "default": true
+                },
+                {
+                  "name": "AWS S2 NDVI",
+                  "description": "Amazon Web Services Sentinel 2 NDVI: The normalized difference vegetation index, abbreviated NDVI, is defined as (NIR-RED)/(NIR+RED)\n",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/stac/tiles/WebMercatorQuad/{z}/{x}/{y}.png?url=https://cloud.arlas.io/arlas/server/stac/collections/{collection}/items/{id}&assets=red&assets=nir&expression=(b1-b2)/(b1%2Bb2)&rescale=-1,1&colormap_name=rdylgn"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Coastal (B01)",
+                  "description": "Amazon Web Services Sentinel 2 Coastal: 433 - 453 nm.\nStrong water penetration; high atmospheric Rayleigh scattering. Shallow bathymetry, aerosol retrieval, atmospheric correction",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.coastal.href}&bidx=1&rescale=0,3000&nodata=0&colormap_name=deep&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2  Visual (B04/B03/B02)",
+                  "description": "Amazon Web Services Sentinel 2 Visual.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.visual.href}"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Red Edge 1 (B05)",
+                  "description": "Amazon Web Services Sentinel 2 Vegetation Red Edge 1: 698 - 713 nm.\nMarks the sharp onset of the red-edge slope. Extremely sensitive to subtle chlorophyll variations. Early crop stress and disease detection. Nitrogen and chlorophyll content estimation. Crop growth stage monitoring.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.rededge1.href}&bidx=1&rescale=0,3500&nodata=0&colormap_name=ylgn&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Red Edge 2 (B06)",
+                  "description": "Amazon Web Services Sentinel 2 Vegetation Red Edge 2: 733 - 748 nm.\nMid-point of the red-edge transition curve. Reflectance correlates strongly with canopy volume. Leaf Area Index (LAI) calculation. Canopy chlorophyll content retrieval. Biomass estimation.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.rededge2.href}&bidx=1&rescale=0,4000&nodata=0&colormap_name=ylgn&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Red Edge 3 (B07)",
+                  "description": "Amazon Web Services Sentinel 2 Vegetation Red Edge 1: 773 - 793 nm.\nUpper plateau of the red edge transitioning into NIR. Resilient against background soil noise. Advanced biophysical parameters (LAI, FAPAR). Forest canopy structure analysis. Crop yield forecasting.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        },
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.rededge3.href}&bidx=1&rescale=0,4500&nodata=0&colormap_name=viridis&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Red Edge 4 (B08A)",
+                  "description": "Amazon Web Services Sentinel 2 Red Edge 4: 855 - 875 nm.\nNarrow band avoiding water vapor absorption features. Pure radiometric NIR response. Atmospheric correction validation. Biophysical modeling and spectral unmixing. Forest type and species discrimination.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.nir08.href}&bidx=1&rescale=0,4500&nodata=0&colormap_name=ylgnbu&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 NIR (B08)",
+                  "description": "Amazon Web Services Sentinel 2 Near Infra Red: 785 - 900 nm.\nHighest native resolution NIR band. Intense internal leaf scattering (mesophyll). Total absorption by clear water. High-resolution vegetation indices (NDVI). Surface water and coastline delineation. Plant vigor and biomass assessment.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.nir.href}&bidx=1&rescale=0,5000&nodata=0&colormap_name=cfastie"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Water Vapor (B09)",
+                  "description": "Amazon Web Services Sentinel 2 Water Vapor: 935 - 955 nm.\nPositioned precisely within a prominent atmospheric water vapor absorption band. Estimating total atmospheric water vapor column. Input for radiative transfer models and atmospheric correction (Sen2Cor).",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.nir09.href}&bidx=1&rescale=0,3000&nodata=0&colormap_name=dense&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 Cirrus (B10)",
+                  "description": "Amazon Web Services Sentinel 2 Cirrus: 1360 - 1390 nm.\nComplete atmospheric absorption by tropospheric water vapor (ground is invisible. Only high ice clouds reflect signal. High-altitude cirrus cloud detection.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.swir22.href}&bidx=1&rescale=0,1000&nodata=0&colormap_name=magma&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 SWIR 1.6 (B11)",
+                  "description": "Amazon Web Services Sentinel 2 Short-Wave Infrared 1.6: 1565 - 1655 nm.\nStrong absorption by liquid water in leaf tissues and soil. High contrast between snow and cloud. Canopy water content & moisture stress (NDWI/NDII). Soil moisture estimation. Cloud vs. snow/ice separation. Penetrating smoke and haze.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.swir16.href}&bidx=1&rescale=0,4000&nodata=0&colormap_name=ylorbr&nodata=0"
+                    }
+                  ],
+                  "default": false
+                },
+                {
+                  "name": "AWS S2 SWIR 2.2 (B12)",
+                  "description": "Amazon Web Services Sentinel 2 Short-Wave Infrared 2.2: 2100 - 2280 nm.\nHighly responsive to hydroxyl-bearing minerals, clay, and carbonate rocks. Sensitive to high thermal hotspots. Normalized Burn Ratio (NBR) & burn severity. Active wildfire and hotspot tracking. Mineralogical, lithological, and geological mapping.",
+                  "dataGroups": [
+                    {
+                      "filters": [
+                        {
+                          "field": "catalog",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "aws"
+                          ]
+                        },
+                        {
+                          "field": "properties.constellation",
+                          "op": "Like",
+                          "type": "KEYWORD",
+                          "value": [
+                            "sentinel-2"
+                          ]
+                        }
+                      ],
+                      "name": "AWS S2",
+                      "protocol": "titiler",
+                      "visualisationUrl": "https://titiler-prod-241518656215.europe-west1.run.app/cog/tiles/WebMercatorQuad/{z}/{x}/{y}.png?access_token=secret&url={assets.swir22.href}&bidx=1&rescale=0,3500&nodata=0&colormap_name=hot&nodata=0"
+                    }
+                  ],
+                  "default": false
+                }
+              ],
               "options": {
                 "showActionsOnhover": "true",
                 "showDetailIconName": "keyboard_arrow_down",
                 "hideDetailIconName": "keyboard_arrow_up",
-                "icon": "emoji_transportation",
+                "icon": "camera_alt",
                 "showName": true,
                 "showIcon": true
               }
             },
-            "contributorId": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
-            "uuid": "106ce7fb-c991-4eed-ae9d-22ab7c926fcd",
+            "contributorId": "eoaws-id-50-Constellation-Acquisition-Source-Data-Acquisition properties-Timeline-Bands-Lifecycle within catalog-Metadata-MGRS-",
+            "uuid": "e0c77aa5-8816-46c2-889a-ba5aa625ce52",
             "usage": "analytics"
           }
         ],
@@ -742,48 +1448,37 @@
             "isSmoothedCurve": true,
             "barWeight": 0.8
           }
-        },
-        "share": {
-          "geojson": {
-            "max_for_feature": 5000,
-            "max_for_topology": 5000,
-            "sort_excluded_type": [
-              "TEXT",
-              "GEO_POINT"
-            ]
-          }
-        },
-        "download": {}
+        }
       },
       "analytics": [
         {
-          "groupId": "Objects-0",
-          "title": "Object Type",
-          "tab": "Objects",
-          "icon": "emoji_transportation",
+          "groupId": "Constellation-0",
+          "title": "Constellation",
+          "tab": "Constellation",
+          "icon": "satellite_alt",
           "components": [
             {
               "componentType": "donut",
               "showExportCsv": "",
               "input": {
-                "id": "demo_eo_objects-type_id-30-",
+                "id": "eoaws-properties.sensor_type-10-properties.constellation-10-",
                 "customizedCssClass": "arlas-donuts-analytics",
                 "diameter": 170,
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
               },
-              "contributorId": "demo_eo_objects-type_id-30-",
-              "uuid": "2299ae55-e17c-401f-9422-befb97f81c46",
+              "contributorId": "eoaws-properties.sensor_type-10-properties.constellation-10-",
+              "uuid": "dbdd15f7-e60d-44cf-afdf-e6db0e1af361",
               "usage": "analytics"
             },
             {
-              "showExportCsv": true,
+              "showExportCsv": false,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Object type",
-                "powerbarTitle": "Object type",
-                "displayFilter": true,
+                "chartTitle": "Constellation",
+                "powerbarTitle": "Constellation",
+                "displayFilter": false,
                 "scrollable": true,
                 "filterOperator": {
                   "value": "Eq",
@@ -791,27 +1486,27 @@
                 },
                 "useColorService": true,
                 "useColorFromData": false,
-                "unit": "objects",
+                "unit": "",
                 "chartWidth": 217
               },
-              "contributorId": "demo_eo_objects-type_id-500-Count-desc-count",
-              "uuid": "39e0f08c-29af-4329-b2f8-1609f2faf263",
+              "contributorId": "eoaws-properties.constellation-21-Count-desc-count",
+              "uuid": "65fa215a-7ce8-430e-80e1-e508737e2c42",
               "usage": "both"
             }
           ]
         },
         {
-          "groupId": "Objects-1",
-          "title": "Dataset",
-          "tab": "Objects",
-          "icon": "storage",
+          "groupId": "Constellation-1",
+          "title": "Sensor",
+          "tab": "Constellation",
+          "icon": "camera",
           "components": [
             {
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Source",
-                "powerbarTitle": "Source",
+                "chartTitle": "Sensor",
+                "powerbarTitle": "Sensor",
                 "displayFilter": true,
                 "scrollable": true,
                 "filterOperator": {
@@ -820,27 +1515,19 @@
                 },
                 "useColorService": false,
                 "useColorFromData": false,
-                "unit": "objects",
-                "chartWidth": 445
+                "unit": "",
+                "chartWidth": 143
               },
-              "contributorId": "demo_eo_objects-dataset_source-10-Count-desc-count",
-              "uuid": "9eaec7f8-e990-4f54-bdfc-8279126f9bc0",
+              "contributorId": "eoaws-properties.sensor-10-Count-desc-count",
+              "uuid": "8c9cfd2e-ceb8-42ba-819f-a806513559e6",
               "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Objects-2",
-          "title": "Image identifier",
-          "tab": "Objects",
-          "icon": "image",
-          "components": [
+            },
             {
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Identifier",
-                "powerbarTitle": "Identifier",
+                "chartTitle": "Sensor Type",
+                "powerbarTitle": "Sensor Type",
                 "displayFilter": true,
                 "scrollable": true,
                 "filterOperator": {
@@ -849,27 +1536,19 @@
                 },
                 "useColorService": false,
                 "useColorFromData": false,
-                "unit": "objects",
-                "chartWidth": 445
+                "unit": "",
+                "chartWidth": 143
               },
-              "contributorId": "demo_eo_objects-image_id-500-Count-desc-count",
-              "uuid": "aae41e02-90f3-4f82-8b01-145fedb1690d",
+              "contributorId": "eoaws-properties.sensor_type-10-Count-desc-count",
+              "uuid": "4e47abd9-025f-4605-a9fe-de64f178baf1",
               "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Objects-3",
-          "title": "Object Annotation",
-          "tab": "Objects",
-          "icon": "person",
-          "components": [
+            },
             {
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Edited by",
-                "powerbarTitle": "Edited by",
+                "chartTitle": "Instrument",
+                "powerbarTitle": "Instrument",
                 "displayFilter": true,
                 "scrollable": true,
                 "filterOperator": {
@@ -878,31 +1557,32 @@
                 },
                 "useColorService": false,
                 "useColorFromData": false,
-                "unit": "objects",
-                "chartWidth": 445
+                "unit": "",
+                "chartWidth": 143
               },
-              "contributorId": "demo_eo_objects-edited_by-500-Count-desc-count",
-              "uuid": "e5b2a036-60eb-4909-89a1-b5e3cc3d162c",
+              "contributorId": "eoaws-properties.instrument-10-Count-desc-count",
+              "uuid": "157b813d-96a4-4d17-b09c-f4a222d748d2",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "Swimlanes-0",
-          "title": "New group",
-          "tab": "Swimlanes",
-          "icon": "poll",
+          "groupId": "Acquisition-0",
+          "title": "Incidence angle",
+          "tab": "Acquisition",
+          "icon": "airline_stops",
           "components": [
             {
               "input": {
-                "id": "demo_eo_objects-timestamp-time-bucket-Count--50dataset_source",
+                "id": "eoaws-properties.view__incidence_angle-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
-                "multiselectable": false,
+                "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
-                "chartTitle": "Swimlane",
+                "chartType": "bars",
+                "chartTitle": "Incidence Angle",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -912,46 +1592,130 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Earth Observation Products",
                 "chartXLabel": "",
-                "chartYLabel": null,
                 "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
                 "showYLabels": true,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "global",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#D6D6D6"
-                }
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
               },
-              "componentType": "swimlane",
-              "showExportCsv": false,
-              "contributorId": "demo_eo_objects-timestamp-time-bucket-Count--50dataset_source",
-              "uuid": "e21fcf77-023c-4be5-b4c2-2ddd41a2a87b",
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "eoaws-properties.view__incidence_angle-numeric-bucket-Count--50",
+              "uuid": "a2ee6b39-676d-40ab-9c3e-ff7ff39b12c4",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Acquisition-1",
+          "title": "Sun elevation",
+          "tab": "Acquisition",
+          "icon": "sunny_snowing",
+          "components": [
+            {
+              "input": {
+                "id": "eoaws-properties.view__sun_elevation-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Sun Elevation",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "Earth Observation Products",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "eoaws-properties.view__sun_elevation-numeric-bucket-Count--50",
+              "uuid": "df601a24-a6bd-4f01-a439-fe2befa86c7f",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Acquisition-2",
+          "title": "Azimuth",
+          "tab": "Acquisition",
+          "icon": "explore",
+          "components": [
+            {
+              "input": {
+                "id": "eoaws-properties.view__azimuth-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Azimuth",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "Earth Observation Products",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "eoaws-properties.view__azimuth-numeric-bucket-Count--50",
+              "uuid": "f1d1329c-1cfa-48f0-a19b-d11fa1f2eee7",
               "usage": "analytics"
             },
             {
               "input": {
-                "id": "demo_eo_objects-timestamp-time-bucket-Count--50image_id",
+                "id": "eoaws-properties.view__sun_azimuth-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
-                "multiselectable": false,
+                "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
-                "chartTitle": "Image id",
+                "chartType": "bars",
+                "chartTitle": "Sun Azimuth",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -961,34 +1725,147 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Earth Observation Products",
                 "chartXLabel": "",
-                "chartYLabel": null,
                 "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
                 "showYLabels": true,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "global",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#D6D6D6"
-                }
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
               },
-              "componentType": "swimlane",
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "eoaws-properties.view__sun_azimuth-numeric-bucket-Count--50",
+              "uuid": "b53bf833-5dac-4ec0-8364-53960eeb69b6",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Cloud cover-0",
+          "title": "Cloud cover",
+          "tab": "Cloud cover",
+          "icon": "cloud",
+          "components": [
+            {
+              "input": {
+                "id": "eoaws-properties.eo__cloud_cover-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Cloud Cover",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "Earth Observation Products",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "eoaws-properties.eo__cloud_cover-numeric-bucket-Count--50",
+              "uuid": "4fef8be4-b803-4bf2-af91-cd561fb75dd5",
+              "usage": "both"
+            }
+          ]
+        },
+        {
+          "groupId": "Cloud cover-1",
+          "title": "Snow cover",
+          "tab": "Cloud cover",
+          "icon": "weather_snowy",
+          "components": [
+            {
+              "input": {
+                "id": "eoaws-properties.s2__snow_ice_percentage-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Snow cover",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "Earth Observation Products",
+                "chartXLabel": "",
+                "chartYLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
               "showExportCsv": false,
-              "contributorId": "demo_eo_objects-timestamp-time-bucket-Count--50image_id",
-              "uuid": "eff58fb1-7b55-476d-b60c-5553d055e2e2",
+              "contributorId": "eoaws-properties.s2__snow_ice_percentage-numeric-bucket-Count--50",
+              "uuid": "2b5bd462-5f93-4bbf-a615-d4feca05c149",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Time-0",
+          "title": "Season",
+          "tab": "Time",
+          "icon": "nest_farsight_seasonal",
+          "components": [
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Season",
+                "powerbarTitle": "Season",
+                "displayFilter": true,
+                "scrollable": true,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 445
+              },
+              "contributorId": "eoaws-properties.generated__season-10-Count-desc-count",
+              "uuid": "941cc059-ff8b-451a-a4c3-13a6ebeaf48b",
               "usage": "analytics"
             }
           ]
@@ -996,16 +1873,106 @@
       ],
       "filters_shortcuts": [
         {
-          "uuid": "39e0f08c-29af-4329-b2f8-1609f2faf263",
-          "title": "Object type",
+          "uuid": "65fa215a-7ce8-430e-80e1-e508737e2c42",
+          "title": "Constellation",
           "order": 1
+        },
+        {
+          "uuid": "4fef8be4-b803-4bf2-af91-cd561fb75dd5",
+          "title": "Cloud Cover",
+          "order": 2
         }
       ],
       "colorGenerator": {
-        "keysToColors": []
+        "keysToColors": [
+          [
+            "SPOT",
+            "#d36262"
+          ],
+          [
+            "WV03",
+            "#ff43ff"
+          ],
+          [
+            "IKONOS-2",
+            "#ff6c6a"
+          ],
+          [
+            "PHR",
+            "#192efa"
+          ],
+          [
+            "QB02",
+            "#1e197c"
+          ],
+          [
+            "AM-1",
+            "#c3194c"
+          ],
+          [
+            "GeoEye-1",
+            "#e94dff"
+          ],
+          [
+            "PNEO",
+            "#197bcd"
+          ],
+          [
+            "RE00",
+            "#9cdaff"
+          ],
+          [
+            "OTHER",
+            "#9d9ca9"
+          ],
+          [
+            "Capella",
+            "#529c24"
+          ],
+          [
+            "Sentinel 2",
+            "#b4d2f2"
+          ],
+          [
+            "Aleph1",
+            "#cf5217"
+          ],
+          [
+            "COSMO-SkyMed",
+            "#98602f"
+          ],
+          [
+            "DEIMOS",
+            "#6dffc0"
+          ],
+          [
+            "Dragonette",
+            "#ff21a8"
+          ],
+          [
+            "ICEYE",
+            "#ffee6e"
+          ],
+          [
+            "OPTIC",
+            "#ff3975"
+          ],
+          [
+            "SAR",
+            "#19e1da"
+          ],
+          [
+            "Superview Neo",
+            "#8c28fa"
+          ],
+          [
+            "Axelspace",
+            "#2bff89"
+          ]
+        ]
       },
       "options": {
-        "drag_items": true,
+        "drag_items": false,
         "zoom_to_strategy": "centroid",
         "indicators": true,
         "spinner": {
@@ -1015,26 +1982,41 @@
         },
         "tabs": [
           {
-            "name": "Objects",
-            "icon": "emoji_transportation",
+            "name": "Constellation",
+            "icon": "satellite_alt",
             "showIcon": true,
             "showName": true
           },
           {
-            "name": "Swimlanes",
-            "icon": "short_text",
+            "name": "Acquisition",
+            "icon": "eye_tracking",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Cloud cover",
+            "icon": "cloud",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Time",
+            "icon": "nest_clock_farsight_analog",
             "showIcon": true,
             "showName": true
           }
         ]
       },
-      "externalNode": {}
+      "externalNode": {
+        "download": false,
+        "enrich": false
+      }
     },
     "server": {
       "url": "https://cloud.arlas.io/arlas/server",
       "max_age_cache": 120,
       "collection": {
-        "name": "demo_eo_objects"
+        "name": "eoaws"
       }
     }
   },
@@ -1047,11 +2029,11 @@
             "icon": "search"
           }
         },
-        "name": "Test EO objects, multi-collection",
+        "name": "ARLAS EO fix highlight quicklook",
         "units": [
           {
-            "collection": "demo_eo_objects",
-            "unit": "objects",
+            "collection": "eoaws",
+            "unit": "Earth Observation Products",
             "ignored": false
           }
         ]
@@ -1071,6 +2053,6 @@
     }
   ],
   "resources": {
-    "previewId": "c650e501-d46d-11f1-8029-864b952cf0c8"
+    "previewId": "5f7fc895-dc45-11f1-9f53-7a4fe92b28a5"
   }
 }

@@ -58,7 +58,8 @@
             (actionOnItemEvent)="applyActionOnItem(list, $event)"
             (globalActionEvent)="applyGlobalAction(list, $event)"
             (changeResultMode)="changeListResultMode($event, list.identifier)"
-            (onListLoaded)="onListLoaded($event)">
+            (onListLoaded)="onListLoaded($event)"
+            (onResultListUpdate)="onResultListUpdate(list)">
           </arlas-result-list>
         }
       </div>
